@@ -1,0 +1,12 @@
+{
+  "find_related_topic_lm": "gpt-3.5-turbo",
+  "gen_persona_lm": "gpt-3.5-turbo",
+  "query_designer_lm": "gpt-3.5-turbo",
+  "conv_simulator_lm": "gpt-3.5-turbo",
+  "question_asker_lm": "gpt-3.5-turbo",
+  "outline_gen_lm": "gpt-3.5-turbo",
+  "direct_outline_lm": "gpt-3.5-turbo",
+  "article_gen_lm": "gpt-3.5-turbo",
+  "write_lead_lm": "gpt-3.5-turbo",
+  "article_polish_lm": "gpt-3.5-turbo"
+}

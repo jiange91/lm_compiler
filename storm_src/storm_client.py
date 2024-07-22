@@ -5,67 +5,66 @@ from dataclasses import dataclass, field
 import os
 
 from persona_generator import CreateWriterWithPersona
+from knowledge_curation import StormKnowledgeCurationModule
+from outline_generation import WriteOutline
+from retriever import StormRetriever
+from rm import YouRM
+from common import compare_two_answer, StormState
+from utils import load_api_key
+
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.dspy_bridge.interface import DSPyLM
 from compiler.optimizer.bootstrap import BootStrapLMSelection
-from common import StormState
+from compiler.IR.modules import Input
+import logging
 
-@dataclass
-class STORMWikiRunnerArguments:
-    """Arguments for controlling the STORM Wiki pipeline."""
-    output_dir: str = field(
-        metadata={"help": "Output directory for the results."},
-    )
-    max_conv_turn: int = field(
-        default=3,
-        metadata={"help": "Maximum number of questions in conversational question asking."},
-    )
-    max_perspective: int = field(
-        default=5,
-        metadata={"help": "Maximum number of perspectives to consider in perspective-guided question asking."},
-    )
-    max_search_queries_per_turn: int = field(
-        default=3,
-        metadata={"help": "Maximum number of search queries to consider in each turn."},
-    )
-    disable_perspective: bool = field(
-        default=False,
-        metadata={"help": "If True, disable perspective-guided question asking."},
-    )
-    search_top_k: int = field(
-        default=3,
-        metadata={"help": "Top k search results to consider for each search query."},
-    )
-    retrieve_top_k: int = field(
-        default=3,
-        metadata={"help": "Top k collected references for each section title."},
-    )
-    max_thread_num: int = field(
-        default=10,
-        metadata={"help": "Maximum number of threads to use. "
-                          "Consider reducing it if keep getting 'Exceed rate limit' error when calling LM API."},
-    )
+logging.basicConfig(level=logging.INFO)
 
 
 # --------------------------------------------
 # Compiler Client
 # --------------------------------------------
+load_api_key('secrets.toml')
 
 # Initialize State
 state = StormState()
 state.publish({'topic': 'Taylor Hawkins',
-               'max_num_persona': 5})
+               'max_perspective': 1})
 
 # Get persona writer module
 get_personas = CreateWriterWithPersona()
+
+# Reseach Knowledge Conversation Module
+rm = YouRM(ydc_api_key=os.getenv('YDC_API_KEY'), k=3)
+knowledge_curation = StormKnowledgeCurationModule(
+    retriever=StormRetriever(rm=rm, k=3),
+    max_search_queries_per_turn=3,
+    search_top_k=3,
+    max_conv_turn=1,
+    max_thread_num=5,
+)
+
+# Write outline
+write_ouline = WriteOutline()
+
 find_related_topic_module = DSPyLM('find_related_topics', get_personas.agent_get_topics)
 get_personas_module = DSPyLM('get_personas', get_personas.agent_get_personas)
+knowledge_curation_module = DSPyLM('knowledge_curation', knowledge_curation.research_kernel)
+outline_draft_module = DSPyLM('outline_draft', write_ouline.generate_draft_outline)
+outline_refine_module = DSPyLM('outline_refine', write_ouline.refine_outline)
 
 storm_workflow = Workflow()
 storm_workflow.add_module(find_related_topic_module)
 storm_workflow.add_module(get_personas_module)
+storm_workflow.add_module(knowledge_curation_module)
+storm_workflow.add_module(outline_draft_module)
+storm_workflow.add_module(outline_refine_module)
+
 storm_workflow.add_edge(find_related_topic_module, get_personas_module)
-storm_workflow.set_root(find_related_topic_module)
+storm_workflow.add_edge(get_personas_module, knowledge_curation_module)
+storm_workflow.add_edge(knowledge_curation_module, outline_refine_module)
+storm_workflow.add_edge(outline_draft_module, outline_refine_module)
+
 
 openai_kwargs = {
     'api_key': os.getenv("OPENAI_API_KEY"),
@@ -74,25 +73,37 @@ openai_kwargs = {
     'top_p': 0.9,
 }
 
-# Sample run
-# find_related_topic_module.lm_config = {'model': 'gpt-3.5-turbo', 'max_tokens': 500, **openai_kwargs}
-# get_personas_module.lm_config = {'model': 'gpt-3.5-turbo', 'max_tokens': 500, **openai_kwargs}
-# storm_workflow.run(state=state)
-# print(state.state)
+sample_lm = 'gpt-4o-mini'
+find_related_topic_module.lm_config = {'model': sample_lm, 'max_tokens': 500, **openai_kwargs}
+get_personas_module.lm_config = {'model': sample_lm, 'max_tokens': 500, **openai_kwargs}
+knowledge_curation_module.lm_config = {'model': sample_lm, 'max_tokens': 500, **openai_kwargs}
+outline_draft_module.lm_config = {'model': sample_lm, 'max_tokens': 400, **openai_kwargs}
+outline_refine_module.lm_config = {'model': sample_lm, 'max_tokens': 400, **openai_kwargs}
 
+# --------------------------------------------
+# Sample run
+# --------------------------------------------
+storm_workflow.run(state=state)
+print(state.state)
+exit()
+
+# --------------------------------------------
 # Bootstrap
-find_related_topic_module.lm_config = {'max_tokens': 500, **openai_kwargs}
-get_personas_module.lm_config = {'max_tokens': 500, **openai_kwargs}
+# --------------------------------------------
 
 lm_options = ['gpt-3.5-turbo', 'gpt-4o']
-def lm_metric(x):
-    return 0.5
+# lm_options = ['gpt-3.5-turbo']
 
 ms_boot = BootStrapLMSelection(
     workflow=storm_workflow,
-    teachers='gpt-3.5-turbo',
+    teachers='gpt-4o',
     module_2_options=lm_options,
-    module_2_metric=lm_metric,
+    module_2_metric=compare_two_answer,
 )
 
-ms_boot.bootstrap(trainset=[state])
+ms_boot.compile(
+    trainset=[state], 
+    label_path='labels-4o.json',
+    profile_path='module_option_profile.json',
+    curve_dir='storm_curve',
+)

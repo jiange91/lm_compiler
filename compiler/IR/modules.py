@@ -1,15 +1,33 @@
 from dataclasses import dataclass, field
 from compiler.IR.program import Module
+from abc import ABC, abstractmethod
+
+class Input(Module):
+    ...
 
 @dataclass
-class LMConfig:
+class LMConfig(ABC):
     kwargs: dict = field(default_factory=dict)
+    
+    @abstractmethod
+    def to_json(self):
+        ...
+    
+    @abstractmethod
+    def from_json(self, data):
+        ...
+    
 
 class LLMPredictor(Module):
     def __init__(self, name, kernel) -> None:
         super().__init__(name=name, kernel=kernel)
         self.lm_history = []
         self.lm_config = None
+        self.lm = None
+    
+    def clean(self):
+        super().clean()
+        self.lm_history = []
         self.lm = None
     
     def set_lm(self):

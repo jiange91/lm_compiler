@@ -2,6 +2,7 @@ from typing import Dict, Union
 import dspy
 import json
 from dataclasses import dataclass, field
+import logging
 
 from compiler.IR.modules import LLMPredictor, LMConfig
 
@@ -26,7 +27,11 @@ def dspy_adaptor(m: dspy.Module):
 
 
 class DSPyLMConfig(LMConfig):
-    ...
+    def to_json(self):
+        return json.dumps(self.kwargs)
+    
+    def from_json(self, data):
+        self.kwargs = json.loads(data)
     
 
 class DSPyLM(LLMPredictor):
@@ -35,6 +40,7 @@ class DSPyLM(LLMPredictor):
         self.kernel = self.wrap_kernel_with_context(kernel)
     
     def set_lm(self):
+        logging.info(f'Setting LM for {self.name}: {self.lm_config}')
         self.lm = dspy.OpenAI(**self.lm_config)
     
     def get_lm_history(self):

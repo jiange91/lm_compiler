@@ -92,7 +92,7 @@ class CreateWriterWithPersona(dspy.Module):
     def agent_get_personas(self, state: StormState):
         topic = state.news('topic')
         examples = state.news('examples')
-        max_num_persona = state.news('max_num_persona')
+        max_num_persona = state.news('max_perspective', 0)
         
         gen_persona_output = self.gen_persona(topic=topic, examples=examples).personas
 

@@ -1,0 +1,8 @@
+numpy
+scikit-learn
+dspy-ai
+joblib
+langchain
+toml
+trafilatura
+sentence-transformers==2.2.2

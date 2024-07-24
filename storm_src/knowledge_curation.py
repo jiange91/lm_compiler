@@ -7,7 +7,7 @@ from typing import Union, List, Tuple, Optional, Dict
 import dspy
 from interface import KnowledgeCurationModule, Retriever
 from storm_dataclass import DialogueTurn, StormInformationTable, StormInformation
-from utils import ArticleTextProcessing, FileIOHelper, makeStringRed
+from utils import ArticleTextProcessing, FileIOHelper, makeStringRed, topic_dir
 from common import StormState
 
 try:
@@ -292,11 +292,13 @@ class StormKnowledgeCurationModule(KnowledgeCurationModule):
             return information_table, StormInformationTable.construct_log_dict(conversations)
         return information_table
 
-    def research_kernel(self, state: StormState):
-        topic = state.news('topic')
-        ground_truth_url = state.news('ground_truth_url', 'None')
-        disable_perspective = state.news('disable_perspective', False)
-        considered_personas = state.news('personas', "").split('\nP_List:\n')
+    def research_kernel(
+        self, 
+        topic: str, 
+        ground_truth_url: str = None,
+        disable_perspective: bool = False,
+        personas: str = ""):
+        considered_personas = personas.split('\nP_List:\n')
         
         # run conversation 
         if disable_perspective:
@@ -309,8 +311,8 @@ class StormKnowledgeCurationModule(KnowledgeCurationModule):
 
         information_table = StormInformationTable(conversations)
         conversation_log = StormInformationTable.construct_log_dict(conversations)
-        FileIOHelper.dump_json(conversation_log, 'conversation_log.json')
-        information_table.dump_url_to_info('raw_search_results.json')
+        FileIOHelper.dump_json(conversation_log, f'{topic_dir(topic)}/conversation_log.json')
+        information_table.dump_url_to_info(f'{topic_dir(topic)}/raw_search_results.json')
     
         # prepare input for outline drafting
         concatenated_dialogue_turns = sum([conv for (_, conv) in information_table.conversations], [])
@@ -320,7 +322,6 @@ class StormKnowledgeCurationModule(KnowledgeCurationModule):
         conv = ArticleTextProcessing.limit_word_count_preserve_newline(conv, 5000)
         
         # prepare db for article generation
-        information_table.prepare_table_for_retrieval()   
-        state.publish({'information_table': information_table})
-        return {'research_conv': conv}
+        information_table.prepare_table_for_retrieval()
+        return {'research_conv': conv, 'information_table': information_table}
         

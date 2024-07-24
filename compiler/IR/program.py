@@ -3,6 +3,11 @@ from abc import ABC, abstractmethod
 from collections import defaultdict
 import queue
 from enum import Enum, auto
+import inspect
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 class StatePool:
     def __init__(self):
@@ -32,20 +37,42 @@ class ModuleStatus(Enum):
     FAILED = auto()
     SKIPPED = auto()
 
+def get_function_kwargs(func):
+    signature = inspect.signature(func)
+    input_fields = []
+    defaults = {}
+    for name, param in signature.parameters.items():
+        if name == 'self':
+            continue
+        if param.kind == inspect.Parameter.VAR_POSITIONAL or param.kind == inspect.Parameter.VAR_KEYWORD:
+            raise ValueError("Only support keyword arguments")
+        input_fields.append(name)
+        if param.default != inspect.Parameter.empty:
+            defaults[name] = param.default
+    return input_fields, defaults
+
 class Module:
     def __init__(self, name, kernel) -> None:
         self.name = name
         self.kernel = kernel
-        self.children = []
-        self.dependencies = []
+        self.children: List[Module] = []
+        self.dependencies: list[Module] = []
         self.outputs = []
         self.status = None
+        self.input_fields, self.defaults = get_function_kwargs(kernel)
+        logger.info(f"Module {name} kernel has input fields {self.input_fields}")
     
-    def forward(self, state: StatePool):
+    def forward(self, **kwargs):
         raise NotImplementedError
     
     def __call__(self, state: StatePool):
-        result = self.forward(state)
+        kargs = {}
+        for field in self.input_fields:
+            if field not in self.defaults and field not in state.state:
+                raise ValueError(f"Missing field {field} in state")
+            if field not in self.defaults:
+                kargs[field] = state.news(field)
+        result = self.forward(**kargs)
         self.outputs.append(result)
         state.publish(result)
         self.statis = ModuleStatus.SUCCESS

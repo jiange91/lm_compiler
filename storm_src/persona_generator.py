@@ -68,9 +68,9 @@ class CreateWriterWithPersona(dspy.Module):
         self.find_related_topic = dspy.ChainOfThought(FindRelatedTopic)
         self.gen_persona = dspy.ChainOfThought(GenPersona)
     
-    def agent_get_topics(self, state: StormState):
+    def agent_get_topics(self, topic: str):
         # Get section names from wiki pages of relevant topics for inspiration.
-        related_topics = self.find_related_topic(topic=state.news('topic')).related_topics
+        related_topics = self.find_related_topic(topic=topic).related_topics
         urls = []
         for s in related_topics.split('\n'):
             if 'http' in s:
@@ -89,11 +89,7 @@ class CreateWriterWithPersona(dspy.Module):
         
         return {'examples': example_str}
     
-    def agent_get_personas(self, state: StormState):
-        topic = state.news('topic')
-        examples = state.news('examples')
-        max_num_persona = state.news('max_perspective', 0)
-        
+    def agent_get_personas(self, topic: str, examples: str, max_num_persona: int = 0):
         gen_persona_output = self.gen_persona(topic=topic, examples=examples).personas
 
         personas = []

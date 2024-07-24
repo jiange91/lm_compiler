@@ -159,6 +159,12 @@ class StormInformationTable(InformationTable):
                 self.collected_urls.append(url)
                 self.collected_snippets.append(snippet)
         self.encoded_snippets = self.encoder.encode(self.collected_snippets, show_progress_bar=False)
+    
+    def repr_for_quality_compare(self):
+        snippets = []
+        for url, info in self.url_to_info.items():
+            snippets.extend(info.snippets)
+        return '\n'.join(snippets)
 
     def retrieve_information(self, queries: Union[List[str], str], search_top_k) -> List[StormInformation]:
         selected_urls = []
@@ -493,3 +499,6 @@ class StormArticle(Article):
     def post_processing(self):
         self.prune_empty_nodes()
         self.reorder_reference_index()
+
+    def repr_for_quality_compare(self):
+        return self.to_string()

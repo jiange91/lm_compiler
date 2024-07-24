@@ -25,6 +25,9 @@ def load_api_key(toml_file_path):
     # Set environment variables
     for key, value in data.items():
         os.environ[key] = str(value)
+    
+def topic_dir(topic: str):
+    return 'results/' + topic.replace(' ', '_').replace('/', '_')
 
 
 def makeStringRed(message):

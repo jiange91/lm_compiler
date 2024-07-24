@@ -3,7 +3,7 @@ from typing import Union, Optional, Tuple
 import dspy
 from interface import OutlineGenerationModule
 from storm_dataclass import StormInformationTable, StormArticle
-from utils import ArticleTextProcessing
+from utils import ArticleTextProcessing, topic_dir
 
 from common import StormState
 
@@ -66,25 +66,25 @@ class WriteOutline(dspy.Module):
         self.draft_page_outline = dspy.Predict(WritePageOutline)
         self.write_page_outline = dspy.Predict(WritePageOutlineFromConv)
     
-    def generate_draft_outline(self, state: StormState):
-        topic = state.news('topic')
+    def generate_draft_outline(self, topic: str):
         draft_outline = ArticleTextProcessing.clean_up_outline(
             self.draft_page_outline(topic=topic).outline
         )
-        state.publish({'article_with_draft_outline_only': 
-            StormArticle.from_outline_str(topic=topic, outline_str=draft_outline)})
-        return {'draft_outline': draft_outline}
+        with open(f'{topic_dir(topic)}/draft_outline.txt', 'w+') as f:
+            f.write(draft_outline)
+        article = StormArticle.from_outline_str(topic=topic, outline_str=draft_outline)
+        return {'draft_outline': draft_outline, 'article_with_draft_outline_only': article}
 
-    def refine_outline(self, state: StormState):
-        topic = state.news('topic')
-        conv = state.news('research_conv')
-        old_outline = state.news('draft_outline')
+    def refine_outline(self, topic: str, research_conv: str, draft_outline: str):
+        conv = research_conv
+        old_outline = draft_outline
         outline = ArticleTextProcessing.clean_up_outline(
             self.write_page_outline(topic=topic, conv=conv, old_outline=old_outline).outline
         )
-        state.publish({'article_with_outline_only': 
-            StormArticle.from_outline_str(topic=topic, outline_str=outline)})
-        return {'outline': outline}
+        with open(f'{topic_dir(topic)}/refine_outline.txt', 'w+') as f:
+            f.write(outline)
+        article = StormArticle.from_outline_str(topic=topic, outline_str=outline)
+        return {'outline': outline, 'article_with_outline_only': article}
         
 
     def forward(self, topic: str, dlg_history, old_outline: Optional[str] = None):

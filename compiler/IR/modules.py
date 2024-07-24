@@ -1,9 +1,15 @@
 from dataclasses import dataclass, field
-from compiler.IR.program import Module
+from compiler.IR.program import Module, StatePool
 from abc import ABC, abstractmethod
 
 class Input(Module):
-    ...
+    def __init__(self, input) -> None:
+        name = '_user_input'
+        self.input = input
+        super().__init__(name=name, kernel=None)
+    
+    def forward(self, state: StatePool):
+        return self.input
 
 @dataclass
 class LMConfig(ABC):
@@ -36,10 +42,10 @@ class LLMPredictor(Module):
     def get_lm_history(self):
         raise NotImplementedError
 
-    def forward(self, state):
+    def forward(self, **kwargs):
         if self.lm is None:
             self.set_lm()
-        result = self.kernel(state)
+        result = self.kernel(**kwargs)
         self.lm_history.append(self.get_lm_history())
         return result
     

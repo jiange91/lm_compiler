@@ -1,0 +1,7 @@
+topic,url,predicted_class,predicted_scores
+2023 Odisha train collision,https://en.wikipedia.org/wiki/2023_Odisha_train_collision,GA,"{'B': 0.05940549886450579, 'C': 0.029285447163757056, 'FA': 0.3832576817795641, 'GA': 0.5172089483058658, 'Start': 0.007796038269559524, 'Stub': 0.003046385616747811}"
+Hurricane Hilary,https://en.wikipedia.org/wiki/Hurricane_Hilary,GA,"{'B': 0.07314813697545597, 'C': 0.036077399902118994, 'FA': 0.3561888048939224, 'GA': 0.5207377325303542, 'Start': 0.009850958591988434, 'Stub': 0.0039969671061602366}"
+Hurricane Idalia,https://en.wikipedia.org/wiki/Hurricane_Idalia,B,"{'B': 0.44394953482002913, 'C': 0.08433843324012442, 'FA': 0.1525109563435126, 'GA': 0.30420595193766387, 'Start': 0.010761397841701808, 'Stub': 0.004233725816968117}"
+Pishdadian dynasty,https://en.wikipedia.org/wiki/Pishdadian_dynasty,FA,"{'B': 0.02964857540233696, 'C': 0.014436173816947333, 'FA': 0.7846670419607058, 'GA': 0.16180657582143942, 'Start': 0.006904815338519632, 'Stub': 0.0025368176600509074}"
+Taylor Hawkins,https://en.wikipedia.org/wiki/Taylor_Hawkins,GA,"{'B': 0.11539608191927074, 'C': 0.04102266122999921, 'FA': 0.15540747668986662, 'GA': 0.673227842079754, 'Start': 0.010971018160521115, 'Stub': 0.003974919920588248}"
+Typhoon Hinnamnor,https://en.wikipedia.org/wiki/Typhoon_Hinnamnor,GA,"{'B': 0.09500468119966222, 'C': 0.04424633613541418, 'FA': 0.2674330306148623, 'GA': 0.578825852901648, 'Start': 0.010352461363153282, 'Stub': 0.004137637785259956}"

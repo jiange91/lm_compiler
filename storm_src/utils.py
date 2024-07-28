@@ -5,6 +5,7 @@ import pickle
 import re
 import sys
 from typing import List, Dict
+import pandas as pd
 
 import httpx
 import toml
@@ -407,3 +408,51 @@ class WebPageHelper:
             articles[u]["snippets"] = self.text_splitter.split_text(articles[u]["text"])
 
         return articles
+
+def load_str(path):
+    with open(path, 'r') as f:
+        return '\n'.join(f.readlines())
+
+def load_json(path):
+    with open(path, 'r') as f:
+        return json.load(f)
+    
+def preprocess_text(text):
+    """
+    Clean up text: remove reference section, URLS, non-ascii chars
+    """
+    # clean up empty line
+    paragraphs = text.split("\n")
+    paragraphs = [i for i in paragraphs if len(i) > 0]
+    # clean up section title and remove reference section
+    cleaned_pargraphs = []
+    for i in paragraphs:
+        if i == "# References":
+            break
+        if i.startswith("#"):
+            i = "section: " + i.replace("#", "").strip()
+        cleaned_pargraphs.append(i)
+    text = "\n".join(cleaned_pargraphs)
+    # remove URLS
+    text = re.sub(r'http\S+|www\S+|https\S+', '', text, flags=re.MULTILINE)
+    # remove non-ascii char
+    text = re.sub(r'[^\x00-\x7F]+', '', text)
+    # remove citation bracket (e.g. [10])
+    text = re.sub(r'\[\d+\]', '', text)
+    # remove non alphanumeric char
+    text = re.sub(r'[^\w\s]', '', text)
+    return text
+
+def data_loader_article(trainset_path: str):
+    data = pd.read_csv(trainset_path)
+    for _, row in data.iterrows():
+        # get input
+        topic = row['topic']
+        ground_truth_url = row['url']
+        
+        # get label
+        topic_name = topic.replace(' ', '_').replace('/', '_')
+        golden_answer = load_str(os.path.join('storm_src/FreshWiki/txt', topic_name + '.txt'))
+        # golden_answer = preprocess_text(golden_answer)
+        
+        yield topic, ground_truth_url, golden_answer

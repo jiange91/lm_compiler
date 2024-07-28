@@ -89,7 +89,7 @@ class CreateWriterWithPersona(dspy.Module):
         
         return {'examples': example_str}
     
-    def agent_get_personas(self, topic: str, examples: str, max_num_persona: int = 0):
+    def agent_get_personas(self, topic: str, examples: str, max_perspective: int = 0):
         gen_persona_output = self.gen_persona(topic=topic, examples=examples).personas
 
         personas = []
@@ -99,7 +99,7 @@ class CreateWriterWithPersona(dspy.Module):
                 personas.append(match.group(1))
 
         default_persona = 'Basic fact writer: Basic fact writer focusing on broadly covering the basic facts about the topic.'
-        considered_personas = [default_persona] + personas[:max_num_persona]
+        considered_personas = [default_persona] + personas[:max_perspective]
         personas_str = '\nP_List:\n'.join(considered_personas)
         return {'personas': personas_str}
 

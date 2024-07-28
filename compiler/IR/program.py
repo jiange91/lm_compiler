@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from abc import ABC, abstractmethod
 from collections import defaultdict
 import queue
@@ -60,7 +60,7 @@ class Module:
         self.outputs = []
         self.status = None
         self.input_fields, self.defaults = get_function_kwargs(kernel)
-        logger.info(f"Module {name} kernel has input fields {self.input_fields}")
+        logger.debug(f"Module {name} kernel has input fields {self.input_fields}")
     
     def forward(self, **kwargs):
         raise NotImplementedError
@@ -70,7 +70,7 @@ class Module:
         for field in self.input_fields:
             if field not in self.defaults and field not in state.state:
                 raise ValueError(f"Missing field {field} in state")
-            if field not in self.defaults:
+            if field in state.state:
                 kargs[field] = state.news(field)
         result = self.forward(**kargs)
         self.outputs.append(result)
@@ -87,6 +87,7 @@ class Workflow:
         self.modules: List[Module] = []
         self.edges: dict[Module, List[Module]] = defaultdict(list)
         self.states: StatePool = None
+        self.exit_point: Tuple[Module, str] = None
     
     def add_module(self, module: Module) -> None:
         self.modules.append(module)
@@ -96,6 +97,9 @@ class Workflow:
         child.dependencies.append(parent)
         self.edges[parent].append(child)
     
+    def set_exit_point(self, module: Module, field: str) -> None:
+        self.exit_point = (module, field)
+    
     def reset_modules(self) -> None:
         for module in self.modules:
             module.clean()
@@ -103,24 +107,26 @@ class Workflow:
     def run(self,
             state,
             start_from: Optional[Module] = None,
-            stop_at: Optional[Module] = None):
+            stop_before: Optional[Module] = None):
         sorted_modules = self.sort()
         started = False
+        answer = None
         for module in sorted_modules:
             if start_from is None or (module is start_from and not started):
                 started = True
             if not started:
                 module.status = ModuleStatus.SKIPPED
                 continue
+            if module == stop_before:
+                return answer
             deps = module.dependencies
             if deps is None or all(m.statis is ModuleStatus.SUCCESS for m in deps):
                 module(state)
                 answer = module.outputs[-1]
-                if module == stop_at:
-                    return module.outputs[-1]
             else:
-                module.statis = ModuleStatus.SKIPPED
-        return answer
+                module.statis = ModuleStatus.FAILED
+                raise ValueError(f"Module {module.name} failed to run due to dependencies")
+        return self.exit_point[0].outputs[-1][self.exit_point[1]]
     
     def sort(self, predicate: Optional[callable] = None) -> List[Module]:
         visited = {v: False for v in self.modules}

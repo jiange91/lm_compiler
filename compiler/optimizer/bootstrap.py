@@ -1,4 +1,4 @@
-from typing import Union, Optional
+from typing import Union, Optional, Any, Tuple
 import copy
 import logging
 import json
@@ -12,7 +12,7 @@ from queue import Queue
 
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.modules import LMConfig, LLMPredictor
-from compiler.optimizer.utils import convert_to_comparable_repr, TreeNode, ScoreTree, StateManager
+from compiler.optimizer.utils import convert_to_comparable_repr, StateManager, StateManager_v2, OptionProfiler, PropagationEvaluator, ScorePath, DecisionNode
 
 logger = logging.getLogger(__name__)
 
@@ -29,12 +29,19 @@ class BootStrap:
 
 
 class BootStrapLMSelection(BootStrap):
+    """
+    If ground truth in trainset pairs are None,
+    the optimizer is trained using teacher model's labels as ground truth
+    """
     def __init__(
         self,
         workflow: Workflow,
-        teachers: Union[dict[LLMPredictor, str], str],
-        module_2_options: Union[dict[LLMPredictor, list[str]], list[str]],
-        module_2_metric: Union[dict[LLMPredictor, callable], callable],
+        teachers: Union[dict[str, str], str],
+        module_2_options: Union[dict[str, list[str]], list[str]],
+        module_2_metric: Union[dict[str, callable], callable],
+        final_output_metric: callable,
+        trainset_input: list[StatePool],
+        trainset_label: Optional[list[Any]] = None,
         max_sample_to_keep: int = 4,
     ):
         super().__init__()
@@ -49,6 +56,14 @@ class BootStrapLMSelection(BootStrap):
         self.module_2_options = module_2_options
         # metric should be invoked with (gold, pred)
         self.module_2_metric = module_2_metric
+        
+        self.trainset_input = trainset_input
+        self.trainset_label = trainset_label or [] # candidate always compare with this to estimatte the quality
+        self.use_teacher_as_ground_truth = trainset_label is None
+        self.teacher_final_outputs = []
+        self.final_output_metric = final_output_metric
+        self.final_output_scores = []
+        
         self.teachers = teachers
         # The maximum number of output with different qualities to keep after each module
         # This param is per traning-input
@@ -57,31 +72,53 @@ class BootStrapLMSelection(BootStrap):
         self.module_2_input_quality = {}
         self.score_tree = None
     
-    def get_labels(self, trainset: list[StatePool], label_path: str):
+    def get_labels(self, label_path: str):
         if os.path.exists(label_path):
             logger.info(f"Loading labels from {label_path}")
             with open(label_path, 'r') as f:
                 labels = json.load(f)
-            assert len(labels) == len(trainset), "Each task should have a ground truth"
             # TODO: add more assertio to check label integrity
+            assert len(labels) == len(self.trainset_input), "Each task should have a ground truth"
+            
+            for label in labels:
+                self.teacher_final_outputs.append(label['final_output'])
+                if self.use_teacher_as_ground_truth:
+                    self.trainset_label.append(label['final_output'])
+                    self.final_output_scores.append(1.0)
+                else:
+                    self.final_output_scores.append(label['final_score']['final_output'])
         else:
             # Get labels using teacher model
             for lm in self.sorted_target_modules:
                 lm.lm_config['model'] = self.teachers[lm.name]
-            trainset_cpy = copy.deepcopy(trainset)
             labels = [] # idx -> {lm_name, output}
-            for state in trainset_cpy:
+            for i, state in enumerate(self.trainset_input):
+                logger.info(f'Generating labels for task: {i} ...')
+                state_cpy = copy.deepcopy(state)
                 self.workflow.reset_modules()
-                self.workflow.run(state)
-                labels.append(
-                    {lm.name: 
-                        {k: copy.deepcopy(convert_to_comparable_repr(v))
-                         for k, v in lm.outputs[-1].items()}
-                     for lm in self.sorted_target_modules}
-                )
-            logger.info(f"Labels: {labels}")
+                final_output = self.workflow.run(state_cpy)
+                output_labels = {
+                    lm.name: {
+                        k: copy.deepcopy(convert_to_comparable_repr(v))
+                            for k, v in lm.outputs[-1].items()
+                        }
+                    for lm in self.sorted_target_modules
+                }
+                output_labels['final_output'] = convert_to_comparable_repr(final_output)
+                self.teacher_final_outputs.append(output_labels['final_output'])
+                if not self.use_teacher_as_ground_truth:
+                    output_labels['final_score'] = self.final_output_metric(
+                        {'final_output': self.trainset_label[i]}, 
+                        {'final_output': output_labels['final_output']},
+                    )
+                    self.final_output_scores.append(output_labels['final_score'])
+                else:
+                    self.trainset_label.append(output_labels['final_output'])
+                    self.final_output_scores.append(1.0)
+                labels.append(output_labels)
             with open(label_path, 'w+') as f:
                 json.dump(labels, f, indent=4)
+            logger.info("Finish Generating labels")
         return labels
 
     def bootstrap(
@@ -117,12 +154,10 @@ class BootStrapLMSelection(BootStrap):
             ]
             
             for task_idx, task in enumerate(state_for_module):
-                logger.info(f"input {task_idx}")
                 for option_idx, (option, states) in enumerate(zip(options_at_module, task)):
                     input_quality = self.module_2_input_quality[lm.name][task_idx]
                     assert len(states) == len(input_quality), "Input quality should match number of input states"
                     lm.lm_config['model'] = option
-                    logger.info(f"Running {lm.name} with {option}")
                     for state_idx, state in enumerate(states):
                         self.workflow.reset_modules()
                         self.workflow.run(
@@ -146,80 +181,108 @@ class BootStrapLMSelection(BootStrap):
             
         json.dump(module_bootstrap_profile, open(profile_path, 'w+'), indent=4)
         return module_bootstrap_profile
+
+    def bootstrap_v2(
+        self,
+        labels: list,
+        profile_path: str,
+    ):
+        if os.path.exists(profile_path):
+            logger.info(f"Loading profile from {profile_path}")
+            with open(profile_path, 'r') as f:
+                module_bootstrap_profile = json.load(f)
+            return module_bootstrap_profile
+
+        state_manager = StateManager_v2(self.trainset_input)
+        module_bootstrap_profile = {}
+        for module_idx, lm in enumerate(self.sorted_target_modules):
+            logger.info(f"Bootstraping Module: {lm.name}")
+            
+            # forward until the next LM
+            next_lm = self.sorted_target_modules[module_idx + 1] if module_idx + 1 < len(self.sorted_target_modules) else None
+            
+            # Get batch of input state for each task
+            state_score_for_module = state_manager.prepare_state(lm.input_fields, self.max_sample_to_keep)
+            new_state_scores: list[list[StateManager_v2.StateScoreType]] = [
+                [] for _ in state_score_for_module
+            ]
+            new_profile_record = [
+                [] for _ in self.module_2_options[lm.name]
+            ]
+            
+            # Profile information propagation for each task
+            for task_idx, task in enumerate(state_score_for_module):
+                logger.info(f"Performing Task: {task_idx} ...")
+                gold = labels[task_idx][lm.name]
+                # State only contains input fields
+                state_score_list: list[list[StateManager_v2.StateScoreType]] = task
+                for option_idx, option in enumerate(self.module_2_options[lm.name]):
+                    def option_runner(state: StatePool):
+                        # run workflow
+                        self.workflow.reset_modules()
+                        self.workflow.run(state=state, start_from=lm, stop_before=next_lm)
+                        # get intermediate result
+                        pred = lm.outputs[-1]
+                        comparable_pred = {k: convert_to_comparable_repr(v) for k, v in pred.items()}
+                        output_quality = self.module_2_metric[lm.name](gold, comparable_pred)
+                        # get final output quality if this is exit point
+                        if lm.name == self.workflow.exit_point[0].name:
+                            final_ground_truth = {'final_output': self.trainset_label[task_idx]}
+                            final_quality = self.final_output_metric(
+                                final_ground_truth, 
+                                {'final_output': comparable_pred[self.workflow.exit_point[1]]}
+                            )
+                            output_quality.update(final_quality)
+                        return pred, output_quality
+                    
+                    option_profiler = OptionProfiler(option, state_score_list)
+                    lm.lm_config['model'] = option
+                    option_profiler.profie(option_runner)
+                    # NOTE: state is grouped by task
+                    new_state_scores[task_idx].extend(option_profiler.new_state_score)
+                    # NOTE: profile result is grouped by option
+                    new_profile_record[option_idx].extend(option_profiler.profile_record)
+            state_manager.update_state(new_state_scores)
+            module_bootstrap_profile[lm.name] = new_profile_record
+        json.dump(module_bootstrap_profile, open(profile_path, 'w+'), indent=4)
+        return module_bootstrap_profile
     
-    def fit_curve_from_profile(self, module_bootstrap_profile, curve_dir):
-        module_2_option_curve = {}
-        if os.path.exists(curve_dir):
-            logger.info(f"Loading curve from {curve_dir}")
-            meta_json = json.load(open(f"{curve_dir}/meta.json", 'r'))
-            for lm in self.sorted_target_modules:
-                module_2_option_curve[lm.name] = {}
-                for option in self.module_2_options[lm.name]:
-                    curve = joblib.load(f"{curve_dir}/{meta_json[lm.name][option]['curve_path']}")
-                    module_2_option_curve[lm.name][option] = {'curve': curve, 'r2_score': meta_json[lm.name][option]['r2_score']}
-            return module_2_option_curve
+    def fit_curve_from_profile(self, module_bootstrap_profile, curve_path):
+        curve = PropagationEvaluator(module_bootstrap_profile)
         
-        for lm in self.sorted_target_modules:
-            module_2_option_curve[lm.name] = {}
-            for option_idx, option in enumerate(self.module_2_options[lm.name]):
-                # get training pairs
-                input_quality, output_score = [], []
-                for task in module_bootstrap_profile[lm.name]:
-                    for state in task[option_idx]:
-                        assert len(state['input_quality']) == 1, "assume only one input"
-                        assert len(state['output']) == 1, "assume only one output"
-                        input_quality.append([next(iter(state['input_quality'].values()))])
-                        output_score.append(next(iter(state['score'].values())))
-                # fit curve
-                curve = LinearRegression().fit(input_quality, output_score)
-                r2_score = curve.score(input_quality, output_score)
-                module_2_option_curve[lm.name][option] = {'curve': curve, 'r2_score': r2_score}
-        logger.info(f"Module 2 option curve: {module_2_option_curve}")
+        if os.path.exists(curve_path):
+            logger.info(f"Loading curve from {curve_path}")
+            curve.load(curve_path)
+            return curve
         
-        # serialize it
-        Path(curve_dir).mkdir(parents=True, exist_ok=True)
-        meta_json = {}
-        for lm in self.sorted_target_modules:
-            meta_json[lm.name] = {}
-            for option in self.module_2_options[lm.name]:
-                meta_json[lm.name][option] = {
-                    'curve_path': f'{lm.name}_{option}_curve.joblib',
-                    'r2_score': module_2_option_curve[lm.name][option]['r2_score'],
-                }
-                joblib.dump(
-                    module_2_option_curve[lm.name][option]['curve'],
-                    f"{curve_dir}/{lm.name}_{option}_curve.joblib",
-                )
-        json.dump(meta_json, open(f"{curve_dir}/meta.json", 'w+'), indent=4)
-        return module_2_option_curve
+        curve.train(self.sorted_target_modules, self.module_2_options)
+        curve.dump(curve_path)
+        return curve
                         
-    def search(self, module_2_option_curve, gap):
-        self.score_tree = ScoreTree('user query', 1.0)
-        frontier = Queue()
-        frontier.put(self.score_tree.root)
+    def search(self, prop_eval: PropagationEvaluator, gap, solution_path):
+        if os.path.exists(solution_path):
+            raise ValueError("Solution already exists")
+        score_paths = ScorePath(self.sorted_target_modules, prop_eval.module_2_option_2_predictor)
+        score_paths.build_tree(list(self.trainset_input[0].state.keys()))
         
-        # build scoring tree
-        for m_idx, lm in enumerate(self.sorted_target_modules):
-            n = frontier.qsize()
-            for _ in range(n):
-                node = frontier.get()
-                for option in self.module_2_options[lm.name]:
-                    curve = module_2_option_curve[lm.name][option]['curve']
-                    pred = curve.predict([[node.score]])[0]
-                    new_node = self.score_tree.add_new_estimation(node, option, pred, 
-                                                                  m_idx == len(self.sorted_target_modules) - 1)
-                    frontier.put(new_node)
-        solutions = self.score_tree.get_path(lambda x: x.score > 0)
-        print(solutions)
+        mean_target_final_score = np.mean(self.final_output_scores)
+        def predicate(node: DecisionNode):
+            return node.state_scores['final_output'] >= mean_target_final_score * gap
+        solutions = [
+            {'selections': p.selections, 'state_scores': p.state_scores} 
+                for p in score_paths.paths if predicate(p)
+        ]
+        with open(solution_path, 'w+') as f:
+            json.dump(solutions, f, indent=4)
         return solutions
         
     
     def compile(
         self, 
-        trainset: list[StatePool],
         label_path: str = 'labels.json',
         profile_path: str = 'profile.json',
-        curve_dir: str = 'curve',
+        curve_path: str = 'curve.joblib',
+        solution_path: str = 'solutions.json',
     ):
         """
         for all modules:
@@ -231,15 +294,15 @@ class BootStrapLMSelection(BootStrap):
         """
         
         # Get ground truth labels
-        labels = self.get_labels(trainset, label_path)
+        labels = self.get_labels(label_path)
         
         # Get profile for each module
-        module_bootstrap_profile = self.bootstrap(trainset, labels, profile_path)
-
+        module_bootstrap_profile = self.bootstrap_v2(labels, profile_path)
+        
         # build curve for each option at each module from the profile
-        module_2_option_curve = self.fit_curve_from_profile(module_bootstrap_profile, curve_dir)
+        prop_evaluator = self.fit_curve_from_profile(module_bootstrap_profile, curve_path)
         
         # Build score tree and search for the best option
-        config_candidates = self.search(module_2_option_curve, 0)
+        config_candidates = self.search(prop_evaluator, .95, solution_path)
         
         return config_candidates

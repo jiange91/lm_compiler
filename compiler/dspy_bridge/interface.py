@@ -40,7 +40,7 @@ class DSPyLM(LLMPredictor):
         self.kernel = self.wrap_kernel_with_context(kernel)
     
     def set_lm(self):
-        logging.info(f'Setting LM for {self.name}: {self.lm_config}')
+        logging.debug(f'Setting LM for {self.name}: {self.lm_config}')
         self.lm = dspy.OpenAI(**self.lm_config)
     
     def get_lm_history(self):

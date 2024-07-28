@@ -157,3 +157,10 @@ class BingSearch(dspy.Retrieve):
             collected_results.append(r)
 
         return collected_results
+    
+# from utils import load_api_key
+# load_api_key('secrets.toml')
+# # rm = YouRM(ydc_api_key=os.getenv('YDC_API_KEY'), k=3)
+# rm = BingSearch(k=3)
+# data_list = rm('Taylor Hawkins')
+# print(data_list)

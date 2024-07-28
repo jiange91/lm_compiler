@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from dataclasses import dataclass, field
 import os
 from pathlib import Path
+import pandas as pd
 
 from persona_generator import CreateWriterWithPersona
 from knowledge_curation import StormKnowledgeCurationModule
@@ -11,9 +12,9 @@ from outline_generation import WriteOutline
 from article_generation import StormArticleGenerationModule
 from article_polish import StormArticlePolishingModule
 from retriever import StormRetriever
-from rm import YouRM
+from rm import YouRM, BingSearch
 from common import compare_two_answer, StormState
-from utils import load_api_key, topic_dir
+from utils import load_api_key, topic_dir, data_loader_article, preprocess_text
 
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.dspy_bridge.interface import DSPyLM
@@ -21,7 +22,7 @@ from compiler.optimizer.bootstrap import BootStrapLMSelection
 from compiler.IR.modules import Input
 import logging
 
-logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO)
 
 
 # --------------------------------------------
@@ -33,7 +34,8 @@ load_api_key('secrets.toml')
 get_personas = CreateWriterWithPersona()
 
 # Reseach Knowledge Conversation Module
-rm = YouRM(ydc_api_key=os.getenv('YDC_API_KEY'), k=3)
+# rm = YouRM(ydc_api_key=os.getenv('YDC_API_KEY'), k=3)
+rm = BingSearch(k=3)
 knowledge_curation = StormKnowledgeCurationModule(
     retriever=StormRetriever(rm=rm, k=3),
     max_search_queries_per_turn=3,
@@ -79,7 +81,7 @@ storm_workflow.add_edge(knowledge_curation_module, outline_refine_module)
 storm_workflow.add_edge(outline_draft_module, outline_refine_module)
 storm_workflow.add_edge(outline_refine_module, draft_article_module)
 storm_workflow.add_edge(draft_article_module, polish_article_module)
-
+storm_workflow.set_exit_point(polish_article_module, 'polished_article')
 
 openai_kwargs = {
     'api_key': os.getenv("OPENAI_API_KEY"),
@@ -99,12 +101,18 @@ polish_article_module.lm_config = {'model': sample_lm, 'max_tokens': 4000, **ope
 
 
 # Initialize State
-state = StormState()
-state.publish({
-    'topic': 'Taylor Hawkins',
-    'max_perspective': 5,
-})
-Path(topic_dir(state.news('topic'))).mkdir(parents=True, exist_ok=True)
+trainset_input: list[StatePool] = []
+trainset_label: list[str] = []
+for topic, url, golden_answer in data_loader_article('storm_src/trainset.csv'):
+    state = StormState()
+    state.publish({
+        'topic': topic,
+        'max_perspective': 5,
+        'ground_truth_url': url,
+    })
+    trainset_input.append(state)
+    trainset_label.append(golden_answer)
+    Path(topic_dir(state.news('topic'))).mkdir(parents=True, exist_ok=True)
 
 
 # --------------------------------------------
@@ -118,13 +126,25 @@ Path(topic_dir(state.news('topic'))).mkdir(parents=True, exist_ok=True)
 # Bootstrap
 # --------------------------------------------
 
-lm_options = ['gpt-4o-mini', 'gpt-4o']
+lm_options = [
+    'gpt-4o-mini', 
+    'gpt-4o',
+]
+
+def final_output_metric(gold: dict, pred: dict):
+    gold['final_output'] = preprocess_text(gold['final_output'])
+    pred['final_output'] = preprocess_text(pred['final_output'])
+    return compare_two_answer(gold, pred)
+    
 
 ms_boot = BootStrapLMSelection(
     workflow=storm_workflow,
-    teachers='gpt-4o-mini',
+    teachers='gpt-4o',
     module_2_options=lm_options,
     module_2_metric=compare_two_answer,
+    final_output_metric=final_output_metric,
+    trainset_input=trainset_input,
+    trainset_label=trainset_label,
     max_sample_to_keep=4,
 )
 
@@ -135,7 +155,9 @@ ms_boot = BootStrapLMSelection(
 #     curve_dir='storm_curve',
 # )
 
-ms_boot.get_labels(
-    trainset=[state],
-    label_path='compile_log/labels-4o-mini.json',
+solutions = ms_boot.compile(
+    label_path='compile_log/labels-4o.json',
+    profile_path='compile_log/module_option_profile.json',
+    curve_path='compile_log/storm_curve.joblib',
+    solution_path='compile_log/solutions_95.json',
 )

@@ -10,6 +10,7 @@ import requests
 from bs4 import BeautifulSoup
 from compiler.dspy_bridge.interface import DSPyLM
 from common import StormState
+from utils import topic_dir
 
 
 def get_wiki_page_title_and_toc(url):
@@ -86,7 +87,8 @@ class CreateWriterWithPersona(dspy.Module):
         if len(examples) == 0:
             examples.append('N/A')
         example_str = '\n----------\n'.join(examples)
-        
+        with open(f'{topic_dir(topic)}/example_topics.txt', 'w+') as f:
+            f.write(example_str)
         return {'examples': example_str}
     
     def agent_get_personas(self, topic: str, examples: str, max_perspective: int = 0):
@@ -100,6 +102,8 @@ class CreateWriterWithPersona(dspy.Module):
 
         default_persona = 'Basic fact writer: Basic fact writer focusing on broadly covering the basic facts about the topic.'
         considered_personas = [default_persona] + personas[:max_perspective]
+        with open(f'{topic_dir(topic)}/personas.txt', 'w+') as f:
+            json.dump(considered_personas, f)
         personas_str = '\nP_List:\n'.join(considered_personas)
         return {'personas': personas_str}
 

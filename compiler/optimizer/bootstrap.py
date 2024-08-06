@@ -111,7 +111,7 @@ class BootStrapLMSelection(BootStrap):
                         {'final_output': self.trainset_label[i]}, 
                         {'final_output': output_labels['final_output']},
                     )
-                    self.final_output_scores.append(output_labels['final_score'])
+                    self.final_output_scores.append(output_labels['final_score']['final_output'])
                 else:
                     self.trainset_label.append(output_labels['final_output'])
                     self.final_output_scores.append(1.0)
@@ -264,7 +264,6 @@ class BootStrapLMSelection(BootStrap):
             raise ValueError("Solution already exists")
         score_paths = ScorePath(self.sorted_target_modules, prop_eval.module_2_option_2_predictor)
         score_paths.build_tree(list(self.trainset_input[0].state.keys()))
-        
         mean_target_final_score = np.mean(self.final_output_scores)
         def predicate(node: DecisionNode):
             return node.state_scores['final_output'] >= mean_target_final_score * gap

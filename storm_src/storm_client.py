@@ -118,9 +118,9 @@ for topic, url, golden_answer in data_loader_article('storm_src/trainset.csv'):
 # --------------------------------------------
 # Sample run
 # --------------------------------------------
-# storm_workflow.run(state=state)
-# print(state.state)
-# exit()
+storm_workflow.run(state=state)
+print(state.state)
+exit()
 
 # --------------------------------------------
 # Bootstrap

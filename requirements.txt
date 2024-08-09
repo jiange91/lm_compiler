@@ -7,3 +7,4 @@ toml
 trafilatura
 sentence-transformers==2.2.2
 flair==0.13.0
+rouge_score

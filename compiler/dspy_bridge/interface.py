@@ -17,7 +17,7 @@ def log_after_generation(instance):
     
     def new_call(*args, **kwargs):
         result = original_call(*args, **kwargs)
-        dump_lm_history(instance._predict.lm, f'{getattr(instance, '_compiler_name')}_lm_hist.json')
+        dump_lm_history(instance._predict.lm, f"{getattr(instance, '_compiler_name')}_lm_hist.json")
         return result
     instance.forward = new_call
     

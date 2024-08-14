@@ -53,7 +53,22 @@ class LLMPredictor(Module):
 class CodeBox(Module):
     ...
 
-@dataclass
 class Retriever(Module):
-        query_history: list = field(default_factory=list)
-        retrieve_history: list = field(default_factory=list)
+    def __init__(self, name, kernel) -> None:
+        super().__init__(name=name, kernel=kernel)
+        self.query_history = []
+        self.retrieve_history = []
+    
+    def clean(self):
+        super().clean()
+        self.query_history = []
+        self.retrieve_history = []
+    
+    def forward(self, **kwargs):
+        self.query_history.append(kwargs)
+        result = self.kernel(**kwargs)
+        self.retrieve_history.append(result)
+        return result
+
+class Map(Module):
+    ...

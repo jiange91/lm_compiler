@@ -4,6 +4,7 @@ from collections import defaultdict
 import queue
 from enum import Enum, auto
 import inspect
+from graphviz import Digraph
 
 import logging
 
@@ -69,7 +70,7 @@ class Module:
         kargs = {}
         for field in self.input_fields:
             if field not in self.defaults and field not in state.state:
-                raise ValueError(f"Missing field {field} in state")
+                raise ValueError(f"Missing field {field} in state when calling {self.name}")
             if field in state.state:
                 kargs[field] = state.news(field)
         result = self.forward(**kargs)
@@ -83,19 +84,21 @@ class Module:
     
 class Workflow:
     def __init__(self) -> None:
-        self.dest: Module = None
         self.modules: List[Module] = []
         self.edges: dict[Module, List[Module]] = defaultdict(list)
         self.states: StatePool = None
         self.exit_point: Tuple[Module, str] = None
+        self.dot = Digraph()
     
     def add_module(self, module: Module) -> None:
         self.modules.append(module)
+        self.dot.node(module.name)
     
     def add_edge(self, parent: Module, child: Module) -> None:
         parent.children.append(child)
         child.dependencies.append(parent)
         self.edges[parent].append(child)
+        self.dot.edge(parent.name, child.name)
     
     def set_exit_point(self, module: Module, field: str) -> None:
         self.exit_point = (module, field)
@@ -112,12 +115,15 @@ class Workflow:
         started = False
         answer = None
         for module in sorted_modules:
+            logger.info(f"Running module {module.name}")
             if start_from is None or (module is start_from and not started):
                 started = True
             if not started:
                 module.status = ModuleStatus.SKIPPED
+                logger.info(f"Skipping module {module.name}")
                 continue
             if module == stop_before:
+                logger.info(f"Stopping before module {module.name}")
                 return answer
             deps = module.dependencies
             if deps is None or all(m.statis is ModuleStatus.SUCCESS for m in deps):
@@ -126,6 +132,8 @@ class Workflow:
             else:
                 module.statis = ModuleStatus.FAILED
                 raise ValueError(f"Module {module.name} failed to run due to dependencies")
+            if module == self.exit_point[0]:
+                return module.outputs[-1][self.exit_point[1]]
         return self.exit_point[0].outputs[-1][self.exit_point[1]]
     
     def sort(self, predicate: Optional[callable] = None) -> List[Module]:
@@ -145,3 +153,6 @@ class Workflow:
         if predicate is None:
             return list(reversed(stack))
         return [v for v in reversed(stack) if predicate(v)]
+
+    def visualize(self, fpath):
+        self.dot.render(directory=fpath, format='png')

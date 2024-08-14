@@ -1,0 +1,13 @@
+digraph {
+	decompose
+	hyde
+	retrieve
+	doc_filter
+	generator
+	answer_compose
+	decompose -> hyde
+	hyde -> retrieve
+	retrieve -> doc_filter
+	doc_filter -> generator
+	generator -> answer_compose
+}

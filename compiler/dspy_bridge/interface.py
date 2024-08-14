@@ -6,6 +6,8 @@ import logging
 
 from compiler.IR.modules import LLMPredictor, LMConfig
 
+logger = logging.getLogger(__name__)
+
 
 
 def dump_lm_history(lm, path):
@@ -40,7 +42,7 @@ class DSPyLM(LLMPredictor):
         self.kernel = self.wrap_kernel_with_context(kernel)
     
     def set_lm(self):
-        logging.debug(f'Setting LM for {self.name}: {self.lm_config}')
+        logger.debug(f'Setting LM for {self.name}: {self.lm_config}')
         self.lm = dspy.OpenAI(**self.lm_config)
     
     def get_lm_history(self):

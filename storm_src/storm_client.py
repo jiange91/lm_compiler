@@ -14,12 +14,13 @@ from article_polish import StormArticlePolishingModule
 from retriever import StormRetriever
 from rm import YouRM, BingSearch
 from common import compare_two_answer, StormState
-from utils import load_api_key, topic_dir, data_loader_article, preprocess_text
+from utils import topic_dir, data_loader_article, preprocess_text
 
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.dspy_bridge.interface import DSPyLM
 from compiler.optimizer.bootstrap import BootStrapLMSelection
 from compiler.IR.modules import Input
+from compiler.utils import load_api_key
 import logging
 
 # logging.basicConfig(level=logging.INFO)

@@ -8,15 +8,22 @@ from sklearn.linear_model import LinearRegression
 import pandas as pd
 import joblib
 
+from langchain_core.documents.base import Document
+
 from compiler.IR.program import StatePool, Module
 
 def convert_to_comparable_repr(value):
     if isinstance(value, (int, float, str, bool)):
         return value
-    if not hasattr(value, 'repr_for_quality_compare'):
-        raise ValueError(f"Cannot convert {value} to comparable representation")
-    else:
+    if isinstance(value, Document):
+        return value.page_content
+    if hasattr(value, 'repr_for_quality_compare'):
         return value.repr_for_quality_compare()
+    elif isinstance(value, list):
+        return list(map(convert_to_comparable_repr, value))
+    else:
+        raise ValueError(f"Cannot convert {value} to comparable representation")
+
 
 
 class DecisionNode:

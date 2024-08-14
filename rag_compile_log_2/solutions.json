@@ -1,0 +1,1026 @@
+[
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6316376058892743
+            ],
+            "documents": [
+                0.3559673380207782
+            ],
+            "sub_answers": [
+                0.19881734602201384
+            ],
+            "answer": [
+                0.2299488888006615
+            ],
+            "final_output": [
+                0.2299488888006615
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6316376058892743
+            ],
+            "documents": [
+                0.3559673380207782
+            ],
+            "sub_answers": [
+                0.19881734602201384
+            ],
+            "answer": [
+                0.28711111500353076
+            ],
+            "final_output": [
+                0.28711111500353076
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6316376058892743
+            ],
+            "documents": [
+                0.3559673380207782
+            ],
+            "sub_answers": [
+                0.2646745156207072
+            ],
+            "answer": [
+                0.21180929835767598
+            ],
+            "final_output": [
+                0.21180929835767598
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6316376058892743
+            ],
+            "documents": [
+                0.3559673380207782
+            ],
+            "sub_answers": [
+                0.2646745156207072
+            ],
+            "answer": [
+                0.3205989880827579
+            ],
+            "final_output": [
+                0.3205989880827579
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6316376058892743
+            ],
+            "documents": [
+                0.35821869847883114
+            ],
+            "sub_answers": [
+                0.1995073299573601
+            ],
+            "answer": [
+                0.22975884076070335
+            ],
+            "final_output": [
+                0.22975884076070335
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6316376058892743
+            ],
+            "documents": [
+                0.35821869847883114
+            ],
+            "sub_answers": [
+                0.1995073299573601
+            ],
+            "answer": [
+                0.2874619666206649
+            ],
+            "final_output": [
+                0.2874619666206649
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6316376058892743
+            ],
+            "documents": [
+                0.35821869847883114
+            ],
+            "sub_answers": [
+                0.2663645421971633
+            ],
+            "answer": [
+                0.21134380021796723
+            ],
+            "final_output": [
+                0.21134380021796723
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6316376058892743
+            ],
+            "documents": [
+                0.35821869847883114
+            ],
+            "sub_answers": [
+                0.2663645421971633
+            ],
+            "answer": [
+                0.3214583538258919
+            ],
+            "final_output": [
+                0.3214583538258919
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6190522556881687
+            ],
+            "documents": [
+                0.34309219365038013
+            ],
+            "sub_answers": [
+                0.19487144622215646
+            ],
+            "answer": [
+                0.2310357409495563
+            ],
+            "final_output": [
+                0.2310357409495563
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6190522556881687
+            ],
+            "documents": [
+                0.34309219365038013
+            ],
+            "sub_answers": [
+                0.19487144622215646
+            ],
+            "answer": [
+                0.2851046547732145
+            ],
+            "final_output": [
+                0.2851046547732145
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6190522556881687
+            ],
+            "documents": [
+                0.34309219365038013
+            ],
+            "sub_answers": [
+                0.2550095434551658
+            ],
+            "answer": [
+                0.21447140238969092
+            ],
+            "final_output": [
+                0.21447140238969092
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6190522556881687
+            ],
+            "documents": [
+                0.34309219365038013
+            ],
+            "sub_answers": [
+                0.2550095434551658
+            ],
+            "answer": [
+                0.3156844227717043
+            ],
+            "final_output": [
+                0.3156844227717043
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6190522556881687
+            ],
+            "documents": [
+                0.38693558606279754
+            ],
+            "sub_answers": [
+                0.20830831561703367
+            ],
+            "answer": [
+                0.22733471175039383
+            ],
+            "final_output": [
+                0.22733471175039383
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6190522556881687
+            ],
+            "documents": [
+                0.38693558606279754
+            ],
+            "sub_answers": [
+                0.20830831561703367
+            ],
+            "answer": [
+                0.2919372013223563
+            ],
+            "final_output": [
+                0.2919372013223563
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6190522556881687
+            ],
+            "documents": [
+                0.38693558606279754
+            ],
+            "sub_answers": [
+                0.28792142041113833
+            ],
+            "answer": [
+                0.20540620914908864
+            ],
+            "final_output": [
+                0.20540620914908864
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o-mini",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.5485714285714285
+            ],
+            "raw_docs": [
+                0.6190522556881687
+            ],
+            "documents": [
+                0.38693558606279754
+            ],
+            "sub_answers": [
+                0.28792142041113833
+            ],
+            "answer": [
+                0.332419863499218
+            ],
+            "final_output": [
+                0.332419863499218
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.6802358900412253
+            ],
+            "documents": [
+                0.6062280415912518
+            ],
+            "sub_answers": [
+                0.3074110059176269
+            ],
+            "answer": [
+                0.3631150360744602
+            ],
+            "final_output": [
+                0.3631150360744602
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.6802358900412253
+            ],
+            "documents": [
+                0.6062280415912518
+            ],
+            "sub_answers": [
+                0.3074110059176269
+            ],
+            "answer": [
+                0.3919530460984897
+            ],
+            "final_output": [
+                0.3919530460984897
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.6802358900412253
+            ],
+            "documents": [
+                0.6062280415912518
+            ],
+            "sub_answers": [
+                0.3464275713533468
+            ],
+            "answer": [
+                0.3523683774827136
+            ],
+            "final_output": [
+                0.3523683774827136
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.6802358900412253
+            ],
+            "documents": [
+                0.6062280415912518
+            ],
+            "sub_answers": [
+                0.3464275713533468
+            ],
+            "answer": [
+                0.41179267478676346
+            ],
+            "final_output": [
+                0.41179267478676346
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.6802358900412253
+            ],
+            "documents": [
+                0.5643867532770146
+            ],
+            "sub_answers": [
+                0.2945877298101746
+            ],
+            "answer": [
+                0.3666470581480465
+            ],
+            "final_output": [
+                0.3666470581480465
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.6802358900412253
+            ],
+            "documents": [
+                0.5643867532770146
+            ],
+            "sub_answers": [
+                0.2945877298101746
+            ],
+            "answer": [
+                0.3854325070992739
+            ],
+            "final_output": [
+                0.3854325070992739
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.6802358900412253
+            ],
+            "documents": [
+                0.5643867532770146
+            ],
+            "sub_answers": [
+                0.3150186119433645
+            ],
+            "answer": [
+                0.36101960958711826
+            ],
+            "final_output": [
+                0.36101960958711826
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.6802358900412253
+            ],
+            "documents": [
+                0.5643867532770146
+            ],
+            "sub_answers": [
+                0.3150186119433645
+            ],
+            "answer": [
+                0.3958214562743154
+            ],
+            "final_output": [
+                0.3958214562743154
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.7336614660960676
+            ],
+            "documents": [
+                0.6608838114972289
+            ],
+            "sub_answers": [
+                0.32416159024729824
+            ],
+            "answer": [
+                0.3585012826855359
+            ],
+            "final_output": [
+                0.3585012826855359
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.7336614660960676
+            ],
+            "documents": [
+                0.6608838114972289
+            ],
+            "sub_answers": [
+                0.32416159024729824
+            ],
+            "answer": [
+                0.4004705916512833
+            ],
+            "final_output": [
+                0.4004705916512833
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.7336614660960676
+            ],
+            "documents": [
+                0.6608838114972289
+            ],
+            "sub_answers": [
+                0.3874559652595172
+            ],
+            "answer": [
+                0.34106758416702004
+            ],
+            "final_output": [
+                0.34106758416702004
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.7336614660960676
+            ],
+            "documents": [
+                0.6608838114972289
+            ],
+            "sub_answers": [
+                0.3874559652595172
+            ],
+            "answer": [
+                0.4326553030495127
+            ],
+            "final_output": [
+                0.4326553030495127
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.7336614660960676
+            ],
+            "documents": [
+                0.4424818211805862
+            ],
+            "sub_answers": [
+                0.2572270111011188
+            ],
+            "answer": [
+                0.37693763304167677
+            ],
+            "final_output": [
+                0.37693763304167677
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.7336614660960676
+            ],
+            "documents": [
+                0.4424818211805862
+            ],
+            "sub_answers": [
+                0.2572270111011188
+            ],
+            "answer": [
+                0.36643486395880115
+            ],
+            "final_output": [
+                0.36643486395880115
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o-mini"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.7336614660960676
+            ],
+            "documents": [
+                0.4424818211805862
+            ],
+            "sub_answers": [
+                0.22350835453117768
+            ],
+            "answer": [
+                0.3862250443317992
+            ],
+            "final_output": [
+                0.3862250443317992
+            ]
+        }
+    },
+    {
+        "selections": {
+            "decompose": "gpt-4o",
+            "hyde": "gpt-4o",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o"
+        },
+        "state_scores": {
+            "question": [
+                1.0
+            ],
+            "sub_questions": [
+                0.6629834254143646
+            ],
+            "raw_docs": [
+                0.7336614660960676
+            ],
+            "documents": [
+                0.4424818211805862
+            ],
+            "sub_answers": [
+                0.22350835453117768
+            ],
+            "answer": [
+                0.3492891818941617
+            ],
+            "final_output": [
+                0.3492891818941617
+            ]
+        }
+    }
+]

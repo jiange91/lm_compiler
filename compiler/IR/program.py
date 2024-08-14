@@ -1,85 +1,15 @@
 from typing import List, Optional, Tuple
-from abc import ABC, abstractmethod
 from collections import defaultdict
-import queue
-from enum import Enum, auto
-import inspect
 from graphviz import Digraph
+from compiler.IR.modules import Module, StatePool, ModuleStatus, LLMPredictor
+import json
 
 import logging
+logging.basicConfig(level=logging.INFO)
+logging.getLogger('httpx').setLevel(logging.WARNING)
+logging.getLogger('absl').setLevel(logging.WARNING)
 
 logger = logging.getLogger(__name__)
-
-class StatePool:
-    def __init__(self):
-        self.state = defaultdict(list)
-        
-    def news(self, key: str, default = None):
-        if key not in self.state or not self.state[key]:
-            if default is None:
-                raise ValueError(f"Key {key} not found in state")
-            return default
-        return self.state[key][-1]
-    
-    def publish(self, kvs):
-        for key, value in kvs.items():
-            self.state[key].append(value)
-    
-    def dump(self, path: str):
-        raise NotImplementedError
-    
-    def load(self, path: str):
-        raise NotImplementedError
-
-class ModuleStatus(Enum):
-    PENDING = auto()
-    RUNNING = auto()
-    SUCCESS = auto()
-    FAILED = auto()
-    SKIPPED = auto()
-
-def get_function_kwargs(func):
-    signature = inspect.signature(func)
-    input_fields = []
-    defaults = {}
-    for name, param in signature.parameters.items():
-        if name == 'self':
-            continue
-        if param.kind == inspect.Parameter.VAR_POSITIONAL or param.kind == inspect.Parameter.VAR_KEYWORD:
-            raise ValueError("Only support keyword arguments")
-        input_fields.append(name)
-        if param.default != inspect.Parameter.empty:
-            defaults[name] = param.default
-    return input_fields, defaults
-
-class Module:
-    def __init__(self, name, kernel) -> None:
-        self.name = name
-        self.kernel = kernel
-        self.children: List[Module] = []
-        self.dependencies: list[Module] = []
-        self.outputs = []
-        self.status = None
-        self.input_fields, self.defaults = get_function_kwargs(kernel)
-        logger.debug(f"Module {name} kernel has input fields {self.input_fields}")
-    
-    def forward(self, **kwargs):
-        raise NotImplementedError
-    
-    def __call__(self, state: StatePool):
-        kargs = {}
-        for field in self.input_fields:
-            if field not in self.defaults and field not in state.state:
-                raise ValueError(f"Missing field {field} in state when calling {self.name}")
-            if field in state.state:
-                kargs[field] = state.news(field)
-        result = self.forward(**kargs)
-        self.outputs.append(result)
-        state.publish(result)
-        self.statis = ModuleStatus.SUCCESS
-
-    def clean(self):
-        self.outputs = []
 
     
 class Workflow:
@@ -89,6 +19,7 @@ class Workflow:
         self.states: StatePool = None
         self.exit_point: Tuple[Module, str] = None
         self.dot = Digraph()
+        self.token_usage_buffer = {'total': {}}
     
     def add_module(self, module: Module) -> None:
         self.modules.append(module)
@@ -104,6 +35,7 @@ class Workflow:
         self.exit_point = (module, field)
     
     def reset_modules(self) -> None:
+        self.update_token_usage_summary()
         for module in self.modules:
             module.clean()
     
@@ -133,8 +65,14 @@ class Workflow:
                 module.statis = ModuleStatus.FAILED
                 raise ValueError(f"Module {module.name} failed to run due to dependencies")
             if module == self.exit_point[0]:
-                return module.outputs[-1][self.exit_point[1]]
-        return self.exit_point[0].outputs[-1][self.exit_point[1]]
+                return self.exit_result
+        return self.exit_result
+    
+    @property
+    def exit_result(self):
+        if self.exit_point is None:
+            raise ValueError("No exit point set")
+        return {self.exit_point[1]: self.exit_point[0].outputs[-1][self.exit_point[1]]} 
     
     def sort(self, predicate: Optional[callable] = None) -> List[Module]:
         visited = {v: False for v in self.modules}
@@ -155,4 +93,27 @@ class Workflow:
         return [v for v in reversed(stack) if predicate(v)]
 
     def visualize(self, fpath):
-        self.dot.render(directory=fpath, format='png')
+        self.dot.render(directory=fpath)
+    
+    def update_token_usage_summary(self):
+        for lm in (m for m in self.modules if isinstance(m, LLMPredictor)):
+            if lm.name not in self.token_usage_buffer:
+                self.token_usage_buffer[lm.name] = {}
+            for meta in lm.lm_history:
+                model = meta['model']
+                if model not in self.token_usage_buffer[lm.name]:
+                    self.token_usage_buffer[lm.name][model] = defaultdict(int)
+                self.token_usage_buffer[lm.name][model]['prompt_tokens'] += meta['prompt_tokens']
+                self.token_usage_buffer[lm.name][model]['completion_tokens'] += meta['completion_tokens']
+                if model not in self.token_usage_buffer['total']:
+                    self.token_usage_buffer['total'][model] = defaultdict(int)
+                self.token_usage_buffer['total'][model]['prompt_tokens'] += meta['prompt_tokens']
+                self.token_usage_buffer['total'][model]['completion_tokens'] += meta['completion_tokens']
+            # NOTE: clear incase of double counting
+            lm.lm_history = []
+        
+    
+    def log_token_usage(self, path):
+        self.update_token_usage_summary()
+        with open(path, 'w+') as f:
+            json.dump(self.token_usage_buffer, f, indent=4)

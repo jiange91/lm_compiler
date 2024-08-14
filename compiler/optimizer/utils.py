@@ -25,7 +25,6 @@ def convert_to_comparable_repr(value):
         raise ValueError(f"Cannot convert {value} to comparable representation")
 
 
-
 class DecisionNode:
     def __init__(self):
         self.selections = {}

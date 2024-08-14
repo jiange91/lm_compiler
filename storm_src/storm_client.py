@@ -132,7 +132,7 @@ lm_options = [
     'gpt-4o',
 ]
 
-def final_output_metric(gold: dict, pred: dict):
+def final_output_metric(gold: dict, pred: dict, state):
     gold['final_output'] = preprocess_text(gold['final_output'])
     pred['final_output'] = preprocess_text(pred['final_output'])
     return compare_two_answer(gold, pred)

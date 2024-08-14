@@ -1,13 +1,28 @@
 digraph {
+	start
 	decompose
 	hyde
 	retrieve
-	doc_filter
-	generator
+	keyword_semantic_match
+	"contextual relevance"
+	"knowledge curation"
 	answer_compose
-	decompose -> hyde
-	hyde -> retrieve
-	retrieve -> doc_filter
-	doc_filter -> generator
-	generator -> answer_compose
+	"knowledge relevant ?"
+	"question answered ?"
+	end
+	start -> decompose
+	hyde -> "knowledge relevant ?"
+	"question answered ?" -> hyde
+	retrieve -> keyword_semantic_match
+	retrieve -> "contextual relevance"
+	keyword_semantic_match -> "knowledge curation"
+	"contextual relevance" -> "knowledge curation"
+	"knowledge curation" -> answer_compose
+	"knowledge relevant ?" -> retrieve
+	answer_compose -> "answer grounded ?"
+	"knowledge relevant ?" -> decompose
+	"answer grounded ?" -> answer_compose
+	"answer grounded ?" -> end
+	decompose -> "question answered ?"
+	"question answered ?" -> decompose
 }

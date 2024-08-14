@@ -2,6 +2,8 @@ from compiler.utils import load_api_key
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.modules import Retriever
 from compiler.langchain_bridge.interface import LangChainLM
+from pprint import pprint
+
 
 load_api_key('secrets.toml')
 
@@ -30,7 +32,7 @@ direct_hyde_module = LangChainLM('direct_hyde', direct_hyde_kernel)
 # retrieve_filter_module = LangChainLM('retrieve_filter', retrieve_filter_kernel)
 retrieve_module = Retriever('retrieve', retrieve_kernel)
 doc_filter_module = LangChainLM('doc_filter', doc_filter_kernel)
-generator_module = LangChainLM('generator', generator_kernel)
+generator_module = LangChainLM('knowledge curation', generator_kernel)
 answer_compose_module = LangChainLM('answer_compose', answer_compose_kernel)
 hulc_grader_module = LangChainLM('hulc_grader', hulc_grader_kernel)
 answer_grader_module = LangChainLM('answer_grader', answer_grader_kernel)
@@ -73,7 +75,7 @@ openai_kwargs = {
 }
 
 sample_lm = 'gpt-4o-mini'
-decompose_module.lm_config = {'model': sample_lm, **openai_kwargs}
+decompose_module.lm_config = {'model': 'gpt-4o', **openai_kwargs}
 hyde_module.lm_config = {'model': sample_lm, **openai_kwargs}
 direct_hyde_module.lm_config = {'model': sample_lm, **openai_kwargs}
 # route_query_module.lm_config = {'model': sample_lm, **openai_kwargs}
@@ -90,9 +92,10 @@ state = StatePool()
 state.publish({'question': "What are the types of agent memory?"})
 # state.publish({'question': "What's the financial performance of Nvidia and Apple over the past three years? Which company has a higher market capitalization?"})
 
-# rag_workflow.run(state=state)
-# print(state.state)
-rag_workflow.visualize('rag_workflow')
+rag_workflow.run(state=state)
+print(state.state)
+rag_workflow.log_token_usage('token_usage.json')
+exit()
 
 lm_options = [
     'gpt-4o-mini', 
@@ -107,7 +110,7 @@ def query_decompose_compare(gold, pred):
 
 def hyde_retrieve_compare(gold, pred):
     def doc_concate(docs):
-        return "\n\n".join(doc.page_content for doc in docs)
+        return "\n\n".join(doc for doc in docs)
     score = 0
     
     for gold_docs, pred_docs in zip(gold['raw_docs'], pred['raw_docs']):
@@ -136,13 +139,14 @@ module_2_metric = {
     generator_module.name: sub_answer_generate,
     answer_compose_module.name: compare_two_answer,
 }
+from self_eval import evaluate_rag_answer_compatible
 
 ms_boot = BootStrapLMSelection(
     workflow=rag_workflow,
-    teachers='gpt-4o-mini',
+    teachers='gpt-4o',
     module_2_options=lm_options,
     module_2_metric=module_2_metric,
-    final_output_metric=compare_two_answer,
+    final_output_metric=evaluate_rag_answer_compatible,
     trainset_input=[state],
     trainset_label=None,
     max_sample_to_keep=4,
@@ -150,8 +154,9 @@ ms_boot = BootStrapLMSelection(
 
 
 solutions = ms_boot.compile(
-    label_path='rag_compile_log/labels-4o-mini.json',
-    profile_path='rag_compile_log/module_option_profile.json',
-    curve_path='rag_compile_log/rag_curve.joblib',
-    solution_path='rag_compile_log/solutions.json',
+    log_dir='rag_compile_log_with_self_rag',
+    gap=0.0,
 )
+
+rag_workflow.update_token_usage_summary()
+pprint(rag_workflow.token_usage_buffer)

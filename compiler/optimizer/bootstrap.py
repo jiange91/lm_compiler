@@ -8,6 +8,7 @@ import os
 import joblib
 from pathlib import Path
 from queue import Queue
+from collections import defaultdict
 
 
 from compiler.IR.program import Workflow, Module, StatePool
@@ -71,6 +72,10 @@ class BootStrapLMSelection(BootStrap):
         self.sorted_target_modules: list[LLMPredictor] = self.workflow.sort(lambda x: isinstance(x, LLMPredictor))
         self.module_2_input_quality = {}
         self.score_tree = None
+
+        # NOTE: Forward preceding non-LLM modules
+        for state in self.trainset_input:
+            self.workflow.run(state=state, stop_before=self.sorted_target_modules[0])
     
     def get_labels(self, label_path: str):
         if os.path.exists(label_path):
@@ -92,29 +97,29 @@ class BootStrapLMSelection(BootStrap):
             for lm in self.sorted_target_modules:
                 lm.lm_config['model'] = self.teachers[lm.name]
             labels = [] # idx -> {lm_name, output}
+            # Get labels for each task
+            output_labels = defaultdict(dict)
             for i, state in enumerate(self.trainset_input):
                 logger.info(f'Generating labels for task: {i} ...')
                 state_cpy = copy.deepcopy(state)
                 self.workflow.reset_modules()
-                final_output = self.workflow.run(state_cpy)
-                output_labels = {
-                    lm.name: {
-                        k: copy.deepcopy(convert_to_comparable_repr(v))
-                            for k, v in lm.outputs[-1].items()
-                        }
-                    for lm in self.sorted_target_modules
-                }
-                output_labels['final_output'] = convert_to_comparable_repr(final_output)
+                for module_idx, lm in enumerate(self.sorted_target_modules):
+                    output_labels[lm.name] = {}
+                    next_lm = self.sorted_target_modules[module_idx + 1] if module_idx + 1 < len(self.sorted_target_modules) else None
+                    pred = self.workflow.run(state=state_cpy, start_from=lm, stop_before=next_lm)
+                    for k, v in pred.items():
+                        output_labels[lm.name][k] = copy.deepcopy(convert_to_comparable_repr(v))
+                final_output = self.workflow.exit_result
+                output_labels['final_output'] = convert_to_comparable_repr(final_output[self.workflow.exit_point[1]])
                 self.teacher_final_outputs.append(output_labels['final_output'])
-                if not self.use_teacher_as_ground_truth:
-                    output_labels['final_score'] = self.final_output_metric(
-                        {'final_output': self.trainset_label[i]}, 
-                        {'final_output': output_labels['final_output']},
-                    )
-                    self.final_output_scores.append(output_labels['final_score']['final_output'])
-                else:
+                if self.use_teacher_as_ground_truth:
                     self.trainset_label.append(output_labels['final_output'])
-                    self.final_output_scores.append(1.0)
+                output_labels['final_score'] = self.final_output_metric(
+                    {'final_output': self.trainset_label[i]}, 
+                    {'final_output': output_labels['final_output']},
+                    state_cpy.all_news
+                )
+                self.final_output_scores.append(output_labels['final_score']['final_output'])
                 labels.append(output_labels)
             with open(label_path, 'w+') as f:
                 json.dump(labels, f, indent=4)
@@ -167,7 +172,8 @@ class BootStrapLMSelection(BootStrap):
                             final_ground_truth = {'final_output': self.trainset_label[task_idx]}
                             final_quality = self.final_output_metric(
                                 final_ground_truth, 
-                                {'final_output': comparable_pred[self.workflow.exit_point[1]]}
+                                {'final_output': comparable_pred[self.workflow.exit_point[1]]},
+                                state.all_news
                             )
                             output_quality.update(final_quality)
                         return pred, output_quality
@@ -202,24 +208,23 @@ class BootStrapLMSelection(BootStrap):
         score_paths = ScorePath(self.sorted_target_modules, prop_eval.module_2_option_2_predictor)
         score_paths.build_tree(list(self.trainset_input[0].state.keys()))
         mean_target_final_score = np.mean(self.final_output_scores)
-        def predicate(node: DecisionNode):
-            return node.state_scores['final_output'] >= mean_target_final_score * gap
-        solutions = [
-            {'selections': p.selections, 'state_scores': p.state_scores} 
-                for p in score_paths.paths if predicate(p)
-        ]
+        solutions = []
+        for p in score_paths.paths:
+            perf_retain = p.state_scores['final_output'] / mean_target_final_score
+            if perf_retain >= gap:
+                solutions.append({'selections': p.selections, 'state_scores': p.state_scores, 'perf_retain': perf_retain})
         with open(solution_path, 'w+') as f:
             json.dump(solutions, f, indent=4)
         return solutions
         
     
     def compile(
-        self, 
-        label_path: str = 'labels.json',
-        profile_path: str = 'profile.json',
-        curve_path: str = 'curve.joblib',
-        solution_path: str = 'solutions.json',
+        self,
+        log_dir: str = 'bootstrap_log',
+        gap: float = .95,
     ):
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir)
         """
         for all modules:
             for all options:
@@ -228,17 +233,19 @@ class BootStrapLMSelection(BootStrap):
             filter_output
             output as input for next module
         """
-        
         # Get ground truth labels
-        labels = self.get_labels(label_path)
+        labels = self.get_labels(os.path.join(log_dir, 'labels.json'))
         
         # Get profile for each module
-        module_bootstrap_profile = self.bootstrap(labels, profile_path)
+        module_bootstrap_profile = self.bootstrap(labels, os.path.join(log_dir, 'module_option_profile.json'))
         
         # build curve for each option at each module from the profile
-        prop_evaluator = self.fit_curve_from_profile(module_bootstrap_profile, curve_path)
+        prop_evaluator = self.fit_curve_from_profile(module_bootstrap_profile, os.path.join(log_dir, 'rag_curve.joblib'))
         
         # Build score tree and search for the best option
-        config_candidates = self.search(prop_evaluator, .95, solution_path)
+        config_candidates = self.search(prop_evaluator, gap, os.path.join(log_dir, 'solutions.json'))
+        
+        # Log token usage
+        self.workflow.log_token_usage(os.path.join(log_dir, 'compile_token_usage.json'))
         
         return config_candidates

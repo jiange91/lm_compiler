@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from enum import Enum, auto
 from typing import List, Optional, Tuple
 import inspect
+import time
 import logging
 
 logger = logging.getLogger(__name__)
@@ -79,8 +80,12 @@ class Module:
                 raise ValueError(f"Missing field {field} in state when calling {self.name}")
             if field in state.state:
                 kargs[field] = state.news(field)
+        # time the execution
+        start = time.perf_counter()
         result = self.forward(**kargs)
+        dur = time.perf_counter() - start
         self.outputs.append(result)
+        self.exec_times.append(dur)
         state.publish(result)
         self.statis = ModuleStatus.SUCCESS
 

@@ -1,57 +1,42 @@
 {
     "total": {
         "gpt-4o-2024-05-13": {
-            "prompt_tokens": 2160,
-            "completion_tokens": 826
+            "prompt_tokens": 108,
+            "completion_tokens": 108
+        },
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 2062,
+            "completion_tokens": 567
         }
     },
     "decompose": {
         "gpt-4o-2024-05-13": {
             "prompt_tokens": 108,
-            "completion_tokens": 128
+            "completion_tokens": 108
         }
     },
     "hyde": {
-        "gpt-4o-2024-05-13": {
-            "prompt_tokens": 32,
-            "completion_tokens": 150
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 33,
+            "completion_tokens": 155
         }
     },
     "doc_filter": {
-        "gpt-4o-mini-2024-05-13": {
-            "prompt_tokens": 347,
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 586,
             "completion_tokens": 6
         }
     },
     "knowledge curation": {
-        "gpt-4o-mini-2024-05-13": {
-            "prompt_tokens": 244,
-            "completion_tokens": 76
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 683,
+            "completion_tokens": 68
         }
     },
     "answer_compose": {
-        "gpt-4o-mini-2024-05-13": {
-            "prompt_tokens": 809,
-            "completion_tokens": 348
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 760,
+            "completion_tokens": 338
         }
-    },
-    "kalmv": {
-        "gpt-4o-mini-2024-05-13": {
-            "prompt_tokens": 512,
-            "completion_tokens": 128
-        }
-    },
-    "keyword_match": {
-      "gpt-4o-mini-2024-05-13": {
-          "prompt_tokens": 347,
-          "completion_tokens": 6
-      }
-  },
-  "context_match": {
-    "gpt-4o-mini-2024-05-13": {
-        "prompt_tokens": 347,
-        "completion_tokens": 6
     }
-}
-
 }

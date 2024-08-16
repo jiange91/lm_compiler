@@ -111,6 +111,14 @@ class Workflow:
                 self.token_usage_buffer['total'][model]['completion_tokens'] += meta['completion_tokens']
             # NOTE: clear incase of double counting
             lm.lm_history = []
+    
+    def log_module_time(self, path):
+        import numpy as np
+        times = {}
+        for module in self.modules:
+            times[module.name] = np.mean(module.exec_times)
+        with open(path, 'w+') as f:
+            json.dump(times, f, indent=4)
         
     
     def log_token_usage(self, path):

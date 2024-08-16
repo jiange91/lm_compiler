@@ -95,6 +95,7 @@ state.publish({'question': "What are the types of agent memory?"})
 rag_workflow.run(state=state)
 print(state.state)
 rag_workflow.log_token_usage('token_usage.json')
+rag_workflow.log_module_time('module_time.json')
 exit()
 
 lm_options = [

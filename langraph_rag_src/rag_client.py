@@ -22,7 +22,10 @@ from answer_grader import answer_grader_kernel
 from kalmv import kalmv_kernel
 
 from compiler.optimizer.bootstrap import BootStrapLMSelection
+<<<<<<< HEAD
 from compiler.optimizer.bo import HOLMSelection
+=======
+>>>>>>> origin/main
 from compiler.utils import compare_two_answer
 # from query_rewriter import query_rewriter_kernel
 
@@ -93,11 +96,18 @@ state = StatePool()
 state.publish({'question': "What are the types of agent memory?"})
 # state.publish({'question': "What's the financial performance of Nvidia and Apple over the past three years? Which company has a higher market capitalization?"})
 
+<<<<<<< HEAD
 # rag_workflow.run(state=state)
 # print(state.state)
 # rag_workflow.log_token_usage('token_usage.json')
 # rag_workflow.log_module_time('module_time.json')
 # exit()
+=======
+rag_workflow.run(state=state)
+print(state.state)
+rag_workflow.log_token_usage('token_usage.json')
+exit()
+>>>>>>> origin/main
 
 lm_options = [
     'gpt-4o-mini', 

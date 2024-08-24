@@ -4,6 +4,10 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 import numpy as np
 
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
+encoder = SentenceTransformer('paraphrase-MiniLM-L6-v2')
+
 subqs_format = NumberedListOutputParser()
 
 #--------------------- decomposer ---------------------#
@@ -69,10 +73,6 @@ def brainstorm_questions(answer):
     return questions
 
 def check_relevance(gold_q, reverse_qs):
-    from sentence_transformers import SentenceTransformer
-    from sklearn.metrics.pairwise import cosine_similarity
-    encoder = SentenceTransformer('paraphrase-MiniLM-L6-v2')
-    
     gold_vec = encoder.encode(gold_q)
     reverse_vecs = encoder.encode(reverse_qs)
     sims = cosine_similarity([gold_vec], reverse_vecs)[0]
@@ -95,6 +95,21 @@ def evaluate_rag_answer_compatible(gold, pred, state):
     # ignore gold in this case as eval is self-contained
     score = evaluate_rag_answer(state['question'], state['answer'], state['sub_answers'])
     return {'final_output': score}
+
+def text_cosine_sim(gold, pred):
+    gold_vec = encoder.encode(gold)
+    pred_vec = encoder.encode(pred)
+    sim = cosine_similarity([gold_vec], [pred_vec])[0][0]
+    return sim
+
+def evaluate_cosine_sim(gold_dict, pred_dict):
+    scores = {}
+    for k in gold_dict.keys():
+        if k not in pred_dict:
+            pred_dict[k] = ''
+        scores[k] = text_cosine_sim(gold_dict[k], pred_dict[k])
+    return scores
+    
     
 
 if __name__ == "__main__":

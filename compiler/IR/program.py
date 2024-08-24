@@ -34,8 +34,10 @@ class Workflow:
     def set_exit_point(self, module: Module, field: str) -> None:
         self.exit_point = (module, field)
     
-    def reset_modules(self) -> None:
+    def reset_modules(self, clear_token_buffer = False) -> None:
         self.update_token_usage_summary()
+        if clear_token_buffer:
+            self.token_usage_buffer = {'total': {}}
         for module in self.modules:
             module.clean()
     

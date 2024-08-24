@@ -24,3 +24,15 @@ def decompose_kernel(question):
     subqs = question_decompose.invoke({"question": question})
     return {'sub_questions': subqs}
     
+q_decompose = """
+You are an expert at decomposing a user question into a list of sub-questions.
+{format_instructions}
+User query: {question}
+Answer:
+"""
+
+q_answering = """
+Please write a short paragraph to answer the question
+Question: {sub_question}
+Paragraph:
+"""

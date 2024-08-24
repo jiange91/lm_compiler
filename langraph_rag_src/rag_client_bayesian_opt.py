@@ -21,7 +21,6 @@ from hulc_grader import hulc_grader_kernel
 from answer_grader import answer_grader_kernel
 from kalmv import kalmv_kernel
 
-from compiler.optimizer.bootstrap import BootStrapLMSelection
 from compiler.optimizer.bo import HOLMSelection
 from compiler.utils import compare_two_answer
 # from query_rewriter import query_rewriter_kernel
@@ -104,61 +103,50 @@ lm_options = [
     'gpt-4o',
 ]
 
-def query_decompose_compare(gold, pred):
-    new_gold, new_pred = {}, {}
-    new_gold['sub_questions'] = ", ".join(gold['sub_questions'])
-    new_pred['sub_questions'] = ", ".join(pred['sub_questions'])
-    return compare_two_answer(new_gold, new_pred)
+from self_eval import *
 
-def hyde_retrieve_compare(gold, pred):
-    def doc_concate(docs):
-        return "\n\n".join(doc for doc in docs)
-    score = 0
-    
-    for gold_docs, pred_docs in zip(gold['raw_docs'], pred['raw_docs']):
-        gold_knowledge, pred_knowledge = {}, {}
-        gold_knowledge['raw_docs'] = doc_concate(gold_docs)
-        pred_knowledge['raw_docs'] = doc_concate(pred_docs)
-        score += compare_two_answer(gold_knowledge, pred_knowledge)['raw_docs']
-    return {'raw_docs': score / len(gold['raw_docs'])} 
-
-def doc_filter_compare(gold, pred):
-    score = 0
-    for gold_doc_str, pred_doc_str in zip(gold['documents'], pred['documents']):
-        score += compare_two_answer({'documents': gold_doc_str}, {'documents': pred_doc_str})['documents']
-    return {'documents': score / len(gold['documents'])}
-
-def sub_answer_generate(gold, pred):
-    score = 0
-    for gold_sub_answer, pred_sub_answer in zip(gold['sub_answers'], pred['sub_answers']):
-        score += compare_two_answer({'sub_answers': gold_sub_answer}, {'sub_answers': pred_sub_answer})['sub_answers']
-    return {'sub_answers': score / len(gold['sub_answers'])}
-
-module_2_metric = {
-    decompose_module.name: query_decompose_compare,
-    hyde_module.name: hyde_retrieve_compare,
-    doc_filter_module.name: doc_filter_compare,
-    generator_module.name: sub_answer_generate,
-    answer_compose_module.name: compare_two_answer,
-}
-from self_eval import evaluate_rag_answer_compatible
-
-ms_boot = BootStrapLMSelection(
+ms_boot = HOLMSelection(
     workflow=rag_workflow,
     teachers='gpt-4o',
     module_2_options=lm_options,
-    module_2_metric=module_2_metric,
-    final_output_metric=evaluate_rag_answer_compatible,
+    final_output_metric=evaluate_cosine_sim,
     trainset_input=[state],
     trainset_label=None,
-    max_sample_to_keep=4,
 )
 
+prior_trials = [
+    {
+        "decompose": "gpt-4o",
+        "hyde": "gpt-4o-mini",
+        "doc_filter": "gpt-4o-mini",
+        "knowledge curation": "gpt-4o-mini",
+        "answer_compose": "gpt-4o",
+    },
+    {
+        "decompose": "gpt-4o-mini",
+        "hyde": "gpt-4o-mini",
+        "doc_filter": "gpt-4o-mini",
+        "knowledge curation": "gpt-4o-mini",
+        "answer_compose": "gpt-4o",
+    },
+    {
+        "decompose": "gpt-4o",
+        "hyde": "gpt-4o-mini",
+        "doc_filter": "gpt-4o-mini",
+        "knowledge curation": "gpt-4o-mini",
+        "answer_compose": "gpt-4o-mini",
+    },
+    {
+        "decompose": "gpt-4o-mini",
+        "hyde": "gpt-4o-mini",
+        "doc_filter": "gpt-4o-mini",
+        "knowledge curation": "gpt-4o-mini",
+        "answer_compose": "gpt-4o-mini",
+    }
+]
 
 solutions = ms_boot.compile(
-    log_dir='rag_compile_log_with_self_rag',
+    log_dir='rag_model_selection_bo_prior_trials',
     gap=0.0,
+    prior_trials=prior_trials,
 )
-
-rag_workflow.update_token_usage_summary()
-pprint(rag_workflow.token_usage_buffer)

@@ -1,0 +1,92 @@
+{
+    "0": {
+        "decompose": "gpt-4o",
+        "hyde": "gpt-4o-mini",
+        "doc_filter": "gpt-4o-mini",
+        "knowledge curation": "gpt-4o-mini",
+        "answer_compose": "gpt-4o",
+        "performance_recovery": 0.9082119464874268,
+        "price": 0.01261605
+    },
+    "1": {
+        "decompose": "gpt-4o-mini",
+        "hyde": "gpt-4o-mini",
+        "doc_filter": "gpt-4o-mini",
+        "knowledge curation": "gpt-4o-mini",
+        "answer_compose": "gpt-4o",
+        "performance_recovery": 0.8116064667701721,
+        "price": 0.0093675
+    },
+    "2": {
+        "decompose": "gpt-4o-mini",
+        "hyde": "gpt-4o-mini",
+        "doc_filter": "gpt-4o-mini",
+        "knowledge curation": "gpt-4o-mini",
+        "answer_compose": "gpt-4o-mini",
+        "performance_recovery": 0.8302499651908875,
+        "price": 0.0005385
+    },
+    "3": {
+        "decompose": "gpt-4o-mini",
+        "hyde": "gpt-4o-mini",
+        "doc_filter": "gpt-4o-mini",
+        "knowledge curation": "gpt-4o-mini",
+        "answer_compose": "gpt-4o-mini",
+        "performance_recovery": 0.821611225605011,
+        "price": 0.0006109500000000001
+    },
+    "4": {
+        "decompose": "gpt-4o-mini",
+        "hyde": "gpt-4o-mini",
+        "doc_filter": "gpt-4o",
+        "knowledge curation": "gpt-4o",
+        "answer_compose": "gpt-4o",
+        "performance_recovery": 0.9495822191238403,
+        "price": 0.013875
+    },
+    "5": {
+        "decompose": "gpt-4o",
+        "hyde": "gpt-4o-mini",
+        "doc_filter": "gpt-4o",
+        "knowledge curation": "gpt-4o",
+        "answer_compose": "gpt-4o",
+        "performance_recovery": 0.9436204433441162,
+        "price": 0.0191208
+    },
+    "6": {
+        "decompose": "gpt-4o-mini",
+        "hyde": "gpt-4o-mini",
+        "doc_filter": "gpt-4o",
+        "knowledge curation": "gpt-4o-mini",
+        "answer_compose": "gpt-4o",
+        "performance_recovery": 0.9169185161590576,
+        "price": 0.0114427
+    },
+    "7": {
+        "decompose": "gpt-4o",
+        "hyde": "gpt-4o",
+        "doc_filter": "gpt-4o",
+        "knowledge curation": "gpt-4o-mini",
+        "answer_compose": "gpt-4o-mini",
+        "performance_recovery": 0.9210420846939087,
+        "price": 0.007538
+    },
+    "8": {
+        "decompose": "gpt-4o",
+        "hyde": "gpt-4o-mini",
+        "doc_filter": "gpt-4o",
+        "knowledge curation": "gpt-4o-mini",
+        "answer_compose": "gpt-4o-mini",
+        "performance_recovery": 0.8986401557922363,
+        "price": 0.006138
+    },
+    "9": {
+        "decompose": "gpt-4o-mini",
+        "hyde": "gpt-4o-mini",
+        "doc_filter": "gpt-4o",
+        "knowledge curation": "gpt-4o-mini",
+        "answer_compose": "gpt-4o",
+        "performance_recovery": 0.9280059337615967,
+        "price": 0.009485849999999999
+    }
+}

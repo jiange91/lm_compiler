@@ -117,7 +117,7 @@ class BootStrapLMSelection(BootStrap):
                 output_labels['final_score'] = self.final_output_metric(
                     {'final_output': self.trainset_label[i]}, 
                     {'final_output': output_labels['final_output']},
-                    state_cpy.all_news
+                    state_cpy.all_news()
                 )
                 self.final_output_scores.append(output_labels['final_score']['final_output'])
                 labels.append(output_labels)
@@ -173,7 +173,7 @@ class BootStrapLMSelection(BootStrap):
                             final_quality = self.final_output_metric(
                                 final_ground_truth, 
                                 {'final_output': comparable_pred[self.workflow.exit_point[1]]},
-                                state.all_news
+                                state.all_news()
                             )
                             output_quality.update(final_quality)
                         return pred, output_quality

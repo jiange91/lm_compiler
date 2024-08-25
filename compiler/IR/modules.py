@@ -6,28 +6,47 @@ from typing import List, Optional, Tuple
 import inspect
 import time
 import logging
+import copy
+import threading
+
+from compiler.IR.utils import get_function_kwargs
 
 logger = logging.getLogger(__name__)
 
+class State:
+    def __init__(self, version_id, data, is_static) -> None:
+        self.version_id = version_id
+        self.data = data
+        self.is_static = is_static # if True, the state will not be updated anymore
+
 class StatePool:
     def __init__(self):
-        self.state = defaultdict(list)
+        self.states = defaultdict(list)
         
     def news(self, key: str, default = None):
-        if key not in self.state or not self.state[key]:
+        if key not in self.states or not self.states[key]:
             if default is None:
                 raise ValueError(f"Key {key} not found in state")
             return default
-        return self.state[key][-1]
+        newest, version = None, -1
+        for state in self.states[key]:
+            if state.version_id > version:
+                newest = state
+                version = state.version_id
+        return newest.data
     
-    def publish(self, kvs):
+    def init(self, kvs):
+        self.publish(kvs, is_static = True, version_id = 0)
+    
+    def publish(self, kvs, is_static, version_id):
         for key, value in kvs.items():
-            self.state[key].append(value)
+            self.states[key].append(State(version_id, value, is_static))
     
-    @property
-    def all_news(self):
+    def all_news(self, fields = None):
         report = {}
-        for key in self.state:
+        for key in self.states:
+            if fields is not None and key not in fields:
+                continue
             report[key] = self.news(key)
         return report
     
@@ -37,6 +56,7 @@ class StatePool:
     def load(self, path: str):
         raise NotImplementedError
 
+
 class ModuleStatus(Enum):
     PENDING = auto()
     RUNNING = auto()
@@ -44,62 +64,55 @@ class ModuleStatus(Enum):
     FAILED = auto()
     SKIPPED = auto()
 
-def get_function_kwargs(func):
-    signature = inspect.signature(func)
-    input_fields = []
-    defaults = {}
-    for name, param in signature.parameters.items():
-        if name == 'self':
-            continue
-        if param.kind == inspect.Parameter.VAR_POSITIONAL or param.kind == inspect.Parameter.VAR_KEYWORD:
-            raise ValueError("Only support keyword arguments")
-        input_fields.append(name)
-        if param.default != inspect.Parameter.empty:
-            defaults[name] = param.default
-    return input_fields, defaults
 
 class Module:
     def __init__(self, name, kernel) -> None:
         self.name = name
         self.kernel = kernel
-        self.children: List[Module] = []
-        self.dependencies: list[Module] = []
         self.outputs = []
         self.exec_times = []
         self.status = None
-        self.input_fields, self.defaults = get_function_kwargs(kernel)
+        self.is_static = False
+        self.version_id = 0
+        if kernel is not None:
+            self.input_fields, self.defaults = get_function_kwargs(kernel)
+        else:
+            self.input_fields, self.defaults = None, None
         logger.debug(f"Module {name} kernel has input fields {self.input_fields}")
     
     def forward(self, **kwargs):
         raise NotImplementedError
-    
-    def __call__(self, state: StatePool):
-        kargs = {}
+
+    def __call__(self, statep: StatePool):
+        if self.kernel is None:
+            return
         for field in self.input_fields:
-            if field not in self.defaults and field not in state.state:
+            if field not in self.defaults and field not in statep.states:
                 raise ValueError(f"Missing field {field} in state when calling {self.name}")
-            if field in state.state:
-                kargs[field] = state.news(field)
+        kargs = {field: statep.news(field) for field in statep.states if field in self.input_fields}
+                
         # time the execution
         start = time.perf_counter()
         result = self.forward(**kargs)
         dur = time.perf_counter() - start
-        self.outputs.append(result)
+        result_snapshot = copy.deepcopy(result)
+        statep.publish(result_snapshot, self.version_id, self.is_static)
+        self.outputs.append(result_snapshot)
+        # update metadata
         self.exec_times.append(dur)
-        state.publish(result)
         self.statis = ModuleStatus.SUCCESS
+        self.version_id += 1
 
     def clean(self):
         self.outputs = []
 
 class Input(Module):
-    def __init__(self, input) -> None:
-        name = '_user_input'
-        self.input = input
+    def __init__(self, name) -> None:
         super().__init__(name=name, kernel=None)
-    
-    def forward(self, state: StatePool):
-        return self.input
+
+class Output(Module):
+    def __init__(self, name) -> None:
+        super().__init__(name=name, kernel=None)
 
 @dataclass
 class LMConfig(ABC):
@@ -148,7 +161,8 @@ class LLMPredictor(Module):
     
     
 class CodeBox(Module):
-    ...
+    def forward(self, **kwargs):
+        return self.kernel(**kwargs)
 
 class Retriever(Module):
     def __init__(self, name, kernel) -> None:

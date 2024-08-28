@@ -37,17 +37,23 @@ class DSPyLMConfig(LMConfig):
     
 
 class DSPyLM(LLMPredictor):
-    def __init__(self, name, kernel) -> None:
-        super().__init__(name, kernel)
-        self.kernel = self.wrap_kernel_with_context(kernel)
     
     def set_lm(self):
-        logger.debug(f'Setting LM for {self.name}: {self.lm_config}')
         self.lm = dspy.OpenAI(**self.lm_config)
+        logger.debug(f'Setting LM for {self.name}: {self.lm}')
     
     def get_lm_history(self):
-        return self.lm.history
+        metas = []
+        for history in self.lm.history:
+            meta = {
+                'prompt_tokens': history['response']['usage']['prompt_tokens'],
+                'completion_tokens': history['response']['usage']['completion_tokens'],
+                'model': history['response']['model']
+            }
+            metas.append(meta)
+        return metas
     
+    # NOTE: deprecated, not compatible to Dspy thread management
     def wrap_kernel_with_context(self, kernel):
         class KWrapper:
             def __init__(self, kernel, parent):

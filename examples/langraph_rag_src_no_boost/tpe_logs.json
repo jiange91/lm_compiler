@@ -1,0 +1,156 @@
+{
+    "0": {
+        "params": {
+            "direct_hyde": "gpt-4o",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o-mini",
+            "kalmv": "gpt-4o"
+        },
+        "performance_recovery": 0.9604045464143924,
+        "price": 0.0155014
+    },
+    "1": {
+        "params": {
+            "direct_hyde": "gpt-4o",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o",
+            "kalmv": "gpt-4o-mini"
+        },
+        "performance_recovery": 0.9760975365339907,
+        "price": 0.06755995000000001
+    },
+    "2": {
+        "params": {
+            "direct_hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o-mini",
+            "kalmv": "gpt-4o-mini"
+        },
+        "performance_recovery": 0.890822326300204,
+        "price": 0.055633550000000004
+    },
+    "3": {
+        "params": {
+            "direct_hyde": "gpt-4o",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o-mini",
+            "kalmv": "gpt-4o-mini"
+        },
+        "performance_recovery": 0.9826024205900147,
+        "price": 0.05791665
+    },
+    "4": {
+        "params": {
+            "direct_hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o",
+            "kalmv": "gpt-4o"
+        },
+        "performance_recovery": 0.9130073121611675,
+        "price": 0.0993474
+    },
+    "5": {
+        "params": {
+            "direct_hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o-mini",
+            "kalmv": "gpt-4o"
+        },
+        "performance_recovery": 0.7049713157440509,
+        "price": 0.022434799999999998
+    },
+    "6": {
+        "params": {
+            "direct_hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o",
+            "kalmv": "gpt-4o"
+        },
+        "performance_recovery": 0.9765451040936083,
+        "price": 0.09701545
+    },
+    "7": {
+        "params": {
+            "direct_hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o",
+            "kalmv": "gpt-4o"
+        },
+        "performance_recovery": 0.93907215405866,
+        "price": 0.07308859999999999
+    },
+    "8": {
+        "params": {
+            "direct_hyde": "gpt-4o",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o",
+            "kalmv": "gpt-4o-mini"
+        },
+        "performance_recovery": 0.9497248035144319,
+        "price": 0.06643030000000001
+    },
+    "9": {
+        "params": {
+            "direct_hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o",
+            "answer_compose": "gpt-4o-mini",
+            "kalmv": "gpt-4o"
+        },
+        "performance_recovery": 0.9134415875449193,
+        "price": 0.06598795
+    },
+    "10": {
+        "params": {
+            "direct_hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o",
+            "kalmv": "gpt-4o"
+        },
+        "performance_recovery": 0.960519103060846,
+        "price": 0.07173065
+    },
+    "11": {
+        "params": {
+            "direct_hyde": "gpt-4o",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o-mini",
+            "kalmv": "gpt-4o"
+        },
+        "performance_recovery": 0.9951014707420042,
+        "price": 0.01667945
+    },
+    "12": {
+        "params": {
+            "direct_hyde": "gpt-4o",
+            "doc_filter": "gpt-4o",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o",
+            "kalmv": "gpt-4o"
+        },
+        "performance_recovery": 0.9693756766868848,
+        "price": 0.07042205
+    },
+    "13": {
+        "params": {
+            "direct_hyde": "gpt-4o-mini",
+            "doc_filter": "gpt-4o-mini",
+            "knowledge curation": "gpt-4o-mini",
+            "answer_compose": "gpt-4o-mini",
+            "kalmv": "gpt-4o-mini"
+        },
+        "performance_recovery": 0.8703678314265793,
+        "price": 0.0029270999999999998
+    }
+}

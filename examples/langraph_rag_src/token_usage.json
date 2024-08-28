@@ -1,0 +1,26 @@
+{
+    "total": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 2042,
+            "completion_tokens": 462
+        }
+    },
+    "direct_hyde": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 381,
+            "completion_tokens": 287
+        }
+    },
+    "answer_compose": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 741,
+            "completion_tokens": 170
+        }
+    },
+    "kalmv": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 920,
+            "completion_tokens": 5
+        }
+    }
+}

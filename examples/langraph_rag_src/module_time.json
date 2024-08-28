@@ -1,0 +1,12 @@
+{
+    "query": 1.0807998478412628e-06,
+    "direct_hyde": 2.905424361117184,
+    "retrieve": 0.18404947826638818,
+    "sub_question_mapper": 1.9455834869295359,
+    "doc_filter_post_process": 0.00011228490620851517,
+    "knowledge_curation": 2.6158242728561163,
+    "knowledge_preprocess": 4.717474803328514e-05,
+    "answer_compose": 2.2206031112000346,
+    "kalmv": 0.4162398590706289,
+    "answer": 3.0337832868099213e-06
+}

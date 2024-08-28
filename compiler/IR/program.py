@@ -1,13 +1,16 @@
 from typing import List, Optional, Tuple, Callable, Hashable, Union, Any
 from collections import defaultdict, deque
 from graphviz import Digraph
-from compiler.IR.modules import Module, StatePool, ModuleStatus, LLMPredictor, Input, Output
+from compiler.IR.modules import LLMPredictor, Input, Output
+from compiler.IR.base import Module, StatePool, ModuleStatus, ComposibleModuleInterface
 from compiler.IR.utils import get_function_kwargs, simple_cycles
 from dataclasses import dataclass
 import json
 from functools import wraps
 import concurrent.futures
+import time
 from itertools import chain
+        
 
 import logging
 logging.basicConfig(level=logging.INFO)
@@ -29,6 +32,11 @@ def hint_possible_destinations(dests: list[str]):
     return hinter
 
 class Branch:
+    """
+    multiplexier signature should be (ctx, **kwargs) -> Hashable
+    
+    ctx contains some useful information for the multiplexier to make decision
+    """
     def __init__(
         self,
         src: Module,
@@ -40,14 +48,19 @@ class Branch:
         self.destinations = destinations
     
         input_fields, defaults = get_function_kwargs(self.multiplexier)
+        try:
+            input_fields.remove('ctx')
+        except ValueError:
+            pass
+        defaults.pop('ctx', None)
+        
         def new_multiplexier(statep: StatePool):
             for field in input_fields:
                 if field not in statep.states and field not in defaults:
                     raise ValueError(f"Field {field} not found in state")
             ctx = Context(statep, self.src.name, self.src.version_id)
-            self.multiplexier.ctx = ctx
             kargs = {field: statep.news(field) for field in statep.states if field in input_fields}
-            dests = self.multiplexier(**kargs)
+            dests = self.multiplexier(ctx, **kargs)
             if isinstance(dests, str):
                 dests = [dests]
             return dests
@@ -55,7 +68,7 @@ class Branch:
 
 class Trigger:
     """synchronization barrier
-    This decides what synchronous barrier is satisfied
+    This decides when synchronous barrier is satisfied
     thus decide what next module can be invoked
     """
     def __init__(
@@ -95,15 +108,15 @@ class Trigger:
             if notif in self.notified and not self.notified[notif]:
                 del self.notified[notif]
     
-class Workflow:
+class Workflow(Module, ComposibleModuleInterface):
     dependencies = tuple[str, ...]
     
-    def __init__(self) -> None:
+    def __init__(self, name) -> None:
         self.start: Input = None
         self.end: Output = None
         self.modules: dict[str, Module] = {}
         # NOTE: edges are not used for preparing the next module to run
-        #       currently it's decided at runtime
+        self.edges: dict[str, list[str]] = defaultdict(list)
         self.static_dependencies: dict[Workflow.dependencies, list[str]] = defaultdict(list)
         self.branches: dict[str, Branch] = {}
         
@@ -113,6 +126,8 @@ class Workflow:
         
         self.dot = Digraph()
         self.token_usage_buffer = {'total': {}}
+        self.current_step = 0
+        super().__init__(name, None)
     
     def add_module(self, module: Module) -> None:
         self.modules[module.name] = module
@@ -207,7 +222,12 @@ class Workflow:
             dependency_graph[module] = dfs(module, set())
         return dependency_graph
     
-    def validate(self):    
+    def validate(self):
+        # Clear previous compilation
+        self.edges.clear()
+        self.triggers.clear()
+        self.publish_channels.clear()
+        
         # TODO: add more validation check
         for name, module in self.modules.items():
             if isinstance(module, Input):
@@ -247,19 +267,18 @@ class Workflow:
             self.triggers.append(trigger)
             self.publish_channels[src].append(trigger)
         # Identify dynamic modules, i.e. steps will be invoked multiple times
-        edges: dict[str, list[str]] = defaultdict(list)
         for srcs, dests in self.static_dependencies.items():
             for src in srcs:
-                edges[src].extend(dests)
+                self.edges[src].extend(dests)
         for src, branch in self.branches.items():
-            edges[src].extend(branch.destinations)
+            self.edges[src].extend(branch.destinations)
         # remove duplication
-        for src, dests in edges.items():
-            edges[src] = list(set(dests))
+        for src, dests in self.edges.items():
+            self.edges[src] = list(set(dests))
         for name in self.modules:
-            if name not in edges:
-                edges[name] = []
-        nodes_in_cycles = set(sum([], simple_cycles(edges)))
+            if name not in self.edges:
+                self.edges[name] = []
+        nodes_in_cycles = set(chain.from_iterable(simple_cycles(self.edges)))
         for name in nodes_in_cycles:
             self.modules[name].is_static = False
         # TODO: populate history states
@@ -273,59 +292,41 @@ class Workflow:
             trigger.active = False
             trigger.notified.clear()
                
-        for module in self.modules:
+        for module in self.modules.values():
             module.clean()
+        self.current_step = 0
     
-    def run(self,
-            state,
-            start_from: Optional[Module] = None,
-            stop_before: Optional[Module] = None):
-        sorted_modules = self.sort()
-        started = False
-        answer = None
-        for module in sorted_modules:
-            logger.info(f"Running module {module.name}")
-            if start_from is None or (module is start_from and not started):
-                started = True
-            if not started:
-                module.status = ModuleStatus.SKIPPED
-                logger.info(f"Skipping module {module.name}")
-                continue
-            if module == stop_before:
-                logger.info(f"Stopping before module {module.name}")
-                return answer
-            deps = module.dependencies
-            if deps is None or all(m.statis is ModuleStatus.SUCCESS for m in deps):
-                module(state)
-                answer = module.outputs[-1]
-            else:
-                module.statis = ModuleStatus.FAILED
-                raise ValueError(f"Module {module.name} failed to run due to dependencies")
-            if module == self.exit_point[0]:
-                return self.exit_result
-        return self.exit_result
-
     def exec_module(self, module: Module, statep: StatePool):
-        module(statep)
-        if module.name in self.publish_channels:
-            for next_to_notify in self.publish_channels[module.name]:
-                next_to_notify.notify(module.name, module.is_static)
+        try:
+            module(statep)
+        except Exception as e:
+            logger.error(f"Error in {module.name}: {e}")
+            module.status = ModuleStatus.FAILED
+            raise e
+            
+        if module.status == ModuleStatus.SUCCESS:
+            if module.name in self.publish_channels:
+                for next_to_notify in self.publish_channels[module.name]:
+                    next_to_notify.notify(module.name, module.is_static)
     
     def fire_next_round(self, statep: StatePool, scheduled: set[str] = None, stop_before: str = None):
         candidates = set()
         triggered_notifs = set()
+        fired_triggers = []
         # check immediate deps
         for trigger in self.triggers:
             if trigger.active and (notifs := trigger.can_fire(scheduled)):
                 candidates.update(trigger.prepare_next_steps(statep))
                 triggered_notifs.update(notifs)
+                fired_triggers.append(trigger)
         # after scheduling, check potential deps
         for trigger in self.triggers:
             if trigger.active and (notifs := trigger.can_fire(candidates)):
                 candidates.update(trigger.prepare_next_steps(statep))
                 triggered_notifs.update(notifs)
+                fired_triggers.append(trigger)
         # invalidate triggered notifications
-        for trigger in self.triggers:
+        for trigger in fired_triggers:
             trigger.consume(triggered_notifs)
         # pure stop_before from candidates
         if stop_before is not None:
@@ -347,10 +348,14 @@ class Workflow:
             num_tasks = len(scheduled)
             if num_tasks == 0:
                 break
-            with concurrent.futures.ThreadPoolExecutor(max_workers=num_tasks) as executor:
-                futures = [executor.submit(self.exec_module, self.modules[name], statep) for name in scheduled]
-                concurrent.futures.wait(futures)
+            logger.debug(f"Step {self.current_step}: {scheduled}")
+            # with concurrent.futures.ThreadPoolExecutor(max_workers=num_tasks) as executor:
+            #     futures = [executor.submit(self.exec_module, self.modules[name], statep) for name in scheduled]
+            #     concurrent.futures.wait(futuresa)
+            for name in scheduled:
+                self.exec_module(self.modules[name], statep)
             scheduled = self.fire_next_round(statep, scheduled, stop_before)
+            self.current_step += 1
     
     @property
     def exit_result(self):
@@ -380,7 +385,7 @@ class Workflow:
         self.dot.render(directory=fpath)
     
     def update_token_usage_summary(self):
-        for lm in (m for m in self.modules if isinstance(m, LLMPredictor)):
+        for lm in (m for m in self.modules.values() if isinstance(m, LLMPredictor)):
             if lm.name not in self.token_usage_buffer:
                 self.token_usage_buffer[lm.name] = {}
             for meta in lm.lm_history:
@@ -399,7 +404,7 @@ class Workflow:
     def log_module_time(self, path):
         import numpy as np
         times = {}
-        for module in self.modules:
+        for module in self.modules.values():
             times[module.name] = np.mean(module.exec_times)
         with open(path, 'w+') as f:
             json.dump(times, f, indent=4)
@@ -409,4 +414,30 @@ class Workflow:
         self.update_token_usage_summary()
         with open(path, 'w+') as f:
             json.dump(self.token_usage_buffer, f, indent=4)
-            
+    
+    def __call__(self, statep: StatePool):
+        start = time.perf_counter()
+        self.pregel_run(statep)
+        dur = time.perf_counter() - start
+        # update metadata
+        self.exec_times.append(dur)
+        self.status = ModuleStatus.SUCCESS
+        self.version_id += 1
+    
+    def clean(self):
+        self.reset_modules()
+    
+    def immediate_submodules(self) -> List[Module]:
+        return list(self.modules.values())
+
+    def get_all_modules(self, predicate):
+        module_queue = deque(self.immediate_submodules())
+        result = []
+        
+        while module_queue:
+            module = module_queue.popleft()
+            if predicate(module):
+                result.append(module)
+            if isinstance(module, ComposibleModuleInterface):
+                module_queue.extend(module.immediate_submodules())
+        return result

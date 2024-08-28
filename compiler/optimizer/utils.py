@@ -12,6 +12,17 @@ from langchain_core.documents.base import Document
 
 from compiler.IR.program import StatePool, Module
 
+
+def json_format_instructions(schema):
+    instructions = f"""
+Output your answer as JSON that follows the schema below:
+```json
+{schema}
+```
+Make sure to wrap your answer in ```json ``` tags.
+    """
+    return instructions
+
 def convert_to_comparable_repr(value):
     if isinstance(value, (int, float, str, bool)):
         return value

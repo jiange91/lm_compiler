@@ -1,0 +1,92 @@
+To align the new multi-agent system with the functionality of the old single-agent system, we need to ensure that the final output of the new system matches the output schema of the old system. The old system outputs a single decision variable, which can be one of "ae", "re", "ge", or "accept".
+
+Here's the plan:
+
+1. **Ensure Output Consistency**: Each agent in the new system should output a variable that can be used to determine the final decision.
+2. **Define JSON Schemas**: Create JSON schemas for each agent's output.
+3. **Combine Outputs**: Write a function to combine the outputs of the agents to produce the final decision.
+
+### Step 1: Ensure Output Consistency
+The new system already has agents that output variables relevant to the final decision. We need to ensure that these outputs are correctly named and used.
+
+### Step 2: Define JSON Schemas
+We will define the JSON schemas for each agent's output.
+
+#### Question Evaluation Agent
+```json
+{
+    "title": "QuestionEvaluationSchema",
+    "description": "Evaluation of whether the answer addresses the question.",
+    "type": "object",
+    "properties": {
+        "question_evaluation": {
+            "title": "Question Evaluation",
+            "description": "Grade the answer as 'ae' if it does not address the question.",
+            "enum": ["ae", "pass"],
+            "type": "string"
+        }
+    },
+    "required": ["question_evaluation"]
+}
+```
+
+#### Knowledge Relevance Agent
+```json
+{
+    "title": "KnowledgeRelevanceSchema",
+    "description": "Evaluation of the relevance of the knowledge to the question.",
+    "type": "object",
+    "properties": {
+        "knowledge_relevance": {
+            "title": "Knowledge Relevance",
+            "description": "Grade the knowledge as 're' if it is irrelevant to the question.",
+            "enum": ["re", "pass"],
+            "type": "string"
+        }
+    },
+    "required": ["knowledge_relevance"]
+}
+```
+
+#### Grounding Evaluation Agent
+```json
+{
+    "title": "GroundingEvaluationSchema",
+    "description": "Evaluation of whether the answer is grounded in the knowledge.",
+    "type": "object",
+    "properties": {
+        "decision": {
+            "title": "Decision",
+            "description": "Grade the answer as 'ge' if it is not grounded in the knowledge, otherwise 'accept'.",
+            "enum": ["ge", "accept"],
+            "type": "string"
+        }
+    },
+    "required": ["decision"]
+}
+```
+
+### Step 3: Combine Outputs
+We need to write a function to combine the outputs of the agents to produce the final decision.
+
+```python
+def combine_outputs(output_schema, question_evaluation=None, knowledge_relevance=None, decision=None):
+    if question_evaluation == 'ae':
+        return output_schema(decision='ae')
+    elif knowledge_relevance == 're':
+        return output_schema(decision='re')
+    elif decision in ['ge', 'accept']:
+        return output_schema(decision=decision)
+    else:
+        raise ValueError("Invalid decision path")
+```
+
+### Final Output
+The final output will be compatible with the original output schema "VerifyDecision".
+
+### Summary
+- **Question Evaluation Agent**: Evaluates if the answer addresses the question.
+- **Knowledge Relevance Agent**: Evaluates the relevance of the knowledge to the question.
+- **Grounding Evaluation Agent**: Evaluates if the answer is grounded in the knowledge.
+
+By following this plan, we ensure that the new multi-agent system produces an output that is consistent with the original single-agent system.

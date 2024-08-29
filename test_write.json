@@ -1,0 +1,96 @@
+{
+    "title": "StructuredAgentSystem",
+    "description": "Refined agent system with structured output schema",
+    "type": "object",
+    "properties": {
+        "agents": {
+            "title": "Agents",
+            "description": "dictionary of agent name to information about that agent",
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/AgentSemantic"
+            }
+        },
+        "final_output_aggregator_code": {
+            "title": "Final Output Aggregator Code",
+            "description": "python code to combine the outputs of the new agents to generate the final output, put 'None' if not needed",
+            "type": "string"
+        }
+    },
+    "required": [
+        "agents",
+        "final_output_aggregator_code"
+    ],
+    "definitions": {
+        "Anything": {
+            "title": "Anything",
+            "type": "object",
+            "properties": {
+                "imhere": {
+                    "title": "Imhere",
+                    "description": "I am here",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "imhere"
+            ]
+        },
+        "AgentSemantic": {
+            "title": "AgentSemantic",
+            "description": "Information about each agent",
+            "type": "object",
+            "properties": {
+                "agent_prompt": {
+                    "title": "Agent Prompt",
+                    "description": "prompt for the agent",
+                    "type": "string"
+                },
+                "inputs_varaibles": {
+                    "title": "Inputs Varaibles",
+                    "description": "list of input variables for the agent",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "output_json_schema": {
+                    "title": "Output Json Schema",
+                    "description": "json output schema for the agent",
+                    "type": "string"
+                },
+                "next_action": {
+                    "title": "Next Action",
+                    "description": "next agents to invoke or python code for dynamic decision",
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ]
+                },
+                "anything": {
+                    "title": "Anything",
+                    "description": "test anything",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/Anything"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "agent_prompt",
+                "inputs_varaibles",
+                "output_json_schema",
+                "next_action",
+                "anything"
+            ]
+        }
+    }
+}

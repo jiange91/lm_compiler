@@ -8,8 +8,9 @@ import logging
 from typing import Union, Callable
 import types
 from copy import deepcopy
+import json
 
-from compiler.IR.llm import LLMPredictor, LMConfig, LMSemantic, AgentDecomposeMeta
+from compiler.IR.llm import LLMPredictor, LMConfig, LMSemantic
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +23,6 @@ class LLMTracker(BaseCallbackHandler):
         meta = response.llm_output['token_usage']
         meta['model'] = response.llm_output['model_name']
         self.cmodule.llm_gen_meta.append(deepcopy(meta))
-    
 
 class LangChainSemantic(LMSemantic):
     def __init__(
@@ -37,9 +37,6 @@ class LangChainSemantic(LMSemantic):
         # NOTE: output name is inferred from the output format, use top-level fields only
         self.outputs = list(self.output_format.__fields__.keys())
         
-        parser = PydanticOutputParser(pydantic_object=output_format)
-        full_sys_prompt = self.system_prompt + "\n\n{compiler_output_format}"
-        
         input_fields = []
         for input in self.inputs:
             input_fields.append(f"- {input}:\n{{{input}}}")
@@ -47,10 +44,10 @@ class LangChainSemantic(LMSemantic):
         
         self.chat_prompt_template = ChatPromptTemplate.from_messages(
             [
-                ("system", full_sys_prompt),
+                ("system", self.system_prompt),
                 ("human", usr_prompt),
             ]
-        ).partial(compiler_output_format=parser.get_format_instructions())
+        )
         
         self.langchain_lm_kernel = self.create_kernel_func()
     
@@ -78,20 +75,20 @@ def langchain_lm_kernel(llm, {inputs_str}):
     def get_agent_inputs(self) -> list[str]:
         return self.inputs
 
-    def get_agent_outputs(self) -> str:
+    def get_agent_outputs(self) -> list[str]:
         return self.outputs
 
     def get_invoke_routine(self):
         return self.langchain_lm_kernel
 
-    def decompose(self, meta: AgentDecomposeMeta):
-        pass
-    
-    def fuse(cls, semantics: list['LangChainSemantic']) -> 'LangChainSemantic':
-        pass
-
-
-
+    def get_formatted_info(self) -> str:
+        output_schemas = json.loads(self.output_format.schema_json())
+        dict = {
+            "agent_prompt": self.system_prompt,
+            "input_varaibles": self.inputs,
+            "output_json_schema": output_schemas
+        }
+        return json.dumps(dict, indent=4)
 
 class LangChainLM(LLMPredictor):
     def __init__(self, name, semantic: LangChainSemantic) -> None:

@@ -41,8 +41,8 @@ from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 from compiler.IR.modules import Map, CodeBox
 from langchain_core.pydantic_v1 import BaseModel, Field
 
-def preprocess_kernel(sub_questions, knowledge_answer):
-    return {'knowledge_context': format_qa_pairs(sub_questions, knowledge_answer)}
+def preprocess_kernel(sub_questions, knowledge):
+    return {'knowledge_context': format_qa_pairs(sub_questions, knowledge)}
     
     
 knowledge_preprocess = CodeBox(

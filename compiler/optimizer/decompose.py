@@ -1,20 +1,25 @@
 import os
 import json
-from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal
+from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal, Dict, List
 import copy
 import logging
 import numpy as np
 import inspect
 from collections import defaultdict
+import concurrent.futures
+from devtools import pprint
 
-from langchain_core.output_parsers import NumberedListOutputParser, StrOutputParser
+
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_openai import ChatOpenAI
 
 from compiler.IR.program import Workflow, Module, StatePool
-from compiler.IR.llm import LMConfig, LLMPredictor, AgentDecomposeMeta
-from compiler.optimizer.utils import json_format_instructions
+from compiler.IR.llm import LMConfig, LLMPredictor, LMSemantic
+from compiler.IR.schema_parser import json_schema_to_pydantic_model
+from compiler.optimizer.prompts import *
+from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 
 logger = logging.getLogger(__name__)
 
@@ -31,36 +36,20 @@ class ComplexityEstimation(BaseModel):
 
 class ComplexityList(BaseModel):
     """complexity of all agents"""
-    es: list[ComplexityEstimation] = Field(
-        description="complexity of all agents"
+    es: List[ComplexityEstimation] = Field(
+        description="list of complexity descriptions"
     )
-
-
-complexity_system = """
-You are an expert at designing LLM-based agent workflow. Your task is to evaluate the complexity of the responsibility of each agent. 
-
-You will be provided with their system prompts for reference. Please assign each agent a numerical rating on the following scale to indicate the complexity. You should consider:
-Does the task require multi-step reasoning, planning, decision-making? 
-Does the task encompass a wide range of responsibilities?
-For each agent, please give your rate from 1 to 5 and provide your rationale for the rating.
-
-Rating criteria: 1: straightforward, 5: very complex. 
-
-Please follow the order of the given agents.
-
-{output_format}
-"""
-
-complexity_prompt = ChatPromptTemplate.from_messages(
-    [
-        ("system", complexity_system),
-        ("human", "Agent prompts: {agents}\n\nComplexity Analysis: \n\n"),
-    ]
-).partial(output_format=json_format_instructions(ComplexityList.schema()))
+    
 
 def estimate_complexity_kernel(agents: list[str]):
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.75).with_structured_output(ComplexityList)
-    routine = complexity_prompt | llm
+    complexity_prompt = ChatPromptTemplate.from_messages(
+        [
+            ("system", complexity_system),
+            ("human", "Agent prompts: {agents}\n\nComplexity Analysis: \n\n"),
+        ]
+    )
+    llm = ChatOpenAI(model="gpt-4o", temperature=0.0).with_structured_output(ComplexityList)
+    routine = complexity_prompt | llm 
     agent_prompts = []
     for i, agent in enumerate(agents):
         agent_prompts.append(f"Prompt {i+1}:\n {agent}")
@@ -73,64 +62,201 @@ def estimate_complexity_kernel(agents: list[str]):
 
 # ================== High-level Decompose Task ==================
 
-class Edge(BaseModel):
-    """data dependency between agents"""
-    src: str = Field(
-        description="source agent"
+class AgentPropose(BaseModel):
+    """Proposed agent information"""
+    name: str = Field(
+        description="name of the agent"
     )
-    dst: str = Field(
-        description="destination agent"
+    prompt: str = Field(
+        description="prompt for the agent"
     )
 
-class DecomposeOutput(BaseModel):
-    """return the refined workflow"""
-    agent_prompts: list[str] = Field(
-        description="a list of prompts for each agent in the refined workflow"
+class HighLevelDecompose(BaseModel):
+    """High level decomposition of the task"""
+    agents: List[AgentPropose] = Field(
+        description="list of proposed agents"
+    )
+
+
+def high_lelve_decompose_kernel(task: str, complexity: str):
+    decompose_prompt = ChatPromptTemplate.from_messages(
+        [
+            ("system", decompose_system),
+            ("human", "Original Prompt:\n{prompt}\n\nComplexity Rationale:\n{rationale}\n\nYour answer:\n\n")
+        ]
+    )
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0).with_structured_output(HighLevelDecompose)
+    routine = decompose_prompt | llm
+    new_agents = routine.invoke({"prompt": task, "rationale": complexity})
+    return new_agents
+
+# ================== Refine New Agent Workflow ==================
+
+class AgentMeta(BaseModel):
+    """Information about each agent"""
+    inputs: List[str] = Field(
+        description="list of inputs for the agent"
+    )
+    outputs: List[str] = Field(
+        description="list of outputs for the agent"
+    )
+    prompt: str = Field(
+        description="refined prompt for the agent"
+    )
+    next_action: List[str] = Field(
+        description="all possible next agents to invoke"
+    )
+    dynamic_action_decision: str = Field(
+        "python code for dynamically deciding the next action, put 'None' if not needed"
     )
     
-    agent_dependencies: list[Edge] = Field(
-        description="a list of data dependencies between agents"
-    )
-
-def from_output_to_meta(output: DecomposeOutput) -> AgentDecomposeMeta:
-    deps = defaultdict(list)
-    for e in output.agent_dependencies:
-        deps[e.src].append(e.dst)
-    return AgentDecomposeMeta(
-        agent_prompts=output.agent_prompts,
-        agent_dependencies=deps,
+class NewAgentSystem(BaseModel):
+    """New agent system"""
+    agents: Dict[str, AgentMeta] = Field(
+        description="dictionary of agent name to information about that agent"
     )
     
-decompose_system = """
-You are an expert at designing LLM-based agent workflow. Your task is to design a set of agents to perform the given task, each with a clear and separate role. 
 
-The given task is originally performed by a single LLM agent. You will be provided with its prompt for task description. Please pay attention to all the details in the prompt. Your should make sure that the new agent system should fulfill all the requirements in the original prompt. Also you will be provided with some rationale for the complexity of the task to help you decompose the task.
+user_prompt = """
 
-For the final output, you need to specify the prompt for each agent in your refined workflow and any dependencies between them.
+Now, this is the real user question for you:
 
-Principles:
-1. In all new prompts, please be clear about the role of the agent and provide detailed instruction to guide the agent to perform its task.
-2. Decomposed agents should be independent and have clear responsibilities.
-3. For each new agent, you should only use the information provided in the original prompt or the information generated by other new agents. Do not seek information from external sources like web-search or databases that do not exist in the orignal prompt.
+### Existing agent prompt
+{{
+{old_prompt}
+}}
 
-{output_format}
+### Original inputs
+{inputs}
+
+### Original outputs
+{outputs}
+
+### Suggested new agents, with name: prompt
+{new_agents}
+
+Your answer:
 """
 
-decompose_prompt = ChatPromptTemplate.from_messages(
-    [
-        ("system", decompose_system),
-        ("human", "Original Prompt:\n{prompt}\n\nComplexity Rationale:\n{rationale}\n\nYour answer:\n\n")
-    ]
-).partial(output_format=json_format_instructions(DecomposeOutput.schema()))
 
-def decompose_kernel(task: str, complexity: str):
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.75).with_structured_output(DecomposeOutput)
-    routine = decompose_prompt | llm 
-    new_workflow = routine.invoke({"prompt": task, "rationale": complexity})
-    return new_workflow
+def decompose_refine_kernel(new_agent_name_prompt: dict[str, str], semantic: LMSemantic):
+    decompose_refine_prompt = ChatPromptTemplate.from_messages(
+        [
+            ("system", decompose_refine_system),
+            ("human", user_prompt),
+        ]
+    ).partial(example_json_output=refine_example_json_output) # this is to avoid manual bracket escaping :)
+    llm = ChatOpenAI(model="gpt-4o", temperature=0.0) # 4o-mini is not good
+    routine = decompose_refine_prompt | llm | StrOutputParser()
+    new_interaction = routine.invoke({
+        "old_prompt": semantic.get_agent_role(), 
+        "inputs": semantic.get_agent_inputs(),
+        "outputs": semantic.get_agent_outputs(),
+        "new_agents": new_agent_name_prompt,
+        }
+    )
+    decompose_refine_prompt.extend(
+        [
+            ("ai", "{new_interaction}"),
+            ("human", "Please reformat your answer in the desired format.\n{format_instructions}"),
+        ]
+    )
+    sllm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0).with_structured_output(NewAgentSystem, method="json_mode")
+    reformater = decompose_refine_prompt | sllm
+    new_system = reformater.invoke({
+        "old_prompt": semantic.get_agent_role(), 
+        "inputs": semantic.get_agent_inputs(),
+        "outputs": semantic.get_agent_outputs(),
+        "new_agents": new_agent_name_prompt,
+        "new_interaction": new_interaction,
+        "format_instructions": mid_level_system_format_instructions,
+        }
+    )
+    return new_system
 
+# ================== Finalize New Agents ==================
+class AgentSemantic(BaseModel):
+    """Information about each agent"""
+    agent_prompt: str = Field(
+        description="prompt for the agent"
+    )
+    inputs_varaibles: List[str] = Field(
+        description="list of input variables for the agent"
+    )
+    output_json_schema: Dict = Field(
+        description="output schema in json dictionary for the agent"
+    )
+    next_action: List[str] = Field(
+        description="all possible next agents to invoke"
+    )
+    dynamic_action_decision: str = Field(
+        "python code for dynamically deciding the next action, put 'None' if not needed"
+    )
+    
+class StructuredAgentSystem(BaseModel):
+    """Refined agent system with structured output schema"""
+    agents: Dict[str, AgentSemantic] = Field(
+        description="dictionary of agent name to information about that agent"
+    )
+    
+    final_output_aggregator_code: str = Field(
+        description="python code to combine the outputs of the new agents to generate the final output, put 'None' if not needed"
+    )
+
+finalize_user_prompt = """
+
+Now, this is the real task for you.
+
+## Information of the old single-agent system
+{old_semantic}
+
+## Information of the suggested multi-agent system
+{new_system}
+
+## Your answer:
+"""
+
+
+def finalize_new_agents_kernel(old_semantic: LMSemantic, mid_level_desc: NewAgentSystem):
+    # propose solution in pure text for strong reasoning
+    interaction_prompt = ChatPromptTemplate.from_messages(
+        [
+            ("system", "{finalize_agent_system}"),
+            ("human", finalize_user_prompt),
+        ]
+    ).partial(finalize_agent_system=finalize_new_agents_system)
+    llm = ChatOpenAI(model="gpt-4o", temperature=0.0)
+    routine = interaction_prompt | llm | StrOutputParser()
+    new_interaction = routine.invoke({
+        "old_semantic": old_semantic.get_formatted_info(),
+        "new_system": mid_level_desc.json(),
+        }
+    )
+    interaction_prompt.extend(
+        [
+            ("ai", "{new_interaction}"),
+            ("human", "Now please reformat the new agent system to the desired JSON format.\n{format_instructions}"),
+        ]
+    )
+    
+    # refine the output to structured format
+    sllm = ChatOpenAI(model="gpt-4o", temperature=0.0).with_structured_output(StructuredAgentSystem, method="json_mode")
+    reformater = interaction_prompt | sllm
+    soutput = reformater.invoke({
+        "old_semantic": old_semantic.get_formatted_info(),
+        "new_system": mid_level_desc.json(),
+        "new_interaction": new_interaction,
+        # "format_instructions": parser.get_format_instructions(),
+        "format_instructions": structured_system_format,
+        }
+    )
+    return soutput
     
 # ================== Task Decompose Class ==================
+
+def from_json_schema_to_model(schema):
+    pass
+    
 
 class LMTaskDecompose:
     def __init__(
@@ -139,26 +265,122 @@ class LMTaskDecompose:
     ):
         self.workflow = workflow
         self.lm_modules : list[LLMPredictor] = workflow.get_all_modules(lambda m: isinstance(m, LLMPredictor))
+        self.decompose_target_lms: list[LLMPredictor] = []
+        
+        # Cascading decomposition
+        self.lm_2_new_agents: dict[str, HighLevelDecompose] = {}
+        self.lm_2_new_system: dict[str, NewAgentSystem] = {}
+        self.lm_2_final_system: dict[str, StructuredAgentSystem] = {}
     
-    def decompose(self, threshold: Literal[1, 2, 3, 4, 5] = 4):
-        agent_prompts = [m.semantic.get_agent_role() for m in self.lm_modules]
-        complexity = estimate_complexity_kernel(agent_prompts)
+    def prepare_decompose_metadata(self, threshold):
+        log_path = os.path.join(self.log_dir, 'task_decompose_mid_level.json')
+        # Get decomposition meta
+        if os.path.exists(log_path):
+            logger.info("mid-level decomposition already exists, read and skip sampling")
+            with open(log_path) as f:
+                json_lm_2_new_system = json.load(f)
+                self.lm_2_new_system = {k: NewAgentSystem.parse_obj(v) for k, v in json_lm_2_new_system.items()}
+                self.decompose_target_lms = [m for m in self.lm_modules if m.name in self.lm_2_new_system]
+        else:
+            logger.info("Estimating complexity of agents")
+            agent_prompts = [m.semantic.get_agent_role() for m in self.lm_modules]
+            complexity = estimate_complexity_kernel(agent_prompts)
+            
+            decompose_candidates = [(lm, score, rationale) for lm, (score, rationale) in zip(self.lm_modules, complexity)]
+            decompose_candidates = sorted(decompose_candidates, key=lambda x: x[1], reverse=True)
+            
+            for lm, score, rationale in decompose_candidates:
+                logger.info(f"Complexity of {lm.name}: {score}\nrationale: {rationale}\n\n")
+            
+            logger.info("Performing high-level agent decomposition")
+            def _hd(lm, score, rationale):
+                if int(score) >= threshold:
+                    new_agents = high_lelve_decompose_kernel(lm.semantic.get_agent_role(), rationale)
+                    self.lm_2_new_agents[lm.name] = new_agents
+                    self.decompose_target_lms.append(lm)
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                executor.map(lambda x: _hd(*x), decompose_candidates)
+            
+            logger.info('High-level decomposition results:\n')
+            pprint(self.lm_2_new_agents)
+            
+            logger.info("Adding concrete dependencies to decomposed system")
+            def _ld(lm: LLMPredictor):
+                new_agents_name_prompt = {a.name: a.prompt for a in self.lm_2_new_agents[lm.name].agents}
+                new_system = decompose_refine_kernel(new_agents_name_prompt, lm.semantic)
+                self.lm_2_new_system[lm.name] = new_system
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                executor.map(_ld, self.decompose_target_lms)
+            # for lm in self.lm_modules:
+            #     _ld(lm)
+            
+            logger.info("Mid-level decomposition results:\n") 
+            pprint(self.lm_2_new_system)
+            json_lm_2_new_system = {k: json.loads(v.json()) for k, v in self.lm_2_new_system.items()}
+            with open(log_path, 'w+') as f:
+                json.dump(json_lm_2_new_system, f, indent=4)
+                
+    
+    def finalize_decomposition(self):
+        log_path = os.path.join(self.log_dir, 'task_decompose_final.json')
+        if os.path.exists(log_path):
+            logger.info("final decomposition already exists, read and skip sampling")
+            with open(log_path) as f:
+                json_lm_2_final_system = json.load(f)
+                self.lm_2_final_system = {k: StructuredAgentSystem.parse_obj(v) for k, v in json_lm_2_final_system.items()}
+                self.decompose_target_lms = [m for m in self.lm_modules if m.name in self.lm_2_final_system]
+        else:
+            logger.info("Finalizing new agent system")
+            def _fd(lm: LLMPredictor):
+                mid_level_desc: NewAgentSystem = self.lm_2_new_system[lm.name]
+                final_agents = finalize_new_agents_kernel(lm.semantic, mid_level_desc)
+                self.lm_2_final_system[lm.name] = final_agents
+            
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                executor.map(_fd, self.decompose_target_lms)
+            # for lm in self.decompose_target_lms:
+            #     _fd(lm)
+            logger.info("Final decomposition results:\n")
+            pprint(self.lm_2_final_system)
+            with open(log_path, 'w+') as f:
+                json_lm_2_final_system = {k: json.loads(v.json()) for k, v in self.lm_2_final_system.items()}
+                json.dump(json_lm_2_final_system, f, indent=4)
+    
+    def _materialize_decomposition(self, lm: LLMPredictor, new_agents: StructuredAgentSystem):
+        """Actually transform the graph to apply the decomposition
         
-        decompose_candidates = [(lm, score, rationale) for lm, (score, rationale) in zip(self.lm_modules, complexity)]
-        decompose_candidates = sorted(decompose_candidates, key=lambda x: x[1], reverse=True)
-        
-        for lm, score, rationale in decompose_candidates:
-            logger.info(f"Complexity of {lm.name}: {score}\nrationale: {rationale}\n\n")
-        
-        decompose_worker = {}
-        for lm, score, rationale in decompose_candidates:
-            if int(score) >= threshold:
-                logger.info(f"Decomposing prompt for module {lm.name}")
-                new_workflow: DecomposeOutput = decompose_kernel(lm.semantic.get_agent_role(), rationale)
-                logger.info("Decomposed agent: \n - " + "\n - ".join(new_workflow.agent_prompts))
-                logger.info("Agent dependencies: \n - " + "\n - ".join(str(d) for d in new_workflow.agent_dependencies))
-                decompose_worker[lm.name] = from_output_to_meta(new_workflow)
-        
-        for lm in self.lm_modules:
-            if lm.name in decompose_worker:
-                lm.semantic.decompose(decompose_worker[lm.name])
+        1. First create a sub-graph to represent the new agent system
+        2. Then replace the original agent with the new agent system
+            - If the encolsing module is a graph, flatten the sub-graph to avoid hierarchy
+            - otherwise, replace the agent directly
+        """
+        # Materialize each agent
+        # TODO: add more validate checks
+        sub_graph = Workflow(f'{lm.name}_sub_graph')
+        name_2_lm = {}
+        for agent_name, agent_meta in new_agents.agents.items():
+            valid_file_name = agent_name.replace(" ", "").replace("\n", "").replace("\t", "") + '.py'
+            module_fpath = os.path.join(self.log_dir, valid_file_name)
+            output_model = json_schema_to_pydantic_model(agent_meta.output_json_schema, module_fpath)
+            lm_semantic = LangChainSemantic(
+                system_prompt=agent_meta.agent_prompt,
+                inputs=agent_meta.inputs_varaibles,
+                output_format=output_model
+            )
+            agent_lm = LangChainLM(agent_name, lm_semantic)
+            name_2_lm[agent_name] = agent_lm
+         
+    
+    def decompose(
+        self,
+        log_dir: str = 'task_decompose_log',
+        threshold: Literal[1, 2, 3, 4, 5] = 4
+    ):
+        self.log_dir = log_dir
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir)
+            
+        self.prepare_decompose_metadata(threshold)
+        self.finalize_decomposition()
+        for lm in self.decompose_target_lms:
+            self._materialize_decomposition(lm, self.lm_2_final_system[lm.name])

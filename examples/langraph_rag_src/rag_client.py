@@ -7,7 +7,7 @@ from pprint import pprint
 
 load_api_key('secrets.toml')
 
-from direct_hyde import direct_hyde_semantic
+from direct_hyde import direct_hyde_module
 from retrieve import retrieve_kernel
 from doc_filter import sub_question_mapper, doc_filter_lm, doc_filter_post_process
 from generator import sub_answer_mapper, generator_lm
@@ -15,10 +15,7 @@ from subanswer_compose import answer_compose_lm, knowledge_preprocess
 from kalmv import kalmv_module
 # from query_rewriter import query_rewriter_kernel
 
-direct_hyde_module = LangChainLM('direct_hyde', direct_hyde_semantic)
 retrieve_module = Retriever('retrieve', retrieve_kernel)
-# answer_compose_module = LangChainLM('answer_compose', answer_compose_kernel)
-# kalmv_module = LangChainLM('kalmv', kalmv_kernel)
 
 rag_workflow = Workflow('rag')
 rag_workflow.add_module(Input('query'))
@@ -108,7 +105,10 @@ def task_disambiguous():
     decomposer = LMTaskDecompose(
         workflow=rag_workflow,
     )
-    decomposer.decompose(4)
+    decomposer.decompose(
+        log_dir='examples/langraph_rag_src/compile_log',
+        threshold=4,
+    )
 
 task_disambiguous()
 exit()

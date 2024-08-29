@@ -2,15 +2,10 @@ from typing import Literal
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.pydantic_v1 import BaseModel, Field
+from schemas import *
 
 
 #--------------------- Verifier ---------------------#
-class VerifyDecision(BaseModel):
-    """return the decision of KALMV"""
-
-    decision: Literal["ae", "re", "ge", "accept"] = Field(
-        description="Given user question, knowledge, answer, determine if the knowledge or answer is deficient.",
-    )
 
 # Prompt
 system = """
@@ -44,7 +39,7 @@ from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 
 kalmv_semantic = LangChainSemantic(
     system_prompt=system,
-    inputs=['question', 'answer', 'knowledge_answer'],
+    inputs=['question', 'answer', 'knowledge'],
     output_format=VerifyDecision,
 )
 

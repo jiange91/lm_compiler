@@ -4,6 +4,7 @@ from collections import defaultdict
 from abc import ABC, abstractmethod
 from enum import Enum, auto
 from typing import List, Optional, Tuple, Iterable, Callable, Union
+from langchain_core.pydantic_v1 import BaseModel, Field
 import inspect
 import time
 import logging
@@ -13,11 +14,6 @@ import concurrent.futures
 
 from compiler.IR.utils import get_function_kwargs
 from compiler.IR.base import Module, ComposibleModuleInterface, StatePool
-
-@dataclass
-class AgentDecomposeMeta:
-    new_agent_prompts: list[str]
-    new_agent_dependencies: dict[str, list[str]]
 
 @dataclass
 class LMConfig(ABC):
@@ -32,6 +28,7 @@ class LMConfig(ABC):
         ...
 
 class LMSemantic(ABC):
+    
     @abstractmethod
     def get_agent_role(self) -> str:
         ...
@@ -49,15 +46,10 @@ class LMSemantic(ABC):
         ...
     
     @abstractmethod
-    def decompose(self, meta: AgentDecomposeMeta):
+    def get_formatted_info(self) -> str:
         ...
     
-    @classmethod
-    @abstractmethod
-    def fuse(cls, semantics: list['LMSemantic']) -> 'LMSemantic':
-        ...
-        
-
+ 
 class LLMPredictor(Module):
     def __init__(self, name, semantic: LMSemantic) -> None:
         super().__init__(name=name, kernel=semantic.get_invoke_routine())

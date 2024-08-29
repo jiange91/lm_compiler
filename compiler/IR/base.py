@@ -77,6 +77,7 @@ class Module(ModuleIterface):
         self.status = None
         self.is_static = False
         self.version_id = 0
+        self.encloding_module = None
         if kernel is not None:
             self.input_fields, self.defaults = get_function_kwargs(kernel)
         else:
@@ -118,3 +119,23 @@ class ComposibleModuleInterface(ABC):
     @abstractmethod
     def immediate_submodules(self) -> List[Module]:
         pass
+    
+    @abstractmethod
+    def replace_node_handler(self, old_node: Module, new_node: Module) -> bool:
+        pass
+
+    def replace_node(self, old_node: Module, new_node: Module) -> bool:
+        """Replace the old node with the new node
+        
+        If not found in the immediate submodules, will recursively call the replace_node method of the submodules
+        """
+        submodules = self.immediate_submodules()
+        if old_node not in submodules:
+            for submodule in submodules:
+                if isinstance(submodule, ComposibleModuleInterface):
+                    if submodule.replace_node(old_node, new_node):
+                        return True
+            return False
+        
+        return self.replace_node_handler(old_node, new_node)
+            

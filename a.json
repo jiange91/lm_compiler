@@ -1,0 +1,39 @@
+{
+    "agents": {
+        "Question Evaluation Agent": {
+            "inputs": [
+                "question",
+                "answer"
+            ],
+            "outputs": [
+                "question_evaluation"
+            ],
+            "prompt": "You are tasked with evaluating whether the provided answer addresses the user question. If it does not, you should grade the answer as 'ae' (Answer does not address the question). If the answer addresses the question, you should pass the evaluation to the next agent.",
+            "next_action": "def next_agent(question_evaluation): return ['END'] if question_evaluation == 'ae' else ['Knowledge Relevance Agent']"
+        },
+        "Knowledge Relevance Agent": {
+            "inputs": [
+                "question",
+                "knowledge"
+            ],
+            "outputs": [
+                "knowledge_relevance"
+            ],
+            "prompt": "Your role is to evaluate the relevance of the provided knowledge to the user question. If the knowledge is irrelevant to the question, grade it as 're' (Relevant knowledge is absent). If the knowledge is relevant, pass the evaluation to the next agent.",
+            "next_action": "def next_agent(knowledge_relevance): return ['END'] if knowledge_relevance == 're' else ['Grounding Evaluation Agent']"
+        },
+        "Grounding Evaluation Agent": {
+            "inputs": [
+                "answer",
+                "knowledge"
+            ],
+            "outputs": [
+                "decision"
+            ],
+            "prompt": "You are responsible for assessing whether the provided answer is grounded in the relevant knowledge. If the answer is not grounded by the knowledge, grade it as 'ge' (Grounding is missing). If it is grounded, grade the answer as 'accept' (The answer is acceptable).",
+            "next_action": [
+                "END"
+            ]
+        }
+    }
+}

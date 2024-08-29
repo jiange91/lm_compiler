@@ -101,3 +101,6 @@ class Map(Module, ComposibleModuleInterface):
 
     def immediate_submodules(self) -> List[Module]:
         return [self.sub_graph]
+    
+    def replace_node_handler(self, old_node: Module, new_node: Module) -> bool:
+        pass

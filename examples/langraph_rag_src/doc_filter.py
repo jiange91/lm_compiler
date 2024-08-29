@@ -5,20 +5,16 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.pydantic_v1 import BaseModel, Field
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 from compiler.IR.modules import Map, CodeBox
+from schemas import *
 
 #------------------------ Retrieval Grader ------------------------#
-class GradeDocuments(BaseModel):
-    """Binary score for relevance check on retrieved documents."""
-
-    binary_score: str = Field(
-        description="Documents are relevant to the question, 'yes' or 'no'"
-    )
 
 # Prompt
-system = """You are a grader assessing relevance of a retrieved document to a user question. \n 
-    If the document contains keyword(s) or semantic meaning related to the user question, grade it as relevant. \n
-    It does not need to be a stringent test. The goal is to filter out erroneous retrievals. \n
-    Give a binary score 'yes' or 'no' score to indicate whether the document is relevant to the question."""
+system = """
+You are a grader assessing relevance of a retrieved document to a user question.
+If the document contains keyword(s) or semantic meaning related to the user question, grade it as relevant.
+It does not need to be a stringent test. The goal is to filter out erroneous retrievals.
+Give a binary score 'yes' or 'no' score to indicate whether the document is relevant to the question."""
     
 # ------------------------ Old kernel ------------------------#
 grade_prompt = ChatPromptTemplate.from_messages(
@@ -81,6 +77,7 @@ doc_filter_semantic = LangChainSemantic(
     inputs=["sub_question", "doc_for_filter"],
     output_format=GradeDocuments,
 )
+
 
 doc_filter_lm = LangChainLM(
     name="doc_filter_lm",

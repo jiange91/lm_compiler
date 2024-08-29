@@ -1,7 +1,8 @@
 from typing import List, Optional, Tuple, Callable, Hashable, Union, Any
 from collections import defaultdict, deque
 from graphviz import Digraph
-from compiler.IR.modules import LLMPredictor, Input, Output
+from compiler.IR.llm import LLMPredictor
+from compiler.IR.modules import Input, Output
 from compiler.IR.base import Module, StatePool, ModuleStatus, ComposibleModuleInterface
 from compiler.IR.utils import get_function_kwargs, simple_cycles
 from dataclasses import dataclass
@@ -247,6 +248,10 @@ class Workflow(Module, ComposibleModuleInterface):
         """config each module with graph analysis
         """
         self.validate()
+        # Compile all subgraphs
+        all_sub_graphs = self.get_all_modules(lambda x: isinstance(x, Workflow))
+        for sub_graph in all_sub_graphs:
+            sub_graph.compile()
         # Derive the dependency graph
         dep_graph: dict[str, set[str]] = self.get_dependency()
         # For each module, register their triggers and corresponding dependencies
@@ -441,3 +446,6 @@ class Workflow(Module, ComposibleModuleInterface):
             if isinstance(module, ComposibleModuleInterface):
                 module_queue.extend(module.immediate_submodules())
         return result
+
+    def replace_node_handler(self, old_node: Module, new_node: Module) -> bool:
+        pass

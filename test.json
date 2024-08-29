@@ -1,0 +1,57 @@
+{
+  "agents": {
+    "Query Decomposer": {
+      "agent_prompt": "You are responsible for breaking down a user query into a set of sub-queries. Your goal is to ensure that these sub-queries cover comprehensive aspects of the original query without overlapping. Please analyze the original query provided to you and generate a list of sub-queries that are distinct and relevant.",
+      "inputs_varaibles": [
+        "question"
+      ],
+      "output_json_schema": {
+        "title": "SubQuestionsSchema",
+        "description": "A list of sub-queries generated from the original question.",
+        "type": "object",
+        "properties": {
+          "sub_questions": {
+            "title": "Sub Questions",
+            "description": "A list of sub-queries",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "sub_questions"
+        ]
+      },
+      "next_action": [
+        "Passage Generator"
+      ]
+    },
+    "Passage Generator": {
+      "agent_prompt": "You will receive a list of sub-queries from the Query Decomposer. For each sub-query, your task is to write a short passage that answers the topic of that sub-query. Ensure that each passage is concise, informative, and directly addresses the sub-query.",
+      "inputs_varaibles": [
+        "sub_questions"
+      ],
+      "output_json_schema": {
+        "title": "PassagesSchema",
+        "description": "A list of passages generated for the sub-queries.",
+        "type": "object",
+        "properties": {
+          "passages": {
+            "title": "Passages",
+            "description": "A list of passages",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "passages"
+        ]
+      },
+      "next_action": "end_of_system"
+    }
+  },
+  "final_output_aggregator_code": "def combine_outputs(output_schema, sub_questions, passages):\n    return output_schema(sub_questions=sub_questions, passages=passages)"
+}

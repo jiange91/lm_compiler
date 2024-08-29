@@ -12,3 +12,4 @@ pysqlite3-binary
 matplotlib
 pypdf
 pymupdf4llm
+devtools

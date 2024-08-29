@@ -155,7 +155,7 @@ class Workflow(Module, ComposibleModuleInterface):
         for s in src:
             for d in dest:
                 self.dot.edge(s, d)
-        
+                
     def add_branch(
         self, 
         src: str,

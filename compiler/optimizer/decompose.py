@@ -15,10 +15,11 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_openai import ChatOpenAI
 
-from compiler.IR.program import Workflow, Module, StatePool
+from compiler.IR.program import Workflow, Module, StatePool, Branch, Input, Output, hint_possible_destinations
 from compiler.IR.llm import LMConfig, LLMPredictor, LMSemantic
 from compiler.IR.schema_parser import json_schema_to_pydantic_model
 from compiler.optimizer.prompts import *
+from compiler.optimizer.utils import add_argument_to_position
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 
 logger = logging.getLogger(__name__)
@@ -253,9 +254,6 @@ def finalize_new_agents_kernel(old_semantic: LMSemantic, mid_level_desc: NewAgen
     return soutput
     
 # ================== Task Decompose Class ==================
-
-def from_json_schema_to_model(schema):
-    pass
     
 
 class LMTaskDecompose:
@@ -354,10 +352,14 @@ class LMTaskDecompose:
             - If the encolsing module is a graph, flatten the sub-graph to avoid hierarchy
             - otherwise, replace the agent directly
         """
-        # Materialize each agent
         # TODO: add more validate checks
         sub_graph = Workflow(f'{lm.name}_sub_graph')
-        name_2_lm = {}
+        input_name, output_name = f'{lm.name}_sub_graph_input', f'{lm.name}_sub_graph_output'
+        sub_graph.add_module(Input(input_name))
+        sub_graph.add_module(Output(output_name))
+        
+        # Materialize each agent
+        name_2_new_lm: dict[str, LangChainLM] = {}
         for agent_name, agent_meta in new_agents.agents.items():
             valid_file_name = agent_name.replace(" ", "").replace("\n", "").replace("\t", "") + '.py'
             module_fpath = os.path.join(self.log_dir, valid_file_name)
@@ -368,7 +370,45 @@ class LMTaskDecompose:
                 output_format=output_model
             )
             agent_lm = LangChainLM(agent_name, lm_semantic)
-            name_2_lm[agent_name] = agent_lm
+            name_2_new_lm[agent_name] = agent_lm
+            sub_graph.add_module(agent_lm)
+            sub_graph.add_edge(input_name, agent_lm.name) # this is fine even agent does not depend on input
+        
+        # Add dependencies between them
+        def get_branch_function(dynamic_action_code: str, next_actions: List[str]):
+            next_actions_str = ', '.join([f'"{na}"' for na in next_actions])
+            new_func, func_name = add_argument_to_position(dynamic_action_code, 'ctx', 0)
+            template = f"""\
+@hint_possible_destinations([{next_actions_str}])
+{new_func}
+"""
+            clean_code = template.replace('END', f'{output_name}')
+            return clean_code, func_name
+        
+        for agent_name, agent_meta in new_agents.agents.items():
+            new_agent_lm = name_2_new_lm[agent_name]
+            next_action = agent_meta.next_action
+            is_static_edge = agent_meta.dynamic_action_decision == 'None'
+            if is_static_edge:
+                for next_agent in next_action:
+                    if next_agent == 'END':
+                        sub_graph.add_edge(new_agent_lm.name, output_name)
+                    else:
+                        sub_graph.add_edge(new_agent_lm.name, name_2_new_lm[next_agent].name) # for check name existance
+            else:
+                # dynamic edge
+                decision_code = agent_meta.dynamic_action_decision
+                clean_decision_code, func_name = get_branch_function(decision_code, next_action)
+                func_obj = compile(clean_decision_code, '<string>', 'exec')
+                local_name_space = {}
+                exec(func_obj, {'hint_possible_destinations': hint_possible_destinations}, local_name_space)
+                callable_code = local_name_space[func_name]
+                sub_graph.add_branch(new_agent_lm.name, callable_code)
+        
+        # Replace the original agent with the sub-graph
+        sub_graph.compile()
+        sub_graph.visualize(os.path.join(self.log_dir, f'{lm.name}_sub_graph_viz'))
+        
          
     
     def decompose(

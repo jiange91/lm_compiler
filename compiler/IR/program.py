@@ -1,9 +1,12 @@
 from typing import List, Optional, Tuple, Callable, Hashable, Union, Any
 from collections import defaultdict, deque
 from graphviz import Digraph
+from functools import partial
+
 from compiler.IR.llm import LLMPredictor
-from compiler.IR.modules import Input, Output
-from compiler.IR.base import Module, StatePool, ModuleStatus, ComposibleModuleInterface
+from compiler.IR.modules import Input, Output, Branch
+from compiler.IR.base import *
+from compiler.IR.rewriter.utils import replace_branch_return_destination
 from compiler.IR.utils import get_function_kwargs, simple_cycles
 from dataclasses import dataclass
 import json
@@ -14,58 +17,13 @@ from itertools import chain
         
 
 import logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(pathname)s:%(lineno)d - %(levelname)s - %(message)s')
 logging.getLogger('httpx').setLevel(logging.WARNING)
 logging.getLogger('absl').setLevel(logging.WARNING)
 
 logger = logging.getLogger(__name__)
 
-@dataclass
-class Context:
-    statep: StatePool
-    predecessor: str
-    invoke_time: int # start from 1
-
-def hint_possible_destinations(dests: list[str]):
-    def hinter(func):
-        func._possible_destinations = dests
-        return func
-    return hinter
-
-class Branch:
-    """
-    multiplexier signature should be (ctx, **kwargs) -> Hashable
-    
-    ctx contains some useful information for the multiplexier to make decision
-    """
-    def __init__(
-        self,
-        src: Module,
-        multiplexier: Callable[..., Union[Hashable, list[Hashable]]],
-        destinations: list[str],
-    ):
-        self.src = src
-        self.multiplexier = multiplexier
-        self.destinations = destinations
-    
-        input_fields, defaults = get_function_kwargs(self.multiplexier)
-        try:
-            input_fields.remove('ctx')
-        except ValueError:
-            pass
-        defaults.pop('ctx', None)
-        
-        def new_multiplexier(statep: StatePool):
-            for field in input_fields:
-                if field not in statep.states and field not in defaults:
-                    raise ValueError(f"Field {field} not found in state")
-            ctx = Context(statep, self.src.name, self.src.version_id)
-            kargs = {field: statep.news(field) for field in statep.states if field in input_fields}
-            dests = self.multiplexier(ctx, **kargs)
-            if isinstance(dests, str):
-                dests = [dests]
-            return dests
-        self.exposed_multiplexier = new_multiplexier
 
 class Trigger:
     """synchronization barrier
@@ -113,26 +71,39 @@ class Workflow(Module, ComposibleModuleInterface):
     dependencies = tuple[str, ...]
     
     def __init__(self, name) -> None:
-        self.start: Input = None
-        self.end: Output = None
         self.modules: dict[str, Module] = {}
-        # NOTE: edges are not used for preparing the next module to run
-        self.edges: dict[str, list[str]] = defaultdict(list)
         self.static_dependencies: dict[Workflow.dependencies, list[str]] = defaultdict(list)
         self.branches: dict[str, Branch] = {}
         
+        """
+        Following will be (re)populated during (re)compilation
+        """
+        self.start: Input = None
+        self.end: Output = None
+        # edges are not used for preparing the next module to run
+        self.edges: dict[str, list[str]] = defaultdict(list)
         # the previous module will notify the trigger when it's done
         self.triggers: list[Trigger] = []
         self.publish_channels : dict[str, list[Trigger]] = defaultdict(list)
         
-        self.dot = Digraph()
+        """
+        some runtime meta
+        """
         self.token_usage_buffer = {'total': {}}
         self.current_step = 0
         super().__init__(name, None)
     
     def add_module(self, module: Module) -> None:
+        self.sub_module_validation(module)
         self.modules[module.name] = module
-        self.dot.node(module.name)
+    
+    def _edge_validation(self, src: list[str], dest: list[str]):
+        for s in src:
+            if s not in self.modules:
+                raise ValueError(f"Source module {s} not found, please add the module first")
+        for d in dest:
+            if d not in self.modules:
+                raise ValueError(f"Destination module {d} not found, please add the module first")
     
     def add_edge(self, src: Union[str, list[str]], dest: Union[str, list[str]]) -> None:
         """add static dataflow
@@ -148,32 +119,32 @@ class Workflow(Module, ComposibleModuleInterface):
             If you prefer individual triggers for each src module, call add_edge multiple times
         """
         if isinstance(src, str):
-            src = [src]
+            src = sorted(list(set([src])))
         if isinstance(dest, str):
-            dest = [dest]
-        self.static_dependencies[tuple(src)].extend(dest)
+            dest = sorted(list(set([dest])))
+        self._edge_validation(src, dest)
         for s in src:
-            for d in dest:
-                self.dot.edge(s, d)
+            self.modules[s].enclosing_module = self
+        for d in dest:
+            self.modules[d].enclosing_module = self
+        self.static_dependencies[tuple(src)].extend(dest)
                 
     def add_branch(
         self, 
-        src: str,
+        name: str,
+        src: Union[str, list[str]],
         multiplexier: Callable[..., Union[Hashable, list[Hashable]]]) -> None:
         """add control flow
         
         If need complex synchronization, use add_edge to add a preceding module
         
         Args:
-            src (str): 
-                the module that the control flow starts from
+            src (Union[str, list[str]]):
+                the module that the control flow need to synchronize with
             
             multiplexier (callable): 
-                signature should be (ctx, **kwargs) -> Hashable
+                signature should be (ctx, arg1, arg2, ...) -> Hashable
                 ctx contains some useful information for the multiplexier to make decision
-            
-            child_map (dict):
-                a mapping from multiplexier's return value to next modules
                 
         Examples:
         NOTE: please hint all possible destinations for the multiplexier
@@ -181,18 +152,20 @@ class Workflow(Module, ComposibleModuleInterface):
             from compiler.IR.program import hint_possible_destinations
             
             @hint_possible_destinations(['a', 'b'])
-            def multiplexier(ctx, **kwargs):
-            ... if smth:
+            def multiplexier(ctx, smth):
+            ... if f(smth):
             ...    return ['a', 'b]
             ... else:
             ...    return 'b'
             ```
         """
-        branch = Branch(self.modules[src], multiplexier, multiplexier._possible_destinations)
-        self.branches[src] = branch
-        for dest in branch.destinations:
-            self.dot.edge(src, dest, style='dashed')
-            
+        src = sorted(list(set([src])))
+        self._edge_validation(src, multiplexier._possible_destinations)
+        
+        branch = Branch(name, src, multiplexier, multiplexier._possible_destinations)
+        self.add_module(branch)
+        self.branches[name] = branch
+        self.add_edge(src, branch.name)
     
     def get_dependency(self):
         # build hyperthetical reversed graph
@@ -225,6 +198,8 @@ class Workflow(Module, ComposibleModuleInterface):
     
     def validate(self):
         # Clear previous compilation
+        self.start = None
+        self.end = None
         self.edges.clear()
         self.triggers.clear()
         self.publish_channels.clear()
@@ -255,11 +230,11 @@ class Workflow(Module, ComposibleModuleInterface):
         # Derive the dependency graph
         dep_graph: dict[str, set[str]] = self.get_dependency()
         # For each module, register their triggers and corresponding dependencies
-        def make_foo(dests):
-            return lambda statep: dests
         for srcs, dests in self.static_dependencies.items():
             immediate_deps = set(srcs)
             potential_deps = set().union(chain.from_iterable(dep_graph[src] for src in srcs))
+            def make_foo(dests):
+                return lambda statep: dests
             trigger = Trigger(immediate_deps, potential_deps, make_foo(dests))
             self.triggers.append(trigger)
             for src in srcs:
@@ -268,7 +243,9 @@ class Workflow(Module, ComposibleModuleInterface):
         for src, branch in self.branches.items():
             immediate_deps = {src}
             potential_deps = dep_graph[src]
-            trigger = Trigger(immediate_deps, potential_deps, branch.exposed_multiplexier)
+            def make_dfoo(src, statep):
+                return statep.news(src + '#branch_result')
+            trigger = Trigger(immediate_deps, potential_deps, partial(make_dfoo, src))
             self.triggers.append(trigger)
             self.publish_channels[src].append(trigger)
         # Identify dynamic modules, i.e. steps will be invoked multiple times
@@ -288,18 +265,17 @@ class Workflow(Module, ComposibleModuleInterface):
             self.modules[name].is_static = False
         # TODO: populate history states
     
-    def reset_modules(self, clear_token_buffer = False) -> None:
+    def reset(self) -> None:
         self.update_token_usage_summary()
-        if clear_token_buffer:
-            self.token_usage_buffer = {'total': {}}
+        self.token_usage_buffer = {'total': {}}
             
         for trigger in self.triggers:
             trigger.active = False
             trigger.notified.clear()
-               
-        for module in self.modules.values():
-            module.clean()
         self.current_step = 0
+               
+        for module in self.immediate_submodules():
+            module.reset()
     
     def exec_module(self, module: Module, statep: StatePool):
         try:
@@ -362,32 +338,42 @@ class Workflow(Module, ComposibleModuleInterface):
             scheduled = self.fire_next_round(statep, scheduled, stop_before)
             self.current_step += 1
     
-    @property
-    def exit_result(self):
-        if self.exit_point is None:
-            raise ValueError("No exit point set")
-        return {self.exit_point[1]: self.exit_point[0].outputs[-1][self.exit_point[1]]} 
-    
-    def sort(self, predicate: Optional[callable] = None) -> List[Module]:
-        visited = {v: False for v in self.modules}
-        stack = []
-        
-        def dfs(v):
-            visited[v] = True
-            for child in self.static_dependencies[v]:
-                if not visited[child]:
-                    dfs(child)
-            stack.append(v)
-        
-        for v in self.modules:
-            if not visited[v]:
-                dfs(v)
-        if predicate is None:
-            return list(reversed(stack))
-        return [v for v in reversed(stack) if predicate(v)]
+    def visualize(self, dir: str):
+        dot = Digraph()
+        dot.attr(compound='true')
+        self._visualize(dot)
+        dot.render(directory=dir)
 
-    def visualize(self, fpath):
-        self.dot.render(directory=fpath)
+    def _visualize(self, dot: Digraph):
+        dot.node(f'_{self.name}_cluster_ancor', style='invis', fixedsize='true', width='0', height='0')
+        for srcs, dests in self.static_dependencies.items():
+            for src in srcs:
+                attrs = {}
+                if isinstance(self.modules[src], ComposibleModuleInterface):
+                    attrs['ltail'] = f'cluster_{src}'
+                    src = f'_{src}_cluster_ancor'
+                for dest in dests:
+                    cattrs = {**attrs}
+                    if isinstance(self.modules[dest], ComposibleModuleInterface):
+                        cattrs['lhead'] = f'cluster_{dest}'
+                        dest = f'_{dest}_cluster_ancor'
+                    dot.edge(src, dest, **cattrs)
+        for src, branch in self.branches.items():
+            attrs = {}
+            if isinstance(self.modules[src], ComposibleModuleInterface):
+                attrs['ltail'] = f'cluster_{src}'
+                src = f'_{src}_cluster_ancor'
+            for dest in branch.destinations:
+                cattrs = {**attrs}
+                if isinstance(self.modules[dest], ComposibleModuleInterface):
+                    cattrs['lhead'] = f'cluster_{dest}'
+                    dest = f'_{dest}_cluster_ancor'
+                dot.edge(src, dest, style='dashed', **cattrs)
+        for name, m in self.modules.items():
+            if isinstance(m, ComposibleModuleInterface):
+                with dot.subgraph(name=f'cluster_{name}') as s:
+                    m._visualize(s)
+                    s.attr(label=name)
     
     def update_token_usage_summary(self):
         for lm in (m for m in self.modules.values() if isinstance(m, LLMPredictor)):
@@ -429,9 +415,6 @@ class Workflow(Module, ComposibleModuleInterface):
         self.status = ModuleStatus.SUCCESS
         self.version_id += 1
     
-    def clean(self):
-        self.reset_modules()
-    
     def immediate_submodules(self) -> List[Module]:
         return list(self.modules.values())
 
@@ -448,4 +431,33 @@ class Workflow(Module, ComposibleModuleInterface):
         return result
 
     def replace_node_handler(self, old_node: Module, new_node: Module) -> bool:
-        pass
+        if isinstance(old_node, Branch):
+            NotImplementedError("Branch replacement is not supported yet")
+            
+        if old_node.name not in self.modules:
+            return False
+        del self.modules[old_node.name]
+        self.add_module(new_node)
+        
+        # replace in static dependencies
+        sync_barriers = list(self.static_dependencies.keys())
+        for sb in sync_barriers:
+            # check this first in case cycle of one node
+            if old_node.name in (dests := self.static_dependencies[sb]):
+                dests[dests.index(old_node.name)] = new_node.name
+            # then update the key
+            if old_node.name in sb:
+                new_sb = list(sb)
+                new_sb[sb.index(old_node.name)] = new_node.name
+                self.static_dependencies[tuple(new_sb)] = self.static_dependencies.pop(sb)
+        
+        # replace branches
+        sync_barriers = list(self.branches.keys())
+        for sb in sync_barriers:
+            branch = self.branches[sb]
+            if old_node.name in (dests := branch.destinations):
+                dests[dests.index(old_node.name)] = new_node.name # this also updates multiplexier's hint
+                # also replace function return
+                new_multiplexier = replace_branch_return_destination(branch.multiplexier, old_node.name, new_node.name)
+                branch.multiplexier = new_multiplexier
+                

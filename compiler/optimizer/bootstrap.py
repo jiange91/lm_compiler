@@ -102,7 +102,7 @@ class BootStrapLMSelection(BootStrap):
             for i, state in enumerate(self.trainset_input):
                 logger.info(f'Generating labels for task: {i} ...')
                 state_cpy = copy.deepcopy(state)
-                self.workflow.reset_modules()
+                self.workflow.reset()
                 for module_idx, lm in enumerate(self.sorted_target_modules):
                     output_labels[lm.name] = {}
                     next_lm = self.sorted_target_modules[module_idx + 1] if module_idx + 1 < len(self.sorted_target_modules) else None
@@ -163,7 +163,7 @@ class BootStrapLMSelection(BootStrap):
                 for option_idx, option in enumerate(self.module_2_options[lm.name]):
                     def option_runner(state: StatePool):
                         # run workflow
-                        self.workflow.reset_modules()
+                        self.workflow.reset()
                         pred = self.workflow.run(state=state, start_from=lm, stop_before=next_lm)
                         comparable_pred = {k: convert_to_comparable_repr(v) for k, v in pred.items()}
                         output_quality = self.module_2_metric[lm.name](gold, comparable_pred)

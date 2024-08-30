@@ -48,4 +48,4 @@ class TestCycles(unittest.TestCase):
         workflow.pregel_run(statep)
         self.assertCountEqual(statep.news('aggregate'), ['Im A', 'Im B', 'Im C', 'Im D', 'Im B', 'Im C', 'Im D'])
         self.assertEqual(workflow.current_step, 9)
-        workflow.reset_modules()
+        workflow.reset()

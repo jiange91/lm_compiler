@@ -123,7 +123,7 @@ for topic, url, golden_answer in data_loader_article('examples/storm_src/single_
 
 def sample_run():
     for state, label in zip(trainset_input, trainset_label):
-        storm_workflow.reset_modules(True)
+        storm_workflow.reset(True)
         storm_workflow.pregel_run(state)
         print(state.news('topic'))
         print(bertscores(preprocess_text(label), preprocess_text(state.news('polished_article').to_string())))

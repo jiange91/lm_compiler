@@ -49,6 +49,9 @@ class LMSemantic(ABC):
     def get_formatted_info(self) -> str:
         ...
     
+    @abstractmethod
+    def get_output_schema(self) -> BaseModel:
+        ...
  
 class LLMPredictor(Module):
     def __init__(self, name, semantic: LMSemantic) -> None:

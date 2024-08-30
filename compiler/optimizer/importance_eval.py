@@ -81,7 +81,7 @@ class LMImportanceEvaluator:
                     min_metric, max_metric = float('inf'), float('-inf')
                     for model in self.models:
                         state_cpy = copy.deepcopy(state)
-                        self.workflow.reset_modules()
+                        self.workflow.reset()
                         lm.lm_config['model'] = model
                         
                         if (hash := self.hash_run(rid)) in memo:

@@ -81,6 +81,9 @@ def langchain_lm_kernel(llm, {inputs_str}):
     def get_invoke_routine(self):
         return self.langchain_lm_kernel
 
+    def get_output_schema(self) -> BaseModel:
+        return self.output_format
+
     def get_formatted_info(self) -> str:
         output_schemas = json.loads(self.output_format.schema_json())
         dict = {

@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from collections import defaultdict
 from abc import ABC, abstractmethod
 from enum import Enum, auto
-from typing import List, Optional, Tuple, Iterable, Callable, Union
+from typing import List, Optional, Tuple, Iterable, Callable, Union, Hashable
 import inspect
 import time
 import logging
@@ -10,8 +10,10 @@ import copy
 import threading
 import concurrent.futures
 
+from graphviz import Digraph
+
 from compiler.IR.utils import get_function_kwargs
-from compiler.IR.base import Module, ComposibleModuleInterface, StatePool
+from compiler.IR.base import Module, ComposibleModuleInterface, StatePool, Context
 
 logger = logging.getLogger(__name__)
 
@@ -62,7 +64,7 @@ class Map(Module, ComposibleModuleInterface):
         make sure each item is independent as sub-graph execution is fully parallelized
     
     Examples:
-        >>> sub_graph = CodeBox('whatever', lambda x, y: x + y)
+        >>> sub_graph = CodeBox('whatever', lambda x, y: x + y) # any kinds of basic blocks
         >>> def map_kernel(xs: list[x], y):
         >>>     for x in xs:
         >>>         yield {'x': x, 'y': y}
@@ -71,8 +73,8 @@ class Map(Module, ComposibleModuleInterface):
     def __init__(
         self, 
         name, 
-        sub_graph, 
-        map_kernel, 
+        sub_graph: Module, 
+        map_kernel: Callable, 
         output_fields: Union[str, list[str]], 
         max_parallel: int = 5
     ) -> None:
@@ -103,4 +105,41 @@ class Map(Module, ComposibleModuleInterface):
         return [self.sub_graph]
     
     def replace_node_handler(self, old_node: Module, new_node: Module) -> bool:
-        pass
+        if old_node is not self.sub_graph:
+            return False
+        self.sub_graph = new_node
+        return True
+
+    def _visualize(self, dot: Digraph):
+        dot.node(f'_{self.name}_cluster_ancor', style='invis', fixedsize='true', width='0', height='0')
+        if isinstance(self.sub_graph, ComposibleModuleInterface):
+            with dot.subgraph(name=f'cluster_{self.sub_graph.name}') as s:
+                self.sub_graph._visualize(s)
+        else:
+            dot.node(self.sub_graph.name)
+
+class Branch(Module):
+    def __init__(
+        self,
+        name: str,
+        src: list[str],
+        multiplexier: Callable[..., Union[Hashable, list[Hashable]]],
+        destinations: list[str],
+    ) -> None:
+        super().__init__(name=name, kernel=multiplexier)
+        self.src = src
+        self.multiplexier = multiplexier
+        self.destinations = destinations
+        
+    def on_signature_generation(self):
+        try:
+            self.input_fields.remove('ctx')
+        except ValueError:
+            pass
+        self.defaults.pop('ctx', None)
+    
+    def forward(self, **kwargs):
+        ctx = Context(self.name, self.version_id)
+        dest = self.kernel(ctx, **kwargs)
+        dest = dest if isinstance(dest, list) else [dest]
+        return {self.name + '#branch_result': dest}

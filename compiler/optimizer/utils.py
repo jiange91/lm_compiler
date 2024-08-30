@@ -277,21 +277,3 @@ class PropagationEvaluator:
     
     def load(self, path):
         self.module_2_option_2_predictor = joblib.load(path)
-
-import ast
-import astunparse  # You'll need to install this package: pip install astunparse
-
-# NOTE: this only works with functions/methods but not lambda expression
-def add_argument_to_position(signature, new_arg, i = 0) -> tuple[str, str]:
-    """return [new function, function name]
-    """
-    tree = ast.parse(signature)
-    
-    # Get the function definition node
-    func_def = tree.body[0]
-    new_arg_node = ast.arg(arg=new_arg, annotation=None)
-    func_def.args.args.insert(i, new_arg_node)
-    
-    # Convert the AST back to a string
-    new_signature = astunparse.unparse(tree).strip()
-    return new_signature, func_def.name

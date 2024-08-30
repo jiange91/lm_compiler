@@ -48,7 +48,7 @@ def final_router(ctx: Context, decision: str):
         return 'answer_compose'
     return 'answer'
     
-rag_workflow.add_branch('kalmv', final_router)
+rag_workflow.add_branch('answer_verification', 'kalmv', final_router)
 rag_workflow.compile()
 
 
@@ -77,6 +77,7 @@ def sample_run():
     rag_workflow.log_module_time('examples/langraph_rag_src/module_time.json')
 
 # sample_run()
+rag_workflow.visualize('examples/langraph_rag_src/rag_workflow_viz')
 # exit()
 
 # --------------------------------------------
@@ -95,10 +96,6 @@ from compiler.optimizer.decompose import LMTaskDecompose
 
 state = StatePool()
 state.init({'question': "What are the types of agent memory?"})
-def infinite_none():
-    while True:
-        yield None
-
 
 # Decompose LM Modules
 def task_disambiguous():
@@ -111,9 +108,14 @@ def task_disambiguous():
     )
 
 task_disambiguous()
+sample_run()
 exit()
 
 # Find important LMs
+def infinite_none():
+    while True:
+        yield None
+
 def eval_importance():
     evaluator = LMImportanceEvaluator(
         workflow=rag_workflow,

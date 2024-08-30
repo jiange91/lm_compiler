@@ -8,7 +8,8 @@ import inspect
 from collections import defaultdict
 import concurrent.futures
 from devtools import pprint
-
+from functools import wraps, partial
+from graphviz import Digraph
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
@@ -17,9 +18,10 @@ from langchain_openai import ChatOpenAI
 
 from compiler.IR.program import Workflow, Module, StatePool, Branch, Input, Output, hint_possible_destinations
 from compiler.IR.llm import LMConfig, LLMPredictor, LMSemantic
+from compiler.IR.rewriter.utils import add_argument_to_position, RewriteBranchReturn
 from compiler.IR.schema_parser import json_schema_to_pydantic_model
+from compiler.IR.modules import CodeBox
 from compiler.optimizer.prompts import *
-from compiler.optimizer.utils import add_argument_to_position
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 
 logger = logging.getLogger(__name__)
@@ -252,10 +254,28 @@ def finalize_new_agents_kernel(old_semantic: LMSemantic, mid_level_desc: NewAgen
         }
     )
     return soutput
+
+# ================== Final aggregation code box ==================
+def aggregator_factory(lm: LLMPredictor, code: str):
+    old_output_schema = lm.semantic.get_output_schema()
+    agg_func_obj = compile(code, '<string>', 'exec')
+    local_name_space = {}
+    exec(agg_func_obj, {}, local_name_space)
+    aggregator = list(local_name_space.values())[0]
+    
+    @wraps(aggregator)
+    def wrapper_kernel(**kwargs):
+        result = aggregator(**kwargs)
+        return {field: getattr(result, field) for field in lm.semantic.get_agent_outputs()}
+    
+    wrapper_kernel = partial(wrapper_kernel, output_schema=old_output_schema)
+    sig = inspect.signature(wrapper_kernel)
+    print(sig)
+    return wrapper_kernel
+        
     
 # ================== Task Decompose Class ==================
     
-
 class LMTaskDecompose:
     def __init__(
         self,
@@ -289,6 +309,8 @@ class LMTaskDecompose:
             
             for lm, score, rationale in decompose_candidates:
                 logger.info(f"Complexity of {lm.name}: {score}\nrationale: {rationale}\n\n")
+            with open(os.path.join(self.log_dir, 'task_decompose_new_agents.json'), 'w+') as f:
+                json.dump({lm.name: {'score': score, 'rationale': rationale} for lm, score, rationale in decompose_candidates}, f, indent=4)
             
             logger.info("Performing high-level agent decomposition")
             def _hd(lm, score, rationale):
@@ -357,6 +379,15 @@ class LMTaskDecompose:
         input_name, output_name = f'{lm.name}_sub_graph_input', f'{lm.name}_sub_graph_output'
         sub_graph.add_module(Input(input_name))
         sub_graph.add_module(Output(output_name))
+
+        logical_end_name = output_name
+        # Add final aggregator
+        if new_agents.final_output_aggregator_code != 'None':
+            code_kernel = aggregator_factory(lm, new_agents.final_output_aggregator_code)
+            aggregator = CodeBox(f'{lm.name}_final_aggregator', code_kernel)
+            sub_graph.add_module(aggregator)
+            sub_graph.add_edge(aggregator.name, output_name)
+            logical_end_name = aggregator.name
         
         # Materialize each agent
         name_2_new_lm: dict[str, LangChainLM] = {}
@@ -370,11 +401,25 @@ class LMTaskDecompose:
                 output_format=output_model
             )
             agent_lm = LangChainLM(agent_name, lm_semantic)
+            agent_lm.lm_config = {'model': 'gpt-4o-mini', 'temperature': 0.0}
             name_2_new_lm[agent_name] = agent_lm
             sub_graph.add_module(agent_lm)
-            sub_graph.add_edge(input_name, agent_lm.name) # this is fine even agent does not depend on input
         
-        # Add dependencies between them
+        # Get static dependency edges
+        agent_2_srcs = defaultdict(list, {agent_name: [input_name] for agent_name in new_agents.agents}) # default to input node
+        for agent_name, agent_meta in new_agents.agents.items():
+            next_action = agent_meta.next_action
+            is_static_edge = agent_meta.dynamic_action_decision == 'None'
+            if is_static_edge:
+                for next_agent in next_action:
+                    if next_agent == 'END':
+                        agent_2_srcs[logical_end_name].append(agent_name)
+                    else:
+                        agent_2_srcs[name_2_new_lm[next_agent].name].append(agent_name) # for check name existance
+        for agent_name, srcs in agent_2_srcs.items():
+            sub_graph.add_edge(srcs, agent_name)
+            
+        # Add dynamic dependency edges
         def get_branch_function(dynamic_action_code: str, next_actions: List[str]):
             next_actions_str = ', '.join([f'"{na}"' for na in next_actions])
             new_func, func_name = add_argument_to_position(dynamic_action_code, 'ctx', 0)
@@ -382,20 +427,13 @@ class LMTaskDecompose:
 @hint_possible_destinations([{next_actions_str}])
 {new_func}
 """
-            clean_code = template.replace('END', f'{output_name}')
+            clean_code = template.replace('END', f'{logical_end_name}')
             return clean_code, func_name
         
         for agent_name, agent_meta in new_agents.agents.items():
-            new_agent_lm = name_2_new_lm[agent_name]
             next_action = agent_meta.next_action
             is_static_edge = agent_meta.dynamic_action_decision == 'None'
-            if is_static_edge:
-                for next_agent in next_action:
-                    if next_agent == 'END':
-                        sub_graph.add_edge(new_agent_lm.name, output_name)
-                    else:
-                        sub_graph.add_edge(new_agent_lm.name, name_2_new_lm[next_agent].name) # for check name existance
-            else:
+            if not is_static_edge:
                 # dynamic edge
                 decision_code = agent_meta.dynamic_action_decision
                 clean_decision_code, func_name = get_branch_function(decision_code, next_action)
@@ -403,14 +441,13 @@ class LMTaskDecompose:
                 local_name_space = {}
                 exec(func_obj, {'hint_possible_destinations': hint_possible_destinations}, local_name_space)
                 callable_code = local_name_space[func_name]
-                sub_graph.add_branch(new_agent_lm.name, callable_code)
-        
+                sub_graph.add_branch(f'condition_flow_after_{agent_name}', agent_name, callable_code)
+                
+            
         # Replace the original agent with the sub-graph
-        sub_graph.compile()
-        sub_graph.visualize(os.path.join(self.log_dir, f'{lm.name}_sub_graph_viz'))
+        if not self.workflow.replace_node(lm, sub_graph):
+            logger.error(f"Failed to replace {lm.name} with the sub-graph")
         
-         
-    
     def decompose(
         self,
         log_dir: str = 'task_decompose_log',
@@ -424,3 +461,6 @@ class LMTaskDecompose:
         self.finalize_decomposition()
         for lm in self.decompose_target_lms:
             self._materialize_decomposition(lm, self.lm_2_final_system[lm.name])
+        self.workflow.compile()
+        self.workflow.visualize(os.path.join(log_dir, 'decomposed_workflow_viz'))
+        

@@ -1,26 +1,14 @@
 {
     "total": {
         "gpt-4o-mini-2024-07-18": {
-            "prompt_tokens": 1898,
-            "completion_tokens": 581
-        }
-    },
-    "direct_hyde": {
-        "gpt-4o-mini-2024-07-18": {
-            "prompt_tokens": 156,
-            "completion_tokens": 354
+            "prompt_tokens": 924,
+            "completion_tokens": 281
         }
     },
     "answer_compose": {
         "gpt-4o-mini-2024-07-18": {
-            "prompt_tokens": 791,
-            "completion_tokens": 222
-        }
-    },
-    "kalmv": {
-        "gpt-4o-mini-2024-07-18": {
-            "prompt_tokens": 951,
-            "completion_tokens": 5
+            "prompt_tokens": 924,
+            "completion_tokens": 281
         }
     }
 }

@@ -8,6 +8,7 @@ import time
 import logging
 import copy
 import threading
+from graphviz import Digraph
 
 from compiler.IR.utils import get_function_kwargs
 
@@ -55,6 +56,17 @@ class StatePool:
     def load(self, path: str):
         raise NotImplementedError
 
+@dataclass
+class Context:
+    predecessor: str
+    invoke_time: int # start from 1
+
+def hint_possible_destinations(dests: list[str]):
+    def hinter(func):
+        func._possible_destinations = dests
+        return func
+    return hinter
+
 
 class ModuleStatus(Enum):
     PENDING = auto()
@@ -67,6 +79,12 @@ class ModuleIterface(ABC):
     @abstractmethod
     def __call__(self, statep: StatePool):
         ...
+    
+    @abstractmethod
+    def reset(self):
+        """clear metadata for new run
+        """
+        ...
 
 class Module(ModuleIterface):
     def __init__(self, name, kernel) -> None:
@@ -77,7 +95,7 @@ class Module(ModuleIterface):
         self.status = None
         self.is_static = False
         self.version_id = 0
-        self.encloding_module = None
+        self.enclosing_module: 'Module' = None
         if kernel is not None:
             self.input_fields, self.defaults = get_function_kwargs(kernel)
         else:
@@ -85,8 +103,19 @@ class Module(ModuleIterface):
         self.on_signature_generation()
         logger.debug(f"Module {name} kernel has input fields {self.input_fields}")
     
+    def reset(self):
+        self.outputs = []
+        self.exec_times = []
+        self.status = None
+        self.version_id = 0
+    
     def forward(self, **kwargs):
         raise NotImplementedError
+    
+    def get_immediate_enclosing_module(self):
+        """return the immediate enclosing module of this module, None if this module is not in any module
+        """
+        return self.enclosing_module
     
     def on_signature_generation(self):
         """
@@ -97,7 +126,7 @@ class Module(ModuleIterface):
     def __call__(self, statep: StatePool):
         for field in self.input_fields:
             if field not in self.defaults and field not in statep.states:
-                raise ValueError(f"Missing field {field} in state when calling {self.name}")
+                raise ValueError(f"Missing field {field} in state when calling {self.name}, available fields: {statep.states.keys()}")
         kargs = {field: statep.news(field) for field in statep.states if field in self.input_fields}
                 
         # time the execution
@@ -111,14 +140,32 @@ class Module(ModuleIterface):
         self.exec_times.append(dur)
         self.status = ModuleStatus.SUCCESS
         self.version_id += 1
-
-    def clean(self):
-        self.outputs = []
     
 class ComposibleModuleInterface(ABC):
     @abstractmethod
     def immediate_submodules(self) -> List[Module]:
         pass
+    
+    @abstractmethod
+    def _visualize(self, dot: Digraph):
+        pass
+
+    def sub_module_validation(self, module: Module):
+        """
+        Example: 
+        ```python
+        a = Module('a', None)
+        b = Workflow('b'); b.add_module(a)
+        c = Workflow('c')
+        
+        # YES
+        c.add_module(b)
+        # NO
+        c.add_module(a)
+        ```
+        """
+        if (parent := module.enclosing_module) is not None:
+            raise ValueError(f"Source module {module.name} already registered in {parent.name}, please avoid adding the same module to multiple modules")
     
     @abstractmethod
     def replace_node_handler(self, old_node: Module, new_node: Module) -> bool:

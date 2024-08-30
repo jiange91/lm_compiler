@@ -51,7 +51,7 @@ class LMSelectionBayesianOptimization:
         states = []
         for state in self.trainset_input:
             state_cpy = copy.deepcopy(state)
-            self.workflow.reset_modules(True)
+            self.workflow.reset(True)
             self.workflow.pregel_run(state_cpy)
             
             self.workflow.update_token_usage_summary()

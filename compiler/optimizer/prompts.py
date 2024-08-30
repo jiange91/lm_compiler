@@ -381,7 +381,7 @@ For Novelty Evaluation Agent:
     ]
 }
 
-Then, you need to write code to combine the outputs of these new agents to generate the final output that is compatible to the orignal final output schema "PaperReviews". You should use their variable name in the function signature as they will be passed as keyword arguments in the future call. The first argument should always be "output_schema", which is a pydantic model class that represents the final output schema.
+Then, you need to write a function to combine the outputs of these new agents to generate the final output that is compatible to the orignal final output schema "PaperReviews". You should use their variable name in the function signature as they will be passed as keyword arguments in the future call. The first argument of the aggregation function should always be named "output_schema", which is a pydantic model class that represents the final output schema.
 
 Also this function need to return a dictionary that is compatible with the final output schema. In this case, the schema is "PaperReviews". so the final dictionary will be something like this:
 {

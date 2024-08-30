@@ -13,3 +13,5 @@ matplotlib
 pypdf
 pymupdf4llm
 devtools
+astunparse
+datamodel-code-generator

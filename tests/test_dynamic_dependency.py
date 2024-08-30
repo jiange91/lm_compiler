@@ -45,4 +45,4 @@ class TestDynamicDependency(unittest.TestCase):
         workflow.pregel_run(statep)
         self.assertCountEqual(statep.news('aggregate'), ['Im A', 'Im C', 'Im B', 'Im B2', 'Im E'])
         self.assertEqual(workflow.current_step, 6)
-        workflow.reset_modules()
+        workflow.reset()

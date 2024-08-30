@@ -106,6 +106,7 @@ class Map(Module, ComposibleModuleInterface):
     
     def replace_node_handler(self, old_node: Module, new_node: Module) -> bool:
         if old_node is not self.sub_graph:
+            logger.warning(f"Node {old_node.name} not found in {self.name}")
             return False
         self.sub_graph = new_node
         return True

@@ -1,13 +1,13 @@
 {
-    "query": 2.3096799850463867e-06,
-    "retrieve": 0.2501271879300475,
-    "sub_question_mapper": 1.3482131748460233,
-    "doc_filter_post_process": 0.00013010622933506966,
-    "knowledge_curation": 9.575726300943643,
-    "knowledge_preprocess": 5.420111119747162e-05,
-    "answer_compose": 2.763566258829087,
-    "answer": 1.6121193766593933e-06,
-    "answer_verification": 1.738686114549637e-05,
-    "direct_hyde_sub_graph": 5.4948747851885855,
-    "kalmv_sub_graph": 2.227731140796095
+    "query": 1.3033859431743622e-06,
+    "direct_hyde": 3.212458251044154,
+    "retrieve": 0.2152955080382526,
+    "sub_question_mapper": 1.2374184937216341,
+    "doc_filter_post_process": 0.00014688679948449135,
+    "knowledge_curation": 2.988806053996086,
+    "knowledge_preprocess": 6.298720836639404e-05,
+    "answer_compose": 2.704973126295954,
+    "kalmv": 0.427578782197088,
+    "answer": 2.248212695121765e-06,
+    "answer_verification": 2.0283274352550507e-05
 }

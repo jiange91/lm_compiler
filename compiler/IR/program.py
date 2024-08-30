@@ -460,4 +460,4 @@ class Workflow(Module, ComposibleModuleInterface):
                 # also replace function return
                 new_multiplexier = replace_branch_return_destination(branch.multiplexier, old_node.name, new_node.name)
                 branch.multiplexier = new_multiplexier
-                
+        return True

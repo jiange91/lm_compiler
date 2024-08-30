@@ -182,6 +182,7 @@ class ComposibleModuleInterface(ABC):
                 if isinstance(submodule, ComposibleModuleInterface):
                     if submodule.replace_node(old_node, new_node):
                         return True
+            logger.warning(f"Node {old_node.name} not found in {self.name}")
             return False
         
         return self.replace_node_handler(old_node, new_node)

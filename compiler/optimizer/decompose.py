@@ -446,7 +446,9 @@ class LMTaskDecompose:
             
         # Replace the original agent with the sub-graph
         if not self.workflow.replace_node(lm, sub_graph):
-            logger.error(f"Failed to replace {lm.name} with the sub-graph")
+            logger.error(f"Failed to replace {lm.name} with {sub_graph.name}")
+        else:
+            logger.info(f"Successfully replaced {lm.name} with {sub_graph.name}")
         
     def decompose(
         self,

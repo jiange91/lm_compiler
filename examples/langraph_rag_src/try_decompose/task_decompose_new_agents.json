@@ -1,0 +1,22 @@
+{
+    "direct_hyde": {
+        "score": 4,
+        "rationale": "Prompt 1 requires multi-step reasoning and planning. The agent must decompose the original query into sub-queries that cover comprehensive aspects without overlapping, and then generate short passages for each sub-query. This involves understanding the query, creating a structured plan, and generating relevant content."
+    },
+    "kalmv": {
+        "score": 4,
+        "rationale": "Prompt 3 requires evaluating the quality of LLM-generated answers based on multiple criteria. The agent must follow a specific decision-making process to grade the answer, which involves understanding the question, the provided knowledge, and the generated answer. This task requires multi-step reasoning and decision-making."
+    },
+    "answer_compose": {
+        "score": 3,
+        "rationale": "Prompt 2 involves answering user questions based on provided Q&A pairs. The agent needs to understand the context and synthesize information from multiple Q&A pairs to answer the main question. This requires some level of reasoning and decision-making but is more straightforward compared to Prompt 1."
+    },
+    "sub_answer_generator": {
+        "score": 2,
+        "rationale": "Prompt 4 involves answering questions using retrieved context. The agent needs to synthesize information from the context to provide a concise answer. While it requires some reasoning, it is relatively straightforward as it does not involve multiple steps or complex decision-making."
+    },
+    "doc_filter_lm": {
+        "score": 2,
+        "rationale": "Prompt 5 involves assessing the relevance of a document to a user question. The agent needs to determine if the document contains keywords or semantic meaning related to the question and provide a binary score. This task is straightforward and does not require complex reasoning or decision-making."
+    }
+}

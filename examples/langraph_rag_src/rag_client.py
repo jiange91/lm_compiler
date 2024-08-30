@@ -103,11 +103,11 @@ def task_disambiguous():
         workflow=rag_workflow,
     )
     decomposer.decompose(
-        log_dir='examples/langraph_rag_src/compile_log',
+        log_dir='examples/langraph_rag_src/try_decompose',
         threshold=4,
     )
 
-task_disambiguous()
+# task_disambiguous()
 sample_run()
 exit()
 

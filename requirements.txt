@@ -15,3 +15,14 @@ pymupdf4llm
 devtools
 astunparse
 datamodel-code-generator
+
+openai
+regex
+tenacity
+torch
+accelerate
+plotly
+seaborn
+kaleido
+ternary
+holoviews

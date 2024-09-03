@@ -138,12 +138,14 @@ class Branch(Module):
         src: list[str],
         multiplexier: Callable[..., Union[Hashable, list[Hashable]]],
         destinations: list[str],
-        multiplexier_str: Optional[str] = None
+        multiplexier_str: Optional[str] = None,
     ) -> None:
         super().__init__(name=name, kernel=multiplexier)
         self.src = src
         self.multiplexier = multiplexier
         self.destinations = destinations
+        self.invoke_times = 0
+        
         if multiplexier_str is not None:
             self.multiplexier_str = multiplexier_str
         else:
@@ -157,7 +159,8 @@ class Branch(Module):
         self.defaults.pop('ctx', None)
     
     def forward(self, **kwargs):
-        ctx = Context(self.name, self.version_id)
+        ctx = Context(self, self.name, self.invoke_times)
         dest = self.kernel(ctx, **kwargs)
         dest = dest if isinstance(dest, list) else [dest]
+        self.invoke_times += 1
         return {self.name + '#branch_result': dest}

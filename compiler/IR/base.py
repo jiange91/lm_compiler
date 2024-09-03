@@ -15,25 +15,20 @@ from compiler.IR.utils import get_function_kwargs
 logger = logging.getLogger(__name__)
 class State:
     def __init__(self, version_id, data, is_static) -> None:
-        self.version_id = version_id
+        self.version_id = version_id # currently not used
         self.data = data
         self.is_static = is_static # if True, the state will not be updated anymore
 
 class StatePool:
     def __init__(self):
-        self.states = defaultdict(list)
+        self.states: dict[str, list[State]] = defaultdict(list)
         
     def news(self, key: str, default = None):
         if key not in self.states or not self.states[key]:
             if default is None:
                 raise ValueError(f"Key {key} not found in state")
             return default
-        newest, version = None, -1
-        for state in self.states[key]:
-            if state.version_id > version:
-                newest = state
-                version = state.version_id
-        return newest.data
+        return self.states[key][-1].data
     
     def init(self, kvs):
         self.publish(kvs, is_static = True, version_id = 0)
@@ -60,6 +55,7 @@ class StatePool:
 
 @dataclass
 class Context:
+    calling_module: 'Module'
     predecessor: str
     invoke_time: int # start from 1
 

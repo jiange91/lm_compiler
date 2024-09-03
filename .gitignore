@@ -163,6 +163,7 @@ cython_debug/
 my_env/
 results/
 compile_log/
+compiler_logs/
 
 # secrets
 secrets.toml

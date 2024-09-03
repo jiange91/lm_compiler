@@ -157,7 +157,6 @@ inline_graph()
 from compiler.IR.utils import get_function_kwargs, simple_cycles
 # sample_run()
 cycles = sorted(simple_cycles(rag_workflow.edges), key=lambda x: len(x), reverse=True)
-exit()
 
 
 # Find important LMs

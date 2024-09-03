@@ -54,8 +54,10 @@ def get_bill(token_usage, hyperthetical_model_options = None):
     def model_2_price_pM(model: str, prompt, completion):
         if 'gpt-4o-mini' in model:
             return (0.15 * prompt +  0.6 * completion) / 1e6
-        elif 'gpt-4o' in model:
+        elif 'gpt-4o-2024-05-13' in model:
             return (5 * prompt + 15 * completion) / 1e6
+        elif 'gpt-4o-2024-08-06' in model:
+            return (2.5 * prompt + 10 * completion) / 1e6
     per_gpt_use = {}
     for step, usage in token_usage.items():
         if step == 'total':

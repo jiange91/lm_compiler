@@ -30,6 +30,7 @@ class LMImportanceEvaluator:
             always only return one numerical value
             
         trainset_input: Iterable[StatePool]
+            since user might pass in a generator, we currently do not check length
         
         trainset_label: Iterable[Any]
     """

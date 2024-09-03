@@ -3,6 +3,7 @@ from langchain_core.outputs.llm_result import LLMResult
 from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.prompts import ChatPromptTemplate 
 from langchain_core.output_parsers import PydanticOutputParser
+from langchain_core.prompts import HumanMessagePromptTemplate
 from langchain_core.pydantic_v1 import BaseModel, Field
 import logging
 from typing import Union, Callable
@@ -13,6 +14,80 @@ import json
 from compiler.IR.llm import LLMPredictor, LMConfig, LMSemantic
 
 logger = logging.getLogger(__name__)
+
+def get_format_instruction(schema: BaseModel):
+    example_json_schema = """
+{
+    "title": "ComplexityList",
+    "description": "complexity of all agents",
+    "type": "object",
+    "properties": {
+        "es": {
+            "title": "Es",
+            "description": "list of complexity descriptions",
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/ComplexityEstimation"
+            }
+        }
+    },
+    "required": [
+        "es"
+    ],
+    "definitions": {
+        "ComplexityEstimation": {
+            "title": "ComplexityEstimation",
+            "description": "complexity of each agent",
+            "type": "object",
+            "properties": {
+                "score": {
+                    "title": "Score",
+                    "description": "complexity score of the agent",
+                    "type": "integer"
+                },
+                "rationale": {
+                    "title": "Rationale",
+                    "description": "rationale for the complexity score",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "score",
+                "rationale"
+            ]
+        }
+    }
+}
+    """
+    example_output_json = """
+{
+    "es": [
+        {"score": 1, "rationale": "rationale 1"},
+        {"score": 2, "rationale": "rationale 2"},
+        ...
+    ]
+}
+"""
+    
+    template = """\
+Your answer should be formatted as a JSON instance that conforms to the JSON schema.
+
+As an example, given the JSON schema:
+{example_json_schema}
+
+Your answer in this case should be formatted as follows:
+{example_output_json}
+
+Here's the real JSON schema:
+{real_json_schema}
+
+Please provide your answer in the correct json format accordingly. Pay attention to the enum field in properties, do not generate answer that is not in the enum field if provided.
+"""
+    return template.format(
+        example_json_schema=example_json_schema,
+        example_output_json=example_output_json,
+        real_json_schema=schema.schema_json()
+    )
 
 class LLMTracker(BaseCallbackHandler):
     def __init__(self, cmodule: 'LangChainLM'):
@@ -28,37 +103,58 @@ class LangChainSemantic(LMSemantic):
     def __init__(
         self,
         system_prompt: str,
-        inputs: Union[str, list[str]], 
+        inputs: Union[str, list[str]],
         output_format: BaseModel,
+        img_input_idices: list[int] = None,
     ):
         self.system_prompt = system_prompt
+        self.img_input_idices = img_input_idices
         self.inputs = inputs if isinstance(inputs, list) else [inputs]
         self.output_format = output_format
         # NOTE: output name is inferred from the output format, use top-level fields only
         self.outputs = list(self.output_format.__fields__.keys())
         
+        user_messages = []
+        for img_idx in self.img_input_idices:
+            user_messages.append(
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/png;base64,{{{self.inputs[img_idx]}}}"
+                    }
+                }
+            )
         input_fields = []
-        for input in self.inputs:
-            input_fields.append(f"- {input}:\n{{{input}}}")
-        usr_prompt = "\n".join(input_fields) + "\n\nYour answer:\n"
-        
+        for i, input in enumerate(self.inputs):
+            if not self.img_input_idices or i not in self.img_input_idices:
+                input_fields.append(f"- {input}:\n{{{input}}}")
+        usr_prompt = "\n".join(input_fields) + "\n\n" + \
+                    "Your answer:\n"
+        user_messages.append(
+            {
+                "type": "text",
+                "text": usr_prompt
+            }
+        )
         self.chat_prompt_template = ChatPromptTemplate.from_messages(
             [
-                ("system", self.system_prompt),
-                ("human", usr_prompt),
+                ("system", self.system_prompt + "\n\n" + "{there_is_no_way_overlap_output_format}"),
+                HumanMessagePromptTemplate.from_template(template=user_messages)
             ]
-        )
+        ).partial(there_is_no_way_overlap_output_format=get_format_instruction(self.output_format))
         
         self.langchain_lm_kernel = self.create_kernel_func()
     
     def create_kernel_func(self):
         inputs_str = ', '.join(self.inputs)
-        invoke_arg_dict_str = '{' + ', '.join([f'"{input}": {input}' for input in self.inputs]) + '}'
+        invoke_arg_dict_str = '{' + ', '.join(
+                [f'"{input}": {input}' for input in self.inputs] 
+            ) + '}'
         result_str = '{' + ', '.join(f'"{output}": result.{output}' for output in self.outputs) + '}'
         
         langchain_lm_template = f"""
 def langchain_lm_kernel(llm, {inputs_str}):
-    sllm = llm.with_structured_output(self.output_format)
+    sllm = llm.with_structured_output(self.output_format, method="json_mode")
     routine = self.chat_prompt_template | sllm
     result = routine.invoke({invoke_arg_dict_str})
     return {result_str}
@@ -83,6 +179,14 @@ def langchain_lm_kernel(llm, {inputs_str}):
 
     def get_output_schema(self) -> BaseModel:
         return self.output_format
+
+    def get_high_level_info(self) -> str:
+        dict = {
+            "agent_prompt": self.system_prompt,
+            "input_names": self.inputs,
+            "output_names": self.outputs,
+        }
+        return json.dumps(dict, indent=4)
 
     def get_formatted_info(self) -> str:
         output_schemas = json.loads(self.output_format.schema_json())

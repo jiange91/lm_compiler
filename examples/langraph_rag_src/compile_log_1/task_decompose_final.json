@@ -1,0 +1,160 @@
+{
+    "kalmv": {
+        "agents": {
+            "Question Relevance Evaluator": {
+                "agent_prompt": "You are responsible for evaluating the relevance of the answer to the user question. Given the user question and the answer, determine if the answer addresses the question. If the answer does not address the question, grade it as 'ae'. If it does address the question, pass the evaluation to the next agent.",
+                "inputs_varaibles": [
+                    "question",
+                    "answer"
+                ],
+                "output_json_schema": {
+                    "title": "QuestionRelevanceDecision",
+                    "description": "Decision on whether the answer addresses the user question.",
+                    "type": "object",
+                    "properties": {
+                        "decision": {
+                            "title": "Decision",
+                            "description": "Decision on whether the answer addresses the user question, 'ae' or pass to next agent.",
+                            "enum": [
+                                "ae",
+                                "pass"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "decision"
+                    ]
+                },
+                "next_action": [
+                    "Knowledge Relevance Evaluator",
+                    "END"
+                ],
+                "dynamic_action_decision": "def next_agent(decision): return ['END'] if decision == 'ae' else ['Knowledge Relevance Evaluator']"
+            },
+            "Knowledge Relevance Evaluator": {
+                "agent_prompt": "You are responsible for assessing the relevance of the provided knowledge to the user question. Given the user question and the knowledge, determine if the knowledge is relevant to the question. If the knowledge is irrelevant, grade it as 're'. If it is relevant, pass the evaluation to the next agent.",
+                "inputs_varaibles": [
+                    "question",
+                    "knowledge"
+                ],
+                "output_json_schema": {
+                    "title": "KnowledgeRelevanceDecision",
+                    "description": "Decision on whether the knowledge is relevant to the user question.",
+                    "type": "object",
+                    "properties": {
+                        "decision": {
+                            "title": "Decision",
+                            "description": "Decision on whether the knowledge is relevant to the user question, 're' or pass to next agent.",
+                            "enum": [
+                                "re",
+                                "pass"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "decision"
+                    ]
+                },
+                "next_action": [
+                    "Grounding Evaluator",
+                    "END"
+                ],
+                "dynamic_action_decision": "def next_agent(decision): return ['END'] if decision == 're' else ['Grounding Evaluator']"
+            },
+            "Grounding Evaluator": {
+                "agent_prompt": "You are responsible for evaluating whether the answer is grounded in the provided knowledge. Given the answer and the relevant knowledge, determine if the answer is grounded by the knowledge. If the answer is not grounded by the knowledge, grade it as 'ge'. If it is grounded, grade it as 'accept'.",
+                "inputs_varaibles": [
+                    "answer",
+                    "knowledge"
+                ],
+                "output_json_schema": {
+                    "title": "GroundingDecision",
+                    "description": "Decision on whether the answer is grounded by the provided knowledge.",
+                    "type": "object",
+                    "properties": {
+                        "decision": {
+                            "title": "Decision",
+                            "description": "Decision on whether the answer is grounded by the provided knowledge, 'ge' or 'accept'.",
+                            "enum": [
+                                "ge",
+                                "accept"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "decision"
+                    ]
+                },
+                "next_action": [
+                    "END"
+                ],
+                "dynamic_action_decision": "None"
+            }
+        },
+        "final_output_aggregator_code": "None"
+    },
+    "direct_hyde": {
+        "agents": {
+            "SubQueryGenerator": {
+                "agent_prompt": "You are responsible for generating a list of sub-queries based on a given user query. Your goal is to ensure that these sub-queries cover comprehensive aspects of the original query while minimizing overlaps. Please provide a list of sub-queries that are distinct and relevant to the original query.",
+                "inputs_varaibles": [
+                    "question"
+                ],
+                "output_json_schema": {
+                    "title": "SubQuestionsSchema",
+                    "description": "Schema for the list of sub-queries generated based on the original question.",
+                    "type": "object",
+                    "properties": {
+                        "sub_questions": {
+                            "title": "Sub Questions",
+                            "description": "A list of sub-topics",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "required": [
+                        "sub_questions"
+                    ]
+                },
+                "next_action": [
+                    "PassageWriter"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "PassageWriter": {
+                "agent_prompt": "You are tasked with writing short passages that answer specific topics derived from sub-queries. For each sub-query provided to you, create a concise and informative passage that directly addresses the topic of the sub-query. Ensure that the passages are clear and relevant.",
+                "inputs_varaibles": [
+                    "sub_questions"
+                ],
+                "output_json_schema": {
+                    "title": "PassagesSchema",
+                    "description": "Schema for the passages generated for the sub-queries.",
+                    "type": "object",
+                    "properties": {
+                        "passages": {
+                            "title": "Passages",
+                            "description": "Passages generated for the sub-topics",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "required": [
+                        "passages"
+                    ]
+                },
+                "next_action": [
+                    "END"
+                ],
+                "dynamic_action_decision": "None"
+            }
+        },
+        "final_output_aggregator_code": "def combine_outputs(output_schema, sub_questions, passages):\n    return output_schema(sub_questions=sub_questions, passages=passages)"
+    }
+}

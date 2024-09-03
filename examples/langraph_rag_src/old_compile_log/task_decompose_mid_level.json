@@ -1,0 +1,80 @@
+{
+    "direct_hyde": {
+        "agents": {
+            "QueryDecomposerAgent": {
+                "inputs": [
+                    "question"
+                ],
+                "outputs": [
+                    "sub_questions"
+                ],
+                "prompt": "You are responsible for breaking down a user query into a set of distinct sub-queries. Your goal is to ensure that these sub-queries comprehensively cover different aspects of the original query without significant overlap. Please analyze the user query and generate a list of sub-queries that are relevant and diverse.",
+                "next_action": [
+                    "PassageGeneratorAgent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "PassageGeneratorAgent": {
+                "inputs": [
+                    "sub_questions"
+                ],
+                "outputs": [
+                    "passages"
+                ],
+                "prompt": "You are tasked with generating short passages based on the sub-queries provided by the Query Decomposer Agent. For each sub-query, create a concise passage that effectively answers the topic addressed by that sub-query. Ensure that the passages are informative and relevant to the respective sub-queries.",
+                "next_action": [
+                    "END"
+                ],
+                "dynamic_action_decision": "None"
+            }
+        }
+    },
+    "kalmv": {
+        "agents": {
+            "Question Addressing Agent": {
+                "inputs": [
+                    "question",
+                    "answer"
+                ],
+                "outputs": [
+                    "decision"
+                ],
+                "prompt": "You are responsible for evaluating whether the provided answer addresses the user question. If the answer does not address the question, grade it as 'ae'. If it does address the question, pass the evaluation to the next agent.",
+                "next_action": [
+                    "Relevance Evaluation Agent",
+                    "END"
+                ],
+                "dynamic_action_decision": "def next_agent(decision): return ['END'] if decision == 'ae' else ['Relevance Evaluation Agent']"
+            },
+            "Relevance Evaluation Agent": {
+                "inputs": [
+                    "question",
+                    "knowledge"
+                ],
+                "outputs": [
+                    "decision"
+                ],
+                "prompt": "You are responsible for assessing the relevance of the provided knowledge to the user question. If the knowledge is irrelevant to the question, grade it as 're'. If the knowledge is relevant, pass the evaluation to the next agent.",
+                "next_action": [
+                    "Grounding Evaluation Agent",
+                    "END"
+                ],
+                "dynamic_action_decision": "def next_agent(decision): return ['END'] if decision == 're' else ['Grounding Evaluation Agent']"
+            },
+            "Grounding Evaluation Agent": {
+                "inputs": [
+                    "answer",
+                    "knowledge"
+                ],
+                "outputs": [
+                    "decision"
+                ],
+                "prompt": "You are responsible for determining if the provided answer is grounded by the relevant knowledge. If the answer is not grounded by the knowledge, grade it as 'ge'. If the answer is grounded, grade it as 'accept'.",
+                "next_action": [
+                    "END"
+                ],
+                "dynamic_action_decision": "None"
+            }
+        }
+    }
+}

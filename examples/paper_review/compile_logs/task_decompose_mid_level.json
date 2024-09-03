@@ -1,0 +1,132 @@
+{
+    "reviewer": {
+        "agents": {
+            "Paper Summary Agent": {
+                "inputs": [
+                    "paper_text"
+                ],
+                "outputs": [
+                    "summary"
+                ],
+                "prompt": "You are tasked with summarizing a research paper submitted to a prestigious ML venue. Your summary should briefly outline the main contributions of the paper without including any critique. Ensure that your summary is clear and concise, capturing the essence of the work in a way that the authors would generally agree with.",
+                "next_action": [
+                    "Strengths and Weaknesses Assessment Agent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "Strengths and Weaknesses Assessment Agent": {
+                "inputs": [
+                    "paper_text"
+                ],
+                "outputs": [
+                    "strengths",
+                    "weaknesses",
+                    "originality",
+                    "quality",
+                    "clarity",
+                    "significance"
+                ],
+                "prompt": "You are responsible for critically assessing the strengths and weaknesses of a research paper submitted to a prestigious ML venue. Evaluate the paper based on the following dimensions: originality, quality, clarity, and significance. Provide a thorough analysis for each dimension, noting whether the tasks or methods are new, if the submission is technically sound, if it is clearly written, and if the results are important. Be constructive in your feedback.",
+                "next_action": [
+                    "Questions and Suggestions Agent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "Questions and Suggestions Agent": {
+                "inputs": [
+                    "paper_text"
+                ],
+                "outputs": [
+                    "questions"
+                ],
+                "prompt": "Your role is to formulate questions and suggestions for the authors of a research paper submitted to a prestigious ML venue. Carefully describe any questions that could clarify confusion or address limitations in the paper. Think about aspects where a response from the authors could change your opinion or enhance the discussion during the rebuttal phase.",
+                "next_action": [
+                    "Limitations and Ethical Concerns Agent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "Limitations and Ethical Concerns Agent": {
+                "inputs": [
+                    "paper_text"
+                ],
+                "outputs": [
+                    "limitations",
+                    "ethical_concerns"
+                ],
+                "prompt": "You are tasked with evaluating whether the authors of a research paper have adequately addressed the limitations and potential negative societal impacts of their work. If they have not, provide constructive suggestions for improvement. Additionally, identify any ethical issues present in the paper and flag it for an ethics review if necessary, following the NeurIPS ethics guidelines.",
+                "next_action": [
+                    "Soundness Rating Agent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "Soundness Rating Agent": {
+                "inputs": [
+                    "paper_text"
+                ],
+                "outputs": [
+                    "soundness"
+                ],
+                "prompt": "Your responsibility is to assign a numerical rating to the research paper based on the soundness of its technical claims, experimental methodology, and whether the central claims are adequately supported with evidence. Use the following scale: 4 for excellent, 3 for good, 2 for fair, and 1 for poor.",
+                "next_action": [
+                    "Presentation Rating Agent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "Presentation Rating Agent": {
+                "inputs": [
+                    "paper_text"
+                ],
+                "outputs": [
+                    "presentation"
+                ],
+                "prompt": "You are to assign a numerical rating to the research paper based on the quality of its presentation. Consider the writing style, clarity, and how well it contextualizes relative to prior work. Use the following scale: 4 for excellent, 3 for good, 2 for fair, and 1 for poor.",
+                "next_action": [
+                    "Contribution Rating Agent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "Contribution Rating Agent": {
+                "inputs": [
+                    "paper_text"
+                ],
+                "outputs": [
+                    "contribution"
+                ],
+                "prompt": "Your task is to assign a numerical rating to the research paper based on the quality of its overall contribution to the research area. Evaluate the importance of the questions being asked, the originality of ideas, and the value of the results to the broader NeurIPS community. Use the following scale: 4 for excellent, 3 for good, 2 for fair, and 1 for poor.",
+                "next_action": [
+                    "Overall Score Agent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "Overall Score Agent": {
+                "inputs": [
+                    "soundness",
+                    "presentation",
+                    "contribution"
+                ],
+                "outputs": [
+                    "overall"
+                ],
+                "prompt": "You are responsible for providing an overall score for the research paper submission. Use the following scoring system: 10 for award quality, 9 for very strong accept, 8 for strong accept, 7 for accept, 6 for weak accept, 5 for borderline accept, 4 for borderline reject, 3 for reject, 2 for strong reject, and 1 for very strong reject.",
+                "next_action": [
+                    "Confidence Rating Agent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "Confidence Rating Agent": {
+                "inputs": [
+                    "paper_text"
+                ],
+                "outputs": [
+                    "confidence",
+                    "decision"
+                ],
+                "prompt": "Your role is to assign a confidence score for your assessment of the research paper submission. Use the following scale: 5 for absolute certainty, 4 for confident but not absolutely certain, 3 for fairly confident, 2 for willing to defend but likely misunderstood, and 1 for an educated guess. Based on the confidence score and the overall score, make a final decision to accept or reject the paper.",
+                "next_action": [
+                    "END"
+                ],
+                "dynamic_action_decision": "None"
+            }
+        }
+    }
+}

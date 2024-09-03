@@ -1,0 +1,52 @@
+digraph {
+	compound=true
+	_rag_cluster_ancor [fixedsize=true height=0 style=invis width=0]
+	query -> _direct_hyde_sub_graph_cluster_ancor [lhead=cluster_direct_hyde_sub_graph]
+	retrieve -> _sub_question_mapper_cluster_ancor [lhead=cluster_sub_question_mapper]
+	_sub_question_mapper_cluster_ancor -> doc_filter_post_process [ltail=cluster_sub_question_mapper]
+	doc_filter_post_process -> _knowledge_curation_cluster_ancor [lhead=cluster_knowledge_curation]
+	_knowledge_curation_cluster_ancor -> knowledge_preprocess [ltail=cluster_knowledge_curation]
+	knowledge_preprocess -> answer_compose
+	answer_compose -> _kalmv_sub_graph_cluster_ancor [lhead=cluster_kalmv_sub_graph]
+	_direct_hyde_sub_graph_cluster_ancor -> retrieve [ltail=cluster_direct_hyde_sub_graph]
+	_kalmv_sub_graph_cluster_ancor -> answer_verification [ltail=cluster_kalmv_sub_graph]
+	answer_verification -> _direct_hyde_sub_graph_cluster_ancor [lhead=cluster_direct_hyde_sub_graph style=dashed]
+	answer_verification -> answer_compose [style=dashed]
+	answer_verification -> answer [style=dashed]
+	subgraph cluster_sub_question_mapper {
+		_sub_question_mapper_cluster_ancor [fixedsize=true height=0 style=invis width=0]
+		subgraph cluster_doc_mapper {
+			_doc_mapper_cluster_ancor [fixedsize=true height=0 style=invis width=0]
+			doc_filter_lm
+		}
+		label=sub_question_mapper
+	}
+	subgraph cluster_knowledge_curation {
+		_knowledge_curation_cluster_ancor [fixedsize=true height=0 style=invis width=0]
+		sub_answer_generator
+		label=knowledge_curation
+	}
+	subgraph cluster_direct_hyde_sub_graph {
+		_direct_hyde_sub_graph_cluster_ancor [fixedsize=true height=0 style=invis width=0]
+		direct_hyde_final_aggregator -> direct_hyde_sub_graph_output
+		direct_hyde_sub_graph_input -> QueryDecomposerAgent
+		direct_hyde_sub_graph_input -> PassageGeneratorAgent
+		QueryDecomposerAgent -> PassageGeneratorAgent
+		PassageGeneratorAgent -> direct_hyde_final_aggregator
+		label=direct_hyde_sub_graph
+	}
+	subgraph cluster_kalmv_sub_graph {
+		_kalmv_sub_graph_cluster_ancor [fixedsize=true height=0 style=invis width=0]
+		kalmv_sub_graph_input -> "Question Addressing Agent"
+		kalmv_sub_graph_input -> "Relevance Evaluation Agent"
+		kalmv_sub_graph_input -> "Grounding Evaluation Agent"
+		"Grounding Evaluation Agent" -> kalmv_sub_graph_output
+		"Question Addressing Agent" -> "condition_flow_after_Question Addressing Agent"
+		"Relevance Evaluation Agent" -> "condition_flow_after_Relevance Evaluation Agent"
+		"condition_flow_after_Question Addressing Agent" -> "Relevance Evaluation Agent" [style=dashed]
+		"condition_flow_after_Question Addressing Agent" -> kalmv_sub_graph_output [style=dashed]
+		"condition_flow_after_Relevance Evaluation Agent" -> "Grounding Evaluation Agent" [style=dashed]
+		"condition_flow_after_Relevance Evaluation Agent" -> kalmv_sub_graph_output [style=dashed]
+		label=kalmv_sub_graph
+	}
+}

@@ -124,18 +124,10 @@ user_prompt = """
 
 Now, this is the real user question for you:
 
-### Existing agent prompt
-{{
-{old_prompt}
-}}
+## Information of the existing agent system
+{old_info}
 
-### Original inputs
-{inputs}
-
-### Original outputs
-{outputs}
-
-### Suggested new agents, with name: prompt
+## Suggested new agents, with name and prompt
 {new_agents}
 
 Your answer:
@@ -148,13 +140,12 @@ def decompose_refine_kernel(new_agent_name_prompt: dict[str, str], semantic: LMS
             ("system", decompose_refine_system),
             ("human", user_prompt),
         ]
-    ).partial(example_json_output=refine_example_json_output) # this is to avoid manual bracket escaping :)
+    ).partial(example_agent_info=example_agent_info,
+              example_json_output=refine_example_json_output) # this is to avoid manual bracket escaping :)
     llm = ChatOpenAI(model="gpt-4o", temperature=0.0) # 4o-mini is not good
     routine = decompose_refine_prompt | llm | StrOutputParser()
     new_interaction = routine.invoke({
-        "old_prompt": semantic.get_agent_role(), 
-        "inputs": semantic.get_agent_inputs(),
-        "outputs": semantic.get_agent_outputs(),
+        "old_info": semantic.get_high_level_info(), 
         "new_agents": new_agent_name_prompt,
         }
     )
@@ -167,9 +158,7 @@ def decompose_refine_kernel(new_agent_name_prompt: dict[str, str], semantic: LMS
     sllm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0).with_structured_output(NewAgentSystem, method="json_mode")
     reformater = decompose_refine_prompt | sllm
     new_system = reformater.invoke({
-        "old_prompt": semantic.get_agent_role(), 
-        "inputs": semantic.get_agent_inputs(),
-        "outputs": semantic.get_agent_outputs(),
+        "old_info": semantic.get_high_level_info(), 
         "new_agents": new_agent_name_prompt,
         "new_interaction": new_interaction,
         "format_instructions": mid_level_system_format_instructions,
@@ -249,7 +238,6 @@ def finalize_new_agents_kernel(old_semantic: LMSemantic, mid_level_desc: NewAgen
         "old_semantic": old_semantic.get_formatted_info(),
         "new_system": mid_level_desc.json(),
         "new_interaction": new_interaction,
-        # "format_instructions": parser.get_format_instructions(),
         "format_instructions": structured_system_format,
         }
     )
@@ -309,7 +297,7 @@ class LMTaskDecompose:
             
             for lm, score, rationale in decompose_candidates:
                 logger.info(f"Complexity of {lm.name}: {score}\nrationale: {rationale}\n\n")
-            with open(os.path.join(self.log_dir, 'task_decompose_new_agents.json'), 'w+') as f:
+            with open(os.path.join(self.log_dir, 'task_decompose_candidates.json'), 'w+') as f:
                 json.dump({lm.name: {'score': score, 'rationale': rationale} for lm, score, rationale in decompose_candidates}, f, indent=4)
             
             logger.info("Performing high-level agent decomposition")
@@ -331,7 +319,7 @@ class LMTaskDecompose:
                 self.lm_2_new_system[lm.name] = new_system
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 executor.map(_ld, self.decompose_target_lms)
-            # for lm in self.lm_modules:
+            # for lm in self.decompose_target_lms:
             #     _ld(lm)
             
             logger.info("Mid-level decomposition results:\n") 
@@ -401,7 +389,7 @@ class LMTaskDecompose:
                 output_format=output_model
             )
             agent_lm = LangChainLM(agent_name, lm_semantic)
-            agent_lm.lm_config = {'model': 'gpt-4o-mini', 'temperature': 0.0}
+            agent_lm.lm_config = {'model': 'gpt-4o-2024-05-13', 'temperature': 0.0}
             name_2_new_lm[agent_name] = agent_lm
             sub_graph.add_module(agent_lm)
         
@@ -441,11 +429,11 @@ class LMTaskDecompose:
                 local_name_space = {}
                 exec(func_obj, {'hint_possible_destinations': hint_possible_destinations}, local_name_space)
                 callable_code = local_name_space[func_name]
-                sub_graph.add_branch(f'condition_flow_after_{agent_name}', agent_name, callable_code)
-                
+                sub_graph.add_branch(f'condition_flow_after_{agent_name}', agent_name, callable_code, clean_decision_code)
             
         # Replace the original agent with the sub-graph
-        if not self.workflow.replace_node(lm, sub_graph):
+        self.workflow.add_module(sub_graph)
+        if not self.workflow.replace_node(lm, sub_graph, sub_graph):
             logger.error(f"Failed to replace {lm.name} with {sub_graph.name}")
         else:
             logger.info(f"Successfully replaced {lm.name} with {sub_graph.name}")

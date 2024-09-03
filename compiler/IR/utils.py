@@ -1,6 +1,7 @@
 import inspect
 from collections import defaultdict
 from typing import Callable
+from langchain_core.pydantic_v1 import BaseModel, Field
 
 def get_function_kwargs(func: Callable):
     signature = inspect.signature(func)
@@ -15,6 +16,7 @@ def get_function_kwargs(func: Callable):
         if param.default != inspect.Parameter.empty:
             defaults[name] = param.default
     return input_fields, defaults
+
 
 
 # A dependency-free version of networkx's implementation of Johnson's cycle finding algorithm
@@ -124,6 +126,6 @@ def subgraph(G, vertices):
     # Expects values of G to be sets
     return {v: G[v] & vertices for v in vertices}
 
-##example:
+#example:
 # graph = {0: [1], 1: [2], 2: [3], 3: [1], 3: [4], 4: [1, 2, 5], 5: []}
 # print(tuple(simple_cycles(graph)))

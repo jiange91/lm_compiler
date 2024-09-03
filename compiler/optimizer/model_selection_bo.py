@@ -10,6 +10,7 @@ import numpy as np
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.llm import LMConfig, LLMPredictor
 from compiler.utils import get_bill
+from compiler.optimizer.tracer import batch_run_and_eval, OfflineBatchTracer
 
 
 logger = logging.getLogger(__name__)
@@ -30,9 +31,9 @@ class LMSelectionBayesianOptimization:
     ):
         self.lm_modules : list[LLMPredictor] = workflow.get_all_modules(lambda x: isinstance(x, LLMPredictor))
         if not isinstance(teachers, dict):
-            teachers = {m: teachers for m in self.lm_modules}
+            teachers = {m.name: teachers for m in self.lm_modules}
         if not isinstance(module_2_options, dict):
-            module_2_options = {m: module_2_options for m in self.lm_modules}
+            module_2_options = {m.name: module_2_options for m in self.lm_modules}
         self.workflow = workflow
         self.teachers = teachers
         self.module_2_options = module_2_options
@@ -45,45 +46,18 @@ class LMSelectionBayesianOptimization:
         self.tpe_distributions = {}
         for lm in self.lm_modules:
             self.tpe_distributions[lm.name] = optuna.distributions.CategoricalDistribution(module_2_options[lm.name])
-
-    def batch_run_and_eval(self):
-        prices = []
-        states = []
-        for state in self.trainset_input:
-            state_cpy = copy.deepcopy(state)
-            self.workflow.reset(True)
-            self.workflow.pregel_run(state_cpy)
-            
-            self.workflow.update_token_usage_summary()
-            price = get_bill(self.workflow.token_usage_buffer)[0]
-            prices.append(price)
-            
-            states.append(state_cpy)
-        scores = []
-        for gt, state in zip(self.trainset_label, states):
-            scores.append(self.final_output_metric(gt, state))
-        return states, scores, prices
         
-    def get_teacher_performance(self, pred_path: str):
-        if os.path.exists(pred_path):
-            logger.info(f"Loading metrics and prices from {pred_path}")
-            with open(pred_path, 'r') as f:
-                teacher_trials = json.load(f)
-            for trial in teacher_trials:
-                self.teacher_performance.append(trial['score'])
-        else:
-            for lm in self.lm_modules:
-                lm.lm_config['model'] = self.teachers[lm.name]
-            teacher_states, scores, prices = self.batch_run_and_eval()
-            teacher_trials = [{'score': score, 'price': price} for score, price in zip(scores, prices)]
-            json.dump(teacher_trials, open(pred_path, 'w+'), indent=4)
-            self.teacher_performance = scores
+    def get_teacher_performance(self, fields_in_interest: list[str], log_dir: str):
+        tracer = OfflineBatchTracer(self.workflow, self.teachers, self.final_output_metric)
+        teacher_trials = tracer.run(self.trainset_input, self.trainset_label, fields_in_interest, log_dir)
+        
+        self.teacher_performance = [t['score'] for t in teacher_trials]
         self.teacher_avg_price = np.mean([t['price'] for t in teacher_trials])
         logger.info(f"average teacher price: {self.teacher_avg_price}")
     
-    def get_objective_function(self):
+    def get_objective_function(self, fields_in_interest: list[str]):
         def objective_function(trial):
-            logging.info(f"Trial: {trial.number}")
+            logger.info(f"Trial: {trial.number}")
             self.tpe_logs[trial.number] = {}
             self.tpe_logs[trial.number]['params'] = {}
             for lm in self.lm_modules:
@@ -91,13 +65,19 @@ class LMSelectionBayesianOptimization:
                 selected = trial.suggest_categorical(lm.name, lm_options)
                 lm.lm_config['model'] = selected
                 self.tpe_logs[trial.number]['params'][lm.name] = selected
-            states, scores, prices = self.batch_run_and_eval()
+            states, scores, prices = batch_run_and_eval(
+                self.workflow, self.trainset_input, self.trainset_label, self.final_output_metric
+            )
             # take the average of the performance recovery across different tasks
             avg_performance_recovery = sum(ours / teacher for ours, teacher in zip(scores, self.teacher_performance)) / len(scores)
             # Get the avg price as second objective
             avg_price = sum(prices) / len(prices)
             self.tpe_logs[trial.number]['performance_recovery'] = avg_performance_recovery
+            self.tpe_logs[trial.number]['performance_value'] = sum(scores) / len(scores)
             self.tpe_logs[trial.number]['price'] = avg_price
+            logger.info(f"Trial {trial.number} result: performance recovery: {avg_performance_recovery}, price: {avg_price}")
+            if fields_in_interest is not None:
+                self.tpe_logs[trial.number]['fields'] = [state.all_news(fields_in_interest) for state in states]
             return avg_performance_recovery, avg_price
         
         return objective_function
@@ -120,15 +100,16 @@ class LMSelectionBayesianOptimization:
         gap: float = .95,
         base_model: str = None,
         important_lms: list[str] = None,
+        fields_in_interest: list[str] = None,
     ):
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
         if important_lms is not None:
             assert base_model is not None, "base_model must be provided when important_lms is not None"
 
-        obj_func = self.get_objective_function()
+        obj_func = self.get_objective_function(fields_in_interest)
         study = optuna.create_study(directions=['maximize', 'minimize'])
-        self.get_teacher_performance(os.path.join(log_dir, 'teacher_trials.json'))
+        self.get_teacher_performance(fields_in_interest, log_dir)
         
         if os.path.exists(os.path.join(log_dir, 'tpe_logs.json')):
             with open(os.path.join(log_dir, 'tpe_logs.json'), 'r') as f:

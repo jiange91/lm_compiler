@@ -28,6 +28,16 @@ def get_failures(state):
     return {"failures": failures}
 
 
+def get_failures(docs):
+    blablabk
+    return {"failures": failures}
+
+doc_filter_post_process = CodeBox(
+    name="new_code_module",
+    kernel=get_failures,
+)
+
+
 def generate_summary(state):
     failures = state["failures"]
     # Add fxn: fa_summary = summarize(failures)
@@ -50,22 +60,20 @@ class QuestionSummarizationState(TypedDict):
     report: str
 
 
-def generate_summary(state):
+def generate_summary(docs):
     docs = state["docs"]
     # Add fxn: summary = summarize(docs)
     summary = "Questions focused on usage of ChatOllama and Chroma vector store."
     return {"qs_summary": summary}
 
 
-def send_to_slack(state):
-    qs_summary = state["qs_summary"]
+def send_to_slack(qs_summary):
     # Add fxn: report = report_generation(qs_summary)
     report = "foo bar baz"
     return {"report": report}
 
 
-def format_report_for_slack(state):
-    report = state["report"]
+def format_report_for_slack(report, qs_summary):
     # Add fxn: formatted_report = report_format(report)
     formatted_report = "foo bar"
     return {"report": formatted_report}
@@ -121,7 +129,7 @@ fa_builder = StateGraph(FailureAnalysisState)
 fa_builder.add_node("get_failures", get_failures)
 fa_builder.add_node("generate_summary", generate_summary)
 fa_builder.add_edge(START, "get_failures")
-fa_builder.add_edge("get_failures", "generate_summary")
+fa_builder.add_edge(["get_failures", "sync_2"], "generate_summary")
 fa_builder.add_edge("generate_summary", END)
 
 

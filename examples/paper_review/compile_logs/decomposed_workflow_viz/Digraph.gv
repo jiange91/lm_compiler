@@ -1,0 +1,30 @@
+digraph {
+	compound=true
+	"_review paper flow_cluster_ancor" [fixedsize=true height=0 style=invis width=0]
+	paper_input -> _reviewer_sub_graph_cluster_ancor [lhead=cluster_reviewer_sub_graph]
+	decision_maker -> review_output
+	_reviewer_sub_graph_cluster_ancor -> decision_maker [ltail=cluster_reviewer_sub_graph]
+	subgraph cluster_reviewer_sub_graph {
+		_reviewer_sub_graph_cluster_ancor [fixedsize=true height=0 style=invis width=0]
+		reviewer_final_aggregator -> reviewer_sub_graph_output
+		reviewer_sub_graph_input -> "Paper Summary Agent"
+		reviewer_sub_graph_input -> "Strengths and Weaknesses Assessment Agent"
+		"Paper Summary Agent" -> "Strengths and Weaknesses Assessment Agent"
+		reviewer_sub_graph_input -> "Questions and Suggestions Agent"
+		"Strengths and Weaknesses Assessment Agent" -> "Questions and Suggestions Agent"
+		reviewer_sub_graph_input -> "Limitations and Ethical Concerns Agent"
+		"Questions and Suggestions Agent" -> "Limitations and Ethical Concerns Agent"
+		reviewer_sub_graph_input -> "Soundness Rating Agent"
+		"Limitations and Ethical Concerns Agent" -> "Soundness Rating Agent"
+		reviewer_sub_graph_input -> "Presentation Rating Agent"
+		"Soundness Rating Agent" -> "Presentation Rating Agent"
+		reviewer_sub_graph_input -> "Contribution Rating Agent"
+		"Presentation Rating Agent" -> "Contribution Rating Agent"
+		reviewer_sub_graph_input -> "Overall Score Agent"
+		"Contribution Rating Agent" -> "Overall Score Agent"
+		reviewer_sub_graph_input -> "Confidence Rating Agent"
+		"Overall Score Agent" -> "Confidence Rating Agent"
+		"Confidence Rating Agent" -> reviewer_final_aggregator
+		label=reviewer_sub_graph
+	}
+}

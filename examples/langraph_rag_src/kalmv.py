@@ -47,3 +47,26 @@ kalmv_module = LangChainLM(
     name="kalmv",
     semantic=kalmv_semantic,
 )
+
+
+class SoftwareScore(BaseModel):
+    """return the score of the software
+    """
+
+    decision: Literal["fail", "wrong", "slow", "pass"] = Field(
+        description="Given user requirements, the decision of the software",
+    )
+
+example_prompt = """
+You are an expert at assessing the quality of a software given user requirements. You should evaluate t based on the following criteria:
+1. If software crashes, grade it as 'fail'.
+2. otherwise, if the software does not meet requirements, grade it as 'wrong'.
+3. otherwise, if the software is slow, grade it as 'slow'.
+4. otherwise, grade it as 'pass'.
+"""
+
+example_semantic = LangChainSemantic(
+    system_prompt=example_prompt,
+    inputs=['requirements', 'code'],
+    output_format=SoftwareScore,
+)

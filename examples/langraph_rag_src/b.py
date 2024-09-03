@@ -352,6 +352,7 @@ print(json.dumps(json.loads(StructuredAgentSystem.schema_json()), indent=4))
 from langchain_core.output_parsers import JsonOutputParser
 parser = JsonOutputParser(pydantic_object=StructuredAgentSystem)
 print(parser.get_format_instructions())
+exit()
 
 interaction_prompt = ChatPromptTemplate.from_messages(
     [

@@ -1,0 +1,1 @@
+{"answer_compose": 0.05264411638130362, "sub_answer_generator": 0.13766873969785876, "SubQueryGenerator": 0.026544438284907268, "PassageWriter": 0.08024941826500098, "Question Relevance Evaluator": 0.01923952547288521, "Knowledge Relevance Evaluator": 0.05593382187634921, "Grounding Evaluator": 0.08024941826500098, "doc_filter_lm": 0.05833693793632744}

@@ -1,0 +1,22 @@
+{
+    "direct_hyde": {
+        "score": 4,
+        "rationale": "Prompt 1 requires the agent to decompose a user query into multiple sub-queries that cover comprehensive aspects of the original query without too much overlap. This involves multi-step reasoning and planning to ensure the sub-queries are comprehensive and non-overlapping. Additionally, generating short passages for each sub-query requires a good understanding of the topic and the ability to write concise and informative content. The task is non-trivial and benefits from task decomposition for better interpretability and ease of reasoning."
+    },
+    "kalmv": {
+        "score": 3,
+        "rationale": "Prompt 3 requires the agent to evaluate the quality of an answer based on specific criteria. This involves vertical planning and decision-making to follow the given order of evaluation (addressing the question, relevance of knowledge, grounding by knowledge). While the sub-tasks are simple, the need for structured evaluation and decision-making adds complexity to the task."
+    },
+    "answer_compose": {
+        "score": 2,
+        "rationale": "Prompt 2 involves answering user questions based on a provided context of Q&A pairs. While the task involves multiple horizontal sub-tasks (understanding the user question, referring to the provided context, and formulating an answer), each sub-task is relatively simple and straightforward. The agent does not need to perform complex reasoning or decision-making beyond referring to the provided context."
+    },
+    "doc_filter_lm": {
+        "score": 2,
+        "rationale": "Prompt 5 involves assessing the relevance of a document to a user question based on the presence of keywords or semantic meaning. While the task involves a binary decision, it requires the agent to understand the semantic relationship between the document and the question. The sub-tasks are simple, but the need for semantic understanding adds a slight layer of complexity."
+    },
+    "sub_answer_generator": {
+        "score": 1,
+        "rationale": "Prompt 4 is straightforward as it involves answering a question using provided context. The task is simple and clear, requiring the agent to formulate a concise answer based on the given information. There is no need for complex reasoning or multi-step planning."
+    }
+}

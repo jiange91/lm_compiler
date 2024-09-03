@@ -48,6 +48,10 @@ class LMSemantic(ABC):
     @abstractmethod
     def get_formatted_info(self) -> str:
         ...
+        
+    @abstractmethod
+    def get_high_level_info(self) -> str:
+        ...
     
     @abstractmethod
     def get_output_schema(self) -> BaseModel:

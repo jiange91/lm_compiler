@@ -1,0 +1,22 @@
+{
+    "direct_hyde": {
+        "score": 4,
+        "rationale": "The task involves multiple steps: generating sub-queries, ensuring they cover comprehensive aspects of the original query without overlapping, and then writing short passages for each sub-query. The sub-tasks of generating non-overlapping sub-queries and writing relevant passages are non-trivial and require careful planning and reasoning."
+    },
+    "kalmv": {
+        "score": 3,
+        "rationale": "The task involves a multi-step decision-making process to evaluate the answer based on specific criteria. Each step is simple, but the vertical planning and reasoning required to follow the decision order add complexity."
+    },
+    "answer_compose": {
+        "score": 2,
+        "rationale": "The task involves referring to provided Q&A pairs to answer a user question. While it requires understanding and synthesizing information from multiple sources, the sub-tasks are relatively straightforward and do not require complex reasoning or decision-making."
+    },
+    "sub_answer_generator": {
+        "score": 1,
+        "rationale": "The task is straightforward: use the provided context to answer the question concisely. It does not involve complex reasoning or multiple sub-tasks."
+    },
+    "doc_filter_lm": {
+        "score": 1,
+        "rationale": "The task is simple and clear: assess the relevance of a document to a user question based on keyword or semantic meaning. It requires a binary decision without complex reasoning or multiple sub-tasks."
+    }
+}

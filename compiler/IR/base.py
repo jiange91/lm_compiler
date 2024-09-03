@@ -42,10 +42,12 @@ class StatePool:
         for key, value in kvs.items():
             self.states[key].append(State(version_id, value, is_static))
     
-    def all_news(self, fields = None):
+    def all_news(self, fields = None, excludes = None):
         report = {}
         for key in self.states:
             if fields is not None and key not in fields:
+                continue
+            if excludes is not None and key in excludes:
                 continue
             report[key] = self.news(key)
         return report
@@ -150,7 +152,7 @@ class ComposibleModuleInterface(ABC):
     def _visualize(self, dot: Digraph):
         pass
 
-    def sub_module_validation(self, module: Module):
+    def sub_module_validation(self, module: Module, reset_parent: bool):
         """
         Example: 
         ```python
@@ -164,26 +166,30 @@ class ComposibleModuleInterface(ABC):
         c.add_module(a)
         ```
         """
-        if (parent := module.enclosing_module) is not None:
+        if not reset_parent and (parent := module.enclosing_module) is not None:
             raise ValueError(f"Source module {module.name} already registered in {parent.name}, please avoid adding the same module to multiple modules")
     
     @abstractmethod
-    def replace_node_handler(self, old_node: Module, new_node: Module) -> bool:
+    def replace_node_handler(self, old_node: Module, new_node_in: Module, new_node_out: Module) -> bool:
         pass
 
-    def replace_node(self, old_node: Module, new_node: Module) -> bool:
+    def replace_node(self, old_node: Module, new_node_in: Module, new_node_out: Module) -> bool:
         """Replace the old node with the new node
         
-        If not found in the immediate submodules, will recursively call the replace_node method of the submodules
+        Please register the new node to the same parent module as the old node before calling this method.
+        
+        Replace all old_node's occurrences as a predecessor with new_node_out
+        
+        Replace all old_node's occurrences as a successor with new_node_in
+        
+        new_node_in and new_node_out can be the same module, equivalent to replacing the old node with another node
+        
+        If old_node not found in the immediate submodules, will not recursively call the replace_node method for the submodules
         """
         submodules = self.immediate_submodules()
         if old_node not in submodules:
-            for submodule in submodules:
-                if isinstance(submodule, ComposibleModuleInterface):
-                    if submodule.replace_node(old_node, new_node):
-                        return True
             logger.warning(f"Node {old_node.name} not found in {self.name}")
             return False
         
-        return self.replace_node_handler(old_node, new_node)
+        return self.replace_node_handler(old_node, new_node_in, new_node_out)
             

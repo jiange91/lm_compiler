@@ -1,0 +1,22 @@
+{
+    "direct_hyde": {
+        "score": 4,
+        "rationale": "The task involves generating sub-queries that cover comprehensive aspects of the original query without too much overlap, which requires a good understanding of the query and the ability to decompose it into meaningful sub-parts. Additionally, writing short passages for each sub-query involves multi-step reasoning and decision-making to ensure relevance and coherence."
+    },
+    "kalmv": {
+        "score": 3,
+        "rationale": "The task involves evaluating the relevance and grounding of an answer based on provided knowledge. This requires vertical reasoning and decision-making to follow the grading criteria. However, the sub-tasks are simple and well-defined, making the overall complexity moderate."
+    },
+    "answer_compose": {
+        "score": 2,
+        "rationale": "The task involves answering user questions based on provided Q&A pairs. While it requires understanding the context and synthesizing information, the sub-tasks are relatively straightforward as the answers are already provided by experts, and the main task is to refer to them appropriately."
+    },
+    "doc_filter_lm": {
+        "score": 2,
+        "rationale": "The task involves assessing the relevance of a document to a user question based on keywords or semantic meaning. While it requires some level of understanding and decision-making, the binary scoring system and the goal to filter out erroneous retrievals make the sub-tasks simple and clear."
+    },
+    "sub_answer_generator": {
+        "score": 1,
+        "rationale": "The task is straightforward as it involves answering a question using provided context. The instruction to keep the answer concise and within three sentences further simplifies the task, making it clear and simple."
+    }
+}

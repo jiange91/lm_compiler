@@ -1,26 +1,56 @@
 {
     "total": {
         "gpt-4o-mini-2024-07-18": {
-            "prompt_tokens": 1951,
-            "completion_tokens": 579
-        }
-    },
-    "direct_hyde": {
-        "gpt-4o-mini-2024-07-18": {
-            "prompt_tokens": 156,
-            "completion_tokens": 353
+            "prompt_tokens": 47016,
+            "completion_tokens": 1657
         }
     },
     "answer_compose": {
         "gpt-4o-mini-2024-07-18": {
-            "prompt_tokens": 818,
-            "completion_tokens": 221
+            "prompt_tokens": 1254,
+            "completion_tokens": 131
         }
     },
-    "kalmv": {
+    "SubQueryGenerator": {
         "gpt-4o-mini-2024-07-18": {
-            "prompt_tokens": 977,
-            "completion_tokens": 5
+            "prompt_tokens": 500,
+            "completion_tokens": 103
+        }
+    },
+    "PassageWriter": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 574,
+            "completion_tokens": 391
+        }
+    },
+    "Question Relevance Evaluator": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 664,
+            "completion_tokens": 9
+        }
+    },
+    "Knowledge Relevance Evaluator": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 2302,
+            "completion_tokens": 18
+        }
+    },
+    "Grounding Evaluator": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 3798,
+            "completion_tokens": 27
+        }
+    },
+    "sub_answer_generator": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 11118,
+            "completion_tokens": 658
+        }
+    },
+    "doc_filter_lm": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 26806,
+            "completion_tokens": 320
         }
     }
 }

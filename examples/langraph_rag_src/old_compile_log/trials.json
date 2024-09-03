@@ -1,0 +1,9 @@
+[
+    {
+        "fields": {
+            "answer": "The types of agent memory include short-term memory, long-term memory, episodic memory, semantic memory, and procedural memory. Short-term memory, also known as in-context learning, is limited by the context window length of the Transformer model. Long-term memory involves an external vector store for fast retrieval of information. Episodic memory allows agents to recall specific past events or experiences. Semantic memory involves the storage and retrieval of general world knowledge, facts, and concepts. Procedural memory pertains to unconscious skills and routines performed automatically."
+        },
+        "score": 0.0,
+        "price": 0.13079
+    }
+]

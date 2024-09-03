@@ -4,12 +4,15 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 import numpy as np
 from compiler.IR.modules import StatePool
+import logging
 
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 encoder = SentenceTransformer('paraphrase-MiniLM-L6-v2')
 
 subqs_format = NumberedListOutputParser()
+
+logger = logging.getLogger(__name__)
 
 #--------------------- decomposer ---------------------#
 system = f"""
@@ -26,16 +29,15 @@ statements_prompt = ChatPromptTemplate.from_messages(
 
 
 def decompose_kernel(question, answer):
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    llm = ChatOpenAI(model="gpt-4o", temperature=0)
     statement_extractor = statements_prompt | llm | subqs_format
     statements = statement_extractor.invoke({"question": question, "answer": answer})
     return "\n".join(f'{i+1}. {s}' for i, s in enumerate(statements))
 
 system_2 = f"""
-You are an expert at analyzing whether the given statement is grounded by the factual context. Consider the given facts and following statements, then determine whether they
-are supported by the information present in the context. Provide a brief explanation for each statement before arriving at the verdict (Yes/No). 
+You are an expert at analyzing whether the given statement is grounded by the factual context. Consider the given facts and following statements, determine whether they are supported by the information present in the context. 
 
-Finally provide a final verdict for each statement at the end. Please respect the order of the statements and only say (Yes/No) at each item.
+Give a list of your decision at the end. Please respect the order of the statements and only say (Yes/No) for each item.
 {subqs_format.get_format_instructions()}
 """
 
@@ -68,7 +70,7 @@ qs_prompt = ChatPromptTemplate.from_messages(
 )
 
 def brainstorm_questions(answer):
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    llm = ChatOpenAI(model="gpt-4o", temperature=0)
     question_brainstorm = qs_prompt | llm | subqs_format
     questions = question_brainstorm.invoke({"answer": answer})
     return questions
@@ -79,14 +81,17 @@ def check_relevance(gold_q, reverse_qs):
     sims = cosine_similarity([gold_vec], reverse_vecs)[0]
     # estimate relevance 
     # to fuse with accuracy, rescale the relevance score to [0, 1], assume cosine similarity is in [-1, 1]
+    logger.info(f"Relevance scores: {sims}")
     relevance = np.mean((sims + 1) / 2)
     return relevance
 
 def evaluate_rag_answer(question, answer, knowledges):
     statements = decompose_kernel(question, answer)
     faithfulness = check_faithfulness(statements, knowledges)
+    logger.info(f"Faithfulness: {faithfulness}")
     questions = brainstorm_questions(answer)
     relevance = check_relevance(question, questions)
+    logger.info(f"Relevance: {relevance}")
     
     # use harmonic mean to combine the scores
     score = 3 * (faithfulness * relevance) / (2 * faithfulness + relevance)
@@ -94,7 +99,7 @@ def evaluate_rag_answer(question, answer, knowledges):
 
 def evaluate_rag_answer_compatible(gold, pred: StatePool):
     # ignore gold in this case as eval is self-contained
-    score = evaluate_rag_answer(pred.news('question'), pred.news('answer'), pred.news('knowledge_answer'))
+    score = evaluate_rag_answer(pred.news('question'), pred.news('answer'), pred.news('knowledge_context'))
     return score
 
 def text_cosine_sim(gold, pred):

@@ -1,9 +1,11 @@
-from compiler.utils import load_api_key
+from compiler.utils import load_api_key, get_bill
 from compiler.IR.program import Workflow, hint_possible_destinations, Context
 from compiler.IR.base import Module, StatePool
 from compiler.IR.modules import Retriever, Input, Output
+from compiler.IR.rewriter.graph_inline import GraphInliner
 from compiler.langchain_bridge.interface import LangChainLM
 from pprint import pprint
+import json
 
 load_api_key('secrets.toml')
 
@@ -71,15 +73,52 @@ def sample_run():
     state.init({'question': "What are the types of agent memory?"})
     # state.publish({'question': "What's the financial performance of Nvidia and Apple over the past three years? Which company has a higher market capitalization?"})
 
+    rag_workflow.reset()
     rag_workflow.pregel_run(state)
+    
     print(state.news('answer'))
     rag_workflow.log_token_usage('examples/langraph_rag_src/token_usage.json')
     rag_workflow.log_module_time('examples/langraph_rag_src/module_time.json')
 
 # sample_run()
-rag_workflow.visualize('examples/langraph_rag_src/rag_workflow_viz')
+# rag_workflow.log_token_usage('examples/langraph_rag_src/token_usage.json')
+# print(get_bill(rag_workflow.token_usage_buffer))
+
+
+# rag_workflow.visualize('examples/langraph_rag_src/rag_workflow_viz')
+
 # exit()
 
+log_dir = 'examples/langraph_rag_src/compile_log_1'
+# --------------------------------------------
+# Get original workflow trace
+# --------------------------------------------
+state = StatePool()
+state.init({'question': "What are the types of agent memory?"})
+
+from self_eval import evaluate_rag_answer_compatible
+from compiler.optimizer.tracer import OfflineBatchTracer
+
+def infinite_none():
+    while True:
+        yield None
+
+def get_original_trace():
+    tracer = OfflineBatchTracer(
+        workflow=rag_workflow,
+        module_2_config='gpt-4o',
+        final_output_metric=evaluate_rag_answer_compatible,
+    )
+    trials = tracer.run(
+        inputs=[state],
+        labels=infinite_none(),
+        field_in_interest=['answer'],
+        log_dir=log_dir,
+    )
+    return trials
+
+original_trials = get_original_trace()
+# exit()
 # --------------------------------------------
 # Optimization
 # --------------------------------------------
@@ -89,13 +128,10 @@ lm_options = [
     'gpt-4o',
 ]
 
-from self_eval import evaluate_rag_answer_compatible
 from compiler.optimizer.model_selection_bo import LMSelectionBayesianOptimization
 from compiler.optimizer.importance_eval import LMImportanceEvaluator
 from compiler.optimizer.decompose import LMTaskDecompose
 
-state = StatePool()
-state.init({'question': "What are the types of agent memory?"})
 
 # Decompose LM Modules
 def task_disambiguous():
@@ -103,18 +139,28 @@ def task_disambiguous():
         workflow=rag_workflow,
     )
     decomposer.decompose(
-        log_dir='examples/langraph_rag_src/try_decompose',
-        threshold=4,
+        log_dir=log_dir,
+        threshold=3,
     )
 
-# task_disambiguous()
-sample_run()
+task_disambiguous()
+
+def inline_graph():
+    inliner = GraphInliner(
+        workflow=rag_workflow,
+    )
+    inliner.flatten()
+    rag_workflow.compile()
+
+inline_graph()
+
+from compiler.IR.utils import get_function_kwargs, simple_cycles
+# sample_run()
+cycles = sorted(simple_cycles(rag_workflow.edges), key=lambda x: len(x), reverse=True)
 exit()
 
+
 # Find important LMs
-def infinite_none():
-    while True:
-        yield None
 
 def eval_importance():
     evaluator = LMImportanceEvaluator(
@@ -126,7 +172,7 @@ def eval_importance():
         trainset_label=infinite_none(),
     )
     important_lms = evaluator.eval(
-        log_dir='examples/langraph_rag_src/compile_log',
+        log_dir=log_dir,
     )
     print(important_lms)
     return important_lms
@@ -144,10 +190,11 @@ def select_models():
     )
     
     selector.optimize(
-        n_trials=10,
-        log_dir='examples/langraph_rag_src/compile_log',
+        n_trials=4,
+        log_dir=log_dir,
         base_model='gpt-4o-mini',
         important_lms=important_lms,
+        fields_in_interest=['answer'],
     )
 
 select_models()

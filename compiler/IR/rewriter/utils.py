@@ -33,8 +33,9 @@ class RewriteBranchReturn(ast.NodeTransformer):
                     elem.value = self.new_name
         return node
     
-def replace_branch_return_destination(multiplexier: Callable, old_dest: str, new_dest: str):
-    source = inspect.getsource(multiplexier)
+def replace_branch_return_destination(multiplexier: Callable, old_dest: str, new_dest: str, source: str = None):
+    if source is None:
+        source = inspect.getsource(multiplexier)
     
     # Parse the source code into an AST
     tree = ast.parse(source, mode='exec')
@@ -48,4 +49,4 @@ def replace_branch_return_destination(multiplexier: Callable, old_dest: str, new
     func_globals = multiplexier.__globals__.copy()
     exec(code, func_globals)
     
-    return func_globals[multiplexier.__name__] 
+    return func_globals[multiplexier.__name__], astunparse.unparse(transformed_tree).strip()

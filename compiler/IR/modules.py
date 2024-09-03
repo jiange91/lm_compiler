@@ -31,6 +31,13 @@ class Output(Module):
     def forward(self, **kwargs):
         return {}
 
+class Identity(Module):
+    def __init__(self, name) -> None:
+        super().__init__(name=name, kernel=None)
+    
+    def forward(self, **kwargs):
+        return {}
+
     
 class CodeBox(Module):
     def forward(self, **kwargs):
@@ -103,12 +110,17 @@ class Map(Module, ComposibleModuleInterface):
 
     def immediate_submodules(self) -> List[Module]:
         return [self.sub_graph]
+
+    def reset(self):
+        super().reset()
+        self.sub_graph.reset()
     
-    def replace_node_handler(self, old_node: Module, new_node: Module) -> bool:
+    def replace_node_handler(self, old_node: Module, new_node_in: Module, new_node_out: Module) -> bool:
+        assert new_node_in is new_node_out, "Map Module only accept a single-node replacement"
         if old_node is not self.sub_graph:
             logger.warning(f"Node {old_node.name} not found in {self.name}")
             return False
-        self.sub_graph = new_node
+        self.sub_graph = new_node_in
         return True
 
     def _visualize(self, dot: Digraph):
@@ -126,11 +138,16 @@ class Branch(Module):
         src: list[str],
         multiplexier: Callable[..., Union[Hashable, list[Hashable]]],
         destinations: list[str],
+        multiplexier_str: Optional[str] = None
     ) -> None:
         super().__init__(name=name, kernel=multiplexier)
         self.src = src
         self.multiplexier = multiplexier
         self.destinations = destinations
+        if multiplexier_str is not None:
+            self.multiplexier_str = multiplexier_str
+        else:
+            self.multiplexier_str = inspect.getsource(multiplexier)
         
     def on_signature_generation(self):
         try:

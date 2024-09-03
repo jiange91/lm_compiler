@@ -1,0 +1,56 @@
+{
+    "total": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 56786,
+            "completion_tokens": 1855
+        }
+    },
+    "answer_compose": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 1355,
+            "completion_tokens": 112
+        }
+    },
+    "sub_answer_generator": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 14041,
+            "completion_tokens": 714
+        }
+    },
+    "SubQueryGenerator": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 500,
+            "completion_tokens": 150
+        }
+    },
+    "PassageWriter": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 618,
+            "completion_tokens": 425
+        }
+    },
+    "Question Relevance Evaluator": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 644,
+            "completion_tokens": 9
+        }
+    },
+    "Knowledge Relevance Evaluator": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 2390,
+            "completion_tokens": 18
+        }
+    },
+    "Grounding Evaluator": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 3870,
+            "completion_tokens": 27
+        }
+    },
+    "doc_filter_lm": {
+        "gpt-4o-mini-2024-07-18": {
+            "prompt_tokens": 33368,
+            "completion_tokens": 400
+        }
+    }
+}

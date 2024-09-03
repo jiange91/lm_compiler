@@ -1,0 +1,44 @@
+digraph {
+	compound=true
+	_rag_cluster_ancor [fixedsize=true height=0 style=invis width=0]
+	query -> direct_hyde_sub_graph_start_id
+	retrieve -> _sub_question_mapper_cluster_ancor [lhead=cluster_sub_question_mapper]
+	_sub_question_mapper_cluster_ancor -> doc_filter_post_process [ltail=cluster_sub_question_mapper]
+	doc_filter_post_process -> _knowledge_curation_cluster_ancor [lhead=cluster_knowledge_curation]
+	_knowledge_curation_cluster_ancor -> knowledge_preprocess [ltail=cluster_knowledge_curation]
+	knowledge_preprocess -> answer_compose
+	answer_compose -> kalmv_sub_graph_start_id
+	direct_hyde_final_aggregator -> direct_hyde_sub_graph_end_id
+	PassageWriter -> direct_hyde_final_aggregator
+	direct_hyde_sub_graph_start_id -> SubQueryGenerator
+	direct_hyde_sub_graph_start_id -> PassageWriter
+	SubQueryGenerator -> PassageWriter
+	direct_hyde_sub_graph_end_id -> retrieve
+	"Grounding Evaluator" -> kalmv_sub_graph_end_id
+	"Question Relevance Evaluator" -> "condition_flow_after_Question Relevance Evaluator"
+	"Knowledge Relevance Evaluator" -> "condition_flow_after_Knowledge Relevance Evaluator"
+	kalmv_sub_graph_start_id -> "Question Relevance Evaluator"
+	kalmv_sub_graph_start_id -> "Knowledge Relevance Evaluator"
+	kalmv_sub_graph_start_id -> "Grounding Evaluator"
+	kalmv_sub_graph_end_id -> answer_verification
+	answer_verification -> direct_hyde_sub_graph_start_id [style=dashed]
+	answer_verification -> answer_compose [style=dashed]
+	answer_verification -> answer [style=dashed]
+	"condition_flow_after_Question Relevance Evaluator" -> "Knowledge Relevance Evaluator" [style=dashed]
+	"condition_flow_after_Question Relevance Evaluator" -> kalmv_sub_graph_end_id [style=dashed]
+	"condition_flow_after_Knowledge Relevance Evaluator" -> "Grounding Evaluator" [style=dashed]
+	"condition_flow_after_Knowledge Relevance Evaluator" -> kalmv_sub_graph_end_id [style=dashed]
+	subgraph cluster_sub_question_mapper {
+		_sub_question_mapper_cluster_ancor [fixedsize=true height=0 style=invis width=0]
+		subgraph cluster_doc_mapper {
+			_doc_mapper_cluster_ancor [fixedsize=true height=0 style=invis width=0]
+			doc_filter_lm
+		}
+		label=sub_question_mapper
+	}
+	subgraph cluster_knowledge_curation {
+		_knowledge_curation_cluster_ancor [fixedsize=true height=0 style=invis width=0]
+		sub_answer_generator
+		label=knowledge_curation
+	}
+}

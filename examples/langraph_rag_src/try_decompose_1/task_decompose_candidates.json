@@ -1,0 +1,22 @@
+{
+    "direct_hyde": {
+        "score": 4,
+        "rationale": "Prompt 1 requires the agent to decompose a user query into multiple sub-queries that cover comprehensive aspects of the original query without too much overlap. This involves multi-step reasoning, planning, and decision-making to ensure the sub-queries are distinct and cover all necessary aspects. Additionally, generating short passages for each sub-query adds another layer of complexity."
+    },
+    "kalmv": {
+        "score": 3,
+        "rationale": "Prompt 3 involves evaluating the quality of LLM-generated answers based on specific criteria. This requires vertical planning and decision-making to follow the grading order. However, the sub-tasks are simple and involve straightforward checks against the criteria provided."
+    },
+    "answer_compose": {
+        "score": 2,
+        "rationale": "Prompt 2 involves answering user questions based on provided Q&A pairs. While it requires understanding and synthesizing information from the context, the task is relatively straightforward as it involves referring to expert-written answers. The horizontal sub-tasks are simple and do not require complex reasoning or decision-making."
+    },
+    "doc_filter_lm": {
+        "score": 2,
+        "rationale": "Prompt 5 involves assessing the relevance of a document to a user question. This task requires identifying keywords or semantic meanings related to the question, which is a simple horizontal sub-task. The decision-making process is binary and does not involve complex reasoning."
+    },
+    "sub_answer_generator": {
+        "score": 1,
+        "rationale": "Prompt 4 is straightforward as it involves answering a question using provided context. The task is simple and clear, with the main requirement being to keep the answer concise and within three sentences."
+    }
+}

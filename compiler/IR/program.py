@@ -4,7 +4,7 @@ from graphviz import Digraph
 from functools import partial
 
 from compiler.IR.llm import LLMPredictor
-from compiler.IR.modules import Input, Output, Branch
+from compiler.IR.modules import Input, Output, Branch, Identity
 from compiler.IR.base import *
 from compiler.IR.rewriter.utils import replace_branch_return_destination
 from compiler.IR.utils import get_function_kwargs, simple_cycles
@@ -93,9 +93,11 @@ class Workflow(Module, ComposibleModuleInterface):
         self.current_step = 0
         super().__init__(name, None)
     
-    def add_module(self, module: Module) -> None:
-        self.sub_module_validation(module)
+    def add_module(self, module: Module, reset_parent = False) -> None:
+        self.sub_module_validation(module, reset_parent)
         self.modules[module.name] = module
+        if reset_parent:
+            module.enclosing_module = self
     
     def _edge_validation(self, src: list[str], dest: list[str]):
         for s in src:
@@ -133,7 +135,9 @@ class Workflow(Module, ComposibleModuleInterface):
         self, 
         name: str,
         src: Union[str, list[str]],
-        multiplexier: Callable[..., Union[Hashable, list[Hashable]]]) -> None:
+        multiplexier: Callable[..., Union[Hashable, list[Hashable]]],
+        multiplexier_str: Optional[str] = None,
+    ) -> None:
         """add control flow
         
         If need complex synchronization, use add_edge to add a preceding module
@@ -162,7 +166,7 @@ class Workflow(Module, ComposibleModuleInterface):
         src = sorted(list(set([src])))
         self._edge_validation(src, multiplexier._possible_destinations)
         
-        branch = Branch(name, src, multiplexier, multiplexier._possible_destinations)
+        branch = Branch(name, src, multiplexier, multiplexier._possible_destinations, multiplexier_str)
         self.add_module(branch)
         self.branches[name] = branch
         self.add_edge(src, branch.name)
@@ -265,7 +269,9 @@ class Workflow(Module, ComposibleModuleInterface):
             self.modules[name].is_static = False
         # TODO: populate history states
     
+    
     def reset(self) -> None:
+        # clear sub-llms history
         self.update_token_usage_summary()
         self.token_usage_buffer = {'total': {}}
             
@@ -358,17 +364,14 @@ class Workflow(Module, ComposibleModuleInterface):
                         cattrs['lhead'] = f'cluster_{dest}'
                         dest = f'_{dest}_cluster_ancor'
                     dot.edge(src, dest, **cattrs)
-        for src, branch in self.branches.items():
+        for name, branch in self.branches.items():
             attrs = {}
-            if isinstance(self.modules[src], ComposibleModuleInterface):
-                attrs['ltail'] = f'cluster_{src}'
-                src = f'_{src}_cluster_ancor'
             for dest in branch.destinations:
                 cattrs = {**attrs}
                 if isinstance(self.modules[dest], ComposibleModuleInterface):
                     cattrs['lhead'] = f'cluster_{dest}'
                     dest = f'_{dest}_cluster_ancor'
-                dot.edge(src, dest, style='dashed', **cattrs)
+                dot.edge(name, dest, style='dashed', **cattrs)
         for name, m in self.modules.items():
             if isinstance(m, ComposibleModuleInterface):
                 with dot.subgraph(name=f'cluster_{name}') as s:
@@ -376,7 +379,9 @@ class Workflow(Module, ComposibleModuleInterface):
                     s.attr(label=name)
     
     def update_token_usage_summary(self):
-        for lm in (m for m in self.modules.values() if isinstance(m, LLMPredictor)):
+        """get token usage summary for all LLM modules recursively
+        """
+        for lm in (m for m in self.get_all_modules(lambda x: isinstance(x, LLMPredictor))):
             if lm.name not in self.token_usage_buffer:
                 self.token_usage_buffer[lm.name] = {}
             for meta in lm.lm_history:
@@ -399,7 +404,6 @@ class Workflow(Module, ComposibleModuleInterface):
             times[module.name] = np.mean(module.exec_times)
         with open(path, 'w+') as f:
             json.dump(times, f, indent=4)
-        
     
     def log_token_usage(self, path):
         self.update_token_usage_summary()
@@ -419,6 +423,10 @@ class Workflow(Module, ComposibleModuleInterface):
         return list(self.modules.values())
 
     def get_all_modules(self, predicate):
+        """get all modules that satisfy the predicate
+        
+        will search recursively into all composible modules
+        """
         module_queue = deque(self.immediate_submodules())
         result = []
         
@@ -430,34 +438,67 @@ class Workflow(Module, ComposibleModuleInterface):
                 module_queue.extend(module.immediate_submodules())
         return result
 
-    def replace_node_handler(self, old_node: Module, new_node: Module) -> bool:
+    def bypass_node(self, node_name):
+        node_in_deps:list[Union[Branch, Tuple[str, ...]]] = []
+        node_in_dests: list[Union[Branch, Tuple[str, ...]]] = []
+        for deps, dests in self.static_dependencies.items():
+            if node_name in deps:
+                node_in_deps.append(deps)
+            if node_name in dests:
+                node_in_dests.append(deps)
+        for branch in self.branches.values():
+            if node_name in branch.src:
+                node_in_deps.append(branch)
+            if node_name in branch.destinations:
+                node_in_dests.append(branch)
+                
+        if node_in_deps:
+            assert len(node_in_deps) > 0, f"Node {node_name} is in dependency but no one activates it"
+        
+        counter = 0
+        new_dynamic_dests = []
+        for deps_to_replace in node_in_deps:
+            for replace_candidate in node_in_dests:
+                if isinstance(deps_to_replace, Branch):
+                    if isinstance(replace_candidate, Branch):
+                        buffer_id = f'sync_buffer_{replace_candidate.name}_to_{deps_to_replace.name}'
+                        self.add_module(Identity(buffer_id))
+                        
+                        deps_to_replace.src[deps_to_replace.src.index(node_name)] = buffer_id
+                        new_dynamic_dests.append(replace_candidate.name)
+                    else:
+                        pass
+                else:
+                    pass
+
+    def replace_node_handler(self, old_node: Module, new_node_in: Module, new_node_out: Module) -> bool:
         if isinstance(old_node, Branch):
             NotImplementedError("Branch replacement is not supported yet")
             
         if old_node.name not in self.modules:
             return False
         del self.modules[old_node.name]
-        self.add_module(new_node)
         
         # replace in static dependencies
         sync_barriers = list(self.static_dependencies.keys())
         for sb in sync_barriers:
             # check this first in case cycle of one node
             if old_node.name in (dests := self.static_dependencies[sb]):
-                dests[dests.index(old_node.name)] = new_node.name
+                dests[dests.index(old_node.name)] = new_node_in.name
             # then update the key
             if old_node.name in sb:
                 new_sb = list(sb)
-                new_sb[sb.index(old_node.name)] = new_node.name
+                new_sb[sb.index(old_node.name)] = new_node_out.name
                 self.static_dependencies[tuple(new_sb)] = self.static_dependencies.pop(sb)
         
         # replace branches
-        sync_barriers = list(self.branches.keys())
-        for sb in sync_barriers:
-            branch = self.branches[sb]
+        for name, branch in self.branches.items():
             if old_node.name in (dests := branch.destinations):
-                dests[dests.index(old_node.name)] = new_node.name # this also updates multiplexier's hint
+                dests[dests.index(old_node.name)] = new_node_in.name # this also updates multiplexier's hint
                 # also replace function return
-                new_multiplexier = replace_branch_return_destination(branch.multiplexier, old_node.name, new_node.name)
+                new_multiplexier, new_code_str = replace_branch_return_destination(branch.multiplexier, old_node.name, new_node_in.name, branch.multiplexier_str)
                 branch.multiplexier = new_multiplexier
+                branch.multiplexier_str = new_code_str
+            if old_node.name in branch.src:
+                branch.src[branch.src.index(old_node.name)] = new_node_out.name
         return True

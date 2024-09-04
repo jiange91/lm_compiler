@@ -47,6 +47,24 @@ class StatePool:
             report[key] = self.news(key)
         return report
     
+    def history(self, key: str):
+        if key not in self.states:
+            raise ValueError(f"Key {key} not found in state")
+        hist = []
+        for state in self.states[key]:
+            hist.append(state.data)
+        return hist
+
+    def all_history(self, fields = None, excludes = None):
+        report = {}
+        for key in self.states:
+            if fields is not None and key not in fields:
+                continue
+            if excludes is not None and key in excludes:
+                continue
+            report[key] = self.history(key)
+        return report
+    
     def dump(self, path: str):
         raise NotImplementedError
     

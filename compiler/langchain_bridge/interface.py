@@ -2,13 +2,14 @@ from langchain_openai import ChatOpenAI
 from langchain_core.outputs.llm_result import LLMResult
 from langchain_core.prompts.chat import MessageLikeRepresentation
 from langchain_core.callbacks import BaseCallbackHandler
-from langchain_core.prompts import ChatPromptTemplate 
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import HumanMessagePromptTemplate
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_core.output_parsers import JsonOutputParser
 
 import logging
 from typing import Union, Callable
@@ -113,14 +114,20 @@ class LangChainSemantic(LMSemantic):
         output_format: BaseModel,
         img_input_idices: list[int] = None,
         enable_memory: bool = False,
+        input_key_in_mem: str = None,
     ):
         self.system_prompt = system_prompt
         self.img_input_idices = img_input_idices
-        # NOTE: if enable_memory is True, the agent will append input to memory then answer with full history
+        # NOTE: this is short-term memory, only history wihtin a workflow execution is recorded
         self.enable_memory = enable_memory
+        if enable_memory:
+            assert input_key_in_mem is not None, "Must provide input_key_in_mem if enable_memory is True"
+        self.input_key_in_mem = input_key_in_mem
         
         self.inputs = inputs if isinstance(inputs, list) else [inputs]
+        assert len(self.inputs) > 0, "At least one input is required"
         self.output_format = output_format
+        self.parser = JsonOutputParser(pydantic_object=output_format)
         # NOTE: output name is inferred from the output format, use top-level fields only
         self.outputs = list(self.output_format.__fields__.keys())
         
@@ -150,36 +157,6 @@ class LangChainSemantic(LMSemantic):
             }
         )
         self.usr_prmopt_template = HumanMessagePromptTemplate.from_template(template=user_messages)
-        # TODO: finish chat with history
-        self.chat_prompt_template = ChatPromptTemplate.from_messages(
-            [
-                ("system", self.system_prompt_template),
-                self.usr_prmopt_template,
-            ]
-        ).partial(there_is_no_way_overlap_output_format=get_format_instruction(self.output_format))
-        
-        self.langchain_lm_kernel = self.create_kernel_func()
-    
-    
-    def create_kernel_func(self):
-        inputs_str = ', '.join(self.inputs)
-        invoke_arg_dict_str = '{' + ', '.join(
-                [f'"{input}": {input}' for input in self.inputs] 
-            ) + '}'
-        result_str = '{' + ', '.join(f'"{output}": result.{output}' for output in self.outputs) + '}'
-        
-        langchain_lm_template = f"""
-def langchain_lm_kernel(llm, {inputs_str}):
-    sllm = llm.with_structured_output(self.output_format, method="json_mode")
-    routine = self.chat_prompt_template | sllm
-    result = routine.invoke({invoke_arg_dict_str})
-    return {result_str}
-            """
-        self.kernel_str = langchain_lm_template
-        func_obj = compile(langchain_lm_template, '<string>', 'exec')
-        local_name_space = {}
-        exec(func_obj, {'self': self}, local_name_space)
-        return local_name_space['langchain_lm_kernel']
 
     def get_agent_role(self) -> str:
         return self.system_prompt
@@ -189,9 +166,6 @@ def langchain_lm_kernel(llm, {inputs_str}):
 
     def get_agent_outputs(self) -> list[str]:
         return self.outputs
-
-    def get_invoke_routine(self):
-        return self.langchain_lm_kernel
 
     def get_output_schema(self) -> BaseModel:
         return self.output_format
@@ -214,60 +188,88 @@ def langchain_lm_kernel(llm, {inputs_str}):
         return json.dumps(dict, indent=4)
 
 class LangChainLM(LLMPredictor):
-    def __init__(self, name, semantic: LangChainSemantic) -> None:
-        super().__init__(name, semantic)
+    def __init__(self, name, semantic: LangChainSemantic, lm = None) -> None:
         self.llm_gen_meta = []
         self.chat_history = ChatMessageHistory()
+        
+        # default model can be overwritten by set_lm
+        if lm is None:
+            self.lm = ChatOpenAI(
+                model="gpt-4o-mini", 
+                temperature=0.0, 
+                callbacks=[LLMTracker(self)]
+            )
+        else:
+            self.lm = lm
+        
+        if semantic.enable_memory:
+            self.chat_prompt_template = ChatPromptTemplate.from_messages(
+                [
+                    ("system", semantic.system_prompt_template),
+                    MessagesPlaceholder(variable_name="chat_history"),
+                    semantic.usr_prmopt_template,
+                ]
+            ).partial(there_is_no_way_overlap_output_format=get_format_instruction(semantic.output_format))
+        else:
+            self.chat_prompt_template = ChatPromptTemplate.from_messages(
+                [
+                    ("system", semantic.system_prompt_template),
+                    semantic.usr_prmopt_template,
+                ]
+            ).partial(there_is_no_way_overlap_output_format=get_format_instruction(semantic.output_format))
+        
+        super().__init__(name, semantic, self.lm)
     
+    def get_invoke_routine(self, semantic: LangChainSemantic):
+        inputs_str = ', '.join(semantic.inputs)
+        invoke_arg_dict_str = '{' + ', '.join(
+                [f'"{input}": {input}' for input in semantic.inputs] 
+            ) + '}'
+        result_str = '{' + ', '.join(f'"{output}": result.{output}' for output in semantic.outputs) + '}'
+        
+        routine = self.chat_prompt_template | self.lm
+        if semantic.enable_memory:
+            routine = RunnableWithMessageHistory(
+                runnable=routine,
+                get_session_history=lambda: self.chat_history,
+                input_messages_key=semantic.input_key_in_mem,
+                history_messages_key="chat_history",
+            )
+        routine_structured_output = routine | semantic.parser
+        langchain_kernel_template = f"""
+def langchain_lm_kernel({inputs_str}):
+    result = routine_structured_output.invoke({invoke_arg_dict_str})
+    result = output_format.parse_obj(result)
+    return {result_str}
+"""
+        self.kernel_str = langchain_kernel_template
+        func_obj = compile(langchain_kernel_template, '<string>', 'exec')
+        local_name_space = {}
+        exec(func_obj, 
+             {
+                'routine_structured_output': routine_structured_output, 
+                'output_format': semantic.output_format
+            }, local_name_space)
+        return local_name_space['langchain_lm_kernel']
     
     def set_lm(self):
         logger.debug(f'Setting LM for {self.name}: {self.lm_config}')
         model_name: str = self.lm_config['model']
         if model_name.startswith('gpt-'):
-            self.lm = ChatOpenAI(**self.lm_config, callbacks=[LLMTracker(self)])
+            self.lm = ChatOpenAI(
+                **self.lm_config, 
+                callbacks=[LLMTracker(self)]
+            )
+            self.kernel = self.get_invoke_routine(self.semantic)
         else:
             raise ValueError(f"Model {model_name} not supported")
-        return 
+        return
 
     def get_lm_history(self):
         hist_cpy = deepcopy(self.llm_gen_meta)
         self.llm_gen_meta = []
         return hist_cpy
 
-if __name__ == "__main__":
-    class ComplexityEstimation(BaseModel):
-        """complexity of each agent"""
-        score: int = Field(
-            description="complexity score of the agent"
-        )
-        rationale: str = Field(
-            description="rationale for the complexity score"
-        )
-
-    class ComplexityList(BaseModel):
-        """complexity of all agents"""
-        es: list[ComplexityEstimation] = Field(
-            description="complexity of all agents"
-        )
-        
-    complexity_system = """
-    You are an expert at designing LLM-based agent workflow. Your task is to evaluate the complexity of the responsibility of each agent. 
-
-    You will be provided with their system prompts for reference. Please assign each agent a numerical rating on the following scale to indicate the complexity. You should consider:
-    Does the task require multi-step reasoning, planning, decision-making? 
-    Does the task encompass a wide range of responsibilities?
-    For each agent, please give your rate from 1 to 5 and provide your rationale for the rating.
-
-    Rating criteria: 1: straightforward, 5: very complex. 
-
-    Please follow the order of the given agents.
-    """
-
-    semantic = LangChainSemantic(
-        system_prompt=complexity_system,
-        inputs=['agent_prompts'],
-        output_format=ComplexityList
-    )
-
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.75)
-    print(semantic.get_invoke_routine()(llm, agent_prompts = ['You are an expert at writing a list of short passages given a user query. You should give sub-queries that cover comprehensive aspects of the original query and should not have too many overlaps. Each sub-query should be followed by a short passage that answers that topic.']))
+    def custom_reset(self):
+        self.llm_gen_meta = []
+        self.chat_history.clear()

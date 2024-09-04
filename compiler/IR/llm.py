@@ -42,10 +42,6 @@ class LMSemantic(ABC):
         ...
     
     @abstractmethod
-    def get_invoke_routine(self) -> Callable:
-        ...
-    
-    @abstractmethod
     def get_formatted_info(self) -> str:
         ...
         
@@ -58,12 +54,15 @@ class LMSemantic(ABC):
         ...
  
 class LLMPredictor(Module):
-    def __init__(self, name, semantic: LMSemantic) -> None:
-        super().__init__(name=name, kernel=semantic.get_invoke_routine())
+    def __init__(self, name, semantic: LMSemantic, lm) -> None:
         self.lm_history = []
         self.lm_config = None
-        self.lm = None
+        self.lm = lm
         self.semantic = semantic
+        super().__init__(name=name, kernel=self.get_invoke_routine(semantic))
+    
+    def get_invoke_routine(self, semantic: LMSemantic):
+        raise NotImplementedError
 
     def on_signature_generation(self):
         try:
@@ -77,10 +76,14 @@ class LLMPredictor(Module):
         self.defaults.pop('lm', None)
         self.defaults.pop('llm', None)
     
-    def clean(self):
-        super().clean()
+    def reset(self):
+        super().reset()
         self.lm_history = []
         self.lm = None
+        self.custom_reset()
+    
+    def custom_reset(self):
+        raise NotImplementedError
     
     def set_lm(self):
         raise NotImplementedError
@@ -100,6 +103,6 @@ class LLMPredictor(Module):
     def forward(self, **kwargs):
         if self.lm is None:
             self.set_lm()
-        result = self.kernel(self.lm, **kwargs)
+        result = self.kernel(**kwargs)
         self.lm_history.extend(self.get_lm_history())
         return result

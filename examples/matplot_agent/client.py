@@ -8,6 +8,7 @@ from pprint import pprint
 import os
 import json
 import logging
+import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -112,7 +113,69 @@ plot_debugger.lm_config = {'model': lm, **openai_kwargs}
 visual_refinement.lm_config = {'model': lm, **openai_kwargs}
 refine_plot_coder.lm_config = {'model': lm, **openai_kwargs}
 
-import uuid
+# ========================================
+# Sample run
+# ========================================
+
+def sample_run(id):
+    data_path = 'examples/matplot_agent/benchmark_data'
+    # open the json file 
+    data = json.load(open(f'{data_path}/benchmark_instructions_minor.json'))
+    
+    for item in data:
+        novice_instruction = item['simple_instruction']
+        expert_instruction = item['expert_instruction']
+        example_id = item['id']
+        if example_id == id:
+            state = StatePool()
+            directory_path = 'examples/matplot_agent/sample_runs'
+
+            if not os.path.exists(directory_path):
+                os.makedirs(directory_path, exist_ok=True)
+            
+            state.init(
+                {
+                    'query': novice_instruction,
+                    "workspace": directory_path,
+                    "plot_file_name": "plot.png",
+                    "sample_id": example_id,
+                    "data_path": data_path
+                }
+            )
+            matplot_flow.reset()
+            matplot_flow.pregel_run(state)
+    
+sample_run(87)
+exit()
+
+from tqdm import tqdm
+
+
+def testing():
+    states = load_data()
+    
+    for state in states:
+        matplot_flow.reset()
+        matplot_flow.pregel_run(state)
+        print(vision_score(None, state))
+
+from compiler.optimizer.decompose import LMTaskDecompose
+
+
+log_dir = 'examples/matplot_agent/compiler_logs'
+# Decompose LM Modules
+def task_disambiguous():
+    decomposer = LMTaskDecompose(
+        workflow=matplot_flow,
+    )
+    decomposer.decompose(
+        log_dir=log_dir,
+        threshold=3,
+    )
+
+# task_disambiguous()
+# exit()
+
 
 def load_data():
     data_path = 'examples/matplot_agent/benchmark_data'
@@ -151,7 +214,6 @@ def infinite_none():
     while True:
         yield None
 
-log_dir = 'examples/matplot_agent/compiler_logs'
 
 def get_original_trace():
     tracer = OfflineBatchTracer(
@@ -181,7 +243,6 @@ lm_options = [
 
 from compiler.optimizer.model_selection_bo import LMSelectionBayesianOptimization
 from compiler.optimizer.importance_eval import LMImportanceEvaluator
-from compiler.optimizer.decompose import LMTaskDecompose
 
 def eval_importance():
     evaluator = LMImportanceEvaluator(
@@ -220,31 +281,3 @@ def select_models():
     )
 
 select_models()
-exit()
-
-# ========================================
-# Sample run
-# ========================================
-
-def sample_run(example_id, query, workspace, plot_file_name):
-    state = StatePool()
-    state.init({
-        'query': query,
-        "workspace": workspace,
-        "plot_file_name": plot_file_name
-    })
-    matplot_flow.reset()
-    matplot_flow.pregel_run(state)
-    logger.info(f"Example {example_id} finished.")
-
-from tqdm import tqdm
-
-
-
-def testing():
-    states = load_data()
-    
-    for state in states:
-        matplot_flow.reset()
-        matplot_flow.pregel_run(state)
-        print(vision_score(None, state))

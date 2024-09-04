@@ -80,14 +80,14 @@ def sample_run():
     rag_workflow.log_token_usage('examples/langraph_rag_src/token_usage.json')
     rag_workflow.log_module_time('examples/langraph_rag_src/module_time.json')
 
-# sample_run()
+sample_run()
 # rag_workflow.log_token_usage('examples/langraph_rag_src/token_usage.json')
 # print(get_bill(rag_workflow.token_usage_buffer))
 
 
 # rag_workflow.visualize('examples/langraph_rag_src/rag_workflow_viz')
 
-# exit()
+exit()
 
 log_dir = 'examples/langraph_rag_src/compile_log_1'
 # --------------------------------------------

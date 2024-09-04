@@ -49,8 +49,8 @@ class Retriever(Module):
         self.query_history = []
         self.retrieve_history = []
     
-    def clean(self):
-        super().clean()
+    def reset(self):
+        super().reset()
         self.query_history = []
         self.retrieve_history = []
     

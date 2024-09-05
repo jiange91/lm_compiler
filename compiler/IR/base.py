@@ -20,8 +20,9 @@ class State:
         self.is_static = is_static # if True, the state will not be updated anymore
 
 class StatePool:
-    def __init__(self):
+    def __init__(self, reducer_dict = None):
         self.states: dict[str, list[State]] = defaultdict(list)
+        self.reducer_dict = reducer_dict
         
     def news(self, key: str, default = None):
         if key not in self.states or not self.states[key]:
@@ -33,7 +34,17 @@ class StatePool:
     def init(self, kvs):
         self.publish(kvs, is_static = True, version_id = 0)
     
+    def renew(self, key: str, new_value, version_id):
+        self.states[key][-1].data = new_value
+        self.states[key][-1].version_id = version_id
+    
     def publish(self, kvs, is_static, version_id):
+        keys = list(kvs.keys())
+        for key in keys:
+            if key in self.reducer_dict:
+                new_value = self.reducer_dict[key](self.news(key), new_value)
+                self.renew(key, new_value, version_id)
+                kvs.pop(key)
         for key, value in kvs.items():
             self.states[key].append(State(version_id, value, is_static))
     

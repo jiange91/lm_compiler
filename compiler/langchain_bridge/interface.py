@@ -115,6 +115,7 @@ class LangChainSemantic(LMSemantic):
         img_input_idices: list[int] = None,
         enable_memory: bool = False,
         input_key_in_mem: str = None,
+        following_messages: list[MessageLikeRepresentation] = [],
     ):
         self.system_prompt = system_prompt
         self.img_input_idices = img_input_idices
@@ -133,30 +134,34 @@ class LangChainSemantic(LMSemantic):
         
         # Set prompt template
         self.system_prompt_template = self.system_prompt + "\n\n" + "{there_is_no_way_overlap_output_format}"
-        user_messages = []
-        if self.img_input_idices is not None:
-            for img_idx in self.img_input_idices:
-                user_messages.append(
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/png;base64,{{{self.inputs[img_idx]}}}"
+        
+        self.follwing_messages = following_messages
+        if len(self.follwing_messages) == 0:
+            user_messages = []
+            if self.img_input_idices is not None:
+                for img_idx in self.img_input_idices:
+                    user_messages.append(
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/png;base64,{{{self.inputs[img_idx]}}}"
+                            }
                         }
-                    }
-                )
-        input_fields = []
-        for i, input in enumerate(self.inputs):
-            if not self.img_input_idices or i not in self.img_input_idices:
-                input_fields.append(f"- {input}:\n{{{input}}}")
-        usr_prompt = "\n".join(input_fields) + "\n\n" + \
-                    "Your answer:\n"
-        user_messages.append(
-            {
-                "type": "text",
-                "text": usr_prompt
-            }
-        )
-        self.usr_prmopt_template = HumanMessagePromptTemplate.from_template(template=user_messages)
+                    )
+            input_fields = []
+            for i, input in enumerate(self.inputs):
+                if not self.img_input_idices or i not in self.img_input_idices:
+                    input_fields.append(f"- {input}:\n{{{input}}}")
+            usr_prompt = "\n".join(input_fields) + "\n\n" + \
+                        "Your answer:\n"
+            user_messages.append(
+                {
+                    "type": "text",
+                    "text": usr_prompt
+                }
+            )
+            self.usr_prmopt_template = HumanMessagePromptTemplate.from_template(template=user_messages)
+            self.follwing_messages.append(self.usr_prmopt_template)
 
     def get_agent_role(self) -> str:
         return self.system_prompt
@@ -207,15 +212,13 @@ class LangChainLM(LLMPredictor):
                 [
                     ("system", semantic.system_prompt_template),
                     MessagesPlaceholder(variable_name="chat_history"),
-                    semantic.usr_prmopt_template,
-                ]
+                ] + semantic.follwing_messages
             ).partial(there_is_no_way_overlap_output_format=get_format_instruction(semantic.output_format))
         else:
             self.chat_prompt_template = ChatPromptTemplate.from_messages(
                 [
                     ("system", semantic.system_prompt_template),
-                    semantic.usr_prmopt_template,
-                ]
+                ] + semantic.follwing_messages
             ).partial(there_is_no_way_overlap_output_format=get_format_instruction(semantic.output_format))
         
         super().__init__(name, semantic, self.lm)

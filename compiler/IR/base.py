@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from collections import defaultdict
 from abc import ABC, abstractmethod
 from enum import Enum, auto
-from typing import List, Optional, Tuple, Iterable, Callable
+from typing import List, Optional, Tuple, Iterable, Callable, Type
 import inspect
 import time
 import logging
@@ -20,9 +20,10 @@ class State:
         self.is_static = is_static # if True, the state will not be updated anymore
 
 class StatePool:
-    def __init__(self, reducer_dict = None):
+    def __init__(self, reducer_dict = {}, debug = True):
         self.states: dict[str, list[State]] = defaultdict(list)
         self.reducer_dict = reducer_dict
+        self.debug = debug
         
     def news(self, key: str, default = None):
         if key not in self.states or not self.states[key]:
@@ -34,16 +35,12 @@ class StatePool:
     def init(self, kvs):
         self.publish(kvs, is_static = True, version_id = 0)
     
-    def renew(self, key: str, new_value, version_id):
-        self.states[key][-1].data = new_value
-        self.states[key][-1].version_id = version_id
-    
     def publish(self, kvs, is_static, version_id):
         keys = list(kvs.keys())
         for key in keys:
             if key in self.reducer_dict:
                 new_value = self.reducer_dict[key](self.news(key), new_value)
-                self.renew(key, new_value, version_id)
+                self.states[key].append(State(version_id, new_value, is_static))
                 kvs.pop(key)
         for key, value in kvs.items():
             self.states[key].append(State(version_id, value, is_static))
@@ -122,7 +119,7 @@ class Module(ModuleIterface):
         self.status = None
         self.is_static = False
         self.version_id = 0
-        self.enclosing_module: 'Module' = None
+        self.enclosing_module: ComposibleModuleInterface = None
         if kernel is not None:
             self.input_fields, self.defaults = get_function_kwargs(kernel)
         else:
@@ -168,7 +165,7 @@ class Module(ModuleIterface):
         self.status = ModuleStatus.SUCCESS
         self.version_id += 1
     
-class ComposibleModuleInterface(ABC):
+class ComposibleModuleInterface(Module, ABC):
     @abstractmethod
     def immediate_submodules(self) -> List[Module]:
         pass

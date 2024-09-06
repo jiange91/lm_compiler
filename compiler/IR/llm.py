@@ -4,7 +4,6 @@ from collections import defaultdict
 from abc import ABC, abstractmethod
 from enum import Enum, auto
 from typing import List, Optional, Tuple, Iterable, Callable, Union
-from langchain_core.pydantic_v1 import BaseModel, Field
 import inspect
 import time
 import logging
@@ -12,6 +11,7 @@ import copy
 import threading
 import concurrent.futures
 
+from langchain_core.pydantic_v1 import BaseModel, Field
 from compiler.IR.utils import get_function_kwargs
 from compiler.IR.base import Module, ComposibleModuleInterface, StatePool
 
@@ -52,16 +52,29 @@ class LMSemantic(ABC):
     @abstractmethod
     def get_output_schema(self) -> BaseModel:
         ...
+    
+    @abstractmethod
+    def append_following_messages(self, messages: list):
+        ...
  
 class LLMPredictor(Module):
     def __init__(self, name, semantic: LMSemantic, lm) -> None:
         self.lm_history = []
         self.lm_config = None
         self.lm = lm
+        
         self.semantic = semantic
-        super().__init__(name=name, kernel=self.get_invoke_routine(semantic))
+        super().__init__(name=name, kernel=self.get_invoke_routine())
+        
+    @property
+    def lm(self):
+        return self._lm
     
-    def get_invoke_routine(self, semantic: LMSemantic):
+    @lm.setter
+    def lm(self, value):
+        self._lm = value
+    
+    def get_invoke_routine(self):
         raise NotImplementedError
 
     def on_signature_generation(self):

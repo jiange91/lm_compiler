@@ -67,7 +67,7 @@ class Trigger:
             if notif in self.notified and not self.notified[notif]:
                 del self.notified[notif]
     
-class Workflow(Module, ComposibleModuleInterface):
+class Workflow(ComposibleModuleInterface):
     dependencies = tuple[str, ...]
     
     def __init__(self, name) -> None:

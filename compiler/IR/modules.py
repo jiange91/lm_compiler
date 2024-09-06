@@ -60,7 +60,7 @@ class Retriever(Module):
         self.retrieve_history.append(result)
         return result
 
-class Map(Module, ComposibleModuleInterface):
+class Map(ComposibleModuleInterface):
     """Apply sub-graph to map over the input
     NOTE:
         sub_graph intermidiate states are not tracked within Map Module

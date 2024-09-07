@@ -54,7 +54,7 @@ class LMSemantic(ABC):
         ...
     
     @abstractmethod
-    def append_following_messages(self, messages: list):
+    def extend_following_messages(self, messages: list):
         ...
  
 class LLMPredictor(Module):

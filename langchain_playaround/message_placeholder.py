@@ -70,11 +70,14 @@ from compiler.langchain_bridge.interface import LangChainLM, LangChainSemantic
 from compiler.IR.program import Workflow, Context, hint_possible_destinations, StatePool
 from compiler.IR.modules import Input, Output, CodeBox
 
+class BulletPoints(BaseModel):
+    """Summarization output schema"""
+    points: list[str] = Field(description="List of bullet points")
 
 semantic = LangChainSemantic(
     system_prompt="",
     inputs=["word_count", "conversation"],
-    output_format="answer",
+    output_format=BulletPoints,
     following_messages=[
         MessagesPlaceholder(variable_name="conversation"), 
         human_message_template, 
@@ -96,8 +99,22 @@ qa_flow.compile()
 state = StatePool()
 state.init({
     "conversation": [human_message, ai_message], 
-    "word_count": "10"
+    "word_count": "30"
 })
 qa_flow.pregel_run(state)
 
-print(state.news('answer'))
+print(state.news('points'))
+
+qa_flow.update_token_usage_summary()
+print(qa_flow.token_usage_buffer)
+
+
+qa_flow.reset()
+
+qa_agent.lm_config = {'model': 'gpt-4o'}
+qa_flow.compile()
+
+qa_flow.pregel_run(state)
+print(state.news('points'))
+qa_flow.update_token_usage_summary()
+print(qa_flow.token_usage_buffer)

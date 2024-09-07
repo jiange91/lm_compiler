@@ -1,9 +1,19 @@
 from abc import ABC, abstractmethod, ABCMeta
 from enum import Enum, auto
 from collections import defaultdict
+from typing import Type
 
 from compiler.IR.base import Module
 
+class OptionBase(ABC):
+    @abstractmethod
+    def apply(self, module: Module) -> Module:
+        ...
+
+class IdentityOption(OptionBase):
+    def apply(self, module: Module) -> Module:
+        return module
+    
 class ParamLevel(Enum):
     """Please do not change this 
     the optimizer is not generic to any number of levels
@@ -30,7 +40,7 @@ class ParamMeta(ABCMeta):
 class ParamBase(metaclass=ParamMeta):
     ParamMeta.required_fields = ['level']
     
-    def __init__(self, options: list['OptionBase']):
+    def __init__(self, options: list[Type[OptionBase]]):
         self.options = options
         
     @abstractmethod
@@ -42,14 +52,6 @@ class ParamBase(metaclass=ParamMeta):
                 module.enclosing_module.replace_node(module, new_module, new_module)
         return new_module
 
-class OptionBase(ABC):
-    @abstractmethod
-    def apply(self, module: Module) -> Module:
-        ...
-
-class IdentityOption(OptionBase):
-    def apply(self, module: Module) -> Module:
-        return module
 
 class LMDecompose(ParamBase):
     level = ParamLevel.GRAPH

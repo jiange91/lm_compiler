@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 
 def get_format_instruction(schema: BaseModel):
     example_json_schema = """
+```json
 {
     "title": "ComplexityList",
     "description": "complexity of all agents",
@@ -65,8 +66,10 @@ def get_format_instruction(schema: BaseModel):
         }
     }
 }
+```
     """
     example_output_json = """
+```json
 {
     "es": [
         {"score": 1, "rationale": "rationale 1"},
@@ -74,6 +77,7 @@ def get_format_instruction(schema: BaseModel):
         ...
     ]
 }
+```
 """
     
     template = """\
@@ -96,6 +100,11 @@ Please provide your answer in the correct json format accordingly. Pay attention
         real_json_schema=schema.schema_json()
     )
     
+def inspect_input(inputs, **kwargs):
+    print(inputs)
+    return inputs
+from langchain_core.runnables import RunnableLambda
+inspect_runnable = RunnableLambda(inspect_input)
 
 class LLMTracker(BaseCallbackHandler):
     def __init__(self, cmodule: 'LangChainLM'):
@@ -119,6 +128,7 @@ class LangChainSemantic(LMSemantic):
         system_prompt: str,
         inputs: Union[str, list[str]],
         output_format: Union[Type[BaseModel], str],
+        output_format_instructions: str = None,
         img_input_idices: list[int] = None,
         enable_memory: bool = False,
         input_key_in_mem: str = None,
@@ -135,21 +145,31 @@ class LangChainSemantic(LMSemantic):
         self.inputs = inputs if isinstance(inputs, list) else [inputs]
         assert len(self.inputs) > 0, "At least one input is required"
         
+        self.output_format_instructions = output_format_instructions
+        
         if isinstance(output_format, str):
             self.output_format = None
-            self.output_format_instructions = None
             self.parser = None
             self.outputs = [output_format]
         else:
             self.output_format = output_format
-            self.output_format_instructions = get_format_instruction(output_format)
             self.parser = JsonOutputParser(pydantic_object=output_format)
             # NOTE: output name is inferred from the output format, use top-level fields only
             self.outputs = list(self.output_format.__fields__.keys())
+            if not self.output_format_instructions:
+                self.output_format_instructions = get_format_instruction(output_format)
         
         self.message_template_predefined = len(following_messages) > 0
         self.follwing_messages = following_messages
-        self.chat_prompt_template = None
+        self._chat_prompt_template: ChatPromptTemplate = None
+    
+    @property
+    def chat_prompt_template(self):
+        return self._chat_prompt_template
+
+    @chat_prompt_template.setter
+    def chat_prompt_template(self, value):
+        self._chat_prompt_template = value
     
     def build_prompt_template(self):
         # setup message list
@@ -178,9 +198,7 @@ class LangChainSemantic(LMSemantic):
                 }
             )
             self.usr_prmopt_template = HumanMessagePromptTemplate.from_template(template=user_messages)
-            self.follwing_messages = [self.usr_prmopt_template, HumanMessage(self.output_format_instructions)]
-        if self.output_format:
-            self.follwing_messages.append(HumanMessage(self.output_format_instructions))
+            self.follwing_messages = [self.usr_prmopt_template]
         # setup prompt template
         if self.enable_memory:
             self.chat_prompt_template = ChatPromptTemplate.from_messages(
@@ -195,8 +213,8 @@ class LangChainSemantic(LMSemantic):
                     ("system", self.system_prompt),
                 ] + self.follwing_messages
             )
-        
-        
+        if self.output_format_instructions:
+            self.chat_prompt_template.append(HumanMessage(self.output_format_instructions))
 
     def get_agent_role(self) -> str:
         return self.system_prompt
@@ -227,8 +245,8 @@ class LangChainSemantic(LMSemantic):
         }
         return json.dumps(dict, indent=4)
 
-    def append_following_messages(self, messages: list[MessageLikeRepresentation]):
-        self.chat_prompt_template.extend(messages)
+    def extend_following_messages(self, messages: list[MessageLikeRepresentation]):
+        self.follwing_messages.extend(messages)
 
 class LangChainLM(LLMPredictor):
     def __init__(self, name, semantic: LangChainSemantic, lm = None) -> None:
@@ -253,7 +271,7 @@ class LangChainLM(LLMPredictor):
                 [f'"{input}": {input}' for input in self.semantic.inputs] 
             ) + '}'
         #NOTE: use imperative merge at runtime bc message placeholder cannot be merged statically
-        routine = self.semantic.chat_prompt_template | merge_message_runs() |  self.lm
+        routine = self.semantic.chat_prompt_template | merge_message_runs() | self.lm
         if self.semantic.enable_memory:
             routine = RunnableWithMessageHistory(
                 runnable=routine,
@@ -266,26 +284,24 @@ class LangChainLM(LLMPredictor):
             routine = routine | self.semantic.parser
             langchain_kernel_template = f"""
 def langchain_lm_kernel({inputs_str}):
-    result = routine_structured_output.invoke({invoke_arg_dict_str})
+    result = routine.invoke({invoke_arg_dict_str})
     result = output_format.parse_obj(result)
     return {result_str}
 """
         else:
             result_str = f'{{"{self.semantic.outputs[0]}": result.content}}'
-            routine_structured_output = routine
             langchain_kernel_template = f"""
 def langchain_lm_kernel({inputs_str}):
-    result = routine_structured_output.invoke({invoke_arg_dict_str})
+    result = routine.invoke({invoke_arg_dict_str})
     return {result_str}
 """
-            
         self.kernel_str = langchain_kernel_template
         func_obj = compile(langchain_kernel_template, '<string>', 'exec')
         local_name_space = {}
         exec(func_obj, 
              {
-                'routine_structured_output': routine_structured_output, 
-                'output_format': self.semantic.output_format
+                'routine': routine, 
+                'output_format': self.semantic.output_format,
             }, local_name_space)
         return local_name_space['langchain_lm_kernel']
     

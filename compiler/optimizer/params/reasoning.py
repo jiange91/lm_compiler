@@ -7,6 +7,8 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 import copy
 import types
 from langchain_openai import ChatOpenAI
+from langchain_core.messages import BaseMessage
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
 
 class LMReasoning(ParamBase):
@@ -38,17 +40,15 @@ class ReasonThenFormat(OptionBase):
         
         def new_invocation_routine(lm_module: LLMPredictor):
             def get_answer(inputs: dict):
-                result = self.reasoning_step(new_semantic, lm_module.lm, inputs)
+                self.reasoning_step(new_semantic, lm_module.lm, inputs)
                 if old_semantic.output_format_instructions:
                     new_semantic.chat_prompt_template.extend([
-                        AIMessage(result),
                         HumanMessage("Now please format your final answer according to the follwoing instructions:\n"),
                         HumanMessage(old_semantic.output_format_instructions)
                     ])
                 post_reasoning_routine = new_semantic.chat_prompt_template | merge_message_runs() | lm_module.lm
                 if old_semantic.output_format_instructions:
                     new_semantic.chat_prompt_template.extend([
-                        AIMessage(result),
                         HumanMessage("Now please format your final answer according to the follwoing instructions:\n"),
                         HumanMessage(old_semantic.output_format_instructions)
                     ])
@@ -92,7 +92,9 @@ class ZeroShotCoT(ReasonThenFormat):
         )
         routine = new_semantic.chat_prompt_template | merge_message_runs() | lm
         result = routine.invoke(inputs).content
-        return result
+        new_semantic.chat_prompt_template.append(
+            AIMessage(result)
+        )
         
 
 class PlanBefore(ReasonThenFormat):
@@ -101,6 +103,8 @@ class PlanBefore(ReasonThenFormat):
             HumanMessage("Reasoning: Let's first plan necessary steps to approach this problem then give the answer: \n")
         )
         routine = new_semantic.chat_prompt_template | merge_message_runs() | lm
-        # new prompt template will be reset at outside
-        return routine.invoke(inputs).content
+        result = routine.invoke(inputs).content
+        new_semantic.chat_prompt_template.append(
+            AIMessage(result)
+        )
 

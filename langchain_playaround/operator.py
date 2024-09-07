@@ -1,29 +1,30 @@
-from operator import add
+from compiler.utils import load_api_key, get_bill
+from langchain_core.pydantic_v1 import BaseModel, Field
+from langchain_core.output_parsers import JsonOutputParser
+from langchain_core.runnables import RunnableLambda
 
-b = """
-def langchain_lm_kernel():
-{define_routine}
-{invoke_routine}
-    return
-"""
 
-a = """
-    routine = self.semantic.chat_prompt_template | merge_message_runs() |  self.lm
-    """
+import json
 
-a_1 = """
-    routine = RunnableWithMessageHistory(
-        runnable=routine,
-        get_session_history=lambda: self.chat_history,
-        input_messages_key=self.semantic.input_key_in_mem,
-        history_messages_key="compiler_chat_history",
-    )
-    """
+load_api_key('secrets.toml')
+from langchain_core.prompts import (
+    ChatPromptTemplate,
+    HumanMessagePromptTemplate,
+    MessagesPlaceholder,
+)
 
-c = """
-    result = routine.invoke()
-    """
+from langchain_core.messages import (
+    AIMessage,
+    HumanMessage,
+    SystemMessage,
+    merge_message_runs,
+)
 
-b = b.format(define_routine=a+a_1, invoke_routine=c)
+human_prompt = "Summarize our conversation so far in {word_count} words."
+human_message_template = HumanMessagePromptTemplate.from_template(human_prompt)
 
-print(b)
+print(human_message_template)
+
+msgs = human_message_template.format_messages(**{"word_count":10})
+print(human_message_template)
+print(msgs)

@@ -53,9 +53,6 @@ class LMSemantic(ABC):
     def get_output_schema(self) -> BaseModel:
         ...
     
-    @abstractmethod
-    def extend_following_messages(self, messages: list):
-        ...
  
 class LLMPredictor(Module):
     def __init__(self, name, semantic: LMSemantic, lm) -> None:

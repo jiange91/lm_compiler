@@ -137,6 +137,7 @@ class LangChainSemantic(LMSemantic):
         self.system_prompt = system_prompt
         self.img_input_idices = img_input_idices
         # NOTE: this is short-term memory, only history wihtin a workflow execution is recorded
+        assert not enable_memory, "memory flag experimental, use following_messages to manage explicitly"
         self.enable_memory = enable_memory
         if enable_memory:
             assert input_key_in_mem is not None, "Must provide input_key_in_mem if enable_memory is True"
@@ -245,8 +246,6 @@ class LangChainSemantic(LMSemantic):
         }
         return json.dumps(dict, indent=4)
 
-    def extend_following_messages(self, messages: list[MessageLikeRepresentation]):
-        self.follwing_messages.extend(messages)
 
 class LangChainLM(LLMPredictor):
     def __init__(self, name, semantic: LangChainSemantic, lm = None) -> None:

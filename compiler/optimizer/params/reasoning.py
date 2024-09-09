@@ -106,7 +106,7 @@ class ZeroShotCoT(ReasonThenFormat):
         new_semantic.chat_prompt_template.append(
             AIMessage(result.content)
         )
-        logger.info(f"Zero-shot CoT reasoning step: {result.content}")
+        logger.debug(f"Zero-shot CoT in module {lm.name}, reasoning: {result.content}")
         
 
 class PlanBefore(ReasonThenFormat):
@@ -119,7 +119,7 @@ class PlanBefore(ReasonThenFormat):
         )
         routine = new_semantic.chat_prompt_template | lm
         result = routine.invoke(inputs).content
-        logger.info(f"PlanBefore reasoning step: {result}")
+        logger.debug(f"PlanBefore in module {lm.name}, reasoning: {result}")
         new_semantic.chat_prompt_template.append(
             AIMessage(result)
         )

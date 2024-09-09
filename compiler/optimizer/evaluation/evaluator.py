@@ -34,17 +34,18 @@ class Evaluator:
     def _single_thread_run(
         self,
         workflow: Workflow,
-    ):
+    ):  
+        program = copy.deepcopy(workflow)
         prices = []
         states = []
         scores = []
         for input_state, label in self.eval_set:
             state_cpy = copy.deepcopy(input_state)
-            workflow.reset()
-            workflow.pregel_run(state_cpy)
+            program.reset()
+            program.pregel_run(state_cpy)
             
-            workflow.update_token_usage_summary()
-            price = get_bill(workflow.token_usage_buffer)[0]
+            program.update_token_usage_summary()
+            price = get_bill(program.token_usage_buffer)[0]
             prices.append(price)
             states.append(state_cpy)
             scores.append(self.metric(label, state_cpy))
@@ -79,8 +80,13 @@ class Evaluator:
         self,
         workflow: Workflow,
     ):
+        """Evaluate the workflow with the given metric and eval_set
+        
+        Will not change the state of given workflow
+        """
         if self.num_thread == 1:
             states, scores, prices = self._single_thread_run(workflow)
         else:
             states, scores, prices = self._multi_thread_run(workflow, self.num_thread)
         return states, self.score_reducer(scores), self.price_reducer(prices)
+

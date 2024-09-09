@@ -67,7 +67,8 @@ matplot_flow.add_module(Identity('pass')) # when adding edge the compiler will c
 
 @hint_possible_destinations(['pass', 'plot debugger', 'end'])
 def branch_on_error(ctx: Context, error_message, current_role):
-    print(f"current role: {current_role}, error_message: {error_message}")
+    # print(f"current role: {current_role}, error_message: {error_message}")
+    print(f"current role: {current_role}")
     if ctx.invoke_time >= 4:
         branch: Branch = ctx.calling_module
         branch.invoke_times = -1 # will add 1 after this function returns
@@ -139,7 +140,7 @@ def sample_run(id):
         example_id = item['id']
         if example_id == id:
             state = StatePool()
-            directory_path = 'examples/matplot_agent/sample_runs'
+            directory_path = 'examples/matplot_agent/runs'
 
             if not os.path.exists(directory_path):
                 os.makedirs(directory_path, exist_ok=True)
@@ -157,8 +158,8 @@ def sample_run(id):
             matplot_flow.pregel_run(state)
             logger.info(f"Visual refinement: {state.news('visual_refinement')}")
     
-# sample_run(96)
-# exit()
+sample_run(95)
+exit()
 
 # ========================================
 # Evaluation
@@ -179,7 +180,7 @@ def load_data():
         expert_instruction = item['expert_instruction']
         example_id = item['id'] 
         state = StatePool()
-        directory_path = 'examples/matplot_agent/eval_runs_4o_peng'
+        directory_path = 'examples/matplot_agent/sample_runs_4o'
 
         if not os.path.exists(directory_path):
             os.makedirs(directory_path, exist_ok=True)
@@ -212,12 +213,34 @@ testing()
 exit()
 
 # ========================================
+# Importance evaluation
+# ========================================
+from compiler.optimizer.importance_eval_new import LMImportanceEvaluator
+from compiler.optimizer.params import reasoning, model_selection, common
+
+def importance_eval():
+    importance_evaluator = LMImportanceEvaluator(
+        workflow=matplot_flow,
+        options=model_selection.model_option_factory(['gpt-4o-mini', 'gpt-4o'])
+    )
+    states = load_data()
+    eval_set = [(state, None) for state in states]
+    evaluator = Evaluator(
+        metric=VisionScore(),
+        eval_set=eval_set,
+        num_thread=3,
+    )
+    important_lms = importance_evaluator.eval(evaluator, 'examples/matplot_agent/optimizer_logs')
+    return important_lms
+
+important_lms = importance_eval()
+# exit()
+
+# ========================================
 # Optimization
 # ========================================
 
-
 from compiler.optimizer.layered_optimizer import InnerLoopBayesianOptimization
-from compiler.optimizer.params import reasoning, model_selection, common
 
 def opt():
     lm_options = [
@@ -226,7 +249,7 @@ def opt():
     ]
     reasoning_param = reasoning.LMReasoning(
         "reasoning", None, 
-        [ZeroShotCoT(), PlanBefore(), common.IdentityOption()]
+        [common.IdentityOption(), ZeroShotCoT(), PlanBefore()]
     )
 
     model_param = model_selection.LMSelection(
@@ -235,8 +258,9 @@ def opt():
     )
 
     inner_loop = InnerLoopBayesianOptimization(
-        params=[model_param],
+        params=[model_param, reasoning_param],
         opt_direction='maximize',
+        important_lms=important_lms,
     )
     
     states = load_data()
@@ -247,6 +271,6 @@ def opt():
         num_thread=3,
     )
 
-    inner_loop.optimize(matplot_flow, evaluator, 8, 'examples/matplot_agent/optimizer_logs')
+    inner_loop.optimize(matplot_flow, evaluator, 16, 'examples/matplot_agent/optimizer_logs')
 
 opt()

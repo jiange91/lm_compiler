@@ -49,7 +49,10 @@ Remember to save the plot to a png file. The file name should be """{plot_file_n
 
 
 def img_encode(workspace, plot_file_name):
-    return {'plot_image': encode_image(os.path.join(workspace, plot_file_name))}
+    base_name, extension = os.path.splitext(plot_file_name)
+    plot_file_name_refine = f'{base_name}_final{extension}'
+    return {'plot_image': encode_image(os.path.join(workspace, plot_file_name)), 
+            'plot_file_name': plot_file_name_refine}
 
 img_encode_codebox = CodeBox('img encode', img_encode)
 

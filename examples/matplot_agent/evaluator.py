@@ -7,6 +7,7 @@ import shutil
 import glob
 import sys
 sys.path.insert(0, sys.path[0]+"/../")
+import warnings
 
 from utils import is_run_code_success
 from openai import OpenAI
@@ -38,7 +39,7 @@ def gpt_4v_evaluate(ground_truth, image, rollback):
         base64_image2 = encode_image(f"{image}")
 
     response = client.chat.completions.create(
-      model="gpt-4o-mini",
+      model="gpt-4o-2024-08-06",
       temperature=0.0,
       messages=[
         {
@@ -86,6 +87,7 @@ def gpt_4v_evaluate(ground_truth, image, rollback):
     if match:
         score  = int(match.group(1)) / 100
     else:
+        warnings.warn("No score found!!!")
         score = 0
     return score
 
@@ -108,6 +110,13 @@ class VisionScore(MetricBase):
   
   def score(self, label, workspace, plot_file_name, sample_id):
     pred_path = os.path.join(workspace, plot_file_name)
+    
+    if not os.path.exists(pred_path):
+      dir, filename = os.path.split(pred_path)
+      base_name, ext = os.path.splitext(filename)
+      pred_path = f"{dir}/{base_name[:6]}{ext}" # rollback to the previous version
+      warnings.warn(f"fallback to un-refined version")
+      
     ground_truth = f"/mnt/ssd4/lm_compiler/examples/matplot_agent/benchmark_data/ground_truth/example_{sample_id}.png"
     if not os.path.exists(ground_truth):
       return 0

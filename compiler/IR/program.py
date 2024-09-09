@@ -422,7 +422,7 @@ class Workflow(ComposibleModuleInterface):
     def immediate_submodules(self) -> List[Module]:
         return list(self.modules.values())
 
-    def get_all_modules(self, predicate=None):
+    def get_all_modules(self, predicate=None) -> list[Module]:
         """get all modules that satisfy the predicate
         
         will search recursively into all composible modules

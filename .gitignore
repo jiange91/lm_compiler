@@ -164,6 +164,9 @@ my_env/
 results/
 compile_log/
 compiler_logs/
+**/optimizer_logs/
+**/sample_runs/
+**sample_runs_4o/
 
 # secrets
 secrets.toml

@@ -10,7 +10,7 @@ from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.output_parsers import JsonOutputParser
-from langchain_core.messages import merge_message_runs, HumanMessage
+from langchain_core.messages import HumanMessage
 
 import logging
 from typing import Union, Callable, Type
@@ -270,7 +270,8 @@ class LangChainLM(LLMPredictor):
                 [f'"{input}": {input}' for input in self.semantic.inputs] 
             ) + '}'
         #NOTE: use imperative merge at runtime bc message placeholder cannot be merged statically
-        routine = self.semantic.chat_prompt_template | merge_message_runs() | self.lm
+        routine = self.semantic.chat_prompt_template | self.lm
+        # print(self.semantic.chat_prompt_template)
         if self.semantic.enable_memory:
             routine = RunnableWithMessageHistory(
                 runnable=routine,
@@ -285,6 +286,7 @@ class LangChainLM(LLMPredictor):
 def langchain_lm_kernel({inputs_str}):
     result = routine.invoke({invoke_arg_dict_str})
     result = output_format.parse_obj(result)
+    # print(result)
     return {result_str}
 """
         else:

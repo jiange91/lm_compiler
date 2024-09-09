@@ -98,6 +98,20 @@ def mainworkflow(test_sample_id, plot_path):
 
     plot_result = gpt_4v_evaluate(ground_truth, image, image_rollback)
     print(plot_result)
+  
+from compiler.optimizer.evaluation.metric import MetricBase, Input
+
+class VisionScore(MetricBase):
+  workspace = Input(str, 'workspace dir')
+  plot_file_name = Input(str, 'plot file name')
+  sample_id = Input(int, 'sample id')
+  
+  def score(self, label, workspace, plot_file_name, sample_id):
+    pred_path = os.path.join(workspace, plot_file_name)
+    ground_truth = f"/mnt/ssd4/lm_compiler/examples/matplot_agent/benchmark_data/ground_truth/example_{sample_id}.png"
+    if not os.path.exists(ground_truth):
+      return 0
+    return gpt_4v_evaluate(ground_truth, pred_path, pred_path)
     
 def vision_score(gt, state: StatePool):
   pred_path = os.path.join(state.news('workspace'), state.news('plot_file_name'))

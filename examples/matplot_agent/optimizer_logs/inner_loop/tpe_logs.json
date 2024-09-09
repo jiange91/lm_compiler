@@ -1,0 +1,90 @@
+{
+    "0": {
+        "params": {
+            "query expansion_lm_model": "gpt-4o-mini",
+            "initial code generation_lm_model": "gpt-4o",
+            "plot debugger_lm_model": "gpt-4o-mini",
+            "visual refinement_lm_model": "gpt-4o-mini",
+            "visual refine coder_lm_model": "gpt-4o-mini"
+        },
+        "score": 0.2333333333333333,
+        "price": 0.022560433333333334
+    },
+    "1": {
+        "params": {
+            "query expansion_lm_model": "gpt-4o-mini",
+            "initial code generation_lm_model": "gpt-4o-mini",
+            "plot debugger_lm_model": "gpt-4o-mini",
+            "visual refinement_lm_model": "gpt-4o-mini",
+            "visual refine coder_lm_model": "gpt-4o-mini"
+        },
+        "score": 0.3,
+        "price": 0.0063339500000000005
+    },
+    "2": {
+        "params": {
+            "query expansion_lm_model": "gpt-4o",
+            "initial code generation_lm_model": "gpt-4o",
+            "plot debugger_lm_model": "gpt-4o-mini",
+            "visual refinement_lm_model": "gpt-4o",
+            "visual refine coder_lm_model": "gpt-4o-mini"
+        },
+        "score": 0.3333333333333333,
+        "price": 0.04726625
+    },
+    "3": {
+        "params": {
+            "query expansion_lm_model": "gpt-4o-mini",
+            "initial code generation_lm_model": "gpt-4o-mini",
+            "plot debugger_lm_model": "gpt-4o",
+            "visual refinement_lm_model": "gpt-4o-mini",
+            "visual refine coder_lm_model": "gpt-4o-mini"
+        },
+        "score": 0.5499999999999999,
+        "price": 0.01314985
+    },
+    "4": {
+        "params": {
+            "query expansion_lm_model": "gpt-4o",
+            "initial code generation_lm_model": "gpt-4o-mini",
+            "plot debugger_lm_model": "gpt-4o",
+            "visual refinement_lm_model": "gpt-4o",
+            "visual refine coder_lm_model": "gpt-4o"
+        },
+        "score": 0.5166666666666667,
+        "price": 0.06902391666666667
+    },
+    "5": {
+        "params": {
+            "query expansion_lm_model": "gpt-4o",
+            "initial code generation_lm_model": "gpt-4o",
+            "plot debugger_lm_model": "gpt-4o",
+            "visual refinement_lm_model": "gpt-4o-mini",
+            "visual refine coder_lm_model": "gpt-4o"
+        },
+        "score": 0.2333333333333333,
+        "price": 0.07173978333333333
+    },
+    "6": {
+        "params": {
+            "query expansion_lm_model": "gpt-4o",
+            "initial code generation_lm_model": "gpt-4o-mini",
+            "plot debugger_lm_model": "gpt-4o-mini",
+            "visual refinement_lm_model": "gpt-4o-mini",
+            "visual refine coder_lm_model": "gpt-4o-mini"
+        },
+        "score": 0.48333333333333334,
+        "price": 0.022551066666666664
+    },
+    "7": {
+        "params": {
+            "query expansion_lm_model": "gpt-4o",
+            "initial code generation_lm_model": "gpt-4o-mini",
+            "plot debugger_lm_model": "gpt-4o-mini",
+            "visual refinement_lm_model": "gpt-4o-mini",
+            "visual refine coder_lm_model": "gpt-4o"
+        },
+        "score": 0.35000000000000003,
+        "price": 0.03247358333333333
+    }
+}

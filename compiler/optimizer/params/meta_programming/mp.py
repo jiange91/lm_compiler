@@ -60,9 +60,11 @@ meta_model = MetaPromptingScaffolding(
 )
 
 class MetaPrompting(ReasonThenFormat):
+    def __init__(self):
+        super().__init__("MetaPrompting")
+        
     def reasoning_step(self, new_semantic: LangChainSemantic, lm: ChatOpenAI, inputs: dict):
         chat_prompt: list[BaseMessage] = new_semantic.chat_prompt_template.format_messages(**inputs)
-        chat_prompt = merge_message_runs(chat_prompt)
         
         chat_prompt.insert(max(len(chat_prompt)-1, 0), HumanMessage(question_prefix_or_path))
         chat_prompt.append(HumanMessage(question_suffix_or_path))

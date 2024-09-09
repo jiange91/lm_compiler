@@ -15,7 +15,6 @@ from langchain_core.messages import (
     AIMessage,
     HumanMessage,
     SystemMessage,
-    merge_message_runs,
     BaseMessage,
 )
 
@@ -75,11 +74,11 @@ class MetaPromptingScaffolding:
         trial_num: int = 0,
         **kwargs: Any,
     ):
-        routine = merge_message_runs() | lm
+        routine = lm
         try:
             # This step is defined to ensure that the meta model returns a response in less than 16 rounds.
             # Note: Please feel free to change the number of rounds as you see fit.
-            if counter == 16:
+            if counter == 8:
                 return chat_prompt
 
             # TODO(msuzgun)[improvement]: In the future, if the total content is to long, we can use the summarizer to summarize the whole content.
@@ -87,7 +86,7 @@ class MetaPromptingScaffolding:
 
             while True:
                 round_info = f'Round {counter+1}: '
-                if counter == 14:
+                if counter == 6:
                     round_info += (
                         f"This is the last round; so, please present your final answer."
                     )
@@ -147,7 +146,7 @@ class MetaPromptingScaffolding:
                                     SystemMessage(model_instruction),
                                     SystemMessage("Once you have determined the final answer, please present it using the format below:\n\n>> FINAL ANSWER:\n\"\"\"\n[final answer]\n\"\"\"")
                                 ]
-                            expert_routine = merge_message_runs() | lm
+                            expert_routine = lm
                             model_output = expert_routine.invoke(current_chat_prompt).content
 
                             ## Special case for Expert Python

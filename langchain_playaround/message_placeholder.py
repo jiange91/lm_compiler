@@ -18,7 +18,9 @@ from langchain_core.messages import (
     HumanMessage,
     SystemMessage,
     merge_message_runs,
+    base
 )
+
 
 human_prompt = "Summarize our conversation so far in {word_count} words."
 human_message_template = HumanMessagePromptTemplate.from_template(human_prompt)
@@ -44,7 +46,11 @@ ai_message = AIMessage(
 from langchain_openai.chat_models import ChatOpenAI
 model = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
 
-add_on = HumanMessage("Please do not overlook any important details.")
+add_on = HumanMessage(content=[
+    {'type': 'text', 'text': 
+        "Please do not overlook any important details."
+    }
+])
 chat_prompt = ChatPromptTemplate.from_messages(
     [
         MessagesPlaceholder(variable_name="conversation"), 
@@ -64,7 +70,7 @@ runnable = chat_prompt | inspect_merge | model
 print(runnable.invoke(
     {"conversation": [human_message, ai_message], 
      "word_count": "10"}))
-# exit()
+exit()
 
 from compiler.langchain_bridge.interface import LangChainLM, LangChainSemantic
 from compiler.IR.program import Workflow, Context, hint_possible_destinations, StatePool

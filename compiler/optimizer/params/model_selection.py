@@ -1,4 +1,4 @@
-from compiler.optimizer.params import ParamBase, ParamLevel, OptionBase
+from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase
 from compiler.IR.llm import LLMPredictor 
 
 class LMSelection(ParamBase):
@@ -6,6 +6,7 @@ class LMSelection(ParamBase):
     
 class ModelOption(OptionBase):
     def __init__(self, model: str):
+        super().__init__(model)
         self.model = model
         
     def apply(self, lm_module: LLMPredictor):

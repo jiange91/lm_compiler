@@ -34,7 +34,9 @@ def prepare_plot_env(sample_id, workspace, data_path):
             os.system(f'cp -r {input_path}/* {new_directory_path}')
     else:
         logger.error(f"Directory '{new_directory_path}' already exists.")
-    return {'workspace': new_directory_path}
+    return {'workspace': new_directory_path, "try_count": 0}
+
+
 
 matplot_flow = Workflow('matplot')
 matplot_flow.add_module(Input('start'))
@@ -73,7 +75,7 @@ def branch_on_error(ctx: Context, error_message, current_role):
             return 'pass'
         else:
             return 'end'
-    if error_message is not None:
+    if error_message != "":
         return 'plot debugger'
     else:
         branch: Branch = ctx.calling_module
@@ -102,7 +104,7 @@ matplot_flow.add_edge('as refine coder', 'execute and log')
 matplot_flow.compile()
 matplot_flow.visualize('examples/matplot_agent/matplot_flow_viz')
 
-lm = 'gpt-4o-mini'
+lm = 'gpt-4o'
 openai_kwargs = {
     'temperature': 0,
 }
@@ -112,6 +114,15 @@ initial_coder_lm.lm_config = {'model': lm, **openai_kwargs}
 plot_debugger.lm_config = {'model': lm, **openai_kwargs}
 visual_refinement.lm_config = {'model': lm, **openai_kwargs}
 refine_plot_coder.lm_config = {'model': lm, **openai_kwargs}
+
+
+from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
+from compiler.optimizer.params.meta_programming.mp import MetaPrompting
+
+# peng = MetaPrompting()
+# peng.apply(query_expansion_lm)
+# # peng.apply(initial_coder_lm)
+# peng.apply(visual_refinement)
 
 # ========================================
 # Sample run
@@ -144,40 +155,20 @@ def sample_run(id):
             )
             matplot_flow.reset()
             matplot_flow.pregel_run(state)
+            logger.info(f"Visual refinement: {state.news('visual_refinement')}")
     
-sample_run(87)
-exit()
-
-from tqdm import tqdm
-
-
-def testing():
-    states = load_data()
-    
-    for state in states:
-        matplot_flow.reset()
-        matplot_flow.pregel_run(state)
-        print(vision_score(None, state))
-
-from compiler.optimizer.decompose import LMTaskDecompose
-
-
-log_dir = 'examples/matplot_agent/compiler_logs'
-# Decompose LM Modules
-def task_disambiguous():
-    decomposer = LMTaskDecompose(
-        workflow=matplot_flow,
-    )
-    decomposer.decompose(
-        log_dir=log_dir,
-        threshold=3,
-    )
-
-# task_disambiguous()
+# sample_run(96)
 # exit()
 
+# ========================================
+# Evaluation
+# ========================================
+from tqdm import tqdm
+from evaluator import VisionScore
+from compiler.optimizer.evaluation.evaluator import Evaluator
 
 def load_data():
+    matplot_flow.reset()
     data_path = 'examples/matplot_agent/benchmark_data'
     # open the json file 
     data = json.load(open(f'{data_path}/benchmark_instructions_minor.json'))
@@ -188,7 +179,7 @@ def load_data():
         expert_instruction = item['expert_instruction']
         example_id = item['id'] 
         state = StatePool()
-        directory_path = 'examples/matplot_agent/compiler_logs/runs'
+        directory_path = 'examples/matplot_agent/eval_runs_4o_peng'
 
         if not os.path.exists(directory_path):
             os.makedirs(directory_path, exist_ok=True)
@@ -203,81 +194,59 @@ def load_data():
             }
         )
         states.append(state)
+        
     return states
 
-bench_states = load_data()
-
-from compiler.optimizer.tracer import OfflineBatchTracer
-from evaluator import vision_score
-
-def infinite_none():
-    while True:
-        yield None
-
-
-def get_original_trace():
-    tracer = OfflineBatchTracer(
-        workflow=matplot_flow,
-        module_2_config='gpt-4o-2024-05-13',
-        final_output_metric=vision_score,
+def testing():
+    states = load_data()
+    eval_set = [(state, None) for state in states]
+    evaluator = Evaluator(
+        metric=VisionScore(),
+        eval_set=eval_set,
+        num_thread=3,
     )
-    trials = tracer.run(
-        inputs=bench_states,
-        labels=infinite_none(),
-        log_dir=log_dir,
-    )
-    return trials
+    states, avg_score, avg_price = evaluator(workflow=matplot_flow)
+    print(f"Average score: {avg_score}, Average price: {avg_price}")
 
-teacher_trials = get_original_trace()
-# exit()
+testing()
+exit()
 
 # ========================================
 # Optimization
 # ========================================
 
-lm_options = [
-    'gpt-4o-mini', # cheap
-    'gpt-4o-2024-08-06', # medium
-    'gpt-4o-2024-05-13', # expensive
-]
 
-from compiler.optimizer.model_selection_bo import LMSelectionBayesianOptimization
-from compiler.optimizer.importance_eval import LMImportanceEvaluator
+from compiler.optimizer.layered_optimizer import InnerLoopBayesianOptimization
+from compiler.optimizer.params import reasoning, model_selection, common
 
-def eval_importance():
-    evaluator = LMImportanceEvaluator(
-        workflow=matplot_flow,
-        models=['gpt-4o-mini', 'gpt-4o-2024-05-13'],
-        base_model='gpt-4o-mini',
-        final_output_metric=vision_score,
-        trainset_input=[bench_states[1]],
-        trainset_label=infinite_none(),
+def opt():
+    lm_options = [
+        'gpt-4o-mini', # cheap
+        'gpt-4o', # expensive
+    ]
+    reasoning_param = reasoning.LMReasoning(
+        "reasoning", None, 
+        [ZeroShotCoT(), PlanBefore(), common.IdentityOption()]
     )
-    important_lms = evaluator.eval(
-        log_dir=log_dir,
+
+    model_param = model_selection.LMSelection(
+        'lm_model', None, 
+        model_selection.model_option_factory(lm_options)
     )
-    print(important_lms)
-    return important_lms
 
-important_lms = eval_importance()
-# exit()
-
-# Select model for each module
-def select_models():
-    selector = LMSelectionBayesianOptimization(
-        workflow=matplot_flow,
-        teachers='gpt-4o-2024-05-13',
-        module_2_options=lm_options,
-        final_output_metric=vision_score,
-        trainset_input=[bench_states[1]],
-        trainset_label=infinite_none(),
+    inner_loop = InnerLoopBayesianOptimization(
+        params=[model_param],
+        opt_direction='maximize',
     )
     
-    selector.optimize(
-        n_trials=10,
-        log_dir=log_dir,
-        base_model='gpt-4o-mini',
-        important_lms=important_lms,
+    states = load_data()
+    eval_set = [(state, None) for state in states]
+    evaluator = Evaluator(
+        metric=VisionScore(),
+        eval_set=eval_set,
+        num_thread=3,
     )
 
-select_models()
+    inner_loop.optimize(matplot_flow, evaluator, 8, 'examples/matplot_agent/optimizer_logs')
+
+opt()

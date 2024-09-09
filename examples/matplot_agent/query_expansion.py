@@ -16,7 +16,7 @@ class QueryExpansion(BaseModel):
 query_expansion_semantic = LangChainSemantic(
     SYSTEM_PROMPT,
     ['query'],
-    QueryExpansion,
+    "expended_query",
 )
 
 query_expansion_lm = LangChainLM('query expansion', query_expansion_semantic)

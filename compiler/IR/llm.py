@@ -57,7 +57,7 @@ class LMSemantic(ABC):
 class LLMPredictor(Module):
     def __init__(self, name, semantic: LMSemantic, lm) -> None:
         self.lm_history = []
-        self.lm_config = None
+        self.lm_config = {}
         self.lm = lm
         
         self.semantic = semantic

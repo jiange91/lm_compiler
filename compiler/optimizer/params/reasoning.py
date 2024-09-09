@@ -2,13 +2,17 @@ from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase
 from compiler.IR.llm import LLMPredictor
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, inspect_runnable
 from compiler.IR.program import Workflow
-from langchain_core.messages import merge_message_runs, HumanMessage, AIMessage
+from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.runnables.history import RunnableWithMessageHistory
 import copy
 import types
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import BaseMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class LMReasoning(ParamBase):
@@ -23,6 +27,7 @@ class ReasonThenFormat(OptionBase):
     
     this is the helper functor to facilitate this process
     """
+    
     def apply(self, lm_module: LangChainLM):
         old_semantic = lm_module.semantic
         # remove format instruction
@@ -41,12 +46,7 @@ class ReasonThenFormat(OptionBase):
         def new_invocation_routine(lm_module: LLMPredictor):
             def get_answer(inputs: dict):
                 self.reasoning_step(new_semantic, lm_module.lm, inputs)
-                if old_semantic.output_format_instructions:
-                    new_semantic.chat_prompt_template.extend([
-                        HumanMessage("Now please format your final answer according to the follwoing instructions:\n"),
-                        HumanMessage(old_semantic.output_format_instructions)
-                    ])
-                post_reasoning_routine = new_semantic.chat_prompt_template | merge_message_runs() | lm_module.lm
+                post_reasoning_routine = new_semantic.chat_prompt_template | lm_module.lm
                 if old_semantic.output_format_instructions:
                     new_semantic.chat_prompt_template.extend([
                         HumanMessage("Now please format your final answer according to the follwoing instructions:\n"),
@@ -60,6 +60,12 @@ class ReasonThenFormat(OptionBase):
                     else:
                         result = post_reasoning_routine.invoke(inputs).content
                         return {old_semantic.get_agent_outputs()[0]: result}
+                else:
+                    new_semantic.chat_prompt_template.append(
+                        HumanMessage("Based on these informations, please give your answer: \n")
+                    )
+                    result = post_reasoning_routine.invoke(inputs).content
+                    return {old_semantic.get_agent_outputs()[0]: result}
             
             inputs_str = ', '.join(new_semantic.inputs)
             invoke_arg_dict_str = '{' + ', '.join(
@@ -67,7 +73,8 @@ class ReasonThenFormat(OptionBase):
                 ) + '}'
             new_kernel_str = f"""
 def langchain_lm_kernel({inputs_str}):
-    return get_answer({invoke_arg_dict_str})
+    answer = get_answer({invoke_arg_dict_str})
+    return answer
             """
             lm_module.kernel_str = new_kernel_str
             func_obj = compile(new_kernel_str, '<string>', 'exec')
@@ -79,6 +86,7 @@ def langchain_lm_kernel({inputs_str}):
             return local_name_space['langchain_lm_kernel']
 
         lm_module.get_invoke_routine = types.MethodType(new_invocation_routine, lm_module)
+        lm_module.lm = None # to trigger reset() incase you forget
         return lm_module
         
     def reasoning_step(self, new_semantic: LangChainSemantic, lm: ChatOpenAI, inputs: dict):
@@ -86,24 +94,32 @@ def langchain_lm_kernel({inputs_str}):
 
 
 class ZeroShotCoT(ReasonThenFormat):
+    def __init__(self):
+        super().__init__("ZeroShotCoT")
+        
     def reasoning_step(self, new_semantic: LangChainSemantic, lm: ChatOpenAI, inputs: dict):
         new_semantic.chat_prompt_template.append(
             HumanMessage("Reasoning: Let's solve this problem step by step: \n")
         )
-        routine = new_semantic.chat_prompt_template | merge_message_runs() | lm
-        result = routine.invoke(inputs).content
+        msgs = new_semantic.chat_prompt_template.format_messages(**inputs)
+        result = lm.invoke(msgs)
         new_semantic.chat_prompt_template.append(
-            AIMessage(result)
+            AIMessage(result.content)
         )
+        logger.info(f"Zero-shot CoT reasoning step: {result.content}")
         
 
 class PlanBefore(ReasonThenFormat):
+    def __init__(self):
+        super().__init__("PlanBefore")
+    
     def reasoning_step(self, new_semantic: LangChainSemantic, lm: ChatOpenAI, inputs: dict):
         new_semantic.chat_prompt_template.append(
             HumanMessage("Reasoning: Let's first plan necessary steps to approach this problem then give the answer: \n")
         )
-        routine = new_semantic.chat_prompt_template | merge_message_runs() | lm
+        routine = new_semantic.chat_prompt_template | lm
         result = routine.invoke(inputs).content
+        logger.info(f"PlanBefore reasoning step: {result}")
         new_semantic.chat_prompt_template.append(
             AIMessage(result)
         )

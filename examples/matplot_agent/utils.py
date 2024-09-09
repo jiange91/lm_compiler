@@ -7,6 +7,7 @@ from typing import Dict
 
 import os
 from contextlib import contextmanager
+import subprocess
 
 @contextmanager
 def change_directory(directory):
@@ -89,7 +90,7 @@ def get_code(response):
     return all_code_blocks_combined
 
 
-def run_code(workspace, code_file, log_file=None)->str:
+def run_code_old(workspace, code_file, log_file=None)->str:
     if log_file is None:
         log_file = code_file + '.log'
     with change_directory(workspace):
@@ -99,6 +100,19 @@ def run_code(workspace, code_file, log_file=None)->str:
             log = f.read()
 
     return log
+
+def run_code(workspace, code_file, log_file=None)->str:
+    if log_file is None:
+        log_file = code_file + '.log'
+
+    result = subprocess.run(['python', code_file],
+                            cwd=workspace,
+                            capture_output=True,
+                            text=True)
+    with open(os.path.join(workspace, log_file), 'w+') as f:
+        f.write(result.stderr)
+
+    return result.stderr
 
 
 def is_run_code_success(log):

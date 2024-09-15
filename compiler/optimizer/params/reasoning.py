@@ -40,6 +40,7 @@ class ReasonThenFormat(OptionBase):
             enable_memory=old_semantic.enable_memory,
             input_key_in_mem=old_semantic.input_key_in_mem,
             following_messages=old_semantic.follwing_messages.copy(),
+            demos=old_semantic.demos,
         )
         new_semantic.build_prompt_template()
         

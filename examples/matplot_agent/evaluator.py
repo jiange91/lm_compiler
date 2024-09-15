@@ -101,12 +101,12 @@ def mainworkflow(test_sample_id, plot_path):
     plot_result = gpt_4v_evaluate(ground_truth, image, image_rollback)
     print(plot_result)
   
-from compiler.optimizer.evaluation.metric import MetricBase, Input
+from compiler.optimizer.evaluation.metric import MetricBase, MInput
 
 class VisionScore(MetricBase):
-  workspace = Input(str, 'workspace dir')
-  plot_file_name = Input(str, 'plot file name')
-  sample_id = Input(int, 'sample id')
+  workspace = MInput(str, 'workspace dir')
+  plot_file_name = MInput(str, 'plot file name')
+  sample_id = MInput(int, 'sample id')
   
   def score(self, label, workspace, plot_file_name, sample_id):
     pred_path = os.path.join(workspace, plot_file_name)

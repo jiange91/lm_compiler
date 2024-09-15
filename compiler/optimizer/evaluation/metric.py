@@ -6,7 +6,7 @@ from typing import Any
 from compiler.IR.program import StatePool
 
 @dataclass
-class Input:
+class MInput:
     type: type
     desc: str
     
@@ -14,7 +14,7 @@ class MetricMeta(ABCMeta):
     def __new__(cls, name, bases, attrs):
         required_inputs = set()
         for key, value in attrs.items():
-            if isinstance(value, Input):
+            if isinstance(value, MInput):
                 required_inputs.add(key)
         attrs['required_inputs'] = required_inputs
         return super().__new__(cls, name, bases, attrs)
@@ -33,15 +33,15 @@ class MetricBase(ABC, metaclass=MetricMeta):
         return self.score(label, **inputs)
     
     @abstractmethod
-    def score(self, label, **inputs):
+    def score(self, label, **inputs) -> float:
         pass
     
     
 class ExactMatch(MetricBase):
-    answer = Input(Any, "answer to the user question")
+    answer = MInput(Any, "answer to the user question")
     
     def score(self, label, answer):
-        return label == answer
+        return 1.0 if label == answer else 0.0
 
 if __name__ == '__main__':
     state = StatePool()

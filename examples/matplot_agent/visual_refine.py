@@ -20,7 +20,8 @@ VISUAL_FEEDBACK_SYSTEM_PROMPT = """
 You are an expert in data visualization. Given a piece of code, a user query, and an image of the current plot, please determine whether the plot has faithfully followed the user query. Your task is to provide instructions to make sure the plot has strictly completed the requirements of the query. Please output a detailed step by step instruction on how to use python code to enhance the plot.
 """
 
-usr_prompt_template = HumanMessagePromptTemplate.from_template([
+usr_prompt_template = HumanMessagePromptTemplate.from_template(
+[
 '''
 Here is the code: [Code]:
 """
@@ -67,7 +68,7 @@ visual_refinement_semantic = LangChainSemantic(
     ['query', 'code', 'plot_image', 'plot_file_name'],
     "visual_refinement",
     following_messages=[usr_prompt_template],
-    # img_input_idices=[2],
+    img_input_idices=[2],
 )
 
 visual_refinement = LangChainLM('visual refinement', visual_refinement_semantic)

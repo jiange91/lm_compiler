@@ -7,7 +7,6 @@ import inspect
 import time
 import logging
 import copy
-import threading
 from graphviz import Digraph
 
 from compiler.IR.utils import get_function_kwargs
@@ -120,12 +119,15 @@ class Module(ModuleIterface):
         self.is_static = False
         self.version_id = 0
         self.enclosing_module: ComposibleModuleInterface = None
-        if kernel is not None:
-            self.input_fields, self.defaults = get_function_kwargs(kernel)
+        self.prepare_input_env()
+    
+    def prepare_input_env(self):
+        if self.kernel is not None:
+            self.input_fields, self.defaults = get_function_kwargs(self.kernel)
         else:
             self.input_fields, self.defaults = [], {}
         self.on_signature_generation()
-        logger.debug(f"Module {name} kernel has input fields {self.input_fields}")
+        logger.debug(f"Module {self.name} kernel has input fields {self.input_fields}")
     
     def reset(self):
         self.outputs = []
@@ -147,13 +149,16 @@ class Module(ModuleIterface):
         """
         pass
 
+    def on_invoke(self, kwargs: dict):
+        pass
+
     def __call__(self, statep: StatePool):
         for field in self.input_fields:
             if field not in self.defaults and field not in statep.states:
                 raise ValueError(f"Missing field {field} in state when calling {self.name}, available fields: {statep.states.keys()}")
         kargs = {field: statep.news(field) for field in statep.states if field in self.input_fields}
-                
         # time the execution
+        self.on_invoke(kargs)
         start = time.perf_counter()
         result = self.forward(**kargs)
         dur = time.perf_counter() - start

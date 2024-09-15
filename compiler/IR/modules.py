@@ -7,7 +7,6 @@ import inspect
 import time
 import logging
 import copy
-import threading
 import concurrent.futures
 
 from graphviz import Digraph

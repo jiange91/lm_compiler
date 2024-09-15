@@ -26,3 +26,5 @@ seaborn
 kaleido
 ternary
 holoviews
+paretoset
+smac

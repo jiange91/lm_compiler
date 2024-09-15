@@ -396,6 +396,7 @@ class Workflow(ComposibleModuleInterface):
                 self.token_usage_buffer['total'][model]['completion_tokens'] += meta['completion_tokens']
             # NOTE: clear incase of double counting
             lm.lm_history = []
+        return self.token_usage_buffer
     
     def log_module_time(self, path):
         import numpy as np

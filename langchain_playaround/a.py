@@ -1,20 +1,9 @@
-class A:
-    def __init__(self, data):
-        self.data = data
+from langchain_core.messages import AIMessage, HumanMessage
+from langchain_core.messages.utils import get_buffer_string
 
-class B:
-    def __init__(self) -> None:
-        self._a = A(10)
-    
-    @property
-    def a(self):
-        return self._a
-
-b = B()
-ob = B()
-
-ob._a = b.a
-
-b._a = A(20)
-
-print(ob.a.data)
+messages = [
+    HumanMessage(content="Hi, how are you?"),
+    AIMessage(content="Good, how are you?"),
+]
+print(get_buffer_string(messages))
+# -> "Human: Hi, how are you?

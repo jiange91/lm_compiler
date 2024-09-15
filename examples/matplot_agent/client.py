@@ -9,6 +9,7 @@ import os
 import json
 import logging
 import uuid
+import copy
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +31,6 @@ def prepare_plot_env(sample_id, workspace, data_path):
         os.makedirs(new_directory_path, exist_ok=True)
         input_path = f'{data_path}/data/{sample_id}'
         if os.path.exists(input_path):
-            #全部copy到f"Directory '{directory_path}'
             os.system(f'cp -r {input_path}/* {new_directory_path}')
     else:
         logger.error(f"Directory '{new_directory_path}' already exists.")
@@ -63,7 +63,6 @@ matplot_flow.add_edge('as initial coder', 'execute and log')
 matplot_flow.add_edge('execute and log', 'collect error message')
 
 matplot_flow.add_module(Identity('pass')) # when adding edge the compiler will check if module exists, add this to bypass the check
-
 
 @hint_possible_destinations(['pass', 'plot debugger', 'end'])
 def branch_on_error(ctx: Context, error_message, current_role):
@@ -105,7 +104,7 @@ matplot_flow.add_edge('as refine coder', 'execute and log')
 matplot_flow.compile()
 matplot_flow.visualize('examples/matplot_agent/matplot_flow_viz')
 
-lm = 'gpt-4o'
+lm = 'gpt-4o-mini'
 openai_kwargs = {
     'temperature': 0,
 }
@@ -115,7 +114,6 @@ initial_coder_lm.lm_config = {'model': lm, **openai_kwargs}
 plot_debugger.lm_config = {'model': lm, **openai_kwargs}
 visual_refinement.lm_config = {'model': lm, **openai_kwargs}
 refine_plot_coder.lm_config = {'model': lm, **openai_kwargs}
-
 
 from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
 from compiler.optimizer.params.meta_programming.mp import MetaPrompting
@@ -157,16 +155,17 @@ def sample_run(id):
             matplot_flow.reset()
             matplot_flow.pregel_run(state)
             logger.info(f"Visual refinement: {state.news('visual_refinement')}")
+            logger.info(get_bill(matplot_flow.update_token_usage_summary()))
     
-sample_run(95)
-exit()
+# sample_run(95)
+# exit()
 
 # ========================================
 # Evaluation
 # ========================================
 from tqdm import tqdm
 from evaluator import VisionScore
-from compiler.optimizer.evaluation.evaluator import Evaluator
+from compiler.optimizer.evaluation.evaluator import Evaluator, EvaluationResult
 
 def load_data():
     matplot_flow.reset()
@@ -180,7 +179,7 @@ def load_data():
         expert_instruction = item['expert_instruction']
         example_id = item['id'] 
         state = StatePool()
-        directory_path = 'examples/matplot_agent/sample_runs_4o'
+        directory_path = 'examples/matplot_agent/sample_runs'
 
         if not os.path.exists(directory_path):
             os.makedirs(directory_path, exist_ok=True)
@@ -206,11 +205,11 @@ def testing():
         eval_set=eval_set,
         num_thread=3,
     )
-    states, avg_score, avg_price = evaluator(workflow=matplot_flow)
-    print(f"Average score: {avg_score}, Average price: {avg_price}")
+    result = evaluator(workflow=matplot_flow)
+    print(f"Average score: {result.reduced_score}, Average price: {result.reduced_price}")
 
-testing()
-exit()
+# testing()
+# exit()
 
 # ========================================
 # Importance evaluation
@@ -240,27 +239,26 @@ important_lms = importance_eval()
 # Optimization
 # ========================================
 
-from compiler.optimizer.layered_optimizer import InnerLoopBayesianOptimization
+from compiler.optimizer.layered_optimizer import InnerLoopBayesianOptimization, SMACAllInOneLayer
+from compiler.optimizer.params.fewshot import LMFewShot
 
 def opt():
     lm_options = [
-        'gpt-4o-mini', # cheap
-        'gpt-4o', # expensive
+        'gpt-4o',
+        'gpt-4o-mini',
     ]
     reasoning_param = reasoning.LMReasoning(
-        "reasoning", None, 
-        [common.IdentityOption(), ZeroShotCoT(), PlanBefore()]
+        "reasoning", [common.IdentityOption(), ZeroShotCoT(), PlanBefore()]
     )
 
     model_param = model_selection.LMSelection(
-        'lm_model', None, 
-        model_selection.model_option_factory(lm_options)
+        'lm_model', model_selection.model_option_factory(lm_options)
     )
 
-    inner_loop = InnerLoopBayesianOptimization(
+    # inner_loop = InnerLoopBayesianOptimization(
+    inner_loop = SMACAllInOneLayer(
         params=[model_param, reasoning_param],
         opt_direction='maximize',
-        important_lms=important_lms,
     )
     
     states = load_data()
@@ -271,6 +269,37 @@ def opt():
         num_thread=3,
     )
 
-    inner_loop.optimize(matplot_flow, evaluator, 16, 'examples/matplot_agent/optimizer_logs')
+    inner_loop.optimize(matplot_flow, evaluator, 3, 'examples/matplot_agent/smac_optimizer_logs')
 
-opt()
+# opt()
+def few_shot_opt():
+    states = load_data()
+    eval_set = [(state, None) for state in states]
+    evaluator = Evaluator(
+        metric=VisionScore(),
+        eval_set=eval_set,
+        num_thread=3,
+    )
+    lm_few_shot_params = LMFewShot.bootstrap(
+        workflow=matplot_flow, 
+        evaluator=evaluator, 
+        max_num=2, 
+        target_modules=['query expansion', 'initial code generation', 'visual refine coder'],
+        log_path='examples/matplot_agent/test_fs.json'
+    )
+
+    new_flow = copy.deepcopy(matplot_flow)
+    def apply_few_shot(params: list[LMFewShot]):
+        for param in params:
+            for option in param.options.values():
+                if option.name != 'Identity':
+                    selected = option.name
+                    lm = matplot_flow.get_all_modules(lambda x: x.name == param.module_name)[0]
+                    param.apply_option(selected, lm)
+    
+    apply_few_shot(lm_few_shot_params)
+    return lm_few_shot_params
+
+few_shot_opt()
+
+sample_run(1)

@@ -2,7 +2,9 @@ from compiler.utils import load_api_key, get_bill
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.runnables import RunnableLambda
-
+from langchain_core.callbacks import BaseCallbackHandler
+from langchain_core.outputs.llm_result import LLMResult
+from copy import deepcopy
 
 import json
 
@@ -31,6 +33,15 @@ chat_prompt = ChatPromptTemplate.from_messages(
 
 from langchain_core.messages import AIMessage, HumanMessage
 
+class LLMTracker(BaseCallbackHandler):
+    def __init__(self):
+        super().__init__()
+    
+    def on_llm_end(self, response: LLMResult, **kwargs):
+        meta = response.llm_output['token_usage']
+        meta['model'] = response.llm_output['model_name']
+        print(response)
+
 human_message = HumanMessage(content="What is the best way to learn programming?")
 ai_message = AIMessage(
     content="""\
@@ -44,7 +55,7 @@ ai_message = AIMessage(
 
 
 from langchain_openai.chat_models import ChatOpenAI
-model = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
+model = ChatOpenAI(model="gpt-4o-mini", temperature=0.0, callbacks=[LLMTracker()])
 
 add_on = HumanMessage(content=[
     {'type': 'text', 'text': 
@@ -65,12 +76,16 @@ def inspect_merge(inputs, **kwargs):
     return result
 
 runnable = RunnableLambda(inspect_merge)
-
-runnable = chat_prompt | inspect_merge | model
-print(runnable.invoke(
+print(chat_prompt.invoke(
     {"conversation": [human_message, ai_message], 
-     "word_count": "10"}))
-exit()
+     "word_count": {"value": "10"}}))
+
+runnable = chat_prompt | model
+def run():
+    print(runnable.invoke(
+        {"conversation": [human_message, ai_message], 
+        "word_count": "10"}))
+
 
 from compiler.langchain_bridge.interface import LangChainLM, LangChainSemantic
 from compiler.IR.program import Workflow, Context, hint_possible_destinations, StatePool
@@ -92,8 +107,8 @@ semantic = LangChainSemantic(
 )
 
 qa_agent = LangChainLM('qa_agent', semantic)
-
 qa_flow = Workflow('qa_flow')
+
 qa_flow.add_module(Input('start'))
 qa_flow.add_module(Output('end'))
 qa_flow.add_module(qa_agent)
@@ -110,6 +125,13 @@ state.init({
 qa_flow.pregel_run(state)
 
 print(state.news('points'))
+
+for lm in qa_flow.get_all_modules(lambda x: isinstance(x, LangChainLM)):
+    assert isinstance(lm, LangChainLM)
+    demo = lm.get_step_as_example()
+    print(demo)
+
+exit()
 
 qa_flow.update_token_usage_summary()
 print(qa_flow.token_usage_buffer)

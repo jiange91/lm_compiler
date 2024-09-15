@@ -10,15 +10,16 @@ from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.output_parsers import JsonOutputParser
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import HumanMessage, BaseMessage
+from .utils import var_2_str
 
 import logging
-from typing import Union, Callable, Type
+from typing import Union, Callable, Type, Any, Dict, List
 import types
 from copy import deepcopy
 import json
 
-from compiler.IR.llm import LLMPredictor, LMConfig, LMSemantic
+from compiler.IR.llm import LLMPredictor, LMConfig, LMSemantic, Demonstration
 
 logger = logging.getLogger(__name__)
 
@@ -111,14 +112,20 @@ class LLMTracker(BaseCallbackHandler):
         super().__init__()
         self.cmodule = cmodule
     
+    def on_chat_model_start(
+        self, serialized: Dict[str, Any], messages: List[List[BaseMessage]], **kwargs: Any
+    ) -> Any:
+        pass
+    
     def on_llm_end(self, response: LLMResult, **kwargs):
         meta = response.llm_output['token_usage']
         meta['model'] = response.llm_output['model_name']
+        meta['response'] = response.generations[0][0].text
         self.cmodule.llm_gen_meta.append(deepcopy(meta))
 
 class LangChainSemantic(LMSemantic):
     """Please do not set your format instructioins in the prompt
-    just specify the output format with a pydantic model (basically the dspy way)
+    just specify the output format with a pydantic model
     
     When applying optimization we need to control how to format your output schema bc 
     we might interleave the reasoning process with the output generation
@@ -133,9 +140,9 @@ class LangChainSemantic(LMSemantic):
         enable_memory: bool = False,
         input_key_in_mem: str = None,
         following_messages: list[MessageLikeRepresentation] = [],
+        demos: list[Demonstration] = [],
     ):
         self.system_prompt = system_prompt
-        self.img_input_idices = img_input_idices
         # NOTE: this is short-term memory, only history wihtin a workflow execution is recorded
         assert not enable_memory, "memory flag experimental, use following_messages to manage explicitly"
         self.enable_memory = enable_memory
@@ -145,6 +152,9 @@ class LangChainSemantic(LMSemantic):
         
         self.inputs = inputs if isinstance(inputs, list) else [inputs]
         assert len(self.inputs) > 0, "At least one input is required"
+        
+        self.img_input_idices = img_input_idices
+        self.img_input_names = set([self.inputs[i] for i in self.img_input_idices]) if self.img_input_idices else set()
         
         self.output_format_instructions = output_format_instructions
         
@@ -163,6 +173,13 @@ class LangChainSemantic(LMSemantic):
         self.message_template_predefined = len(following_messages) > 0
         self.follwing_messages = following_messages
         self._chat_prompt_template: ChatPromptTemplate = None
+        self.demos = demos
+    
+    def get_demos(self) -> list[Demonstration]:
+        return self.demos
+    
+    def set_demos(self, demos: list[Demonstration]):
+        self.demos = demos
     
     @property
     def chat_prompt_template(self):
@@ -171,6 +188,44 @@ class LangChainSemantic(LMSemantic):
     @chat_prompt_template.setter
     def chat_prompt_template(self, value):
         self._chat_prompt_template = value
+    
+    def add_demos_to_prompt(self):
+        self.chat_prompt_template.append(HumanMessage(
+            "Let me show you some examples:\n"
+        ))
+        
+        for i, demo in enumerate(self.demos):
+            # add normal text inputs
+            input_str = []
+            for key, value in demo.inputs.items():
+                if key not in self.img_input_names:
+                    input_str.append(f"{key}:\n{value}")
+            text_input_str = '\n'.join(input_str)
+            self.chat_prompt_template.append(HumanMessage(
+                f"---\n**Example query {i+1}**:\n{text_input_str}\n"
+            ))
+            for key, value in demo.inputs.items():
+                if key in self.img_input_names:
+                    self.chat_prompt_template.append(
+                        HumanMessage(f"{key}:\n")
+                    )
+                    self.chat_prompt_template.append(
+                        HumanMessage(
+                            [{
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/png;base64,{value}"
+                                }
+                            }]
+                        )
+                    )
+            # add output, only consider text now
+            self.chat_prompt_template.append(HumanMessage(
+                f"**Example Answer**:\n{demo.output}\n"
+            ))
+        self.chat_prompt_template.append(HumanMessage(
+            "---\n"
+        ))
     
     def build_prompt_template(self):
         # setup message list
@@ -206,14 +261,22 @@ class LangChainSemantic(LMSemantic):
                 [
                     ("system", self.system_prompt),
                     MessagesPlaceholder(variable_name="compiler_chat_history"),
-                ] + self.follwing_messages
+                ]
             )
         else:
             self.chat_prompt_template = ChatPromptTemplate.from_messages(
                 [
                     ("system", self.system_prompt),
-                ] + self.follwing_messages
+                ]
             )
+        
+        # add few-shot examples
+        if self.demos:
+            self.add_demos_to_prompt()
+        
+        # add user prompt
+        self.chat_prompt_template.extend(self.follwing_messages)
+        
         if self.output_format_instructions:
             self.chat_prompt_template.append(HumanMessage(self.output_format_instructions))
 
@@ -248,19 +311,12 @@ class LangChainSemantic(LMSemantic):
 
 
 class LangChainLM(LLMPredictor):
-    def __init__(self, name, semantic: LangChainSemantic, lm = None) -> None:
+    def __init__(self, name, semantic: LangChainSemantic) -> None:
         self.llm_gen_meta = []
         self.chat_history = ChatMessageHistory()
         self.semantic: LangChainSemantic = semantic # mainly for type hint
         # default model can be overwritten by set_lm
-        if lm is None:
-            self.lm = ChatOpenAI(
-                model="gpt-4o-mini", 
-                temperature=0.0, 
-                callbacks=[LLMTracker(self)]
-            )
-        else:
-            self.lm = lm
+        self.lm = None
         super().__init__(name, semantic, self.lm)
     
     def get_invoke_routine(self):
@@ -314,15 +370,33 @@ def langchain_lm_kernel({inputs_str}):
                 **self.lm_config, 
                 callbacks=[LLMTracker(self)]
             )
-            self.kernel = self.get_invoke_routine()
         else:
             raise ValueError(f"Model {model_name} not supported")
         return
 
     def get_lm_history(self):
+        """get the history of the last generation
+        
+        remember to clear the history after getting it
+        """
         hist_cpy = deepcopy(self.llm_gen_meta)
         self.llm_gen_meta = []
         return hist_cpy
+
+    def get_step_as_example(self) -> Demonstration:
+        if len(self.step_info) == 0:
+            return None
+        
+        step = self.step_info[-1]
+        inputs = step['inputs']
+        output = step['output']
+        if not isinstance(output, str):
+            raise ValueError(f"Output must be a string, got {output}")
+        inputs_dict = {}
+        for key, value in inputs.items():
+            inputs_dict[key] = var_2_str(value)
+        demo = Demonstration(inputs_dict, output)
+        return demo
 
     def custom_reset(self):
         self.llm_gen_meta = []

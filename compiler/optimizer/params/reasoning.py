@@ -1,4 +1,6 @@
-from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase
+from abc import ABC, ABCMeta
+
+from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase, IdentityOption
 from compiler.IR.llm import LLMPredictor
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, inspect_runnable
 from compiler.IR.program import Workflow
@@ -18,8 +20,26 @@ logger = logging.getLogger(__name__)
 class LMReasoning(ParamBase):
     level = ParamLevel.NODE
     
+    @classmethod
+    def from_dict(cls, data: dict):
+        name, module_name, default_option, options = data['name'], data['module_name'], data['default_option'], data['options']
+        options = [ReasonThenFormat.registry[dat['type']].from_dict(dat) for name, dat in options.items()]
+        return cls(
+            name=name,
+            options=options,
+            default_option=default_option,
+            module_name=module_name,
+        )
 
-class ReasonThenFormat(OptionBase):
+class ReasoningOptionMeta(ABCMeta):
+    registry: dict[str, type] = {'IdentityOption': IdentityOption}
+    
+    def __new__(cls, name, bases, attrs):
+        new_cls = super().__new__(cls, name, bases, attrs)
+        cls.registry[name] = new_cls
+        return new_cls
+
+class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
     """
     If the orignal output has certain format, applying additional reasoning steps will break down
     it into two phases, first one allows free generation along with reasoning steps, and the second
@@ -93,6 +113,9 @@ def langchain_lm_kernel({inputs_str}):
     def reasoning_step(self, new_semantic: LangChainSemantic, lm: ChatOpenAI, inputs: dict):
         raise NotImplementedError
 
+    @classmethod
+    def from_dict(cls, data: dict):
+        return cls()
 
 class ZeroShotCoT(ReasonThenFormat):
     def __init__(self):

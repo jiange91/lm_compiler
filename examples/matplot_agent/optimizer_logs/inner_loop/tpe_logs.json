@@ -1,258 +1,254 @@
 {
     "0": {
         "params": {
-            "query expansion_lm_model": 0,
-            "query expansion_reasoning": 0,
-            "initial code generation_lm_model": 0,
-            "initial code generation_reasoning": 0,
-            "plot debugger_lm_model": 0,
-            "plot debugger_reasoning": 0,
-            "visual refinement_lm_model": 0,
-            "visual refinement_reasoning": 0,
-            "visual refine coder_lm_model": 0,
-            "visual refine coder_reasoning": 0
+            "query expansion_lm_model": "gpt-4o-mini",
+            "query expansion_reasoning": "ZeroShotCoT",
+            "query expansion_query expansion demo": "Identity",
+            "initial code generation_lm_model": "gpt-4o-mini",
+            "initial code generation_reasoning": "ZeroShotCoT",
+            "initial code generation_initial coder demo": "Identity",
+            "plot debugger_lm_model": "gpt-4o-mini",
+            "plot debugger_reasoning": "Identity",
+            "plot debugger_plot debugger demo": "Identity",
+            "visual refinement_lm_model": "gpt-4o-mini",
+            "visual refinement_reasoning": "PlanBefore",
+            "visual refine coder_lm_model": "gpt-4o",
+            "visual refine coder_reasoning": "ZeroShotCoT",
+            "visual refine coder_visual refine coder demo": "Identity"
         },
-        "score": 0.2333333333333333,
-        "price": 0.00563005
+        "score": 0.26666666666666666,
+        "price": 0.04336625,
+        "total_price": 0.13009875
     },
     "1": {
         "params": {
-            "query expansion_lm_model": 1,
-            "query expansion_reasoning": 0,
-            "initial code generation_lm_model": 0,
-            "initial code generation_reasoning": 0,
-            "plot debugger_lm_model": 0,
-            "plot debugger_reasoning": 0,
-            "visual refinement_lm_model": 0,
-            "visual refinement_reasoning": 0,
-            "visual refine coder_lm_model": 0,
-            "visual refine coder_reasoning": 0
+            "query expansion_lm_model": "gpt-4o-mini",
+            "query expansion_reasoning": "Identity",
+            "query expansion_query expansion demo": "Identity",
+            "initial code generation_lm_model": "gpt-4o-mini",
+            "initial code generation_reasoning": "ZeroShotCoT",
+            "initial code generation_initial coder demo": "Identity",
+            "plot debugger_lm_model": "gpt-4o-mini",
+            "plot debugger_reasoning": "PlanBefore",
+            "plot debugger_plot debugger demo": "Identity",
+            "visual refinement_lm_model": "gpt-4o-mini",
+            "visual refinement_reasoning": "PlanBefore",
+            "visual refine coder_lm_model": "gpt-4o",
+            "visual refine coder_reasoning": "PlanBefore",
+            "visual refine coder_visual refine coder demo": "Identity"
         },
-        "score": 0.3333333333333333,
-        "price": 0.021801666666666667
+        "score": 0.6333333333333333,
+        "price": 0.0654714,
+        "total_price": 0.1964142
     },
     "2": {
         "params": {
-            "query expansion_lm_model": 0,
-            "query expansion_reasoning": 0,
-            "initial code generation_lm_model": 0,
-            "initial code generation_reasoning": 0,
-            "plot debugger_lm_model": 0,
-            "plot debugger_reasoning": 0,
-            "visual refinement_lm_model": 1,
-            "visual refinement_reasoning": 0,
-            "visual refine coder_lm_model": 0,
-            "visual refine coder_reasoning": 0
+            "query expansion_lm_model": "gpt-4o-mini",
+            "query expansion_reasoning": "ZeroShotCoT",
+            "query expansion_query expansion demo": "Identity",
+            "initial code generation_lm_model": "gpt-4o",
+            "initial code generation_reasoning": "PlanBefore",
+            "initial code generation_initial coder demo": "Identity",
+            "plot debugger_lm_model": "gpt-4o",
+            "plot debugger_reasoning": "Identity",
+            "plot debugger_plot debugger demo": "Identity",
+            "visual refinement_lm_model": "gpt-4o-mini",
+            "visual refinement_reasoning": "Identity",
+            "visual refine coder_lm_model": "gpt-4o-mini",
+            "visual refine coder_reasoning": "Identity",
+            "visual refine coder_visual refine coder demo": "Identity"
         },
-        "score": 0.5666666666666667,
-        "price": 0.026930449999999998
+        "score": 0.4666666666666666,
+        "price": 0.06559648333333333,
+        "total_price": 0.19678945
     },
     "3": {
         "params": {
-            "query expansion_lm_model": 0,
-            "query expansion_reasoning": 2,
-            "initial code generation_lm_model": 0,
-            "initial code generation_reasoning": 2,
-            "plot debugger_lm_model": 0,
-            "plot debugger_reasoning": 1,
-            "visual refinement_lm_model": 1,
-            "visual refinement_reasoning": 0,
-            "visual refine coder_lm_model": 1,
-            "visual refine coder_reasoning": 0
+            "query expansion_lm_model": "gpt-4o",
+            "query expansion_reasoning": "PlanBefore",
+            "query expansion_query expansion demo": "query expansion_demos_75fe7b23-2827-45b6-91be-bdfa2fd9184d",
+            "initial code generation_lm_model": "gpt-4o",
+            "initial code generation_reasoning": "PlanBefore",
+            "initial code generation_initial coder demo": "initial code generation_demos_0eda24cf-98d7-4b63-ae1c-8a5396550ea0",
+            "plot debugger_lm_model": "gpt-4o-mini",
+            "plot debugger_reasoning": "PlanBefore",
+            "plot debugger_plot debugger demo": "Identity",
+            "visual refinement_lm_model": "gpt-4o-mini",
+            "visual refinement_reasoning": "ZeroShotCoT",
+            "visual refine coder_lm_model": "gpt-4o",
+            "visual refine coder_reasoning": "PlanBefore",
+            "visual refine coder_visual refine coder demo": "Identity"
         },
-        "score": 0.3666666666666667,
-        "price": 0.030233850000000003
+        "score": 0.48333333333333334,
+        "price": 0.12554415,
+        "total_price": 0.37663245
     },
     "4": {
         "params": {
-            "query expansion_lm_model": 1,
-            "query expansion_reasoning": 1,
-            "initial code generation_lm_model": 0,
-            "initial code generation_reasoning": 0,
-            "plot debugger_lm_model": 0,
-            "plot debugger_reasoning": 0,
-            "visual refinement_lm_model": 1,
-            "visual refinement_reasoning": 0,
-            "visual refine coder_lm_model": 0,
-            "visual refine coder_reasoning": 2
+            "query expansion_lm_model": "gpt-4o-mini",
+            "query expansion_reasoning": "Identity",
+            "query expansion_query expansion demo": "Identity",
+            "initial code generation_lm_model": "gpt-4o-mini",
+            "initial code generation_reasoning": "ZeroShotCoT",
+            "initial code generation_initial coder demo": "Identity",
+            "plot debugger_lm_model": "gpt-4o",
+            "plot debugger_reasoning": "Identity",
+            "plot debugger_plot debugger demo": "plot debugger_demos_a0fb2b22-bb93-4a34-8c86-8dba48f9de80",
+            "visual refinement_lm_model": "gpt-4o",
+            "visual refinement_reasoning": "ZeroShotCoT",
+            "visual refine coder_lm_model": "gpt-4o",
+            "visual refine coder_reasoning": "PlanBefore",
+            "visual refine coder_visual refine coder demo": "Identity"
         },
-        "score": 0.19999999999999998,
-        "price": 0.062461466666666667
+        "score": 0.48333333333333334,
+        "price": 0.18925575000000003,
+        "total_price": 0.5677672500000001
     },
     "5": {
         "params": {
-            "query expansion_lm_model": 1,
-            "query expansion_reasoning": 1,
-            "initial code generation_lm_model": 1,
-            "initial code generation_reasoning": 1,
-            "plot debugger_lm_model": 1,
-            "plot debugger_reasoning": 0,
-            "visual refinement_lm_model": 1,
-            "visual refinement_reasoning": 2,
-            "visual refine coder_lm_model": 0,
-            "visual refine coder_reasoning": 1
+            "query expansion_lm_model": "gpt-4o",
+            "query expansion_reasoning": "ZeroShotCoT",
+            "query expansion_query expansion demo": "Identity",
+            "initial code generation_lm_model": "gpt-4o",
+            "initial code generation_reasoning": "Identity",
+            "initial code generation_initial coder demo": "initial code generation_demos_0eda24cf-98d7-4b63-ae1c-8a5396550ea0",
+            "plot debugger_lm_model": "gpt-4o-mini",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "plot debugger_plot debugger demo": "plot debugger_demos_a0fb2b22-bb93-4a34-8c86-8dba48f9de80",
+            "visual refinement_lm_model": "gpt-4o",
+            "visual refinement_reasoning": "Identity",
+            "visual refine coder_lm_model": "gpt-4o",
+            "visual refine coder_reasoning": "ZeroShotCoT",
+            "visual refine coder_visual refine coder demo": "Identity"
         },
-        "score": 0.35000000000000003,
-        "price": 0.15170346666666668
+        "score": 0.7166666666666667,
+        "price": 0.137435,
+        "total_price": 0.41230500000000003
     },
     "6": {
         "params": {
-            "query expansion_lm_model": 0,
-            "query expansion_reasoning": 0,
-            "initial code generation_lm_model": 1,
-            "initial code generation_reasoning": 0,
-            "plot debugger_lm_model": 1,
-            "plot debugger_reasoning": 2,
-            "visual refinement_lm_model": 1,
-            "visual refinement_reasoning": 2,
-            "visual refine coder_lm_model": 1,
-            "visual refine coder_reasoning": 1
+            "query expansion_lm_model": "gpt-4o",
+            "query expansion_reasoning": "ZeroShotCoT",
+            "query expansion_query expansion demo": "query expansion_demos_75fe7b23-2827-45b6-91be-bdfa2fd9184d",
+            "initial code generation_lm_model": "gpt-4o",
+            "initial code generation_reasoning": "Identity",
+            "initial code generation_initial coder demo": "initial code generation_demos_0eda24cf-98d7-4b63-ae1c-8a5396550ea0",
+            "plot debugger_lm_model": "gpt-4o",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "plot debugger_plot debugger demo": "plot debugger_demos_96d0a5dc-7724-4e4d-b11b-297078d49b53",
+            "visual refinement_lm_model": "gpt-4o",
+            "visual refinement_reasoning": "PlanBefore",
+            "visual refine coder_lm_model": "gpt-4o",
+            "visual refine coder_reasoning": "ZeroShotCoT",
+            "visual refine coder_visual refine coder demo": "visual refine coder_demos_c68e7e58-8965-4ebc-88b2-264ab91be3b5"
         },
-        "score": 0.16666666666666666,
-        "price": 0.22877623333333333
+        "score": 0.6833333333333332,
+        "price": 0.17946166666666666,
+        "total_price": 0.538385
     },
     "7": {
         "params": {
-            "query expansion_lm_model": 1,
-            "query expansion_reasoning": 0,
-            "initial code generation_lm_model": 1,
-            "initial code generation_reasoning": 2,
-            "plot debugger_lm_model": 1,
-            "plot debugger_reasoning": 2,
-            "visual refinement_lm_model": 1,
-            "visual refinement_reasoning": 1,
-            "visual refine coder_lm_model": 1,
-            "visual refine coder_reasoning": 0
+            "query expansion_lm_model": "gpt-4o",
+            "query expansion_reasoning": "ZeroShotCoT",
+            "query expansion_query expansion demo": "query expansion_demos_2724a9e8-9309-4992-b168-03923413a7b2",
+            "initial code generation_lm_model": "gpt-4o-mini",
+            "initial code generation_reasoning": "Identity",
+            "initial code generation_initial coder demo": "initial code generation_demos_0eda24cf-98d7-4b63-ae1c-8a5396550ea0",
+            "plot debugger_lm_model": "gpt-4o",
+            "plot debugger_reasoning": "PlanBefore",
+            "plot debugger_plot debugger demo": "plot debugger_demos_3f2ce2c6-09d0-4e07-94cb-f484405e1588",
+            "visual refinement_lm_model": "gpt-4o",
+            "visual refinement_reasoning": "PlanBefore",
+            "visual refine coder_lm_model": "gpt-4o-mini",
+            "visual refine coder_reasoning": "PlanBefore",
+            "visual refine coder_visual refine coder demo": "visual refine coder_demos_b2075b1b-1bbb-45fd-baf1-1ed0936c9da1"
         },
-        "score": 0.5,
-        "price": 0.18606666666666669
+        "score": 0.2333333333333333,
+        "price": 0.2199726833333333,
+        "total_price": 0.6599180499999999
     },
     "8": {
         "params": {
-            "query expansion_lm_model": 0,
-            "query expansion_reasoning": 0,
-            "initial code generation_lm_model": 1,
-            "initial code generation_reasoning": 0,
-            "plot debugger_lm_model": 0,
-            "plot debugger_reasoning": 0,
-            "visual refinement_lm_model": 1,
-            "visual refinement_reasoning": 1,
-            "visual refine coder_lm_model": 1,
-            "visual refine coder_reasoning": 2
+            "query expansion_lm_model": "gpt-4o",
+            "query expansion_reasoning": "Identity",
+            "query expansion_query expansion demo": "query expansion_demos_2724a9e8-9309-4992-b168-03923413a7b2",
+            "initial code generation_lm_model": "gpt-4o-mini",
+            "initial code generation_reasoning": "Identity",
+            "initial code generation_initial coder demo": "initial code generation_demos_7b0037df-58f6-4e23-ba28-c062ada5636a",
+            "plot debugger_lm_model": "gpt-4o",
+            "plot debugger_reasoning": "PlanBefore",
+            "plot debugger_plot debugger demo": "Identity",
+            "visual refinement_lm_model": "gpt-4o",
+            "visual refinement_reasoning": "Identity",
+            "visual refine coder_lm_model": "gpt-4o",
+            "visual refine coder_reasoning": "PlanBefore",
+            "visual refine coder_visual refine coder demo": "Identity"
         },
-        "score": 0.45,
-        "price": 0.09269875
+        "score": 0.85,
+        "price": 0.10528558333333334,
+        "total_price": 0.31585675
     },
     "9": {
         "params": {
-            "query expansion_lm_model": 1,
-            "query expansion_reasoning": 2,
-            "initial code generation_lm_model": 0,
-            "initial code generation_reasoning": 1,
-            "plot debugger_lm_model": 1,
-            "plot debugger_reasoning": 1,
-            "visual refinement_lm_model": 1,
-            "visual refinement_reasoning": 0,
-            "visual refine coder_lm_model": 1,
-            "visual refine coder_reasoning": 2
+            "query expansion_lm_model": "gpt-4o-mini",
+            "query expansion_reasoning": "PlanBefore",
+            "query expansion_query expansion demo": "query expansion_demos_95f74028-ded6-489d-973c-5ad335a0562a",
+            "initial code generation_lm_model": "gpt-4o",
+            "initial code generation_reasoning": "PlanBefore",
+            "initial code generation_initial coder demo": "initial code generation_demos_0eda24cf-98d7-4b63-ae1c-8a5396550ea0",
+            "plot debugger_lm_model": "gpt-4o",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "plot debugger_plot debugger demo": "plot debugger_demos_96d0a5dc-7724-4e4d-b11b-297078d49b53",
+            "visual refinement_lm_model": "gpt-4o",
+            "visual refinement_reasoning": "ZeroShotCoT",
+            "visual refine coder_lm_model": "gpt-4o",
+            "visual refine coder_reasoning": "PlanBefore",
+            "visual refine coder_visual refine coder demo": "visual refine coder_demos_c68e7e58-8965-4ebc-88b2-264ab91be3b5"
         },
-        "score": 0.48333333333333334,
-        "price": 0.15721646666666667
+        "score": 0.5,
+        "price": 0.20067831666666666,
+        "total_price": 0.60203495
     },
     "10": {
         "params": {
-            "query expansion_lm_model": 0,
-            "query expansion_reasoning": 0,
-            "initial code generation_lm_model": 1,
-            "initial code generation_reasoning": 0,
-            "plot debugger_lm_model": 0,
-            "plot debugger_reasoning": 0,
-            "visual refinement_lm_model": 1,
-            "visual refinement_reasoning": 1,
-            "visual refine coder_lm_model": 1,
-            "visual refine coder_reasoning": 0
+            "query expansion_lm_model": "gpt-4o",
+            "query expansion_reasoning": "Identity",
+            "query expansion_query expansion demo": "Identity",
+            "initial code generation_lm_model": "gpt-4o",
+            "initial code generation_reasoning": "Identity",
+            "initial code generation_initial coder demo": "initial code generation_demos_7b0037df-58f6-4e23-ba28-c062ada5636a",
+            "plot debugger_lm_model": "gpt-4o",
+            "plot debugger_reasoning": "Identity",
+            "plot debugger_plot debugger demo": "plot debugger_demos_a0fb2b22-bb93-4a34-8c86-8dba48f9de80",
+            "visual refinement_lm_model": "gpt-4o",
+            "visual refinement_reasoning": "ZeroShotCoT",
+            "visual refine coder_lm_model": "gpt-4o",
+            "visual refine coder_reasoning": "ZeroShotCoT",
+            "visual refine coder_visual refine coder demo": "visual refine coder_demos_b2075b1b-1bbb-45fd-baf1-1ed0936c9da1"
         },
-        "score": 0.6,
-        "price": 0.09814250000000001
+        "score": 0.6666666666666666,
+        "price": 0.24244833333333335,
+        "total_price": 0.727345
     },
     "11": {
         "params": {
-            "query expansion_lm_model": 0,
-            "query expansion_reasoning": 2,
-            "initial code generation_lm_model": 1,
-            "initial code generation_reasoning": 0,
-            "plot debugger_lm_model": 1,
-            "plot debugger_reasoning": 1,
-            "visual refinement_lm_model": 0,
-            "visual refinement_reasoning": 0,
-            "visual refine coder_lm_model": 1,
-            "visual refine coder_reasoning": 2
+            "query expansion_lm_model": "gpt-4o-mini",
+            "query expansion_reasoning": "ZeroShotCoT",
+            "query expansion_query expansion demo": "query expansion_demos_2724a9e8-9309-4992-b168-03923413a7b2",
+            "initial code generation_lm_model": "gpt-4o",
+            "initial code generation_reasoning": "Identity",
+            "initial code generation_initial coder demo": "Identity",
+            "plot debugger_lm_model": "gpt-4o-mini",
+            "plot debugger_reasoning": "PlanBefore",
+            "plot debugger_plot debugger demo": "plot debugger_demos_075220f6-5f81-4ec7-8972-8fc01dbdd576",
+            "visual refinement_lm_model": "gpt-4o-mini",
+            "visual refinement_reasoning": "Identity",
+            "visual refine coder_lm_model": "gpt-4o",
+            "visual refine coder_reasoning": "PlanBefore",
+            "visual refine coder_visual refine coder demo": "Identity"
         },
-        "score": 0.26666666666666666,
-        "price": 0.13197133333333333
-    },
-    "12": {
-        "params": {
-            "query expansion_lm_model": 1,
-            "query expansion_reasoning": 1,
-            "initial code generation_lm_model": 1,
-            "initial code generation_reasoning": 0,
-            "plot debugger_lm_model": 0,
-            "plot debugger_reasoning": 2,
-            "visual refinement_lm_model": 1,
-            "visual refinement_reasoning": 1,
-            "visual refine coder_lm_model": 1,
-            "visual refine coder_reasoning": 2
-        },
-        "score": 0.4333333333333333,
-        "price": 0.13799443333333336
-    },
-    "13": {
-        "params": {
-            "query expansion_lm_model": 0,
-            "query expansion_reasoning": 1,
-            "initial code generation_lm_model": 0,
-            "initial code generation_reasoning": 2,
-            "plot debugger_lm_model": 1,
-            "plot debugger_reasoning": 0,
-            "visual refinement_lm_model": 0,
-            "visual refinement_reasoning": 1,
-            "visual refine coder_lm_model": 1,
-            "visual refine coder_reasoning": 0
-        },
-        "score": 0.48333333333333334,
-        "price": 0.04005923333333333
-    },
-    "14": {
-        "params": {
-            "query expansion_lm_model": 1,
-            "query expansion_reasoning": 0,
-            "initial code generation_lm_model": 1,
-            "initial code generation_reasoning": 2,
-            "plot debugger_lm_model": 0,
-            "plot debugger_reasoning": 1,
-            "visual refinement_lm_model": 1,
-            "visual refinement_reasoning": 2,
-            "visual refine coder_lm_model": 1,
-            "visual refine coder_reasoning": 0
-        },
-        "score": 0.5333333333333333,
-        "price": 0.11247420000000001
-    },
-    "15": {
-        "params": {
-            "query expansion_lm_model": 1,
-            "query expansion_reasoning": 2,
-            "initial code generation_lm_model": 1,
-            "initial code generation_reasoning": 0,
-            "plot debugger_lm_model": 0,
-            "plot debugger_reasoning": 2,
-            "visual refinement_lm_model": 0,
-            "visual refinement_reasoning": 2,
-            "visual refine coder_lm_model": 1,
-            "visual refine coder_reasoning": 1
-        },
-        "score": 0.3,
-        "price": 0.08859873333333333
+        "score": 0.6,
+        "price": 0.07355156666666667,
+        "total_price": 0.22065469999999998
     }
 }

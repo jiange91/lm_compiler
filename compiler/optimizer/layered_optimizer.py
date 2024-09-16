@@ -8,16 +8,18 @@ import optuna
 import numpy as np
 from collections import defaultdict
 from abc import ABC, abstractmethod
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, Future, wait, FIRST_COMPLETED
+import threading
 
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.llm import LMConfig, LLMPredictor
 from compiler.utils import get_bill
 from compiler.optimizer.tracer import batch_run_and_eval, OfflineBatchTracer
-from compiler.optimizer.params.common import ParamBase, OptionBase
+from compiler.optimizer.params.common import ParamBase, OptionBase, DynamicParamBase, EvolveType
+from compiler.optimizer.params.utils import dump_params
 from compiler.optimizer.params.model_selection import LMSelection
 from compiler.langchain_bridge.interface import LangChainLM
-from compiler.optimizer.evaluation.evaluator import Evaluator
+from compiler.optimizer.evaluation.evaluator import Evaluator, EvaluationResult
 from optuna.samplers import TPESampler
 
 
@@ -190,45 +192,55 @@ class GeneralLLMLayer(LayerBase):
 class InnerLoopBayesianOptimization:
     def __init__(
         self,
-        params: Union[dict[str, list[ParamBase]], list[ParamBase]],
+        dedicate_params: list[ParamBase] = [],
+        universal_params: list[ParamBase] = [],
         target_modules: Iterable[str] = None,
         fields_in_interest: list[str] = None,
         important_lms: list[str] = None,
     ):
         """
+        The optimization will always try to minimize the price and maximize the score
+        Please make sure the evaluator is consistent with this.
         
         Args:
-            params: if a list is provided, it will be broadcasted to all modules
-                    for each module, params are applied in order
+            d_params: a list of params that is dedicated to pre-defined modules
+                need to set `module_name` correctly
+                
+            u_params: a list of params that will be broadcasted to all modules
+                will ignore `module_name` field
             
             target_modules: if provided, only the modules in this list will be optimized
         """
-        self.raw_params = params
+        self.dedicated_params = dedicate_params
+        self.universal_params = universal_params
+        if len(self.dedicated_params) + len(self.universal_params) == 0:
+            raise ValueError('No params provided for optimization')
+        
         self.opt_direction = 'maximize'
         self.fields_in_interest = fields_in_interest
         self.target_modules = set(target_modules) if target_modules is not None else None
         self.important_lms = important_lms
         self.opt_cost = 0
         self.study = None
+        self._study_lock = threading.Lock()
     
     def prepare_params(self, lm_modules: list[LangChainLM]):
-        self.params: dict[str, list[ParamBase]] = {}
-        if isinstance(self.raw_params, list):
+        self.params: dict[str, list[ParamBase]] = defaultdict(list)
+        if self.universal_params:
             for lm in lm_modules:
                 lm_name = lm.name
                 if self.target_modules and lm_name not in self.target_modules:
                     continue
-                params_cpy = copy.deepcopy(self.raw_params)
+                params_cpy = copy.deepcopy(self.universal_params)
                 for param in params_cpy:
                     param.module_name = lm_name
                 self.params[lm_name] = params_cpy
-        else:
-            for lm_name, params in self.raw_params.items():
+        if self.dedicated_params:
+            for param in self.dedicated_params:
+                lm_name = param.module_name
                 if self.target_modules and lm_name not in self.target_modules:
                     continue
-                for param in params:
-                    assert param.module_name == lm_name, f"param {param.name} has module_name {param.module_name} not matching {lm_name}"
-                self.params[lm_name] = self.raw_params[lm_name]
+                self.params[lm_name].append(param)
                 
         self.param_categorical_dist = {
             param.hash: optuna.distributions.CategoricalDistribution(list(param.options.keys()))
@@ -255,7 +267,6 @@ class InnerLoopBayesianOptimization:
         warm_start = len(study.get_trials(False))
         logger.info(f"Enqueued: {warm_start} trials for warm start")
         return warm_start
-        
     
     # TODO: support more than langchain
     def get_objective_function(self, evaluator, workflow: Workflow):
@@ -281,7 +292,7 @@ class InnerLoopBayesianOptimization:
             self.tpe_logs[trial.number]['score'] = score
             self.tpe_logs[trial.number]['price'] = price
             self.opt_cost += price
-            logger.info(f"innerloop - Trial {trial.number} result: score: {score}, price: {price}")
+            logger.info(f"- Trial {trial.number} result: score: {score}, price: {price}")
             
             if self.fields_in_interest is not None:
                 self.tpe_logs[trial.number]['fields'] = [state.all_news(self.fields_in_interest) for state in states]
@@ -289,13 +300,14 @@ class InnerLoopBayesianOptimization:
         return objective_function
 
     def propose(
-        self, 
+        self,
         workflow: Workflow,
         n_sample: int,
     ) -> list[Tuple[optuna.trial.Trial, Workflow]]:
         next_to_run = []
         for i in range(n_sample):
-            trial = self.study.ask(self.param_categorical_dist)
+            with self._study_lock:
+                trial = self.study.ask(self.param_categorical_dist)
             program = copy.deepcopy(workflow)
             module_dict = {
                 lm.name: lm 
@@ -312,15 +324,100 @@ class InnerLoopBayesianOptimization:
             next_to_run.append((trial, program))
         return next_to_run
 
-    def eval_and_update(
+    def _eval_and_update(
         self,
-        to_run: list[Tuple[optuna.trial.Trial, Workflow]],
+        trial: optuna.trial.Trial,
+        workflow: Workflow,
         evaluator: Evaluator,
     ):
-        futures = []
-        # TODO: multi-threading this
-        for trial, program in to_run:
-            eval_result = evaluator(program)
+        eval_result: EvaluationResult = evaluator(workflow)
+        score, price = eval_result.reduced_score, eval_result.reduced_price
+        logger.info(f"- Trial {trial.number} result: score: {score}, price: {price}")
+        self.tpe_logs[trial.number]['score'] = score
+        self.tpe_logs[trial.number]['price'] = price
+        
+        total_price = sum(eval_result.prices)
+        self.tpe_logs[trial.number]['total_price'] = total_price
+        self.opt_cost += total_price
+         
+        # update study if any dynamic params can evolve
+        with self._study_lock:
+            self.study.tell(trial, [score, price])
+            is_evolved = False
+            for params in self.params.values():
+                for param in params:
+                    if isinstance(param, DynamicParamBase):
+                        evolve_type = param.evole(eval_result)
+                        if evolve_type != EvolveType.ID:
+                            is_evolved = True
+            if is_evolved:
+                # update param dist
+                self.param_categorical_dist = {
+                    param.hash: optuna.distributions.CategoricalDistribution(list(param.options.keys()))
+                    for _, params in self.params.items() for param in params
+                }
+                # create new study and migrate all trials
+                new_study = self.init_study(self.study)
+                self.study = new_study
+    
+    def _opt_loop(self, n_trials, workflow, evaluator):
+        for i in range(n_trials):
+            next_trial, program = self.propose(workflow, 1)[0]
+            self._eval_and_update(next_trial, program, evaluator)
+    
+    def _optimize(
+        self, 
+        n_trials: int,
+        workflow: Workflow, 
+        evaluator: Evaluator,
+        throughput: int = 1, # number of trials to run in parallel
+    ):
+        if throughput == 1:
+            self._opt_loop(n_trials, workflow, evaluator)
+        else:
+            futures: set[Future] = set()
+            with ThreadPoolExecutor(max_workers=throughput) as executor:
+                for n_submitted_trials in range(n_trials):
+                    if len(futures) >= throughput:
+                        completed, futures = wait(futures, return_when=FIRST_COMPLETED)
+                        for f in completed:
+                            f.result()
+                    futures.add(executor.submit(self._opt_loop, 1, workflow, evaluator))
+    
+    def init_study(
+        self,
+        old_study: optuna.Study = None,
+        old_trials: list[optuna.trial.Trial] = None,
+    ):
+        """Create a new study and migrate old trials if provided
+        
+        For all provided trials, the params dist will be adjusted to the current
+        self.params when this method is called.
+        
+        Recommand using name based options instead of index based options as the dynamic
+        params update may change the mapping between option index and the option itself
+        """
+        new_study = optuna.create_study(
+            directions=['maximize', 'minimize'],
+            sampler=TPESampler(multivariate=True)
+        )
+        
+        f_trials = []
+        if old_study:
+            f_trials.extend(old_study.trials)
+        if old_trials:
+            f_trials.extend(old_trials)    
+        
+        for trial in f_trials:
+            # Modify previous trials. 
+            params = trial.params
+            dists = self.param_categorical_dist
+            # These changes are not persisted to the storage.
+            trial.params = params
+            trial.distributions = dists
+            # Persist the changes to the storage (in a new study).
+            new_study.add_trial(trial)
+        return new_study
         
         
     def optimize(
@@ -328,6 +425,7 @@ class InnerLoopBayesianOptimization:
         workflow: Workflow,
         evaluator: Evaluator,
         n_trials: int,
+        throughput: int = 1,
         log_dir: str = 'holm_log',
     ):
         """Find optimal params for the given workflow
@@ -342,35 +440,37 @@ class InnerLoopBayesianOptimization:
         workflow.reset()
         tpe_log_path = os.path.join(self.inner_loop_log_dir, 'tpe_logs.json')
         self.prepare_params(workflow.get_all_modules(lambda x: isinstance(x, LangChainLM)))
-        obj_func = self.get_objective_function(evaluator=evaluator, workflow=workflow)
-        self.study = optuna.create_study(
-            directions=[self.opt_direction, 'minimize'], # minimize price
-            sampler=TPESampler(multivariate=True)
-        )
+        self.study = self.init_study()
         
-        # if os.path.exists(tpe_log_path):
-        #     with open(tpe_log_path, 'r') as f:
-        #         self.tpe_logs = json.load(f)
-        #         for trial_id, meta in self.tpe_logs.items():
-        #             trial = optuna.trial.create_trial(
-        #                 params=meta['params'],
-        #                 values=[meta['score'], meta['price']],
-        #                 distributions=self.param_categorical_dist,
-        #             )
-        #             study.add_trial(trial)
-        #             self.opt_cost += meta['price']
-        # else:
-        #     warm_start = self.reduce_cold_start(study)
-        #     study.optimize(obj_func, n_trials=n_trials)
-        #     json.dump(self.tpe_logs, open(tpe_log_path, 'w+'), indent=4)
+        if os.path.exists(tpe_log_path):
+            with open(tpe_log_path, 'r') as f:
+                self.tpe_logs = json.load(f)
+                for trial_id, meta in self.tpe_logs.items():
+                    trial = optuna.trial.create_trial(
+                        params=meta['params'],
+                        values=[meta['score'], meta['price']],
+                        distributions=self.param_categorical_dist,
+                    )
+                    self.study.add_trial(trial)
+                    self.opt_cost += meta['total_price']
+        else:
+            self._optimize(
+                n_trials=n_trials,
+                workflow=workflow,
+                evaluator=evaluator,
+                throughput=throughput,
+            )
+            json.dump(self.tpe_logs, open(tpe_log_path, 'w+'), indent=4)
+            params = [param for params in self.params.values() for param in params]
+            dump_params(params, os.path.join(self.inner_loop_log_dir, 'params.json'))
             
-        # for i, trial in enumerate(study.best_trials):
-        #     print("The {}-th Pareto solution was found at Trial#{}.".format(i, trial.number))
-        #     print("  Params: {}".format(trial.params))
-        #     f1, f2 = trial.values
-        #     print("  Values: f1= {}, f2= {}".format(f1, f2))
-        # print("Opt Cost: {}".format(self.opt_cost))
-        # return study.best_trials
+        for i, trial in enumerate(self.study.best_trials):
+            print("The {}-th Pareto solution was found at Trial#{}.".format(i, trial.number))
+            print("  Params: {}".format(trial.params))
+            f1, f2 = trial.values
+            print("  Values: f1= {}, f2= {}".format(f1, f2))
+        print("Opt Cost: {}".format(self.opt_cost))
+        return self.study.best_trials
     
 from ConfigSpace import Categorical, Configuration, ConfigurationSpace, Float, Integer
 from ConfigSpace.conditions import InCondition

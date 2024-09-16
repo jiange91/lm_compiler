@@ -16,8 +16,8 @@ from compiler.IR.llm import LLMPredictor, Demonstration
 from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, IdentityOption
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, inspect_runnable
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, Evaluator
+from compiler.optimizer.params.utils import dump_params, load_params
 
-    
     
 class LMFewShot(DynamicParamBase):
     level = ParamLevel.NODE
@@ -58,9 +58,7 @@ class LMFewShot(DynamicParamBase):
         if log_path is not None:
             if os.path.exists(log_path):
                 logger.info(f'Loading from {log_path}')
-                with open(log_path, 'r') as f:
-                    data = json.load(f)
-                return cls.load(data)
+                return load_params(log_path)
             
         eval_result = evaluator(workflow)
         if target_modules is not None:
@@ -72,39 +70,34 @@ class LMFewShot(DynamicParamBase):
             lms: list[LLMPredictor] = workflow.get_all_modules(lambda x: isinstance(x, LLMPredictor))
         params = []
         for lm in lms:
-            params.append(cls(f'{lm.name}_fewshot_demo', lm.name, max_num, eval_result))
+            params.append(cls('fewshot_demo', lm.name, max_num, eval_result))
         # if log_path provided, save to it
         if log_path is not None:
             logger.info(f'Saving to {log_path}')
             dir = os.path.dirname(log_path)
             if dir:
                 os.makedirs(dir, exist_ok=True)
-            data = [param.to_dict() for param in params]
-            with open(log_path, 'w+') as f:
-                json.dump(data, f, indent=4)
+            dump_params(params, log_path)
         return params
 
     @classmethod
-    def load(cls, data: list[dict]):
-        params = []
-        for d in data:
-            name, module_name, max_num, current_best_score_sum = d['name'], d['module_name'], d['max_num'], d['current_best_score_sum']
-            param = cls(name, module_name, max_num)
-            
-            demo_pool = {demo['id']: Demonstration(**demo) for demo in d['demo_pool']}
-            demo_pq = d['demo_pq']
-            
-            options = d['options']
-            options.pop('Identity')
-            options = {name: DemoOption.load(option, demo_pool) for name, option in options.items()}
-            
-            param.demo_pool = demo_pool
-            param.demo_pq = demo_pq
-            param.current_best_score_sum = current_best_score_sum
-            param.options = options
-            
-            params.append(param)
-        return params
+    def from_dict(cls, data: dict):
+        name, module_name, max_num, current_best_score_sum = data['name'], data['module_name'], data['max_num'], data['current_best_score_sum']
+        param = cls(name, module_name, max_num)
+        
+        demo_pool = {demo['id']: Demonstration(**demo) for demo in data['demo_pool']}
+        demo_l = data['demo_pq']
+        demo_pq = [(score, demo_id) for score, demo_id in demo_l]
+        
+        options = data['options']
+        options.pop('Identity', None)
+        options = {name: DemoOption.from_dict(option, demo_pool) for name, option in options.items()}
+        
+        param.demo_pool = demo_pool
+        param.demo_pq = demo_pq
+        param.current_best_score_sum = current_best_score_sum
+        param.options = options
+        return param
             
     
     def evole(self, eval_result: EvaluationResult) -> EvolveType:
@@ -158,7 +151,7 @@ class DemoOption(OptionBase):
         return base
 
     @classmethod
-    def load(cls, data: dict, demo_pool: dict[str, Demonstration]):
+    def from_dict(cls, data: dict, demo_pool: dict[str, Demonstration]):
         tag = data['name']
         demo_ref = data['demo_ref']
         demos = [demo_pool[demo_id] for demo_id in demo_ref]

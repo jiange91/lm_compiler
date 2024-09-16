@@ -43,6 +43,9 @@ class EvaluationResult:
         self.reduced_price = reduced_price
         self.states = states
         self.demos = demos
+    
+    def __str__(self) -> str:
+        return f"EvalResult: score={self.reduced_score}, price={self.reduced_price}, {len(self.scores)} samples"
 
 
 class Evaluator:

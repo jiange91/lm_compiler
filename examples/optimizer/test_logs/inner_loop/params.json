@@ -1,0 +1,214 @@
+[
+    {
+        "name": "lm_model",
+        "module_name": "qa_agent",
+        "options": {
+            "gpt-4o": {
+                "name": "gpt-4o",
+                "type": "ModelOption",
+                "model": "gpt-4o"
+            },
+            "gpt-4o-mini": {
+                "name": "gpt-4o-mini",
+                "type": "ModelOption",
+                "model": "gpt-4o-mini"
+            }
+        },
+        "default_option": "gpt-4o",
+        "type": "LMSelection"
+    },
+    {
+        "name": "reasoning",
+        "module_name": "qa_agent",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            },
+            "PlanBefore": {
+                "name": "PlanBefore",
+                "type": "PlanBefore"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "qa_agent_fewshot_demo",
+        "module_name": "qa_agent",
+        "options": {
+            "qa_agent_demos_9bab6be9-38d6-49bd-9602-b82927264626": {
+                "name": "qa_agent_demos_9bab6be9-38d6-49bd-9602-b82927264626",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "bb1c8721-0bfe-45f0-9b73-ca81413093ae"
+                ]
+            },
+            "qa_agent_demos_4114f9a6-2391-4b3f-83b2-cc5cf9e48406": {
+                "name": "qa_agent_demos_4114f9a6-2391-4b3f-83b2-cc5cf9e48406",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "bb1c8721-0bfe-45f0-9b73-ca81413093ae",
+                    "861e8726-a484-4052-aab9-c839173bdba2"
+                ]
+            },
+            "qa_agent_demos_bb3d4caf-1428-48f8-a1c8-2216a3b3392e": {
+                "name": "qa_agent_demos_bb3d4caf-1428-48f8-a1c8-2216a3b3392e",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "bb1c8721-0bfe-45f0-9b73-ca81413093ae",
+                    "983d311b-858e-4650-b7b1-a37e8adc15f6"
+                ]
+            },
+            "qa_agent_demos_d667d248-f6fe-4b6e-81a0-1f3ecee8ef02": {
+                "name": "qa_agent_demos_d667d248-f6fe-4b6e-81a0-1f3ecee8ef02",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "983d311b-858e-4650-b7b1-a37e8adc15f6",
+                    "861e8726-a484-4052-aab9-c839173bdba2"
+                ]
+            },
+            "qa_agent_demos_eeaea978-99c8-4f7e-94e4-4e172a449e63": {
+                "name": "qa_agent_demos_eeaea978-99c8-4f7e-94e4-4e172a449e63",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "983d311b-858e-4650-b7b1-a37e8adc15f6",
+                    "7c03854d-b0e4-4a78-b49d-e4dfa2b3776e"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_pool": [
+            {
+                "inputs": {
+                    "input": "1. d4 d5 2. Nf3 Nf6 3. e3 a6 4. Nc3 e6 5. Bd3 h6 6. e4 dxe4 7. Bxe4 Nxe4 8. Nxe4 Bb4+ 9. c3 Ba5 10. Qa4+ Nc6 11. Ne5 Qd5 12. f3 O-O 13. Nxc6 bxc6 14. Bf4 Ra7 15. Qb3 Qb5 16. Qxb5 cxb5 17. a4 bxa4 18. Rxa4 Bb6 19. Kf2 Bd7 20. Ke3 Bxa4 21. Ra1 Bc2 22. c4 Bxe4 23. fxe4 c5 24. d5 exd5 25. exd5 Re8+ 26. Kf3 Rae7 27. Rxa6 Bc7 28. Bd2 Re2 29. Bc3 R8e3+ 30. Kg4 Rxg2+ 31. Kf5"
+                },
+                "output": "In the given position after the moves provided, the next move that results in checkmate is:\n\n**... Rf2#**\n\nThis move places the white king on g5 in checkmate, as it cannot escape to any adjacent squares and there are no pieces that can block or capture the rook on f2.",
+                "id": "bb1c8721-0bfe-45f0-9b73-ca81413093ae"
+            },
+            {
+                "inputs": {
+                    "input": "1. d4 d5 2. Nf3 Nf6 3. e3 a6 4. Nc3 e6 5. Bd3 h6 6. e4 dxe4 7. Bxe4 Nxe4 8. Nxe4 Bb4+ 9. c3 Ba5 10. Qa4+ Nc6 11. Ne5 Qd5 12. f3 O-O 13. Nxc6 bxc6 14. Bf4 Ra7 15. Qb3 Qb5 16. Qxb5 cxb5 17. a4 bxa4 18. Rxa4 Bb6 19. Kf2 Bd7 20. Ke3 Bxa4 21. Ra1 Bc2 22. c4 Bxe4 23. fxe4 c5 24. d5 exd5 25. exd5 Re8+ 26. Kf3 Rae7 27. Rxa6 Bc7 28. Bd2 Re2 29. Bc3 R8e3+ 30. Kg4 Rxg2+ 31. Kf5"
+                },
+                "output": "The next move that results in checkmate is:\n\n**31... Re4#**",
+                "id": "861e8726-a484-4052-aab9-c839173bdba2"
+            },
+            {
+                "inputs": {
+                    "input": "1. d4 d5 2. Nf3 Nf6 3. e3 a6 4. Nc3 e6 5. Bd3 h6 6. e4 dxe4 7. Bxe4 Nxe4 8. Nxe4 Bb4+ 9. c3 Ba5 10. Qa4+ Nc6 11. Ne5 Qd5 12. f3 O-O 13. Nxc6 bxc6 14. Bf4 Ra7 15. Qb3 Qb5 16. Qxb5 cxb5 17. a4 bxa4 18. Rxa4 Bb6 19. Kf2 Bd7 20. Ke3 Bxa4 21. Ra1 Bc2 22. c4 Bxe4 23. fxe4 c5 24. d5 exd5 25. exd5 Re8+ 26. Kf3 Rae7 27. Rxa6 Bc7 28. Bd2 Re2 29. Bc3 R8e3+ 30. Kg4 Rxg2+ 31. Kf5"
+                },
+                "output": "The next move that will result in checkmate is:\n\n**32. Re6#** (Rook to e6 checkmate)",
+                "id": "2c0bef72-2373-40c9-8d1f-67c82e009cf2"
+            },
+            {
+                "inputs": {
+                    "input": "1. d4 d5 2. Nf3 Nf6 3. e3 a6 4. Nc3 e6 5. Bd3 h6 6. e4 dxe4 7. Bxe4 Nxe4 8. Nxe4 Bb4+ 9. c3 Ba5 10. Qa4+ Nc6 11. Ne5 Qd5 12. f3 O-O 13. Nxc6 bxc6 14. Bf4 Ra7 15. Qb3 Qb5 16. Qxb5 cxb5 17. a4 bxa4 18. Rxa4 Bb6 19. Kf2 Bd7 20. Ke3 Bxa4 21. Ra1 Bc2 22. c4 Bxe4 23. fxe4 c5 24. d5 exd5 25. exd5 Re8+ 26. Kf3 Rae7 27. Rxa6 Bc7 28. Bd2 Re2 29. Bc3 R8e3+ 30. Kg4 Rxg2+ 31. Kf5"
+                },
+                "output": "The next move that results in checkmate is:\n\n**31... Rf2#**\n\nThis move places the white king on f5 in checkmate, as it cannot escape to any adjacent squares and there are no pieces that can block or capture the rook on f2.",
+                "id": "983d311b-858e-4650-b7b1-a37e8adc15f6"
+            },
+            {
+                "inputs": {
+                    "input": "1. d4 d5 2. Nf3 Nf6 3. e3 a6 4. Nc3 e6 5. Bd3 h6 6. e4 dxe4 7. Bxe4 Nxe4 8. Nxe4 Bb4+ 9. c3 Ba5 10. Qa4+ Nc6 11. Ne5 Qd5 12. f3 O-O 13. Nxc6 bxc6 14. Bf4 Ra7 15. Qb3 Qb5 16. Qxb5 cxb5 17. a4 bxa4 18. Rxa4 Bb6 19. Kf2 Bd7 20. Ke3 Bxa4 21. Ra1 Bc2 22. c4 Bxe4 23. fxe4 c5 24. d5 exd5 25. exd5 Re8+ 26. Kf3 Rae7 27. Rxa6 Bc7 28. Bd2 Re2 29. Bc3 R8e3+ 30. Kg4 Rxg2+ 31. Kf5"
+                },
+                "output": "The next move that results in checkmate is:\n\n**31... Rf2#**\n\nThis move places the white king on f5 in checkmate, as it cannot escape to any adjacent squares and there are no pieces that can block or capture the rook on f2.",
+                "id": "f30d7c15-555d-448f-a6f4-c9be16deb7e8"
+            },
+            {
+                "inputs": {
+                    "input": "1. d4 d5 2. Nf3 Nf6 3. e3 a6 4. Nc3 e6 5. Bd3 h6 6. e4 dxe4 7. Bxe4 Nxe4 8. Nxe4 Bb4+ 9. c3 Ba5 10. Qa4+ Nc6 11. Ne5 Qd5 12. f3 O-O 13. Nxc6 bxc6 14. Bf4 Ra7 15. Qb3 Qb5 16. Qxb5 cxb5 17. a4 bxa4 18. Rxa4 Bb6 19. Kf2 Bd7 20. Ke3 Bxa4 21. Ra1 Bc2 22. c4 Bxe4 23. fxe4 c5 24. d5 exd5 25. exd5 Re8+ 26. Kf3 Rae7 27. Rxa6 Bc7 28. Bd2 Re2 29. Bc3 R8e3+ 30. Kg4 Rxg2+ 31. Kf5"
+                },
+                "output": "The next move that results in checkmate is:\n\n**31... Rf2#** \n\nThis move places the white king on g5 in checkmate, as it cannot escape to any adjacent squares and there are no pieces that can block or capture the rook on f2.",
+                "id": "c428b55d-754f-475f-86ef-0821a405f456"
+            },
+            {
+                "inputs": {
+                    "input": "1. d4 d5 2. Nf3 Nf6 3. e3 a6 4. Nc3 e6 5. Bd3 h6 6. e4 dxe4 7. Bxe4 Nxe4 8. Nxe4 Bb4+ 9. c3 Ba5 10. Qa4+ Nc6 11. Ne5 Qd5 12. f3 O-O 13. Nxc6 bxc6 14. Bf4 Ra7 15. Qb3 Qb5 16. Qxb5 cxb5 17. a4 bxa4 18. Rxa4 Bb6 19. Kf2 Bd7 20. Ke3 Bxa4 21. Ra1 Bc2 22. c4 Bxe4 23. fxe4 c5 24. d5 exd5 25. exd5 Re8+ 26. Kf3 Rae7 27. Rxa6 Bc7 28. Bd2 Re2 29. Bc3 R8e3+ 30. Kg4 Rxg2+ 31. Kf5"
+                },
+                "output": "Based on the analysis, the next move that will result in a checkmate is:\n\n**31. ... Rg4+**\n\nIf White's king moves to f6, then:\n\n**32. ... Rf4#**\n\nThis sequence results in a checkmate as the White king has no legal moves to escape.",
+                "id": "c38dcb29-88f2-4b11-83b6-6b27dbc29193"
+            },
+            {
+                "inputs": {
+                    "input": "1. d4 d5 2. Nf3 Nf6 3. e3 a6 4. Nc3 e6 5. Bd3 h6 6. e4 dxe4 7. Bxe4 Nxe4 8. Nxe4 Bb4+ 9. c3 Ba5 10. Qa4+ Nc6 11. Ne5 Qd5 12. f3 O-O 13. Nxc6 bxc6 14. Bf4 Ra7 15. Qb3 Qb5 16. Qxb5 cxb5 17. a4 bxa4 18. Rxa4 Bb6 19. Kf2 Bd7 20. Ke3 Bxa4 21. Ra1 Bc2 22. c4 Bxe4 23. fxe4 c5 24. d5 exd5 25. exd5 Re8+ 26. Kf3 Rae7 27. Rxa6 Bc7 28. Bd2 Re2 29. Bc3 R8e3+ 30. Kg4 Rxg2+ 31. Kf5"
+                },
+                "output": "The next move that results in checkmate is:\n\n**31... Re4#**",
+                "id": "7c03854d-b0e4-4a78-b49d-e4dfa2b3776e"
+            },
+            {
+                "inputs": {
+                    "input": "1. d4 d5 2. Nf3 Nf6 3. e3 a6 4. Nc3 e6 5. Bd3 h6 6. e4 dxe4 7. Bxe4 Nxe4 8. Nxe4 Bb4+ 9. c3 Ba5 10. Qa4+ Nc6 11. Ne5 Qd5 12. f3 O-O 13. Nxc6 bxc6 14. Bf4 Ra7 15. Qb3 Qb5 16. Qxb5 cxb5 17. a4 bxa4 18. Rxa4 Bb6 19. Kf2 Bd7 20. Ke3 Bxa4 21. Ra1 Bc2 22. c4 Bxe4 23. fxe4 c5 24. d5 exd5 25. exd5 Re8+ 26. Kf3 Rae7 27. Rxa6 Bc7 28. Bd2 Re2 29. Bc3 R8e3+ 30. Kg4 Rxg2+ 31. Kf5"
+                },
+                "output": "The next move that will result in checkmate is **Ra8#**.",
+                "id": "59907b02-486e-45fd-8fec-70f2b58ec6d4"
+            },
+            {
+                "inputs": {
+                    "input": "1. d4 d5 2. Nf3 Nf6 3. e3 a6 4. Nc3 e6 5. Bd3 h6 6. e4 dxe4 7. Bxe4 Nxe4 8. Nxe4 Bb4+ 9. c3 Ba5 10. Qa4+ Nc6 11. Ne5 Qd5 12. f3 O-O 13. Nxc6 bxc6 14. Bf4 Ra7 15. Qb3 Qb5 16. Qxb5 cxb5 17. a4 bxa4 18. Rxa4 Bb6 19. Kf2 Bd7 20. Ke3 Bxa4 21. Ra1 Bc2 22. c4 Bxe4 23. fxe4 c5 24. d5 exd5 25. exd5 Re8+ 26. Kf3 Rae7 27. Rxa6 Bc7 28. Bd2 Re2 29. Bc3 R8e3+ 30. Kg4 Rxg2+ 31. Kf5"
+                },
+                "output": "The next move that will result in checkmate is:\n\n**32. Rxe6#**",
+                "id": "5476348a-b153-4104-9897-d9947ffafdb2"
+            },
+            {
+                "inputs": {
+                    "input": "1. d4 d5 2. Nf3 Nf6 3. e3 a6 4. Nc3 e6 5. Bd3 h6 6. e4 dxe4 7. Bxe4 Nxe4 8. Nxe4 Bb4+ 9. c3 Ba5 10. Qa4+ Nc6 11. Ne5 Qd5 12. f3 O-O 13. Nxc6 bxc6 14. Bf4 Ra7 15. Qb3 Qb5 16. Qxb5 cxb5 17. a4 bxa4 18. Rxa4 Bb6 19. Kf2 Bd7 20. Ke3 Bxa4 21. Ra1 Bc2 22. c4 Bxe4 23. fxe4 c5 24. d5 exd5 25. exd5 Re8+ 26. Kf3 Rae7 27. Rxa6 Bc7 28. Bd2 Re2 29. Bc3 R8e3+ 30. Kg4 Rxg2+ 31. Kf5"
+                },
+                "output": "Based on the analysis, the next move that will result in a checkmate is:\n\n**31. Ra8+**\n\nThis move puts the Black king in checkmate, as there are no legal moves for the Black king to escape.",
+                "id": "75dfb43e-9bbc-41c8-96f8-319f34b1a700"
+            }
+        ],
+        "demo_pq": [
+            [
+                0.17299984406927627,
+                "c428b55d-754f-475f-86ef-0821a405f456"
+            ],
+            [
+                0.37281286159672056,
+                "5476348a-b153-4104-9897-d9947ffafdb2"
+            ],
+            [
+                0.3565594584081744,
+                "2c0bef72-2373-40c9-8d1f-67c82e009cf2"
+            ],
+            [
+                0.729303521843201,
+                "59907b02-486e-45fd-8fec-70f2b58ec6d4"
+            ],
+            [
+                0.48818040817890185,
+                "f30d7c15-555d-448f-a6f4-c9be16deb7e8"
+            ],
+            [
+                0.5,
+                "bb1c8721-0bfe-45f0-9b73-ca81413093ae"
+            ],
+            [
+                0.4512088235275523,
+                "c38dcb29-88f2-4b11-83b6-6b27dbc29193"
+            ],
+            [
+                0.8948769646336473,
+                "983d311b-858e-4650-b7b1-a37e8adc15f6"
+            ],
+            [
+                0.8150180161254411,
+                "7c03854d-b0e4-4a78-b49d-e4dfa2b3776e"
+            ],
+            [
+                0.734679999399669,
+                "861e8726-a484-4052-aab9-c839173bdba2"
+            ],
+            [
+                0.6076540001939482,
+                "75dfb43e-9bbc-41c8-96f8-319f34b1a700"
+            ]
+        ],
+        "max_num": 2,
+        "current_best_score_sum": 1.7098949807590884
+    }
+]

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod, ABCMeta
 from enum import Enum, auto
 from collections import defaultdict
-from typing import Type
+from typing import Type, Union
 import logging
 import json
 
@@ -19,7 +19,13 @@ class OptionBase(ABC):
     def to_dict(self):
         return {
             'name': self.name,
+            'type': self.__class__.__name__,
         }
+    
+    @classmethod
+    def from_dict(cls, data: dict):
+        data.pop('type', None)
+        return cls(**data)
 
 class IdentityOption(OptionBase):
     def __init__(self):
@@ -27,6 +33,10 @@ class IdentityOption(OptionBase):
     
     def apply(self, module: Module) -> Module:
         return module
+
+    @classmethod
+    def from_dict(cls, data: dict):
+        return cls()
     
 class ParamLevel(Enum):
     """Please do not change this 
@@ -37,7 +47,8 @@ class ParamLevel(Enum):
     
 class ParamMeta(ABCMeta):
     required_fields = []
-    param_pool = defaultdict(list)
+    registry = {}
+    level_2_params = defaultdict(list)
     base_class = {'ParamBase', 'DynamicParamBase'}
     
     def __new__(cls, name, bases, attrs):
@@ -48,8 +59,9 @@ class ParamMeta(ABCMeta):
                     raise ValueError(f'{name} must have {field}')
             level = attrs['level'] 
         new_cls = super().__new__(cls, name, bases, attrs)
+        cls.registry[name] = new_cls
         if name not in cls.base_class:
-            cls.param_pool[level].append(new_cls)
+            cls.level_2_params[level].append(new_cls)
         return new_cls
 
 class ParamBase(metaclass=ParamMeta):
@@ -59,13 +71,16 @@ class ParamBase(metaclass=ParamMeta):
         self, 
         name: str, 
         options: list[OptionBase],
-        default_option: int = 0,
+        default_option: Union[int, str] = 0,
         module_name: str = None,
     ):
         self.name = name
         self.module_name = module_name
         self.options: dict[str, OptionBase] = {option.name: option for option in options}
-        self.default_option: str = options[default_option].name
+        if isinstance(default_option, int):
+            self.default_option: str = options[default_option].name
+        else:
+            self.default_option = default_option
     
     @property
     def hash(self):
@@ -92,10 +107,12 @@ class ParamBase(metaclass=ParamMeta):
             'module_name': self.module_name,
             'options': {name: option.to_dict() for name, option in self.options.items()},
             'default_option': self.default_option,
+            'type': self.__class__.__name__,
         }
     
-    def to_json(self):
-        return json.dumps(self.to_dict(), indent=4)
+    @classmethod
+    def from_dict(cls, data: dict):
+        return cls(**data)
 
 class EvolveType(Enum):
     ID = auto() # no change

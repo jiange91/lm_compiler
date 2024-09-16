@@ -104,7 +104,7 @@ matplot_flow.add_edge('as refine coder', 'execute and log')
 matplot_flow.compile()
 matplot_flow.visualize('examples/matplot_agent/matplot_flow_viz')
 
-lm = 'gpt-4o-mini'
+lm = 'gpt-4o'
 openai_kwargs = {
     'temperature': 0,
 }
@@ -254,12 +254,23 @@ def opt():
     model_param = model_selection.LMSelection(
         'lm_model', model_selection.model_option_factory(lm_options)
     )
+    
+    lm_few_shot_params = [
+        LMFewShot('query expansion demo', 'query expansion', 2),
+        LMFewShot('initial coder demo', 'initial code generation', 1),
+        LMFewShot('plot debugger demo', 'plot debugger', 3),
+        LMFewShot('visual refine coder demo', 'visual refine coder', 1),
+    ]
 
-    # inner_loop = InnerLoopBayesianOptimization(
-    inner_loop = SMACAllInOneLayer(
-        params=[model_param, reasoning_param],
-        opt_direction='maximize',
+    inner_loop = InnerLoopBayesianOptimization(
+        dedicate_params=lm_few_shot_params,
+        universal_params=[model_param, reasoning_param],
     )
+        
+    # inner_loop = SMACAllInOneLayer(
+    #     params=[model_param, reasoning_param],
+    #     opt_direction='maximize',
+    # )
     
     states = load_data()
     eval_set = [(state, None) for state in states]
@@ -269,9 +280,16 @@ def opt():
         num_thread=3,
     )
 
-    inner_loop.optimize(matplot_flow, evaluator, 3, 'examples/matplot_agent/smac_optimizer_logs')
+    inner_loop.optimize(
+        workflow=matplot_flow, 
+        evaluator=evaluator, 
+        n_trials=12,
+        throughput=3,
+        log_dir='examples/matplot_agent/optimizer_logs'
+    )
 
-# opt()
+opt()
+
 def few_shot_opt():
     states = load_data()
     eval_set = [(state, None) for state in states]
@@ -288,7 +306,6 @@ def few_shot_opt():
         log_path='examples/matplot_agent/test_fs.json'
     )
 
-    new_flow = copy.deepcopy(matplot_flow)
     def apply_few_shot(params: list[LMFewShot]):
         for param in params:
             for option in param.options.values():
@@ -298,8 +315,7 @@ def few_shot_opt():
                     param.apply_option(selected, lm)
     
     apply_few_shot(lm_few_shot_params)
+    sample_run(1)
     return lm_few_shot_params
 
-few_shot_opt()
-
-sample_run(1)
+# few_shot_opt()

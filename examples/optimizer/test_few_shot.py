@@ -1,6 +1,8 @@
 import sys
 import os
 import json
+import random
+
 
 # Get the directory where the current file is located
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -19,7 +21,7 @@ from compiler.optimizer.evaluation.metric import MetricBase, MInput
 class DummyMetric(MetricBase):
     move = MInput(str, "answer")
     def score(self, label, move):
-        return 0.5
+        return random.uniform(0.0, 1.0)
 
 state = StatePool()
 state.init({
@@ -33,4 +35,54 @@ evaluator = Evaluator(
     num_thread=3,
 )
 
-lm_few_shot_params = LMFewShot.bootstrap(qa_flow, evaluator, 2, 'test_fs.json')
+lm_few_shot_params = LMFewShot.bootstrap(qa_flow, evaluator, 2, log_path='test_fs.json')
+
+from compiler.optimizer.importance_eval_new import LMImportanceEvaluator
+from compiler.optimizer.params import reasoning, model_selection, common
+from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
+from compiler.optimizer.params.meta_programming.mp import MetaPrompting
+from compiler.optimizer.layered_optimizer import InnerLoopBayesianOptimization
+from compiler.optimizer.params.utils import load_params
+
+def opt():
+    lm_options = [
+        'gpt-4o',
+        'gpt-4o-mini',
+    ]
+    reasoning_param = reasoning.LMReasoning(
+        "reasoning", [common.IdentityOption(), ZeroShotCoT(), PlanBefore()]
+    )
+
+    model_param = model_selection.LMSelection(
+        'lm_model', model_selection.model_option_factory(lm_options)
+    )
+    
+    inner_loop = InnerLoopBayesianOptimization(
+        dedicate_params=lm_few_shot_params,
+        universal_params=[model_param, reasoning_param],
+    )
+
+    inner_loop.optimize(
+        workflow=qa_flow, 
+        evaluator=evaluator, 
+        n_trials=10,
+        throughput=4,
+        log_dir='examples/optimizer/test_logs',
+    )
+    
+opt()
+
+# def load_opt():
+#     params = load_params('examples/optimizer/test_logs/inner_loop/params.json')
+#     inner_loop = InnerLoopBayesianOptimization(
+#         dedicate_params=params,
+#     )
+#     inner_loop.optimize(
+#         workflow=qa_flow, 
+#         evaluator=evaluator, 
+#         n_trials=1,
+#         throughput=1,
+#         log_dir='examples/optimizer/resumed_test_logs',
+#     )
+    
+# load_opt()

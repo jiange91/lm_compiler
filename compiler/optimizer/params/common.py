@@ -129,7 +129,4 @@ class DynamicParamBase(ParamBase, ABC):
     @abstractmethod
     def evole(self, eval_result: EvaluationResult) -> EvolveType:
         ...
-
-class LMDecompose(ParamBase):
-    level = ParamLevel.GRAPH
-
+        

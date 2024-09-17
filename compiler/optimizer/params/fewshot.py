@@ -37,6 +37,7 @@ class LMFewShot(DynamicParamBase):
         self.current_best_score_sum = float('-inf')
         if eval_result is not None:
             t = self.evole(eval_result)
+            # Some agent might not have a single demo so this assert is not valid
             # assert t != EvolveType.ID, 'Should evolve'
             if t == EvolveType.ID:
                 Warning(f'Given evaluation result does not contain good demos for {module_name}')
@@ -89,14 +90,14 @@ class LMFewShot(DynamicParamBase):
         demo_l = data['demo_pq']
         demo_pq = [(score, demo_id) for score, demo_id in demo_l]
         
-        options = data['options']
-        options.pop('Identity', None)
-        options = {name: DemoOption.from_dict(option, demo_pool) for name, option in options.items()}
+        loaded_options = data['options']
+        loaded_options.pop('Identity', None)
+        loaded_options = {name: DemoOption.from_dict(option, demo_pool) for name, option in loaded_options.items()}
         
         param.demo_pool = demo_pool
         param.demo_pq = demo_pq
         param.current_best_score_sum = current_best_score_sum
-        param.options = options
+        param.options.update(loaded_options)
         return param
             
     

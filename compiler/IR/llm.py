@@ -59,11 +59,24 @@ class Demonstration:
 class LMSemantic(ABC):
     
     @abstractmethod
+    def prompt_fully_manageable(self) -> bool:
+        """If the semantic can be fully managed by the compiler
+        
+        Currently, all semantic that have static prompt template can be fully managed
+        i.e. the following_messages is not specified
+        """
+        ...
+    
+    @abstractmethod
     def get_agent_role(self) -> str:
         ...
         
     @abstractmethod
     def get_agent_inputs(self) -> list[str]:
+        ...
+    
+    @abstractmethod
+    def get_img_input_names(self) -> list[str]:
         ...
         
     @abstractmethod
@@ -80,6 +93,10 @@ class LMSemantic(ABC):
     
     @abstractmethod
     def get_output_schema(self) -> BaseModel:
+        ...
+    
+    @abstractmethod
+    def get_output_spec(self) -> Tuple[bool, Optional[str]]:
         ...
         
     @abstractmethod

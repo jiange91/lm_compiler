@@ -1,0 +1,79 @@
+{
+  "function_parameters": {
+      "pandas_read_csv": {
+          "parameters": {
+              "filepath_or_buffer": "path/to/your/file.csv",
+              "sep": ",",
+              "header": "infer",
+              "names": null,
+              "index_col": null,
+              "usecols": null,
+              "dtype": null,
+              "engine": null,
+              "skiprows": null,
+              "na_values": null,
+              "parse_dates": false,
+              "infer_datetime_format": false,
+              "keep_default_na": true,
+              "skip_blank_lines": true
+          }
+      },
+      "matplotlib_boxplot": {
+          "parameters": {
+              "x": "data_to_plot",
+              "vert": true,
+              "patch_artist": true,
+              "notch": false,
+              "meanline": false,
+              "showmeans": false,
+              "showfliers": true,
+              "boxprops": null,
+              "whiskerprops": null,
+              "capprops": null,
+              "flierprops": null,
+              "medianprops": null
+          }
+      },
+      "matplotlib_scatter": {
+          "parameters": {
+              "x": "x_data",
+              "y": "y_data",
+              "s": 20,
+              "c": "blue",
+              "alpha": 0.5,
+              "marker": "o",
+              "label": "scatter_label"
+          }
+      },
+      "matplotlib_plot": {
+          "parameters": {
+              "x": "x_data",
+              "y": "y_data",
+              "color": "blue",
+              "linestyle": "-",
+              "linewidth": 2,
+              "marker": "o",
+              "label": "plot_label"
+          }
+      },
+      "matplotlib_legend": {
+          "parameters": {
+              "loc": "best",
+              "fontsize": "medium",
+              "title": "Legend Title",
+              "shadow": false,
+              "frameon": true
+          }
+      },
+      "numpy_mean": {
+          "parameters": {
+              "a": "array_like_data",
+              "axis": null,
+              "dtype": null,
+              "out": null,
+              "keepdims": false,
+              "where": true
+          }
+      }
+  }
+}

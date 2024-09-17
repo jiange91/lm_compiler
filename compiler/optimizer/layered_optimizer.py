@@ -16,7 +16,7 @@ from compiler.IR.llm import LMConfig, LLMPredictor
 from compiler.utils import get_bill
 from compiler.optimizer.tracer import batch_run_and_eval, OfflineBatchTracer
 from compiler.optimizer.params.common import ParamBase, OptionBase, DynamicParamBase, EvolveType
-from compiler.optimizer.params.utils import dump_params
+from compiler.optimizer.params.utils import dump_params, load_params
 from compiler.optimizer.params.model_selection import LMSelection
 from compiler.langchain_bridge.interface import LangChainLM
 from compiler.optimizer.evaluation.evaluator import Evaluator, EvaluationResult
@@ -439,6 +439,15 @@ class InnerLoopBayesianOptimization:
         
         workflow.reset()
         tpe_log_path = os.path.join(self.inner_loop_log_dir, 'tpe_logs.json')
+        param_save_path = os.path.join(self.inner_loop_log_dir, 'params.json')
+        
+        # NOTE: if param file exists, will load params from file and ignore the given params
+        if os.path.exists(param_save_path):
+            logger.info(f'Loading params from {param_save_path}')
+            params = load_params(param_save_path)
+            self.dedicated_params = params
+            self.universal_params = []
+            
         self.prepare_params(workflow.get_all_modules(lambda x: isinstance(x, LangChainLM)))
         self.study = self.init_study()
         

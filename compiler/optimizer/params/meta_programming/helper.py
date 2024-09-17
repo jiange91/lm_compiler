@@ -19,7 +19,7 @@ from langchain_core.messages import (
 )
 
 from compiler.IR.base import StatePool
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, inspect_runnable
+from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 import logging
 
 logger = logging.getLogger(__name__)

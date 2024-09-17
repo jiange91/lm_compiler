@@ -2,7 +2,7 @@ from abc import ABC, ABCMeta
 
 from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase, IdentityOption
 from compiler.IR.llm import LLMPredictor
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, inspect_runnable
+from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 from compiler.IR.program import Workflow
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.runnables.history import RunnableWithMessageHistory
@@ -55,6 +55,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
             system_prompt=old_semantic.system_prompt,
             inputs=old_semantic.inputs,
             output_format=f"reasoning_answer_{lm_module.name}",
+            need_output_type_hint=False,
             output_format_instructions=None,
             img_input_idices=old_semantic.img_input_idices,
             enable_memory=old_semantic.enable_memory,
@@ -68,10 +69,10 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
             def get_answer(inputs: dict):
                 self.reasoning_step(new_semantic, lm_module.lm, inputs)
                 post_reasoning_routine = new_semantic.chat_prompt_template | lm_module.lm
-                if old_semantic.output_format_instructions:
+                if old_semantic.output_type_hint or old_semantic.output_format_instructions:
                     new_semantic.chat_prompt_template.extend([
-                        HumanMessage("Now please format your final answer according to the follwoing instructions:\n"),
-                        HumanMessage(old_semantic.output_format_instructions)
+                        HumanMessage("Now please format your final answer according to the following instructions:\n"),
+                        old_semantic.get_output_format_spec(),
                     ])
                     if old_semantic.output_format:
                         post_reasoning_routine = post_reasoning_routine | old_semantic.parser

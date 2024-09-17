@@ -126,17 +126,58 @@ class Workflow(ComposibleModuleInterface):
             dest = sorted(list(set([dest])))
         self._edge_validation(src, dest)
         for s in src:
-            self.modules[s].enclosing_module = self
+            assert self.modules[s].enclosing_module is self
         for d in dest:
-            self.modules[d].enclosing_module = self
+            assert self.modules[d].enclosing_module is self
         self.static_dependencies[tuple(src)].extend(dest)
-                
+    
+    def enhance_edge(
+        self, 
+        src: Union[str, list[str]], 
+        dest: Union[str, list[str]],
+        add_if_new: bool = False,
+    ) -> None:
+        """add more dependencies to an existing edge
+        
+        The target edge to enhance include all existing edges that point to the destination
+        
+        For example, if you have exising edges as:
+        - a -> b
+        - [c, d] -> [b, x, y]
+        
+        call enhance_edge(['m', 'n'], ['b']) will result in:
+        
+        - [a, m, n] -> b
+        - [c, d, m, n] -> [b]
+        - [c, d] -> [x, y]
+        """
+        if isinstance(src, str):
+            src = sorted(list(set([src])))
+        if isinstance(dest, str):
+            dest = sorted(list(set([dest])))
+        self._edge_validation(src, dest)
+        for s in src:
+            assert self.modules[s].enclosing_module is self
+        for d in dest:
+            assert self.modules[d].enclosing_module is self
+        
+        for d in dest:
+            for srcs, dests in self.static_dependencies.items():
+                if d in dests:
+                    # separate the existing edge and only enhance the target edge
+                    dests.remove(d)
+                    new_src = sorted(list(set(list(srcs) + src)))
+                    self.static_dependencies[tuple(new_src)].append(d)
+                elif add_if_new:
+                    self.static_dependencies[tuple(src)].append(d)
+    
     def add_branch(
         self, 
         name: str,
         src: Union[str, list[str]],
         multiplexier: Callable[..., Union[Hashable, list[Hashable]]],
         multiplexier_str: Optional[str] = None,
+        enhance_existing: bool = False,
     ) -> None:
         """add control flow
         
@@ -248,7 +289,9 @@ class Workflow(ComposibleModuleInterface):
             immediate_deps = {src}
             potential_deps = dep_graph[src]
             def make_dfoo(src, statep):
-                return statep.news(src + '#branch_result')
+                next_m = statep.news(src + '#branch_result')
+                logger.debug(f"Branch {src} result: {next_m}")
+                return next_m
             trigger = Trigger(immediate_deps, potential_deps, partial(make_dfoo, src))
             self.triggers.append(trigger)
             self.publish_channels[src].append(trigger)
@@ -335,7 +378,7 @@ class Workflow(ComposibleModuleInterface):
             num_tasks = len(scheduled)
             if num_tasks == 0:
                 break
-            logger.debug(f"Step {self.current_step}: {scheduled}")
+            print(f"Graph {self.name} - Step {self.current_step}: {scheduled}")
             # with concurrent.futures.ThreadPoolExecutor(max_workers=num_tasks) as executor:
             #     futures = [executor.submit(self.exec_module, self.modules[name], statep) for name in scheduled]
             #     concurrent.futures.wait(futuresa)
@@ -500,6 +543,7 @@ class Workflow(ComposibleModuleInterface):
                 new_multiplexier, new_code_str = replace_branch_return_destination(branch.multiplexier, old_node.name, new_node_in.name, branch.multiplexier_str)
                 branch.multiplexier = new_multiplexier
                 branch.multiplexier_str = new_code_str
+                branch.kernel = new_multiplexier
             if old_node.name in branch.src:
                 branch.src[branch.src.index(old_node.name)] = new_node_out.name
         return True

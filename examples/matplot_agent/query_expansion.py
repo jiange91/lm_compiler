@@ -9,14 +9,14 @@ from langchain_core.pydantic_v1 import BaseModel, Field
 
 class QueryExpansion(BaseModel):
     """Response from the query expansion task"""
-    expended_query: str = Field(
+    expanded_query: str = Field(
         description="details on how to perform the user query"
     )
 
 query_expansion_semantic = LangChainSemantic(
     SYSTEM_PROMPT,
     ['query'],
-    "expended_query",
+    "expanded_query",
 )
 
 query_expansion_lm = LangChainLM('query expansion', query_expansion_semantic)

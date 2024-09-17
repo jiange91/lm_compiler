@@ -41,10 +41,16 @@ def _load_module_from_file(file_path: Path) -> ModuleType:
 def json_schema_to_pydantic_model(json_schema: dict, file_path: str) -> BaseModel:
     json_schema_as_str = json.dumps(json_schema)
     pydantic_models_as_str: str = JsonSchemaParser(json_schema_as_str).parse()
+    # change from default pydantic to langchain_core.pydantic_v1
+    new_model = re.sub(
+        r'from pydantic import', 
+        r'from langchain_core.pydantic_v1 import', 
+        pydantic_models_as_str
+    )
     
     module_file_path = Path(file_path).resolve()
     with open(module_file_path, "wb+") as f:
-        f.write(pydantic_models_as_str.encode())
+        f.write(new_model.encode())
 
     module = _load_module_from_file(file_path=module_file_path)
 

@@ -31,7 +31,7 @@ class PlottingCode(BaseModel):
 
 initial_coder_semantic = LangChainSemantic(
     system_prompt=INITIAL_SYSTEM_PROMPT,
-    inputs=['expended_query', 'plot_file_name'],
+    inputs=['expanded_query', 'plot_file_name'],
     output_format="code",
     output_format_instructions="Please only return the python code. Wrap it with ```python and ``` to format it properly.",
 )
@@ -63,14 +63,14 @@ def get_err_message(workspace, log, plot_file_name):
 collect_error_message = CodeBox('collect error message', get_err_message)
 
 DEBUG_SYSTEM_PROMPT = """
-You are a cutting-edge super capable code generation LLM. You will be given a natural language query, a piece of existing python code aims to satisfy all the requirements in the query and an error message associate with this code. 
+You are a cutting-edge super capable code debugger LLM. You will be given a piece of existing python code for data visualization and an error message associate with this code. 
 
-Your task is to fix the error. You can use any python library you want.
+Your task is to fix the error. You can use any python library you want. The code should be executable and can at least generate a plot without any error.
 """
 
 plot_debugger_semantic = LangChainSemantic(
     system_prompt=DEBUG_SYSTEM_PROMPT,
-    inputs=['expended_query', 'code', 'error_message'],
+    inputs=['code', 'error_message'],
     output_format="code",
     output_format_instructions="Please only return the python code. Wrap it with ```python and ``` to format it properly.",
 )

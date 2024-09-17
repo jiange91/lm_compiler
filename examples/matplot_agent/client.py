@@ -104,16 +104,16 @@ matplot_flow.add_edge('as refine coder', 'execute and log')
 matplot_flow.compile()
 matplot_flow.visualize('examples/matplot_agent/matplot_flow_viz')
 
-lm = 'gpt-4o'
 openai_kwargs = {
+    'model': 'gpt-4o-mini',
     'temperature': 0,
 }
 
-query_expansion_lm.lm_config = {'model': lm, **openai_kwargs}
-initial_coder_lm.lm_config = {'model': lm, **openai_kwargs}
-plot_debugger.lm_config = {'model': lm, **openai_kwargs}
-visual_refinement.lm_config = {'model': lm, **openai_kwargs}
-refine_plot_coder.lm_config = {'model': lm, **openai_kwargs}
+query_expansion_lm.lm_config = {**openai_kwargs}
+initial_coder_lm.lm_config = {**openai_kwargs}
+plot_debugger.lm_config = {**openai_kwargs}
+visual_refinement.lm_config = {**openai_kwargs}
+refine_plot_coder.lm_config = {**openai_kwargs}
 
 from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
 from compiler.optimizer.params.meta_programming.mp import MetaPrompting
@@ -138,7 +138,7 @@ def sample_run(id):
         example_id = item['id']
         if example_id == id:
             state = StatePool()
-            directory_path = 'examples/matplot_agent/runs'
+            directory_path = 'examples/matplot_agent/sample_runs'
 
             if not os.path.exists(directory_path):
                 os.makedirs(directory_path, exist_ok=True)
@@ -210,6 +210,27 @@ def testing():
 
 # testing()
 # exit()
+
+# ========================================
+# Decomposition
+# ========================================
+from compiler.optimizer.decompose import LMTaskDecompose
+
+def task_disambiguous():
+    decomposer = LMTaskDecompose(
+        workflow=matplot_flow,
+    )
+    decomposer.decompose(
+        # target_modules=['plot debugger'],
+        log_dir='examples/matplot_agent/compile_logs',
+        threshold=3,
+        default_lm_config=openai_kwargs,
+    )
+task_disambiguous()
+# testing()
+sample_run(96)
+# exit()
+
 
 # ========================================
 # Importance evaluation
@@ -288,7 +309,7 @@ def opt():
         log_dir='examples/matplot_agent/optimizer_logs'
     )
 
-opt()
+# opt()
 
 def few_shot_opt():
     states = load_data()

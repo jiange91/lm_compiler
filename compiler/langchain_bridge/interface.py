@@ -10,11 +10,11 @@ from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.output_parsers import JsonOutputParser
-from langchain_core.messages import HumanMessage, BaseMessage
+from langchain_core.messages import HumanMessage, BaseMessage, merge_message_runs
 from .utils import var_2_str
 
 import logging
-from typing import Union, Callable, Type, Any, Dict, List
+from typing import Tuple, Union, Callable, Type, Any, Dict, List
 import types
 from copy import deepcopy
 import json
@@ -93,19 +93,28 @@ Your answer in this case should be formatted as follows:
 Here's the real JSON schema:
 {real_json_schema}
 
-Please provide your answer in the correct json format accordingly. Pay attention to the enum field in properties, do not generate answer that is not in the enum field if provided.
+Please provide your answer in the correct json format accordingly. 
+Pay attention to the enum field in properties, do not generate answer that is not in the enum field if provided.
+Also please make sure the output value is in the correct type and format. For example if a field is of type `string`, then please don't provide value in other type like null, true, false, etc, remember to represent them in string instead.
 """
     return template.format(
         example_json_schema=example_json_schema,
         example_output_json=example_output_json,
-        real_json_schema=schema.schema_json()
+        real_json_schema=json.dumps(schema.schema_json(), indent=4)
     )
     
-def inspect_input(inputs, **kwargs):
-    print(inputs)
-    return inputs
+
 from langchain_core.runnables import RunnableLambda
-inspect_runnable = RunnableLambda(inspect_input)
+
+def inspect_with_msg(msg: str):
+    def inspect_input(inputs, **kwargs):
+        print(msg)
+        print(inputs)
+        return inputs
+    return inspect_input
+
+def get_inspect_runnable(msg: str):
+    return RunnableLambda(inspect_with_msg(msg))
 
 class LLMTracker(BaseCallbackHandler):
     def __init__(self, cmodule: 'LangChainLM'):
@@ -135,6 +144,7 @@ class LangChainSemantic(LMSemantic):
         system_prompt: str,
         inputs: Union[str, list[str]],
         output_format: Union[Type[BaseModel], str],
+        need_output_type_hint: bool = True,
         output_format_instructions: str = None,
         img_input_idices: list[int] = None,
         enable_memory: bool = False,
@@ -156,19 +166,21 @@ class LangChainSemantic(LMSemantic):
         self.img_input_idices = img_input_idices
         self.img_input_names = set([self.inputs[i] for i in self.img_input_idices]) if self.img_input_idices else set()
         
+        self.need_output_type_hint = need_output_type_hint
         self.output_format_instructions = output_format_instructions
         
         if isinstance(output_format, str):
             self.output_format = None
             self.parser = None
             self.outputs = [output_format]
+            self.output_type_hint = None
         else:
             self.output_format = output_format
             self.parser = JsonOutputParser(pydantic_object=output_format)
             # NOTE: output name is inferred from the output format, use top-level fields only
             self.outputs = list(self.output_format.__fields__.keys())
-            if not self.output_format_instructions:
-                self.output_format_instructions = get_format_instruction(output_format)
+            if self.need_output_type_hint:
+                self.output_type_hint = get_format_instruction(output_format)
         
         self.message_template_predefined = len(following_messages) > 0
         self.follwing_messages = following_messages
@@ -276,9 +288,26 @@ class LangChainSemantic(LMSemantic):
         
         # add user prompt
         self.chat_prompt_template.extend(self.follwing_messages)
-        
+        # add all output format instructions
+        ospec = self.get_output_format_spec()
+        if ospec:
+            self.chat_prompt_template.append(ospec)
+    
+    def get_output_format_spec(self) -> HumanMessage | None:
+        msgs = []
+        if self.output_type_hint:
+            msgs.append(HumanMessage(self.output_type_hint))
         if self.output_format_instructions:
-            self.chat_prompt_template.append(HumanMessage(self.output_format_instructions))
+            msgs.append(HumanMessage(self.output_format_instructions))
+        if len(msgs) == 0:
+            return None
+        return merge_message_runs(msgs)[0]
+    
+    def get_output_spec(self) -> Tuple[bool, str | None]:
+        return self.need_output_type_hint, self.output_format_instructions
+    
+    def prompt_fully_manageable(self) -> bool:
+        return not self.message_template_predefined
 
     def get_agent_role(self) -> str:
         return self.system_prompt
@@ -300,14 +329,24 @@ class LangChainSemantic(LMSemantic):
         }
         return json.dumps(dict, indent=4)
 
+    # TODO: user provided output format instruction should be considered in decomposition of the task
     def get_formatted_info(self) -> str:
-        output_schemas = json.loads(self.output_format.schema_json())
+        if self.output_format is not None:
+            output_schemas = json.loads(self.output_format.schema_json())
+        else:
+            output_schemas = self.outputs[0]
         dict = {
             "agent_prompt": self.system_prompt,
             "input_varaibles": self.inputs,
             "output_json_schema": output_schemas
         }
         return json.dumps(dict, indent=4)
+
+    def get_img_input_names(self) -> List[str]:
+        if self.img_input_idices is None:
+            return []
+        else:
+            return [self.inputs[i] for i in self.img_input_idices]
 
 
 class LangChainLM(LLMPredictor):
@@ -326,7 +365,7 @@ class LangChainLM(LLMPredictor):
                 [f'"{input}": {input}' for input in self.semantic.inputs] 
             ) + '}'
         #NOTE: use imperative merge at runtime bc message placeholder cannot be merged statically
-        routine = self.semantic.chat_prompt_template | self.lm
+        routine = self.semantic.chat_prompt_template | get_inspect_runnable('-- input --') | self.lm
         # print(self.semantic.chat_prompt_template)
         if self.semantic.enable_memory:
             routine = RunnableWithMessageHistory(
@@ -337,7 +376,7 @@ class LangChainLM(LLMPredictor):
             )
         if self.semantic.output_format:
             result_str = '{' + ', '.join(f'"{output}": result.{output}' for output in self.semantic.outputs) + '}'
-            routine = routine | self.semantic.parser
+            routine = routine | get_inspect_runnable('-- output --') | self.semantic.parser
             langchain_kernel_template = f"""
 def langchain_lm_kernel({inputs_str}):
     result = routine.invoke({invoke_arg_dict_str})

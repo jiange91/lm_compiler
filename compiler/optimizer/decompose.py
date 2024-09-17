@@ -88,7 +88,7 @@ def high_lelve_decompose_kernel(task: str, complexity: str):
             ("human", "Original Prompt:\n{prompt}\n\nComplexity Rationale:\n{rationale}\n\nYour answer:\n\n")
         ]
     )
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0).with_structured_output(HighLevelDecompose)
+    llm = ChatOpenAI(model="gpt-4o", temperature=0.0).with_structured_output(HighLevelDecompose)
     routine = decompose_prompt | llm
     new_agents = routine.invoke({"prompt": task, "rationale": complexity})
     return new_agents
@@ -172,11 +172,11 @@ class AgentSemantic(BaseModel):
     agent_prompt: str = Field(
         description="prompt for the agent"
     )
-    inputs_varaibles: List[str] = Field(
+    inputs_variables: List[str] = Field(
         description="list of input variables for the agent"
     )
-    output_json_schema: Dict = Field(
-        description="output schema in json dictionary for the agent"
+    output_json_schema: Union[Dict, str] = Field(
+        description="json output schema for the agent, or the output variable name for simple text output"
     )
     next_action: List[str] = Field(
         description="all possible next agents to invoke"
@@ -270,7 +270,7 @@ class LMTaskDecompose:
         workflow: Workflow,
     ):
         self.workflow = workflow
-        self.lm_modules : list[LLMPredictor] = workflow.get_all_modules(lambda m: isinstance(m, LLMPredictor))
+        self.lm_modules : list[LLMPredictor] = workflow.get_all_modules(lambda m: isinstance(m, LLMPredictor) and m.semantic.prompt_fully_manageable())
         self.decompose_target_lms: list[LLMPredictor] = []
         
         # Cascading decomposition
@@ -278,7 +278,11 @@ class LMTaskDecompose:
         self.lm_2_new_system: dict[str, NewAgentSystem] = {}
         self.lm_2_final_system: dict[str, StructuredAgentSystem] = {}
     
-    def prepare_decompose_metadata(self, threshold):
+    def prepare_decompose_metadata(
+        self,
+        target_modules,
+        threshold,
+    ):
         log_path = os.path.join(self.log_dir, 'task_decompose_mid_level.json')
         # Get decomposition meta
         if os.path.exists(log_path):
@@ -286,10 +290,13 @@ class LMTaskDecompose:
             with open(log_path) as f:
                 json_lm_2_new_system = json.load(f)
                 self.lm_2_new_system = {k: NewAgentSystem.parse_obj(v) for k, v in json_lm_2_new_system.items()}
-                self.decompose_target_lms = [m for m in self.lm_modules if m.name in self.lm_2_new_system]
+                self.decompose_target_lms = [
+                    m for m in self.lm_modules 
+                    if m.name in self.lm_2_new_system and (target_modules is None or m.name in target_modules)
+                ]
         else:
             logger.info("Estimating complexity of agents")
-            agent_prompts = [m.semantic.get_agent_role() for m in self.lm_modules]
+            agent_prompts = [m.semantic.get_agent_role() for m in self.lm_modules if target_modules is None or m.name in target_modules]
             complexity = estimate_complexity_kernel(agent_prompts)
             
             decompose_candidates = [(lm, score, rationale) for lm, (score, rationale) in zip(self.lm_modules, complexity)]
@@ -328,15 +335,17 @@ class LMTaskDecompose:
             with open(log_path, 'w+') as f:
                 json.dump(json_lm_2_new_system, f, indent=4)
                 
-    
-    def finalize_decomposition(self):
+    def finalize_decomposition(self, target_modules):
         log_path = os.path.join(self.log_dir, 'task_decompose_final.json')
         if os.path.exists(log_path):
             logger.info("final decomposition already exists, read and skip sampling")
             with open(log_path) as f:
                 json_lm_2_final_system = json.load(f)
                 self.lm_2_final_system = {k: StructuredAgentSystem.parse_obj(v) for k, v in json_lm_2_final_system.items()}
-                self.decompose_target_lms = [m for m in self.lm_modules if m.name in self.lm_2_final_system]
+                self.decompose_target_lms = [
+                    m for m in self.lm_modules 
+                    if m.name in self.lm_2_final_system and (target_modules is None or m.name in target_modules)
+                ]
         else:
             logger.info("Finalizing new agent system")
             def _fd(lm: LLMPredictor):
@@ -345,7 +354,12 @@ class LMTaskDecompose:
                 self.lm_2_final_system[lm.name] = final_agents
             
             with concurrent.futures.ThreadPoolExecutor() as executor:
-                executor.map(_fd, self.decompose_target_lms)
+                futures = [executor.submit(_fd, lm) for lm in self.decompose_target_lms]
+                for future in concurrent.futures.as_completed(futures):
+                    try:
+                        future.result()
+                    except Exception as e:
+                        logger.error(f"Failed to finalize: {e}")
             # for lm in self.decompose_target_lms:
             #     _fd(lm)
             logger.info("Final decomposition results:\n")
@@ -354,7 +368,12 @@ class LMTaskDecompose:
                 json_lm_2_final_system = {k: json.loads(v.json()) for k, v in self.lm_2_final_system.items()}
                 json.dump(json_lm_2_final_system, f, indent=4)
     
-    def _materialize_decomposition(self, lm: LLMPredictor, new_agents: StructuredAgentSystem):
+    def _materialize_decomposition(
+        self, 
+        lm: LLMPredictor, 
+        new_agents: StructuredAgentSystem, 
+        default_lm_config: dict
+    ):
         """Actually transform the graph to apply the decomposition
         
         1. First create a sub-graph to represent the new agent system
@@ -379,17 +398,29 @@ class LMTaskDecompose:
         
         # Materialize each agent
         name_2_new_lm: dict[str, LangChainLM] = {}
+        img_input_names = set(lm.semantic.get_img_input_names())
         for agent_name, agent_meta in new_agents.agents.items():
             valid_file_name = agent_name.replace(" ", "").replace("\n", "").replace("\t", "") + '.py'
             module_fpath = os.path.join(self.log_dir, valid_file_name)
-            output_model = json_schema_to_pydantic_model(agent_meta.output_json_schema, module_fpath)
+            if isinstance(agent_meta.output_json_schema, str):
+                output_model = agent_meta.output_json_schema
+            else:
+                output_model = json_schema_to_pydantic_model(agent_meta.output_json_schema, module_fpath)
+            # TODO: currently demo is ignored after decomposition
+            if 'END' in agent_meta.next_action:
+                need_type_hint, format_inst = lm.semantic.get_output_spec()
+            else:
+                need_type_hint, format_inst = True, None
             lm_semantic = LangChainSemantic(
                 system_prompt=agent_meta.agent_prompt,
-                inputs=agent_meta.inputs_varaibles,
-                output_format=output_model
+                inputs=agent_meta.inputs_variables,
+                output_format=output_model,
+                need_output_type_hint=need_type_hint,
+                output_format_instructions=format_inst,
+                img_input_idices=[i for i, name in enumerate(agent_meta.inputs_variables) if name in img_input_names],
             )
             agent_lm = LangChainLM(agent_name, lm_semantic)
-            agent_lm.lm_config = {'model': 'gpt-4o-2024-05-13', 'temperature': 0.0}
+            agent_lm.lm_config = default_lm_config if default_lm_config is not None else {}
             name_2_new_lm[agent_name] = agent_lm
             sub_graph.add_module(agent_lm)
         
@@ -440,17 +471,19 @@ class LMTaskDecompose:
         
     def decompose(
         self,
+        target_modules: Optional[list[str]] = None,
         log_dir: str = 'task_decompose_log',
-        threshold: Literal[1, 2, 3, 4, 5] = 4
+        threshold: Literal[1, 2, 3, 4, 5] = 4,
+        default_lm_config: Optional[dict] = None,
     ):
         self.log_dir = log_dir
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
             
-        self.prepare_decompose_metadata(threshold)
-        self.finalize_decomposition()
+        self.prepare_decompose_metadata(target_modules, threshold)
+        self.finalize_decomposition(target_modules)
         for lm in self.decompose_target_lms:
-            self._materialize_decomposition(lm, self.lm_2_final_system[lm.name])
+            self._materialize_decomposition(lm, self.lm_2_final_system[lm.name], default_lm_config)
         self.workflow.compile()
         self.workflow.visualize(os.path.join(log_dir, 'decomposed_workflow_viz'))
         

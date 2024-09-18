@@ -67,7 +67,7 @@ matplot_flow.add_module(Identity('pass')) # when adding edge the compiler will c
 @hint_possible_destinations(['pass', 'plot debugger', 'end'])
 def branch_on_error(ctx: Context, error_message, current_role):
     # print(f"current role: {current_role}, error_message: {error_message}")
-    print(f"current role: {current_role}")
+    print(f"get error, current role: {current_role}")
     if ctx.invoke_time >= 4:
         branch: Branch = ctx.calling_module
         branch.invoke_times = -1 # will add 1 after this function returns
@@ -154,10 +154,10 @@ def sample_run(id):
             )
             matplot_flow.reset()
             matplot_flow.pregel_run(state)
-            logger.info(f"Visual refinement: {state.news('visual_refinement')}")
+            logger.info(f"Visual refinement: {state.news('visual_refinement', 'N/A')}")
             logger.info(get_bill(matplot_flow.update_token_usage_summary()))
     
-# sample_run(95)
+# sample_run(96)
 # exit()
 
 # ========================================
@@ -221,7 +221,7 @@ def task_disambiguous():
         workflow=matplot_flow,
     )
     decomposer.decompose(
-        # target_modules=['plot debugger'],
+        # target_modules=['initial code generation', 'plot debugger'],
         log_dir='examples/matplot_agent/compile_logs',
         threshold=3,
         default_lm_config=openai_kwargs,

@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 
-class RequirementsSummarySchema(BaseModel):
-    requirements_summary: str = Field(
+class ClarifiedRequirementsSchema(BaseModel):
+    clarified_requirements: str = Field(
         ...,
-        description="A clear and concise summary of the user's requirements.",
-        title='Requirements Summary',
+        description='Detailed breakdown of the user query into specific tasks or goals.',
+        title='Clarified Requirements',
     )

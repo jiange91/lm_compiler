@@ -3,9 +3,9 @@ import copy
 import toml
 import sys
 import os
+import functools
 
 from rouge_score import rouge_scorer
-from langchain_core.pydantic_v1 import BaseModel, Field
     
         
 def load_api_key(toml_file_path):
@@ -78,15 +78,9 @@ def get_bill(token_usage, hyperthetical_model_options = None):
         h_price += price
     return total_price, per_gpt_use, h_price
 
-def get_format_instructions(model: BaseModel):
-    schema = json.loads(model.schema_json())
-    example_json_output = {}
-    definitions = schema.get('definitions', {})
-    
-    def get_example_helper(json_schema):
-        for top_fields, desc in json_schema['properties']:
-            if (addn := desc.get('additionalProperties', None)) is not None:
-                if "$ref" in addn:
-                    index = addn["$ref"].split('/')[-1]
-                    example_json_output[top_fields] = get_example_helper(definitions[index])
-            example_json_output[top_fields] = None
+            
+def deprecate_func(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        raise DeprecationWarning(f"{func.__name__} is deprecated")
+    return wrapper

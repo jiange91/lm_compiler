@@ -2,7 +2,7 @@ from compiler.utils import load_api_key, get_bill
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.modules import Retriever, Input, Output
 from compiler.langchain_bridge.interface import LangChainLM, LangChainSemantic
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from typing import List
 import os
 import copy

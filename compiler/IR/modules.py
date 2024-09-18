@@ -134,9 +134,9 @@ class Branch(Module):
     def __init__(
         self,
         name: str,
-        src: list[str],
+        src: set[str],
         multiplexier: Callable[..., Union[Hashable, list[Hashable]]],
-        destinations: list[str],
+        destinations: set[str],
         multiplexier_str: Optional[str] = None,
     ) -> None:
         super().__init__(name=name, kernel=multiplexier)

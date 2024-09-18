@@ -2,7 +2,7 @@ from typing import Literal
 import concurrent.futures
 
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 from compiler.IR.modules import Map, CodeBox
 from schemas import *

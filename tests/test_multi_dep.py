@@ -11,35 +11,35 @@ class ReturnNodeValue:
         aggregate.append(self._value)
         return {"aggregate": aggregate}
 
-workflow = Workflow('test_dd')
+workflow = Workflow('test_md')
 workflow.add_module(CodeBox('a', ReturnNodeValue('Im A')))
 workflow.add_module(CodeBox('b', ReturnNodeValue('Im B')))
-workflow.add_module(CodeBox('b2', ReturnNodeValue('Im B2')))
 workflow.add_module(CodeBox('c', ReturnNodeValue('Im C')))
 workflow.add_module(CodeBox('d', ReturnNodeValue('Im D')))
-workflow.add_module(CodeBox('e', ReturnNodeValue('Im E')))
 workflow.add_module(Input('input'))
 workflow.add_module(Output('output'))
 
-@hint_possible_destinations(['b', 'c', 'd'])
-def route_bc_or_cd(ctx, which) -> list[str]:
-    if which == "cd":
-        return ["c", "d"]
-    return ["b", "c"]
+@hint_possible_destinations(['b', 'c'])
+def route_b_or_c(ctx, which) -> list[str]:
+    return which
 
 workflow.add_edge('input', 'a')
-workflow.add_branch('bc_or_cd', 'a', route_bc_or_cd)
-workflow.add_edge('b', 'b2')
-workflow.add_edge(['b2', 'c', 'd'], 'e')
-workflow.add_edge('e', 'output')
+workflow.add_branch('b_or_c', 'a', route_b_or_c)
+workflow.add_edge('a', 'c', enhance_existing=True)
+workflow.add_edge('c', 'output')
+workflow.add_edge('b', 'output')
 
 workflow.compile()
+statep = StatePool()
+statep.init({'aggregate': [], 'which': 'c'})
+
+workflow.pregel_run(statep)
 
 
-class TestDynamicDependency(unittest.TestCase):
+class TestMultipleDependency(unittest.TestCase):
     def test_dynamic_dependency_check(self):
         statep = StatePool()
-        statep.init({'aggregate': [], 'which': 'bc'})
+        statep.init({'aggregate': [], 'which': 'c'})
 
         workflow.pregel_run(statep)
         self.assertCountEqual(statep.news('aggregate'), ['Im A', 'Im C', 'Im B', 'Im B2', 'Im E'])

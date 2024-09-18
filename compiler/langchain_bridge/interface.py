@@ -5,7 +5,7 @@ from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import HumanMessagePromptTemplate
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
@@ -20,90 +20,11 @@ from copy import deepcopy
 import json
 
 from compiler.IR.llm import LLMPredictor, LMConfig, LMSemantic, Demonstration
+from compiler.IR.schema_parser import get_pydantic_format_instruction as get_format_instruction
 
 logger = logging.getLogger(__name__)
 
-def get_format_instruction(schema: BaseModel):
-    example_json_schema = """
-```json
-{
-    "title": "ComplexityList",
-    "description": "complexity of all agents",
-    "type": "object",
-    "properties": {
-        "es": {
-            "title": "Es",
-            "description": "list of complexity descriptions",
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/ComplexityEstimation"
-            }
-        }
-    },
-    "required": [
-        "es"
-    ],
-    "definitions": {
-        "ComplexityEstimation": {
-            "title": "ComplexityEstimation",
-            "description": "complexity of each agent",
-            "type": "object",
-            "properties": {
-                "score": {
-                    "title": "Score",
-                    "description": "complexity score of the agent",
-                    "type": "integer"
-                },
-                "rationale": {
-                    "title": "Rationale",
-                    "description": "rationale for the complexity score",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "score",
-                "rationale"
-            ]
-        }
-    }
-}
-```
-    """
-    example_output_json = """
-```json
-{
-    "es": [
-        {"score": 1, "rationale": "rationale 1"},
-        {"score": 2, "rationale": "rationale 2"},
-        ...
-    ]
-}
-```
-"""
     
-    template = """\
-Your answer should be formatted as a JSON instance that conforms to the JSON schema.
-
-As an example, given the JSON schema:
-{example_json_schema}
-
-Your answer in this case should be formatted as follows:
-{example_output_json}
-
-Here's the real JSON schema:
-{real_json_schema}
-
-Please provide your answer in the correct json format accordingly. 
-Pay attention to the enum field in properties, do not generate answer that is not in the enum field if provided.
-Also please make sure the output value is in the correct type and format. For example if a field is of type `string`, then please don't provide value in other type like null, true, false, etc, remember to represent them in string instead.
-"""
-    return template.format(
-        example_json_schema=example_json_schema,
-        example_output_json=example_output_json,
-        real_json_schema=json.dumps(schema.schema_json(), indent=4)
-    )
-    
-
 from langchain_core.runnables import RunnableLambda
 
 def inspect_with_msg(msg: str):
@@ -178,7 +99,7 @@ class LangChainSemantic(LMSemantic):
             self.output_format = output_format
             self.parser = JsonOutputParser(pydantic_object=output_format)
             # NOTE: output name is inferred from the output format, use top-level fields only
-            self.outputs = list(self.output_format.__fields__.keys())
+            self.outputs = list(self.output_format.model_fields().keys())
             if self.need_output_type_hint:
                 self.output_type_hint = get_format_instruction(output_format)
         
@@ -318,7 +239,7 @@ class LangChainSemantic(LMSemantic):
     def get_agent_outputs(self) -> list[str]:
         return self.outputs
 
-    def get_output_schema(self) -> BaseModel:
+    def get_output_schema(self) -> type[BaseModel]:
         return self.output_format
 
     def get_high_level_info(self) -> str:
@@ -332,7 +253,7 @@ class LangChainSemantic(LMSemantic):
     # TODO: user provided output format instruction should be considered in decomposition of the task
     def get_formatted_info(self) -> str:
         if self.output_format is not None:
-            output_schemas = json.loads(self.output_format.schema_json())
+            output_schemas = json.loads(self.output_format.model_json_schema())
         else:
             output_schemas = self.outputs[0]
         dict = {
@@ -365,7 +286,7 @@ class LangChainLM(LLMPredictor):
                 [f'"{input}": {input}' for input in self.semantic.inputs] 
             ) + '}'
         #NOTE: use imperative merge at runtime bc message placeholder cannot be merged statically
-        routine = self.semantic.chat_prompt_template | get_inspect_runnable('-- input --') | self.lm
+        routine = self.semantic.chat_prompt_template | get_inspect_runnable(f'-- {self.name} input --') | self.lm | get_inspect_runnable(f'-- {self.name} output --')
         # print(self.semantic.chat_prompt_template)
         if self.semantic.enable_memory:
             routine = RunnableWithMessageHistory(
@@ -376,7 +297,7 @@ class LangChainLM(LLMPredictor):
             )
         if self.semantic.output_format:
             result_str = '{' + ', '.join(f'"{output}": result.{output}' for output in self.semantic.outputs) + '}'
-            routine = routine | get_inspect_runnable('-- output --') | self.semantic.parser
+            routine = routine | self.semantic.parser
             langchain_kernel_template = f"""
 def langchain_lm_kernel({inputs_str}):
     result = routine.invoke({invoke_arg_dict_str})

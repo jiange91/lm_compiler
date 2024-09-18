@@ -1,7 +1,6 @@
 import inspect
 from collections import defaultdict
 from typing import Callable
-from langchain_core.pydantic_v1 import BaseModel, Field
 
 def get_function_kwargs(func: Callable):
     signature = inspect.signature(func)

@@ -1,13 +1,11 @@
 from __future__ import annotations
 
-from typing import List
-
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 
 class IdentifiedFunctionsSchema(BaseModel):
-    identified_functions: List[str] = Field(
+    identified_functions: str = Field(
         ...,
-        description='A list of Python functions suitable for the task.',
+        description='List of Python functions and their parameters.',
         title='Identified Functions',
     )

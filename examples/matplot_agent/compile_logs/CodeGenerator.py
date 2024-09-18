@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 
 class CodeSchema(BaseModel):
-    code: str = Field(..., description='Runnable Python code.', title='Code')
+    code: str = Field(..., description='Generated Python code.', title='Code')

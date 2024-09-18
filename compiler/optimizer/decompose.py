@@ -13,12 +13,12 @@ from graphviz import Digraph
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
 
 from compiler.IR.program import Workflow, Module, StatePool, Branch, Input, Output, hint_possible_destinations
 from compiler.IR.llm import LMConfig, LLMPredictor, LMSemantic
-from compiler.IR.rewriter.utils import add_argument_to_position, RewriteBranchReturn
+from compiler.IR.rewriter.utils import add_argument_to_position, RewriteBranch
 from compiler.IR.schema_parser import json_schema_to_pydantic_model
 from compiler.IR.modules import CodeBox
 from compiler.optimizer.prompts import *
@@ -460,7 +460,13 @@ class LMTaskDecompose:
                 local_name_space = {}
                 exec(func_obj, {'hint_possible_destinations': hint_possible_destinations}, local_name_space)
                 callable_code = local_name_space[func_name]
-                sub_graph.add_branch(f'condition_flow_after_{agent_name}', agent_name, callable_code, clean_decision_code)
+                sub_graph.add_branch(
+                    f'condition_flow_after_{agent_name}', 
+                    agent_name, 
+                    callable_code, 
+                    clean_decision_code,
+                    enhance_existing=True,
+                )
             
         # Replace the original agent with the sub-graph
         self.workflow.add_module(sub_graph)

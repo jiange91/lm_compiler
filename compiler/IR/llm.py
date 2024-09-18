@@ -11,7 +11,7 @@ import copy
 import concurrent.futures
 import uuid
 
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from compiler.IR.utils import get_function_kwargs
 from compiler.IR.base import Module, ComposibleModuleInterface, StatePool
 from langchain_core.messages.base import BaseMessage
@@ -92,7 +92,7 @@ class LMSemantic(ABC):
         ...
     
     @abstractmethod
-    def get_output_schema(self) -> BaseModel:
+    def get_output_schema(self) -> type[BaseModel]:
         ...
     
     @abstractmethod

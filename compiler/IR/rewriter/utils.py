@@ -18,7 +18,7 @@ def add_argument_to_position(signature: str, new_arg, i = 0) -> tuple[str, str]:
     new_signature = astunparse.unparse(tree).strip()
     return new_signature, func_def.name
 
-class RewriteBranchReturn(ast.NodeTransformer):
+class RewriteBranch(ast.NodeTransformer):
     def __init__(self, old_name, new_name):
         super().__init__()
         self.old_name = old_name
@@ -31,9 +31,18 @@ class RewriteBranchReturn(ast.NodeTransformer):
             for elem in node.value.elts:
                 if isinstance(elem, ast.Constant) and elem.value == self.old_name:
                     elem.value = self.new_name
-        return node
+        return self.generic_visit(node)
     
-def replace_branch_return_destination(multiplexier: Callable, old_dest: str, new_dest: str, source: str = None):
+    def visit_FunctionDef(self, node: ast.FunctionDef):
+        for decorator in node.decorator_list:
+            if isinstance(decorator, ast.Call) and isinstance(decorator.func, ast.Name) and decorator.func.id == 'hint_possible_destinations':
+                # change constant in args to new name
+                for i, arg in enumerate(decorator.args[0].elts):
+                    if isinstance(arg, ast.Constant) and arg.value == self.old_name:
+                        arg.value = self.new_name
+        return self.generic_visit(node)
+    
+def replace_branch_destination(multiplexier: Callable, old_dest: str, new_dest: str, source: str = None):
     if source is None:
         source = inspect.getsource(multiplexier)
     
@@ -41,7 +50,7 @@ def replace_branch_return_destination(multiplexier: Callable, old_dest: str, new
     tree = ast.parse(source, mode='exec')
     
     # Transform the AST to replace return values
-    transformer = RewriteBranchReturn(old_dest, new_dest)
+    transformer = RewriteBranch(old_dest, new_dest)
     transformed_tree = transformer.visit(tree)
     
     # Compile the modified AST back into a code object

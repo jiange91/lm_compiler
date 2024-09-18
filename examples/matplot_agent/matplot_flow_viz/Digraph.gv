@@ -7,17 +7,17 @@ digraph {
 	"workspace inspector" -> "initial code generation"
 	"initial code generation" -> "as initial coder"
 	"as initial coder" -> "execute and log"
+	"plot debugger" -> "execute and log"
+	"as refine coder" -> "execute and log"
 	"execute and log" -> "collect error message"
 	"collect error message" -> "error handling"
-	"plot debugger" -> "execute and log"
+	"error handling" -> pass [style=dashed]
+	"error handling" -> "plot debugger" [style=dashed]
+	"error handling" -> end [style=dashed]
+	"if img exists" -> end [style=dashed]
+	"if img exists" -> "img encode" [style=dashed]
 	pass -> "if img exists"
 	"img encode" -> "visual refinement"
 	"visual refinement" -> "visual refine coder"
 	"visual refine coder" -> "as refine coder"
-	"as refine coder" -> "execute and log"
-	"error handling" -> pass [style=dashed]
-	"error handling" -> "plot debugger" [style=dashed]
-	"error handling" -> end [style=dashed]
-	"if img exists" -> "img encode" [style=dashed]
-	"if img exists" -> end [style=dashed]
 }

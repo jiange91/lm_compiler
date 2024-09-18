@@ -7,5 +7,7 @@ from pydantic import BaseModel, Field
 
 class ChangesSchema(BaseModel):
     changes: List[str] = Field(
-        ..., description='Detailed list of changes or improvements.', title='Changes'
+        ...,
+        description='List of specific changes to be made to the code.',
+        title='Changes',
     )

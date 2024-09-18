@@ -82,11 +82,12 @@ def print_filesys_struture(workspace,return_root=False,max_entry_nums_for_level=
 
 
 def get_code(response):
-
     all_python_code_blocks_pattern = re.compile(r'```python\s*([\s\S]+?)\s*```', re.MULTILINE)
 
     all_code_blocks = all_python_code_blocks_pattern.findall(response)
     all_code_blocks_combined = '\n'.join(all_code_blocks)
+    if all_code_blocks_combined == '':
+        return response
     return all_code_blocks_combined
 
 

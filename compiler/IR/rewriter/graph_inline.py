@@ -13,13 +13,12 @@ from graphviz import Digraph
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_openai import ChatOpenAI
 
 from compiler.IR.program import Workflow, Module, StatePool, Branch, Input, Output, hint_possible_destinations, Identity
 from compiler.IR.llm import LMConfig, LLMPredictor, LMSemantic
 from compiler.IR.base import ComposibleModuleInterface
-from compiler.IR.rewriter.utils import add_argument_to_position, RewriteBranchReturn
+from compiler.IR.rewriter.utils import add_argument_to_position, RewriteBranch
 from compiler.IR.schema_parser import json_schema_to_pydantic_model
 from compiler.IR.modules import CodeBox
 from compiler.optimizer.prompts import *

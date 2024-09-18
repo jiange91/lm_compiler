@@ -1,5 +1,5 @@
 from compiler.utils import load_api_key, get_bill
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 import copy
 import json

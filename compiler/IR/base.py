@@ -85,6 +85,8 @@ class Context:
     invoke_time: int # start from 1
 
 def hint_possible_destinations(dests: list[str]):
+    if not isinstance(dests, list):
+        raise ValueError("dests should be a list of strings")
     def hinter(func):
         func._possible_destinations = dests
         return func
@@ -205,10 +207,7 @@ class ComposibleModuleInterface(Module, ABC):
         
         Please register the new node to the same parent module as the old node before calling this method.
         
-        Replace all old_node's occurrences as a predecessor with new_node_out
-        
-        Replace all old_node's occurrences as a successor with new_node_in
-        
+        Incoming dataflow will be redirected to the new_node_in, and outgoing dataflow will be redirected to the new_node_out
         new_node_in and new_node_out can be the same module, equivalent to replacing the old node with another node
         
         If old_node not found in the immediate submodules, will not recursively call the replace_node method for the submodules

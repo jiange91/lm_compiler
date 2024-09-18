@@ -1,6 +1,6 @@
 from langchain import hub
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 from concurrent.futures import ThreadPoolExecutor
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM

@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 
 class DataPreparationStepsSchema(BaseModel):
     data_preparation_steps: str = Field(
         ...,
-        description='Detailed instructions for data preparation.',
+        description='Instructions on data preparation and manipulation.',
         title='Data Preparation Steps',
     )

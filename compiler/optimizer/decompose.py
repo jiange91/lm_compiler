@@ -13,13 +13,14 @@ from graphviz import Digraph
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+from langchain_core.output_parsers import JsonOutputParser
 from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
 
 from compiler.IR.program import Workflow, Module, StatePool, Branch, Input, Output, hint_possible_destinations
 from compiler.IR.llm import LMConfig, LLMPredictor, LMSemantic
 from compiler.IR.rewriter.utils import add_argument_to_position, RewriteBranch
-from compiler.IR.schema_parser import json_schema_to_pydantic_model
+from compiler.IR.schema_parser import json_schema_to_pydantic_model, get_pydantic_format_instruction
 from compiler.IR.modules import CodeBox
 from compiler.optimizer.prompts import *
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
@@ -48,15 +49,17 @@ def estimate_complexity_kernel(agents: list[str]):
     complexity_prompt = ChatPromptTemplate.from_messages(
         [
             ("system", complexity_system),
-            ("human", "Agent prompts: {agents}\n\nComplexity Analysis: \n\n"),
+            ("human", "Here are the agent prompts: {agents}\n\nNow please give your Complexity Analysis.\nPlease follow the format instructions:\n{format_instructions}\n\n"),
         ]
-    )
-    llm = ChatOpenAI(model="gpt-4o", temperature=0.0).with_structured_output(ComplexityList)
-    routine = complexity_prompt | llm 
+    ).partial(format_instructions=get_pydantic_format_instruction(ComplexityList))
+    llm = ChatOpenAI(model="gpt-4o", temperature=0.0)
+    parser = JsonOutputParser(pydantic_object=ComplexityList)
+    routine = complexity_prompt | llm | parser
     agent_prompts = []
     for i, agent in enumerate(agents):
         agent_prompts.append(f"Prompt {i+1}:\n {agent}")
-    complexity = routine.invoke({"agents": '\n'.join(agent_prompts)}).es
+    complexity = routine.invoke({"agents": '\n'.join(agent_prompts)})
+    complexity = ComplexityList.model_validate(complexity).es
     output = []
     for e in complexity:
         output.append((e.score, e.rationale))
@@ -81,16 +84,18 @@ class HighLevelDecompose(BaseModel):
     )
 
 
-def high_lelve_decompose_kernel(task: str, complexity: str):
+def high_level_decompose_kernel(task: str, complexity: str):
     decompose_prompt = ChatPromptTemplate.from_messages(
         [
             ("system", decompose_system),
-            ("human", "Original Prompt:\n{prompt}\n\nComplexity Rationale:\n{rationale}\n\nYour answer:\n\n")
+            ("human", "Original Prompt:\n{prompt}\n\nComplexity Rationale:\n{rationale}\n\nNow please give your solution with the following format:\n{format_instructions}\n\n")
         ]
-    )
-    llm = ChatOpenAI(model="gpt-4o", temperature=0.0).with_structured_output(HighLevelDecompose)
-    routine = decompose_prompt | llm
+    ).partial(format_instructions=get_pydantic_format_instruction(HighLevelDecompose))
+    llm = ChatOpenAI(model="gpt-4o", temperature=0.0)
+    parser = JsonOutputParser(pydantic_object=HighLevelDecompose)
+    routine = decompose_prompt | llm | parser
     new_agents = routine.invoke({"prompt": task, "rationale": complexity})
+    new_agents = HighLevelDecompose.model_validate(new_agents)
     return new_agents
 
 # ================== Refine New Agent Workflow ==================
@@ -221,7 +226,7 @@ def finalize_new_agents_kernel(old_semantic: LMSemantic, mid_level_desc: NewAgen
     routine = interaction_prompt | llm | StrOutputParser()
     new_interaction = routine.invoke({
         "old_semantic": old_semantic.get_formatted_info(),
-        "new_system": mid_level_desc.json(),
+        "new_system": mid_level_desc.model_dump_json(indent=4),
         }
     )
     interaction_prompt.extend(
@@ -236,9 +241,9 @@ def finalize_new_agents_kernel(old_semantic: LMSemantic, mid_level_desc: NewAgen
     reformater = interaction_prompt | sllm
     soutput = reformater.invoke({
         "old_semantic": old_semantic.get_formatted_info(),
-        "new_system": mid_level_desc.json(),
+        "new_system": mid_level_desc.model_dump_json(indent=4),
         "new_interaction": new_interaction,
-        "format_instructions": structured_system_format,
+        "format_instructions": get_pydantic_format_instruction(StructuredAgentSystem),
         }
     )
     return soutput
@@ -289,7 +294,7 @@ class LMTaskDecompose:
             logger.info("mid-level decomposition already exists, read and skip sampling")
             with open(log_path) as f:
                 json_lm_2_new_system = json.load(f)
-                self.lm_2_new_system = {k: NewAgentSystem.parse_obj(v) for k, v in json_lm_2_new_system.items()}
+                self.lm_2_new_system = {k: NewAgentSystem.model_validate(v) for k, v in json_lm_2_new_system.items()}
                 self.decompose_target_lms = [
                     m for m in self.lm_modules 
                     if m.name in self.lm_2_new_system and (target_modules is None or m.name in target_modules)
@@ -310,7 +315,7 @@ class LMTaskDecompose:
             logger.info("Performing high-level agent decomposition")
             def _hd(lm, score, rationale):
                 if int(score) >= threshold:
-                    new_agents = high_lelve_decompose_kernel(lm.semantic.get_agent_role(), rationale)
+                    new_agents = high_level_decompose_kernel(lm.semantic.get_agent_role(), rationale)
                     self.lm_2_new_agents[lm.name] = new_agents
                     self.decompose_target_lms.append(lm)
             with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -325,13 +330,18 @@ class LMTaskDecompose:
                 new_system = decompose_refine_kernel(new_agents_name_prompt, lm.semantic)
                 self.lm_2_new_system[lm.name] = new_system
             with concurrent.futures.ThreadPoolExecutor() as executor:
-                executor.map(_ld, self.decompose_target_lms)
+                futures = [executor.submit(_ld, lm) for lm in self.decompose_target_lms]
+                for future in concurrent.futures.as_completed(futures):
+                    try:
+                        future.result()
+                    except Exception as e:
+                        logger.error(f"Failed to decompose: {e}")
             # for lm in self.decompose_target_lms:
             #     _ld(lm)
             
             logger.info("Mid-level decomposition results:\n") 
             pprint(self.lm_2_new_system)
-            json_lm_2_new_system = {k: json.loads(v.json()) for k, v in self.lm_2_new_system.items()}
+            json_lm_2_new_system = {k: json.loads(v.model_dump_json()) for k, v in self.lm_2_new_system.items()}
             with open(log_path, 'w+') as f:
                 json.dump(json_lm_2_new_system, f, indent=4)
                 
@@ -341,7 +351,7 @@ class LMTaskDecompose:
             logger.info("final decomposition already exists, read and skip sampling")
             with open(log_path) as f:
                 json_lm_2_final_system = json.load(f)
-                self.lm_2_final_system = {k: StructuredAgentSystem.parse_obj(v) for k, v in json_lm_2_final_system.items()}
+                self.lm_2_final_system = {k: StructuredAgentSystem.model_validate(v) for k, v in json_lm_2_final_system.items()}
                 self.decompose_target_lms = [
                     m for m in self.lm_modules 
                     if m.name in self.lm_2_final_system and (target_modules is None or m.name in target_modules)
@@ -406,6 +416,10 @@ class LMTaskDecompose:
                 output_model = agent_meta.output_json_schema
             else:
                 output_model = json_schema_to_pydantic_model(agent_meta.output_json_schema, module_fpath)
+            # if only has one str output for no ending agents, remove output format
+            if not isinstance(output_model, str) and 'END' not in agent_meta.next_action:
+                if len(output_model.model_fields) == 1:
+                    output_model = list(output_model.model_fields.keys())[0]
             # TODO: currently demo is ignored after decomposition
             if 'END' in agent_meta.next_action:
                 need_type_hint, format_inst = lm.semantic.get_output_spec()

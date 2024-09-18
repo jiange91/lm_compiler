@@ -99,7 +99,7 @@ Your answer in this case should be formatted as follows:
 Here's the real output schema for your reference:
 {real_output_schema}
 
-Please provide your answer in the correct json format accordingly. 
+Please provide your answer in the correct json format accordingly. Especially make sure each field will respect the type and constraints defined in the schema.
 Pay attention to the enum field in properties, do not generate answer that is not in the enum field if provided.
 """
     return template.format(
@@ -107,27 +107,3 @@ Pay attention to the enum field in properties, do not generate answer that is no
         example_output_json=example_output_json,
         real_output_schema=pydentic_model_repr(schema),
     )
-
-
-class AgentMeta(BaseModel):
-    """Information about each agent"""
-    inputs: list[str] = Field(
-        description="list of inputs for the agent"
-    )
-    outputs: list[str] = Field(
-        description="list of outputs for the agent"
-    )
-    prompt: str = Field(
-        description="refined prompt for the agent"
-    )
-    next_action: Union[str, list[str]] = Field(
-        description="next agents to invoke or python code for dynamic decision"
-    )
-    
-class NewAgents(BaseModel):
-    """New agent system"""
-    agents: dict[str, AgentMeta] = Field(
-        description="dictionary of agent name to information about that agent"
-    )
-    
-print(get_pydantic_format_instruction(NewAgents))

@@ -227,8 +227,8 @@ def task_disambiguous():
         default_lm_config=openai_kwargs,
     )
 task_disambiguous()
-# testing()
-sample_run(96)
+testing()
+# sample_run(96)
 # exit()
 
 

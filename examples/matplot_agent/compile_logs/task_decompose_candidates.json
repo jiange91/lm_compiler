@@ -1,18 +1,18 @@
 {
     "query expansion": {
         "score": 4,
-        "rationale": "Prompt 1 requires the agent to understand the user's query, which can be complex and ambiguous, and then decompose it into a series of detailed, executable steps. This involves identifying appropriate libraries, functions, and parameters, as well as data preparation and manipulation. The task is non-trivial and benefits from task decomposition for better interpretability and ease of reasoning."
+        "rationale": "The task requires understanding the user's query, breaking it down into detailed steps, identifying appropriate libraries and functions, and setting parameters correctly. This involves non-trivial reasoning and planning, as well as ensuring the code is executable and meets the user's requirements."
     },
     "plot debugger": {
         "score": 4,
-        "rationale": "Prompt 3 requires the agent to debug existing code based on an error message and a user query. Debugging can be complex and non-trivial, as it involves understanding the code, identifying the source of the error, and fixing it. This task benefits from task decomposition and requires a good understanding of the code and error messages."
+        "rationale": "The task involves debugging existing code based on an error message. This requires understanding the code, identifying the error, and fixing it, which can be non-trivial and benefit from task decomposition for better interpretability and ease of reasoning."
     },
     "initial code generation": {
         "score": 3,
-        "rationale": "Prompt 2 involves generating runnable Python code from a natural language query. While this requires vertical planning, reasoning, and decision-making, the sub-tasks (such as choosing libraries and writing code) are relatively straightforward for a capable LLM. The complexity is moderate but not overly challenging."
+        "rationale": "The task involves generating runnable Python code based on a natural language query. While it requires vertical planning and decision-making, the sub-tasks (e.g., data manipulation, plotting) are relatively straightforward for a capable LLM."
     },
     "visual refine coder": {
         "score": 3,
-        "rationale": "Prompt 4 involves improving existing code based on natural language instructions while retaining its original functionality. This requires vertical planning, reasoning, and decision-making, but the sub-tasks (such as modifying code and ensuring it runs correctly) are relatively straightforward for a capable LLM. The complexity is moderate but manageable."
+        "rationale": "The task involves improving existing code based on natural language instructions while retaining its original functionality. This requires vertical planning and decision-making, but the sub-tasks are relatively straightforward for a capable LLM."
     }
 }

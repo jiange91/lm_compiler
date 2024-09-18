@@ -21,6 +21,7 @@ import json
 
 from compiler.IR.llm import LLMPredictor, LMConfig, LMSemantic, Demonstration
 from compiler.IR.schema_parser import get_pydantic_format_instruction as get_format_instruction
+from compiler.IR.schema_parser import pydentic_model_repr
 
 logger = logging.getLogger(__name__)
 
@@ -29,8 +30,8 @@ from langchain_core.runnables import RunnableLambda
 
 def inspect_with_msg(msg: str):
     def inspect_input(inputs, **kwargs):
-        print(msg)
-        print(inputs)
+        # print(msg)
+        # print(inputs)
         return inputs
     return inspect_input
 
@@ -99,7 +100,7 @@ class LangChainSemantic(LMSemantic):
             self.output_format = output_format
             self.parser = JsonOutputParser(pydantic_object=output_format)
             # NOTE: output name is inferred from the output format, use top-level fields only
-            self.outputs = list(self.output_format.model_fields().keys())
+            self.outputs = list(self.output_format.model_fields.keys())
             if self.need_output_type_hint:
                 self.output_type_hint = get_format_instruction(output_format)
         
@@ -259,7 +260,7 @@ class LangChainSemantic(LMSemantic):
         dict = {
             "agent_prompt": self.system_prompt,
             "input_varaibles": self.inputs,
-            "output_json_schema": output_schemas
+            "output_schema": output_schemas
         }
         return json.dumps(dict, indent=4)
 

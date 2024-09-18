@@ -10,10 +10,10 @@ digraph {
 	"execute and log" -> "collect error message"
 	"collect error message" -> "error handling"
 	"error handling" -> pass [style=dashed]
-	"error handling" -> end [style=dashed]
 	"error handling" -> "_plot debugger_sub_graph_cluster_ancor" [lhead="cluster_plot debugger_sub_graph" style=dashed]
-	"if img exists" -> end [style=dashed]
+	"error handling" -> end [style=dashed]
 	"if img exists" -> "img encode" [style=dashed]
+	"if img exists" -> end [style=dashed]
 	pass -> "if img exists"
 	"img encode" -> "visual refinement"
 	"_visual refine coder_sub_graph_cluster_ancor" -> "as refine coder" [ltail="cluster_visual refine coder_sub_graph"]
@@ -22,46 +22,44 @@ digraph {
 	"visual refinement" -> "_visual refine coder_sub_graph_cluster_ancor" [lhead="cluster_visual refine coder_sub_graph"]
 	subgraph "cluster_query expansion_sub_graph" {
 		"_query expansion_sub_graph_cluster_ancor" [fixedsize=true height=0 style=invis width=0]
-		"query expansion_sub_graph_input" -> StepByStepInstructionAgent
-		"query expansion_sub_graph_input" -> QueryUnderstandingAgent
-		"query expansion_sub_graph_input" -> DataPreparationAgent
 		"query expansion_sub_graph_input" -> LibraryIdentificationAgent
-		"query expansion_sub_graph_input" -> FunctionIdentificationAgent
+		"query expansion_sub_graph_input" -> QueryUnderstandingAgent
+		"query expansion_sub_graph_input" -> InstructionCompilationAgent
+		"query expansion_sub_graph_input" -> ParameterSettingAgent
+		"query expansion_sub_graph_input" -> DataPreparationAgent
 		QueryUnderstandingAgent -> LibraryIdentificationAgent
-		LibraryIdentificationAgent -> FunctionIdentificationAgent
-		FunctionIdentificationAgent -> DataPreparationAgent
-		DataPreparationAgent -> StepByStepInstructionAgent
-		StepByStepInstructionAgent -> "query expansion_sub_graph_output"
+		LibraryIdentificationAgent -> ParameterSettingAgent
+		ParameterSettingAgent -> DataPreparationAgent
+		DataPreparationAgent -> InstructionCompilationAgent
+		InstructionCompilationAgent -> "query expansion_sub_graph_output"
 		label="query expansion_sub_graph"
 	}
 	subgraph "cluster_initial code generation_sub_graph" {
 		"_initial code generation_sub_graph_cluster_ancor" [fixedsize=true height=0 style=invis width=0]
-		"initial code generation_sub_graph_input" -> CodePlanner
-		"initial code generation_sub_graph_input" -> CodeGenerator
 		"initial code generation_sub_graph_input" -> QueryInterpreter
-		QueryInterpreter -> CodePlanner
-		CodePlanner -> CodeGenerator
+		"initial code generation_sub_graph_input" -> CodeGenerator
+		QueryInterpreter -> CodeGenerator
 		CodeGenerator -> "initial code generation_sub_graph_output"
 		label="initial code generation_sub_graph"
 	}
 	subgraph "cluster_plot debugger_sub_graph" {
 		"_plot debugger_sub_graph_cluster_ancor" [fixedsize=true height=0 style=invis width=0]
-		"plot debugger_sub_graph_input" -> CodeDebugger
-		"plot debugger_sub_graph_input" -> ErrorIdentifier
-		"plot debugger_sub_graph_input" -> CodeAnalyzer
-		"plot debugger_sub_graph_input" -> QueryAnalyzer
-		QueryAnalyzer -> CodeAnalyzer
-		CodeAnalyzer -> ErrorIdentifier
-		ErrorIdentifier -> CodeDebugger
-		CodeDebugger -> "plot debugger_sub_graph_output"
+		"plot debugger_sub_graph_input" -> QueryUnderstandingAgent
+		"plot debugger_sub_graph_input" -> CodeAnalysisAgent
+		"plot debugger_sub_graph_input" -> ErrorFixingAgent
+		"plot debugger_sub_graph_input" -> CodeValidationAgent
+		QueryUnderstandingAgent -> CodeAnalysisAgent
+		CodeAnalysisAgent -> ErrorFixingAgent
+		ErrorFixingAgent -> CodeValidationAgent
+		CodeValidationAgent -> "plot debugger_sub_graph_output"
 		label="plot debugger_sub_graph"
 	}
 	subgraph "cluster_visual refine coder_sub_graph" {
 		"_visual refine coder_sub_graph_cluster_ancor" [fixedsize=true height=0 style=invis width=0]
 		"visual refine coder_sub_graph_input" -> CodeModifier
-		"visual refine coder_sub_graph_input" -> InstructionParser
 		"visual refine coder_sub_graph_input" -> PlotSaver
-		InstructionParser -> CodeModifier
+		"visual refine coder_sub_graph_input" -> CodeAnalyzer
+		CodeAnalyzer -> CodeModifier
 		CodeModifier -> PlotSaver
 		PlotSaver -> "visual refine coder_sub_graph_output"
 		label="visual refine coder_sub_graph"

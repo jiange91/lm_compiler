@@ -1,59 +1,15 @@
 {
-    "initial code generation": {
-        "agents": {
-            "QueryInterpreter": {
-                "inputs": [
-                    "expanded_query"
-                ],
-                "outputs": [
-                    "requirements"
-                ],
-                "prompt": "You are an expert at understanding natural language queries. Given a natural language query, identify and list all the requirements and tasks that need to be performed to generate the desired Python code. Make sure to include any specific data manipulations, plotting requirements, and file-saving instructions mentioned in the query.",
-                "next_action": [
-                    "CodePlanner"
-                ],
-                "dynamic_action_decision": "None"
-            },
-            "CodePlanner": {
-                "inputs": [
-                    "requirements"
-                ],
-                "outputs": [
-                    "code_plan"
-                ],
-                "prompt": "You are an expert at planning and structuring Python code. Based on the identified requirements and tasks, create a detailed plan for the Python code. Specify which libraries to use, the sequence of operations, and any specific functions or methods that need to be implemented.",
-                "next_action": [
-                    "CodeGenerator"
-                ],
-                "dynamic_action_decision": "None"
-            },
-            "CodeGenerator": {
-                "inputs": [
-                    "code_plan",
-                    "plot_file_name"
-                ],
-                "outputs": [
-                    "code"
-                ],
-                "prompt": "You are an expert Python programmer. Using the detailed plan provided, write the complete Python code to satisfy all the requirements in the original query. Ensure the code is runnable and includes any necessary data manipulations, plotting, and file-saving instructions.",
-                "next_action": [
-                    "END"
-                ],
-                "dynamic_action_decision": "None"
-            }
-        }
-    },
     "visual refine coder": {
         "agents": {
-            "InstructionParser": {
+            "CodeAnalyzer": {
                 "inputs": [
                     "code",
                     "visual_refinement"
                 ],
                 "outputs": [
-                    "changes"
+                    "change_list"
                 ],
-                "prompt": "You are an expert at understanding natural language instructions. You will be given a piece of code and a set of instructions on how to improve it. Your task is to parse the instructions and identify the specific changes that need to be made to the code. Output a list of these changes in a clear and concise manner.",
+                "prompt": "You are an expert in analyzing Python code. You will be given a piece of Python code and natural language instructions on how to improve it. Your task is to analyze the given code and identify the specific changes needed to satisfy the requirements in the instructions while retaining the original functionality. Provide a detailed list of the changes required.",
                 "next_action": [
                     "CodeModifier"
                 ],
@@ -62,12 +18,12 @@
             "CodeModifier": {
                 "inputs": [
                     "code",
-                    "changes"
+                    "change_list"
                 ],
                 "outputs": [
                     "modified_code"
                 ],
-                "prompt": "You are an expert Python programmer. You will be given a piece of code and a list of specific changes that need to be made to it. Your task is to modify the code according to these changes while retaining its original functionality. Ensure that the modified code is runnable and meets all the requirements specified in the changes.",
+                "prompt": "You are an expert in modifying Python code. You will be given a piece of Python code and a list of specific changes that need to be made to satisfy certain requirements. Your task is to modify the given code according to the list of changes while retaining the original functionality. Ensure that the modified code is runnable and meets all the specified requirements.",
                 "next_action": [
                     "PlotSaver"
                 ],
@@ -81,7 +37,7 @@
                 "outputs": [
                     "code"
                 ],
-                "prompt": "You are an expert in data visualization and file handling in Python. You will be given a piece of code that generates plots. Your task is to ensure that each plot is saved to a PNG file with the given 'plot_file_name'. Modify the code to include the necessary commands to save the plots correctly.",
+                "prompt": "You are an expert in handling plot operations in Python. You will be given a piece of Python code that generates plots. Your task is to ensure that each plot generated by the code is saved to a PNG file with the given 'plot_file_name'. Modify the code to include the necessary commands to save the plots.",
                 "next_action": [
                     "END"
                 ],
@@ -91,56 +47,87 @@
     },
     "plot debugger": {
         "agents": {
-            "QueryAnalyzer": {
+            "QueryUnderstandingAgent": {
                 "inputs": [
                     "query"
                 ],
                 "outputs": [
-                    "visualization_requirements"
+                    "requirements_summary"
                 ],
-                "prompt": "You are an expert in understanding user queries related to data visualization. Given a user query, your task is to extract and clearly state the data visualization requirements. Focus on identifying the type of plot, data to be visualized, and any specific details mentioned by the user.",
+                "prompt": "You are an expert in understanding user queries related to data visualization. Your task is to read the user query and summarize the main requirements and objectives for the data visualization task. Provide a clear and concise summary of what the user wants to achieve with their data visualization.",
                 "next_action": [
-                    "CodeAnalyzer"
+                    "CodeAnalysisAgent"
                 ],
                 "dynamic_action_decision": "None"
             },
-            "CodeAnalyzer": {
-                "inputs": [
-                    "code"
-                ],
-                "outputs": [
-                    "code_summary"
-                ],
-                "prompt": "You are an expert in analyzing Python code for data visualization. Given a piece of existing Python code, your task is to understand its structure and functionality. Provide a summary of what the code is intended to do, including the type of plot it aims to generate and the data it uses.",
-                "next_action": [
-                    "ErrorIdentifier"
-                ],
-                "dynamic_action_decision": "None"
-            },
-            "ErrorIdentifier": {
+            "CodeAnalysisAgent": {
                 "inputs": [
                     "code",
                     "error_message"
                 ],
                 "outputs": [
-                    "error_details"
+                    "error_analysis"
                 ],
-                "prompt": "You are an expert in identifying errors in Python code. Given a piece of Python code and an associated error message, your task is to pinpoint the exact location and cause of the error. Provide a detailed explanation of the error and its root cause.",
+                "prompt": "You are an expert in analyzing Python code. Your task is to read the provided Python code and the associated error message. Identify the part of the code that is causing the error. Provide a detailed explanation of what the code is supposed to do and what the error message indicates.",
                 "next_action": [
-                    "CodeDebugger"
+                    "ErrorFixingAgent"
                 ],
                 "dynamic_action_decision": "None"
             },
-            "CodeDebugger": {
+            "ErrorFixingAgent": {
                 "inputs": [
-                    "query",
-                    "code_summary",
-                    "error_details"
+                    "code",
+                    "error_analysis"
+                ],
+                "outputs": [
+                    "fixed_code"
+                ],
+                "prompt": "You are an expert in debugging Python code. Based on the analysis provided, your task is to fix the identified error in the code. Ensure that the corrected code is executable and can generate a plot without any errors. You can use any Python library you deem necessary to achieve this.",
+                "next_action": [
+                    "CodeValidationAgent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "CodeValidationAgent": {
+                "inputs": [
+                    "fixed_code",
+                    "requirements_summary"
                 ],
                 "outputs": [
                     "code"
                 ],
-                "prompt": "You are an expert in debugging Python code for data visualization. Given a user query, a summary of the existing code, and an identified error with its root cause, your task is to fix the error. Ensure that the corrected code is executable and can generate the required plot without any errors.",
+                "prompt": "You are an expert in validating Python code. Your task is to execute the provided corrected code to ensure it runs without any errors and generates the expected plot. Confirm that the code meets the user's requirements as summarized. If the code does not meet the requirements or still has errors, provide feedback on what needs to be corrected.",
+                "next_action": [
+                    "END"
+                ],
+                "dynamic_action_decision": "None"
+            }
+        }
+    },
+    "initial code generation": {
+        "agents": {
+            "QueryInterpreter": {
+                "inputs": [
+                    "expanded_query"
+                ],
+                "outputs": [
+                    "structured_requirements"
+                ],
+                "prompt": "You are an expert at understanding natural language queries. Your task is to interpret the given natural language query and extract the specific requirements. Clearly identify the tasks such as data manipulation, plotting, and any specific libraries or functions that need to be used. Output the extracted requirements in a structured format.",
+                "next_action": [
+                    "CodeGenerator"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "CodeGenerator": {
+                "inputs": [
+                    "structured_requirements",
+                    "plot_file_name"
+                ],
+                "outputs": [
+                    "code"
+                ],
+                "prompt": "You are a highly skilled Python code generator. Based on the structured requirements provided, generate runnable Python code that satisfies all the requirements. Ensure that the code is well-commented and uses appropriate libraries and functions. If the task involves data manipulation from a CSV file, include the necessary code to process the data. If plotting is required, include the code to generate and save the plot as a PNG file with the given 'plot_file_name'.",
                 "next_action": [
                     "END"
                 ],
@@ -155,9 +142,9 @@
                     "query"
                 ],
                 "outputs": [
-                    "clarified_requirements"
+                    "requirements"
                 ],
-                "prompt": "You are an expert at understanding user requirements. Given a user query, your task is to interpret and clarify the requirements. Break down the query into specific tasks or goals that need to be achieved to fulfill the user's request. Make sure to identify any ambiguities or assumptions that need to be addressed.",
+                "prompt": "You are an expert in understanding user requirements for Python programming tasks. Your task is to analyze the given user query and extract the specific requirements for the Python code. Clearly list out each requirement in a structured format. Ensure that you capture all necessary details that will guide the subsequent steps in the coding process.",
                 "next_action": [
                     "LibraryIdentificationAgent"
                 ],
@@ -165,26 +152,25 @@
             },
             "LibraryIdentificationAgent": {
                 "inputs": [
-                    "clarified_requirements"
+                    "requirements"
                 ],
                 "outputs": [
-                    "identified_libraries"
+                    "libraries_and_functions"
                 ],
-                "prompt": "You are an expert in Python libraries. Based on the clarified requirements provided, identify all the appropriate Python libraries that are needed to fulfill the tasks. List the libraries and briefly describe their roles in the context of the tasks.",
+                "prompt": "You are an expert in Python libraries and their functionalities. Based on the requirements provided, identify all the appropriate Python libraries that are needed to fulfill the user query. For each requirement, specify the library and the specific functions within that library that will be used. Ensure that the libraries and functions are relevant and up-to-date.",
                 "next_action": [
-                    "FunctionIdentificationAgent"
+                    "ParameterSettingAgent"
                 ],
                 "dynamic_action_decision": "None"
             },
-            "FunctionIdentificationAgent": {
+            "ParameterSettingAgent": {
                 "inputs": [
-                    "clarified_requirements",
-                    "identified_libraries"
+                    "libraries_and_functions"
                 ],
                 "outputs": [
-                    "identified_functions"
+                    "function_parameters"
                 ],
-                "prompt": "You are an expert in Python programming. Based on the identified libraries and the clarified requirements, pinpoint the correct library functions to call. For each function, specify the parameters that need to be set and provide a brief explanation of their roles.",
+                "prompt": "You are an expert in configuring Python functions. Given the list of libraries and functions identified, your task is to determine the correct parameters for each function call. For each function, provide a detailed explanation of how to set each parameter correctly to meet the user requirements. Ensure that the parameters are set in a way that the code will be executable and produce the desired output.",
                 "next_action": [
                     "DataPreparationAgent"
                 ],
@@ -192,29 +178,30 @@
             },
             "DataPreparationAgent": {
                 "inputs": [
-                    "clarified_requirements",
-                    "identified_functions"
+                    "requirements",
+                    "libraries_and_functions",
+                    "function_parameters"
                 ],
                 "outputs": [
                     "data_preparation_steps"
                 ],
-                "prompt": "You are an expert in data preparation and manipulation. Based on the clarified requirements and identified functions, provide detailed instructions on how to prepare and manipulate the data so that it becomes appropriate for the functions to call. Include any necessary data transformations, cleaning, or formatting steps.",
+                "prompt": "You are an expert in data preparation for Python programming. Based on the requirements and the identified libraries and functions, outline the steps needed to prepare the data. This includes data loading, cleaning, transformation, and any other necessary preprocessing steps. Ensure that the data is in the correct format and ready for use in the subsequent function calls.",
                 "next_action": [
-                    "StepByStepInstructionAgent"
+                    "InstructionCompilationAgent"
                 ],
                 "dynamic_action_decision": "None"
             },
-            "StepByStepInstructionAgent": {
+            "InstructionCompilationAgent": {
                 "inputs": [
-                    "clarified_requirements",
-                    "identified_libraries",
-                    "identified_functions",
+                    "requirements",
+                    "libraries_and_functions",
+                    "function_parameters",
                     "data_preparation_steps"
                 ],
                 "outputs": [
                     "expanded_query"
                 ],
-                "prompt": "You are an expert in writing detailed instructions. Based on the outputs from the previous agents, compile a step-by-step guide on how to write Python code to fulfill the user query's requirements. Ensure that the instructions are clear, detailed, and executable, covering all aspects from importing libraries to generating the desired output.",
+                "prompt": "You are an expert in compiling detailed programming instructions. Your task is to take the requirements, identified libraries and functions, parameter settings, and data preparation steps, and compile them into a step-by-step detailed instruction on how to write the Python code. Ensure that the instructions are clear, comprehensive, and executable. The final output should be a cohesive guide that a programmer can follow to fulfill the user query.",
                 "next_action": [
                     "END"
                 ],

@@ -569,7 +569,7 @@ class Workflow(ComposibleModuleInterface):
             num_tasks = len(scheduled)
             if num_tasks == 0:
                 break
-            print(f"Graph {self.name} - Step {self.current_step}: {scheduled}")
+            logger.debug(f"Graph {self.name} - Step {self.current_step}: {scheduled}")
             # with concurrent.futures.ThreadPoolExecutor(max_workers=num_tasks) as executor:
             #     futures = [executor.submit(self.exec_module, self.modules[name], statep) for name in scheduled]
             #     concurrent.futures.wait(futuresa)

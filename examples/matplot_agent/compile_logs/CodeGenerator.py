@@ -4,4 +4,4 @@ from pydantic import BaseModel, Field
 
 
 class CodeSchema(BaseModel):
-    code: str = Field(..., description='Generated Python code.', title='Code')
+    code: str = Field(..., description='Runnable Python code', title='Code')

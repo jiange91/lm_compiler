@@ -61,7 +61,7 @@ Here's an example:
         "sub_question",
         "doc_for_filter"
     ],
-    "output_json_schema": {
+    "output_schema": {
         "title": "GradeDocuments",
         "description": "Binary score for relevance check on retrieved documents.",
         "type": "object",

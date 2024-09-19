@@ -3,6 +3,7 @@ from collections import defaultdict
 from abc import ABC, abstractmethod
 from enum import Enum, auto
 from typing import List, Optional, Tuple, Iterable, Callable, Type
+import warnings
 import inspect
 import time
 import logging
@@ -180,7 +181,7 @@ class ComposibleModuleInterface(Module, ABC):
     @abstractmethod
     def _visualize(self, dot: Digraph):
         pass
-
+    
     def sub_module_validation(self, module: Module, reset_parent: bool):
         """
         Example: 
@@ -196,26 +197,37 @@ class ComposibleModuleInterface(Module, ABC):
         ```
         """
         if not reset_parent and (parent := module.enclosing_module) is not None:
-            raise ValueError(f"Source module {module.name} already registered in {parent.name}, please avoid adding the same module to multiple modules")
+            if parent is not self:
+                raise ValueError(f"Source module {module.name} already registered in {parent.name}, please avoid adding the same module to multiple modules")
     
     @abstractmethod
     def replace_node_handler(self, old_node: Module, new_node_in: Module, new_node_out: Module) -> bool:
         pass
 
+    def replace_check(self, old_node: Module, new_node_in: Module, new_node_out: Module):
+        if old_node not in self.immediate_submodules():
+            warnings.warn(f"Node {old_node.name} not found in {self.name}")
+            return False
+        if (parent := new_node_in.enclosing_module) is not None:
+            if parent is not self:
+                warnings.warn(f"Please avoid replacing a node with a module that is already registered in another module: {new_node_in.name} in {parent.name}")
+                return False
+        if (parent := new_node_out.enclosing_module) is not None:
+            if parent is not self:
+                warnings.warn(f"Please avoid replacing a node with a module that is already registered in another module: {new_node_out.name} in {parent.name}")
+                return False
+        return True
+
     def replace_node(self, old_node: Module, new_node_in: Module, new_node_out: Module) -> bool:
         """Replace the old node with the new node
         
-        Please register the new node to the same parent module as the old node before calling this method.
+        Will register the new node to the same parent module as the old node, if new node is already registered in another module, will raise an error
         
         Incoming dataflow will be redirected to the new_node_in, and outgoing dataflow will be redirected to the new_node_out
         new_node_in and new_node_out can be the same module, equivalent to replacing the old node with another node
-        
-        If old_node not found in the immediate submodules, will not recursively call the replace_node method for the submodules
         """
-        submodules = self.immediate_submodules()
-        if old_node not in submodules:
-            logger.warning(f"Node {old_node.name} not found in {self.name}")
+        is_ok = self.replace_check(old_node, new_node_in, new_node_out)
+        if not is_ok:
             return False
-        
         return self.replace_node_handler(old_node, new_node_in, new_node_out)
             

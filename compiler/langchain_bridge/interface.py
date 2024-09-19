@@ -254,7 +254,7 @@ class LangChainSemantic(LMSemantic):
     # TODO: user provided output format instruction should be considered in decomposition of the task
     def get_formatted_info(self) -> str:
         if self.output_format is not None:
-            output_schemas = json.loads(self.output_format.model_json_schema())
+            output_schemas = self.output_format.model_json_schema()
         else:
             output_schemas = self.outputs[0]
         dict = {
@@ -273,6 +273,8 @@ class LangChainSemantic(LMSemantic):
 
 class LangChainLM(LLMPredictor):
     def __init__(self, name, semantic: LangChainSemantic) -> None:
+        """
+        """
         self.llm_gen_meta = []
         self.chat_history = ChatMessageHistory()
         self.semantic: LangChainSemantic = semantic # mainly for type hint

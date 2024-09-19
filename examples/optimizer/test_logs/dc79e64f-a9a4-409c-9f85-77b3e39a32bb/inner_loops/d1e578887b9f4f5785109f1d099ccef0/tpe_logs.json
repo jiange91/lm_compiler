@@ -1,0 +1,34 @@
+{
+    "0": {
+        "params": {
+            "doc_filter_lm_model": "gpt-4o-mini"
+        },
+        "score": 0.8560027192378633,
+        "price": 1.62e-05,
+        "total_price": 1.62e-05
+    },
+    "1": {
+        "params": {
+            "doc_filter_lm_model": "gpt-4o-mini"
+        },
+        "score": 0.07862101014025513,
+        "price": 1.62e-05,
+        "total_price": 1.62e-05
+    },
+    "2": {
+        "params": {
+            "doc_filter_lm_model": "gpt-4o"
+        },
+        "score": 0.6584296916375598,
+        "price": 0.000535,
+        "total_price": 0.000535
+    },
+    "3": {
+        "params": {
+            "doc_filter_lm_model": "gpt-4o"
+        },
+        "score": 0.4489252547902022,
+        "price": 0.000535,
+        "total_price": 0.000535
+    }
+}

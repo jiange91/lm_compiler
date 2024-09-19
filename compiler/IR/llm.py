@@ -92,7 +92,7 @@ class LMSemantic(ABC):
         ...
     
     @abstractmethod
-    def get_output_schema(self) -> type[BaseModel]:
+    def get_output_schema(self) -> type[BaseModel] | None:
         ...
     
     @abstractmethod

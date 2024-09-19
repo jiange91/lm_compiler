@@ -1,0 +1,42 @@
+{
+    "0": {
+        "params": {
+            "doc_filter_Scaffold_doc_filter": "Decompose_doc_filter_option_0"
+        },
+        "score": -Infinity,
+        "price": Infinity,
+        "total_price": 0.0027407
+    },
+    "1": {
+        "params": {
+            "doc_filter_Scaffold_doc_filter": "Identity"
+        },
+        "score": 0.9615155667270134,
+        "price": 1.62e-05,
+        "total_price": 0.0011024
+    },
+    "2": {
+        "params": {
+            "doc_filter_Scaffold_doc_filter": "Identity"
+        },
+        "score": 0.8560027192378633,
+        "price": 1.62e-05,
+        "total_price": 0.0011024
+    },
+    "3": {
+        "params": {
+            "doc_filter_Scaffold_doc_filter": "Identity"
+        },
+        "score": 0.881753798804753,
+        "price": 0.000535,
+        "total_price": 0.0011024
+    },
+    "4": {
+        "params": {
+            "doc_filter_Scaffold_doc_filter": "Decompose_doc_filter_option_0"
+        },
+        "score": 0.8418737727696229,
+        "price": 0.00133,
+        "total_price": 0.0027407
+    }
+}

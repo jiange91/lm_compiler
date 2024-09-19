@@ -1,0 +1,6 @@
+{
+    "doc_filter": {
+        "score": 1,
+        "rationale": "The task is straightforward and simple. It involves checking for the presence of keywords or semantic meaning related to the user question in a document and giving a binary 'yes' or 'no' score. There is no need for multi-step reasoning, planning, or complex decision-making."
+    }
+}

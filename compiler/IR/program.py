@@ -137,10 +137,15 @@ class SyncBarrierManager:
             trigger.consume(triggered_notifs)
         return candidates
     
-    def reset(self):
+    def clean(self):
         self.edges.clear()
         self.triggers.clear()
         self.publish_channels.clear()
+    
+    def reset_triggers(self):
+        for trigger in self.triggers:
+            trigger.active = False
+            trigger.notified.clear()
         
     def get_dependency(self, module_names: Iterable[str]):
         """build hyperthetical dependency graph
@@ -168,7 +173,7 @@ class SyncBarrierManager:
         return dependency_graph
 
     def compile_dependency_runtime(self, module_names: Iterable[str]):
-        self.reset()
+        self.clean()
         dep_graph: dict[str, set[str]] = self.get_dependency(module_names)
         
         # For each module, register their triggers and corresponding dependencies
@@ -225,9 +230,6 @@ class Workflow(ComposibleModuleInterface):
     
     def __init__(self, name) -> None:
         self.modules: dict[str, Module] = {}
-        self._static_dependencies: dict[Workflow.dependencies, list[str]] = defaultdict(list)
-        self.branches: dict[str, Branch] = {}
-        
         self.sync_barrier_manager = SyncBarrierManager()
         
         """
@@ -235,11 +237,6 @@ class Workflow(ComposibleModuleInterface):
         """
         self.start: Input = None
         self.end: Output = None
-        # edges are not used for preparing the next module to run
-        self.edges: dict[str, list[str]] = defaultdict(list)
-        # the previous module will notify the trigger when it's done
-        self.triggers: list[Trigger] = []
-        self.publish_channels : dict[str, list[Trigger]] = defaultdict(list)
         
         """
         some runtime meta
@@ -247,11 +244,6 @@ class Workflow(ComposibleModuleInterface):
         self.token_usage_buffer = {'total': {}}
         self.current_step = 0
         super().__init__(name, None)
-    
-    @property
-    def static_dependencies(self):
-        raise LookupError("static_dependencies deprecated")
-        return self._static_dependencies
     
     def add_module(self, module: Module, reset_parent = True) -> None:
         self.sub_module_validation(module, reset_parent)
@@ -533,10 +525,7 @@ class Workflow(ComposibleModuleInterface):
         # clear sub-llms history
         self.update_token_usage_summary()
         self.token_usage_buffer = {'total': {}}
-            
-        for trigger in self.triggers:
-            trigger.active = False
-            trigger.notified.clear()
+        self.sync_barrier_manager.reset_triggers()   
         self.current_step = 0
                
         for module in self.immediate_submodules():
@@ -706,7 +695,11 @@ class Workflow(ComposibleModuleInterface):
             NotImplementedError("Branch replacement is not supported yet")
             
         if old_node.name not in self.modules:
+            logger.warning(f"Node {old_node.name} not found in {self.name}")
             return False
         del self.modules[old_node.name]
+        
+        self.add_module(new_node_in, True)
+        self.add_module(new_node_out, True)
         
         return self.sync_barrier_manager.replace_dependency(old_node, new_node_in, new_node_out)

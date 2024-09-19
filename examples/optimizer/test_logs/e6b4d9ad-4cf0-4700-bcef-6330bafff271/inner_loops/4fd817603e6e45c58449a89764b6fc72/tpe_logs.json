@@ -1,0 +1,10 @@
+{
+    "0": {
+        "params": {
+            "doc_filter_lm_model": "gpt-4o"
+        },
+        "score": 0.614981854079677,
+        "price": 0.000535,
+        "total_price": 0.000535
+    }
+}

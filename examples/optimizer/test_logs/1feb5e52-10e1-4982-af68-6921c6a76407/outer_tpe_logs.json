@@ -1,0 +1,34 @@
+{
+    "0": {
+        "params": {
+            "doc_filter_Scaffold_doc_filter": "Decompose_doc_filter_option_0"
+        },
+        "score": 0.7353077495528981,
+        "price": 0.00133,
+        "total_price": 0.00133
+    },
+    "1": {
+        "params": {
+            "doc_filter_Scaffold_doc_filter": "Decompose_doc_filter_option_0"
+        },
+        "score": 0.6067652760920084,
+        "price": 0.00133,
+        "total_price": 0.00133
+    },
+    "2": {
+        "params": {
+            "doc_filter_Scaffold_doc_filter": "Identity"
+        },
+        "score": 0.30112628189225366,
+        "price": 1.62e-05,
+        "total_price": 1.62e-05
+    },
+    "3": {
+        "params": {
+            "doc_filter_Scaffold_doc_filter": "Decompose_doc_filter_option_0"
+        },
+        "score": 0.7924700649997225,
+        "price": 0.00133,
+        "total_price": 0.00133
+    }
+}

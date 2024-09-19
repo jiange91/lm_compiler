@@ -8,6 +8,7 @@ import optuna
 import numpy as np
 from concurrent.futures import ThreadPoolExecutor
 import uuid
+from abc import ABC, abstractmethod
 
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration
@@ -36,6 +37,8 @@ class EvaluationResult:
         reduced_price: Optional[float] = None,
         states: Optional[Sequence[StatePool]] = None,
         demos: Optional[Sequence[TDemoInTrial]] = None,
+        
+        meta: Optional[dict] = None,
     ) -> None:
         self.scores = scores
         self.prices = prices
@@ -43,12 +46,26 @@ class EvaluationResult:
         self.reduced_price = reduced_price
         self.states = states
         self.demos = demos
+        self.meta = meta
     
     def __str__(self) -> str:
         return f"EvalResult: score={self.reduced_score}, price={self.reduced_price}, {len(self.scores)} samples"
 
+class EvaluatorInterface(ABC):
+    
+    @abstractmethod
+    def __call__(
+        self,
+        workflow: Workflow,
+    ) -> EvaluationResult:
+        """Evaluate the workflow with the given metric and eval_set
+        
+        Should not change the state of given workflow
+        """
+        ...
+    
 
-class Evaluator:
+class Evaluator(EvaluatorInterface):
     def __init__(
         self,
         metric: MetricBase,

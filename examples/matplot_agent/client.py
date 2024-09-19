@@ -105,7 +105,7 @@ matplot_flow.compile()
 matplot_flow.visualize('examples/matplot_agent/matplot_flow_viz')
 
 openai_kwargs = {
-    'model': 'gpt-4o-mini',
+    'model': 'gpt-4o',
     'temperature': 0,
 }
 
@@ -226,8 +226,8 @@ def task_disambiguous():
         threshold=3,
         default_lm_config=openai_kwargs,
     )
-task_disambiguous()
-testing()
+# task_disambiguous()
+# testing()
 # sample_run(96)
 # exit()
 
@@ -253,15 +253,16 @@ def importance_eval():
     important_lms = importance_evaluator.eval(evaluator, 'examples/matplot_agent/optimizer_logs')
     return important_lms
 
-important_lms = importance_eval()
+# important_lms = importance_eval()
 # exit()
 
 # ========================================
 # Optimization
 # ========================================
 
-from compiler.optimizer.layered_optimizer import InnerLoopBayesianOptimization, SMACAllInOneLayer
+from compiler.optimizer.layered_optimizer import InnerLoopBayesianOptimization, SMACAllInOneLayer, OuterLoopOptimization
 from compiler.optimizer.params.fewshot import LMFewShot
+from compiler.optimizer.params.scaffolding import LMScaffolding
 
 def opt():
     lm_options = [
@@ -287,11 +288,17 @@ def opt():
         dedicate_params=lm_few_shot_params,
         universal_params=[model_param, reasoning_param],
     )
-        
-    # inner_loop = SMACAllInOneLayer(
-    #     params=[model_param, reasoning_param],
-    #     opt_direction='maximize',
-    # )
+    
+    scaffolding_params = LMScaffolding.bootstrap(
+        matplot_flow,
+        decompose_threshold=4,
+        log_dir='examples/matplot_agent/compile_logs',
+    )
+    
+    outer_loop = OuterLoopOptimization(
+        dedicate_params=scaffolding_params,
+        quality_constraint=0.4,
+    )
     
     states = load_data()
     eval_set = [(state, None) for state in states]
@@ -301,42 +308,15 @@ def opt():
         num_thread=3,
     )
 
-    inner_loop.optimize(
-        workflow=matplot_flow, 
+    outer_loop.optimize(
+        workflow=matplot_flow,
+        inner_loop=inner_loop,
         evaluator=evaluator, 
-        n_trials=12,
-        throughput=3,
-        log_dir='examples/matplot_agent/optimizer_logs'
+        n_trials=48,
+        resource_ratio=1/12,
+        throughput=1,
+        inner_throughput=3,
+        log_dir='examples/matplot_agent/optimizer_logs/'
     )
 
-# opt()
-
-def few_shot_opt():
-    states = load_data()
-    eval_set = [(state, None) for state in states]
-    evaluator = Evaluator(
-        metric=VisionScore(),
-        eval_set=eval_set,
-        num_thread=3,
-    )
-    lm_few_shot_params = LMFewShot.bootstrap(
-        workflow=matplot_flow, 
-        evaluator=evaluator, 
-        max_num=2, 
-        target_modules=['query expansion', 'initial code generation', 'visual refine coder'],
-        log_path='examples/matplot_agent/test_fs.json'
-    )
-
-    def apply_few_shot(params: list[LMFewShot]):
-        for param in params:
-            for option in param.options.values():
-                if option.name != 'Identity':
-                    selected = option.name
-                    lm = matplot_flow.get_all_modules(lambda x: x.name == param.module_name)[0]
-                    param.apply_option(selected, lm)
-    
-    apply_few_shot(lm_few_shot_params)
-    sample_run(1)
-    return lm_few_shot_params
-
-# few_shot_opt()
+opt()

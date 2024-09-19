@@ -28,9 +28,10 @@ class LMFewShot(DynamicParamBase):
         module_name: str,
         max_num: int = 5,
         eval_result: EvaluationResult = None,
+        inherit: bool = False,
     ):
         # NOTE: identity option is added to escape from bad demos
-        super().__init__(name, [IdentityOption()], 0, module_name)
+        super().__init__(name, [IdentityOption()], 0, module_name, inherit=inherit, inherit_options=False)
         self.demo_pool: dict[str, Demonstration] = {}
         self.demo_pq = []
         self.max_num = max_num
@@ -135,6 +136,10 @@ class LMFewShot(DynamicParamBase):
         base['current_best_score_sum'] = self.current_best_score_sum
         return base
 
+    def custom_clean(self):
+        self.demo_pool.clear()
+        self.demo_pq.clear()
+        self.current_best_score_sum = float('-inf')
     
 class DemoOption(OptionBase):
     def __init__(self, tag: str, demos: list[Demonstration]):

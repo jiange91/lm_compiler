@@ -11,11 +11,11 @@ digraph {
 	"as refine coder" -> "execute and log"
 	"execute and log" -> "collect error message"
 	"collect error message" -> "error handling"
+	"error handling" -> "plot debugger" [style=dashed]
 	"error handling" -> pass [style=dashed]
 	"error handling" -> end [style=dashed]
-	"error handling" -> "plot debugger" [style=dashed]
-	"if img exists" -> "img encode" [style=dashed]
 	"if img exists" -> end [style=dashed]
+	"if img exists" -> "img encode" [style=dashed]
 	pass -> "if img exists"
 	"img encode" -> "visual refinement"
 	"visual refinement" -> "visual refine coder"

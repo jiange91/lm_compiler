@@ -254,16 +254,19 @@ def aggregator_factory(lm: LLMPredictor, code: str):
     agg_func_obj = compile(code, '<string>', 'exec')
     local_name_space = {}
     exec(agg_func_obj, {}, local_name_space)
-    aggregator = list(local_name_space.values())[0]
+    func_name = agg_func_obj.co_names[0]
+    aggregator = local_name_space[func_name]
     
-    @wraps(aggregator)
-    def wrapper_kernel(**kwargs):
-        result = aggregator(**kwargs)
-        return {field: getattr(result, field) for field in lm.semantic.get_agent_outputs()}
-    
-    wrapper_kernel = partial(wrapper_kernel, output_schema=old_output_schema)
+    if old_output_schema is not None:
+        @wraps(aggregator)
+        def wrapper_kernel(**kwargs):
+            result = aggregator(**kwargs)
+            mresult = old_output_schema.model_validate(result)
+            return {field: getattr(mresult, field) for field in lm.semantic.get_agent_outputs()}
+    else:
+        wrapper_kernel = aggregator       
     sig = inspect.signature(wrapper_kernel)
-    print(sig)
+    logger.debug(f'Aggregator signature: {sig}')
     return wrapper_kernel
         
     
@@ -287,8 +290,9 @@ class LMTaskDecompose:
         self,
         target_modules,
         threshold,
+        log_dir,
     ):
-        log_path = os.path.join(self.log_dir, 'task_decompose_mid_level.json')
+        log_path = os.path.join(log_dir, 'task_decompose_mid_level.json')
         # Get decomposition meta
         if os.path.exists(log_path):
             logger.info("mid-level decomposition already exists, read and skip sampling")
@@ -309,7 +313,7 @@ class LMTaskDecompose:
             
             for lm, score, rationale in decompose_candidates:
                 logger.info(f"Complexity of {lm.name}: {score}\nrationale: {rationale}\n\n")
-            with open(os.path.join(self.log_dir, 'task_decompose_candidates.json'), 'w+') as f:
+            with open(os.path.join(log_dir, 'task_decompose_candidates.json'), 'w+') as f:
                 json.dump({lm.name: {'score': score, 'rationale': rationale} for lm, score, rationale in decompose_candidates}, f, indent=4)
             
             logger.info("Performing high-level agent decomposition")
@@ -345,8 +349,8 @@ class LMTaskDecompose:
             with open(log_path, 'w+') as f:
                 json.dump(json_lm_2_new_system, f, indent=4)
                 
-    def finalize_decomposition(self, target_modules):
-        log_path = os.path.join(self.log_dir, 'task_decompose_final.json')
+    def finalize_decomposition(self, target_modules, log_dir):
+        log_path = os.path.join(log_dir, 'task_decompose_final.json')
         if os.path.exists(log_path):
             logger.info("final decomposition already exists, read and skip sampling")
             with open(log_path) as f:
@@ -378,11 +382,12 @@ class LMTaskDecompose:
                 json_lm_2_final_system = {k: json.loads(v.json()) for k, v in self.lm_2_final_system.items()}
                 json.dump(json_lm_2_final_system, f, indent=4)
     
-    def _materialize_decomposition(
-        self, 
+    @staticmethod
+    def materialize_decomposition(
         lm: LLMPredictor, 
         new_agents: StructuredAgentSystem, 
-        default_lm_config: dict
+        default_lm_config: dict,
+        log_dir: str,
     ):
         """Actually transform the graph to apply the decomposition
         
@@ -411,7 +416,7 @@ class LMTaskDecompose:
         img_input_names = set(lm.semantic.get_img_input_names())
         for agent_name, agent_meta in new_agents.agents.items():
             valid_file_name = agent_name.replace(" ", "").replace("\n", "").replace("\t", "") + '.py'
-            module_fpath = os.path.join(self.log_dir, valid_file_name)
+            module_fpath = os.path.join(log_dir, valid_file_name)
             if isinstance(agent_meta.output_json_schema, str):
                 output_model = agent_meta.output_json_schema
             else:
@@ -434,7 +439,7 @@ class LMTaskDecompose:
                 img_input_idices=[i for i, name in enumerate(agent_meta.inputs_variables) if name in img_input_names],
             )
             agent_lm = LangChainLM(agent_name, lm_semantic)
-            agent_lm.lm_config = default_lm_config if default_lm_config is not None else {}
+            agent_lm.lm_config = default_lm_config if default_lm_config is not None else lm.lm_config
             name_2_new_lm[agent_name] = agent_lm
             sub_graph.add_module(agent_lm)
         
@@ -481,29 +486,31 @@ class LMTaskDecompose:
                     clean_decision_code,
                     enhance_existing=True,
                 )
-            
-        # Replace the original agent with the sub-graph
-        self.workflow.add_module(sub_graph)
-        if not self.workflow.replace_node(lm, sub_graph, sub_graph):
-            logger.error(f"Failed to replace {lm.name} with {sub_graph.name}")
-        else:
-            logger.info(f"Successfully replaced {lm.name} with {sub_graph.name}")
+        return sub_graph
         
     def decompose(
         self,
         target_modules: Optional[list[str]] = None,
-        log_dir: str = 'task_decompose_log',
+        log_dir: str = 'task_decompose_logs',
         threshold: Literal[1, 2, 3, 4, 5] = 4,
         default_lm_config: Optional[dict] = None,
+        materialize: bool = True,
     ):
-        self.log_dir = log_dir
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
             
-        self.prepare_decompose_metadata(target_modules, threshold)
-        self.finalize_decomposition(target_modules)
-        for lm in self.decompose_target_lms:
-            self._materialize_decomposition(lm, self.lm_2_final_system[lm.name], default_lm_config)
-        self.workflow.compile()
-        self.workflow.visualize(os.path.join(log_dir, 'decomposed_workflow_viz'))
+        self.prepare_decompose_metadata(target_modules, threshold, log_dir)
+        self.finalize_decomposition(target_modules, log_dir)
+        
+        if materialize:
+            for lm in self.decompose_target_lms:
+                new_agent = self.materialize_decomposition(lm, self.lm_2_final_system[lm.name], default_lm_config, log_dir)
+                # Replace the original agent with the sub-graph
+                parent_node = lm.enclosing_module
+                if not parent_node.replace_node(lm, new_agent, new_agent):
+                    logger.error(f"Failed to replace {lm.name} with {new_agent.name}")
+                else:
+                    logger.info(f"Successfully replaced {lm.name} with {new_agent.name}")
+            self.workflow.compile()
+            self.workflow.visualize(os.path.join(log_dir, 'decomposed_workflow_viz'))
         

@@ -1,0 +1,56 @@
+[
+    {
+        "name": "lm_model",
+        "module_name": "RelevanceAggregator",
+        "options": {
+            "gpt-4o": {
+                "name": "gpt-4o",
+                "type": "ModelOption",
+                "model": "gpt-4o"
+            },
+            "gpt-4o-mini": {
+                "name": "gpt-4o-mini",
+                "type": "ModelOption",
+                "model": "gpt-4o-mini"
+            }
+        },
+        "default_option": "gpt-4o",
+        "type": "LMSelection"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "SemanticChecker",
+        "options": {
+            "gpt-4o": {
+                "name": "gpt-4o",
+                "type": "ModelOption",
+                "model": "gpt-4o"
+            },
+            "gpt-4o-mini": {
+                "name": "gpt-4o-mini",
+                "type": "ModelOption",
+                "model": "gpt-4o-mini"
+            }
+        },
+        "default_option": "gpt-4o",
+        "type": "LMSelection"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "KeywordChecker",
+        "options": {
+            "gpt-4o": {
+                "name": "gpt-4o",
+                "type": "ModelOption",
+                "model": "gpt-4o"
+            },
+            "gpt-4o-mini": {
+                "name": "gpt-4o-mini",
+                "type": "ModelOption",
+                "model": "gpt-4o-mini"
+            }
+        },
+        "default_option": "gpt-4o",
+        "type": "LMSelection"
+    }
+]

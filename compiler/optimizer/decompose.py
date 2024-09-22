@@ -275,10 +275,20 @@ def aggregator_factory(lm: LLMPredictor, code: str):
 class LMTaskDecompose:
     def __init__(
         self,
-        workflow: Workflow,
+        workflow: Optional[Workflow] = None,
+        lm_modules: Optional[list[LLMPredictor]] = None,
     ):
+        """provide either workflow or lm_modules to initialize the decomposer
+        
+        If both are provided, workflow will be used
+        """
         self.workflow = workflow
-        self.lm_modules : list[LLMPredictor] = workflow.get_all_modules(lambda m: isinstance(m, LLMPredictor) and m.semantic.prompt_fully_manageable())
+        if self.workflow is not None:
+            self.lm_modules : list[LLMPredictor] = workflow.get_all_modules(lambda m: isinstance(m, LLMPredictor) and m.semantic.prompt_fully_manageable())
+        else:
+            if lm_modules is None:
+                raise ValueError("Either workflow or lm_modules should be provided")
+            self.lm_modules = lm_modules
         self.decompose_target_lms: list[LLMPredictor] = []
         
         # Cascading decomposition
@@ -388,7 +398,7 @@ class LMTaskDecompose:
         new_agents: StructuredAgentSystem, 
         default_lm_config: dict,
         log_dir: str,
-    ):
+    ) -> Workflow:
         """Actually transform the graph to apply the decomposition
         
         1. First create a sub-graph to represent the new agent system

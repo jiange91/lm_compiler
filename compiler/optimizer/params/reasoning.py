@@ -2,7 +2,7 @@ from abc import ABC, ABCMeta
 
 from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase, IdentityOption
 from compiler.IR.llm import LLMPredictor
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
+from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, get_inspect_runnable 
 from compiler.IR.program import Workflow
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.runnables.history import RunnableWithMessageHistory
@@ -38,17 +38,21 @@ class ReasoningOptionMeta(ABCMeta):
         new_cls = super().__new__(cls, name, bases, attrs)
         cls.registry[name] = new_cls
         return new_cls
+    
 
 class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
-    """
-    If the orignal output has certain format, applying additional reasoning steps will break down
-    it into two phases, first one allows free generation along with reasoning steps, and the second
-    one will the formatting step
-    
-    this is the helper functor to facilitate this process
-    """
-    
-    def apply(self, lm_module: LangChainLM):
+
+    def reasoning_step(self, new_semantic: LangChainSemantic, lm: ChatOpenAI, inputs: dict):
+        raise NotImplementedError
+
+    def get_invoke_routine(self, lm_module: LangChainLM):
+        """
+        If the orignal output has certain format, applying additional reasoning steps will break down
+        it into two phases, first one allows free generation along with reasoning steps, and the second
+        one will the formatting step
+        
+        this is the helper functor to facilitate this process
+        """
         old_semantic = lm_module.semantic
         # remove format instruction
         new_semantic = LangChainSemantic(
@@ -65,10 +69,10 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
         )
         new_semantic.build_prompt_template()
         
-        def new_invocation_routine(lm_module: LLMPredictor):
+        def new_invocation_routine(lm_module: LangChainLM):
             def get_answer(inputs: dict):
                 self.reasoning_step(new_semantic, lm_module.lm, inputs)
-                post_reasoning_routine = new_semantic.chat_prompt_template | lm_module.lm
+                post_reasoning_routine = new_semantic.chat_prompt_template | get_inspect_runnable(f'after - {lm_module.name} - reasoning step') | lm_module.lm 
                 if old_semantic.output_type_hint or old_semantic.output_format_instructions:
                     new_semantic.chat_prompt_template.extend([
                         HumanMessage("Now please format your final answer according to the following instructions:\n"),
@@ -106,13 +110,14 @@ def langchain_lm_kernel({inputs_str}):
                     'get_answer': get_answer, 
                 }, local_name_space)
             return local_name_space['langchain_lm_kernel']
-
-        lm_module.get_invoke_routine = types.MethodType(new_invocation_routine, lm_module)
+        return new_invocation_routine(lm_module)
+    
+    def apply(self, lm_module: LangChainLM):
+        # lm_module.get_invoke_routine = types.MethodType(new_invocation_routine, lm_module)
+        lm_module.reasoning = self
         lm_module.lm = None # to trigger reset() incase you forget
         return lm_module
         
-    def reasoning_step(self, new_semantic: LangChainSemantic, lm: ChatOpenAI, inputs: dict):
-        raise NotImplementedError
 
     @classmethod
     def from_dict(cls, data: dict):

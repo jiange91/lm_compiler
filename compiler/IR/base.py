@@ -163,7 +163,7 @@ class Module(ModuleIterface):
         pass
 
     def invoke(self, statep: StatePool):
-        print(f"Invoking {self}")
+        # logger.info(f"Invoking {self}")
         for field in self.input_fields:
             if field not in self.defaults and field not in statep.states:
                 raise ValueError(f"Missing field {field} in state when calling {self.name}, available fields: {statep.states.keys()}")
@@ -182,16 +182,43 @@ class Module(ModuleIterface):
         self.version_id += 1
     
     @staticmethod
-    def all_of_type(modules: Iterable['Module'], T: Type['Module']) -> list['Module']:
+    def all_with_predicate(
+        modules: Iterable['Module'],
+        predicate: Callable[['Module'], bool]
+    ) -> list['Module']:
+        """Find all modules that satisfy the predicate
+        
+        will search recursively into all composible modules
+        """
         targets = []
         for m in modules:
-            if isinstance(m, T):
+            if predicate(m):
                 targets.append(m)
             elif isinstance(m, ComposibleModuleInterface):
-                targets.extend(m.get_all_modules(lambda x: isinstance(x, T)))
+                targets.extend(m.get_all_modules(predicate))
             else:
                 continue
         return targets
+    
+    @staticmethod
+    def all_of_type(modules: Iterable['Module'], T: Type['Module']) -> list['Module']:
+        """Find all modules of type T in the given modules
+        
+        will search recursively into all composible modules
+        """
+        return Module.all_with_predicate(modules, lambda x: isinstance(x, T))
+
+    def chameleon(self, other: 'Module') -> bool:
+        if self is not other:
+            if self.enclosing_module is not None:
+                # NOTE: in-place replacement
+                logger.debug(f'Replacing {self.name} with {other.name}')
+                if not self.enclosing_module.replace_node(self, other, other):
+                    logger.warning(f'Failed to replace {self.name} with {other.name}')
+                    logger.warning(f'option apply failed, continue')
+                    return False
+        return True
+        
 
 class ComposibleModuleInterface(Module, ABC):
     @abstractmethod

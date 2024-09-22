@@ -3,6 +3,7 @@ import uuid
 import dataclasses
 import heapq
 import os
+import sys
 import json
 import logging
 from pathlib import Path
@@ -18,6 +19,7 @@ from compiler.optimizer.decompose import LMTaskDecompose, StructuredAgentSystem
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, get_inspect_runnable
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, Evaluator
 from compiler.optimizer.params.utils import dump_params, load_params
+from compiler.optimizer.plugin import OptimizerSchema
 
 class LMScaffolding(ParamBase):
     level = ParamLevel.GRAPH
@@ -40,12 +42,13 @@ class LMScaffolding(ParamBase):
     @classmethod
     def bootstrap(
         cls,
-        workflow: Workflow,
+        workflow: Optional[Workflow] = None,
+        lm_modules: Optional[list[LLMPredictor]] = None,
         decompose_threshold: int = 4,
         target_modules: Optional[list[str]] = None,
         log_dir: str = 'task_decompose_logs',
     ):
-        decomposer = LMTaskDecompose(workflow=workflow)
+        decomposer = LMTaskDecompose(workflow=workflow, lm_modules=lm_modules)
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
         decomposer.prepare_decompose_metadata(target_modules, decompose_threshold, log_dir)
@@ -55,6 +58,28 @@ class LMScaffolding(ParamBase):
         for module_name, new_system in decomposer.lm_2_final_system.items():
             params.append(cls(f'Scaffold_{module_name}', module_name, log_dir, [new_system]))
         return params
+
+    @classmethod
+    def bootstrap_from_source(
+        cls,
+        script_path: str,
+        script_args: list[str] = [],
+        decompose_threshold: int = 4,
+        target_modules: Optional[list[str]] = None,
+        log_dir: str = 'task_decompose_logs',
+    ):
+        dir = os.path.dirname(script_path)
+        if dir not in sys.path:
+            sys.path.insert(0, dir)
+        sys.argv = [script_path] + script_args
+        schema = OptimizerSchema.capture(script_path)
+        lm_modules = schema.opt_target_modules
+        return cls.bootstrap(
+            lm_modules=lm_modules,
+            decompose_threshold=decompose_threshold,
+            target_modules=target_modules,
+            log_dir=log_dir,
+        )
 
     @classmethod
     def from_dict(cls, data: dict):

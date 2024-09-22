@@ -31,8 +31,8 @@ from langchain_core.runnables import RunnableLambda
 
 def inspect_with_msg(msg: str):
     def inspect_input(inputs, **kwargs):
-        print(msg)
-        print(inputs)
+        print(msg, flush=True)
+        print(inputs, flush=True)
         return inputs
     return inspect_input
 
@@ -281,9 +281,12 @@ class LangChainLM(LLMPredictor):
         self.semantic: LangChainSemantic = semantic # mainly for type hint
         # default model can be overwritten by set_lm
         self.lm = None
+        self.reasoning = None
         super().__init__(name, semantic, self.lm, **kwargs)
     
     def get_invoke_routine(self):
+        if self.reasoning is not None:
+            return self.reasoning.get_invoke_routine(self)
         self.semantic.build_prompt_template() # will rebuild the prompt template for each re-compile
         inputs_str = ', '.join(self.semantic.inputs)
         invoke_arg_dict_str = '{' + ', '.join(
@@ -291,7 +294,6 @@ class LangChainLM(LLMPredictor):
             ) + '}'
         #NOTE: use imperative merge at runtime bc message placeholder cannot be merged statically
         routine = self.semantic.chat_prompt_template | get_inspect_runnable(f'-- {self.name} input --') | self.lm | get_inspect_runnable(f'-- {self.name} output --')
-        # print(self.semantic.chat_prompt_template)
         if self.semantic.enable_memory:
             routine = RunnableWithMessageHistory(
                 runnable=routine,

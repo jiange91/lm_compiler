@@ -185,7 +185,7 @@ class ParamBase(metaclass=ParamMeta):
     def apply_option(self, option: str, module: Module) -> tuple[Module, T_ModuleMapping]:
         """Apply the idx-th option to the module
         
-        Will change the module in-place but will not replace it in the enclosing module
+        Will change the module in-place or return a new one but will not replace it in the enclosing module
         Callers should use the return value to replace the module in the correct workflow
         
         Beside the new module, return a mapping from old module name to new module name
@@ -199,7 +199,9 @@ class ParamBase(metaclass=ParamMeta):
         # populate mapping
         mapping: T_ModuleMapping = {}
         if new_module.name != old_name:
-            mapping[old_name] = [new_module.name]
+            mapping[old_name] = new_module.name
+            
+        module.chameleon(new_module)
         return new_module, mapping
 
     def to_dict(self):

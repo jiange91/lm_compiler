@@ -177,14 +177,19 @@ class EvalTask:
     args: list[str] # cmd args to the script
     module_map_table: dict[str, str]
     module_pool: dict[str, Module]
+    other_python_paths: Optional[list[str]] = None
     
-    def add_PYTHON_PATH(self, path: str):
-        dir = os.path.dirname(path)
+    def add_PYTHON_PATH(self):
+        dir = os.path.dirname(self.script_path)
         if dir not in sys.path:
             sys.path.append(dir)
+        if self.other_python_paths is not None:
+            for path in self.other_python_paths:
+                if path not in sys.path:
+                    sys.path.append(path)
     
     def evaluate_program(self, input: dict, label: dict):
-        self.add_PYTHON_PATH(self.script_path)
+        self.add_PYTHON_PATH()
         sys.argv = [self.script_path] + self.args
         schema = OptimizerSchema.capture(self.script_path)
         
@@ -194,7 +199,9 @@ class EvalTask:
                 new_module = self.module_pool[self.module_map_table[m.name]]
             else:
                 new_module = self.module_pool[m.name]
-            logger.info(f'replace {m} with {new_module}')
+            if isinstance(new_module, Workflow):
+                new_module.compile()
+            # logger.info(f'replace {m} with {new_module}')
             m.invoke = new_module.invoke
             m.reset()
         result = schema.program(input)
@@ -228,6 +235,8 @@ class EvaluatorPlugin:
         self,
         task: EvalTask,
     ):
+        task.add_PYTHON_PATH()
+        logger.debug(f'python_path = {sys.path}')
         with mp.Pool(processes=self.n_parallel) as pool:
             tasks = []
             for input, label in self.eval_set:
@@ -252,4 +261,4 @@ class EvaluatorPlugin:
             reduced_price=reduced_price,
             demos=demos,
         )
-            
+        

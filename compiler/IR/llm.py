@@ -190,7 +190,7 @@ class LLMPredictor(Module):
     
     def get_invoke_routine(self):
         raise NotImplementedError
-
+    
     def on_signature_generation(self):
         try:
             self.input_fields.remove('lm')

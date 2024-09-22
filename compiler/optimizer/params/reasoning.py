@@ -77,7 +77,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
                     if old_semantic.output_format:
                         post_reasoning_routine = post_reasoning_routine | old_semantic.parser
                         result = post_reasoning_routine.invoke(inputs)
-                        result = old_semantic.output_format.parse_obj(result) 
+                        result = old_semantic.output_format.model_validate(result) 
                         return {key: getattr(result, key) for key in old_semantic.get_agent_outputs()}
                     else:
                         result = post_reasoning_routine.invoke(inputs).content

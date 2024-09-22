@@ -1,0 +1,56 @@
+{
+    "0": {
+        "params": {
+            "planner_lm_model": "gpt-4o-2024-08-06",
+            "executor_lm_model": "gpt-4o-2024-08-06"
+        },
+        "score": 0.8320294938191793,
+        "price": 0.0021287500000000004,
+        "total_price": 0.004257500000000001
+    },
+    "1": {
+        "params": {
+            "planner_lm_model": "gpt-4o-2024-08-06",
+            "executor_lm_model": "gpt-4o-2024-08-06"
+        },
+        "score": 0.26668660072454786,
+        "price": 0.0020775000000000004,
+        "total_price": 0.004155000000000001
+    },
+    "2": {
+        "params": {
+            "planner_lm_model": "gpt-4o-mini",
+            "executor_lm_model": "gpt-4o-mini"
+        },
+        "score": 0.5605037333143215,
+        "price": 0.000122925,
+        "total_price": 0.00024585
+    },
+    "3": {
+        "params": {
+            "planner_lm_model": "gpt-4o-2024-08-06",
+            "executor_lm_model": "gpt-4o-mini"
+        },
+        "score": 0.6133290352454559,
+        "price": 0.001619075,
+        "total_price": 0.00323815
+    },
+    "4": {
+        "params": {
+            "planner_lm_model": "gpt-4o-mini",
+            "executor_lm_model": "gpt-4o-2024-08-06"
+        },
+        "score": 0.7326847958267431,
+        "price": 0.0007991000000000001,
+        "total_price": 0.0015982000000000001
+    },
+    "5": {
+        "params": {
+            "planner_lm_model": "gpt-4o-mini",
+            "executor_lm_model": "gpt-4o-mini"
+        },
+        "score": 0.7258435723018568,
+        "price": 0.000120825,
+        "total_price": 0.00024165
+    }
+}

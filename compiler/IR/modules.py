@@ -91,6 +91,9 @@ class Map(ComposibleModuleInterface):
         self.max_parallel = max_parallel
     
     def forward(self, **kwargs):
+        """
+        NOTE: Intermediate states are not tracked within Map Module
+        """
         tracked_states = []
         def new_input_gen():
             for item in self.map_kernel(**kwargs):

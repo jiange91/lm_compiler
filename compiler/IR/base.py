@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
-from collections import defaultdict
-from abc import ABC, abstractmethod
+from collections import defaultdict, deque
+from abc import ABC, ABCMeta, abstractmethod
 from enum import Enum, auto
 from typing import List, Optional, Tuple, Iterable, Callable, Type
 import warnings
@@ -11,8 +11,11 @@ import copy
 from graphviz import Digraph
 
 from compiler.IR.utils import get_function_kwargs
+from compiler.optimizer import register_opt_module
+from compiler.optimizer import registry
 
 logger = logging.getLogger(__name__)
+
 class State:
     def __init__(self, version_id, data, is_static) -> None:
         self.version_id = version_id # currently not used
@@ -45,7 +48,7 @@ class StatePool:
         for key, value in kvs.items():
             self.states[key].append(State(version_id, value, is_static))
     
-    def all_news(self, fields = None, excludes = None):
+    def all_news(self, fields: Iterable = None, excludes: Iterable = None):
         report = {}
         for key in self.states:
             if fields is not None and key not in fields:
@@ -103,7 +106,7 @@ class ModuleStatus(Enum):
 
 class ModuleIterface(ABC):
     @abstractmethod
-    def __call__(self, statep: StatePool):
+    def invoke(self, statep: StatePool):
         ...
     
     @abstractmethod
@@ -111,9 +114,10 @@ class ModuleIterface(ABC):
         """clear metadata for new run
         """
         ...
+    
 
 class Module(ModuleIterface):
-    def __init__(self, name, kernel) -> None:
+    def __init__(self, name, kernel, opt_register: bool = False) -> None:
         self.name = name
         self.kernel = kernel
         self.outputs = []
@@ -123,7 +127,10 @@ class Module(ModuleIterface):
         self.version_id = 0
         self.enclosing_module: ComposibleModuleInterface = None
         self.prepare_input_env()
-    
+        
+        if opt_register:
+            register_opt_module(self)
+        
     def prepare_input_env(self):
         if self.kernel is not None:
             self.input_fields, self.defaults = get_function_kwargs(self.kernel)
@@ -155,7 +162,8 @@ class Module(ModuleIterface):
     def on_invoke(self, kwargs: dict):
         pass
 
-    def __call__(self, statep: StatePool):
+    def invoke(self, statep: StatePool):
+        print(f"Invoking {self}")
         for field in self.input_fields:
             if field not in self.defaults and field not in statep.states:
                 raise ValueError(f"Missing field {field} in state when calling {self.name}, available fields: {statep.states.keys()}")
@@ -173,10 +181,38 @@ class Module(ModuleIterface):
         self.status = ModuleStatus.SUCCESS
         self.version_id += 1
     
+    @staticmethod
+    def all_of_type(modules: Iterable['Module'], T: Type['Module']) -> list['Module']:
+        targets = []
+        for m in modules:
+            if isinstance(m, T):
+                targets.append(m)
+            elif isinstance(m, ComposibleModuleInterface):
+                targets.extend(m.get_all_modules(lambda x: isinstance(x, T)))
+            else:
+                continue
+        return targets
+
 class ComposibleModuleInterface(Module, ABC):
     @abstractmethod
     def immediate_submodules(self) -> List[Module]:
         pass
+    
+    def get_all_modules(self, predicate=None) -> list[Module]:
+        """get all modules that satisfy the predicate
+        
+        will search recursively into all composible modules
+        """
+        module_queue = deque(self.immediate_submodules())
+        result = []
+        
+        while module_queue:
+            module = module_queue.popleft()
+            if predicate is None or predicate(module):
+                result.append(module)
+            if isinstance(module, ComposibleModuleInterface):
+                module_queue.extend(module.immediate_submodules())
+        return result
     
     @abstractmethod
     def _visualize(self, dot: Digraph):
@@ -230,4 +266,3 @@ class ComposibleModuleInterface(Module, ABC):
         if not is_ok:
             return False
         return self.replace_node_handler(old_node, new_node_in, new_node_out)
-            

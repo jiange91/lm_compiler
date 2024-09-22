@@ -13,7 +13,7 @@ import uuid
 
 from pydantic import BaseModel, Field
 from compiler.IR.utils import get_function_kwargs
-from compiler.IR.base import Module, ComposibleModuleInterface, StatePool
+from compiler.IR.base import Module
 from langchain_core.messages.base import BaseMessage
 from langchain_core.messages.utils import get_buffer_string
 
@@ -106,10 +106,64 @@ class LMSemantic(ABC):
     @abstractmethod
     def set_demos(self, demos: list[Demonstration]):
         ...
-    
  
+@dataclass
+class TokenUsage:
+    model: str
+    prompt_tokens: int = field(default=0)
+    completion_tokens: int = field(default=0)
+    
+    def __add__(self, other):
+        if self.model != other.model:
+            raise ValueError(f"Cannot add token usage of different models: {self.model} and {other.model}")
+        return TokenUsage(
+            model=self.model,
+            prompt_tokens=self.prompt_tokens + other.prompt_tokens,
+            completion_tokens=self.completion_tokens + other.completion_tokens
+        )
+
+    @staticmethod
+    def pricing_pM(model, prompt, completion):
+        if 'gpt-4o-mini' in model:
+            return (0.15 * prompt +  0.6 * completion) / 1e6
+        elif 'gpt-4o-2024-05-13' in model:
+            return (5 * prompt + 15 * completion) / 1e6
+        elif 'gpt-4o-2024-08-06' in model:
+            return (2.5 * prompt + 10 * completion) / 1e6
+    
+    def get_price(self):
+        return self.pricing_pM(self.model, self.prompt_tokens, self.completion_tokens)
+
+@dataclass
+class TokenUsageSummary:
+    total_price: float = field(default=0)
+    token_consumed: dict[str, TokenUsage] = field(default_factory=dict)
+    
+    def __add__(self, other: 'TokenUsageSummary'):
+        summary = copy.deepcopy(other)
+        for model, usage in self.token_consumed.items():
+            if model not in summary.token_consumed:
+                summary.token_consumed[model] = copy.deepcopy(usage)
+            else:
+                summary.token_consumed[model] += usage
+        return summary
+    
+    @classmethod
+    def summarize(cls, records: Iterable[TokenUsage]) -> 'TokenUsageSummary':
+        summary = cls()
+        for record in records:
+            if record.model not in summary.token_consumed:
+                usage = TokenUsage(record.model, 0, 0)
+                summary.token_consumed[record.model] = usage
+            else:
+                usage = summary.token_consumed[record.model]
+            usage.prompt_tokens += record.prompt_tokens
+            usage.completion_tokens += record.completion_tokens
+            summary.total_price += record.get_price()
+        return summary
+    
 class LLMPredictor(Module):
-    def __init__(self, name, semantic: LMSemantic, lm) -> None:
+    def __init__(self, name, semantic: LMSemantic, lm, **kwargs) -> None:
         self.lm_history = []
         self.lm_config = {}
         self.lm = lm
@@ -119,7 +173,7 @@ class LLMPredictor(Module):
         self.semantic = semantic
         # NOTE: lm and kernel will be set at first execution
         # this is to allow deepcopy of the module
-        super().__init__(name=name, kernel=None)
+        super().__init__(name=name, kernel=None, **kwargs)
         self.input_fields = self.semantic.get_agent_inputs()
         
     @property
@@ -183,6 +237,23 @@ class LLMPredictor(Module):
         currently this function will only return the last step to be used for bootstrapping few-shot examples
         """
         raise NotImplementedError
+
+    def get_token_usage(self) -> list[TokenUsage]:
+        """get current token usage of the LLM
+        
+        Please reset the usage cache at your will
+        """
+        records = []
+        #NOTE: a LLMPredictor might have multiple LLMs in its history
+        # if the config is dynamically changing
+        for meta in self.lm_history:
+            usage = TokenUsage(
+                model=meta['model'],
+                prompt_tokens=meta['prompt_tokens'],
+                completion_tokens=meta['completion_tokens']
+            )
+            records.append(usage)
+        return records
 
     def on_invoke(self, kwargs: dict):
         self.input_cache = kwargs

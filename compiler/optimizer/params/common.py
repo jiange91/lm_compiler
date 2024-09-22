@@ -7,6 +7,7 @@ import json
 
 from compiler.IR.base import Module, ComposibleModuleInterface
 from compiler.optimizer.evaluation.evaluator import EvaluationResult
+from compiler.patterns.blocker import Protection
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +17,19 @@ class OptionBase(ABC):
     
     @abstractmethod
     def apply(self, module: Module) -> Module:
+        """Apply the option to the module
+        
+        Please do not seek information from the enclosing module
+        as the provided module might just be a dangling module and will be integrated into the workflow later
+        """
         ...
+    
+    def exposed_apply(self, module: Module) -> Module:
+        try:
+            with Protection(module, ['enclosing_module', 'get_immediate_enclosing_module']):
+                return self.apply(module)
+        except Exception as e:
+            logger.error(f'Error in applying {self.name} to {module.name}')
     
     def to_dict(self):
         return {
@@ -66,20 +79,20 @@ class ParamMeta(ABCMeta):
             cls.level_2_params[level].append(new_cls)
         return new_cls
 
-T_ModuleMapping = dict[str, list[str]] 
+T_ModuleMapping = dict[str, str] 
 """mapping from old module name to new module name
 
 NOTE: this can be recursive if we support evolutioanry optimization
 Example:
     orignal workflow: [a, b, c]
     mapping: 
-        a -> [a1, a2]
-        a2 -> [a21, a22]
-        c -> [c1, c2]
+        a -> [a1]
+        a1 -> [a2]
+        c -> [c1]
 """
 
 # TODO: inplace merge if needed
-def merge_module_mapping(mapping1: T_ModuleMapping, mapping2: T_ModuleMapping) -> T_ModuleMapping:
+def mmerge(mapping1: T_ModuleMapping, mapping2: T_ModuleMapping) -> T_ModuleMapping:
     """create a new mapping by merging two mappings
     """
     result = defaultdict(list, mapping1)  
@@ -88,27 +101,27 @@ def merge_module_mapping(mapping1: T_ModuleMapping, mapping2: T_ModuleMapping) -
     return result
 
 # TODO: support cycles
-def flatten_mapping(mapping: T_ModuleMapping) -> T_ModuleMapping:
+def mflatten(mapping: T_ModuleMapping) -> T_ModuleMapping:
     """flatten the mapping
     
     Example:
         original: 
-            a -> [a1, a2]
-            a2 -> [a21, a22]
+            a -> [a1]
+            a1 -> [a2]
         after:
-            a -> [a1, a21, a22]
+            a -> [a2]
     """
     def is_cyclic_util(graph, v, visited, rec_stack):
         visited[v] = True
         rec_stack[v] = True
         
         if v in graph:
-            for neighbor in graph[v]:
-                if not visited[neighbor]:
-                    if is_cyclic_util(graph, neighbor, visited, rec_stack):
-                        return True
-                elif rec_stack[neighbor]:
+            neighbor = graph[v]
+            if not visited[neighbor]:
+                if is_cyclic_util(graph, neighbor, visited, rec_stack):
                     return True
+            elif rec_stack[neighbor]:
+                return True
             
         rec_stack[v] = False
         return False
@@ -120,17 +133,11 @@ def flatten_mapping(mapping: T_ModuleMapping) -> T_ModuleMapping:
             if is_cyclic_util(mapping, key, visited, rec_stack):
                 raise ValueError('Cyclic mapping')
     
-    result: T_ModuleMapping = defaultdict(list)
+    result: T_ModuleMapping = {}
     for key, value in mapping.items():
-        queue = value
-        accepted = []
-        while queue:
-            v = queue.pop()
-            if v in mapping:
-                queue.extend(mapping[v])
-            else:
-                accepted.append(v)
-        result[key].extend(accepted)
+        while value in mapping:
+            value = mapping[value]
+        result[key] = value
     return result
     
 class ParamBase(metaclass=ParamMeta):
@@ -178,37 +185,21 @@ class ParamBase(metaclass=ParamMeta):
     def apply_option(self, option: str, module: Module) -> tuple[Module, T_ModuleMapping]:
         """Apply the idx-th option to the module
         
-        Change the module in-place or replace it with a new module
-        Beside the new module, return a mapping from old module name to new module names of the same type
+        Will change the module in-place but will not replace it in the enclosing module
+        Callers should use the return value to replace the module in the correct workflow
         
-        TODO: things get complicated when the module to replace is a composible module, need to provide custom inheritance e.g. whether to search for all composible sub-modules or only itself ... currently will not search recursively in this case
+        Beside the new module, return a mapping from old module name to new module name
         """
         assert module is not None, f'Param {self.name} has no module to apply'
         assert option in self.options, f'Option {option} not found in {self.options.keys()}'
         
         old_name = module.name
-        old_type = type(module)
-        new_module = self.options[option].apply(module)
+        new_module = self.options[option].exposed_apply(module)
         
         # populate mapping
-        mapping: T_ModuleMapping = defaultdict(list)
-        def dfs(new_module: Module):
-            if new_module.name != old_name:
-                if type(new_module) == old_type:
-                    mapping[old_name].append(new_module.name)
-                    return # avoid search in submodules if old type is composible
-                if isinstance(new_module, ComposibleModuleInterface):
-                    for sub_module in new_module.immediate_submodules():
-                        dfs(sub_module)
-        dfs(new_module)
-        
-        if new_module is not module:
-            if module.enclosing_module is not None:
-                # NOTE: in-place replacement
-                logger.debug(f'Replacing {module.name} with {new_module.name}')
-                if not module.enclosing_module.replace_node(module, new_module, new_module):
-                    logger.warning(f'Failed to replace {module.name} with {new_module.name}')
-                    logger.warning(f'option apply failed, continue')
+        mapping: T_ModuleMapping = {}
+        if new_module.name != old_name:
+            mapping[old_name] = [new_module.name]
         return new_module, mapping
 
     def to_dict(self):

@@ -533,7 +533,7 @@ class Workflow(ComposibleModuleInterface):
     
     def exec_module(self, module: Module, statep: StatePool):
         try:
-            module(statep)
+            module.invoke(statep)
         except Exception as e:
             logger.error(f"Error in {module.name}: {e}")
             module.status = ModuleStatus.FAILED
@@ -541,7 +541,6 @@ class Workflow(ComposibleModuleInterface):
             
         if module.status == ModuleStatus.SUCCESS:
             self.sync_barrier_manager.notify_completion(module, statep)
-    
 
     def pregel_run(
         self,
@@ -629,7 +628,7 @@ class Workflow(ComposibleModuleInterface):
         with open(path, 'w+') as f:
             json.dump(self.token_usage_buffer, f, indent=4)
     
-    def __call__(self, statep: StatePool):
+    def invoke(self, statep: StatePool):
         start = time.perf_counter()
         self.pregel_run(statep)
         dur = time.perf_counter() - start
@@ -640,22 +639,6 @@ class Workflow(ComposibleModuleInterface):
     
     def immediate_submodules(self) -> List[Module]:
         return list(self.modules.values())
-
-    def get_all_modules(self, predicate=None) -> list[Module]:
-        """get all modules that satisfy the predicate
-        
-        will search recursively into all composible modules
-        """
-        module_queue = deque(self.immediate_submodules())
-        result = []
-        
-        while module_queue:
-            module = module_queue.popleft()
-            if predicate is None or predicate(module):
-                result.append(module)
-            if isinstance(module, ComposibleModuleInterface):
-                module_queue.extend(module.immediate_submodules())
-        return result
 
     def bypass_node(self, node_name):
         node_in_deps:list[Union[Branch, Tuple[str, ...]]] = []

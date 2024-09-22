@@ -10,7 +10,7 @@ from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.output_parsers import JsonOutputParser
-from langchain_core.messages import HumanMessage, BaseMessage, merge_message_runs
+from langchain_core.messages import HumanMessage, BaseMessage, merge_message_runs, AIMessage
 from .utils import var_2_str
 
 import logging
@@ -19,6 +19,7 @@ import types
 from copy import deepcopy
 import json
 
+from compiler.IR.base import StatePool
 from compiler.IR.llm import LLMPredictor, LMConfig, LMSemantic, Demonstration
 from compiler.IR.schema_parser import get_pydantic_format_instruction as get_format_instruction
 from compiler.IR.schema_parser import pydentic_model_repr
@@ -30,12 +31,12 @@ from langchain_core.runnables import RunnableLambda
 
 def inspect_with_msg(msg: str):
     def inspect_input(inputs, **kwargs):
-        # print(msg)
-        # print(inputs)
+        print(msg)
+        print(inputs)
         return inputs
     return inspect_input
 
-def get_inspect_runnable(msg: str):
+def get_inspect_runnable(msg: str = ""):
     return RunnableLambda(inspect_with_msg(msg))
 
 class LLMTracker(BaseCallbackHandler):
@@ -272,7 +273,7 @@ class LangChainSemantic(LMSemantic):
 
 
 class LangChainLM(LLMPredictor):
-    def __init__(self, name, semantic: LangChainSemantic) -> None:
+    def __init__(self, name, semantic: LangChainSemantic, **kwargs) -> None:
         """
         """
         self.llm_gen_meta = []
@@ -280,7 +281,7 @@ class LangChainLM(LLMPredictor):
         self.semantic: LangChainSemantic = semantic # mainly for type hint
         # default model can be overwritten by set_lm
         self.lm = None
-        super().__init__(name, semantic, self.lm)
+        super().__init__(name, semantic, self.lm, **kwargs)
     
     def get_invoke_routine(self):
         self.semantic.build_prompt_template() # will rebuild the prompt template for each re-compile
@@ -364,3 +365,15 @@ def langchain_lm_kernel({inputs_str}):
     def custom_reset(self):
         self.llm_gen_meta = []
         self.chat_history.clear()
+    
+    def as_runnable(self):
+        def invoke(input: dict):
+            statep = StatePool()
+            statep.init(input)
+            self.invoke(statep)
+            if self.semantic.output_format:
+                output_dict = statep.all_news(self.semantic.outputs)
+                return self.semantic.output_format.model_validate(output_dict)
+            else:
+                return AIMessage(statep.news(self.semantic.outputs[0]))
+        return RunnableLambda(invoke)

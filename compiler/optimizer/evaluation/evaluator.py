@@ -1,19 +1,28 @@
 import os
+import sys
 import json
 from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal, Sequence
 import copy
 import logging
-import optunahub
+from dataclasses import dataclass
 import optuna
 import numpy as np
 from concurrent.futures import ThreadPoolExecutor
 import uuid
 from abc import ABC, abstractmethod
+import multiprocessing as mp
 
+
+import logging
+
+from compiler.IR.base import ComposibleModuleInterface
 from compiler.IR.program import Workflow, Module, StatePool
-from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration
+from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsageSummary, TokenUsage
 from compiler.optimizer.evaluation.metric import MetricBase
+from compiler.optimizer.plugin import OptimizerSchema
 from compiler.utils import get_bill
+
+logger = logging.getLogger(__name__)
 
 def default_reduer(xs):
     return sum(xs) / len(xs)
@@ -35,7 +44,6 @@ class EvaluationResult:
         prices: Sequence[float],
         reduced_score: Optional[float] = None,
         reduced_price: Optional[float] = None,
-        states: Optional[Sequence[StatePool]] = None,
         demos: Optional[Sequence[TDemoInTrial]] = None,
         
         meta: Optional[dict] = None,
@@ -44,7 +52,6 @@ class EvaluationResult:
         self.prices = prices
         self.reduced_score = reduced_score
         self.reduced_price = reduced_price
-        self.states = states
         self.demos = demos
         self.meta = meta
     
@@ -107,7 +114,6 @@ class Evaluator(EvaluatorInterface):
         return EvaluationResult(
             scores=scores, 
             prices=prices, 
-            states=states, 
             demos=demos)
     
     def _multi_thread_run(
@@ -142,7 +148,6 @@ class Evaluator(EvaluatorInterface):
         return EvaluationResult(
             scores=scores, 
             prices=prices, 
-            states=states, 
             demos=demos)
     
 
@@ -161,3 +166,90 @@ class Evaluator(EvaluatorInterface):
         eval.reduced_score = self.score_reducer(eval.scores)
         eval.reduced_price = self.price_reducer(eval.prices)
         return eval
+
+@dataclass
+class EvalTask:
+    """Define a task to evaluate the score of a workflow
+    
+    module_pool should include all the modules that are to be used in the workflow
+    """
+    script_path: str
+    args: list[str] # cmd args to the script
+    module_map_table: dict[str, str]
+    module_pool: dict[str, Module]
+    
+    def add_PYTHON_PATH(self, path: str):
+        dir = os.path.dirname(path)
+        if dir not in sys.path:
+            sys.path.append(dir)
+    
+    def evaluate_program(self, input: dict, label: dict):
+        self.add_PYTHON_PATH(self.script_path)
+        sys.argv = [self.script_path] + self.args
+        schema = OptimizerSchema.capture(self.script_path)
+        
+        # replace module invoke with new module
+        for m in schema.opt_target_modules:
+            if m.name in self.module_map_table:
+                new_module = self.module_pool[self.module_map_table[m.name]]
+            else:
+                new_module = self.module_pool[m.name]
+            logger.info(f'replace {m} with {new_module}')
+            m.invoke = new_module.invoke
+            m.reset()
+        result = schema.program(input)
+        score = schema.score_fn(label, result)
+        
+        # get price and demo of running the program
+        usages = []
+        lm_2_demo = {}
+        for lm in Module.all_of_type(self.module_pool.values(), LLMPredictor):
+            usages.extend(lm.get_token_usage())
+            lm_2_demo[lm.name] = lm.get_step_as_example()
+        
+        summary = TokenUsageSummary.summarize(usages)
+        price = summary.total_price
+        return result, score, price, lm_2_demo
+
+class EvaluatorPlugin:
+    def __init__(
+        self,
+        eval_set: Iterable[Tuple[dict,dict]], # list of input data and labels
+        n_parallel: int = 1,
+        score_reducer: Callable = None,
+        price_reducer: Callable = None,
+    ):
+        self.eval_set = eval_set
+        self.n_parallel = n_parallel
+        self.score_reducer = score_reducer if score_reducer is not None else default_reduer
+        self.price_reducer = price_reducer if price_reducer is not None else default_reduer
+        
+    def evaluate(
+        self,
+        task: EvalTask,
+    ):
+        with mp.Pool(processes=self.n_parallel) as pool:
+            tasks = []
+            for input, label in self.eval_set:
+                tasks.append(
+                    pool.apply_async(task.evaluate_program, args=(input, label))
+                )
+            results = [task.get() for task in tasks]
+            
+        prices = []
+        scores = []
+        demos = []
+        for result, score, price, demo in results:
+            prices.append(price)
+            scores.append(score)
+            demos.append(demo)
+        reduced_score = self.score_reducer(scores)
+        reduced_price = self.price_reducer(prices)
+        return EvaluationResult(
+            scores=scores,
+            prices=prices,
+            reduced_score=reduced_score,
+            reduced_price=reduced_price,
+            demos=demos,
+        )
+            

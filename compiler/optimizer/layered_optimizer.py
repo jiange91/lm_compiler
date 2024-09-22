@@ -729,7 +729,6 @@ class OuterLoopOptimization:
         self.tpe_logs = {}
         self.best_score_cost = []
     
-    
     def propose(
         self,
         workflow: Workflow,

@@ -20,7 +20,7 @@ from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.llm import LMConfig, LLMPredictor
 from compiler.utils import get_bill
 from compiler.optimizer.tracer import batch_run_and_eval, OfflineBatchTracer
-from compiler.optimizer.params.common import ParamBase, OptionBase, DynamicParamBase, EvolveType, T_ModuleMapping, mmerge, mflatten
+from compiler.optimizer.params.common import ParamBase, OptionBase, DynamicParamBase, EvolveType, T_ModuleMapping, mmerge, mflatten, AddNewModuleImportInterface
 from compiler.optimizer.params.utils import dump_params, load_params
 from compiler.optimizer.params.model_selection import LMSelection
 from compiler.langchain_bridge.interface import LangChainLM
@@ -179,22 +179,33 @@ class InnerLoopBayesianOptimization:
                 trial = self.study.ask(self.param_categorical_dist)
             
             # NOTE: this is the resulting program that should be used to replace original ms 
-            program_copy = copy.deepcopy(ms) 
+            program_copy = copy.deepcopy(ms)
             opt_target_lms = Module.all_with_predicate(
                 program_copy, lambda m: m.name in self.opt_target_lm_names
             )
-            
             module_dict = {lm.name: lm for lm in opt_target_lms}
+            
+            # NOTE: passed in ms will be used to replace the original ms
+            # if optimize target is sub-module of a m, then m will be updated in-place
+            # otherwise m itself need to be replaced by the optimize target
+            optimize_itself = set([m.name for m in program_copy if m.name in module_dict])
+            new_modules = [m for m in program_copy if m.name not in optimize_itself]
             self.opt_logs[trial.number] = {'params': {}}
+            
             for lm_name, params in self.params.items():
                 for param in params:
                     selected = trial.params[param.hash]
                     new_module, new_mapping = param.apply_option(selected, module_dict[lm_name])
                     self.opt_logs[trial.number]['params'][param.hash] = selected
                     mapping.update(new_mapping)
-                    
+                    if lm_name in optimize_itself:
+                        module_dict[lm_name] = new_module
+            
+            for lm_name, new_module in module_dict.items():
+                if lm_name in optimize_itself:
+                    new_modules.append(new_module)
             logger.info(f"- InnerLoop - next_to_run - Trial {trial.number} params: {self.opt_logs[trial.number]['params']}")
-            next_to_run.append((trial, program_copy, mapping))
+            next_to_run.append((trial, new_modules, mapping))
         return next_to_run
 
     def _eval_and_update(
@@ -233,6 +244,14 @@ class InnerLoopBayesianOptimization:
                 new_study = self.init_study(self.study)
                 self.study = new_study
     
+    def _get_new_python_paths(self):
+        new_python_paths = []
+        for lm_name, params in self.params.items():
+            for param in params:
+                if isinstance(param, AddNewModuleImportInterface):
+                    new_python_paths.extend(param.get_python_paths())
+        return new_python_paths
+    
     def _optimize(
         self,
         n_trials: int,
@@ -252,12 +271,17 @@ class InnerLoopBayesianOptimization:
                 new_mapping = mflatten(new_mapping)
                 module_pool = {lm.name: lm for lm in new_modules}
                 
+                # register new module paths
+                python_paths = other_python_paths + self._get_new_python_paths()
+                # remove duplicate paths
+                python_paths = list(set(python_paths))
+                
                 task = EvalTask(
                     script_path=script_path,
                     args=script_args,
                     module_map_table=new_mapping,
                     module_pool=module_pool,
-                    other_python_paths=other_python_paths,
+                    other_python_paths=python_paths,
                 )
                 self._eval_and_update(
                     trial=next_trial,
@@ -326,6 +350,7 @@ class InnerLoopBayesianOptimization:
             module_pool = {m.name: m for m in schema.opt_target_modules}
             
         for m in module_pool.values():
+            m.enclosing_module = None # this is to prevent pickling enclosing module
             m.reset()
         
         flatten_module_mapping = flatten_module_mapping or {}
@@ -542,11 +567,13 @@ class OuterLoopOptimization:
             mapping: T_ModuleMapping = {}
             with self._study_lock:
                 trial = self.study.ask(self.param_categorical_dist)
+                
             lms_copy = copy.deepcopy(lms)
             module_dict = {lm.name: lm for lm in lms_copy}
             self.opt_logs[trial.number] = {'params': {}}
             new_modules = []
             for lm_name, params in self.params.items():
+                assert len(params) == 1, 'Only one param per module is supported at outerloop'
                 for param in params:
                     selected = trial.params[param.hash]
                     new_module, new_mapping = param.apply_option(selected, module_dict[lm_name])
@@ -596,6 +623,14 @@ class OuterLoopOptimization:
                 new_study = self.init_study(self.study)
                 self.study = new_study
                 
+    def _get_new_python_paths(self):
+        new_python_paths = []
+        for lm_name, params in self.params.items():
+            for param in params:
+                if isinstance(param, AddNewModuleImportInterface):
+                    new_python_paths.extend(param.get_python_paths())
+        return new_python_paths
+                
     def _opt_loop(
         self,
         n_outer_trials,
@@ -610,14 +645,21 @@ class OuterLoopOptimization:
     ):
         for i in range(n_outer_trials):
             next_trial, program, mapping = self.propose(lms, 1)[0]
+            
             # use inner loop optimization as evaluator
             mapping = mflatten(mapping)
+            
+            # register new module paths
+            python_paths = self._get_new_python_paths()
+            # remove duplicate paths
+            python_paths = list(set(python_paths))
+            
             eval_task = EvalTask(
                 script_path=script_path,
                 args=script_args,
                 module_map_table=mapping,
                 module_pool={lm.name: lm for lm in program},
-                other_python_paths=['/mnt/ssd4/lm_compiler/examples/pluggable/test_decompose_logs'],
+                other_python_paths=python_paths,
             )
             feedback_consumer = InnerLoopEvaluator(
                 inner_loop=copy.deepcopy(inner_loop),
@@ -721,7 +763,9 @@ class OuterLoopOptimization:
             sys.argv = [script_path] + script_args
             schema = OptimizerSchema.capture(script_path)
             lm_modules = schema.opt_target_modules
+            
         for lm in lm_modules:
+            lm.enclosing_module = None
             lm.reset()
             
         self.prepare_opt_env(lm_modules)

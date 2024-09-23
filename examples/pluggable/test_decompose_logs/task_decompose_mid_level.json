@@ -6,35 +6,22 @@
                     "task"
                 ],
                 "outputs": [
-                    "main_objective"
+                    "raw_steps"
                 ],
-                "prompt": "You are an expert at analyzing tasks. Your job is to understand the given task and identify the main objective. Please provide a clear and concise description of the main objective of the task.",
+                "prompt": "You are an expert at analyzing tasks. Your job is to break down the given task into a simple step-by-step plan with a maximum of 3 steps. Make sure each step is clear and concise.",
                 "next_action": [
-                    "StepGenerator"
+                    "StepFormatter"
                 ],
                 "dynamic_action_decision": "None"
             },
-            "StepGenerator": {
+            "StepFormatter": {
                 "inputs": [
-                    "main_objective"
-                ],
-                "outputs": [
-                    "step_plan"
-                ],
-                "prompt": "You are an expert at breaking down tasks into simple steps. Based on the main objective provided, generate a simple step-by-step plan with a maximum of 3 steps to achieve the objective. Ensure each step is clear and actionable.",
-                "next_action": [
-                    "PlanFormatter"
-                ],
-                "dynamic_action_decision": "None"
-            },
-            "PlanFormatter": {
-                "inputs": [
-                    "step_plan"
+                    "raw_steps"
                 ],
                 "outputs": [
                     "steps"
                 ],
-                "prompt": "You are an expert at formatting plans. Given the step-by-step plan, format it into a JSON instance that conforms to the provided output schema. Ensure the JSON instance is correctly structured and adheres to the schema requirements.",
+                "prompt": "You are an expert at formatting steps. Your job is to take the steps provided and format them into a JSON instance that conforms to the given output schema. Ensure that the steps are correctly structured and follow the schema requirements.",
                 "next_action": [
                     "END"
                 ],
@@ -51,9 +38,9 @@
                 ],
                 "outputs": [
                     "interpreted_task",
-                    "interpreted_steps"
+                    "ordered_steps"
                 ],
-                "prompt": "You are responsible for interpreting the given task and the corresponding pre-defined steps. Your role is to clearly understand and outline the task and steps to ensure accurate execution. Please provide a detailed breakdown of the task and each step involved.",
+                "prompt": "You are responsible for interpreting the given task and the corresponding pre-defined steps. Your role is to clearly understand and outline the task and steps. Please provide a detailed description of the task and list the steps in the order they should be followed.",
                 "next_action": [
                     "StepExecutor"
                 ],
@@ -61,13 +48,12 @@
             },
             "StepExecutor": {
                 "inputs": [
-                    "interpreted_task",
-                    "interpreted_steps"
+                    "ordered_steps"
                 ],
                 "outputs": [
-                    "execution_report"
+                    "step_outputs"
                 ],
-                "prompt": "You are responsible for executing each pre-defined step of the given task. Follow the steps as outlined by the TaskInterpreter and ensure each step is completed accurately. Provide a detailed report of the execution process and any results obtained from each step.",
+                "prompt": "You are responsible for executing the pre-defined steps provided by the TaskInterpreter. Follow each step meticulously and provide the output for each step. Ensure that the steps are executed in the correct order and that the results are accurate.",
                 "next_action": [
                     "ResponseFormatter"
                 ],
@@ -75,12 +61,12 @@
             },
             "ResponseFormatter": {
                 "inputs": [
-                    "execution_report"
+                    "step_outputs"
                 ],
                 "outputs": [
-                    "whatever"
+                    "response"
                 ],
-                "prompt": "You are responsible for formatting the final response based on the results provided by the StepExecutor. Ensure the response is formatted as a JSON instance that conforms to the output schema. Pay attention to the type and constraints defined in the schema and ensure the final output is accurate and well-structured.",
+                "prompt": "You are responsible for formatting the final response based on the outputs provided by the StepExecutor. Ensure that the response is formatted as a JSON instance that conforms to the given output schema. Pay attention to the types and constraints defined in the schema and ensure that the final output is correct and complete.",
                 "next_action": [
                     "END"
                 ],

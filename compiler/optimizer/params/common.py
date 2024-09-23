@@ -139,6 +139,15 @@ def mflatten(mapping: T_ModuleMapping) -> T_ModuleMapping:
             value = mapping[value]
         result[key] = value
     return result
+
+class AddNewModuleImportInterface:
+    @abstractmethod
+    def get_python_paths(self) -> list[str]:
+        """return a list of python paths to be added to the PYTHON_PATH
+        
+        This is required when new modules can be generated during the optimization process
+        """
+        ...
     
 class ParamBase(metaclass=ParamMeta):
     ParamMeta.required_fields = ['level']
@@ -185,8 +194,7 @@ class ParamBase(metaclass=ParamMeta):
     def apply_option(self, option: str, module: Module) -> tuple[Module, T_ModuleMapping]:
         """Apply the idx-th option to the module
         
-        Will change the module in-place or return a new one but will not replace it in the enclosing module
-        Callers should use the return value to replace the module in the correct workflow
+        Will change the module in-place or return a new one and will replace it in the enclosing module
         
         Beside the new module, return a mapping from old module name to new module name
         """

@@ -35,7 +35,7 @@ class StatePool:
             return default
         return self.states[key][-1].data
     
-    def init(self, kvs):
+    def init(self, kvs: dict):
         self.publish(kvs, is_static = True, version_id = 0)
     
     def publish(self, kvs, is_static, version_id):
@@ -75,7 +75,7 @@ class StatePool:
                 continue
             report[key] = self.history(key)
         return report
-    
+
     def dump(self, path: str):
         raise NotImplementedError
     
@@ -163,7 +163,7 @@ class Module(ModuleIterface):
         pass
 
     def invoke(self, statep: StatePool):
-        # logger.info(f"Invoking {self}")
+        logger.debug(f"Invoking {self}")
         for field in self.input_fields:
             if field not in self.defaults and field not in statep.states:
                 raise ValueError(f"Missing field {field} in state when calling {self.name}, available fields: {statep.states.keys()}")
@@ -178,7 +178,6 @@ class Module(ModuleIterface):
         self.outputs.append(result_snapshot)
         # update metadata
         self.exec_times.append(dur)
-        self.status = ModuleStatus.SUCCESS
         self.version_id += 1
     
     @staticmethod

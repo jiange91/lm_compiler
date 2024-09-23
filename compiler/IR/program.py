@@ -534,6 +534,7 @@ class Workflow(ComposibleModuleInterface):
     def exec_module(self, module: Module, statep: StatePool):
         try:
             module.invoke(statep)
+            module.status = ModuleStatus.SUCCESS
         except Exception as e:
             logger.error(f"Error in {module.name}: {e}")
             module.status = ModuleStatus.FAILED

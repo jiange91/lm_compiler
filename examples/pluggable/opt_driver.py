@@ -4,10 +4,12 @@ from compiler.optimizer.params.scaffolding import LMScaffolding
 from compiler.optimizer.importance_eval_new import LMImportanceEvaluator
 from compiler.optimizer.params import reasoning, model_selection, common
 from compiler.optimizer.evaluation.evaluator import EvaluatorPlugin
+import runpy
 import uuid
 import multiprocessing as mp
 
 from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
+from compiler.optimizer.plugin import OptimizerSchema
 
 def opt():
     lm_options = [
@@ -31,7 +33,7 @@ def opt():
     )
     
     inner_loop = InnerLoopBayesianOptimization(
-        universal_params=[model_param],
+        universal_params=[model_param, few_shot_params, reasoning_param],
     )
     
     outer_loop = OuterLoopOptimization(
@@ -48,21 +50,23 @@ def opt():
     
     outer_loop.optimize(
         inner_loop=inner_loop,
-        n_trials=4,
+        n_trials=6,
         script_path='/mnt/ssd4/lm_compiler/examples/pluggable/workload.py',
         evaluator=evaluator,
-        resource_ratio=1/2,
+        resource_ratio=1/3,
         log_dir=f'examples/pluggable/logs_{uuid.uuid4()}',
     )
     
     # inner_loop.optimize(
-    #     script_path='/mnt/ssd4/lm_compiler/examples/pluggable/workload.py',
+    #     script_path='/mnt/ssd4/lm_compiler/examples/pluggable/ir_workload.py',
     #     n_trials=4,
     #     evaluator=evaluator,
     #     log_dir=f'examples/pluggable/logs_{uuid.uuid4()}',
     #     throughput=1,
     # )
+    
 
 if __name__ == '__main__':
     mp.set_start_method('spawn')
+    
     opt()

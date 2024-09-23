@@ -51,7 +51,7 @@ from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 semantic = LangChainSemantic(
     system_prompt=exec_system,
     inputs=["task", "steps"],
-    output_format="whatever",
+    output_format="response",
 )
 
 exec_anno = LangChainLM('executor', semantic, opt_register=True)

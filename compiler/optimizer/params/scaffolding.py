@@ -14,14 +14,14 @@ logger = logging.getLogger(__name__)
 from compiler.IR.base import Module
 from compiler.IR.program import Workflow
 from compiler.IR.llm import LLMPredictor, Demonstration
-from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, IdentityOption
+from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, IdentityOption, AddNewModuleImportInterface
 from compiler.optimizer.decompose import LMTaskDecompose, StructuredAgentSystem
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, get_inspect_runnable
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, Evaluator
 from compiler.optimizer.params.utils import dump_params, load_params
 from compiler.optimizer.plugin import OptimizerSchema
 
-class LMScaffolding(ParamBase):
+class LMScaffolding(ParamBase, AddNewModuleImportInterface):
     level = ParamLevel.GRAPH
     
     def __init__(
@@ -97,6 +97,9 @@ class LMScaffolding(ParamBase):
         base = super().to_dict()
         base['log_dir'] = self.log_dir
         return base
+    
+    def get_python_paths(self) -> list[str]:
+        return [self.log_dir]
 
 class DecomposeOption(OptionBase):
     def __init__(self, name: str, new_system: StructuredAgentSystem, log_dir: str):

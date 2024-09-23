@@ -192,6 +192,7 @@ class EvalTask:
         self.add_PYTHON_PATH()
         sys.argv = [self.script_path] + self.args
         schema = OptimizerSchema.capture(self.script_path)
+        logger.debug(f'opt_target_modules = {schema.opt_target_modules}')
         
         # replace module invoke with new module
         for m in schema.opt_target_modules:
@@ -201,7 +202,7 @@ class EvalTask:
                 new_module = self.module_pool[m.name]
             if isinstance(new_module, Workflow):
                 new_module.compile()
-            # logger.info(f'replace {m} with {new_module}')
+            logger.debug(f'replace {m} with {new_module}')
             m.invoke = new_module.invoke
             m.reset()
         result = schema.program(input)
@@ -236,7 +237,8 @@ class EvaluatorPlugin:
         task: EvalTask,
     ):
         task.add_PYTHON_PATH()
-        logger.debug(f'python_path = {sys.path}')
+        logger.debug(f'sys_path = {sys.path}')
+        
         with mp.Pool(processes=self.n_parallel) as pool:
             tasks = []
             for input, label in self.eval_set:

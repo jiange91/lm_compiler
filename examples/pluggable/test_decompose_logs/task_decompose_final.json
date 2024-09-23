@@ -2,31 +2,20 @@
     "planner": {
         "agents": {
             "TaskAnalyzer": {
-                "agent_prompt": "You are an expert at analyzing tasks. Your job is to understand the given task and identify the main objective. Please provide a clear and concise description of the main objective of the task.",
+                "agent_prompt": "You are an expert at analyzing tasks. Your job is to break down the given task into a simple step-by-step plan with a maximum of 3 steps. Make sure each step is clear and concise.",
                 "inputs_variables": [
                     "task"
                 ],
-                "output_json_schema": "main_objective",
+                "output_json_schema": "raw_steps",
                 "next_action": [
-                    "StepGenerator"
+                    "StepFormatter"
                 ],
                 "dynamic_action_decision": "None"
             },
-            "StepGenerator": {
-                "agent_prompt": "You are an expert at breaking down tasks into simple steps. Based on the main objective provided, generate a simple step-by-step plan with a maximum of 3 steps to achieve the objective. Ensure each step is clear and actionable.",
+            "StepFormatter": {
+                "agent_prompt": "You are an expert at formatting steps. Your job is to take the steps provided and format them into a JSON instance that conforms to the given output schema. Ensure that the steps are correctly structured and follow the schema requirements.",
                 "inputs_variables": [
-                    "main_objective"
-                ],
-                "output_json_schema": "step_plan",
-                "next_action": [
-                    "PlanFormatter"
-                ],
-                "dynamic_action_decision": "None"
-            },
-            "PlanFormatter": {
-                "agent_prompt": "You are an expert at formatting plans. Given the step-by-step plan, format it into a JSON instance that conforms to the provided output schema. Ensure the JSON instance is correctly structured and adheres to the schema requirements.",
-                "inputs_variables": [
-                    "step_plan"
+                    "raw_steps"
                 ],
                 "output_json_schema": {
                     "title": "Plan",
@@ -57,30 +46,33 @@
     "executor": {
         "agents": {
             "TaskInterpreter": {
-                "agent_prompt": "You are responsible for interpreting the given task and the corresponding pre-defined steps. Your role is to clearly understand and outline the task and steps to ensure accurate execution. Please provide a detailed breakdown of the task and each step involved.",
+                "agent_prompt": "You are responsible for interpreting the given task and the corresponding pre-defined steps. Your role is to clearly understand and outline the task and steps. Please provide a detailed description of the task and list the steps in the order they should be followed.",
                 "inputs_variables": [
                     "task",
                     "steps"
                 ],
                 "output_json_schema": {
                     "title": "TaskInterpreterOutput",
-                    "description": "Interpreted task and steps",
+                    "description": "Output of the TaskInterpreter agent",
                     "type": "object",
                     "properties": {
                         "interpreted_task": {
                             "title": "Interpreted Task",
-                            "description": "Detailed breakdown of the task",
+                            "description": "Detailed description of the task",
                             "type": "string"
                         },
-                        "interpreted_steps": {
-                            "title": "Interpreted Steps",
-                            "description": "Detailed breakdown of the steps",
-                            "type": "string"
+                        "ordered_steps": {
+                            "title": "Ordered Steps",
+                            "description": "List of steps in the order they should be followed",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     "required": [
                         "interpreted_task",
-                        "interpreted_steps"
+                        "ordered_steps"
                     ]
                 },
                 "next_action": [
@@ -89,37 +81,39 @@
                 "dynamic_action_decision": "None"
             },
             "StepExecutor": {
-                "agent_prompt": "You are responsible for executing each pre-defined step of the given task. Follow the steps as outlined by the TaskInterpreter and ensure each step is completed accurately. Provide a detailed report of the execution process and any results obtained from each step.",
+                "agent_prompt": "You are responsible for executing the pre-defined steps provided by the TaskInterpreter. Follow each step meticulously and provide the output for each step. Ensure that the steps are executed in the correct order and that the results are accurate.",
                 "inputs_variables": [
-                    "interpreted_task",
-                    "interpreted_steps"
+                    "ordered_steps"
                 ],
-                "output_json_schema": "execution_report",
+                "output_json_schema": {
+                    "title": "StepExecutorOutput",
+                    "description": "Output of the StepExecutor agent",
+                    "type": "object",
+                    "properties": {
+                        "step_outputs": {
+                            "title": "Step Outputs",
+                            "description": "Outputs for each executed step",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "required": [
+                        "step_outputs"
+                    ]
+                },
                 "next_action": [
                     "ResponseFormatter"
                 ],
                 "dynamic_action_decision": "None"
             },
             "ResponseFormatter": {
-                "agent_prompt": "You are responsible for formatting the final response based on the results provided by the StepExecutor. Ensure the response is formatted as a JSON instance that conforms to the output schema. Pay attention to the type and constraints defined in the schema and ensure the final output is accurate and well-structured.",
+                "agent_prompt": "You are responsible for formatting the final response based on the outputs provided by the StepExecutor. Ensure that the response is formatted as a JSON instance that conforms to the given output schema. Pay attention to the types and constraints defined in the schema and ensure that the final output is correct and complete.",
                 "inputs_variables": [
-                    "execution_report"
+                    "step_outputs"
                 ],
-                "output_json_schema": {
-                    "title": "ResponseFormatterOutput",
-                    "description": "Formatted final response",
-                    "type": "object",
-                    "properties": {
-                        "whatever": {
-                            "title": "Final Response",
-                            "description": "Formatted final response based on the execution report",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "whatever"
-                    ]
-                },
+                "output_json_schema": "response",
                 "next_action": [
                     "END"
                 ],

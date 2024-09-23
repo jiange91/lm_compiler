@@ -32,8 +32,8 @@ from langchain_core.messages import (
     base
 )
 from langchain_openai.chat_models import ChatOpenAI
-from planner import runnable_planner_anno as planner
-from executor import runnable_exec_anno as executor
+from planner import planner_anno as planner
+from executor import exec_anno as executor
 from compiler.optimizer import register_opt_program_entry, register_opt_score_fn
 
 
@@ -55,45 +55,49 @@ def execute_step(state: PlanExecute):
     plan_str = "\n".join(f"{i+1}. {step}" for i, step in enumerate(steps))
     response = executor.invoke({"task": state["task"], "steps": plan_str})
     return {"response": response}
-    
-from langgraph.graph import StateGraph, START, END
+ 
+from compiler.IR.program import Workflow, Input, Output, StatePool
+from compiler.IR.modules import CodeBox
 
-workflow = StateGraph(PlanExecute)
+app = Workflow('qa_flow')
+app.add_module(Input('start'))
+app.add_module(Output('end'))
+app.add_module(planner)
+app.add_module(executor)
 
-# Add the plan node
-workflow.add_node("planner", plan_step)
+def join_steps(steps: List[str]):
+    steps_str = "\n".join(f"{i+1}. {step}" for i, step in enumerate(steps))
+    return {"steps": steps_str}
 
-# Add the execution step
-workflow.add_node("executor", execute_step)
-
-workflow.add_edge(START, "planner")
-
-# From plan we go to agent
-workflow.add_edge("planner", "executor")
-
-workflow.add_edge("executor", END)
-
-# Finally, we compile it!
-# This compiles it into a LangChain Runnable,
-# meaning you can use it as you would any other runnable
-app = workflow.compile()
+join_steps_box = CodeBox('join_steps', join_steps)
+app.add_module(join_steps_box)
+app.add_edge('start', 'planner')
+app.add_edge('planner', 'join_steps')
+app.add_edge('join_steps', 'executor')
+app.add_edge('executor', 'end')
+app.compile()
 
 @register_opt_program_entry
-def trial(input):
+def trial(input: dict):
     parser = argparse.ArgumentParser(description="script args")
     parser.add_argument("--s-arg", help="test")
     
     args = parser.parse_args()
     print(f"Script args: {args}")
     
-    result = app.invoke(input)
-    print(f'Steps: {result["steps"]}')
-    print(f'Response: {result["response"]}')
-    return result['response']
+    state = StatePool()
+    state.init(input)
+    app.invoke(state)
+    print(f'Steps: {state.news("steps")}')
+    print(f'Response: {state.news("response")}')
+    return state.news('response')
 
 @register_opt_score_fn
-def score_fn(label, pred):
+def score_fn(label, pred: str):
     return random.uniform(0.0, 1.0)
+
+# from compiler.optimizer.evaluation.metric import ExactMatch
+# metric = ExactMatch()
 
 if __name__ == "__main__":
     print('Running directly')

@@ -108,13 +108,18 @@ class LangChainSemantic(LMSemantic):
         self.message_template_predefined = len(following_messages) > 0
         self.follwing_messages = following_messages
         self._chat_prompt_template: ChatPromptTemplate = None
-        self.demos = demos
+        self.usr_demos = demos
+        self.compiler_demos = []
+    
+    @property
+    def demos(self) -> list[Demonstration]:
+        return self.get_demos()
     
     def get_demos(self) -> list[Demonstration]:
-        return self.demos
+        return self.usr_demos + self.compiler_demos
     
     def set_demos(self, demos: list[Demonstration]):
-        self.demos = demos
+        self.compiler_demos = demos
     
     @property
     def chat_prompt_template(self):

@@ -163,6 +163,39 @@ class InnerLoopBayesianOptimization:
             new_study.add_trial(trial)
         return new_study
 
+    def _apply_params(
+        self,
+        trial: optuna.trial.Trial,
+        program_copy: list[Module],
+    ) -> Tuple[list[Module], T_ModuleMapping]:
+        mapping: T_ModuleMapping = {}
+        opt_target_lms = Module.all_with_predicate(
+            program_copy, lambda m: m.name in self.opt_target_lm_names
+        )
+        module_dict = {lm.name: lm for lm in opt_target_lms}
+        
+        # NOTE: passed in ms will be used to replace the original ms
+        # if optimize target is sub-module of a m, then m will be updated in-place
+        # otherwise m itself need to be replaced by the optimize target
+        optimize_itself = set([m.name for m in program_copy if m.name in module_dict])
+        new_modules = [m for m in program_copy if m.name not in optimize_itself]
+        self.opt_logs[trial.number] = {'params': {}}
+        
+        for lm_name, params in self.params.items():
+            for param in params:
+                selected = trial.params[param.hash]
+                new_module, new_mapping = param.apply_option(selected, module_dict[lm_name])
+                self.opt_logs[trial.number]['params'][param.hash] = selected
+                mapping.update(new_mapping)
+                if lm_name in optimize_itself:
+                    module_dict[lm_name] = new_module
+        
+        for lm_name, new_module in module_dict.items():
+            if lm_name in optimize_itself:
+                new_modules.append(new_module)
+        logger.info(f"- InnerLoop - next_to_run - Trial {trial.number} params: {self.opt_logs[trial.number]['params']}")
+        return new_modules, mapping
+
     def propose(
         self,
         ms: list[Module],
@@ -174,37 +207,12 @@ class InnerLoopBayesianOptimization:
         """
         next_to_run = []
         for i in range(n_sample):
-            mapping: T_ModuleMapping = {}
             with self._study_lock:
                 trial = self.study.ask(self.param_categorical_dist)
             
             # NOTE: this is the resulting program that should be used to replace original ms 
             program_copy = copy.deepcopy(ms)
-            opt_target_lms = Module.all_with_predicate(
-                program_copy, lambda m: m.name in self.opt_target_lm_names
-            )
-            module_dict = {lm.name: lm for lm in opt_target_lms}
-            
-            # NOTE: passed in ms will be used to replace the original ms
-            # if optimize target is sub-module of a m, then m will be updated in-place
-            # otherwise m itself need to be replaced by the optimize target
-            optimize_itself = set([m.name for m in program_copy if m.name in module_dict])
-            new_modules = [m for m in program_copy if m.name not in optimize_itself]
-            self.opt_logs[trial.number] = {'params': {}}
-            
-            for lm_name, params in self.params.items():
-                for param in params:
-                    selected = trial.params[param.hash]
-                    new_module, new_mapping = param.apply_option(selected, module_dict[lm_name])
-                    self.opt_logs[trial.number]['params'][param.hash] = selected
-                    mapping.update(new_mapping)
-                    if lm_name in optimize_itself:
-                        module_dict[lm_name] = new_module
-            
-            for lm_name, new_module in module_dict.items():
-                if lm_name in optimize_itself:
-                    new_modules.append(new_module)
-            logger.info(f"- InnerLoop - next_to_run - Trial {trial.number} params: {self.opt_logs[trial.number]['params']}")
+            new_modules, mapping = self._apply_params(trial, program_copy)
             next_to_run.append((trial, new_modules, mapping))
         return next_to_run
 
@@ -312,7 +320,7 @@ class InnerLoopBayesianOptimization:
         module_pool: dict[str, Module] = None,
         flatten_module_mapping: T_ModuleMapping = None,
         other_python_paths: Optional[list[str]] = None,
-    ) -> list[optuna.trial.FrozenTrial]:
+    ) -> Tuple[float, list[Tuple[optuna.trial.FrozenTrial, EvalTask]]]:
         """Find optimal params for the given workflow
         
         Args:
@@ -382,13 +390,32 @@ class InnerLoopBayesianOptimization:
             params = [param for params in self.params.values() for param in params]
             dump_params(params, param_save_path)
          
+        pareto_frontier = []
         for i, trial in enumerate(self.study.best_trials):
             print("The {}-th Pareto solution was found at Trial#{}.".format(i, trial.number))
             print("  Params: {}".format(trial.params))
             f1, f2 = trial.values
             print("  Values: score= {}, cost= {}".format(f1, f2))
+            
+            # cache optimized program
+            program_cpy = copy.deepcopy(list(module_pool.values()))
+            new_modules, new_mapping = self._apply_params(trial, program_cpy)
+            new_module_pool = {m.name: m for m in new_modules}
+            new_mapping = mflatten(new_mapping | flatten_module_mapping)
+            
+            python_paths = other_python_paths + self._get_new_python_paths()
+            python_paths = list(set(python_paths))
+            task = EvalTask(
+                script_path=script_path,
+                args=script_args,
+                module_map_table=new_mapping,
+                module_pool=new_module_pool,
+                other_python_paths=python_paths,
+            )
+            pareto_frontier.append((trial, task))
+            
         print("Opt Cost: {}".format(self.opt_cost))
-        return self.study.best_trials, self.opt_cost
+        return self.opt_cost, pareto_frontier
 
 class InnerLoopEvaluator:
     def __init__(

@@ -101,3 +101,4 @@ def score_fn(label, pred: str):
 
 if __name__ == "__main__":
     print('Running directly')
+    trial({"task": "Write a single sentence pitch for our new product, be concise and impressive. Our new product is a smartwatch. It has a sleek design and is water resistant."})

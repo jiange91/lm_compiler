@@ -17,10 +17,12 @@ def register_opt_module(module):
 def register_opt_program_entry(program):
     global _reg_opt_program_entry_
     _reg_opt_program_entry_ = program
+    return program
 
 def register_opt_score_fn(score_fn):
     global _reg_opt_score_fn_
     _reg_opt_score_fn_ = score_fn
+    return score_fn
     
 def get_registered_opt_modules():
     return _reg_opt_modules_.copy()

@@ -106,7 +106,7 @@ matplot_flow.visualize('examples/matplot_agent/matplot_flow_viz')
 
 openai_kwargs = {
     'model': 'gpt-4o',
-    'temperature': 0,
+    'temperature': 0.0,
 }
 
 query_expansion_lm.lm_config = {**openai_kwargs}
@@ -179,7 +179,7 @@ def load_data():
         expert_instruction = item['expert_instruction']
         example_id = item['id'] 
         state = StatePool()
-        directory_path = 'examples/matplot_agent/sample_runs'
+        directory_path = 'examples/matplot_agent/sample_runs_4o'
 
         if not os.path.exists(directory_path):
             os.makedirs(directory_path, exist_ok=True)
@@ -208,8 +208,8 @@ def testing():
     result = evaluator(workflow=matplot_flow)
     print(f"Average score: {result.reduced_score}, Average price: {result.reduced_price}")
 
-# testing()
-# exit()
+testing()
+exit()
 
 # ========================================
 # Decomposition

@@ -27,8 +27,8 @@ class LMScaffolding(ParamBase, AddNewModuleImportInterface):
     def __init__(
         self,
         name: str,
-        module_name: str,
         log_dir: str,
+        module_name: str = None,
         new_agent_systems: list[StructuredAgentSystem] = [],
     ):
         self.log_dir = log_dir

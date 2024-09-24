@@ -31,8 +31,8 @@ from langchain_core.runnables import RunnableLambda
 
 def inspect_with_msg(msg: str):
     def inspect_input(inputs, **kwargs):
-        print(msg, flush=True)
-        print(inputs, flush=True)
+        # print(msg, flush=True)
+        # print(inputs, flush=True)
         return inputs
     return inspect_input
 
@@ -331,7 +331,7 @@ def langchain_lm_kernel({inputs_str}):
     def set_lm(self):
         logger.debug(f'Setting LM for {self.name}: {self.lm_config}')
         model_name: str = self.lm_config['model']
-        if model_name.startswith('gpt-'):
+        if model_name.startswith('gpt-') or model_name.startswith('o1-'):
             self.lm = ChatOpenAI(
                 **self.lm_config, 
                 callbacks=[LLMTracker(self)]

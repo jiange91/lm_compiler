@@ -49,7 +49,7 @@ plan_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-planner = plan_prompt | get_inspect_runnable() | ChatOpenAI(model="gpt-4o-mini", temperature=0.0).with_structured_output(Plan)
+planner = plan_prompt | ChatOpenAI(model="gpt-4o-mini", temperature=0.0).with_structured_output(Plan)
 
 #==============================================================================
 # With Annotation
@@ -61,6 +61,7 @@ semantic = LangChainSemantic(
     system_prompt=plan_system,
     inputs=["task"],
     output_format=Plan,
+    output_format_instructions=""
 )
 
 planner_anno = LangChainLM('planner', semantic, opt_register=True)

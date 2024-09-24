@@ -1,0 +1,197 @@
+{
+    "0": {
+        "params": {
+            "initial code generation_few_shot": "Identity",
+            "initial code generation_reasoning": "Identity",
+            "plot debugger_few_shot": "Identity",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "query expansion_few_shot": "Identity",
+            "query expansion_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.6375,
+        "price": 0.0048594375,
+        "total_price": 0.01943775
+    },
+    "1": {
+        "params": {
+            "initial code generation_few_shot": "Identity",
+            "initial code generation_reasoning": "PlanBefore",
+            "plot debugger_few_shot": "Identity",
+            "plot debugger_reasoning": "PlanBefore",
+            "query expansion_few_shot": "Identity",
+            "query expansion_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.46249999999999997,
+        "price": 0.00542955,
+        "total_price": 0.0217182
+    },
+    "2": {
+        "params": {
+            "initial code generation_few_shot": "Identity",
+            "initial code generation_reasoning": "PlanBefore",
+            "plot debugger_few_shot": "Identity",
+            "plot debugger_reasoning": "PlanBefore",
+            "query expansion_few_shot": "Identity",
+            "query expansion_reasoning": "PlanBefore"
+        },
+        "score": 0.4875,
+        "price": 0.0065409375,
+        "total_price": 0.02616375
+    },
+    "3": {
+        "params": {
+            "initial code generation_few_shot": "Identity",
+            "initial code generation_reasoning": "ZeroShotCoT",
+            "plot debugger_few_shot": "Identity",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "query expansion_few_shot": "query expansion_demos_96aff89e-9c79-4dd2-9aba-649eeceeb555",
+            "query expansion_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.46249999999999997,
+        "price": 0.0078687375,
+        "total_price": 0.03147495
+    },
+    "4": {
+        "params": {
+            "initial code generation_few_shot": "initial code generation_demos_53b67881-67ba-428b-bf0e-8184da0a1b43",
+            "initial code generation_reasoning": "ZeroShotCoT",
+            "plot debugger_few_shot": "plot debugger_demos_975f37e8-3ba5-4002-9031-b65837d43404",
+            "plot debugger_reasoning": "PlanBefore",
+            "query expansion_few_shot": "query expansion_demos_96aff89e-9c79-4dd2-9aba-649eeceeb555",
+            "query expansion_reasoning": "PlanBefore"
+        },
+        "score": 0.2375,
+        "price": 0.0116331375,
+        "total_price": 0.04653255
+    },
+    "5": {
+        "params": {
+            "initial code generation_few_shot": "initial code generation_demos_53b67881-67ba-428b-bf0e-8184da0a1b43",
+            "initial code generation_reasoning": "Identity",
+            "plot debugger_few_shot": "Identity",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "query expansion_few_shot": "Identity",
+            "query expansion_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.2375,
+        "price": 0.006626399999999999,
+        "total_price": 0.026505599999999997
+    },
+    "6": {
+        "params": {
+            "initial code generation_few_shot": "Identity",
+            "initial code generation_reasoning": "Identity",
+            "plot debugger_few_shot": "plot debugger_demos_a2f3d36e-9d49-4642-aa48-fc6adc97883f",
+            "plot debugger_reasoning": "Identity",
+            "query expansion_few_shot": "query expansion_demos_2661d9fe-b405-44c7-8de1-7f0808517cea",
+            "query expansion_reasoning": "Identity"
+        },
+        "score": 0.2625,
+        "price": 0.003772125,
+        "total_price": 0.0150885
+    },
+    "7": {
+        "params": {
+            "initial code generation_few_shot": "initial code generation_demos_82573fd4-91cd-4074-afc1-04b1fd05248d",
+            "initial code generation_reasoning": "Identity",
+            "plot debugger_few_shot": "plot debugger_demos_975f37e8-3ba5-4002-9031-b65837d43404",
+            "plot debugger_reasoning": "Identity",
+            "query expansion_few_shot": "query expansion_demos_96aff89e-9c79-4dd2-9aba-649eeceeb555",
+            "query expansion_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.6,
+        "price": 0.00473865,
+        "total_price": 0.0189546
+    },
+    "8": {
+        "params": {
+            "initial code generation_few_shot": "initial code generation_demos_53b67881-67ba-428b-bf0e-8184da0a1b43",
+            "initial code generation_reasoning": "Identity",
+            "plot debugger_few_shot": "plot debugger_demos_71889940-95fd-4000-b429-18747c5c42c1",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "query expansion_few_shot": "query expansion_demos_0d23bed1-ee57-466b-93a1-20832e6ae10f",
+            "query expansion_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.4375,
+        "price": 0.0089568375,
+        "total_price": 0.03582735
+    },
+    "9": {
+        "params": {
+            "initial code generation_few_shot": "initial code generation_demos_82573fd4-91cd-4074-afc1-04b1fd05248d",
+            "initial code generation_reasoning": "ZeroShotCoT",
+            "plot debugger_few_shot": "plot debugger_demos_71889940-95fd-4000-b429-18747c5c42c1",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "query expansion_few_shot": "Identity",
+            "query expansion_reasoning": "Identity"
+        },
+        "score": 0.5125,
+        "price": 0.0073333124999999996,
+        "total_price": 0.029333249999999998
+    },
+    "10": {
+        "params": {
+            "initial code generation_few_shot": "Identity",
+            "initial code generation_reasoning": "Identity",
+            "plot debugger_few_shot": "plot debugger_demos_a2f3d36e-9d49-4642-aa48-fc6adc97883f",
+            "plot debugger_reasoning": "Identity",
+            "query expansion_few_shot": "query expansion_demos_0d23bed1-ee57-466b-93a1-20832e6ae10f",
+            "query expansion_reasoning": "Identity"
+        },
+        "score": 0.625,
+        "price": 0.0030991874999999995,
+        "total_price": 0.012396749999999998
+    },
+    "11": {
+        "params": {
+            "initial code generation_few_shot": "initial code generation_demos_82573fd4-91cd-4074-afc1-04b1fd05248d",
+            "initial code generation_reasoning": "ZeroShotCoT",
+            "plot debugger_few_shot": "plot debugger_demos_975f37e8-3ba5-4002-9031-b65837d43404",
+            "plot debugger_reasoning": "PlanBefore",
+            "query expansion_few_shot": "query expansion_demos_2661d9fe-b405-44c7-8de1-7f0808517cea",
+            "query expansion_reasoning": "PlanBefore"
+        },
+        "score": 0.575,
+        "price": 0.0095429625,
+        "total_price": 0.03817185
+    },
+    "12": {
+        "params": {
+            "initial code generation_few_shot": "initial code generation_demos_53b67881-67ba-428b-bf0e-8184da0a1b43",
+            "initial code generation_reasoning": "Identity",
+            "plot debugger_few_shot": "plot debugger_demos_a2f3d36e-9d49-4642-aa48-fc6adc97883f",
+            "plot debugger_reasoning": "Identity",
+            "query expansion_few_shot": "query expansion_demos_0d23bed1-ee57-466b-93a1-20832e6ae10f",
+            "query expansion_reasoning": "PlanBefore"
+        },
+        "score": 0.5375,
+        "price": 0.004958737499999999,
+        "total_price": 0.019834949999999997
+    },
+    "13": {
+        "params": {
+            "initial code generation_few_shot": "initial code generation_demos_1bdefd07-fbdc-472c-aa9f-3b650bbb184f",
+            "initial code generation_reasoning": "ZeroShotCoT",
+            "plot debugger_few_shot": "plot debugger_demos_a2f3d36e-9d49-4642-aa48-fc6adc97883f",
+            "plot debugger_reasoning": "Identity",
+            "query expansion_few_shot": "query expansion_demos_0d23bed1-ee57-466b-93a1-20832e6ae10f",
+            "query expansion_reasoning": "Identity"
+        },
+        "score": 0.4375,
+        "price": 0.0049768124999999995,
+        "total_price": 0.019907249999999998
+    },
+    "14": {
+        "params": {
+            "initial code generation_few_shot": "Identity",
+            "initial code generation_reasoning": "Identity",
+            "plot debugger_few_shot": "plot debugger_demos_a2f3d36e-9d49-4642-aa48-fc6adc97883f",
+            "plot debugger_reasoning": "Identity",
+            "query expansion_few_shot": "query expansion_demos_0d23bed1-ee57-466b-93a1-20832e6ae10f",
+            "query expansion_reasoning": "PlanBefore"
+        },
+        "score": 0.5625,
+        "price": 0.0039093375,
+        "total_price": 0.01563735
+    }
+}

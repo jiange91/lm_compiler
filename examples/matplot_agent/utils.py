@@ -108,7 +108,8 @@ def run_code(workspace, code_file, log_file=None)->str:
 
     result = subprocess.run(['python', code_file],
                             cwd=workspace,
-                            capture_output=True,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.STDOUT,
                             text=True)
     with open(os.path.join(workspace, log_file), 'w+') as f:
         f.write(result.stderr)

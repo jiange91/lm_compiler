@@ -1,0 +1,89 @@
+{
+  "retrieve": {
+    "k": 2
+  },
+  "generate_query[0]": {
+    "lm": null,
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "context": [],
+        "question": "Which film was created first, Fig Trees or Pond Hockey?",
+        "rationale": "determine the release dates of the films Fig Trees and Pond Hockey. We need to identify the year each film was released and then compare those years to see which one came first.",
+        "search_query": "release date of Fig Trees and Pond Hockey films"
+      },
+      {
+        "question": "What sport was the player born in the county seat of Osage County involved in?",
+        "answer": "Rugby",
+        "dspy_uuid": "277acb20-9874-4b41-99ad-993647e0f8bf",
+        "dspy_split": "train"
+      }
+    ],
+    "signature_instructions": "Given the fields `context`, `question`, produce the fields `search_query`.",
+    "signature_prefix": "Search Query:",
+    "extended_signature_instructions": "Generate a detailed search query based on the provided context and question that identifies key entities and relationships relevant to the inquiry.",
+    "extended_signature_prefix": "Search Query:"
+  },
+  "generate_query[1]": {
+    "lm": null,
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "context": [
+          "\"Hassan Whiteside\" | \"Hassan Whiteside Hassan Niam Whiteside (born June 13, 1989) is an American professional basketball player for the Miami Heat of the National Basketball Association (NBA). He played college basketball for the Marshall Thundering Herd before being drafted in the second round by the Sacramento Kings in the 2010 NBA draft. After joining Miami in 2014, Whiteside was named to the NBA All-Defensive Second Team in 2016, when he also led the NBA in blocks. He led the league in rebounding in 2017. Whiteside grew up with six siblings and a single mother. Born and raised in Gastonia, North Carolina, he\"",
+          "\"Hassan Whiteside\" | \"No. 1 national ranking with future Marshall teammate DeAndre Kane. Whiteside was rated as the No. 19 center in the Class of 2009, according to Scout.com and ranked as the No. 87 recruit in the Class of 2009 by Rivals.com. He played in the 2009 Reebok All-American preview game, and was a member of both the United Celtics (NC) AAU Team and the New Jersey Panthers AAU team as a high schooler. Whiteside chose Marshall over UNC Charlotte, South Carolina, Kentucky, Auburn, and Mississippi State. Whiteside came to Marshall University under the radar during the start of the 2009\u201310 season,\""
+        ],
+        "question": "For which college team did this American professional basketball player for the Miami Heat of the National Basketball Association (NBA) who earned praise for being the NBA's leading rebounder during the 2016\u201317 Miami Heat season play?",
+        "rationale": "produce the search_query. We need to identify the college team that Hassan Whiteside played for before joining the NBA. The context mentions that he played college basketball for the Marshall Thundering Herd. Therefore, the search query should focus on this specific information.",
+        "search_query": "\"Hassan Whiteside college team\" OR \"Hassan Whiteside Marshall Thundering Herd\""
+      },
+      {
+        "question": "What was a previous unoffical name for the high performance variant of Audi's compact executive car?",
+        "answer": "Audi Ur-S4",
+        "dspy_uuid": "7fb6ae1a-7231-477d-b6a6-32316aea7d77",
+        "dspy_split": "train"
+      }
+    ],
+    "signature_instructions": "Given the fields `context`, `question`, produce the fields `search_query`.",
+    "signature_prefix": "Search Query:",
+    "extended_signature_instructions": "Given the provided context and question, create a detailed search query that accurately reflects the main focus of the question while utilizing the relevant information from the context. Ensure that the search query is clear, specific, and directed towards retrieving information about the original launch location of the Angry Birds game.",
+    "extended_signature_prefix": "Search Query:"
+  },
+  "generate_answer": {
+    "lm": null,
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "context": [
+          "\"Cold Mountain (novel)\" | \"the real W. P. Inman was his great-grand-uncle who lived near the real Cold Mountain, which is now within the Pisgah National Forest, Haywood County, North Carolina. In the book's acknowledgments, Frazier apologizes for taking \"\"great liberties\"\" in writing of W. P. Inman's life. Frazier also used Hendricks County, Indiana, native John V. Hadley's book \"\"Seven Months a Prisoner\"\" as inspiration for the novel. The novel opens in a Confederate military hospital near Raleigh, North Carolina, where Inman is recovering from battle wounds during the American Civil War. The soldier is tired of fighting for a cause he never believed\"",
+          "\"Charles Frazier\" | \"full-time on his novel. His friend and fellow North Carolina novelist, Kaye Gibbons, presented his unfinished novel to her literary agency, which led to the publication of \"\"Cold Mountain\"\". \"\"Cold Mountain\"\" was his first novel, published in 1997 by Atlantic Monthly Press. It traces the journey of Inman, a wounded deserter from the Confederate army near the end of the American Civil War. It follows his harrowing journey from deserting the army to finding his way back to the woman he left behind, Ada, who waits for him, dealing with all kinds of hardships herself. The power of Ada and\"",
+          "\"Cold Mountain (North Carolina)\" | \"Cold Mountain (North Carolina) Cold Mountain falls in the mountain region of western North Carolina, United States. The mountain is one of the Great Balsam Mountains which are a part of the Blue Ridge Mountains within the Appalachian Mountains. Cold Mountain and the Shining Rock Wilderness surrounding it are part of Pisgah National Forest. Cold Mountain is about southeast of Waynesville and south of Asheville. It rises to above sea level and is the 40th tallest mountain in the eastern United States. The peak is accessible only via an extremely strenuous branch of the Art Loeb Trail with a round\"",
+          "\"Cold Mountain (North Carolina)\" | \"of their 2018 single, 'Dark Side of the Mountain'. Cold Mountain (North Carolina) Cold Mountain falls in the mountain region of western North Carolina, United States. The mountain is one of the Great Balsam Mountains which are a part of the Blue Ridge Mountains within the Appalachian Mountains. Cold Mountain and the Shining Rock Wilderness surrounding it are part of Pisgah National Forest. Cold Mountain is about southeast of Waynesville and south of Asheville. It rises to above sea level and is the 40th tallest mountain in the eastern United States. The peak is accessible only via an extremely strenuous\""
+        ],
+        "question": "In which state's mountain region lay the famous peak that inspired the bestselling novel \"Cold Mountain?\"",
+        "rationale": "determine the answer. The context provides information about Cold Mountain, which is located in the mountain region of western North Carolina. It mentions that Cold Mountain is part of the Great Balsam Mountains and is situated within the Appalachian Mountains. Since the question asks for the state in which this mountain region is located, we can conclude that the answer is North Carolina.",
+        "answer": "North Carolina"
+      },
+      {
+        "augmented": true,
+        "context": [
+          "\"Rockefeller University\" | \"Rockefeller Jr. Greatly elevating the prestige of American science and medicine, it was America's first biomedical institute, like France's Pasteur Institute (1888) and Germany's Robert Koch Institute (1891). The Rockefeller Foundation, a philanthropic organization, founded in 1913, is a separate entity, but had close connections mediated by prominent figures holding dual positions. The first director of laboratories was Simon Flexner, who supervised the development of research capacity at the Institute, whose staff made major discoveries in basic research and medicine. While a student at Johns Hopkins University, Flexner had studied under the Institute's first scientific director, William H. Welch, first\"",
+          "\"History of the Massachusetts Institute of Technology\" | \"fact counterproductive; they fooled professors into believing that their classes were imparting broad knowledge as intended, but instead locked professors and students into a feedback cycle to the detriment of actual education. In 1986, David Baltimore, a Nobel Laureate, and his colleague, Thereza Imanishi-Kari, were accused of research misconduct. The ensuing controversy involved a Congressional investigation and required him to resign from his new appointment as president of Rockefeller University although the allegations against Imanishi-Kari were dropped and Baltimore eventually became an endowed professor at and president of Caltech. Given the scale and reputation of MIT's research accomplishments, allegations of\""
+        ],
+        "question": "Are Rockefeller University and Massachusetts Institute of Technology both considered to be prestigious?",
+        "rationale": "determine if both institutions are considered prestigious. First, we know that Rockefeller University is described as having greatly elevated the prestige of American science and medicine and is recognized as America's first biomedical institute. This indicates a high level of prestige. Next, the Massachusetts Institute of Technology (MIT) is also known for its significant research accomplishments and reputation in the academic world. Given these descriptions, we can conclude that both institutions are indeed considered prestigious.",
+        "answer": "yes"
+      }
+    ],
+    "signature_instructions": "Given the fields `context`, `question`, produce the fields `answer`.",
+    "signature_prefix": "Answer:",
+    "extended_signature_instructions": "Given the provided `context` and `question`, analyze the information step by step to produce a well-reasoned `answer`. Ensure that the answer is derived from the context and directly addresses the question asked.",
+    "extended_signature_prefix": "Answer:"
+  }
+}

@@ -41,6 +41,12 @@ class ReasoningOptionMeta(ABCMeta):
     
 
 class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
+    
+    @classmethod
+    def direct_apply(cls, lm_module: LangChainLM):
+        reasoning = cls()
+        reasoning.apply(lm_module)
+        return reasoning
 
     def reasoning_step(self, new_semantic: LangChainSemantic, lm: ChatOpenAI, inputs: dict):
         raise NotImplementedError

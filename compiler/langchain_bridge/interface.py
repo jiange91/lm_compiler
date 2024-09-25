@@ -31,8 +31,8 @@ from langchain_core.runnables import RunnableLambda
 
 def inspect_with_msg(msg: str):
     def inspect_input(inputs, **kwargs):
-        print(msg, flush=True)
-        print(inputs, flush=True)
+        # print(msg, flush=True)
+        # print(inputs, flush=True)
         return inputs
     return inspect_input
 

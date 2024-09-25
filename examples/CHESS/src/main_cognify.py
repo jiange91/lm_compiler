@@ -8,6 +8,7 @@ import sys
 
 sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 
+import debugpy
 import argparse
 import json
 from datetime import datetime
@@ -164,9 +165,11 @@ def main():
         }
         for state in app.stream(initial_state):
             continue
-        run_manager.task_done((state[END], task.db_id, task.question_id))
+        run_manager.task_done((state['evaluation'], task.db_id, task.question_id))
     run_manager.generate_sql_files()
 
 
 if __name__ == "__main__":
+    # debugpy.listen(5678)
+    # debugpy.wait_for_client()
     main()

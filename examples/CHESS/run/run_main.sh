@@ -1,6 +1,6 @@
 data_mode='dev' # Options: 'dev', 'train' 
 
-data_path="./data/dev/dev.json" # UPDATE THIS WITH THE PATH TO THE TARGET DATASET
+data_path="/mnt/ssd4/lm_compiler/examples/CHESS/data/dev/sub_sampled_bird_dev_set.json" # UPDATE THIS WITH THE PATH TO THE TARGET DATASET
 
 pipeline_nodes='keyword_extraction+entity_retrieval+context_retrieval+column_filtering+table_selection+column_selection+candidate_generation+revision+evaluation'
 checkpoint_nodes=''
@@ -28,8 +28,10 @@ table_selection_mode='ask_model' # Options: 'corrects', 'ask_model'
 column_selection_mode='ask_model' # Options: 'corrects', 'ask_model'
 
 engine1='gemini-pro'
-engine2='gpt-3.5-turbo-0125'
-engine3='gpt-4-turbo'
+# engine2='gpt-3.5-turbo-0125'
+engine2='gpt-4o-mini'
+# engine3='gpt-4-turbo'
+engine3='gpt-4o-mini'
 engine4='claude-3-opus-20240229'
 engine5='gemini-1.5-pro-latest'
 engine6='finetuned_nl2sql'
@@ -85,7 +87,7 @@ pipeline_setup='{
 }'
 
 echo -e "${run_name}"
-python3 -u ./src/main_cognify.py --data_mode ${data_mode} --data_path ${data_path}\
+python3 -u -Xfrozen_modules=off ./src/main_cognify.py --data_mode ${data_mode} --data_path ${data_path}\
         --pipeline_nodes ${pipeline_nodes} --pipeline_setup "$pipeline_setup"\
         # --use_checkpoint --checkpoint_nodes ${checkpoint_nodes} --checkpoint_dir ${checkpoint_dir}
   

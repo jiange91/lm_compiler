@@ -6,6 +6,7 @@ from runner.logger import Logger
 from runner.database_manager import DatabaseManager
 from pipeline.utils import node_decorator, get_last_node_result, add_columns_to_tentative_schema
 from pipeline.pipeline_manager import PipelineManager
+from pipeline.annotated.column_filtering import runnable_exec
 
 @node_decorator(check_schema_status=True)
 def column_filtering(task: Any, tentative_schema: Dict[str, Any], execution_history: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -41,13 +42,15 @@ def column_filtering(task: Any, tentative_schema: Dict[str, Any], execution_hist
             list_of_kwargs.append(kwargs)
 
     logging.info("Fetching prompt, engine, and parser from PipelineManager")
-    prompt, engine, parser = PipelineManager().get_prompt_engine_parser()
+    prompt, engine, parser, chain = PipelineManager().get_prompt_engine_parser()
+    chain = runnable_exec
     
     logging.info("Initiating asynchronous LLM chain call for column filtering")
     response = async_llm_chain_call(
         prompt=prompt, 
         engine=engine, 
         parser=parser,
+        chain=chain,
         request_list=list_of_kwargs,
         step="column_filtering", 
         sampling_count=1
@@ -59,7 +62,7 @@ def column_filtering(task: Any, tentative_schema: Dict[str, Any], execution_hist
         tentative_schema[table_name] = []
         for column_name, column_profile in columns.items():
             try:
-                chosen = (response[index][0]["is_column_information_relevant"].lower() == "yes")
+                chosen = (response[index][0].dict()["is_column_information_relevant"].lower() == "yes")
                 if chosen:
                     tentative_schema[table_name].append(column_name)
             except Exception as e:

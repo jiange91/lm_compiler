@@ -11,7 +11,7 @@ from runner.statistics_manager import StatisticsManager
 from pipeline.workflow_builder import build_pipeline
 from pipeline.pipeline_manager import PipelineManager
 
-NUM_WORKERS = 11
+NUM_WORKERS = 1
 
 class RunManager:
     RESULT_ROOT_PATH = "results"

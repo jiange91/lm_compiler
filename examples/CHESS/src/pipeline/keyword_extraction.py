@@ -4,6 +4,7 @@ from typing import Any, Dict
 from llm.models import async_llm_chain_call
 from pipeline.utils import node_decorator
 from pipeline.pipeline_manager import PipelineManager
+from pipeline.annotated.keyword_extraction import runnable_exec
 
 @node_decorator(check_schema_status=False)
 def keyword_extraction(task: Any, tentative_schema: Dict[str, Any], execution_history: Dict[str, Any]) -> Dict[str, Any]:
@@ -24,13 +25,15 @@ def keyword_extraction(task: Any, tentative_schema: Dict[str, Any], execution_hi
     }
     
     logging.info("Fetching prompt, engine, and parser from PipelineManager")
-    prompt, engine, parser = PipelineManager().get_prompt_engine_parser()
+    prompt, engine, parser, chain = PipelineManager().get_prompt_engine_parser()
+    chain = runnable_exec
     
     logging.info("Initiating asynchronous LLM chain call for keyword extraction")
     response = async_llm_chain_call(
         prompt=prompt, 
         engine=engine, 
         parser=parser,
+        chain=chain,
         request_list=[request_kwargs],
         step="keyword_extraction",
         sampling_count=1

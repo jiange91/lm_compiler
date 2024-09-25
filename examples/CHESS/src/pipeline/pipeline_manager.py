@@ -48,7 +48,7 @@ class PipelineManager:
         self.candidate_generation = pipeline_setup.get("candidate_generation", {})
         self.revision = pipeline_setup.get("revision", {})
     
-    def get_prompt_engine_parser(self, **kwargs: Any) -> Tuple[Any, Any, Any]:
+    def get_prompt_engine_parser(self, **kwargs: Any) -> Tuple[Any, Any, Any, Any]:
         """
         Retrieves the prompt, engine, and parser for the current node based on the pipeline setup.
 
@@ -56,7 +56,7 @@ class PipelineManager:
             **kwargs: Additional keyword arguments for the prompt.
 
         Returns:
-            Tuple[Any, Any, Any]: The prompt, engine, and parser instances.
+            Tuple[Any, Any, Any, Any]: The prompt, engine, and parser instances, and the chain node.
 
         Raises:
             ValueError: If the engine is not specified for the node.
@@ -81,7 +81,7 @@ class PipelineManager:
         parser_name = self.get_parser_name(node_name)
         parser = get_parser(parser_name)
         
-        return prompt, engine, parser
+        return prompt, engine, parser, None
     
     def get_template_name(self, node_name: str) -> str:
         """

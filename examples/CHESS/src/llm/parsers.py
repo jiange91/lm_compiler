@@ -5,7 +5,8 @@ from typing import Any, Dict, List, Tuple
 
 from langchain_core.output_parsers.base import BaseOutputParser
 from langchain_core.output_parsers import JsonOutputParser
-from langchain_core.pydantic_v1 import BaseModel, Field
+# from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 class PythonListOutputParser(BaseOutputParser):
     """Parses output embedded in markdown code blocks containing Python lists."""

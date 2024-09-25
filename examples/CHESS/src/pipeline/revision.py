@@ -4,6 +4,7 @@ from typing import Dict, List, Tuple, Any
 
 from llm.models import async_llm_chain_call
 from database_utils.schema import DatabaseSchema
+from pipeline.annotated.revision import get_executor
 from runner.database_manager import DatabaseManager
 from pipeline.utils import node_decorator, get_last_node_result
 from pipeline.pipeline_manager import PipelineManager
@@ -35,7 +36,8 @@ def revision(task: Any, tentative_schema: Dict[str, List[str]], execution_histor
     )
 
     logging.info("Fetching prompt, engine, and parser from PipelineManager")
-    prompt, engine, parser = PipelineManager().get_prompt_engine_parser(schema_string=schema_string)
+    prompt, engine, parser, chain = PipelineManager().get_prompt_engine_parser(schema_string=schema_string)
+    chain = get_executor(schema_string)
     
     predicted_query = get_last_node_result(execution_history, "candidate_generation")["SQL"]
 
@@ -66,18 +68,19 @@ def revision(task: Any, tentative_schema: Dict[str, List[str]], execution_histor
         prompt=prompt, 
         engine=engine, 
         parser=parser,
+        chain=chain,
         request_list=[request_kwargs],
         step="revision",
         sampling_count=sampling_count
     )[0]
     
-    revised_sqls = [res["revised_SQL"] for res in response]
+    revised_sqls = [res.dict()["revised_SQL"] for res in response]
     revised_sql = DatabaseManager().aggregate_sqls(sqls=revised_sqls)
-    chosen_res = next(res for res in response if res["revised_SQL"] == revised_sql)
+    chosen_res = next(res for res in response if res.dict()["revised_SQL"] == revised_sql)
     
     result = {
-        "chain_of_thought_reasoning": chosen_res.get("chain_of_thought_reasoning", ""),
-        "SQL": chosen_res["revised_SQL"],
+        "chain_of_thought_reasoning": chosen_res.dict().get("chain_of_thought_reasoning", ""),
+        "SQL": chosen_res.dict()["revised_SQL"],
     }
     
     logging.info("SQL revision completed successfully")

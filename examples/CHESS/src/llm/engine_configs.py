@@ -19,6 +19,14 @@ ENGINE_CONFIGS: Dict[str, Dict[str, Any]] = {
         "params": {"model": "gemini-1.5-pro-latest", "temperature": 0, "convert_system_message_to_human": True},
         "preprocess": lambda x: x.to_messages()
     },
+    "gpt-4o": {
+        "constructor": ChatOpenAI,
+        "params": {"model": "gpt-4o", "temperature": 0}
+    },
+    "gpt-4o-mini": {
+        "constructor": ChatOpenAI,
+        "params": {"model": "gpt-4o-mini", "temperature": 0}
+    },
     "gpt-3.5-turbo-0125": {
         "constructor": ChatOpenAI,
         "params": {"model": "gpt-3.5-turbo-0125", "temperature": 0}

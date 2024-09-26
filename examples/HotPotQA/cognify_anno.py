@@ -18,8 +18,9 @@ lm_config = {
     'temperature': 0.0,
 }
 
+
 initial_query_prompt = """
-Generate a search query based on the provided question. The query will be used for retrieving documents so it should identify key entities relevant to the inquiry.
+You are an expert in generating a search query based on the provided question. You should think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information. 
 """
 first_query_semantic = LangChainSemantic(
     system_prompt=initial_query_prompt,
@@ -30,7 +31,8 @@ first_query_agent = LangChainLM('generate_query', first_query_semantic, opt_regi
 first_query_agent.lm_config = lm_config
 
 following_query_prompt = """
-Given the context and question, create a search query that accurately reflects the main focus of the question while utilizing the relevant information from the context.
+You are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.
+Given the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.",
 """
 following_query_semantic = LangChainSemantic(
     system_prompt=following_query_prompt,
@@ -41,7 +43,7 @@ following_query_agent = LangChainLM('refine_query', following_query_semantic, op
 following_query_agent.lm_config = lm_config
 
 answer_prompt = """
-Given the context and question, analyze the information and produce a concise and clear `answer`. Ensure that the answer is grounded by the context and directly addresses the question asked. 
+You are good at answering questions with ground truth. Using the provided context, carefully analyze the information to answer the question. Your answer should be clear and supported by logical reasoning derived from the context. 
 """
 answer_semantic = LangChainSemantic(
     system_prompt=answer_prompt,
@@ -51,7 +53,7 @@ answer_semantic = LangChainSemantic(
 answer_agent = LangChainLM('generate_answer', answer_semantic, opt_register=True)
 answer_agent.lm_config = lm_config
 
-cot_fixed = False
+cot_fixed = True
 if cot_fixed:
     ZeroShotCoT.direct_apply(first_query_agent)
     ZeroShotCoT.direct_apply(following_query_agent)
@@ -71,34 +73,46 @@ class BasicMH(dspy.Module):
         context = []
 
         search_query = self.initial_generate_query.invoke({'question': question}).content
+        # print("Search query:", search_query)
         passages = self.retrieve(search_query).passages
+        # print("Passages:", passages)
         context = deduplicate(context + passages)
         
         for _ in range(2-1):
             search_query = self.follwing_generate_query.invoke({'context': context, 'question': question}).content
+            # print("Search query:", search_query)
+            passages = self.retrieve(search_query).passages
+            # print("Passages:", passages)
+            context = deduplicate(context + passages)
 
         answer = self.generate_answer.invoke({'context': context, 'question': question}).content
         return answer
 
-qa_agent = BasicMH()
+qa_agent = BasicMH(passages_per_hop=2)
 
 @register_opt_program_entry
 def trial(question: str):
-    return qa_agent(question=question)
+    answer = qa_agent(question=question)
+    # print(f'Question: {question}')
+    return answer
 
 from dsp.utils.metrics import HotPotF1, F1
 dspy.evaluate.answer_exact_match
 @register_opt_score_fn
 def answer_f1(label: str, pred: str):
-    print(f'Label: {label}')
-    print(f'Pred: {pred}')
     if isinstance(label, str):
         label = [label]
-    return F1(pred, label)
+    score = F1(pred, label)
+    # print(f'Label: {label}')
+    # print(f'Pred: {pred}')
+    # print(f'Score: {score}\n')
+    return score
 
+from compiler.optimizer.params.reasoning import ZeroShotCoT
 if __name__ == "__main__":
-    input = {'question': "Are both Cangzhou and Qionghai in the Hebei province of China?"}
+    input = {'question': "What river is near the Crichton Collegiate Church?"}
     answer = trial(input)
-    label = 'no'
+    label = 'River Tyne'
     print(f'Answer: {answer}')
     print(f'Score: {answer_f1(label, answer)}')
+    

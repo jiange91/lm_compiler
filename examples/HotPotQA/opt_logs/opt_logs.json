@@ -2,391 +2,391 @@
     "0": {
         "params": {
             "refine_query_few_shot": "Identity",
-            "refine_query_reasoning": "ZeroShotCoT",
-            "generate_answer_few_shot": "Identity",
-            "generate_answer_reasoning": "ZeroShotCoT",
+            "refine_query_reasoning": "Identity",
             "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "ZeroShotCoT"
         },
-        "score": 0.2891026716035979,
-        "price": 0.0006698609999999999,
-        "total_price": 0.06698609999999999
+        "score": 0.3068031670962854,
+        "price": 0.000426306,
+        "total_price": 0.0426306
     },
     "1": {
         "params": {
             "refine_query_few_shot": "Identity",
             "refine_query_reasoning": "ZeroShotCoT",
-            "generate_answer_few_shot": "Identity",
-            "generate_answer_reasoning": "ZeroShotCoT",
             "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "ZeroShotCoT"
         },
-        "score": 0.3223908588844322,
-        "price": 0.0006701325,
-        "total_price": 0.06701325
+        "score": 0.3028444324843723,
+        "price": 0.0006197234999999999,
+        "total_price": 0.061972349999999995
     },
     "2": {
         "params": {
             "refine_query_few_shot": "Identity",
-            "refine_query_reasoning": "ZeroShotCoT",
+            "refine_query_reasoning": "Identity",
+            "generate_query_few_shot": "generate_query_demos_8903f9c3-0879-4c05-a039-f56985573d4d",
+            "generate_query_reasoning": "Identity",
             "generate_answer_few_shot": "Identity",
-            "generate_answer_reasoning": "ZeroShotCoT",
-            "generate_query_few_shot": "generate_query_demos_1a1ce41a-8507-47c8-9f21-ae3b0c542af2",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "generate_answer_reasoning": "ZeroShotCoT"
         },
-        "score": 0.3337947478853897,
-        "price": 0.0008834069999999999,
-        "total_price": 0.0883407
+        "score": 0.32930749118190844,
+        "price": 0.000462582,
+        "total_price": 0.0462582
     },
     "3": {
         "params": {
             "refine_query_few_shot": "Identity",
-            "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "Identity",
+            "refine_query_reasoning": "ZeroShotCoT",
             "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.5000563842164327,
-        "price": 0.000598404,
-        "total_price": 0.059840399999999995
+        "score": 0.18403641081337216,
+        "price": 0.00039788249999999996,
+        "total_price": 0.03978825
     },
     "4": {
         "params": {
-            "refine_query_few_shot": "refine_query_demos_51c4cd89-fa7f-4eb7-8f62-b6301044edee",
+            "refine_query_few_shot": "refine_query_demos_9fece9ac-485e-4bc0-b3a5-7a65aabeb659",
             "refine_query_reasoning": "ZeroShotCoT",
-            "generate_answer_few_shot": "Identity",
-            "generate_answer_reasoning": "Identity",
-            "generate_query_few_shot": "generate_query_demos_1a1ce41a-8507-47c8-9f21-ae3b0c542af2",
-            "generate_query_reasoning": "Identity"
+            "generate_query_few_shot": "generate_query_demos_8903f9c3-0879-4c05-a039-f56985573d4d",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "generate_answer_demos_0dd92204-9239-4b85-be14-7bc262144ff2",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.12977149104462077,
-        "price": 0.0012405374999999998,
-        "total_price": 0.12405374999999999
+        "score": 0.5764198568316216,
+        "price": 0.0012704535000000001,
+        "total_price": 0.12704535
     },
     "5": {
         "params": {
-            "refine_query_few_shot": "refine_query_demos_51c4cd89-fa7f-4eb7-8f62-b6301044edee",
-            "refine_query_reasoning": "ZeroShotCoT",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "Identity",
-            "generate_query_few_shot": "generate_query_demos_1a1ce41a-8507-47c8-9f21-ae3b0c542af2",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "refine_query_few_shot": "Identity",
+            "refine_query_reasoning": "Identity",
+            "generate_query_few_shot": "Identity",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "ZeroShotCoT"
         },
-        "score": 0.5146548255665903,
-        "price": 0.001739319,
-        "total_price": 0.1739319
+        "score": 0.33423103331660337,
+        "price": 0.000328296,
+        "total_price": 0.0328296
     },
     "6": {
         "params": {
-            "refine_query_few_shot": "refine_query_demos_51c4cd89-fa7f-4eb7-8f62-b6301044edee",
-            "refine_query_reasoning": "ZeroShotCoT",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "Identity",
-            "generate_query_few_shot": "generate_query_demos_1a1ce41a-8507-47c8-9f21-ae3b0c542af2",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "refine_query_few_shot": "refine_query_demos_9fece9ac-485e-4bc0-b3a5-7a65aabeb659",
+            "refine_query_reasoning": "Identity",
+            "generate_query_few_shot": "Identity",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "generate_answer_demos_0dd92204-9239-4b85-be14-7bc262144ff2",
+            "generate_answer_reasoning": "ZeroShotCoT"
         },
-        "score": 0.510959982398063,
-        "price": 0.0017489625000000001,
-        "total_price": 0.17489625
+        "score": 0.5460035964035964,
+        "price": 0.0012592529999999999,
+        "total_price": 0.1259253
     },
     "7": {
         "params": {
-            "refine_query_few_shot": "refine_query_demos_51c4cd89-fa7f-4eb7-8f62-b6301044edee",
-            "refine_query_reasoning": "Identity",
+            "refine_query_few_shot": "Identity",
+            "refine_query_reasoning": "ZeroShotCoT",
+            "generate_query_few_shot": "generate_query_demos_8903f9c3-0879-4c05-a039-f56985573d4d",
+            "generate_query_reasoning": "Identity",
             "generate_answer_few_shot": "Identity",
-            "generate_answer_reasoning": "ZeroShotCoT",
-            "generate_query_few_shot": "generate_query_demos_1a1ce41a-8507-47c8-9f21-ae3b0c542af2",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "generate_answer_reasoning": "ZeroShotCoT"
         },
-        "score": 0.3163160729912425,
-        "price": 0.0009939855,
-        "total_price": 0.09939855
+        "score": 0.33531255136109755,
+        "price": 0.0006443475,
+        "total_price": 0.06443475
     },
     "8": {
         "params": {
             "refine_query_few_shot": "Identity",
             "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "ZeroShotCoT",
             "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "Identity"
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "generate_answer_demos_0dd92204-9239-4b85-be14-7bc262144ff2",
+            "generate_answer_reasoning": "ZeroShotCoT"
         },
-        "score": 0.5580212383808292,
-        "price": 0.001046382,
-        "total_price": 0.1046382
+        "score": 0.56725888000888,
+        "price": 0.0011189309999999999,
+        "total_price": 0.1118931
     },
     "9": {
         "params": {
-            "refine_query_few_shot": "refine_query_demos_51c4cd89-fa7f-4eb7-8f62-b6301044edee",
-            "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "Identity",
-            "generate_answer_reasoning": "ZeroShotCoT",
+            "refine_query_few_shot": "Identity",
+            "refine_query_reasoning": "ZeroShotCoT",
             "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "Identity"
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "ZeroShotCoT"
         },
-        "score": 0.3140807384325377,
-        "price": 0.0007144440000000001,
-        "total_price": 0.0714444
+        "score": 0.3336331130123903,
+        "price": 0.000546036,
+        "total_price": 0.054603599999999995
     },
     "10": {
         "params": {
-            "refine_query_few_shot": "Identity",
+            "refine_query_few_shot": "refine_query_demos_9fece9ac-485e-4bc0-b3a5-7a65aabeb659",
             "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "Identity",
-            "generate_answer_reasoning": "Identity",
-            "generate_query_few_shot": "generate_query_demos_1a1ce41a-8507-47c8-9f21-ae3b0c542af2",
-            "generate_query_reasoning": "Identity"
+            "generate_query_few_shot": "Identity",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "generate_answer_demos_0dd92204-9239-4b85-be14-7bc262144ff2",
+            "generate_answer_reasoning": "ZeroShotCoT"
         },
-        "score": 0.13439417581058713,
-        "price": 0.0003120855,
-        "total_price": 0.031208549999999998
+        "score": 0.5789014000492262,
+        "price": 0.001261851,
+        "total_price": 0.1261851
     },
     "11": {
         "params": {
             "refine_query_few_shot": "Identity",
             "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "Identity",
             "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "generate_answer_demos_0dd92204-9239-4b85-be14-7bc262144ff2",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.49869178682551946,
-        "price": 0.000597981,
-        "total_price": 0.0597981
+        "score": 0.5712982560917343,
+        "price": 0.000579678,
+        "total_price": 0.0579678
     },
     "12": {
         "params": {
             "refine_query_few_shot": "Identity",
             "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "Identity",
             "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "generate_answer_demos_0dd92204-9239-4b85-be14-7bc262144ff2",
+            "generate_answer_reasoning": "ZeroShotCoT"
         },
-        "score": 0.5051979067218832,
-        "price": 0.0005988359999999999,
-        "total_price": 0.059883599999999995
+        "score": 0.5767651135414293,
+        "price": 0.001118199,
+        "total_price": 0.1118199
     },
     "13": {
         "params": {
             "refine_query_few_shot": "Identity",
             "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "ZeroShotCoT",
-            "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "Identity"
+            "generate_query_few_shot": "generate_query_demos_8903f9c3-0879-4c05-a039-f56985573d4d",
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "generate_answer_demos_0dd92204-9239-4b85-be14-7bc262144ff2",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.5564283764497319,
-        "price": 0.001044966,
-        "total_price": 0.1044966
+        "score": 0.566614246061401,
+        "price": 0.0007822095,
+        "total_price": 0.07822095
     },
     "14": {
         "params": {
-            "refine_query_few_shot": "Identity",
+            "refine_query_few_shot": "refine_query_demos_9fece9ac-485e-4bc0-b3a5-7a65aabeb659",
             "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "ZeroShotCoT",
             "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "Identity"
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "generate_answer_demos_0dd92204-9239-4b85-be14-7bc262144ff2",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.5658053653649562,
-        "price": 0.0010471365,
-        "total_price": 0.10471364999999999
+        "score": 0.5222272256728778,
+        "price": 0.0008016,
+        "total_price": 0.08016
     },
     "15": {
         "params": {
-            "refine_query_few_shot": "refine_query_demos_51c4cd89-fa7f-4eb7-8f62-b6301044edee",
+            "refine_query_few_shot": "refine_query_demos_9fece9ac-485e-4bc0-b3a5-7a65aabeb659",
             "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "ZeroShotCoT",
             "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "generate_answer_demos_0dd92204-9239-4b85-be14-7bc262144ff2",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.5434256956179481,
-        "price": 0.0014772015,
-        "total_price": 0.14772015
+        "score": 0.529274938024938,
+        "price": 0.0008008335,
+        "total_price": 0.08008335
     },
     "16": {
         "params": {
             "refine_query_few_shot": "Identity",
-            "refine_query_reasoning": "ZeroShotCoT",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "Identity",
+            "refine_query_reasoning": "Identity",
             "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "Identity"
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "generate_answer_demos_0dd92204-9239-4b85-be14-7bc262144ff2",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.5288076986914314,
-        "price": 0.000768042,
-        "total_price": 0.0768042
+        "score": 0.5459207676803585,
+        "price": 0.0005001914999999999,
+        "total_price": 0.05001915
     },
     "17": {
         "params": {
-            "refine_query_few_shot": "refine_query_demos_51c4cd89-fa7f-4eb7-8f62-b6301044edee",
-            "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "Identity",
+            "refine_query_few_shot": "Identity",
+            "refine_query_reasoning": "ZeroShotCoT",
             "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "Identity"
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "generate_answer_demos_0dd92204-9239-4b85-be14-7bc262144ff2",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.5271215044508893,
-        "price": 0.0008787195000000001,
-        "total_price": 0.08787195
+        "score": 0.5399447143084877,
+        "price": 0.0007856744999999999,
+        "total_price": 0.07856745
     },
     "18": {
         "params": {
             "refine_query_few_shot": "Identity",
-            "refine_query_reasoning": "ZeroShotCoT",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "Identity",
+            "refine_query_reasoning": "Identity",
             "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "Identity"
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "generate_answer_demos_0dd92204-9239-4b85-be14-7bc262144ff2",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.5225212538243229,
-        "price": 0.0007677299999999999,
-        "total_price": 0.076773
+        "score": 0.5713388786408873,
+        "price": 0.000501633,
+        "total_price": 0.0501633
     },
     "19": {
         "params": {
             "refine_query_few_shot": "Identity",
-            "refine_query_reasoning": "ZeroShotCoT",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "Identity",
-            "generate_query_few_shot": "generate_query_demos_1a1ce41a-8507-47c8-9f21-ae3b0c542af2",
-            "generate_query_reasoning": "Identity"
+            "refine_query_reasoning": "Identity",
+            "generate_query_few_shot": "Identity",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "generate_answer_demos_0dd92204-9239-4b85-be14-7bc262144ff2",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.47892698673875145,
-        "price": 0.000860619,
-        "total_price": 0.0860619
+        "score": 0.5716621770739417,
+        "price": 0.00050175,
+        "total_price": 0.050175
     },
     "20": {
         "params": {
-            "refine_query_few_shot": "refine_query_demos_51c4cd89-fa7f-4eb7-8f62-b6301044edee",
+            "refine_query_few_shot": "Identity",
             "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "Identity",
-            "generate_answer_reasoning": "Identity",
             "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.15059584612272595,
-        "price": 0.000633324,
-        "total_price": 0.0633324
+        "score": 0.17704396222877605,
+        "price": 0.000180132,
+        "total_price": 0.0180132
     },
     "21": {
         "params": {
             "refine_query_few_shot": "Identity",
             "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "Identity",
-            "generate_answer_reasoning": "Identity",
             "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "ZeroShotCoT"
         },
-        "score": 0.14163135376502756,
-        "price": 0.0002814195,
-        "total_price": 0.02814195
+        "score": 0.3282604056542636,
+        "price": 0.000327369,
+        "total_price": 0.0327369
     },
     "22": {
         "params": {
             "refine_query_few_shot": "Identity",
-            "refine_query_reasoning": "ZeroShotCoT",
-            "generate_answer_few_shot": "Identity",
-            "generate_answer_reasoning": "Identity",
+            "refine_query_reasoning": "Identity",
             "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "Identity"
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "ZeroShotCoT"
         },
-        "score": 0.18491613132495932,
-        "price": 0.000454347,
-        "total_price": 0.0454347
+        "score": 0.3241024937329567,
+        "price": 0.0003323025,
+        "total_price": 0.033230249999999996
     },
     "23": {
         "params": {
-            "refine_query_few_shot": "Identity",
+            "refine_query_few_shot": "refine_query_demos_9fece9ac-485e-4bc0-b3a5-7a65aabeb659",
             "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "Identity",
-            "generate_query_few_shot": "generate_query_demos_1a1ce41a-8507-47c8-9f21-ae3b0c542af2",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "generate_query_few_shot": "Identity",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.5240920550038197,
-        "price": 0.0008081130000000001,
-        "total_price": 0.0808113
+        "score": 0.1715948352047699,
+        "price": 0.00040950599999999997,
+        "total_price": 0.0409506
     },
     "24": {
         "params": {
             "refine_query_few_shot": "Identity",
             "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "Identity",
-            "generate_query_few_shot": "generate_query_demos_1a1ce41a-8507-47c8-9f21-ae3b0c542af2",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "generate_query_few_shot": "Identity",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.5108453017570664,
-        "price": 0.000816963,
-        "total_price": 0.0816963
+        "score": 0.18062697039140668,
+        "price": 0.00018054600000000002,
+        "total_price": 0.0180546
     },
     "25": {
         "params": {
-            "refine_query_few_shot": "Identity",
-            "refine_query_reasoning": "ZeroShotCoT",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "Identity",
-            "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "refine_query_few_shot": "refine_query_demos_9fece9ac-485e-4bc0-b3a5-7a65aabeb659",
+            "refine_query_reasoning": "Identity",
+            "generate_query_few_shot": "generate_query_demos_8903f9c3-0879-4c05-a039-f56985573d4d",
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "generate_answer_demos_0dd92204-9239-4b85-be14-7bc262144ff2",
+            "generate_answer_reasoning": "ZeroShotCoT"
         },
-        "score": 0.49257412848589316,
-        "price": 0.0008384085,
-        "total_price": 0.08384085
+        "score": 0.5349719240319646,
+        "price": 0.001531518,
+        "total_price": 0.1531518
     },
     "26": {
         "params": {
-            "refine_query_few_shot": "refine_query_demos_51c4cd89-fa7f-4eb7-8f62-b6301044edee",
-            "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "Identity",
-            "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "ZeroShotCoT"
+            "refine_query_few_shot": "refine_query_demos_9fece9ac-485e-4bc0-b3a5-7a65aabeb659",
+            "refine_query_reasoning": "ZeroShotCoT",
+            "generate_query_few_shot": "generate_query_demos_8903f9c3-0879-4c05-a039-f56985573d4d",
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.491228279007173,
-        "price": 0.0009516885,
-        "total_price": 0.09516885
+        "score": 0.1526512504043054,
+        "price": 0.001119204,
+        "total_price": 0.1119204
     },
     "27": {
         "params": {
-            "refine_query_few_shot": "refine_query_demos_51c4cd89-fa7f-4eb7-8f62-b6301044edee",
+            "refine_query_few_shot": "refine_query_demos_9fece9ac-485e-4bc0-b3a5-7a65aabeb659",
             "refine_query_reasoning": "ZeroShotCoT",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "ZeroShotCoT",
-            "generate_query_few_shot": "generate_query_demos_1a1ce41a-8507-47c8-9f21-ae3b0c542af2",
-            "generate_query_reasoning": "Identity"
+            "generate_query_few_shot": "Identity",
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.4778633514053447,
-        "price": 0.002186868,
-        "total_price": 0.2186868
+        "score": 0.15578817726551322,
+        "price": 0.0009159330000000001,
+        "total_price": 0.0915933
     },
     "28": {
         "params": {
-            "refine_query_few_shot": "Identity",
-            "refine_query_reasoning": "ZeroShotCoT",
+            "refine_query_few_shot": "refine_query_demos_9fece9ac-485e-4bc0-b3a5-7a65aabeb659",
+            "refine_query_reasoning": "Identity",
+            "generate_query_few_shot": "generate_query_demos_8903f9c3-0879-4c05-a039-f56985573d4d",
+            "generate_query_reasoning": "Identity",
             "generate_answer_few_shot": "Identity",
-            "generate_answer_reasoning": "Identity",
-            "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "Identity"
+            "generate_answer_reasoning": "ZeroShotCoT"
         },
-        "score": 0.18251467364827278,
-        "price": 0.00045020549999999997,
-        "total_price": 0.04502055
+        "score": 0.3025048968885499,
+        "price": 0.000673239,
+        "total_price": 0.06732389999999999
     },
     "29": {
         "params": {
             "refine_query_few_shot": "Identity",
             "refine_query_reasoning": "Identity",
-            "generate_answer_few_shot": "generate_answer_demos_08f9d6ee-8bfc-47ba-bc42-335cf2176afa",
-            "generate_answer_reasoning": "Identity",
-            "generate_query_few_shot": "Identity",
-            "generate_query_reasoning": "Identity"
+            "generate_query_few_shot": "generate_query_demos_8903f9c3-0879-4c05-a039-f56985573d4d",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "Identity"
         },
-        "score": 0.5169130757704926,
-        "price": 0.0005258625,
-        "total_price": 0.05258625
+        "score": 0.17438926591090642,
+        "price": 0.0002991795,
+        "total_price": 0.02991795
     }
 }

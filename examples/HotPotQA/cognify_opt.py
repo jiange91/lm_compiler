@@ -26,7 +26,7 @@ def load_data():
     valset = [get_input_label(x) for x in dataset.train[100:150]]
     devset = [get_input_label(x) for x in dataset.dev]
     print(devset[0])
-    return trainset, valset, devset
+    return trainset, valset, devset[:50]
 
 def opt(data):
     lm_options = [
@@ -41,11 +41,12 @@ def opt(data):
         "reasoning", [IdentityOption(), ZeroShotCoT()] 
     )
     
-    few_shot_params = LMFewShot("few_shot", None, 4)
+    few_shot_params = LMFewShot("few_shot", None, 8)
     
     inner_loop = InnerLoopBayesianOptimization(
         # universal_params=[model_param, few_shot_params, reasoning_param],
         universal_params=[few_shot_params, reasoning_param],
+        # universal_params=[few_shot_params],
     )
     
     evaluator = EvaluatorPlugin(
@@ -57,7 +58,7 @@ def opt(data):
         script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
         n_trials=30,
         evaluator=evaluator,
-        log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_logs',
+        log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_logs_full',
         throughput=2,
     )
     return pareto_frontier
@@ -85,6 +86,6 @@ if __name__ == '__main__':
     mp.set_start_method('spawn')
     
     train, val, dev = load_data()
-    # configs = opt(train)
-    # eval(dev, configs[2])
+    configs = opt(train)
+    eval(dev, configs[1])
     

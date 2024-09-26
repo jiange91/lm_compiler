@@ -8,10 +8,11 @@
       "name": "Python Debugger: Attach using Process Id",
       "type": "debugpy",
       "request": "attach",
-      "connect": {
-        "host": "localhost",
-        "port": 5678
-      },
+      "processId": "${command:pickProcess}",
+      // "connect": {
+      //   "host": "localhost",
+      //   "port": 5678
+      // },
     },
   ]
 }

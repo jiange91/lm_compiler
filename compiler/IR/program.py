@@ -18,12 +18,6 @@ import time
 from itertools import chain
         
 
-import logging
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(pathname)s:%(lineno)d - %(levelname)s - %(message)s')
-logging.getLogger('httpx').setLevel(logging.WARNING)
-logging.getLogger('absl').setLevel(logging.WARNING)
-
 logger = logging.getLogger(__name__)
 
 

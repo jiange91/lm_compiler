@@ -166,7 +166,7 @@ class LangChainSemantic(LMSemantic):
         self.chat_prompt_template.append(HumanMessage(
             "---\n"
         ))
-    
+        
     def build_prompt_template(self):
         # setup message list
         if not self.message_template_predefined:

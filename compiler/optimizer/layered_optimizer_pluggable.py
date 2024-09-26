@@ -40,6 +40,7 @@ class InnerLoopBayesianOptimization:
         dedicate_params: list[ParamBase] = [],
         universal_params: list[ParamBase] = [],
         target_modules: Iterable[str] = None,
+        progress_bar: bool = False,
     ):
         """
         The optimization will always try to minimize the price and maximize the score
@@ -71,6 +72,8 @@ class InnerLoopBayesianOptimization:
         self.study: optuna.study.Study = None
         self._study_lock: threading.Lock = None
         self.opt_target_lm_names: set[str] = None
+        self.progress_bar = progress_bar
+        self._tmp_write_lock: threading.Lock = None
     
     def prepare_opt_env(
         self, 
@@ -193,7 +196,7 @@ class InnerLoopBayesianOptimization:
         for lm_name, new_module in module_dict.items():
             if lm_name in optimize_itself:
                 new_modules.append(new_module)
-        logger.info(f"- InnerLoop - next_to_run - Trial {trial.number} params: {self.opt_logs[trial.number]['params']}")
+        logger.info(f"- InnerLoop - apply param - Trial {trial.number} params: {self.opt_logs[trial.number]['params']}")
         return new_modules, mapping
 
     def propose(
@@ -227,6 +230,10 @@ class InnerLoopBayesianOptimization:
         logger.info(f"- Trial {trial.number} result: score: {score}, price: {price}")
         self.opt_logs[trial.number]['score'] = score
         self.opt_logs[trial.number]['price'] = price
+        
+        with self._tmp_write_lock:
+            with open(os.path.join(self.inner_loop_log_dir, 'tmp.trials'), 'a') as f:
+                f.write(json.dumps(self.opt_logs[trial.number]) + '\n')
         
         total_price = sum(eval_result.prices)
         self.opt_logs[trial.number]['total_price'] = total_price
@@ -304,10 +311,17 @@ class InnerLoopBayesianOptimization:
             with ThreadPoolExecutor(max_workers=throughput) as executor:
                 for n_submitted_trials in range(n_trials):
                     if len(futures) >= throughput:
-                        completed, futures = wait(futures, return_when=FIRST_COMPLETED)
-                        for f in completed:
-                            f.result()
+                        try:
+                            completed, futures = wait(futures, return_when=FIRST_COMPLETED)
+                            for f in completed:
+                                try:
+                                    f.result()
+                                except Exception as e:
+                                    logger.error(f'Error in evaluating task: {e}')
+                        except Exception as e:
+                            logger.error(f'Error in waiting for futures: {e}')
                     futures.add(executor.submit(_opt_loop, 1))
+                wait(futures, return_when="ALL_COMPLETED")
         
     def optimize(
         self,
@@ -339,6 +353,7 @@ class InnerLoopBayesianOptimization:
         
         opt_log_path = os.path.join(self.inner_loop_log_dir, 'opt_logs.json')
         param_save_path = os.path.join(self.inner_loop_log_dir, 'params.json')
+        self._tmp_write_lock = threading.Lock()
         
         # NOTE: if param file exists, will load params from file and ignore the given params
         if os.path.exists(param_save_path):
@@ -415,6 +430,7 @@ class InnerLoopBayesianOptimization:
             pareto_frontier.append((trial, task))
             
         print("Opt Cost: {}".format(self.opt_cost))
+        print(f"#Pareto Frontier: {len(pareto_frontier)}")
         return self.opt_cost, pareto_frontier
 
 class InnerLoopEvaluator:

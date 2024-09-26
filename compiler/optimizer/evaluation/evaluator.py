@@ -196,15 +196,22 @@ class EvalTask:
         
         # replace module invoke with new module
         for m in schema.opt_target_modules:
-            if m.name in self.module_map_table:
-                new_module = self.module_pool[self.module_map_table[m.name]]
+            if self.module_pool:
+                if m.name in self.module_map_table:
+                    new_module = self.module_pool[self.module_map_table[m.name]]
+                else:
+                    new_module = self.module_pool[m.name]
             else:
-                new_module = self.module_pool[m.name]
+                continue
             if isinstance(new_module, Workflow):
                 new_module.compile()
             logger.debug(f'replace {m} with {new_module}')
             m.invoke = new_module.invoke
             m.reset()
+            
+        if self.module_pool is None:
+            self.module_pool = {m.name: m for m in schema.opt_target_modules} 
+            
         result = schema.program(input)
         score = schema.score_fn(label, result)
         
@@ -222,7 +229,7 @@ class EvalTask:
 class EvaluatorPlugin:
     def __init__(
         self,
-        eval_set: Iterable[Tuple[dict,dict]], # list of input data and labels
+        eval_set: Iterable[Tuple[any,any]], # list of input data and labels
         n_parallel: int = 1,
         score_reducer: Callable = None,
         price_reducer: Callable = None,
@@ -263,4 +270,4 @@ class EvaluatorPlugin:
             reduced_price=reduced_price,
             demos=demos,
         )
-        
+    

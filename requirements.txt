@@ -15,7 +15,7 @@ pymupdf4llm
 devtools
 astunparse
 datamodel-code-generator
-
+tqdm
 openai
 regex
 tenacity

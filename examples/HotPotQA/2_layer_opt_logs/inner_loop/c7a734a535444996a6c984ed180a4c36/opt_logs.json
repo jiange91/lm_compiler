@@ -1,0 +1,502 @@
+{
+    "0": {
+        "id": "7b6c076c85744792ba4ae90627356f08",
+        "params": {
+            "QuestionAnalyzer_few_shot": "Identity",
+            "QuestionAnalyzer_reasoning": "ZeroShotCoT",
+            "ContextInterpreter_few_shot": "Identity",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "Identity",
+            "AnswerSynthesizer_reasoning": "Identity",
+            "SearchQueryGenerator_few_shot": "Identity",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "Identity",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "Identity",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.025913621262458473,
+        "price": 0.0015632999999999999,
+        "eval_cost": 0.0062531999999999996
+    },
+    "1": {
+        "id": "ce34cda7528d4ae5bc2221e9cf80aa27",
+        "params": {
+            "QuestionAnalyzer_few_shot": "Identity",
+            "QuestionAnalyzer_reasoning": "ZeroShotCoT",
+            "ContextInterpreter_few_shot": "Identity",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "Identity",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "Identity",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "Identity",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "Identity",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.07478632478632478,
+        "price": 0.0017881874999999998,
+        "eval_cost": 0.007152749999999999
+    },
+    "2": {
+        "id": "c7eb661240e94840ab895519f034ef5d",
+        "params": {
+            "QuestionAnalyzer_few_shot": "QuestionAnalyzer_demos_a14797f3-696b-42fc-a941-12b8728464bf",
+            "QuestionAnalyzer_reasoning": "ZeroShotCoT",
+            "ContextInterpreter_few_shot": "Identity",
+            "ContextInterpreter_reasoning": "Identity",
+            "AnswerSynthesizer_few_shot": "AnswerSynthesizer_demos_fb679d49-a916-4811-8ef8-2d8c26770036",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "Identity",
+            "SearchQueryGenerator_reasoning": "ZeroShotCoT",
+            "QueryFormulator_few_shot": "Identity",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "Identity",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.03970125786163522,
+        "price": 0.0030973125000000002,
+        "eval_cost": 0.012389250000000001
+    },
+    "3": {
+        "id": "89ae92cedaf7463babcae2693cb3bb2c",
+        "params": {
+            "QuestionAnalyzer_few_shot": "Identity",
+            "QuestionAnalyzer_reasoning": "ZeroShotCoT",
+            "ContextInterpreter_few_shot": "ContextInterpreter_demos_cdc755f5-fdaa-4444-ab3c-31b30e41bc58",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "AnswerSynthesizer_demos_fb679d49-a916-4811-8ef8-2d8c26770036",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "SearchQueryGenerator_demos_0e3914da-2897-4e5e-96ba-d73a8fedea0b",
+            "SearchQueryGenerator_reasoning": "ZeroShotCoT",
+            "QueryFormulator_few_shot": "QueryFormulator_demos_f57187e4-27b5-4391-af54-547e523fb6be",
+            "QueryFormulator_reasoning": "ZeroShotCoT",
+            "ContextExtractor_few_shot": "Identity",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.025893752088205817,
+        "price": 0.0057306,
+        "eval_cost": 0.0229224
+    },
+    "4": {
+        "id": "b43c885b86904f4ba7e2943c7a383e42",
+        "params": {
+            "QuestionAnalyzer_few_shot": "QuestionAnalyzer_demos_a14797f3-696b-42fc-a941-12b8728464bf",
+            "QuestionAnalyzer_reasoning": "ZeroShotCoT",
+            "ContextInterpreter_few_shot": "ContextInterpreter_demos_abaf0951-e9d1-4e7c-9ac4-42ba1620d508",
+            "ContextInterpreter_reasoning": "Identity",
+            "AnswerSynthesizer_few_shot": "AnswerSynthesizer_demos_fb679d49-a916-4811-8ef8-2d8c26770036",
+            "AnswerSynthesizer_reasoning": "Identity",
+            "SearchQueryGenerator_few_shot": "SearchQueryGenerator_demos_e7675f38-3e7b-4799-81dd-354311df6140",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "QueryFormulator_demos_f57187e4-27b5-4391-af54-547e523fb6be",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "ContextExtractor_demos_c8d968ad-2698-4d63-b0b6-8f64bed6c21c",
+            "ContextExtractor_reasoning": "Identity"
+        },
+        "score": 0.017718715393133997,
+        "price": 0.0038854124999999997,
+        "eval_cost": 0.015541649999999999
+    },
+    "5": {
+        "id": "392ce86dec564595983bbb0a63c9f21e",
+        "params": {
+            "QuestionAnalyzer_few_shot": "QuestionAnalyzer_demos_d77fe6a4-435e-4931-a9c6-dfc18b99ea7f",
+            "QuestionAnalyzer_reasoning": "ZeroShotCoT",
+            "ContextInterpreter_few_shot": "Identity",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "Identity",
+            "AnswerSynthesizer_reasoning": "Identity",
+            "SearchQueryGenerator_few_shot": "SearchQueryGenerator_demos_ec022cc4-78d9-439e-a90c-646cd0f23117",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "QueryFormulator_demos_f57187e4-27b5-4391-af54-547e523fb6be",
+            "QueryFormulator_reasoning": "ZeroShotCoT",
+            "ContextExtractor_few_shot": "ContextExtractor_demos_59683cdd-6e8f-4c67-9044-b9e0082d379d",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.04672285030533091,
+        "price": 0.0056010750000000005,
+        "eval_cost": 0.022404300000000002
+    },
+    "6": {
+        "id": "c324b2e4cbac4319a57c63351cd13884",
+        "params": {
+            "QuestionAnalyzer_few_shot": "Identity",
+            "QuestionAnalyzer_reasoning": "ZeroShotCoT",
+            "ContextInterpreter_few_shot": "ContextInterpreter_demos_a6356977-b69d-4241-aa17-458c3808bcf5",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "AnswerSynthesizer_demos_c219de32-5550-4060-a7f3-42145c667002",
+            "AnswerSynthesizer_reasoning": "Identity",
+            "SearchQueryGenerator_few_shot": "Identity",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "QueryFormulator_demos_ef368d26-7363-42d7-abf1-a3ca3a2a3638",
+            "QueryFormulator_reasoning": "ZeroShotCoT",
+            "ContextExtractor_few_shot": "ContextExtractor_demos_59683cdd-6e8f-4c67-9044-b9e0082d379d",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.024320499127460763,
+        "price": 0.0064576875,
+        "eval_cost": 0.02583075
+    },
+    "7": {
+        "id": "4b5913e18643401185c72e32d0179262",
+        "params": {
+            "QuestionAnalyzer_few_shot": "QuestionAnalyzer_demos_a14797f3-696b-42fc-a941-12b8728464bf",
+            "QuestionAnalyzer_reasoning": "ZeroShotCoT",
+            "ContextInterpreter_few_shot": "ContextInterpreter_demos_4cf53712-4ea3-4317-bee2-f4c0921ff2b4",
+            "ContextInterpreter_reasoning": "Identity",
+            "AnswerSynthesizer_few_shot": "AnswerSynthesizer_demos_fb679d49-a916-4811-8ef8-2d8c26770036",
+            "AnswerSynthesizer_reasoning": "Identity",
+            "SearchQueryGenerator_few_shot": "SearchQueryGenerator_demos_0e3914da-2897-4e5e-96ba-d73a8fedea0b",
+            "SearchQueryGenerator_reasoning": "ZeroShotCoT",
+            "QueryFormulator_few_shot": "QueryFormulator_demos_178ea993-af02-4965-888b-bfa0cd88366b",
+            "QueryFormulator_reasoning": "ZeroShotCoT",
+            "ContextExtractor_few_shot": "Identity",
+            "ContextExtractor_reasoning": "Identity"
+        },
+        "score": 0.03731601731601731,
+        "price": 0.0039426374999999994,
+        "eval_cost": 0.015770549999999998
+    },
+    "8": {
+        "id": "d9dff896e7dc4b89a79065421244bc0b",
+        "params": {
+            "QuestionAnalyzer_few_shot": "QuestionAnalyzer_demos_6abee183-26a5-40aa-9ef4-3d21578bf9be",
+            "QuestionAnalyzer_reasoning": "Identity",
+            "ContextInterpreter_few_shot": "ContextInterpreter_demos_abaf0951-e9d1-4e7c-9ac4-42ba1620d508",
+            "ContextInterpreter_reasoning": "Identity",
+            "AnswerSynthesizer_few_shot": "AnswerSynthesizer_demos_5755a4a8-7238-4275-b789-633133ff1f37",
+            "AnswerSynthesizer_reasoning": "Identity",
+            "SearchQueryGenerator_few_shot": "SearchQueryGenerator_demos_ec022cc4-78d9-439e-a90c-646cd0f23117",
+            "SearchQueryGenerator_reasoning": "ZeroShotCoT",
+            "QueryFormulator_few_shot": "QueryFormulator_demos_f57187e4-27b5-4391-af54-547e523fb6be",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "ContextExtractor_demos_59683cdd-6e8f-4c67-9044-b9e0082d379d",
+            "ContextExtractor_reasoning": "Identity"
+        },
+        "score": 0.04381654381654382,
+        "price": 0.006033262499999999,
+        "eval_cost": 0.024133049999999996
+    },
+    "9": {
+        "id": "7e28dfbce04a4279989238ea88f9f912",
+        "params": {
+            "QuestionAnalyzer_few_shot": "Identity",
+            "QuestionAnalyzer_reasoning": "Identity",
+            "ContextInterpreter_few_shot": "ContextInterpreter_demos_4cf53712-4ea3-4317-bee2-f4c0921ff2b4",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "Identity",
+            "AnswerSynthesizer_reasoning": "Identity",
+            "SearchQueryGenerator_few_shot": "SearchQueryGenerator_demos_e7675f38-3e7b-4799-81dd-354311df6140",
+            "SearchQueryGenerator_reasoning": "ZeroShotCoT",
+            "QueryFormulator_few_shot": "Identity",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "ContextExtractor_demos_c8d968ad-2698-4d63-b0b6-8f64bed6c21c",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.035227272727272725,
+        "price": 0.0059444625,
+        "eval_cost": 0.02377785
+    },
+    "10": {
+        "id": "dd5dfa5a8ed34b51ab2b99fefda7ecd5",
+        "params": {
+            "QuestionAnalyzer_few_shot": "QuestionAnalyzer_demos_6abee183-26a5-40aa-9ef4-3d21578bf9be",
+            "QuestionAnalyzer_reasoning": "ZeroShotCoT",
+            "ContextInterpreter_few_shot": "ContextInterpreter_demos_a6356977-b69d-4241-aa17-458c3808bcf5",
+            "ContextInterpreter_reasoning": "Identity",
+            "AnswerSynthesizer_few_shot": "AnswerSynthesizer_demos_c219de32-5550-4060-a7f3-42145c667002",
+            "AnswerSynthesizer_reasoning": "Identity",
+            "SearchQueryGenerator_few_shot": "Identity",
+            "SearchQueryGenerator_reasoning": "ZeroShotCoT",
+            "QueryFormulator_few_shot": "QueryFormulator_demos_baead985-3a0c-4966-a5c5-86eaa2de4370",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "ContextExtractor_demos_5274136c-48a2-4392-b864-3a47e128e6cf",
+            "ContextExtractor_reasoning": "Identity"
+        },
+        "score": 0.017763157894736842,
+        "price": 0.005185612500000001,
+        "eval_cost": 0.020742450000000003
+    },
+    "11": {
+        "id": "466371d5680e4bf7830ce3c1f5f2b4da",
+        "params": {
+            "QuestionAnalyzer_few_shot": "Identity",
+            "QuestionAnalyzer_reasoning": "ZeroShotCoT",
+            "ContextInterpreter_few_shot": "ContextInterpreter_demos_cdc755f5-fdaa-4444-ab3c-31b30e41bc58",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "Identity",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "Identity",
+            "SearchQueryGenerator_reasoning": "ZeroShotCoT",
+            "QueryFormulator_few_shot": "Identity",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "ContextExtractor_demos_1f40fe57-250f-4708-828d-7a0b00676968",
+            "ContextExtractor_reasoning": "Identity"
+        },
+        "score": 0.0943880786303107,
+        "price": 0.0049166625,
+        "eval_cost": 0.01966665
+    },
+    "12": {
+        "id": "3676a68809fd45a8a3afdc9338d509d6",
+        "params": {
+            "QuestionAnalyzer_few_shot": "Identity",
+            "QuestionAnalyzer_reasoning": "Identity",
+            "ContextInterpreter_few_shot": "Identity",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "Identity",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "Identity",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "Identity",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "Identity",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.1177814938684504,
+        "price": 0.0017591999999999998,
+        "eval_cost": 0.007036799999999999
+    },
+    "13": {
+        "id": "1087fac5151e44bd9a9beb1fda8fb80e",
+        "params": {
+            "QuestionAnalyzer_few_shot": "QuestionAnalyzer_demos_e316ab13-9311-4650-aaee-3b10017863e6",
+            "QuestionAnalyzer_reasoning": "Identity",
+            "ContextInterpreter_few_shot": "ContextInterpreter_demos_ab0c4b6f-30cd-4819-b965-87b3d2aab6cc",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "Identity",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "SearchQueryGenerator_demos_0e3914da-2897-4e5e-96ba-d73a8fedea0b",
+            "SearchQueryGenerator_reasoning": "ZeroShotCoT",
+            "QueryFormulator_few_shot": "Identity",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "Identity",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.05615942028985507,
+        "price": 0.0049265625,
+        "eval_cost": 0.01970625
+    },
+    "14": {
+        "id": "7cdb0bfa35404793b1d9e0f38bb72bae",
+        "params": {
+            "QuestionAnalyzer_few_shot": "QuestionAnalyzer_demos_e316ab13-9311-4650-aaee-3b10017863e6",
+            "QuestionAnalyzer_reasoning": "Identity",
+            "ContextInterpreter_few_shot": "ContextInterpreter_demos_d0d3fd59-99eb-4643-8f6a-afdd9f902dad",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "Identity",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "SearchQueryGenerator_demos_039a8512-84ca-4737-aca4-c626b3041fa0",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "Identity",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "ContextExtractor_demos_59683cdd-6e8f-4c67-9044-b9e0082d379d",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.08124999999999999,
+        "price": 0.007575487499999999,
+        "eval_cost": 0.030301949999999998
+    },
+    "15": {
+        "id": "108a2d00279749698d49088e2d20eb40",
+        "params": {
+            "QuestionAnalyzer_few_shot": "Identity",
+            "QuestionAnalyzer_reasoning": "Identity",
+            "ContextInterpreter_few_shot": "ContextInterpreter_demos_399fc537-194e-4af3-907d-950f36115f20",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "AnswerSynthesizer_demos_5755a4a8-7238-4275-b789-633133ff1f37",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "SearchQueryGenerator_demos_8c633a01-9c21-4a8d-a6b7-24b3e31ac5bc",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "QueryFormulator_demos_baead985-3a0c-4966-a5c5-86eaa2de4370",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "ContextExtractor_demos_b3993759-fec7-4cd5-8d2d-a22962319552",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.057422354187576664,
+        "price": 0.0083098125,
+        "eval_cost": 0.03323925
+    },
+    "16": {
+        "id": "c823c80f2e6543358ddbd8e6ecf1cfb3",
+        "params": {
+            "QuestionAnalyzer_few_shot": "Identity",
+            "QuestionAnalyzer_reasoning": "Identity",
+            "ContextInterpreter_few_shot": "Identity",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "AnswerSynthesizer_demos_7f10fb31-4fcf-403a-a275-e3d3a5c13a44",
+            "AnswerSynthesizer_reasoning": "Identity",
+            "SearchQueryGenerator_few_shot": "SearchQueryGenerator_demos_0e3914da-2897-4e5e-96ba-d73a8fedea0b",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "Identity",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "ContextExtractor_demos_1f40fe57-250f-4708-828d-7a0b00676968",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.015177392687429452,
+        "price": 0.00486285,
+        "eval_cost": 0.0194514
+    },
+    "17": {
+        "id": "7464484c26f844ea944d79d30e7dba70",
+        "params": {
+            "QuestionAnalyzer_few_shot": "QuestionAnalyzer_demos_461e1a46-f31c-4e29-a337-364509d85629",
+            "QuestionAnalyzer_reasoning": "Identity",
+            "ContextInterpreter_few_shot": "Identity",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "AnswerSynthesizer_demos_fb679d49-a916-4811-8ef8-2d8c26770036",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "SearchQueryGenerator_demos_ea641666-cf1e-4775-8067-bb16d85bf563",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "Identity",
+            "QueryFormulator_reasoning": "ZeroShotCoT",
+            "ContextExtractor_few_shot": "ContextExtractor_demos_e3f3d387-6131-442c-b1a1-0eff6633f749",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.034166666666666665,
+        "price": 0.0056919375,
+        "eval_cost": 0.02276775
+    },
+    "18": {
+        "id": "faf09d27ffb447deae93c6a90768114c",
+        "params": {
+            "QuestionAnalyzer_few_shot": "QuestionAnalyzer_demos_6abee183-26a5-40aa-9ef4-3d21578bf9be",
+            "QuestionAnalyzer_reasoning": "Identity",
+            "ContextInterpreter_few_shot": "Identity",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "AnswerSynthesizer_demos_8b357c13-571c-4932-8e64-8b41ebeb1d8c",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "SearchQueryGenerator_demos_ec022cc4-78d9-439e-a90c-646cd0f23117",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "QueryFormulator_demos_ef368d26-7363-42d7-abf1-a3ca3a2a3638",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "Identity",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.060534591194968554,
+        "price": 0.0047033625,
+        "eval_cost": 0.01881345
+    },
+    "19": {
+        "id": "1fbbcfa138414574a7f83ddbfe10629e",
+        "params": {
+            "QuestionAnalyzer_few_shot": "QuestionAnalyzer_demos_d77fe6a4-435e-4931-a9c6-dfc18b99ea7f",
+            "QuestionAnalyzer_reasoning": "Identity",
+            "ContextInterpreter_few_shot": "Identity",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "AnswerSynthesizer_demos_1721e503-3f34-4698-bb91-bc4953d905c6",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "Identity",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "QueryFormulator_demos_3299bbb6-8bb6-4024-a104-8ce705efc029",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "ContextExtractor_demos_1f40fe57-250f-4708-828d-7a0b00676968",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.11521739130434783,
+        "price": 0.0060535499999999996,
+        "eval_cost": 0.024214199999999998
+    },
+    "20": {
+        "id": "2f22fcf2a3164ae69302edea06aca4aa",
+        "params": {
+            "QuestionAnalyzer_few_shot": "Identity",
+            "QuestionAnalyzer_reasoning": "Identity",
+            "ContextInterpreter_few_shot": "Identity",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "AnswerSynthesizer_demos_04535acf-3ee9-4064-9a8d-e3a9887e581a",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "SearchQueryGenerator_demos_28256bc4-e7ab-40ed-8225-82b2ed034190",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "QueryFormulator_demos_3299bbb6-8bb6-4024-a104-8ce705efc029",
+            "QueryFormulator_reasoning": "ZeroShotCoT",
+            "ContextExtractor_few_shot": "Identity",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.0898078529657477,
+        "price": 0.0043986749999999995,
+        "eval_cost": 0.017594699999999998
+    },
+    "21": {
+        "id": "bb988baf2c5d41bd8f9ec678a339b62a",
+        "params": {
+            "QuestionAnalyzer_few_shot": "QuestionAnalyzer_demos_a14797f3-696b-42fc-a941-12b8728464bf",
+            "QuestionAnalyzer_reasoning": "Identity",
+            "ContextInterpreter_few_shot": "ContextInterpreter_demos_d0d3fd59-99eb-4643-8f6a-afdd9f902dad",
+            "ContextInterpreter_reasoning": "ZeroShotCoT",
+            "AnswerSynthesizer_few_shot": "Identity",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "Identity",
+            "SearchQueryGenerator_reasoning": "ZeroShotCoT",
+            "QueryFormulator_few_shot": "QueryFormulator_demos_f57187e4-27b5-4391-af54-547e523fb6be",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "ContextExtractor_demos_e3f3d387-6131-442c-b1a1-0eff6633f749",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.1429951690821256,
+        "price": 0.0069563624999999995,
+        "eval_cost": 0.027825449999999998
+    },
+    "22": {
+        "id": "3ce7678389334863b1a8d8df279714e7",
+        "params": {
+            "QuestionAnalyzer_few_shot": "QuestionAnalyzer_demos_461e1a46-f31c-4e29-a337-364509d85629",
+            "QuestionAnalyzer_reasoning": "Identity",
+            "ContextInterpreter_few_shot": "Identity",
+            "ContextInterpreter_reasoning": "Identity",
+            "AnswerSynthesizer_few_shot": "Identity",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "SearchQueryGenerator_demos_28256bc4-e7ab-40ed-8225-82b2ed034190",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "QueryFormulator_demos_f57187e4-27b5-4391-af54-547e523fb6be",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "ContextExtractor_demos_5274136c-48a2-4392-b864-3a47e128e6cf",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.045846394984326015,
+        "price": 0.00507075,
+        "eval_cost": 0.020283
+    },
+    "23": {
+        "id": "ac11d62c82ae41b49fe003d26a22e306",
+        "params": {
+            "QuestionAnalyzer_few_shot": "QuestionAnalyzer_demos_162f0d9a-8fe9-441e-8a21-be6e3c2a2a0a",
+            "QuestionAnalyzer_reasoning": "Identity",
+            "ContextInterpreter_few_shot": "ContextInterpreter_demos_4cf53712-4ea3-4317-bee2-f4c0921ff2b4",
+            "ContextInterpreter_reasoning": "Identity",
+            "AnswerSynthesizer_few_shot": "AnswerSynthesizer_demos_c219de32-5550-4060-a7f3-42145c667002",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "Identity",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "QueryFormulator_demos_baead985-3a0c-4966-a5c5-86eaa2de4370",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "Identity",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.05714375208820582,
+        "price": 0.0051568125,
+        "eval_cost": 0.02062725
+    },
+    "24": {
+        "id": "f80abe054c8f4bcdbb1c831b34ad2ebb",
+        "params": {
+            "QuestionAnalyzer_few_shot": "QuestionAnalyzer_demos_d77fe6a4-435e-4931-a9c6-dfc18b99ea7f",
+            "QuestionAnalyzer_reasoning": "Identity",
+            "ContextInterpreter_few_shot": "ContextInterpreter_demos_cdc755f5-fdaa-4444-ab3c-31b30e41bc58",
+            "ContextInterpreter_reasoning": "Identity",
+            "AnswerSynthesizer_few_shot": "Identity",
+            "AnswerSynthesizer_reasoning": "ZeroShotCoT",
+            "SearchQueryGenerator_few_shot": "Identity",
+            "SearchQueryGenerator_reasoning": "Identity",
+            "QueryFormulator_few_shot": "Identity",
+            "QueryFormulator_reasoning": "Identity",
+            "ContextExtractor_few_shot": "ContextExtractor_demos_2a00f1c1-214d-477e-92d6-c4542107b69b",
+            "ContextExtractor_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.08333333333333333,
+        "price": 0.0047607375,
+        "eval_cost": 0.01904295
+    }
+}

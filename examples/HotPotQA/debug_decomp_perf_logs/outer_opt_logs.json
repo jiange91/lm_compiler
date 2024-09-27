@@ -1,0 +1,18 @@
+{
+    "0": {
+        "id": "c5dcca0b68a54f22bc2373c193f15c6c",
+        "params": {
+            "generate_answer_Scaffold_generate_answer": "Decompose_generate_answer_option_0",
+            "generate_query_Scaffold_generate_query": "Decompose_generate_query_option_0",
+            "refine_query_Scaffold_refine_query": "Decompose_refine_query_option_0"
+        },
+        "best_score": -Infinity,
+        "lowest_effective_price": Infinity,
+        "eval_cost": 0.0559311,
+        "inner_opt_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/debug_decomp_perf_logs/inner_loop/831ccf4108bd436188272e884b47447f",
+        "inner_pareto_frontier": [
+            "927ffd55b6c94109afb4b5254fe6d0da",
+            "43b84cc1514e418cbf0bf92b47ed4fba"
+        ]
+    }
+}

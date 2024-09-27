@@ -12,7 +12,9 @@ from compiler.utils import load_api_key
 load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')
 
 gpt4o_mini = dspy.OpenAI('gpt-4o-mini', max_tokens=1000)
+
 colbert = dspy.ColBERTv2(url='http://192.168.1.18:8893/api/search')
+
 dspy.configure(lm=gpt4o_mini, rm=colbert)
 
 dataset = HotPotQA(train_seed=1, train_size=150, eval_seed=2023, dev_size=200, test_size=0)
@@ -45,7 +47,8 @@ class BasicMH(dspy.Module):
             print("Passages:", passages)
             context = deduplicate(context + passages)
 
-        return self.generate_answer(context=context, question=question).copy(context=context)
+        answer = self.generate_answer(context=context, question=question).copy(context=context)
+        return answer
     
 agent = BasicMH(passages_per_hop=2)
 agent.load('optimized_qa.dspy')

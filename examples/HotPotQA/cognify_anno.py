@@ -32,7 +32,7 @@ first_query_agent.lm_config = lm_config
 
 following_query_prompt = """
 You are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.
-Given the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.",
+Given the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.
 """
 following_query_semantic = LangChainSemantic(
     system_prompt=following_query_prompt,
@@ -53,7 +53,7 @@ answer_semantic = LangChainSemantic(
 answer_agent = LangChainLM('generate_answer', answer_semantic, opt_register=True)
 answer_agent.lm_config = lm_config
 
-cot_fixed = True
+cot_fixed = False
 if cot_fixed:
     ZeroShotCoT.direct_apply(first_query_agent)
     ZeroShotCoT.direct_apply(following_query_agent)
@@ -73,16 +73,16 @@ class BasicMH(dspy.Module):
         context = []
 
         search_query = self.initial_generate_query.invoke({'question': question}).content
-        # print("Search query:", search_query)
+        print("Search query:", search_query)
         passages = self.retrieve(search_query).passages
-        # print("Passages:", passages)
+        print("Passages:", passages)
         context = deduplicate(context + passages)
         
         for _ in range(2-1):
             search_query = self.follwing_generate_query.invoke({'context': context, 'question': question}).content
-            # print("Search query:", search_query)
+            print("Search query:", search_query)
             passages = self.retrieve(search_query).passages
-            # print("Passages:", passages)
+            print("Passages:", passages)
             context = deduplicate(context + passages)
 
         answer = self.generate_answer.invoke({'context': context, 'question': question}).content
@@ -103,9 +103,9 @@ def answer_f1(label: str, pred: str):
     if isinstance(label, str):
         label = [label]
     score = F1(pred, label)
-    # print(f'Label: {label}')
-    # print(f'Pred: {pred}')
-    # print(f'Score: {score}\n')
+    print(f'Label: {label}')
+    print(f'Pred: {pred}')
+    print(f'Score: {score}\n')
     return score
 
 from compiler.optimizer.params.reasoning import ZeroShotCoT

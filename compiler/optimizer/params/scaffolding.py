@@ -7,6 +7,7 @@ import sys
 import json
 import logging
 from pathlib import Path
+import copy
 
 
 logger = logging.getLogger(__name__)
@@ -30,9 +31,13 @@ class LMScaffolding(ParamBase, AddNewModuleImportInterface):
         log_dir: str,
         module_name: str = None,
         new_agent_systems: list[StructuredAgentSystem] = [],
+        default_identity: bool = True,
     ):
         self.log_dir = log_dir
-        options = [IdentityOption()]
+        if default_identity:
+            options = [IdentityOption()]
+        else:
+            options = []
         for i, new_sys in enumerate(new_agent_systems):
             options.append(
                 DecomposeOption(f'Decompose_{module_name}_option_{i}', new_sys, log_dir)
@@ -45,6 +50,7 @@ class LMScaffolding(ParamBase, AddNewModuleImportInterface):
         workflow: Optional[Workflow] = None,
         lm_modules: Optional[list[LLMPredictor]] = None,
         decompose_threshold: int = 4,
+        default_identity: bool = True,
         target_modules: Optional[list[str]] = None,
         log_dir: str = 'task_decompose_logs',
     ):
@@ -56,7 +62,13 @@ class LMScaffolding(ParamBase, AddNewModuleImportInterface):
         
         params = []
         for module_name, new_system in decomposer.lm_2_final_system.items():
-            params.append(cls(f'Scaffold_{module_name}', module_name, log_dir, [new_system]))
+            params.append(cls(
+                name=f'Scaffold_{module_name}', 
+                log_dir=log_dir,
+                module_name=module_name,
+                new_agent_systems=[new_system],
+                default_identity=default_identity,
+            ))
         return params
 
     @classmethod
@@ -66,6 +78,7 @@ class LMScaffolding(ParamBase, AddNewModuleImportInterface):
         script_args: list[str] = [],
         decompose_threshold: int = 4,
         target_modules: Optional[list[str]] = None,
+        default_identity: bool = True,
         log_dir: str = 'task_decompose_logs',
     ):
         dir = os.path.dirname(script_path)
@@ -73,18 +86,24 @@ class LMScaffolding(ParamBase, AddNewModuleImportInterface):
             sys.path.insert(0, dir)
         sys.argv = [script_path] + script_args
         schema = OptimizerSchema.capture(script_path)
-        lm_modules = schema.opt_target_modules
+        lm_modules = copy.deepcopy(schema.opt_target_modules)
+        
         return cls.bootstrap(
             lm_modules=lm_modules,
             decompose_threshold=decompose_threshold,
             target_modules=target_modules,
             log_dir=log_dir,
+            default_identity=default_identity,
         )
 
     @classmethod
     def from_dict(cls, data: dict):
         name, module_name, log_dir = data['name'], data['module_name'], data['log_dir']
-        param = cls(name, module_name, log_dir)
+        param = cls(
+            name=name,
+            log_dir=log_dir,
+            module_name=module_name,
+        )
         
         loaded_options = data['options']
         loaded_options.pop('Identity', None)

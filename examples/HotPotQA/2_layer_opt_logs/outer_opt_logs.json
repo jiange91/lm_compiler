@@ -1,0 +1,57 @@
+{
+    "0": {
+        "id": "69571296063245cebea5f3bfbcdbf370",
+        "params": {
+            "generate_answer_Scaffold_generate_answer": "Identity",
+            "generate_query_Scaffold_generate_query": "Identity",
+            "refine_query_Scaffold_refine_query": "Identity"
+        },
+        "best_score": 0.6066433566433567,
+        "lowest_effective_price": 0.000931875,
+        "eval_cost": 0.223581,
+        "inner_opt_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/2_layer_opt_logs/inner_loop/43a2cb2adee4488994f8d6e891efcdab",
+        "inner_pareto_frontier": [
+            "2c442b2abe8a4633b66df920467a1b3f",
+            "26fdea68c7524c10949327e59821c57c",
+            "43d64137688345b0af1d59cade130aed",
+            "0a31c900096d4a7c87e186b89959876a",
+            "a3595c5482c04d6fabc13c6117c4380b"
+        ]
+    },
+    "1": {
+        "id": "659ca34ce16a4043b019393d5e08b991",
+        "params": {
+            "generate_answer_Scaffold_generate_answer": "Decompose_generate_answer_option_0",
+            "generate_query_Scaffold_generate_query": "Decompose_generate_query_option_0",
+            "refine_query_Scaffold_refine_query": "Decompose_refine_query_option_0"
+        },
+        "best_score": -Infinity,
+        "lowest_effective_price": Infinity,
+        "eval_cost": 0.49748925,
+        "inner_opt_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/2_layer_opt_logs/inner_loop/c7a734a535444996a6c984ed180a4c36",
+        "inner_pareto_frontier": [
+            "7b6c076c85744792ba4ae90627356f08",
+            "3676a68809fd45a8a3afdc9338d509d6",
+            "bb988baf2c5d41bd8f9ec678a339b62a"
+        ]
+    },
+    "2": {
+        "id": "de02973588de4e7cb90811f91b5ca534",
+        "params": {
+            "generate_answer_Scaffold_generate_answer": "Decompose_generate_answer_option_0",
+            "generate_query_Scaffold_generate_query": "Identity",
+            "refine_query_Scaffold_refine_query": "Identity"
+        },
+        "best_score": -Infinity,
+        "lowest_effective_price": Infinity,
+        "eval_cost": 0.37878600000000007,
+        "inner_opt_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/2_layer_opt_logs/inner_loop/d9263390048044819076e19adc9b3cb0",
+        "inner_pareto_frontier": [
+            "aae24f8c0e5c4de385d0f98f6bac1864",
+            "9c6419100f374bbaa8120f6956dc9ac3",
+            "a963589c5334485c8ceb0fde2d8b3f55",
+            "0120c5bef7ca4900b6a23305459a9d77",
+            "48ea4a4bc1184880aacfcf2e50414308"
+        ]
+    }
+}

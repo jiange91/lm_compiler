@@ -1,0 +1,14 @@
+{
+    "refine_query": {
+        "score": 3,
+        "rationale": "This task is slightly more complex than the first as it involves extracting relevant details from both the context and the question to generate an effective search query. It requires vertical planning and reasoning to ensure the search query is accurate and effective, but the sub-tasks are still relatively simple."
+    },
+    "generate_answer": {
+        "score": 3,
+        "rationale": "Answering questions with ground truth involves analyzing the provided context and deriving a clear, logical answer. This requires vertical reasoning and decision-making, but the sub-tasks involved are straightforward and do not require complex decomposition."
+    },
+    "generate_query": {
+        "score": 2,
+        "rationale": "The task involves generating a search query based on a provided question. While it requires understanding the key elements of the question, it is relatively straightforward and does not involve complex reasoning or decision-making."
+    }
+}

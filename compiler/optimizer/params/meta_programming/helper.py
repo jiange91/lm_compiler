@@ -67,6 +67,7 @@ class MetaPromptingScaffolding:
     def meta_model_generate(
         self,
         lm: ChatOpenAI,
+        reasoning_steps: List[BaseMessage],
         chat_prompt: list[BaseMessage],
         counter = 0,
         last_answer: str = None,
@@ -100,6 +101,7 @@ class MetaPromptingScaffolding:
                 chat_prompt.append(
                     AIMessage(meta_model_output)
                 )
+                reasoning_steps.append(AIMessage(meta_model_output))
                 logger.debug(f"Meta model output: {meta_model_output}")
 
                 # Check if the meta_model_output contains a text of the form "Expert XYZ:\n" (where XYZ is an alphabanumeric string).
@@ -212,10 +214,12 @@ class MetaPromptingScaffolding:
 
                     # Add the intermediate output to the full prompt or messages.
                     chat_prompt.append(HumanMessage(intermediate_output))
+                    reasoning_steps.append(HumanMessage(intermediate_output))
 
                     # Prepare the prompt for the meta model
                     return self.meta_model_generate(
                         lm=lm,
+                        reasoning_steps=reasoning_steps,
                         chat_prompt=chat_prompt,
                         counter=counter + 1,
                         last_answer=last_answer,

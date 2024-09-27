@@ -11,6 +11,8 @@ import types
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import BaseMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.messages.utils import get_buffer_string
+from langchain_core.runnables import chain
 
 import logging
 
@@ -38,11 +40,30 @@ class ReasoningOptionMeta(ABCMeta):
         new_cls = super().__new__(cls, name, bases, attrs)
         cls.registry[name] = new_cls
         return new_cls
-    
+
+def format_rationale(rationale: list[BaseMessage]) -> list[BaseMessage]:
+    base = HumanMessage("Here is the reasoning steps:\n")
+    return [base] + rationale
+
+@chain
+def pass_msgs(msgs: list[BaseMessage]):
+    return msgs
 
 class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
+    
+    @classmethod
+    def direct_apply(cls, lm_module: LangChainLM):
+        reasoning = cls()
+        reasoning.apply(lm_module)
+        return reasoning
 
-    def reasoning_step(self, new_semantic: LangChainSemantic, lm: ChatOpenAI, inputs: dict):
+    def reasoning_step(
+        self, 
+        chat_messages: list[BaseMessage], 
+        lm: ChatOpenAI, 
+    ) -> list[BaseMessage]:
+        """Produce reasoning steps for the given chat prompt messages
+        """
         raise NotImplementedError
 
     def get_invoke_routine(self, lm_module: LangChainLM):
@@ -58,7 +79,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
         new_semantic = LangChainSemantic(
             system_prompt=old_semantic.system_prompt,
             inputs=old_semantic.inputs,
-            output_format=f"reasoning_answer_{lm_module.name}",
+            output_format=f"rationale_from_{lm_module.name}",
             need_output_type_hint=False,
             output_format_instructions=None,
             img_input_idices=old_semantic.img_input_idices,
@@ -71,26 +92,40 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
         
         def new_invocation_routine(lm_module: LangChainLM):
             def get_answer(inputs: dict):
-                self.reasoning_step(new_semantic, lm_module.lm, inputs)
-                post_reasoning_routine = new_semantic.chat_prompt_template | get_inspect_runnable(f'after - {lm_module.name} - reasoning step') | lm_module.lm 
+                chat_messages = new_semantic.chat_prompt_template.format_messages(**inputs)
+                
+                # get reasoning steps
+                rationale = self.reasoning_step(chat_messages.copy(), lm_module.lm)
+                
+                # NOTE: this will be cleared after current invocation in compiler/IR/llm.py
+                #       incase a module is reused
+                rationale_str = get_buffer_string(format_rationale(rationale))
+                lm_module.rationale = rationale_str
+                
+                # prepare output propmt
+                chat_messages.extend(format_rationale(rationale))
+                post_reasoning_routine = pass_msgs | get_inspect_runnable(f'-- {lm_module.name} reasoning steps --') | lm_module.lm | get_inspect_runnable(f'-- {lm_module.name} organize output --')
+                
+                output_vars = ', '.join([f'{{{ovar}}}' for ovar in old_semantic.get_agent_outputs()])
                 if old_semantic.output_type_hint or old_semantic.output_format_instructions:
-                    new_semantic.chat_prompt_template.extend([
-                        HumanMessage("Now please format your final answer according to the following instructions:\n"),
+                    chat_messages.extend([
+                        HumanMessage(f"Now please format your final response {output_vars} according to the following instructions:\n"),
                         old_semantic.get_output_format_spec(),
                     ])
                     if old_semantic.output_format:
                         post_reasoning_routine = post_reasoning_routine | old_semantic.parser
-                        result = post_reasoning_routine.invoke(inputs)
+                        result = post_reasoning_routine.invoke(chat_messages)
                         result = old_semantic.output_format.model_validate(result) 
                         return {key: getattr(result, key) for key in old_semantic.get_agent_outputs()}
                     else:
-                        result = post_reasoning_routine.invoke(inputs).content
+                        result = post_reasoning_routine.invoke(chat_messages).content
                         return {old_semantic.get_agent_outputs()[0]: result}
                 else:
-                    new_semantic.chat_prompt_template.append(
-                        HumanMessage("Based on these informations, please give your answer: \n")
+                    assert len(old_semantic.get_agent_outputs()) == 1, "No formatted agent only has one output"
+                    chat_messages.append(
+                        HumanMessage(f"Based on these informations, please give your response {output_vars}\n")
                     )
-                    result = post_reasoning_routine.invoke(inputs).content
+                    result = post_reasoning_routine.invoke(chat_messages).content
                     return {old_semantic.get_agent_outputs()[0]: result}
             
             inputs_str = ', '.join(new_semantic.inputs)
@@ -127,30 +162,30 @@ class ZeroShotCoT(ReasonThenFormat):
     def __init__(self):
         super().__init__("ZeroShotCoT")
         
-    def reasoning_step(self, new_semantic: LangChainSemantic, lm: ChatOpenAI, inputs: dict):
-        new_semantic.chat_prompt_template.append(
-            HumanMessage("Reasoning: Let's solve this problem step by step: \n")
-        )
-        msgs = new_semantic.chat_prompt_template.format_messages(**inputs)
-        result = lm.invoke(msgs)
-        new_semantic.chat_prompt_template.append(
-            AIMessage(result.content)
-        )
+    def reasoning_step(
+        self, 
+        chat_messages: list[BaseMessage], 
+        lm: ChatOpenAI, 
+    ) -> list[BaseMessage]:
+        h = HumanMessage("Let's solve this problem step by step before giving your response\n")
+        chat_messages.append(h)
+        result = lm.invoke(chat_messages)
         logger.debug(f"Zero-shot CoT in module {lm.name}, reasoning: {result.content}")
+        return [h, result]
         
 
 class PlanBefore(ReasonThenFormat):
     def __init__(self):
         super().__init__("PlanBefore")
     
-    def reasoning_step(self, new_semantic: LangChainSemantic, lm: ChatOpenAI, inputs: dict):
-        new_semantic.chat_prompt_template.append(
-            HumanMessage("Reasoning: Let's first plan necessary steps to approach this problem then give the answer: \n")
-        )
-        routine = new_semantic.chat_prompt_template | lm
-        result = routine.invoke(inputs).content
-        logger.debug(f"PlanBefore in module {lm.name}, reasoning: {result}")
-        new_semantic.chat_prompt_template.append(
-            AIMessage(result)
-        )
-
+    def reasoning_step(
+        self, 
+        chat_messages: list[BaseMessage], 
+        lm: ChatOpenAI, 
+    ) -> list[BaseMessage]:
+        h = HumanMessage("Let's first plan necessary steps to approach this problem before giving yout response\n")
+        chat_messages.append(h)
+        result = lm.invoke(chat_messages)
+        logger.debug(f"PlanBefore in module {lm.name}, reasoning: {result.content}")
+        return [h, result]
+        

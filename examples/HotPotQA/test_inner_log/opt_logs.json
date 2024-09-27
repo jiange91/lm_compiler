@@ -1,0 +1,72 @@
+{
+    "0": {
+        "id": "520de5cf95b64cd08b350d286f9d970b",
+        "params": {
+            "refine_query_few_shot": "Identity",
+            "refine_query_reasoning": "Identity",
+            "generate_query_few_shot": "Identity",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.38789335664335667,
+        "price": 0.0009545249999999999,
+        "eval_cost": 0.0038180999999999996
+    },
+    "1": {
+        "id": "099570439535466389c7401c5508f2b5",
+        "params": {
+            "refine_query_few_shot": "Identity",
+            "refine_query_reasoning": "ZeroShotCoT",
+            "generate_query_few_shot": "Identity",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.3301282051282051,
+        "price": 0.000938775,
+        "eval_cost": 0.0037551
+    },
+    "2": {
+        "id": "8fd54fd71a8b4711bd53fd5b3a9c2d72",
+        "params": {
+            "refine_query_few_shot": "Identity",
+            "refine_query_reasoning": "ZeroShotCoT",
+            "generate_query_few_shot": "Identity",
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "generate_answer_demos_2d3e3f13-fca6-425c-9b84-fb836a312184",
+            "generate_answer_reasoning": "Identity"
+        },
+        "score": 0.7476190476190476,
+        "price": 0.0013846875,
+        "eval_cost": 0.00553875
+    },
+    "3": {
+        "id": "c52b0be18f824c028c2aa64490ae405e",
+        "params": {
+            "refine_query_few_shot": "refine_query_demos_4cd4c424-1a46-43d1-939a-37a29b5b7fb5",
+            "refine_query_reasoning": "ZeroShotCoT",
+            "generate_query_few_shot": "Identity",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.4659090909090909,
+        "price": 0.0013771125,
+        "eval_cost": 0.00550845
+    },
+    "4": {
+        "id": "540948a74aff4f018049d0632740be1d",
+        "params": {
+            "refine_query_few_shot": "refine_query_demos_265df7b9-aac5-4154-8774-6121d55908b9",
+            "refine_query_reasoning": "Identity",
+            "generate_query_few_shot": "generate_query_demos_787ab51c-5d7b-49a5-afa9-0a5428ce81c5",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "generate_answer_demos_2d3e3f13-fca6-425c-9b84-fb836a312184",
+            "generate_answer_reasoning": "Identity"
+        },
+        "score": 0.7476190476190476,
+        "price": 0.0020712375,
+        "eval_cost": 0.00828495
+    }
+}

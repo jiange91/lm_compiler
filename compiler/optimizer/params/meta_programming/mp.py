@@ -63,11 +63,17 @@ class MetaPrompting(ReasonThenFormat):
     def __init__(self):
         super().__init__("MetaPrompting")
         
-    def reasoning_step(self, new_semantic: LangChainSemantic, lm: ChatOpenAI, inputs: dict):
-        chat_prompt: list[BaseMessage] = new_semantic.chat_prompt_template.format_messages(**inputs)
+    def reasoning_step(
+        self, 
+        chat_messages: list[BaseMessage], 
+        lm: ChatOpenAI, 
+    ) -> list[BaseMessage]:
         
-        chat_prompt.insert(max(len(chat_prompt)-1, 0), HumanMessage(question_prefix_or_path))
-        chat_prompt.append(HumanMessage(question_suffix_or_path))
+        chat_messages.insert(max(len(chat_messages)-1, 0), HumanMessage(question_prefix_or_path))
         
-        reasoning_history = meta_model.meta_model_generate(lm, chat_prompt)
-        new_semantic.chat_prompt_template = ChatPromptTemplate.from_messages(reasoning_history)
+        h = HumanMessage(question_suffix_or_path)
+        chat_messages.append(h)
+        
+        reasoning_steps = [h]
+        full_reasoning_history = meta_model.meta_model_generate(lm, reasoning_steps, chat_messages)
+        return reasoning_steps

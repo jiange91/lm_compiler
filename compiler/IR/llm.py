@@ -40,6 +40,7 @@ class Demonstration:
     # this makes sense especially when the output should be structured
     output: str
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    reasoning: str = field(default=None)
     
     def to_string(self):
         """Naive string representation of the demonstration
@@ -51,7 +52,8 @@ class Demonstration:
         for key, value in self.inputs.items():
             input_str.append(f"{key}:\n{value}")
         input_str = '**Input:**\n' + '\n'.join(input_str)
-        
+        if self.reasoning:
+            input_str += f"\n**Reasoning:**\n{self.reasoning}"
         demo_str = f"{input_str}\n**Answer:**\n{self.output}"
         return demo_str
     
@@ -169,6 +171,7 @@ class LLMPredictor(Module):
         self.lm = lm
         self.input_cache = {}
         self.step_info = []
+        self.rationale: str = None
         
         self.semantic = semantic
         # NOTE: lm and kernel will be set at first execution
@@ -209,6 +212,7 @@ class LLMPredictor(Module):
         self.lm = None
         self.step_info = []
         self.input_cache = {}
+        self.rationale = None
         self.custom_reset()
     
     def custom_reset(self):
@@ -272,8 +276,10 @@ class LLMPredictor(Module):
         lm_hist = self.get_lm_history()
         self.step_info.append({
             'inputs': copy.deepcopy(self.input_cache),
+            'rationale': self.rationale,
             'output': lm_hist[-1]['response'],
         })
+        self.rationale = None
         self.input_cache = {}
         self.lm_history.extend(lm_hist)
         

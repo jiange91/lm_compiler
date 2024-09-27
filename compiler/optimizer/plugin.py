@@ -33,10 +33,11 @@ class OptimizerSchema:
         
         # NOTE: somehow modules un run_path might be imported before calling this function
         # so I force spawn now instead of fork to ensure these global registry are not shared and inherited when running the script
-        # clear_registry()
         runpy.run_path(script_path)
-        return cls(
+        schema = cls(
             program=get_registered_opt_program_entry(),
             score_fn=get_registered_opt_score_fn(),
             opt_target_modules=get_registered_opt_modules(),
         )
+        clear_registry()
+        return schema

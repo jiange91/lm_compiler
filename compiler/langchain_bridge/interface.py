@@ -23,6 +23,7 @@ from compiler.IR.base import StatePool
 from compiler.IR.llm import LLMPredictor, LMConfig, LMSemantic, Demonstration
 from compiler.IR.schema_parser import get_pydantic_format_instruction as get_format_instruction
 from compiler.IR.schema_parser import pydentic_model_repr
+from compiler.langchain_bridge.utils import var_2_str
 
 logger = logging.getLogger(__name__)
 
@@ -31,8 +32,11 @@ from langchain_core.runnables import RunnableLambda
 
 def inspect_with_msg(msg: str):
     def inspect_input(inputs, **kwargs):
-        # print(msg, flush=True)
-        # print(inputs, flush=True)
+        print(msg, flush=True)
+        if isinstance(inputs, BaseMessage):
+            print(var_2_str([inputs]), flush=True)
+        else:
+            print(var_2_str(inputs), flush=True)
         return inputs
     return inspect_input
 
@@ -108,13 +112,18 @@ class LangChainSemantic(LMSemantic):
         self.message_template_predefined = len(following_messages) > 0
         self.follwing_messages = following_messages
         self._chat_prompt_template: ChatPromptTemplate = None
-        self.demos = demos
+        self.usr_demos = demos
+        self.compiler_demos = []
+    
+    @property
+    def demos(self) -> list[Demonstration]:
+        return self.get_demos()
     
     def get_demos(self) -> list[Demonstration]:
-        return self.demos
+        return self.usr_demos + self.compiler_demos
     
     def set_demos(self, demos: list[Demonstration]):
-        self.demos = demos
+        self.compiler_demos = demos
     
     @property
     def chat_prompt_template(self):
@@ -154,6 +163,10 @@ class LangChainSemantic(LMSemantic):
                             }]
                         )
                     )
+            if demo.reasoning:
+                self.chat_prompt_template.append(
+                    HumanMessage(demo.reasoning)
+            )
             # add output, only consider text now
             self.chat_prompt_template.append(HumanMessage(
                 f"**Example Answer**:\n{demo.output}\n"
@@ -161,7 +174,7 @@ class LangChainSemantic(LMSemantic):
         self.chat_prompt_template.append(HumanMessage(
             "---\n"
         ))
-    
+        
     def build_prompt_template(self):
         # setup message list
         if not self.message_template_predefined:
@@ -179,9 +192,8 @@ class LangChainSemantic(LMSemantic):
             input_fields = []
             for i, input in enumerate(self.inputs):
                 if not self.img_input_idices or i not in self.img_input_idices:
-                    input_fields.append(f"- {input}:\n{{{input}}}")
-            usr_prompt = "\n".join(input_fields) + "\n\n" + \
-                        "Your answer:\n"
+                    input_fields.append(f"{input}:\n{{{input}}}")
+            usr_prompt = "\n".join(input_fields)
             user_messages.append(
                 {
                     "type": "text",
@@ -361,7 +373,11 @@ def langchain_lm_kernel({inputs_str}):
         inputs_dict = {}
         for key, value in inputs.items():
             inputs_dict[key] = var_2_str(value)
-        demo = Demonstration(inputs_dict, output)
+        demo = Demonstration(
+            inputs=inputs_dict,
+            output=output,
+            reasoning=step.get('rationale', None)
+        )
         return demo
 
     def custom_reset(self):

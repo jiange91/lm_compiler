@@ -1,7 +1,6 @@
 import os
 import json
 from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal, Dict, List
-import copy
 import logging
 import numpy as np
 import inspect
@@ -82,7 +81,6 @@ class HighLevelDecompose(BaseModel):
     agents: List[AgentPropose] = Field(
         description="list of proposed agents"
     )
-
 
 def high_level_decompose_kernel(task: str, complexity: str):
     decompose_prompt = ChatPromptTemplate.from_messages(
@@ -281,6 +279,8 @@ class LMTaskDecompose:
         """provide either workflow or lm_modules to initialize the decomposer
         
         If both are provided, workflow will be used
+        
+        The provided workflow or lm_modules will be changed in-place
         """
         self.workflow = workflow
         if self.workflow is not None:

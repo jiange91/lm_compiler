@@ -30,11 +30,6 @@ Hint: "Men's 200 Metres Freestyle events refer to event_name = 'Swimming Men''s 
 
 ["Swimming Men's 200 metres Freestyle", "Ian James Thorpe", "Ian", "James", "Thorpe", "compete in", "event_name", "event_id"]
 
-Task:
-Given the following question and hint, identify and list all relevant keywords, keyphrases, and named entities.
 
 Question: {QUESTION}
 Hint: {HINT}
-
-Please provide your findings as a Python list, capturing the essence of both the question and hint through the identified terms and phrases. 
-Only output the Python list, no explanations needed. 

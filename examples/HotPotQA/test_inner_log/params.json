@@ -1,0 +1,532 @@
+[
+    {
+        "name": "few_shot",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_demos_265df7b9-aac5-4154-8774-6121d55908b9": {
+                "name": "refine_query_demos_265df7b9-aac5-4154-8774-6121d55908b9",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "24a8d16a-03e1-4a20-9fa0-eb04f8669b8d",
+                    "6490f62e-024b-4d08-b874-99366532d764"
+                ]
+            },
+            "refine_query_demos_4cd4c424-1a46-43d1-939a-37a29b5b7fb5": {
+                "name": "refine_query_demos_4cd4c424-1a46-43d1-939a-37a29b5b7fb5",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "d0a2b081-bfd7-494e-ae7a-25275d49a629",
+                    "6490f62e-024b-4d08-b874-99366532d764"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_pool": [
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "{search_query: \"Steve Yzerman retirement impact Detroit Red Wings new era\"}",
+                "id": "6490f62e-024b-4d08-b874-99366532d764",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Identify Key Information in the Context:**\n   - The context mentions \"Steve Yzerman,\" a Canadian former professional ice hockey player.\n   - He played his entire NHL career with the Detroit Red Wings.\n   - He was named captain of the Red Wings at the age of 21.\n   - After retiring, he served in the front office of the Red Wings and became the general manager of the Tampa Bay Lightning.\n   - He won a Stanley Cup with the Red Wings and an Olympic gold medal with Team Canada.\n\n2. **Analyze the Question:**\n   - The question asks about the retirement of a Canadian retired professional ice hockey player.\n   - It specifically mentions the \"Wings\" (referring to the Detroit Red Wings) entering a new era after this player's retirement.\n   - It also states that this player is the current general manager of the Tampa Bay Lightning.\n\n3. **Connecting the Dots:**\n   - The context indicates that Steve Yzerman is a significant figure in the history of the Detroit Red Wings and is currently the general manager of the Tampa Bay Lightning.\n   - The question implies that the retirement of this player marked a transition for the Red Wings.\n\n4. **Formulating the Search Query:**\n   - The search query should focus on finding information about the retirement of Steve Yzerman and its impact on the Detroit Red Wings.\n\nBased on this analysis, the effective search query would be:\n\n**Search Query:**\n\"Steve Yzerman retirement impact Detroit Red Wings new era\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Vegas Golden Knights\" | \"move by signing Reid Duke to a three-year entry-level contract. The team announced inaugural head coach Gerard Gallant on April 13, 2017. Over the next two months, the Golden Knights developed their farm system, announcing affiliations with the Chicago Wolves of the American Hockey League and the Quad City Mallards of the ECHL. The team participated in the 2017 NHL Expansion Draft on June 21, 2017, selecting an available player from all 30 teams in the NHL. The draft picks were announced at T-Mobile Arena during the NHL Awards ceremony. Some notable selections included goalie Marc-Andre Fleury from the Pittsburgh\"', '\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "{search_query} \"who conducts the NHL Expansion Draft 2017 Marc-Andre Fleury Vegas Golden Knights\"",
+                "id": "24a8d16a-03e1-4a20-9fa0-eb04f8669b8d",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Understanding the Context**:\n   - The context mentions the \"Vegas Golden Knights\" and their activities related to the NHL Expansion Draft.\n   - It specifically states that Marc-Andre Fleury was selected by the Golden Knights during the 2017 NHL Expansion Draft, which took place on June 21, 2017.\n   - The context also notes that the Golden Knights were developing their team and had affiliations with other hockey leagues.\n\n2. **Analyzing the Question**:\n   - The question asks who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season.\n   - The key term here is \"conducts the draft,\" which implies we need to identify the governing body or organization responsible for overseeing the NHL Expansion Draft.\n\n3. **Identifying Relevant Information**:\n   - The NHL (National Hockey League) is the organization that conducts the draft, including the Expansion Draft.\n   - The context does not explicitly state this, but it is common knowledge that the NHL is responsible for all drafts related to its teams.\n\n4. **Formulating the Search Query**:\n   - Based on the context and the question, the search query should focus on the NHL and its role in conducting the Expansion Draft.\n   - A suitable search query could be: \"who conducts the NHL Expansion Draft 2017 Marc-Andre Fleury Vegas Golden Knights\".\n\nNow, let's finalize the search query based on our analysis:\n\n**Search Query**: \"who conducts the NHL Expansion Draft 2017 Marc-Andre Fleury Vegas Golden Knights\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "{search_query} \"Steve Yzerman retirement Detroit Red Wings new era general manager Tampa Bay Lightning\"",
+                "id": "d0a2b081-bfd7-494e-ae7a-25275d49a629",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Understanding the Context**:\n   - The context provides information about the 2010\u201311 Tampa Bay Lightning season and mentions Steve Yzerman, who was the general manager of the Lightning after leaving the Detroit Red Wings.\n   - It also highlights Yzerman's achievements, including his role with the Red Wings and his Olympic gold medal.\n\n2. **Analyzing the Question**:\n   - The question asks about a \"new era\" for the Detroit Red Wings following the retirement of a Canadian retired professional ice hockey player who is also the current general manager of the Tampa Bay Lightning.\n   - The key points to extract from the question are:\n     - The player is Canadian.\n     - The player is retired.\n     - The player is currently the general manager of the Tampa Bay Lightning.\n\n3. **Identifying the Answer**:\n   - From the context, we know that Steve Yzerman is the individual who fits this description. He is Canadian, a retired professional ice hockey player, and served as the general manager of the Tampa Bay Lightning.\n\n4. **Formulating the Search Query**:\n   - To find more information about the retirement of Steve Yzerman and the new era for the Detroit Red Wings, we can create a search query that includes his name, his retirement, and the transition in the Red Wings organization.\n\n**Final Search Query**:\n\"Steve Yzerman retirement Detroit Red Wings new era general manager Tampa Bay Lightning\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Crichton Collegiate Church\" | \"and is available for visiting. Crichton is category A listed building. Crichton Collegiate Church Crichton Collegiate Church is situated about south west of the hamlet of Crichton in Midlothian, Scotland. Crichton itself is west of Pathhead and south of Scotland\\'s capital city, Edinburgh. The church is reached by leaving the A68 road at the north end of Pathhead and turning on to the B6367 minor road at Crichton on a single track lane signposted Crichton Castle. Before reaching the castle car park, on the left, is the church, situated at . Crichton Church was founded on 26 December 1449 by\"', '\"Crichton Collegiate Church\" | \"Crichton Collegiate Church Crichton Collegiate Church is situated about south west of the hamlet of Crichton in Midlothian, Scotland. Crichton itself is west of Pathhead and south of Scotland\\'s capital city, Edinburgh. The church is reached by leaving the A68 road at the north end of Pathhead and turning on to the B6367 minor road at Crichton on a single track lane signposted Crichton Castle. Before reaching the castle car park, on the left, is the church, situated at . Crichton Church was founded on 26 December 1449 by William Crichton, 1st Lord Crichton, Lord Chancellor of Scotland \"\"\"\"Out of\"']",
+                    "question": "What river is near the Crichton Collegiate Church?"
+                },
+                "output": "{search_query} \"Crichton Collegiate Church nearby river Midlothian Scotland\"",
+                "id": "34b1db3f-f248-4fad-8ad4-0b042bad24d1",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: To generate an effective search query based on the provided context and question, we need to analyze both elements carefully.\n\n1. **Context Analysis**:\n   - The context provides information about Crichton Collegiate Church, including its location in Midlothian, Scotland, and its historical background.\n   - It mentions that the church is situated southwest of the hamlet of Crichton, west of Pathhead, and south of Edinburgh.\n   - However, the context does not mention any specific river near the church.\n\n2. **Question Analysis**:\n   - The question asks specifically about the river that is near Crichton Collegiate Church.\n   - Since the context does not provide this information, we need to broaden our search to find relevant geographical information about the area surrounding Crichton Collegiate Church.\n\n3. **Search Query Construction**:\n   - We need to include keywords related to the church's name, its location, and the specific inquiry about nearby rivers.\n   - The search query should be designed to retrieve information about rivers in the vicinity of Crichton Collegiate Church.\n\nBased on this analysis, the search query can be formulated as follows:\n\n**Search Query**: \"Crichton Collegiate Church nearby river Midlothian Scotland\""
+            },
+            {
+                "inputs": {
+                    "context": "['Cangzhou | \"Cangzhou Cangzhou () is a prefecture-level city in eastern Hebei province, People\\'s Republic of China. At the 2010 census, Cangzhou\\'s built-up (\"\"or metro\"\") area made of Yunhe, Xinhua districts and Cang County largely being conurbated had a population of 1,205,814 inhabitants, while the prefecture-level administrative unit in total has a population of 7,134,062. It lies approximately from the major port city of Tianjin, and from Beijing. Cangzhou is reported to have been founded in the Southern and Northern Dynasties period (420\u2212589 CE). Cangzhou City comprises 2 districts, 4 county-level cities, 9 counties and 1 autonomous county. Cangzhou\\'s urban center is\"', '\"Qianxi County, Guizhou\" | \"Qianxi County, Guizhou Qianxi () is a county of western Guizhou province, People\\'s Republic of China. It is under the administration of Bijie City. Qianxi County ranges in latitude from 26\u00b0 45\\' to 27\u00b0 21\\' N and in longitude from 105\u00b0 47\\' to 106\u00b0 26\\' E, and straddles the middle reaches of the Wu River. It borders Xiuwen County to the east, Qingzhen and Zhijin County to the south, Dafang County to the west, north and northeast, and Jinsha County to the north. As measured from the county seat, the provincial capital Guiyang is away, while the prefectural seat, Qixingguan,\"']",
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "{search_query}",
+                "id": "18891913-f3f0-4d0a-b585-9cb0a69290fc",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Understanding the Context**:\n   - The context provides information about two locations: Cangzhou and Qianxi County.\n   - Cangzhou is described as a prefecture-level city in eastern Hebei province, China.\n   - Qianxi County is located in western Guizhou province, China.\n\n2. **Analyzing the Question**:\n   - The question asks whether both Cangzhou and Qionghai are in the Hebei province of China.\n   - We need to determine the location of Qionghai, which is not mentioned in the provided context.\n\n3. **Identifying Key Elements**:\n   - Cangzhou is confirmed to be in Hebei province.\n   - We need to find out if Qionghai is also in Hebei province.\n\n4. **Formulating the Search Query**:\n   - Since we need to find information specifically about Qionghai and its location, the search query should focus on that.\n   - The query should include the name \"Qionghai\" and specify that we are looking for its province in China.\n\nBased on this analysis, the effective search query would be:\n\n**Search Query**: \"Qionghai location province China\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "{search_query}",
+                "id": "7e815cb3-ffc0-4d3a-ac95-bed3eac2c83e",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Understanding the Context**:\n   - The context provides information about the 2010\u201311 Tampa Bay Lightning season and mentions Steve Yzerman, who was the general manager of the Lightning after leaving the Detroit Red Wings.\n   - It also highlights Yzerman's achievements, including his role with the Red Wings and his Olympic gold medal.\n\n2. **Analyzing the Question**:\n   - The question asks about a \"new era\" for the Detroit Red Wings following the retirement of a Canadian retired professional ice hockey player who is also the current general manager of the Tampa Bay Lightning.\n   - The key points to extract from the question are:\n     - The player is Canadian.\n     - The player is retired.\n     - The player is currently the general manager of the Tampa Bay Lightning.\n\n3. **Identifying Relevant Information**:\n   - From the context, we know that Steve Yzerman is a Canadian retired professional ice hockey player who was the general manager of the Tampa Bay Lightning.\n   - The question implies that Yzerman's retirement from playing led to a new era for the Red Wings.\n\n4. **Formulating the Search Query**:\n   - To find the answer to the question, we need to search for information about Steve Yzerman's retirement and its impact on the Detroit Red Wings.\n\nBased on this analysis, the effective search query would be:\n\n**Search Query**: \"Steve Yzerman retirement impact Detroit Red Wings new era\""
+            },
+            {
+                "inputs": {
+                    "context": "['Cangzhou | \"Cangzhou Cangzhou () is a prefecture-level city in eastern Hebei province, People\\'s Republic of China. At the 2010 census, Cangzhou\\'s built-up (\"\"or metro\"\") area made of Yunhe, Xinhua districts and Cang County largely being conurbated had a population of 1,205,814 inhabitants, while the prefecture-level administrative unit in total has a population of 7,134,062. It lies approximately from the major port city of Tianjin, and from Beijing. Cangzhou is reported to have been founded in the Southern and Northern Dynasties period (420\u2212589 CE). Cangzhou City comprises 2 districts, 4 county-level cities, 9 counties and 1 autonomous county. Cangzhou\\'s urban center is\"', 'Cangzhou | \"a heavily industrial city but the city\\'s administrative territory also includes strongly agricultural areas, and is well known in China for its Chinese jujubes (Chinese dates) and pear (widely known under the export name of \"\"Tianjin Ya Pear\"\"). The North China Oil Field is within Cangzhou City\\'s jurisdiction. Cangzhou also encompasses a large fishing port and the coal-exporting Huanghua Harbour. Cangzhou is located in eastern Hebei, immediately to the south of Tianjin, near the coast of the Bohai Sea of the Pacific Ocean. Bordering prefecture-level cities are Hengshui to the southwest, Baoding to the west, and Langfang to the north.\"']",
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "{search_query: \"Qionghai location province China\"}",
+                "id": "5fcbce14-9c3c-4981-aaa3-e58846e6beff",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Understanding the Context**:\n   - The context provides information about Cangzhou, a prefecture-level city in eastern Hebei province, China.\n   - It mentions Cangzhou's population, its geographical location relative to Tianjin and Beijing, and its industrial and agricultural significance.\n   - There is no mention of Qionghai in the context provided.\n\n2. **Analyzing the Question**:\n   - The question asks whether both Cangzhou and Qionghai are in the Hebei province of China.\n   - Since the context only discusses Cangzhou, we need to determine the location of Qionghai to answer the question accurately.\n\n3. **Identifying Relevant Information**:\n   - Cangzhou is confirmed to be in Hebei province.\n   - To answer the question, we need to find out where Qionghai is located. \n\n4. **Formulating the Search Query**:\n   - The search query should focus on finding information about Qionghai's location to determine if it is in Hebei province or elsewhere.\n\nBased on this analysis, the effective search query would be:\n\n**Search Query**: \"Qionghai location province China\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "{search_query: \"Steve Yzerman retirement impact Detroit Red Wings new era\"}",
+                "id": "9e38225c-8df1-4e6d-be9f-924f72dff8cc",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Identify Key Information in the Context:**\n   - The context discusses the \"2010\u201311 Tampa Bay Lightning season\" and mentions that Steve Yzerman was announced as the new general manager of the Lightning on May 25, 2010.\n   - It also notes that Yzerman was a Hall of Fame player and a former executive with the Detroit Red Wings.\n   - The context indicates that Yzerman left the Red Wings organization to take the position with the Lightning.\n\n2. **Analyze the Question:**\n   - The question asks about the retirement of a Canadian retired professional ice hockey player.\n   - It specifically mentions the \"Wings\" (referring to the Detroit Red Wings) entering a new era after this player's retirement.\n   - The question also states that this player is the current general manager of the Tampa Bay Lightning.\n\n3. **Connecting the Dots:**\n   - The context indicates that Steve Yzerman is a significant figure in the history of the Detroit Red Wings and is currently the general manager of the Tampa Bay Lightning.\n   - The question implies that Yzerman's retirement marked a transition for the Red Wings, suggesting that he is the player in question.\n\n4. **Formulating the Search Query:**\n   - The search query should focus on finding information about Steve Yzerman's retirement and its impact on the Detroit Red Wings.\n\nBased on this analysis, the effective search query would be:\n\n**Search Query:**\n\"Steve Yzerman retirement impact Detroit Red Wings new era\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "{search_query: \"Steve Yzerman retirement Detroit Red Wings new era general manager Tampa Bay Lightning\"}",
+                "id": "a09aa8ae-3cae-413c-91ff-3456f4cca811",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Understanding the Context**:\n   - The context discusses the 2010\u201311 Tampa Bay Lightning season and mentions Steve Yzerman, who was the general manager of the Lightning after leaving the Detroit Red Wings.\n   - It highlights Yzerman's achievements, including his time with the Red Wings and his Olympic gold medal.\n\n2. **Analyzing the Question**:\n   - The question asks about a \"new era\" for the Detroit Red Wings that followed the retirement of a Canadian retired professional ice hockey player.\n   - The player in question is also the current general manager of the Tampa Bay Lightning.\n\n3. **Identifying Key Information**:\n   - The context indicates that Steve Yzerman is a Canadian retired professional ice hockey player who played for the Detroit Red Wings and later became the general manager of the Tampa Bay Lightning.\n   - The question implies that Yzerman's retirement marked a significant change for the Red Wings.\n\n4. **Connecting the Dots**:\n   - Since the context mentions that Yzerman left the Red Wings organization in May 2010 to become the general manager of the Lightning, it suggests that his retirement was a pivotal moment for the Red Wings.\n\n5. **Formulating the Search Query**:\n   - To find more information about the retirement of Steve Yzerman and its impact on the Detroit Red Wings, we can create a search query that includes his name, his retirement, and the transition in the Red Wings organization.\n\n**Final Search Query**:\n\"Steve Yzerman retirement Detroit Red Wings new era general manager Tampa Bay Lightning\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Crichton Collegiate Church\" | \"and is available for visiting. Crichton is category A listed building. Crichton Collegiate Church Crichton Collegiate Church is situated about south west of the hamlet of Crichton in Midlothian, Scotland. Crichton itself is west of Pathhead and south of Scotland\\'s capital city, Edinburgh. The church is reached by leaving the A68 road at the north end of Pathhead and turning on to the B6367 minor road at Crichton on a single track lane signposted Crichton Castle. Before reaching the castle car park, on the left, is the church, situated at . Crichton Church was founded on 26 December 1449 by\"', '\"Crichton Collegiate Church\" | \"Crichton Collegiate Church Crichton Collegiate Church is situated about south west of the hamlet of Crichton in Midlothian, Scotland. Crichton itself is west of Pathhead and south of Scotland\\'s capital city, Edinburgh. The church is reached by leaving the A68 road at the north end of Pathhead and turning on to the B6367 minor road at Crichton on a single track lane signposted Crichton Castle. Before reaching the castle car park, on the left, is the church, situated at . Crichton Church was founded on 26 December 1449 by William Crichton, 1st Lord Crichton, Lord Chancellor of Scotland \"\"\"\"Out of\"']",
+                    "question": "What river is near the Crichton Collegiate Church?"
+                },
+                "output": "{search_query: \"river near Crichton Collegiate Church Midlothian Scotland\"}",
+                "id": "1cfe1fa2-37d8-4e72-8a2a-b009c8827726",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Understanding the Context**:\n   - The context provides information about Crichton Collegiate Church, including its location in Midlothian, Scotland, and its historical background.\n   - It mentions that the church is situated southwest of the hamlet of Crichton, west of Pathhead, and south of Edinburgh.\n   - The founding date of the church is noted as December 26, 1449, by William Crichton.\n\n2. **Analyzing the Question**:\n   - The question asks specifically about a river that is near the Crichton Collegiate Church.\n   - The key point here is to identify any geographical features, particularly rivers, that are associated with the church.\n\n3. **Identifying Relevant Information**:\n   - The provided context does not mention any rivers or bodies of water near the Crichton Collegiate Church.\n   - To answer the question accurately, we need to find additional information regarding the geographical features surrounding the church.\n\n4. **Formulating the Search Query**:\n   - Since the context does not provide the answer, the search query should focus on finding information about rivers near Crichton Collegiate Church.\n\n**Final Search Query**:\n\"river near Crichton Collegiate Church Midlothian Scotland\""
+            }
+        ],
+        "demo_pq": [
+            [
+                0.16666666666666669,
+                "34b1db3f-f248-4fad-8ad4-0b042bad24d1"
+            ],
+            [
+                0.2727272727272727,
+                "24a8d16a-03e1-4a20-9fa0-eb04f8669b8d"
+            ],
+            [
+                1.0,
+                "5fcbce14-9c3c-4981-aaa3-e58846e6beff"
+            ],
+            [
+                1.0,
+                "6490f62e-024b-4d08-b874-99366532d764"
+            ],
+            [
+                0.5,
+                "1cfe1fa2-37d8-4e72-8a2a-b009c8827726"
+            ],
+            [
+                1.0,
+                "d0a2b081-bfd7-494e-ae7a-25275d49a629"
+            ],
+            [
+                1.0,
+                "7e815cb3-ffc0-4d3a-ac95-bed3eac2c83e"
+            ],
+            [
+                1.0,
+                "9e38225c-8df1-4e6d-be9f-924f72dff8cc"
+            ],
+            [
+                1.0,
+                "a09aa8ae-3cae-413c-91ff-3456f4cca811"
+            ],
+            [
+                1.0,
+                "18891913-f3f0-4d0a-b585-9cb0a69290fc"
+            ]
+        ],
+        "max_num": 2,
+        "current_best_score_sum": 2.0
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_demos_0940f511-054b-4f5b-b756-ed46ba0ab867": {
+                "name": "generate_query_demos_0940f511-054b-4f5b-b756-ed46ba0ab867",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "c92281b0-8b8b-4035-8653-9db2e7ef6eff",
+                    "12765079-26e3-4659-b798-03a459c7b530"
+                ]
+            },
+            "generate_query_demos_787ab51c-5d7b-49a5-afa9-0a5428ce81c5": {
+                "name": "generate_query_demos_787ab51c-5d7b-49a5-afa9-0a5428ce81c5",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "63c5b38f-56ae-42cf-b189-ac4f5233d30d",
+                    "12765079-26e3-4659-b798-03a459c7b530"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_pool": [
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "{search_query: \"Canadian retired NHL player general manager Tampa Bay Lightning Detroit Red Wings retirement\"}",
+                "id": "12765079-26e3-4659-b798-03a459c7b530",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the question step by step to identify the key elements needed for the search query.\n\n1. **Identify the Subject**: The question is about the \"Wings,\" which likely refers to the Detroit Red Wings, a professional ice hockey team in the NHL.\n\n2. **Key Event**: The question mentions a \"new era\" following the retirement of a player. This indicates a significant change in the team, likely related to leadership or performance.\n\n3. **Player Details**: The player in question is described as a \"Canadian retired professional ice hockey player.\" This narrows down the search to Canadian players who have retired from professional hockey.\n\n4. **Current Role**: The player is also noted to be the \"current general manager of the Tampa Bay Lightning,\" which provides additional context and helps to identify the individual.\n\n5. **NHL Context**: Since the question is about the NHL, it\u2019s important to focus on players who have had a significant impact in that league.\n\nNow, combining all these elements, the search query should focus on finding the name of the Canadian retired player who was a significant figure for the Detroit Red Wings and is currently the general manager of the Tampa Bay Lightning.\n\n**Search Query**: \"Canadian retired NHL player general manager Tampa Bay Lightning Detroit Red Wings retirement\""
+            },
+            {
+                "inputs": {
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "{search_query: \"NHL Expansion Draft 2017 Marc-Andre Fleury Vegas Golden Knights who conducts\"}",
+                "id": "c92281b0-8b8b-4035-8653-9db2e7ef6eff",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the question step by step to identify the key elements needed for the search query.\n\n1. **Identify the Subject**: The main subject of the question is Marc-Andre Fleury, a professional ice hockey player.\n\n2. **Identify the Event**: The event in question is the draft in which Fleury was selected by the Vegas Golden Knights.\n\n3. **Identify the Time Frame**: The specific time frame mentioned is the 2017-18 season.\n\n4. **Identify the Key Action**: The key action is \"conducts the draft,\" which implies we are looking for the organization or entity responsible for the draft process.\n\n5. **Contextual Information**: The draft in question is likely the NHL Expansion Draft, as it pertains to the Vegas Golden Knights, who were a new team entering the NHL for the 2017-18 season.\n\nNow, combining all these elements, we can formulate a search query that captures the essence of the question.\n\n**Search Query**: \"NHL Expansion Draft 2017 Marc-Andre Fleury Vegas Golden Knights who conducts\" \n\nThis query should help retrieve information about the NHL Expansion Draft in 2017, specifically regarding Marc-Andre Fleury and the organization responsible for conducting the draft."
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "{search_query: \"Detroit Red Wings new era Canadian retired player general manager Tampa Bay Lightning\"}",
+                "id": "63c5b38f-56ae-42cf-b189-ac4f5233d30d",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the question step by step to identify the key elements needed for the search query.\n\n1. **Subject of the Question**: The question is about the \"Wings,\" which likely refers to the Detroit Red Wings, a professional ice hockey team in the NHL.\n\n2. **Event**: The question mentions a \"new era\" that the Wings entered, which is linked to the retirement of a specific player.\n\n3. **Player Details**: The player in question is described as:\n   - Canadian\n   - A retired professional ice hockey player\n   - The current general manager of the Tampa Bay Lightning (another NHL team)\n\n4. **Objective**: The goal is to find out which Canadian player fits all these criteria, particularly focusing on their retirement and the impact on the Wings.\n\nNow, let's formulate a search query that encapsulates all these elements:\n\n**Search Query**: \"Detroit Red Wings new era Canadian retired player general manager Tampa Bay Lightning\"\n\nThis query should help retrieve information about the specific player who retired and is currently the general manager of the Tampa Bay Lightning, as well as the implications of their retirement for the Detroit Red Wings."
+            },
+            {
+                "inputs": {
+                    "question": "What river is near the Crichton Collegiate Church?"
+                },
+                "output": "**search_query**: \"river near Crichton Collegiate Church Scotland\"",
+                "id": "723dff6a-6f47-4535-b316-d910f85f0d4f",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the question step by step to formulate an effective search query.\n\n1. **Identify the Key Elements**: \n   - The main subject is \"Crichton Collegiate Church.\"\n   - The question is asking for a specific geographical feature, which is a \"river.\"\n   - The relationship is that the river is \"near\" the church.\n\n2. **Determine the Location**: \n   - Crichton Collegiate Church is located in Scotland, specifically in the Midlothian area.\n\n3. **Focus on the River**: \n   - We need to find out which river is in proximity to this church.\n\n4. **Consider Synonyms and Related Terms**: \n   - We might also consider using terms like \"nearby river,\" \"adjacent river,\" or \"river close to Crichton Collegiate Church.\"\n\n5. **Formulate the Search Query**: \n   - Combine the key elements into a concise search query.\n\nBased on this analysis, the search query could be:\n\n**\"river near Crichton Collegiate Church Scotland\"** \n\nThis query should help retrieve relevant information about the river that is located near the Crichton Collegiate Church."
+            },
+            {
+                "inputs": {
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "{search_query} \"Cangzhou province location China\" AND \"Qionghai province location China\"",
+                "id": "ba736101-63fe-431b-bf25-784b7cb87177",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the question step by step.\n\n1. **Identify the Locations**: The question mentions two places: Cangzhou and Qionghai.\n\n2. **Determine the Provinces**: The question asks if both of these locations are in the Hebei province of China.\n\n3. **Research Each Location**:\n   - **Cangzhou**: This is a city located in Hebei province.\n   - **Qionghai**: This is a city located in Hainan province.\n\n4. **Conclusion**: Since Cangzhou is in Hebei province and Qionghai is in Hainan province, the answer to the question is that both are not in Hebei province.\n\nNow, to create a search query that encapsulates this information, I would focus on finding the provinces of both cities. \n\n**Search Query**: \"Cangzhou province location China\" AND \"Qionghai province location China\""
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "{search_query: \"Detroit Red Wings new era Canadian retired player general manager Tampa Bay Lightning\"}",
+                "id": "cc7c4a15-f88d-4866-9fa8-77d254d00b0a",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the question step by step to identify the key elements needed for the search query.\n\n1. **Subject of the Question**: The question is about the \"Wings,\" which likely refers to the Detroit Red Wings, a professional ice hockey team in the NHL.\n\n2. **Event**: The question mentions a \"new era,\" which implies a significant change or transition for the team.\n\n3. **Key Individual**: The focus is on a \"Canadian retired professional ice hockey player\" who has retired and is now the \"general manager of the Tampa Bay Lightning.\" \n\n4. **Context**: The context is the impact of this individual's retirement on the Detroit Red Wings.\n\n5. **Specific Information Needed**: We need to find out who this Canadian retired player is, as that will answer the question about the new era for the Wings.\n\nBased on these elements, the search query should encapsulate the key points to retrieve relevant information. \n\n**Search Query**: \"Detroit Red Wings new era Canadian retired player general manager Tampa Bay Lightning\""
+            },
+            {
+                "inputs": {
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "{search_query: \"Cangzhou Qionghai location Hebei province China\"}",
+                "id": "8b2857bd-7939-468c-b1fb-af68fb371954",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the question step by step to identify the key elements needed for the search query.\n\n1. **Identify the Locations**: The question mentions two specific places: Cangzhou and Qionghai.\n\n2. **Geographical Context**: The question is asking about the location of these two places in relation to the Hebei province of China.\n\n3. **Objective**: The goal is to determine whether both Cangzhou and Qionghai are located in the Hebei province.\n\n4. **Clarification of Locations**: It\u2019s important to note that Cangzhou is indeed a city in Hebei province, but Qionghai is actually located in Hainan province, not Hebei.\n\nNow, combining these elements, the search query should focus on finding information about the locations of Cangzhou and Qionghai in relation to Hebei province.\n\n**Search Query**: \"Cangzhou Qionghai location Hebei province China\"\n\nThis query should help retrieve information about the geographical locations of both cities and clarify their provincial affiliations."
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "{search_query: \"Detroit Red Wings new era Canadian retired player general manager Tampa Bay Lightning NHL\"}",
+                "id": "3013b1ba-4e69-4990-a052-d0e88bc1fcb2",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the question step by step to identify the key elements needed for the search query.\n\n1. **Identify the Subject**: The question refers to \"The Wings,\" which likely indicates the Detroit Red Wings, a professional ice hockey team in the NHL.\n\n2. **Key Event**: The phrase \"entered a new era\" suggests a significant change for the team, which is linked to the retirement of a specific player.\n\n3. **Player Details**: The player in question is described as:\n   - Canadian\n   - A retired professional ice hockey player\n   - Currently the general manager of the Tampa Bay Lightning (another NHL team)\n\n4. **Objective**: The goal is to find out which Canadian player fits all these criteria, particularly focusing on their retirement and the impact on the Detroit Red Wings.\n\n5. **NHL Context**: Since the question is about the NHL, it\u2019s important to focus on players who have had a significant impact in that league.\n\nNow, let's formulate a search query that encapsulates all these elements:\n\n**Search Query**: \"Detroit Red Wings new era Canadian retired player general manager Tampa Bay Lightning NHL\"\n\nThis query should help retrieve information about the specific player who retired and is currently the general manager of the Tampa Bay Lightning, as well as the implications of their retirement for the Detroit Red Wings."
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "{search_query: \"Detroit Red Wings new era Canadian retired player general manager Tampa Bay Lightning NHL\"}",
+                "id": "9e0b2781-6ef5-486d-aeab-2fd3a4d9557d",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the question step by step to identify the key elements needed for the search query.\n\n1. **Identify the Subject**: The question is about the \"Wings,\" which likely refers to the Detroit Red Wings, a professional ice hockey team in the NHL.\n\n2. **Key Event**: The question mentions a \"new era\" following the retirement of a player. This indicates a significant change in the team, likely related to leadership or performance.\n\n3. **Player Details**: The player in question is described as a \"Canadian retired professional ice hockey player.\" This narrows down the search to Canadian players who have retired.\n\n4. **Current Role**: The player is also noted to be the \"current general manager of the Tampa Bay Lightning.\" This is a crucial detail that helps identify the player.\n\n5. **League Context**: The context is the National Hockey League (NHL), which is important for ensuring the search is focused on professional ice hockey.\n\nNow, combining these elements, the search query should encapsulate the following:\n\n- The team (Detroit Red Wings)\n- The retirement of a Canadian player\n- The player's current role as general manager of the Tampa Bay Lightning\n- The context of the NHL\n\nBased on this analysis, the search query could be:\n\n**\"Detroit Red Wings new era Canadian retired player general manager Tampa Bay Lightning NHL\"**"
+            },
+            {
+                "inputs": {
+                    "question": "What river is near the Crichton Collegiate Church?"
+                },
+                "output": "**search_query**: \"river near Crichton Collegiate Church Scotland\"",
+                "id": "05d46ece-0331-4d3d-a883-37e6131fd460",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure! Let's break down the question step by step to create an effective search query.\n\n1. **Identify the Key Elements**: \n   - The main subject is \"Crichton Collegiate Church.\"\n   - The specific information sought is about a \"river\" that is \"near\" this church.\n\n2. **Determine the Location**: \n   - Crichton Collegiate Church is located in Scotland, specifically in the Midlothian area.\n\n3. **Contextual Information**: \n   - Knowing that the question is about a geographical feature (a river) related to a specific historical site (the church) can help narrow down the search.\n\n4. **Formulate the Search Query**: \n   - The search query should include the name of the church and the term \"river\" to find relevant information about nearby rivers.\n\nBased on this analysis, the search query could be:\n\n**\"river near Crichton Collegiate Church Scotland\"** \n\nThis query should yield results that provide information about any rivers in proximity to the Crichton Collegiate Church."
+            }
+        ],
+        "demo_pq": [
+            [
+                0.16666666666666669,
+                "723dff6a-6f47-4535-b316-d910f85f0d4f"
+            ],
+            [
+                0.2727272727272727,
+                "c92281b0-8b8b-4035-8653-9db2e7ef6eff"
+            ],
+            [
+                1.0,
+                "63c5b38f-56ae-42cf-b189-ac4f5233d30d"
+            ],
+            [
+                1.0,
+                "12765079-26e3-4659-b798-03a459c7b530"
+            ],
+            [
+                0.5,
+                "05d46ece-0331-4d3d-a883-37e6131fd460"
+            ],
+            [
+                1.0,
+                "cc7c4a15-f88d-4866-9fa8-77d254d00b0a"
+            ],
+            [
+                1.0,
+                "8b2857bd-7939-468c-b1fb-af68fb371954"
+            ],
+            [
+                1.0,
+                "3013b1ba-4e69-4990-a052-d0e88bc1fcb2"
+            ],
+            [
+                1.0,
+                "9e0b2781-6ef5-486d-aeab-2fd3a4d9557d"
+            ],
+            [
+                1.0,
+                "ba736101-63fe-431b-bf25-784b7cb87177"
+            ]
+        ],
+        "max_num": 2,
+        "current_best_score_sum": 2.0
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_demos_2d3e3f13-fca6-425c-9b84-fb836a312184": {
+                "name": "generate_answer_demos_2d3e3f13-fca6-425c-9b84-fb836a312184",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "0e204296-82bf-4355-ab78-3d87156b8174",
+                    "c8b5aada-624b-4a59-9b9d-f32f0f660d5b"
+                ]
+            },
+            "generate_answer_demos_76e309b0-3b11-4a75-ba55-cb8c31294463": {
+                "name": "generate_answer_demos_76e309b0-3b11-4a75-ba55-cb8c31294463",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "56988cc3-3e00-45b4-b9f9-26d68e5b7760",
+                    "c8b5aada-624b-4a59-9b9d-f32f0f660d5b"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_pool": [
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"', '\"History of the Detroit Red Wings\" | \"to take the series. Continuing the shakeup of the Red Wings roster, the off-season saw the departure of Brendan Shanahan and the return of Dominik Hasek, while Steve Yzerman announced his retirement after a 23-season Hall of Fame-caliber career with the Wings, at the time having played the second most games in history all with a single team (behind fellow Red Wing Alex Delvecchio and later also surpassed by Nicklas Lidstrom). Yzerman retired with the additional distinction of having been the longest-serving team captain in NHL history. The Red Wings opened the 2006\u201307 season with Nicklas Lidstrom as the new\"', '\"2006\u201307 Detroit Red Wings season\" | \"2006\u201307 Detroit Red Wings season The 2006\u201307 Detroit Red Wings season was the 81st National Hockey League season in Detroit, Michigan. The Wings entered a new era, following the retirement of longtime captain Steve Yzerman after 22 seasons in the NHL, all spent with Detroit. The Wings named Yzerman a team vice-president, Yzerman\\'s number 19 was retired by the Wings in January. The Red Wings lost another longtime player in Brendan Shanahan, who signed with the New York Rangers, although they retained the services of goaltender Dominik Hasek, who re-signed with the club as a free agent. Hasek remained one\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "{Steve Yzerman}",
+                "id": "c8b5aada-624b-4a59-9b9d-f32f0f660d5b",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure, let's break down the information step by step.\n\n1. **Identify the Player**: The context mentions \"Steve Yzerman\" multiple times. He is described as a Canadian former professional ice hockey player who spent his entire NHL career with the Detroit Red Wings.\n\n2. **Retirement**: The context states that Yzerman announced his retirement after a 23-season career with the Red Wings. It also notes that he was the longest-serving team captain in NHL history.\n\n3. **Current Role**: After his retirement, Yzerman served in various roles, including as a vice-president for the Red Wings and later as the general manager of the Tampa Bay Lightning.\n\n4. **New Era for the Wings**: The phrase \"The Wings entered a new era\" indicates a significant change for the team, which is directly linked to Yzerman's retirement.\n\n5. **Conclusion**: The question asks for the Canadian retired professional ice hockey player whose retirement marked the beginning of a new era for the Wings. Based on the context, this player is Steve Yzerman.\n\nNow, synthesizing all this information, the answer to the question is:\n\n**Steve Yzerman**."
+            },
+            {
+                "inputs": {
+                    "context": "['\"Vegas Golden Knights\" | \"move by signing Reid Duke to a three-year entry-level contract. The team announced inaugural head coach Gerard Gallant on April 13, 2017. Over the next two months, the Golden Knights developed their farm system, announcing affiliations with the Chicago Wolves of the American Hockey League and the Quad City Mallards of the ECHL. The team participated in the 2017 NHL Expansion Draft on June 21, 2017, selecting an available player from all 30 teams in the NHL. The draft picks were announced at T-Mobile Arena during the NHL Awards ceremony. Some notable selections included goalie Marc-Andre Fleury from the Pittsburgh\"', '\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "The NHL (National Hockey League) conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season.",
+                "id": "0e204296-82bf-4355-ab78-3d87156b8174",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure, let's break down the information step by step to answer the question.\n\n1. **Identify the Event**: The question refers to the draft in which Marc-Andre Fleury was selected by the Vegas Golden Knights. The context mentions the \"2017 NHL Expansion Draft\" that took place on June 21, 2017.\n\n2. **Understand the Nature of the Draft**: The NHL Expansion Draft is a specific event where a new team (in this case, the Vegas Golden Knights) is allowed to select players from existing teams in the league. This draft is conducted to help the new team build its roster.\n\n3. **Determine Who Conducts the Draft**: The NHL Expansion Draft is organized and conducted by the National Hockey League (NHL). The league sets the rules and oversees the process of the draft.\n\n4. **Link to Marc-Andre Fleury**: The context states that Marc-Andre Fleury was left exposed by the Pittsburgh Penguins and was selected by the Vegas Golden Knights during this draft.\n\nBased on this analysis, the answer to the question is:\n\nThe NHL (National Hockey League) conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season."
+            },
+            {
+                "inputs": {
+                    "context": "['\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"', '\"Steve Yzerman\" | \"in his role, and with his path to GM also blocked by Assistant General Manager Jim Nill, who himself had been given another long-term deal, it became clear that it would not be with the Red Wings. It was later revealed by The Detroit News in 2016 that Red Wings owner Mike Ilitch attempted to promote Holland to make room for Yzerman to become the team\\'s General Manager, but Holland declined the promotion. Not long after Holland received his extension, Craig Leipold, owner of the Minnesota Wild, and Jeffrey Vinik, the then-new owner of the Tampa Bay Lightning, sought to\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "Steve Yzerman",
+                "id": "56988cc3-3e00-45b4-b9f9-26d68e5b7760",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: To answer the question, we need to identify the Canadian retired professional ice hockey player who retired and whose retirement marked the beginning of a new era for the Detroit Red Wings, as well as the current general manager of the Tampa Bay Lightning.\n\n1. **Identify the Canadian retired professional ice hockey player**: The context mentions Steve Yzerman, who is a Hall of Fame player and was a significant figure for the Detroit Red Wings. He won a Stanley Cup with the team and later became the general manager of the Tampa Bay Lightning.\n\n2. **Determine the timing of the retirement**: While the context does not explicitly state the retirement date of Yzerman, it is known from external knowledge that he retired in 2006. His retirement would have indeed marked a transition for the Red Wings, as he was a key player for the franchise.\n\n3. **Current role of Steve Yzerman**: The context confirms that Steve Yzerman became the general manager of the Tampa Bay Lightning in May 2010, which aligns with the timeline of his retirement from playing.\n\n4. **Conclusion**: Given that Yzerman's retirement in 2006 marked a new era for the Red Wings and he is currently the general manager of the Tampa Bay Lightning, we can conclude that he is the player referred to in the question.\n\nTherefore, the answer to the question is:\n\n**Steve Yzerman**."
+            },
+            {
+                "inputs": {
+                    "context": "['\"Crichton Collegiate Church\" | \"and is available for visiting. Crichton is category A listed building. Crichton Collegiate Church Crichton Collegiate Church is situated about south west of the hamlet of Crichton in Midlothian, Scotland. Crichton itself is west of Pathhead and south of Scotland\\'s capital city, Edinburgh. The church is reached by leaving the A68 road at the north end of Pathhead and turning on to the B6367 minor road at Crichton on a single track lane signposted Crichton Castle. Before reaching the castle car park, on the left, is the church, situated at . Crichton Church was founded on 26 December 1449 by\"', '\"Crichton Collegiate Church\" | \"Crichton Collegiate Church Crichton Collegiate Church is situated about south west of the hamlet of Crichton in Midlothian, Scotland. Crichton itself is west of Pathhead and south of Scotland\\'s capital city, Edinburgh. The church is reached by leaving the A68 road at the north end of Pathhead and turning on to the B6367 minor road at Crichton on a single track lane signposted Crichton Castle. Before reaching the castle car park, on the left, is the church, situated at . Crichton Church was founded on 26 December 1449 by William Crichton, 1st Lord Crichton, Lord Chancellor of Scotland \"\"\"\"Out of\"']",
+                    "question": "What river is near the Crichton Collegiate Church?"
+                },
+                "output": "The context does not specify any river near the Crichton Collegiate Church.",
+                "id": "608e9201-3da2-4cf7-96b4-e12b8502eef8",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: To determine what river is near the Crichton Collegiate Church, we need to analyze the provided context carefully. \n\n1. **Location of Crichton Collegiate Church**: The context states that Crichton Collegiate Church is located in Midlothian, Scotland, specifically southwest of the hamlet of Crichton, which is west of Pathhead and south of Edinburgh.\n\n2. **Access to the Church**: The church can be accessed by leaving the A68 road at the north end of Pathhead and turning onto the B6367 minor road, which is signposted for Crichton Castle.\n\n3. **Founding Information**: The church was founded on December 26, 1449, by William Crichton, 1st Lord Crichton, who was the Lord Chancellor of Scotland.\n\n4. **Missing Information**: The provided context does not mention any rivers or bodies of water near the Crichton Collegiate Church. \n\nSince the context does not provide any information about a river near the church, we cannot definitively answer the question based on the given text. \n\nTherefore, the answer to the question \"What river is near the Crichton Collegiate Church?\" is that the context does not specify any river in proximity to the church."
+            },
+            {
+                "inputs": {
+                    "context": "['Cangzhou | \"Cangzhou Cangzhou () is a prefecture-level city in eastern Hebei province, People\\'s Republic of China. At the 2010 census, Cangzhou\\'s built-up (\"\"or metro\"\") area made of Yunhe, Xinhua districts and Cang County largely being conurbated had a population of 1,205,814 inhabitants, while the prefecture-level administrative unit in total has a population of 7,134,062. It lies approximately from the major port city of Tianjin, and from Beijing. Cangzhou is reported to have been founded in the Southern and Northern Dynasties period (420\u2212589 CE). Cangzhou City comprises 2 districts, 4 county-level cities, 9 counties and 1 autonomous county. Cangzhou\\'s urban center is\"', '\"Qianxi County, Guizhou\" | \"Qianxi County, Guizhou Qianxi () is a county of western Guizhou province, People\\'s Republic of China. It is under the administration of Bijie City. Qianxi County ranges in latitude from 26\u00b0 45\\' to 27\u00b0 21\\' N and in longitude from 105\u00b0 47\\' to 106\u00b0 26\\' E, and straddles the middle reaches of the Wu River. It borders Xiuwen County to the east, Qingzhen and Zhijin County to the south, Dafang County to the west, north and northeast, and Jinsha County to the north. As measured from the county seat, the provincial capital Guiyang is away, while the prefectural seat, Qixingguan,\"', '\"Web search query\" | \"Web search query A web search query is a query that a user enters into a web search engine to satisfy his or her information needs. Web search queries are distinctive in that they are often plain text or hypertext with optional search-directives (such as \"\"and\"\"/\"\"or\"\" with \"\"-\"\" to exclude). They vary greatly from standard query languages, which are governed by strict syntax rules as command languages with keyword or positional parameters. There are three broad categories that cover most web search queries: informational, navigational, and transactional. These are also called \"\"do, know, go.\"\" Although this model of searching was\"', '\"Search engine (computing)\" | \"specify criteria about an item of interest and have the engine find the matching items. The criteria are referred to as a search query. In the case of text search engines, the search query is typically expressed as a set of words that identify the desired concept that one or more documents may contain. There are several styles of search query syntax that vary in strictness. It can also switch names within the search engines from previous sites. Whereas some text search engines require users to enter two or three words separated by white space, other search engines may enable\"']",
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "{No}",
+                "id": "23aa1f34-f786-4e9a-8242-f7cfbc1ada59",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure, let's break down the information step by step to answer the question.\n\n1. **Identify the Locations**: The question asks about Cangzhou and Qionghai. We need to determine the provinces in which these two locations are situated.\n\n2. **Information on Cangzhou**: The context provides information about Cangzhou, stating that it is a prefecture-level city in eastern Hebei province, People's Republic of China. This confirms that Cangzhou is indeed in Hebei province.\n\n3. **Information on Qionghai**: The context does not provide any information about Qionghai. Therefore, we need to rely on external knowledge. Qionghai is a city located in Hainan province, not Hebei.\n\n4. **Conclusion**: Since Cangzhou is in Hebei province and Qionghai is in Hainan province, they are not both in Hebei.\n\nBased on this analysis, the answer to the question is:\n\nNo, Cangzhou is in Hebei province, while Qionghai is in Hainan province."
+            },
+            {
+                "inputs": {
+                    "context": "['\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"', '\"Web search query\" | \"Web search query A web search query is a query that a user enters into a web search engine to satisfy his or her information needs. Web search queries are distinctive in that they are often plain text or hypertext with optional search-directives (such as \"\"and\"\"/\"\"or\"\" with \"\"-\"\" to exclude). They vary greatly from standard query languages, which are governed by strict syntax rules as command languages with keyword or positional parameters. There are three broad categories that cover most web search queries: informational, navigational, and transactional. These are also called \"\"do, know, go.\"\" Although this model of searching was\"', '\"Search engine (computing)\" | \"specify criteria about an item of interest and have the engine find the matching items. The criteria are referred to as a search query. In the case of text search engines, the search query is typically expressed as a set of words that identify the desired concept that one or more documents may contain. There are several styles of search query syntax that vary in strictness. It can also switch names within the search engines from previous sites. Whereas some text search engines require users to enter two or three words separated by white space, other search engines may enable\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "{Steve Yzerman}",
+                "id": "ab8cec85-dd99-4eab-9282-160fba09fafa",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure, let's break down the information step by step to answer the question.\n\n1. **Identify the Player**: The context mentions \"Steve Yzerman\" multiple times. He is described as a Canadian former professional ice hockey player who spent his entire NHL career with the Detroit Red Wings.\n\n2. **Retirement**: The context indicates that Yzerman retired after a long career with the Red Wings, which is significant for the team as it marks a transition period.\n\n3. **Current Role**: The context states that in May 2010, Yzerman became the general manager of the Tampa Bay Lightning after leaving the Red Wings organization.\n\n4. **New Era for the Wings**: The phrase \"The Wings entered a new era\" suggests that Yzerman's retirement was a pivotal moment for the team, leading to changes in leadership and direction.\n\n5. **Conclusion**: The question specifically asks for the Canadian retired professional ice hockey player whose retirement marked the beginning of a new era for the Wings. Based on the context, this player is Steve Yzerman.\n\nNow, synthesizing all this information, the answer to the question is:\n\n**Steve Yzerman**."
+            },
+            {
+                "inputs": {
+                    "context": "['Cangzhou | \"Cangzhou Cangzhou () is a prefecture-level city in eastern Hebei province, People\\'s Republic of China. At the 2010 census, Cangzhou\\'s built-up (\"\"or metro\"\") area made of Yunhe, Xinhua districts and Cang County largely being conurbated had a population of 1,205,814 inhabitants, while the prefecture-level administrative unit in total has a population of 7,134,062. It lies approximately from the major port city of Tianjin, and from Beijing. Cangzhou is reported to have been founded in the Southern and Northern Dynasties period (420\u2212589 CE). Cangzhou City comprises 2 districts, 4 county-level cities, 9 counties and 1 autonomous county. Cangzhou\\'s urban center is\"', 'Cangzhou | \"a heavily industrial city but the city\\'s administrative territory also includes strongly agricultural areas, and is well known in China for its Chinese jujubes (Chinese dates) and pear (widely known under the export name of \"\"Tianjin Ya Pear\"\"). The North China Oil Field is within Cangzhou City\\'s jurisdiction. Cangzhou also encompasses a large fishing port and the coal-exporting Huanghua Harbour. Cangzhou is located in eastern Hebei, immediately to the south of Tianjin, near the coast of the Bohai Sea of the Pacific Ocean. Bordering prefecture-level cities are Hengshui to the southwest, Baoding to the west, and Langfang to the north.\"', 'Qionghai | \"Qionghai Qionghai () is one of the seven county-level cities of Hainan province, China. Although called a \"\"city\"\", Qionghai refers to a large land area in Hainan - an area which was once a county. Within this area is the main city, Qionghai City. It is located in the east of the island at the mouth of the Wanquan River, from the provincial capital of Haikou. It has an area of and in 2010, it had a population of 483,217. The seat of government is at Jiaji (), often now referred to simply as Qionghai. Bo\\'ao, seat of the Boao\"', 'Qionghai | \"is Jiaji Duck, originally introduced to Qionghai by locals who returned from living in Southeast Asia. Qionghai Qionghai () is one of the seven county-level cities of Hainan province, China. Although called a \"\"city\"\", Qionghai refers to a large land area in Hainan - an area which was once a county. Within this area is the main city, Qionghai City. It is located in the east of the island at the mouth of the Wanquan River, from the provincial capital of Haikou. It has an area of and in 2010, it had a population of 483,217. The seat of government\"']",
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "{No}",
+                "id": "8df81eaa-2e82-4f66-9562-cb79208e9e69",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure, let's break down the information step by step to answer the question.\n\n1. **Identify the Locations**: The context provides information about two cities: Cangzhou and Qionghai.\n\n2. **Cangzhou**: The first part of the context states that Cangzhou is a prefecture-level city in eastern Hebei province, People's Republic of China. This clearly indicates that Cangzhou is located in Hebei province.\n\n3. **Qionghai**: The context describes Qionghai as one of the seven county-level cities of Hainan province, China. This indicates that Qionghai is located in Hainan province, not Hebei.\n\n4. **Conclusion**: The question asks if both Cangzhou and Qionghai are in Hebei province. Based on the information analyzed, Cangzhou is in Hebei province, while Qionghai is in Hainan province.\n\nTherefore, the answer to the question is:\n\nNo, Qionghai is not in Hebei province; it is in Hainan province."
+            },
+            {
+                "inputs": {
+                    "context": "['\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"', '\"History of the Detroit Red Wings\" | \"to take the series. Continuing the shakeup of the Red Wings roster, the off-season saw the departure of Brendan Shanahan and the return of Dominik Hasek, while Steve Yzerman announced his retirement after a 23-season Hall of Fame-caliber career with the Wings, at the time having played the second most games in history all with a single team (behind fellow Red Wing Alex Delvecchio and later also surpassed by Nicklas Lidstrom). Yzerman retired with the additional distinction of having been the longest-serving team captain in NHL history. The Red Wings opened the 2006\u201307 season with Nicklas Lidstrom as the new\"', '\"2006\u201307 Detroit Red Wings season\" | \"2006\u201307 Detroit Red Wings season The 2006\u201307 Detroit Red Wings season was the 81st National Hockey League season in Detroit, Michigan. The Wings entered a new era, following the retirement of longtime captain Steve Yzerman after 22 seasons in the NHL, all spent with Detroit. The Wings named Yzerman a team vice-president, Yzerman\\'s number 19 was retired by the Wings in January. The Red Wings lost another longtime player in Brendan Shanahan, who signed with the New York Rangers, although they retained the services of goaltender Dominik Hasek, who re-signed with the club as a free agent. Hasek remained one\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "{Steve Yzerman}",
+                "id": "346da5b3-31fc-418a-9ef4-178e9e754478",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: Sure, let's break down the information step by step to answer the question.\n\n1. **Identify the Player**: The context mentions \"Steve Yzerman\" multiple times. He is described as a Canadian former professional ice hockey player who spent his entire NHL career with the Detroit Red Wings.\n\n2. **Retirement**: The context states that Yzerman announced his retirement after a 23-season career with the Red Wings. It also notes that he was the longest-serving team captain in NHL history.\n\n3. **Current Role**: After his retirement, Yzerman served in various roles, including as a vice-president for the Red Wings and later as the general manager of the Tampa Bay Lightning.\n\n4. **New Era for the Wings**: The phrase \"The Wings entered a new era\" indicates a significant change for the team, which is directly linked to Yzerman's retirement.\n\n5. **Conclusion**: The question asks for the Canadian retired professional ice hockey player whose retirement marked the beginning of a new era for the Wings. Based on the context, this player is Steve Yzerman.\n\nNow, synthesizing all this information, the answer to the question is:\n\n**Steve Yzerman**."
+            },
+            {
+                "inputs": {
+                    "context": "['\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"', '\"Steve Yzerman\" | \"in his role, and with his path to GM also blocked by Assistant General Manager Jim Nill, who himself had been given another long-term deal, it became clear that it would not be with the Red Wings. It was later revealed by The Detroit News in 2016 that Red Wings owner Mike Ilitch attempted to promote Holland to make room for Yzerman to become the team\\'s General Manager, but Holland declined the promotion. Not long after Holland received his extension, Craig Leipold, owner of the Minnesota Wild, and Jeffrey Vinik, the then-new owner of the Tampa Bay Lightning, sought to\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "Steve Yzerman",
+                "id": "508dd852-3e74-43a0-a640-542fa414c39c",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: To answer the question, we need to identify the Canadian retired professional ice hockey player who retired and whose retirement marked the beginning of a new era for the Detroit Red Wings, as well as the current general manager of the Tampa Bay Lightning.\n\n1. **Identify the Canadian retired professional ice hockey player**: The context mentions Steve Yzerman, who is a Hall of Fame player and was a significant figure for the Detroit Red Wings. He won a Stanley Cup with the team and later became the general manager of the Tampa Bay Lightning.\n\n2. **Determine the timing of the retirement**: The context does not explicitly state the retirement date of Yzerman, but it implies that his departure from the Red Wings organization and subsequent hiring as the general manager of the Lightning in May 2010 marked a significant change for both teams.\n\n3. **Confirm the current role**: The context clearly states that Steve Yzerman became the general manager of the Tampa Bay Lightning in May 2010 and served in that capacity until September 2018.\n\n4. **Link to the new era for the Red Wings**: The question implies that Yzerman's retirement or departure from the Red Wings was a pivotal moment for the franchise, leading to a new era.\n\nBased on this analysis, the answer to the question is:\n\n**Steve Yzerman**."
+            },
+            {
+                "inputs": {
+                    "context": "['\"Crichton Collegiate Church\" | \"and is available for visiting. Crichton is category A listed building. Crichton Collegiate Church Crichton Collegiate Church is situated about south west of the hamlet of Crichton in Midlothian, Scotland. Crichton itself is west of Pathhead and south of Scotland\\'s capital city, Edinburgh. The church is reached by leaving the A68 road at the north end of Pathhead and turning on to the B6367 minor road at Crichton on a single track lane signposted Crichton Castle. Before reaching the castle car park, on the left, is the church, situated at . Crichton Church was founded on 26 December 1449 by\"', '\"Crichton Collegiate Church\" | \"Crichton Collegiate Church Crichton Collegiate Church is situated about south west of the hamlet of Crichton in Midlothian, Scotland. Crichton itself is west of Pathhead and south of Scotland\\'s capital city, Edinburgh. The church is reached by leaving the A68 road at the north end of Pathhead and turning on to the B6367 minor road at Crichton on a single track lane signposted Crichton Castle. Before reaching the castle car park, on the left, is the church, situated at . Crichton Church was founded on 26 December 1449 by William Crichton, 1st Lord Crichton, Lord Chancellor of Scotland \"\"\"\"Out of\"']",
+                    "question": "What river is near the Crichton Collegiate Church?"
+                },
+                "output": "The River Esk.",
+                "id": "a28a6e42-0093-474f-bcf4-0da54bbc465d",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving your response\n\nAI: To determine what river is near the Crichton Collegiate Church, we need to analyze the provided context carefully. \n\n1. **Location of Crichton Collegiate Church**: The context states that Crichton Collegiate Church is located in Midlothian, Scotland, specifically southwest of the hamlet of Crichton, which is west of Pathhead and south of Edinburgh.\n\n2. **Access to the Church**: The church can be accessed by leaving the A68 road at the north end of Pathhead and turning onto the B6367 minor road, which is signposted for Crichton Castle.\n\n3. **Lack of River Information**: The provided context does not mention any rivers in relation to the Crichton Collegiate Church. It focuses on the church's location, its historical background, and how to reach it.\n\n4. **Researching External Knowledge**: Since the context does not provide the name of a river, we can rely on general knowledge. The nearest river to Crichton Collegiate Church is likely the River Esk, which flows through Midlothian.\n\nBased on this analysis, the answer to the question about what river is near the Crichton Collegiate Church is:\n\n**The River Esk.**"
+            }
+        ],
+        "demo_pq": [
+            [
+                0.16666666666666669,
+                "608e9201-3da2-4cf7-96b4-e12b8502eef8"
+            ],
+            [
+                0.2727272727272727,
+                "0e204296-82bf-4355-ab78-3d87156b8174"
+            ],
+            [
+                1.0,
+                "56988cc3-3e00-45b4-b9f9-26d68e5b7760"
+            ],
+            [
+                1.0,
+                "346da5b3-31fc-418a-9ef4-178e9e754478"
+            ],
+            [
+                0.5,
+                "a28a6e42-0093-474f-bcf4-0da54bbc465d"
+            ],
+            [
+                1.0,
+                "ab8cec85-dd99-4eab-9282-160fba09fafa"
+            ],
+            [
+                1.0,
+                "8df81eaa-2e82-4f66-9562-cb79208e9e69"
+            ],
+            [
+                1.0,
+                "c8b5aada-624b-4a59-9b9d-f32f0f660d5b"
+            ],
+            [
+                1.0,
+                "508dd852-3e74-43a0-a640-542fa414c39c"
+            ],
+            [
+                1.0,
+                "23aa1f34-f786-4e9a-8242-f7cfbc1ada59"
+            ]
+        ],
+        "max_num": 2,
+        "current_best_score_sum": 2.0
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    }
+]

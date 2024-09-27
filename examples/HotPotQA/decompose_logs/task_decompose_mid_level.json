@@ -1,0 +1,90 @@
+{
+    "generate_answer": {
+        "agents": {
+            "ContextAnalyzer": {
+                "inputs": [
+                    "context"
+                ],
+                "outputs": [
+                    "key_details"
+                ],
+                "prompt": "You are an expert in analyzing textual information. Your task is to carefully read the provided context and extract key details that are relevant to answering a given question. Focus on identifying important facts, figures, events, and any other pertinent information. Provide a concise summary of these key details.",
+                "next_action": [
+                    "QuestionInterpreter"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "QuestionInterpreter": {
+                "inputs": [
+                    "question"
+                ],
+                "outputs": [
+                    "question_focus"
+                ],
+                "prompt": "You are an expert in interpreting questions to understand the specific information being sought. Your task is to carefully read the provided question and determine its main focus or intent. Identify key terms, phrases, or concepts that are essential for generating an accurate answer. Provide a concise summary of the question's main focus.",
+                "next_action": [
+                    "AnswerSynthesizer"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "AnswerSynthesizer": {
+                "inputs": [
+                    "key_details",
+                    "question_focus"
+                ],
+                "outputs": [
+                    "answer"
+                ],
+                "prompt": "You are an expert in synthesizing information to generate clear and logically reasoned answers. Your task is to take the key details extracted from the context by the ContextAnalyzer and the main focus identified by the QuestionInterpreter, and combine them to form a coherent and accurate answer to the question. Ensure that your answer is well-supported by the information from the context.",
+                "next_action": [
+                    "END"
+                ],
+                "dynamic_action_decision": "None"
+            }
+        }
+    },
+    "refine_query": {
+        "agents": {
+            "ContextAnalyzer": {
+                "inputs": [
+                    "context"
+                ],
+                "outputs": [
+                    "context_key_elements"
+                ],
+                "prompt": "You are an expert in analyzing provided context. Your task is to carefully read the given context and identify key elements that are crucial for generating an effective search query. Focus on extracting specific names, dates, events, or any other pertinent information that could help in forming a precise search query. Provide a detailed summary of these key elements.",
+                "next_action": [
+                    "QuestionAnalyzer"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "QuestionAnalyzer": {
+                "inputs": [
+                    "question"
+                ],
+                "outputs": [
+                    "question_key_elements"
+                ],
+                "prompt": "You are an expert in analyzing questions to identify the core information being sought. Your task is to carefully read the provided question and determine the main focus or intent behind it. Identify key terms, phrases, or concepts that are essential for generating an effective search query. Provide a detailed summary of these key elements.",
+                "next_action": [
+                    "SearchQuerySynthesizer"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "SearchQuerySynthesizer": {
+                "inputs": [
+                    "context_key_elements",
+                    "question_key_elements"
+                ],
+                "outputs": [
+                    "search_query"
+                ],
+                "prompt": "You are an expert in synthesizing information to generate effective search queries. Your task is to take the key elements extracted from both the context and the question and combine them to form a precise search query. Ensure that the search query encapsulates the most relevant details to retrieve accurate and pertinent information. Provide the final search query.",
+                "next_action": [
+                    "END"
+                ],
+                "dynamic_action_decision": "None"
+            }
+        }
+    }
+}

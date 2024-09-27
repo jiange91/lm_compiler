@@ -1,7 +1,7 @@
 SYSTEM_PROMPT = '''
 You are a Code Reviewer, responsible for reviewing the first half of the incomplete Python code to understand its structure, logic, and existing functionality. 
 
-You are now a code master. Please complete the following additional code, ensure the function handles inputs and matches the expected outputs as described (just continue writing and put result between <result> and </result>, do not output any other content!)\n{prompt}
+You are now a code master. Please complete the following additional code, ensure the function handles inputs and matches the expected outputs as described (just continue writing and put completed code between <result> and </result>, do not output any other content!)
 '''
 
 TRANSIT_NODE_PROMPT = '''
@@ -14,7 +14,7 @@ from pydantic import BaseModel, Field
 
 code_completion_semantic = LangChainSemantic(
   SYSTEM_PROMPT,
-  ['prompt'],
+  ['incomplete_code'],
   "completed_code",
 )
 
@@ -27,7 +27,7 @@ code_completion_agent = code_completion_lm.as_runnable()
 
 code_completion_transit_semantic = LangChainSemantic(
   TRANSIT_NODE_PROMPT,
-  ['code'],
+  ['completed_code'],
   "output_node",
 )
 

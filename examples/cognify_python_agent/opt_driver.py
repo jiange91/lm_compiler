@@ -65,13 +65,23 @@ def eval(trial: optuna.trial.FrozenTrial, task: EvalTask, test):
   print(str(eval_result))
 
 if __name__ == '__main__':
-  all_data = HumanEvalDataset()
-  formatted_data = [(d['prompt'], d['canonical_solution']) for d in all_data.data]
-  train, test = formatted_data[:4], formatted_data[4:]
-  print(f"Train size: {len(train)}")
-  print(f"Test size: {len(test)}")
+  dataset = HumanEvalDataset()
+  total = len(dataset.data)
+  # mp.set_start_method('spawn')
   
-  mp.set_start_method('spawn')
-  
-  best_trials = opt(train)
-  eval(*best_trials[0], test)
+  """
+  Dummy full evaluation
+  """
+  eval_set = [(dataset.data[i]["prompt"], dataset.data[i]) for i in range(total)]
+  evaluator = EvaluatorPlugin(
+    eval_set=eval_set,
+    n_parallel=20
+  )
+  task = EvalTask(
+    script_path='/mnt/ssd4/lm_compiler/examples/cognify_python_agent/workflow.py',
+    args=[],
+    module_map_table=None,
+    module_pool=None,
+  )
+  eval_result: EvaluationResult = evaluator.evaluate(task)
+  print(str(eval_result))

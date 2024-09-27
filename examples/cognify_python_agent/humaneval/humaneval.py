@@ -6,7 +6,8 @@ import numpy as np
 from tqdm import tqdm
 from typing import List, Dict, Union, Optional
 from collections import defaultdict, Counter
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, as_completed, TimeoutError
+
 
 from .base import BaseDataset, DATA_PATH
 from .execution import time_limit, swallow_io, create_tempdir, reliability_guard

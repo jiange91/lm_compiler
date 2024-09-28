@@ -69,7 +69,7 @@ def opt(data):
         n_trials=2,
         evaluator=evaluator,
         log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/test_continue_inner',
-        throughput=2,
+        throughput=1,
     )
     return pareto_frontier
 

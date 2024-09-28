@@ -473,7 +473,7 @@ class InnerLoopBayesianOptimization:
                 self.opt_logs[int(trial_id)] = trial_log
                 self.study.add_trial(trial_log.program[0])
                 self.opt_cost += trial_log.eval_cost
-        else:
+        if n_trials > 0: 
             self._optimize(
                 n_trials=n_trials,
                 script_path=script_path,

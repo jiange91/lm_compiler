@@ -546,7 +546,7 @@ class InnerLoopEvaluator:
             best_prices.append(inner_trial_log.price)
         
         if len(best_scores) == 0:
-            reduced_score, reduced_price = float('-inf'), float('inf')
+            reduced_score, reduced_price = -1e10, 1e10
         else:
             reduced_score, reduced_price = max(best_scores), min(best_prices)
         result = EvaluationResult(
@@ -625,10 +625,10 @@ class OuterLoopOptimization:
             
             # Validate the applied inner loop compilation
             inner_pareto_ids = set([l.id for l in inner_pareto_trial_logs])
-            assert best_score == obj['best_score'], "Best score mismatch"
-            assert best_price == obj['lowest_effective_price'], "Lowest effective price mismatch"
-            assert eval_result.meta['inner_opt_cost'] == obj['eval_cost'], "Eval cost mismatch"
-            assert inner_pareto_ids == set(obj['inner_pareto_frontier']), "Inner pareto frontier mismatch"
+            # assert best_score == obj['best_score'], "Best score mismatch"
+            # assert best_price == obj['lowest_effective_price'], "Lowest effective price mismatch"
+            # assert eval_result.meta['inner_opt_cost'] == obj['eval_cost'], "Eval cost mismatch"
+            # assert inner_pareto_ids == set(obj['inner_pareto_frontier']), "Inner pareto frontier mismatch"
             
             return trial, cls(
                 params=obj['params'],

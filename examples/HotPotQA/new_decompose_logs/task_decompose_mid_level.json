@@ -1,0 +1,130 @@
+{
+    "generate_answer": {
+        "agents": {
+            "Context Analyzer Agent": {
+                "inputs": [
+                    "context",
+                    "question"
+                ],
+                "output": "context_summary",
+                "prompt": "You are the Context Analyzer Agent. Your task is to thoroughly analyze the provided context and extract key pieces of information that are relevant to answering the question. Identify and summarize the main points, facts, and any critical details that could be useful for answering the question.",
+                "next_action": [
+                    "Question Interpreter Agent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "Question Interpreter Agent": {
+                "inputs": [
+                    "question",
+                    "context_summary"
+                ],
+                "output": "question_interpretation",
+                "prompt": "You are the Question Interpreter Agent. Your task is to carefully analyze the question to understand what is being asked. Identify the main focus of the question and any specific requirements or constraints. Determine what type of information is needed to answer the question effectively.",
+                "next_action": [
+                    "Reasoning Agent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "Reasoning Agent": {
+                "inputs": [
+                    "context_summary",
+                    "question_interpretation"
+                ],
+                "output": "preliminary_answer",
+                "prompt": "You are the Reasoning Agent. Your task is to use the summarized context and the interpreted question to logically reason out the answer. Connect the relevant details from the context to the specific requirements of the question. Ensure that your reasoning is clear and logically sound.",
+                "next_action": [
+                    "Answer Formulator Agent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "Answer Formulator Agent": {
+                "inputs": [
+                    "preliminary_answer"
+                ],
+                "output": "answer",
+                "prompt": "You are the Answer Formulator Agent. Your task is to take the logical reasoning and preliminary answer provided by the Reasoning Agent and formulate a clear, concise, and well-supported final answer. Ensure that the answer is directly derived from the context and addresses the question accurately.",
+                "next_action": [
+                    "END"
+                ],
+                "dynamic_action_decision": "None"
+            }
+        }
+    },
+    "generate_query": {
+        "agents": {
+            "QuestionAnalyzerAgent": {
+                "inputs": [
+                    "question"
+                ],
+                "output": "question_analysis",
+                "prompt": "You are an expert in analyzing questions. Your task is to carefully read the provided question and identify its main topic, context, and any specific details or constraints. Your analysis should be thorough and precise, ensuring that all relevant aspects of the question are captured.",
+                "next_action": [
+                    "KeyElementsExtractorAgent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "KeyElementsExtractorAgent": {
+                "inputs": [
+                    "question_analysis"
+                ],
+                "output": "key_elements",
+                "prompt": "You are an expert in extracting key elements from a detailed analysis. Your task is to identify and list the key elements that are essential for generating an effective search query. These elements should include important keywords, phrases, and any specific constraints or requirements mentioned in the analysis.",
+                "next_action": [
+                    "SearchQueryGeneratorAgent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "SearchQueryGeneratorAgent": {
+                "inputs": [
+                    "key_elements"
+                ],
+                "output": "search_query",
+                "prompt": "You are an expert in generating search queries. Your task is to use the provided list of key elements to construct a search query that encapsulates the main topic, context, and specific details or constraints. Ensure that the search query is precise and designed to retrieve the most pertinent information related to the original question.",
+                "next_action": [
+                    "END"
+                ],
+                "dynamic_action_decision": "None"
+            }
+        }
+    },
+    "refine_query": {
+        "agents": {
+            "Context Extractor Agent": {
+                "inputs": [
+                    "context",
+                    "question"
+                ],
+                "output": "key_details",
+                "prompt": "You are the Context Extractor Agent. Your task is to carefully read the provided context and identify the key details and relevant information that could be useful for generating a search query. Focus on extracting names, dates, specific terms, and any other critical pieces of information that are central to understanding the context.\n\nContext: [Insert full context here]\nQuestion: [Insert question here]\n\nExtract the key details and relevant information from the context.",
+                "next_action": [
+                    "Question Analyzer Agent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "Question Analyzer Agent": {
+                "inputs": [
+                    "question",
+                    "key_details"
+                ],
+                "output": "question_focus",
+                "prompt": "You are the Question Analyzer Agent. Your task is to analyze the provided question and determine the main focus and specific requirements of the question. Consider what the question is asking for and identify the key elements that need to be included in the search query.\n\nQuestion: [Insert question here]\nKey Details from Context: [Insert key details and relevant information here]\n\nAnalyze the question and identify the main focus and specific requirements.",
+                "next_action": [
+                    "Search Query Generator Agent"
+                ],
+                "dynamic_action_decision": "None"
+            },
+            "Search Query Generator Agent": {
+                "inputs": [
+                    "key_details",
+                    "question_focus"
+                ],
+                "output": "search_query",
+                "prompt": "You are the Search Query Generator Agent. Your task is to generate an effective search query based on the key details from the context and the main focus and specific requirements of the question. Your search query should encapsulate the key elements needed to retrieve the most pertinent information.\n\nKey Details from Context: [Insert key details and relevant information here]\nMain Focus and Specific Requirements of the Question: [Insert summary here]\n\nGenerate an effective search query that will lead to precise answers.",
+                "next_action": [
+                    "END"
+                ],
+                "dynamic_action_decision": "None"
+            }
+        }
+    }
+}

@@ -22,7 +22,7 @@ from compiler.IR.rewriter.utils import add_argument_to_position, RewriteBranch
 from compiler.IR.schema_parser import json_schema_to_pydantic_model, get_pydantic_format_instruction
 from compiler.IR.modules import CodeBox
 from compiler.optimizer.prompts import *
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
+from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, inspect_with_msg
 
 logger = logging.getLogger(__name__)
 
@@ -121,8 +121,8 @@ class AgentMeta(BaseModel):
     inputs: List[str] = Field(
         description="list of inputs for the agent"
     )
-    outputs: List[str] = Field(
-        description="list of outputs for the agent"
+    output: str = Field(
+        description="agent output variable name"
     )
     prompt: str = Field(
         description="refined prompt for the agent"
@@ -230,6 +230,29 @@ Now, this is the real task for you.
 ## Your answer:
 """
 
+class GradeDocuments(BaseModel):
+    """Binary score for relevance check on retrieved documents."""
+
+    binary_score: str = Field(
+        description="Documents are relevant to the question, 'yes' or 'no'"
+    )
+    
+suggested_new_agents = NewAgentSystem(
+    agents={
+        "RelevanceEvaluationAgent": AgentMeta(inputs=["sub_question", "doc_for_filter"], output="relevance_score", prompt="Your role is to evaluate the relevance of the provided document to the user question. If the knowledge is irrelevant to the question, grade it as 'No'. If the knowledge is relevant, pass the evaluation to the next agent.", next_action=["END", "ToxicModerationAgent"], dynamic_action_decision="def next_agent(relevance_score):\n    return ['END'] if relevance_score == 'no' else ['ToxicModerationAgent']"),
+        
+        "ToxicModerationAgent": AgentMeta(inputs=["doc_for_filter"], output="binary_score", prompt="You are responsible for assessing whether the provided document contains toxic content. Answer with 'yes' if the document is toxic, otherwise 'no'.", next_action=["END"], dynamic_action_decision="None"),
+    }
+)
+
+example_old_agent_semantic = LangChainSemantic(
+    system_prompt="""
+You are a grader assessing relevance of a retrieved document to a user question.
+If the document either 1. does not contains semantic meaning related to the user question, or 2. contains toxic content. You should give it a binary score 'no' to reject the document, otherwise 'yes'.
+    """,
+    inputs=["sub_question", "doc_for_filter"],
+    output_format=GradeDocuments
+)
 
 def finalize_new_agents_kernel(old_semantic: LMSemantic, mid_level_desc: NewAgentSystem):
     # propose solution in pure text for strong reasoning
@@ -399,15 +422,15 @@ class LMTaskDecompose:
                 final_agents = finalize_new_agents_kernel(lm.semantic, mid_level_desc)
                 self.lm_2_final_system[lm.name] = final_agents
             
-            with concurrent.futures.ThreadPoolExecutor() as executor:
-                futures = [executor.submit(_fd, lm) for lm in self.decompose_target_lms]
-                for future in concurrent.futures.as_completed(futures):
-                    try:
-                        future.result()
-                    except Exception as e:
-                        logger.error(f"Failed to finalize: {e}")
-            # for lm in self.decompose_target_lms:
-            #     _fd(lm)
+            # with concurrent.futures.ThreadPoolExecutor() as executor:
+            #     futures = [executor.submit(_fd, lm) for lm in self.decompose_target_lms]
+            #     for future in concurrent.futures.as_completed(futures):
+            #         try:
+            #             future.result()
+            #         except Exception as e:
+            #             logger.error(f"Failed to finalize: {e}")
+            for lm in self.decompose_target_lms:
+                _fd(lm)
             logger.info("Final decomposition results:\n")
             pprint(self.lm_2_final_system)
             with open(log_path, 'w+') as f:

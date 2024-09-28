@@ -67,3 +67,10 @@ semantic = LangChainSemantic(
 planner_anno = LangChainLM('planner', semantic, opt_register=True)
 planner_anno.lm_config = {'model': "gpt-4o-mini", 'temperature': 0.0}
 runnable_planner_anno = planner_anno.as_runnable()
+
+from compiler.optimizer.params import ensemble, common
+
+usc_ensemble = ensemble.UniversalSelfConsistency(4, temperature=1.0)
+
+ensembled_exec = usc_ensemble.apply(planner_anno)
+planner_anno.invoke = ensembled_exec.invoke

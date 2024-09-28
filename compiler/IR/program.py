@@ -553,11 +553,11 @@ class Workflow(ComposibleModuleInterface):
             if num_tasks == 0:
                 break
             logger.debug(f"Graph {self.name} - Step {self.current_step}: {scheduled}")
-            # with concurrent.futures.ThreadPoolExecutor(max_workers=num_tasks) as executor:
-            #     futures = [executor.submit(self.exec_module, self.modules[name], statep) for name in scheduled]
-            #     concurrent.futures.wait(futuresa)
-            for name in scheduled:
-                self.exec_module(self.modules[name], statep)
+            with concurrent.futures.ThreadPoolExecutor(max_workers=num_tasks) as executor:
+                futures = [executor.submit(self.exec_module, self.modules[name], statep) for name in scheduled]
+                concurrent.futures.wait(futures)
+            # for name in scheduled:
+            #     self.exec_module(self.modules[name], statep)
             scheduled = self.sync_barrier_manager.fire_next_round(scheduled)
             if stop_before is not None:
                 scheduled.discard(stop_before)
@@ -631,7 +631,7 @@ class Workflow(ComposibleModuleInterface):
         self.exec_times.append(dur)
         self.status = ModuleStatus.SUCCESS
         self.version_id += 1
-    
+
     def immediate_submodules(self) -> List[Module]:
         return list(self.modules.values())
 

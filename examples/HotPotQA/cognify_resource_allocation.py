@@ -50,14 +50,6 @@ def opt(data):
         "reasoning", [IdentityOption(), ZeroShotCoT()] 
     )
     
-    scaffolding_params = LMScaffolding.bootstrap_from_source(
-        script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
-        decompose_threshold=0,
-        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/new_decompose_logs',
-        default_identity=False,
-    )
-    return
-    
     few_shot_params = LMFewShot("few_shot", None, 4)
     
     inner_loop = InnerLoopBayesianOptimization(
@@ -67,32 +59,17 @@ def opt(data):
         save_ckpt_interval=1,
     )
     
-    outer_loop = OuterLoopOptimization(
-        dedicate_params=scaffolding_params,
-        quality_constraint=0.4,
-        save_ckpt_interval=1,
-    )
-    
     evaluator = EvaluatorPlugin(
         eval_set=data,
         n_parallel=20,
     )
     
-    # cost, pareto_frontier = inner_loop.optimize(
-    #     script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
-    #     n_trials=5,
-    #     evaluator=evaluator,
-    #     log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/test_inner_log',
-    #     throughput=2,
-    # )
-    cost, pareto_frontier = outer_loop.optimize(
-        inner_loop=inner_loop,
-        n_trials=20,
+    cost, pareto_frontier = inner_loop.optimize(
         script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
+        n_trials=2,
         evaluator=evaluator,
-        resource_ratio=1/10,
-        log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/debug_decomp_perf_logs',
-        inner_throughput=1,
+        log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/test_continue_inner',
+        throughput=2,
     )
     return pareto_frontier
 

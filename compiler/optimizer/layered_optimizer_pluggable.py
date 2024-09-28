@@ -758,6 +758,7 @@ class OuterLoopOptimization:
         mapping: T_ModuleMapping = {}
         module_dict = {lm.name: lm for lm in program_cpy}
         new_modules = []
+        changed_modules = set()
         for lm_name, params in self.params.items():
             for param in params:
                 selected = trial.params[param.hash]
@@ -765,6 +766,10 @@ class OuterLoopOptimization:
                 # TODO: update module_dict if multiple params are applied to the same module
                 mapping.update(new_mapping)
                 new_modules.append(new_module)
+                changed_modules.add(lm_name)
+        for lm_name, lm in module_dict.items():
+            if lm_name not in changed_modules:
+                new_modules.append(lm)
         return new_modules, mapping
     
     def propose(

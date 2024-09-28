@@ -23,58 +23,23 @@ Your answer should follow the order of the given agents.
 decompose_system = """
 You are an expert in designing LLM-based agent workflows. Your task is to decompose a task originally handled by a single LLM agent into a set of agents, each with a clear and distinct role.
 
-You will be provided with the original single-agent prompt, which describes the task in detail. Your goal is to create a coherent multi-agent system where the roles and responsibilities of each agent are well-defined and non-overlapping. Ensure that the decomposed agents collectively fulfill all the requirements of the original prompt, and avoid unnecessary complexity in the system.
+You will be provided with the original single-agent prompt, which describes the task in detail. Your goal is to create a coherent multi-agent system where the roles and responsibilities of each agent are well-defined. Ensure that the decomposed agents collectively fulfill all the requirements of the original prompt, and avoid unnecessary complexity in the system.
 
 ### Core Principles for Multi-Agent Workflow Design:
 
-1. **Minimize Information Loss**: Ensure that each agent has access to all relevant inputs needed to perform its task. Avoid dividing tasks in such a way that key information is lost or discarded before it reaches an agent that needs it. Agents should operate with full access to necessary inputs, and information that may be relevant for later stages should not be filtered out prematurely.
+1. **Minimize Information Loss**: Ensure that each agent has access to all relevant information needed to perform its task. Avoid dividing tasks in such a way that key information is lost or discarded before it reaches an agent that needs it. 
 
 2. **Maintain Coherence in Task Flow**: The agents should work in a sequence where information flows logically and effectively between them, without vital details being discarded at earlier stages. Each agent should be designed to contribute meaningfully to the overall task.
 
-3. **Independence and Clear Responsibilities**: Each agent must have a distinct, non-overlapping role. Their individual responsibilities should be well-defined, and their prompt should clearly explain how they are to fulfill their specific role.
-
-4. **Avoid Fragmented Workflows**: Avoid overly splitting the task into fragmented sub-tasks. Agents should not be designed to handle only small, disconnected parts of the task, unless absolutely necessary. A well-designed agent system should minimize the risk of misinterpretation or missing details by ensuring that agents receive and process all relevant inputs.
-
-5. **Focus on the Core Purpose**: Each agent should have a significant, independent role. Avoid creating trivial agents or tasks that could be easily handled by another agent or simple rule-based logic.
-
----
-
-### Negative Example:
-
-Consider this negative example to better understand how task decomposition can go wrong and how to avoid it.
-
-#### Original Single-Agent Task:
-You are an expert in generating a search query based on the provided context and question. Your task is to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers. Given the fields context and question, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.
-
-#### Incorrect Decomposition (Problem Example):
-The leader agent decomposes the original task into three agents as follows:
-
-- **ContextExtractor Agent**:
-You are an expert in extracting relevant details from a given context. Your task is to carefully read the provided context and identify key elements that are crucial for generating an effective search query. Focus on extracting specific names, dates, events, or any other pertinent information that could help in forming a precise search query. Provide a concise summary of these key elements.
-
-- **QuestionAnalyzer Agent**:
-You are an expert in analyzing questions to identify the core information being sought. Your task is to carefully read the provided question and determine the main focus or intent behind it. Identify key terms, phrases, or concepts that are essential for generating an effective search query. Provide a concise summary of these key elements.
-
-- **SearchQueryGenerator Agent**:
-You are an expert in generating effective search queries. Your task is to take the key elements extracted from both the context and the question and combine them to form a precise search query. Ensure that the search query encapsulates the most relevant details to retrieve accurate and pertinent information. Provide the final search query.
-
-#### Why This Decomposition is Problematic:
-1. **Fragmented Information**: The **ContextExtractor** agent works only on the context without seeing the question. This means it may discard important information that is relevant for the specific question being asked. Similarly, the **QuestionAnalyzer** agent works only on the question without seeing the context, which could cause it to miss crucial details that might inform a better understanding of the question.
-
-2. **Information Loss**: By separating the context and question into two distinct processing agents, there’s a high likelihood that valuable information is lost or misinterpreted. The two agents work in isolation and may throw away details that are only significant when both inputs are considered together.
-
-3. **Reduced Effectiveness of Final Agent**: The **SearchQueryGenerator** agent only receives the output from the previous two agents, meaning it works with already filtered and potentially incomplete information. Since earlier agents may have discarded essential details, the final search query could be less effective or inaccurate.
-
-#### How to Avoid This Problem:
-Ensure that agents have access to all necessary inputs, especially when those inputs are interrelated. In this example, each agent involved in interpreting or analyzing the task (e.g., generating the search query) should have access to both the **context** and the **question**. This will ensure that vital information is not prematurely discarded and that agents work with the full picture.
-
+3. **Independence and Clear Responsibilities**: Each agent should have a distinct and disambiguoused role. Their individual responsibilities should be well-defined, and their prompt should clearly explain how they are to fulfill their specific role.
 ---
 
 ### For Your Final Output:
 For each agent in the new workflow, provide:
 - A **concise and descriptive name** for the agent.
+- Critical Information that the agent should receive for reference. Please keep in mind that the performance if each agent largely depends on the information it receives so don't miss any details and be generous in providing information.
 - A detailed prompt that clearly specifies the agent’s role and how it should perform its task, ensuring it employs all necessary information needed.
-
+- The content this agent will produce. Note that this can be very helpful for the next agent in the workflow.
 """
 
 example_agent_info = """
@@ -114,11 +79,7 @@ As an example:
 {example_agent_info}
 
 ## Suggested new agents, with name and prompt
-{{
-    "TestingAgent": "You are an expert at testing softwares given the code.", 
-    "ProductManagerAgent": "You are an expert at evaluating if the product meets user requirement",
-    "PerformanceAgent": "You are an expert at evaluating the performance of the software",
-}}
+{example_new_agents}
 
 Peudo Output in this case, this is an example to help you learn the general good design:
 
@@ -130,6 +91,25 @@ Also dependencies between new agents are well-designed so that the new system wi
 
 """
 
+high_level_new_agents_example = """
+{
+    "TestingAgent": {
+        "available_information": "Code with potential bugs and user requirements",
+        "prmopt": "You are an expert at testing softwares given the code and user requirements",
+        "output": "decision whether the software is reliable or not"
+    },
+    "ProductManagerAgent": {
+        "available_information": "User requirements and code",
+        "prmopt": "You are an expert at evaluating if the product meets user requirement",
+        "output": "decision whether the software meets the requirements"
+    },
+    "PerformanceAgent": {
+        "available_information": "Code",
+        "prmopt": "You are an expert at evaluating the performance of the software",
+        "output": "decision whether the software is slow or not"
+    }
+}
+"""
 
 refine_example_json_output = """
 {

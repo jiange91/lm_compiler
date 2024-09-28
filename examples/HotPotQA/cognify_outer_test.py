@@ -56,9 +56,8 @@ def opt(data):
         log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/decompose_logs',
         default_identity=False,
     )
-    return
     
-    few_shot_params = LMFewShot("few_shot", None, 8)
+    few_shot_params = LMFewShot("few_shot", None, 4)
     
     inner_loop = InnerLoopBayesianOptimization(
         # universal_params=[model_param, few_shot_params, reasoning_param],
@@ -87,12 +86,12 @@ def opt(data):
     # )
     cost, pareto_frontier = outer_loop.optimize(
         inner_loop=inner_loop,
-        n_trials=4,
+        n_trials=20,
         script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
         evaluator=evaluator,
-        resource_ratio=1/4,
+        resource_ratio=1/10,
         log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/debug_decomp_perf_logs',
-        inner_throughput=2,
+        inner_throughput=1,
     )
     return pareto_frontier
 
@@ -104,7 +103,7 @@ def eval(data, config: InnerLoopBayesianOptimization.TrialLog):
     print("  Values: score= {}, cost= {}".format(f1, f2))
     evaluator = EvaluatorPlugin(
         eval_set=data,
-        n_parallel=1,
+        n_parallel=50,
     )
     eval_result = evaluator.evaluate(task)
     print(str(eval_result))
@@ -112,7 +111,8 @@ def eval(data, config: InnerLoopBayesianOptimization.TrialLog):
 if __name__ == '__main__':
     mp.set_start_method('spawn')
     
-    train, dev = load_data_minor()
+    # train, dev = load_data_minor()
+    train, dev = load_data()
     configs = opt(train)
-    # eval(dev, configs[1])
+    eval(dev, configs[1])
     

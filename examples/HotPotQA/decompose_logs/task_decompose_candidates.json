@@ -1,11 +1,11 @@
 {
+    "generate_answer": {
+        "score": 4,
+        "rationale": "Answering questions with ground truth based on provided context requires careful analysis and logical reasoning. The task involves interpreting the context accurately and providing a clear, well-supported answer, which can be non-trivial and benefit from task decomposition."
+    },
     "refine_query": {
         "score": 3,
-        "rationale": "This task is slightly more complex than the first as it involves extracting relevant details from both the context and the question to generate an effective search query. It requires vertical planning and reasoning to ensure the search query is accurate and effective, but the sub-tasks are still relatively simple."
-    },
-    "generate_answer": {
-        "score": 3,
-        "rationale": "Answering questions with ground truth involves analyzing the provided context and deriving a clear, logical answer. This requires vertical reasoning and decision-making, but the sub-tasks involved are straightforward and do not require complex decomposition."
+        "rationale": "This task is slightly more complex than the first as it requires extracting relevant details from both the context and the question to generate an effective search query. It involves multi-step reasoning and decision-making to ensure the search query is accurate and pertinent."
     },
     "generate_query": {
         "score": 2,

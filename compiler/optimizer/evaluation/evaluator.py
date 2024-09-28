@@ -193,6 +193,7 @@ class EvalTask:
         sys.argv = [self.script_path] + self.args
         schema = OptimizerSchema.capture(self.script_path)
         logger.debug(f'opt_target_modules = {schema.opt_target_modules}')
+        assert schema.opt_target_modules, "No module to optimize"
         
         # replace module invoke with new module
         for m in schema.opt_target_modules:

@@ -101,7 +101,6 @@ class LMFewShot(DynamicParamBase):
         param.options.update(loaded_options)
         return param
             
-    
     def evole(self, eval_result: EvaluationResult) -> EvolveType:
         """Update demo range given current evaluation result
         

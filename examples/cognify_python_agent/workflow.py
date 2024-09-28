@@ -2,7 +2,7 @@ import json
 from code_completion_agent import code_completion_agent, code_completion_transit_agent
 from code_finalize_agent import code_finalize_agent, code_finalize_transit_agent
 from compiler.optimizer import register_opt_program_entry, register_opt_score_fn
-from humaneval.humaneval import HumanEvalDataset, check_correctness
+from humaneval.humaneval import HumanEvalDataset, check_correctness_thread, check_correctness
 from compiler.optimizer.evaluation.evaluator import EvaluatorInterface, EvaluationResult, EvaluatorPlugin, EvalTask
 
 from compiler.utils import load_api_key
@@ -47,11 +47,10 @@ def score_fn(problem: str, pred: str):
     parsed_lines.append(line)
   completion = '\n'.join(parsed_lines)
 
-  result = check_correctness(problem, completion, timeout=3.0)
-  return 1 if result["passed"] else 0
+  result = check_correctness_thread(problem, completion, timeout=3.0)
+  return 1.0 if result["passed"] else 0.0
   raise Exception("Label not found in dataset")
 
-from concurrent.futures import ThreadPoolExecutor
 
 if __name__ == '__main__':
   dataset = HumanEvalDataset()

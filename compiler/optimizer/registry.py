@@ -1,4 +1,5 @@
 import functools
+import copy
 
 _reg_opt_modules_ = []
 _reg_opt_program_entry_ = None

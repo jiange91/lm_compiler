@@ -21,6 +21,7 @@ from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, 
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, Evaluator
 from compiler.optimizer.params.utils import dump_params, load_params
 from compiler.optimizer.plugin import OptimizerSchema
+from compiler.optimizer import clear_registry
 
 class LMScaffolding(ParamBase, AddNewModuleImportInterface):
     level = ParamLevel.GRAPH
@@ -86,6 +87,8 @@ class LMScaffolding(ParamBase, AddNewModuleImportInterface):
             sys.path.insert(0, dir)
         sys.argv = [script_path] + script_args
         schema = OptimizerSchema.capture(script_path)
+        clear_registry()
+        
         lm_modules = copy.deepcopy(schema.opt_target_modules)
         
         return cls.bootstrap(

@@ -1,0 +1,130 @@
+{
+    "0": {
+        "id": "ee589ea856624ac5880129d1ea835692",
+        "params": {
+            "code completion_few_shot": "Identity",
+            "code completion_reasoning": "PlanBefore",
+            "completion transit node_few_shot": "Identity",
+            "completion transit node_reasoning": "Identity",
+            "finalize transit node_few_shot": "Identity",
+            "finalize transit node_reasoning": "PlanBefore",
+            "code finalize_few_shot": "Identity",
+            "code finalize_reasoning": "Identity"
+        },
+        "score": 0.95,
+        "price": 0.0013356075000000001,
+        "eval_cost": 0.0534243
+    },
+    "1": {
+        "id": "209a9a567a6d49eca702c1166a9d65c3",
+        "params": {
+            "code completion_few_shot": "Identity",
+            "code completion_reasoning": "Identity",
+            "completion transit node_few_shot": "Identity",
+            "completion transit node_reasoning": "PlanBefore",
+            "finalize transit node_few_shot": "Identity",
+            "finalize transit node_reasoning": "ZeroShotCoT",
+            "code finalize_few_shot": "Identity",
+            "code finalize_reasoning": "PlanBefore"
+        },
+        "score": 0.55,
+        "price": 0.0012846749999999999,
+        "eval_cost": 0.051386999999999995
+    },
+    "2": {
+        "id": "c35b878379c24a7a8299ba09f474ddf9",
+        "params": {
+            "code completion_few_shot": "Identity",
+            "code completion_reasoning": "ZeroShotCoT",
+            "completion transit node_few_shot": "Identity",
+            "completion transit node_reasoning": "Identity",
+            "finalize transit node_few_shot": "Identity",
+            "finalize transit node_reasoning": "ZeroShotCoT",
+            "code finalize_few_shot": "Identity",
+            "code finalize_reasoning": "Identity"
+        },
+        "score": 0.925,
+        "price": 0.0011970675,
+        "eval_cost": 0.0478827
+    },
+    "3": {
+        "id": "e0f484cdecd74ec38b447f78efec3a3b",
+        "params": {
+            "code completion_few_shot": "code completion_demos_e2ffcc42-80f9-4036-82d7-ae84cd0005c9",
+            "code completion_reasoning": "PlanBefore",
+            "completion transit node_few_shot": "Identity",
+            "completion transit node_reasoning": "PlanBefore",
+            "finalize transit node_few_shot": "finalize transit node_demos_31415e54-0ce5-444e-8e7d-6fe9bcf1871c",
+            "finalize transit node_reasoning": "Identity",
+            "code finalize_few_shot": "Identity",
+            "code finalize_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.0,
+        "price": 0.0,
+        "eval_cost": 0.0
+    },
+    "4": {
+        "id": "2d313aa97f274e46b33365cbd0cfbbee",
+        "params": {
+            "code completion_few_shot": "code completion_demos_e2ffcc42-80f9-4036-82d7-ae84cd0005c9",
+            "code completion_reasoning": "PlanBefore",
+            "completion transit node_few_shot": "Identity",
+            "completion transit node_reasoning": "PlanBefore",
+            "finalize transit node_few_shot": "Identity",
+            "finalize transit node_reasoning": "Identity",
+            "code finalize_few_shot": "code finalize_demos_0f48c97e-ce20-46b1-942a-7dcf6db7ae09",
+            "code finalize_reasoning": "PlanBefore"
+        },
+        "score": 0.95,
+        "price": 0.00517660875,
+        "eval_cost": 0.20706434999999998
+    },
+    "5": {
+        "id": "e97f6bd8e2904c959ab22bdde7340339",
+        "params": {
+            "code completion_few_shot": "Identity",
+            "code completion_reasoning": "Identity",
+            "completion transit node_few_shot": "Identity",
+            "completion transit node_reasoning": "PlanBefore",
+            "finalize transit node_few_shot": "finalize transit node_demos_31415e54-0ce5-444e-8e7d-6fe9bcf1871c",
+            "finalize transit node_reasoning": "ZeroShotCoT",
+            "code finalize_few_shot": "code finalize_demos_0f48c97e-ce20-46b1-942a-7dcf6db7ae09",
+            "code finalize_reasoning": "Identity"
+        },
+        "score": 0.7,
+        "price": 0.0029514075000000002,
+        "eval_cost": 0.1180563
+    },
+    "6": {
+        "id": "494db935f6614f999b4601e72d526128",
+        "params": {
+            "code completion_few_shot": "code completion_demos_e2ffcc42-80f9-4036-82d7-ae84cd0005c9",
+            "code completion_reasoning": "PlanBefore",
+            "completion transit node_few_shot": "completion transit node_demos_ab6e2696-0031-4df9-8d57-65ce320155f8",
+            "completion transit node_reasoning": "Identity",
+            "finalize transit node_few_shot": "Identity",
+            "finalize transit node_reasoning": "Identity",
+            "code finalize_few_shot": "code finalize_demos_0f48c97e-ce20-46b1-942a-7dcf6db7ae09",
+            "code finalize_reasoning": "Identity"
+        },
+        "score": 0.95,
+        "price": 0.00396225,
+        "eval_cost": 0.15849
+    },
+    "7": {
+        "id": "87dc1322ee1e4ee49b2d963cc935ad34",
+        "params": {
+            "code completion_few_shot": "code completion_demos_e2ffcc42-80f9-4036-82d7-ae84cd0005c9",
+            "code completion_reasoning": "PlanBefore",
+            "completion transit node_few_shot": "Identity",
+            "completion transit node_reasoning": "Identity",
+            "finalize transit node_few_shot": "Identity",
+            "finalize transit node_reasoning": "ZeroShotCoT",
+            "code finalize_few_shot": "Identity",
+            "code finalize_reasoning": "PlanBefore"
+        },
+        "score": 0.975,
+        "price": 0.0039373275,
+        "eval_cost": 0.0
+    }
+}

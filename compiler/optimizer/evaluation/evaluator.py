@@ -193,6 +193,7 @@ class EvalTask:
         sys.argv = [self.script_path] + self.args
         schema = OptimizerSchema.capture(self.script_path)
         logger.debug(f'opt_target_modules = {schema.opt_target_modules}')
+        assert schema.opt_target_modules, 'No optimize target modules found in the script'
         
         # replace module invoke with new module
         for m in schema.opt_target_modules:
@@ -225,6 +226,26 @@ class EvalTask:
         summary = TokenUsageSummary.summarize(usages)
         price = summary.total_price
         return result, score, price, lm_2_demo
+    
+# class NoDaemonProcess(mp.Process):
+#     @property
+#     def daemon(self):
+#         return False
+
+#     @daemon.setter
+#     def daemon(self, value):
+#         pass
+
+
+# class NoDaemonContext(type(mp.get_context(method="spawn"))):
+#     Process = NoDaemonProcess
+
+# # We sub-class multiprocessing.pool.Pool instead of multiprocessing.Pool
+# # because the latter is only a wrapper function, not a proper class.
+# class MyPool(mp.pool.Pool):
+#     def __init__(self, *args, **kwargs):
+#         kwargs['context'] = NoDaemonContext()
+#         super(MyPool, self).__init__(*args, **kwargs)
 
 class EvaluatorPlugin:
     def __init__(

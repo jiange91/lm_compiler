@@ -1,4 +1,5 @@
 from langchain_openai import ChatOpenAI
+from langchain_together import ChatTogether
 from langchain_core.outputs.llm_result import LLMResult
 from langchain_core.prompts.chat import MessageLikeRepresentation
 from langchain_core.callbacks import BaseCallbackHandler
@@ -349,7 +350,12 @@ def langchain_lm_kernel({inputs_str}):
                 callbacks=[LLMTracker(self)]
             )
         else:
-            raise ValueError(f"Model {model_name} not supported")
+            self.lm = ChatTogether(
+                **self.lm_config, 
+                callbacks=[LLMTracker(self)]
+            )
+        # else:
+        #     raise ValueError(f"Model {model_name} not supported")
         return
 
     def get_lm_history(self):

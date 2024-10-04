@@ -6,7 +6,7 @@ from compiler.optimizer.params import reasoning, model_selection, common
 from compiler.optimizer.evaluation.evaluator import EvaluatorInterface, EvaluationResult, EvaluatorPlugin, EvalTask
 import runpy
 import uuid
-import multiprocessing as mp
+import multiprocess as mp
 import json
 import os
 import random
@@ -87,10 +87,10 @@ def opt(train):
     
     cost, pareto_frontier = inner_loop.optimize(
         script_path='/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py',
-        n_trials=15,
+        n_trials=4,
         evaluator=evaluator,
         log_dir=f'examples/IR_matplot_agent/opt_logs',
-        throughput=3,
+        throughput=2,
     )
     return pareto_frontier
 
@@ -113,7 +113,8 @@ if __name__ == '__main__':
     print(f"Train size: {len(train)}")
     print(f"Test size: {len(test)}")
     
-    mp.set_start_method('spawn')
+    # mp.set_start_method('spawn')
+    mp.context._force_start_method('spawn')
     
     best_trials = opt(train)
-    eval(*best_trials[0], test)
+    # eval(*best_trials[0], test)

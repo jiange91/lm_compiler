@@ -104,7 +104,7 @@ class Map(ComposibleModuleInterface):
                 
         results = {field: [] for field in self.output_fields}
         with concurrent.futures.ThreadPoolExecutor(max_workers=self.max_parallel) as executor:
-            executor.map(self.sub_graph, new_input_gen())
+            executor.map(self.sub_graph.invoke, new_input_gen())
         for statep in tracked_states:
             for field in self.output_fields:
                 results[field].append(statep.news(field))

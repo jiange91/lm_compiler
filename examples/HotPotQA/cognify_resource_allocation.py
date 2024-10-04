@@ -1,4 +1,4 @@
-from compiler.optimizer.layered_optimizer_pluggable import InnerLoopBayesianOptimization, OuterLoopOptimization
+from compiler.optimizer.layered_optimizer_pluggable import InnerLoopBayesianOptimization, OuterLoopOptimization, OuterLoopOptConfig
 from compiler.optimizer.params.fewshot import LMFewShot
 from compiler.optimizer.params.scaffolding import LMScaffolding
 from compiler.optimizer.importance_eval_new import LMImportanceEvaluator
@@ -6,7 +6,7 @@ from compiler.optimizer.params import reasoning, model_selection, common
 from compiler.optimizer.evaluation.evaluator import EvaluatorInterface, EvaluationResult, EvaluatorPlugin, EvalTask
 import runpy
 import uuid
-import multiprocessing as mp
+import multiprocess as mp
 import json
 import os
 import random
@@ -17,6 +17,7 @@ from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
 from compiler.optimizer.plugin import OptimizerSchema
 import dspy
 from dspy.datasets.hotpotqa import HotPotQA
+from compiler.optimizer.params import ensemble
 
 def load_data():
     dataset = HotPotQA(train_seed=1, train_size=150, eval_seed=2023, dev_size=200, test_size=0)
@@ -50,14 +51,6 @@ def opt(data):
         "reasoning", [IdentityOption(), ZeroShotCoT()] 
     )
     
-    scaffolding_params = LMScaffolding.bootstrap_from_source(
-        script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
-        decompose_threshold=0,
-        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/new_decompose_logs',
-        default_identity=False,
-    )
-    return
-    
     few_shot_params = LMFewShot("few_shot", None, 4)
     
     inner_loop = InnerLoopBayesianOptimization(
@@ -67,9 +60,13 @@ def opt(data):
         save_ckpt_interval=1,
     )
     
+    usc_ensemble = ensemble.UniversalSelfConsistency(3, temperature=0.5)
+    ensemble_params = ensemble.ModuleEnsemble(
+        "ensemble", [IdentityOption(), usc_ensemble]
+    )
     outer_loop = OuterLoopOptimization(
-        dedicate_params=scaffolding_params,
-        quality_constraint=0.4,
+        universal_params=[ensemble_params],
+        quality_constraint=0.3,
         save_ckpt_interval=1,
     )
     
@@ -78,21 +75,17 @@ def opt(data):
         n_parallel=20,
     )
     
-    # cost, pareto_frontier = inner_loop.optimize(
-    #     script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
-    #     n_trials=5,
-    #     evaluator=evaluator,
-    #     log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/test_inner_log',
-    #     throughput=2,
-    # )
+    out_opt_config = OuterLoopOptConfig(
+        script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
+        total_budget=20,
+        inner_step_budget=2,
+        outer_throughput=2,
+        log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/test_SH_2',
+    )
     cost, pareto_frontier = outer_loop.optimize(
         inner_loop=inner_loop,
-        n_trials=20,
-        script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
         evaluator=evaluator,
-        resource_ratio=1/10,
-        log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/debug_decomp_perf_logs',
-        inner_throughput=1,
+        opt_config=out_opt_config,
     )
     return pareto_frontier
 
@@ -110,7 +103,8 @@ def eval(data, config: InnerLoopBayesianOptimization.TrialLog):
     print(str(eval_result))
     
 if __name__ == '__main__':
-    mp.set_start_method('spawn')
+    # mp.set_start_method('spawn')
+    mp.context._force_start_method('spawn')
     
     train, dev = load_data_minor()
     # train, dev = load_data()

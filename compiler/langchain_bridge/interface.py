@@ -12,6 +12,7 @@ from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.messages import HumanMessage, BaseMessage, merge_message_runs, AIMessage
+from langchain_aws import BedrockLLM
 from .utils import var_2_str
 
 import logging
@@ -105,8 +106,8 @@ class LangChainSemantic(LMSemantic):
         else:
             self.output_format = output_format
             self.parser = JsonOutputParser(pydantic_object=output_format)
-            # NOTE: output name is inferred from the output format, use top-level fields only
-            self.outputs = list(self.output_format.model_fields.keys())
+            # NOTE: output name is inferred from the output format, use class name
+            self.outputs = [self.output_format.__name__]
             if self.need_output_type_hint:
                 self.output_type_hint = get_format_instruction(output_format)
         
@@ -261,7 +262,7 @@ class LangChainSemantic(LMSemantic):
         dict = {
             "agent_prompt": self.system_prompt,
             "input_names": self.inputs,
-            "output_names": self.outputs,
+            "output_name": self.outputs[0],
         }
         return json.dumps(dict, indent=4)
 
@@ -315,7 +316,7 @@ class LangChainLM(LLMPredictor):
                 history_messages_key="compiler_chat_history",
             )
         if self.semantic.output_format:
-            result_str = '{' + ', '.join(f'"{output}": result.{output}' for output in self.semantic.outputs) + '}'
+            result_str = f'{{"{self.semantic.outputs[0]}": result}}'
             routine = routine | self.semantic.parser
             langchain_kernel_template = f"""
 def langchain_lm_kernel({inputs_str}):
@@ -344,10 +345,18 @@ def langchain_lm_kernel({inputs_str}):
     def set_lm(self):
         logger.debug(f'Setting LM for {self.name}: {self.lm_config}')
         model_name: str = self.lm_config['model']
-        if model_name.startswith('gpt-') or model_name.startswith('o1-'):
-            self.lm = ChatOpenAI(
-                **self.lm_config, 
-                callbacks=[LLMTracker(self)]
+        # by default openai
+        if not self.lm_config.get('who_service'):
+            self.lm_config['who_serice'] = 'openai'
+        if self.lm_config['who_service'] == 'openai':
+            if model_name.startswith('gpt-') or model_name.startswith('o1-'):
+                self.lm = ChatOpenAI(
+                    **self.lm_config, 
+                    callbacks=[LLMTracker(self)]
+                )
+        if self.lm_config['who_service'] == 'bedrock':
+            self.lm = BedrockLLM(
+                **self.lm_config['llm_args'],
             )
         else:
             self.lm = ChatTogether(
@@ -395,9 +404,9 @@ def langchain_lm_kernel({inputs_str}):
             statep = StatePool()
             statep.init(input)
             self.invoke(statep)
+            result = statep.news(self.semantic.outputs[0])
             if self.semantic.output_format:
-                output_dict = statep.all_news(self.semantic.outputs)
-                return self.semantic.output_format.model_validate(output_dict)
+                return result
             else:
-                return AIMessage(statep.news(self.semantic.outputs[0]))
+                return AIMessage(result)
         return RunnableLambda(invoke)

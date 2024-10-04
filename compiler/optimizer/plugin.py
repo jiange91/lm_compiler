@@ -30,9 +30,6 @@ class OptimizerSchema:
     @classmethod
     def capture(cls, script_path: str) -> 'OptimizerSchema':
         logger.debug(f"initial modules: {id(registry._reg_opt_modules_)}")
-        
-        # NOTE: somehow modules un run_path might be imported before calling this function
-        # so I force spawn now instead of fork to ensure these global registry are not shared and inherited when running the script
         runpy.run_path(script_path)
         schema = cls(
             program=get_registered_opt_program_entry(),

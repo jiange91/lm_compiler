@@ -10,7 +10,7 @@ import numpy as np
 from concurrent.futures import ThreadPoolExecutor
 import uuid
 from abc import ABC, abstractmethod
-import multiprocessing as mp
+import multiprocess as mp
 
 
 import logging

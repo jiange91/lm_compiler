@@ -73,16 +73,16 @@ class BasicMH(dspy.Module):
         context = []
 
         search_query = self.initial_generate_query.invoke({'question': question}).content
-        print("Search query:", search_query)
+        # print("Search query:", search_query)
         passages = self.retrieve(search_query).passages
-        print("Passages:", passages)
+        # print("Passages:", passages)
         context = deduplicate(context + passages)
         
         for _ in range(2-1):
             search_query = self.follwing_generate_query.invoke({'context': context, 'question': question}).content
-            print("Search query:", search_query)
+            # print("Search query:", search_query)
             passages = self.retrieve(search_query).passages
-            print("Passages:", passages)
+            # print("Passages:", passages)
             context = deduplicate(context + passages)
 
         answer = self.generate_answer.invoke({'context': context, 'question': question}).content
@@ -103,9 +103,9 @@ def answer_f1(label: str, pred: str):
     if isinstance(label, str):
         label = [label]
     score = F1(pred, label)
-    print(f'Label: {label}')
-    print(f'Pred: {pred}')
-    print(f'Score: {score}\n')
+    # print(f'Label: {label}')
+    # print(f'Pred: {pred}')
+    # print(f'Score: {score}\n')
     return score
 
 from compiler.optimizer.params.reasoning import ZeroShotCoT

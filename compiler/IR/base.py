@@ -227,7 +227,7 @@ class Module(ModuleIterface):
                     logger.warning(f'option apply failed, continue')
                     return False
         return True
-        
+
 
 class ComposibleModuleInterface(Module, ABC):
     @abstractmethod

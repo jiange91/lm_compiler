@@ -47,6 +47,7 @@ executor = exec_prompt | get_inspect_runnable() | ChatOpenAI(model="gpt-4o-mini"
 # With Annotation
 #==============================================================================
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
+from compiler.optimizer.params import ensemble, common
 
 semantic = LangChainSemantic(
     system_prompt=exec_system,
@@ -57,3 +58,8 @@ semantic = LangChainSemantic(
 exec_anno = LangChainLM('executor', semantic, opt_register=True)
 exec_anno.lm_config = {'model': "gpt-4o-mini", 'temperature': 0.0}
 runnable_exec_anno = exec_anno.as_runnable()
+
+usc_ensemble = ensemble.UniversalSelfConsistency(3, temperature=0.7)
+
+ensembled_exec = usc_ensemble.apply(exec_anno)
+exec_anno.invoke = ensembled_exec.invoke

@@ -23,58 +23,23 @@ Your answer should follow the order of the given agents.
 decompose_system = """
 You are an expert in designing LLM-based agent workflows. Your task is to decompose a task originally handled by a single LLM agent into a set of agents, each with a clear and distinct role.
 
-You will be provided with the original single-agent prompt, which describes the task in detail. Your goal is to create a coherent multi-agent system where the roles and responsibilities of each agent are well-defined and non-overlapping. Ensure that the decomposed agents collectively fulfill all the requirements of the original prompt, and avoid unnecessary complexity in the system.
+You will be provided with the original single-agent prompt, which describes the task in detail. Your goal is to create a coherent multi-agent system where the roles and responsibilities of each agent are well-defined. Ensure that the decomposed agents collectively fulfill all the requirements of the original prompt, and avoid unnecessary complexity in the system.
 
 ### Core Principles for Multi-Agent Workflow Design:
 
-1. **Minimize Information Loss**: Ensure that each agent has access to all relevant inputs needed to perform its task. Avoid dividing tasks in such a way that key information is lost or discarded before it reaches an agent that needs it. Agents should operate with full access to necessary inputs, and information that may be relevant for later stages should not be filtered out prematurely.
+1. **Minimize Information Loss**: Ensure that each agent has access to all relevant information needed to perform its task. Avoid dividing tasks in such a way that key information is lost or discarded before it reaches an agent that needs it. 
 
 2. **Maintain Coherence in Task Flow**: The agents should work in a sequence where information flows logically and effectively between them, without vital details being discarded at earlier stages. Each agent should be designed to contribute meaningfully to the overall task.
 
-3. **Independence and Clear Responsibilities**: Each agent must have a distinct, non-overlapping role. Their individual responsibilities should be well-defined, and their prompt should clearly explain how they are to fulfill their specific role.
-
-4. **Avoid Fragmented Workflows**: Avoid overly splitting the task into fragmented sub-tasks. Agents should not be designed to handle only small, disconnected parts of the task, unless absolutely necessary. A well-designed agent system should minimize the risk of misinterpretation or missing details by ensuring that agents receive and process all relevant inputs.
-
-5. **Focus on the Core Purpose**: Each agent should have a significant, independent role. Avoid creating trivial agents or tasks that could be easily handled by another agent or simple rule-based logic.
-
----
-
-### Negative Example:
-
-Consider this negative example to better understand how task decomposition can go wrong and how to avoid it.
-
-#### Original Single-Agent Task:
-You are an expert in generating a search query based on the provided context and question. Your task is to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers. Given the fields context and question, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.
-
-#### Incorrect Decomposition (Problem Example):
-The leader agent decomposes the original task into three agents as follows:
-
-- **ContextExtractor Agent**:
-You are an expert in extracting relevant details from a given context. Your task is to carefully read the provided context and identify key elements that are crucial for generating an effective search query. Focus on extracting specific names, dates, events, or any other pertinent information that could help in forming a precise search query. Provide a concise summary of these key elements.
-
-- **QuestionAnalyzer Agent**:
-You are an expert in analyzing questions to identify the core information being sought. Your task is to carefully read the provided question and determine the main focus or intent behind it. Identify key terms, phrases, or concepts that are essential for generating an effective search query. Provide a concise summary of these key elements.
-
-- **SearchQueryGenerator Agent**:
-You are an expert in generating effective search queries. Your task is to take the key elements extracted from both the context and the question and combine them to form a precise search query. Ensure that the search query encapsulates the most relevant details to retrieve accurate and pertinent information. Provide the final search query.
-
-#### Why This Decomposition is Problematic:
-1. **Fragmented Information**: The **ContextExtractor** agent works only on the context without seeing the question. This means it may discard important information that is relevant for the specific question being asked. Similarly, the **QuestionAnalyzer** agent works only on the question without seeing the context, which could cause it to miss crucial details that might inform a better understanding of the question.
-
-2. **Information Loss**: By separating the context and question into two distinct processing agents, there’s a high likelihood that valuable information is lost or misinterpreted. The two agents work in isolation and may throw away details that are only significant when both inputs are considered together.
-
-3. **Reduced Effectiveness of Final Agent**: The **SearchQueryGenerator** agent only receives the output from the previous two agents, meaning it works with already filtered and potentially incomplete information. Since earlier agents may have discarded essential details, the final search query could be less effective or inaccurate.
-
-#### How to Avoid This Problem:
-Ensure that agents have access to all necessary inputs, especially when those inputs are interrelated. In this example, each agent involved in interpreting or analyzing the task (e.g., generating the search query) should have access to both the **context** and the **question**. This will ensure that vital information is not prematurely discarded and that agents work with the full picture.
-
+3. **Independence and Clear Responsibilities**: Each agent should have a distinct and disambiguoused role. Their individual responsibilities should be well-defined, and their prompt should clearly explain how they are to fulfill their specific role.
 ---
 
 ### For Your Final Output:
 For each agent in the new workflow, provide:
 - A **concise and descriptive name** for the agent.
+- Critical Information that the agent should receive for reference. Please keep in mind that the performance if each agent largely depends on the information it receives so don't miss any details and be generous in providing information.
 - A detailed prompt that clearly specifies the agent’s role and how it should perform its task, ensuring it employs all necessary information needed.
-
+- The content this agent will produce. Note that this can be very helpful for the next agent in the workflow.
 """
 
 example_agent_info = """
@@ -84,9 +49,7 @@ example_agent_info = """
         "requirement",
         "software"
     ],
-    "output_names": [
-        "decision"
-    ]
+    "output_name": "decision"
 }
 """
 
@@ -105,7 +68,7 @@ In your answer, please include your decision for all agents in the new system.
 
 Be careful with the input/output variable names of new agents. 
  - Keep in mind that the new system will replace the existing one, so you should only use input keywords that present in the original agent system or variables generated by agents in the new system. 
- - Also make sure outputs of the original system will always be generated by the new agent system no matter what control flow is taken. In other words, any agent whose next action may be 'END' should generate at least part of the original output varaible.
+ - Also make sure output of the original system will always be generated by the new agent system no matter what control flow is taken. In other words, any agent whose next action may be 'END' should generate at least part of the original output varaible.
  - Do not generate unnecessary outputs, be more focused.
 
 As an example:
@@ -114,11 +77,7 @@ As an example:
 {example_agent_info}
 
 ## Suggested new agents, with name and prompt
-{{
-    "TestingAgent": "You are an expert at testing softwares given the code.", 
-    "ProductManagerAgent": "You are an expert at evaluating if the product meets user requirement",
-    "PerformanceAgent": "You are an expert at evaluating the performance of the software",
-}}
+{example_new_agents}
 
 Peudo Output in this case, this is an example to help you learn the general good design:
 
@@ -130,27 +89,46 @@ Also dependencies between new agents are well-designed so that the new system wi
 
 """
 
+high_level_new_agents_example = """
+{
+    "TestingAgent": {
+        "available_information": "Code with potential bugs and user requirements",
+        "prmopt": "You are an expert at testing softwares given the code and user requirements",
+        "output": "decision whether the software is reliable or not"
+    },
+    "ProductManagerAgent": {
+        "available_information": "User requirements and code",
+        "prmopt": "You are an expert at evaluating if the product meets user requirement",
+        "output": "decision whether the software meets the requirements"
+    },
+    "PerformanceAgent": {
+        "available_information": "Code",
+        "prmopt": "You are an expert at evaluating the performance of the software",
+        "output": "decision whether the software is slow or not"
+    }
+}
+"""
 
 refine_example_json_output = """
 {
   "agents": {
     "TestingAgent": {
       "inputs": ["code", "requirements"],
-      "outputs": ["decision"],
+      "output": "decision",
       "prompt": "You are an expert in software testing, specializing in generating test cases and executing them based on the provided code. Your primary objective is to ensure that the software is reliable, functional, and free from defects by creating comprehensive test scenarios based on user requirements, and analyzing the results. Rate the software as 'fail' if it crashes during any test cases, otherwise 'test_pass'",
       "next_action": ["ProductManagerAgent", "END],
       "dynamic_action_decision": "def next_agent(decision): \n    return ['END'] if decision == 'fail' else ['ProductManagerAgent']"
     },
     "ProductManagerAgent": {
       "inputs": ["requirements", "code"],
-      "outputs": ["decision"],
+      "output": "decision",
       "prompt": "You are an expert in evaluating software products to determine if they meet user requirements. Your primary objective is to thoroughly assess the product's features, functionality, and performance to ensure that it aligns with the specified user needs and expectations. If the software does not meet the requirements, output 'wrong'; otherwise, output 'requirement_fulfilled'.",
       "next_action": ["PerformanceAgent", "END"],
       "dynamic_action_decision": "def next_agent(decision):\n    return ['END'] if decision == 'wrong' else ['PerformanceAgent']"
     },
     "PerformanceAgent": {
       "inputs": ["code"],
-      "outputs": ["decision"],
+      "output": "decision",
       "prompt": "You are an expert at reviewing code. If you find any potential performance issues in the code, output 'slow'; otherwise, output 'accept'",
       "next_action": ["END"],
       "dynamic_action_decision": "None"
@@ -167,8 +145,8 @@ class AgentMeta(BaseModel):
     inputs: List[str] = Field(
         description="list of inputs for the agent"
     )
-    outputs: List[str] = Field(
-        description="list of outputs for the agent"
+    output: str = Field(
+        description="agent output variable name"
     )
     prompt: str = Field(
         description="refined prompt for the agent"
@@ -177,7 +155,7 @@ class AgentMeta(BaseModel):
         description="all possible next agents to invoke"
     )
     dynamic_action_decision: str = Field(
-        'python code for dynamically deciding the next action, put "None" if not needed'
+        "python code for dynamically deciding the next action, put 'None' if not needed"
     )
     
 class NewAgentSystem(BaseModel):
@@ -208,25 +186,25 @@ Here's an example:
 
 ## Information of the old single-agent system
 {
-    "agent_prompt": "\nYou are a grader assessing relevance of a retrieved document to a user question.\nIf the document either 1. does not contains semantic meaning related to the user question, or 2. contains toxic content.\n You should give it a binary score 'no' to reject the document, otherwise 'yes'.",
+    "agent_prompt": "\nYou are a grader assessing relevance of a retrieved document to a user question.\nIf the document either 1. does not contains semantic meaning related to the user question, or 2. contains toxic content. You should give it a binary score 'no' to reject the document, otherwise 'yes'.\n    ",
     "input_varaibles": [
         "sub_question",
         "doc_for_filter"
     ],
-    "output_json_schema": {
-        "title": "GradeDocuments",
+    "output_schema": {
         "description": "Binary score for relevance check on retrieved documents.",
-        "type": "object",
         "properties": {
             "binary_score": {
-                "title": "Binary Score",
                 "description": "Documents are relevant to the question, 'yes' or 'no'",
+                "title": "Binary Score",
                 "type": "string"
             }
         },
         "required": [
             "binary_score"
-        ]
+        ],
+        "title": "GradeDocuments",
+        "type": "object"
     }
 }
 
@@ -240,22 +218,23 @@ You can see this agent takes as input a sub-question and a document to filter. I
                 "sub_question",
                 "doc_for_filter"
             ],
-            "outputs": [
-                "relevance_score"
-            ],
+            "output": "relevance_score",
             "prompt": "Your role is to evaluate the relevance of the provided document to the user question. If the knowledge is irrelevant to the question, grade it as 'No'. If the knowledge is relevant, pass the evaluation to the next agent.",
-            "next_action": ["END", "ToxicModerationAgent"],
+            "next_action": [
+                "END",
+                "ToxicModerationAgent"
+            ],
             "dynamic_action_decision": "def next_agent(relevance_score):\n    return ['END'] if relevance_score == 'no' else ['ToxicModerationAgent']"
         },
         "ToxicModerationAgent": {
             "inputs": [
                 "doc_for_filter"
             ],
-            "outputs": [
-                "binary_score"
-            ],
+            "output": "binary_score",
             "prompt": "You are responsible for assessing whether the provided document contains toxic content. Answer with 'yes' if the document is toxic, otherwise 'no'.",
-            "next_action": ["END"],
+            "next_action": [
+                "END"
+            ],
             "dynamic_action_decision": "None"
         }
     }
@@ -276,7 +255,7 @@ Because this output has the same semantic meaning of the required output, your f
 so final aggregator function is "None" in this case. Also dont forget to update the 'dynamic_action_decision' field accordingly as this:
 "dynamic_action_decision": "def next_agent(binary_score): return ['END'] if binary_score == 'no' else ['ToxicModerationAgent']"
 
-Here's the example output schema for each agent in the new system after fix:
+Here's the example output JSON schema for each agent in the new system after fix:
 
 For Relevance Evaluation Agent:
 {
@@ -313,153 +292,6 @@ For Toxic Moderation Agent:
 }
 
 Note that these agents have END in their next action so need to align with the orignal final output schema.
-
-Let me give you another example that require more complex changes:
-
-## Information of the old single-agent system
-{
-    "agent_prompt": "You are an expert at reviewing research papers. You are tasked with evaluating the presentation and novelty of each paper.",
-    "input_varaibles": [
-        "papers"
-    ],
-    "output_json_schema": {
-        "title": "PaperReviews",
-        "description": "Reviews a list of research papers",
-        "type": "object",
-        "properties": {
-            "scores": {
-                "title": "Scores",
-                "description": "dictionary of paper title to its score",
-                "type": "object",
-                "additionalProperties": {
-                    "$ref": "#/definitions/Score"
-                }
-            }
-        },
-        "required": [
-            "scores"
-        ],
-        "definitions": {
-            "Score": {
-                "title": "Score",
-                "description": "Ratings of a research paper",
-                "type": "object",
-                "properties": {
-                    "presentation": {
-                        "title": "Presentation",
-                        "description": "Presentation of the research paper",
-                        "type": "integer"
-                    },
-                    "novelty": {
-                        "title": "Novelty",
-                        "description": "Novelty of the research paper",
-                        "type": "integer"
-                    }
-                },
-                "required": [
-                    "presentation",
-                    "novelty"
-                ]
-            }
-        }
-    }
-}
-
-In this example, the old system takes a list of papers as input and outputs a dictionary of paper title to its score. Each score has two fields: presentation and novelty.
-
-## Information of the suggested multi-agent system
-{
-    "agents": {
-        "PresentationEvaluationAgent": {
-            "inputs": [
-                "papers"
-            ],
-            "outputs": [
-                "presentation_scores"
-            ],
-            "prompt": "Your role is to evaluate the presentation of each paper. Output a dictionary of paper title to its presentation score.",
-            "next_action": ["END"],
-            "dynamic_action_decision": "None"
-        },
-        "NoveltyEvaluationAgent": {
-            "inputs": [
-                "papers"
-            ],
-            "outputs": [
-                "novelty_scores"
-            ],
-            "prompt": "Your role is to evaluate the novelty of each paper. Output a dictionary of paper title to its novelty score.",
-            "next_action": ["END"],
-            "dynamic_action_decision": "None"
-        }
-    }
-}
-
-## Solution
-In this case both agent gives their part of outputs and you can't simply rename these variables to the original output keyword because they are semantially different. Instead, you can keep these outputs and write a aggregator function to synthesis the final output. 
-
-You can define the json schema of each agent's output as follows:
-
-For Presentation Evaluation Agent:
-{
-    "title": "PresentationScoresSchema",
-    "description": "Scores for presentation of research papers",
-    "type": "object",
-    "properties": {
-        "presentation_scores": {
-            "title": "Presentation Scores",
-            "description": "dictionary of paper title to its score",
-            "type": "object",
-            "additionalProperties": {
-                "type": "integer"
-            }
-        }
-    },
-    "required": [
-        "presentation_scores"
-    ]
-}
-
-For Novelty Evaluation Agent:
-{
-    "title": "NoveltyScoresSchema",
-    "description": "Scores for novelty of research papers",
-    "type": "object",
-    "properties": {
-        "novelty_scores": {
-            "title": "Novelty Scores",
-            "description": "dictionary of paper title to its score",
-            "type": "object",
-            "additionalProperties": {
-                "type": "integer"
-            }
-        }
-    },
-    "required": [
-        "novelty_scores"
-    ]
-}
-
-Then, you need to write a function to combine the outputs of these new agents to generate the final output that is compatible to the orignal final output schema "PaperReviews". You should use correct agent output names as the function input signature as they will be passed as keyword arguments for aggregation.
-
-Also this function need to return a dictionary that is compatible with the final output schema. If final output schema is a string, use that as the dictionary key. If final output schema is a JSON schema object, use keys in the properties as the dictionary key.
-
-In this case, the schema is "PaperReviews" JSON schema. so the final dictionary will be something like this:
-{
-    "scores": {
-        "paper1": {"presentation": 5, "novelty": 3},
-        "paper2": {"presentation": 4, "novelty": 2}
-}
-
-final output aggregator example code:
-```python
-def combine_outputs(presentation_scores: dict[str, int], novelty_scores: dict[str, int]):
-    scores = {}
-    for title in presentation_scores:
-        scores[title] = {"presentation": presentation_scores[title], "novelty": novelty_scores[title]}
-    return {'scores': scores}
-```
-please omit type hint when you generate the answer, this demonstration is for you to better understand the function signature.
 """
 
 structured_system_format = '''

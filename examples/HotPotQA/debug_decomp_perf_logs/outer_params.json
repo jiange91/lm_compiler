@@ -1,99 +1,5 @@
 [
     {
-        "name": "Scaffold_generate_answer",
-        "module_name": "generate_answer",
-        "options": {
-            "Decompose_generate_answer_option_0": {
-                "name": "Decompose_generate_answer_option_0",
-                "type": "DecomposeOption",
-                "new_system": {
-                    "agents": {
-                        "ContextInterpreter": {
-                            "agent_prompt": "You are an expert at interpreting textual information. Carefully read the provided context and extract all relevant information that might be useful for answering a question based on this context. Your output should be a concise summary of the key points and facts from the context.",
-                            "inputs_variables": [
-                                "context"
-                            ],
-                            "output_json_schema": "context_summary",
-                            "next_action": [
-                                "QuestionAnalyzer"
-                            ],
-                            "dynamic_action_decision": "None"
-                        },
-                        "QuestionAnalyzer": {
-                            "agent_prompt": "You are an expert at analyzing questions. Given a question, identify the key components and what specific information is being asked. Your output should be a clear breakdown of the question, highlighting the main focus and any sub-questions or details that need to be addressed.",
-                            "inputs_variables": [
-                                "question"
-                            ],
-                            "output_json_schema": "question_analysis",
-                            "next_action": [
-                                "AnswerSynthesizer"
-                            ],
-                            "dynamic_action_decision": "None"
-                        },
-                        "AnswerSynthesizer": {
-                            "agent_prompt": "You are an expert at synthesizing answers based on provided information. Using the summarized context and the analyzed question, carefully construct a clear and logical answer. Ensure that your answer is directly supported by the information from the context and addresses all parts of the question.",
-                            "inputs_variables": [
-                                "context_summary",
-                                "question_analysis"
-                            ],
-                            "output_json_schema": "answer",
-                            "next_action": [
-                                "END"
-                            ],
-                            "dynamic_action_decision": "None"
-                        }
-                    },
-                    "final_output_aggregator_code": "None"
-                },
-                "log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/decompose_logs"
-            }
-        },
-        "default_option": "Decompose_generate_answer_option_0",
-        "type": "LMScaffolding",
-        "log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/decompose_logs"
-    },
-    {
-        "name": "Scaffold_generate_query",
-        "module_name": "generate_query",
-        "options": {
-            "Decompose_generate_query_option_0": {
-                "name": "Decompose_generate_query_option_0",
-                "type": "DecomposeOption",
-                "new_system": {
-                    "agents": {
-                        "QuestionAnalyzer": {
-                            "agent_prompt": "You are an expert in analyzing questions to identify key elements. Given a question, your task is to break it down and extract the main keywords and phrases that are essential for forming a search query. Focus on identifying the core subject, any specific details, and any contextual information that will help in generating a precise search query.",
-                            "inputs_variables": [
-                                "question"
-                            ],
-                            "output_json_schema": "keywords",
-                            "next_action": [
-                                "QueryFormulator"
-                            ],
-                            "dynamic_action_decision": "None"
-                        },
-                        "QueryFormulator": {
-                            "agent_prompt": "You are an expert in formulating search queries. Using the keywords and phrases provided, your task is to construct a search query that encapsulates the key elements needed to retrieve the most pertinent information. Ensure that the query is concise yet comprehensive, and consider the implications of the search to maximize relevance and accuracy.",
-                            "inputs_variables": [
-                                "keywords"
-                            ],
-                            "output_json_schema": "search_query",
-                            "next_action": [
-                                "END"
-                            ],
-                            "dynamic_action_decision": "None"
-                        }
-                    },
-                    "final_output_aggregator_code": "None"
-                },
-                "log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/decompose_logs"
-            }
-        },
-        "default_option": "Decompose_generate_query_option_0",
-        "type": "LMScaffolding",
-        "log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/decompose_logs"
-    },
-    {
         "name": "Scaffold_refine_query",
         "module_name": "refine_query",
         "options": {
@@ -102,33 +8,35 @@
                 "type": "DecomposeOption",
                 "new_system": {
                     "agents": {
-                        "ContextExtractor": {
-                            "agent_prompt": "You are an expert in extracting relevant details from a given context. Your task is to carefully read the provided context and identify key elements that are crucial for generating an effective search query. Focus on extracting specific names, dates, events, or any other pertinent information that could help in forming a precise search query. Provide a concise summary of these key elements.",
+                        "Context Extractor": {
+                            "agent_prompt": "You are an expert in extracting relevant details from a given context. Your task is to carefully read the provided context and identify key elements, facts, and information that are pertinent to understanding the context fully. Highlight any specific names, dates, events, or concepts that are crucial for forming a comprehensive understanding of the context.\n\nContext: {context}\nQuestion: {question}\n\nExtracted Details:",
                             "inputs_variables": [
-                                "context"
-                            ],
-                            "output_json_schema": "context_key_elements",
-                            "next_action": [
-                                "QuestionAnalyzer"
-                            ],
-                            "dynamic_action_decision": "None"
-                        },
-                        "QuestionAnalyzer": {
-                            "agent_prompt": "You are an expert in analyzing questions to identify the core information being sought. Your task is to carefully read the provided question and determine the main focus or intent behind it. Identify key terms, phrases, or concepts that are essential for generating an effective search query. Provide a concise summary of these key elements.",
-                            "inputs_variables": [
+                                "context",
                                 "question"
                             ],
-                            "output_json_schema": "question_key_elements",
+                            "output_json_schema": "extracted_details",
                             "next_action": [
-                                "SearchQueryGenerator"
+                                "Question Analyzer"
                             ],
                             "dynamic_action_decision": "None"
                         },
-                        "SearchQueryGenerator": {
-                            "agent_prompt": "You are an expert in generating effective search queries. Your task is to take the key elements extracted from both the context and the question and combine them to form a precise search query. Ensure that the search query encapsulates the most relevant details to retrieve accurate and pertinent information. Provide the final search query.",
+                        "Question Analyzer": {
+                            "agent_prompt": "You are an expert in analyzing questions to determine the specific information being sought. Your task is to break down the provided question and identify the main focus, keywords, and any specific details that are crucial for generating an accurate search query. Use the extracted details from the context to ensure your analysis is thorough.\n\nQuestion: {question}\nExtracted Details: {extracted_details}\n\nQuestion Analysis:",
                             "inputs_variables": [
-                                "context_key_elements",
-                                "question_key_elements"
+                                "question",
+                                "extracted_details"
+                            ],
+                            "output_json_schema": "question_analysis",
+                            "next_action": [
+                                "Search Query Generator"
+                            ],
+                            "dynamic_action_decision": "None"
+                        },
+                        "Search Query Generator": {
+                            "agent_prompt": "You are an expert in generating effective search queries. Your task is to use the detailed analysis of the question and the extracted details from the context to formulate a precise and effective search query. Ensure that your search query encapsulates the key elements needed to retrieve the most pertinent information.\n\nQuestion Analysis: {question_analysis}\nExtracted Details: {extracted_details}\n\nSearch Query:",
+                            "inputs_variables": [
+                                "question_analysis",
+                                "extracted_details"
                             ],
                             "output_json_schema": "search_query",
                             "next_action": [
@@ -143,6 +51,130 @@
             }
         },
         "default_option": "Decompose_refine_query_option_0",
+        "type": "LMScaffolding",
+        "log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/decompose_logs"
+    },
+    {
+        "name": "Scaffold_generate_answer",
+        "module_name": "generate_answer",
+        "options": {
+            "Decompose_generate_answer_option_0": {
+                "name": "Decompose_generate_answer_option_0",
+                "type": "DecomposeOption",
+                "new_system": {
+                    "agents": {
+                        "Context Analyzer": {
+                            "agent_prompt": "You are an expert in analyzing textual information. Carefully read the provided context and identify key points, facts, and relevant details that are crucial for answering the given question. Summarize these key points in a clear and concise manner.",
+                            "inputs_variables": [
+                                "context",
+                                "question"
+                            ],
+                            "output_json_schema": {
+                                "title": "KeyPointsSchema",
+                                "description": "Summary of key points from the context.",
+                                "type": "object",
+                                "properties": {
+                                    "key_points": {
+                                        "title": "Key Points",
+                                        "description": "Summary of key points, facts, and relevant details from the context.",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "key_points"
+                                ]
+                            },
+                            "next_action": [
+                                "Question Interpreter"
+                            ],
+                            "dynamic_action_decision": "None"
+                        },
+                        "Question Interpreter": {
+                            "agent_prompt": "You are skilled at interpreting questions. Using the provided question and the summary of key points from the context, break down the question into its core components. Identify what specific information is being asked for and what logical connections need to be made to answer the question.",
+                            "inputs_variables": [
+                                "question",
+                                "key_points"
+                            ],
+                            "output_json_schema": {
+                                "title": "QuestionBreakdownSchema",
+                                "description": "Breakdown of the question into core components.",
+                                "type": "object",
+                                "properties": {
+                                    "question_breakdown": {
+                                        "title": "Question Breakdown",
+                                        "description": "Breakdown of the question into its core components.",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "question_breakdown"
+                                ]
+                            },
+                            "next_action": [
+                                "Logical Reasoner"
+                            ],
+                            "dynamic_action_decision": "None"
+                        },
+                        "Logical Reasoner": {
+                            "agent_prompt": "You are adept at logical reasoning. Using the breakdown of the question and the summary of key points, construct a clear and logical answer to the question. Ensure that your answer is well-supported by the information provided in the context and follows a coherent line of reasoning.",
+                            "inputs_variables": [
+                                "question_breakdown",
+                                "key_points"
+                            ],
+                            "output_json_schema": {
+                                "title": "AnswerSchema",
+                                "description": "Constructed answer to the question.",
+                                "type": "object",
+                                "properties": {
+                                    "answer": {
+                                        "title": "Answer",
+                                        "description": "Constructed answer to the question.",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "answer"
+                                ]
+                            },
+                            "next_action": [
+                                "Answer Verifier"
+                            ],
+                            "dynamic_action_decision": "None"
+                        },
+                        "Answer Verifier": {
+                            "agent_prompt": "You are an expert in verification and validation. Review the answer provided by the Logical Reasoner, ensuring that it accurately addresses the original question and is well-supported by the key points from the context. Make any necessary adjustments to improve clarity, accuracy, and logical coherence.",
+                            "inputs_variables": [
+                                "answer",
+                                "question",
+                                "key_points"
+                            ],
+                            "output_json_schema": {
+                                "title": "VerifiedAnswerSchema",
+                                "description": "Verified and validated answer to the question.",
+                                "type": "object",
+                                "properties": {
+                                    "answer": {
+                                        "title": "Answer",
+                                        "description": "Verified and validated answer to the question.",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "answer"
+                                ]
+                            },
+                            "next_action": [
+                                "END"
+                            ],
+                            "dynamic_action_decision": "None"
+                        }
+                    },
+                    "final_output_aggregator_code": "None"
+                },
+                "log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/decompose_logs"
+            }
+        },
+        "default_option": "Decompose_generate_answer_option_0",
         "type": "LMScaffolding",
         "log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/decompose_logs"
     }

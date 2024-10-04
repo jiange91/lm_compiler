@@ -13,6 +13,7 @@ import random
 import optuna
 
 from compiler.optimizer.params.common import IdentityOption
+from compiler.optimizer.params import ensemble
 from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
 from compiler.optimizer.plugin import OptimizerSchema
 import dspy
@@ -50,15 +51,8 @@ def opt(data):
         "reasoning", [IdentityOption(), ZeroShotCoT()] 
     )
     
-    scaffolding_params = LMScaffolding.bootstrap_from_source(
-        script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
-        decompose_threshold=0,
-        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/new_decompose_logs',
-        default_identity=False,
-    )
-    return
     
-    few_shot_params = LMFewShot("few_shot", None, 4)
+    few_shot_params = LMFewShot("few_shot", None, 8)
     
     inner_loop = InnerLoopBayesianOptimization(
         # universal_params=[model_param, few_shot_params, reasoning_param],
@@ -67,8 +61,12 @@ def opt(data):
         save_ckpt_interval=1,
     )
     
+    usc_ensemble = ensemble.UniversalSelfConsistency(3, temperature=0.5)
+    ensemble_params = ensemble.ModuleEnsemble(
+        "ensemble", [IdentityOption(), usc_ensemble]
+    )
     outer_loop = OuterLoopOptimization(
-        dedicate_params=scaffolding_params,
+        universal_params=[ensemble_params],
         quality_constraint=0.4,
         save_ckpt_interval=1,
     )
@@ -87,12 +85,12 @@ def opt(data):
     # )
     cost, pareto_frontier = outer_loop.optimize(
         inner_loop=inner_loop,
-        n_trials=20,
+        n_trials=30,
         script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
         evaluator=evaluator,
         resource_ratio=1/10,
-        log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/debug_decomp_perf_logs',
-        inner_throughput=1,
+        log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/try_ensemble_opt_logs',
+        inner_throughput=2,
     )
     return pareto_frontier
 
@@ -112,8 +110,8 @@ def eval(data, config: InnerLoopBayesianOptimization.TrialLog):
 if __name__ == '__main__':
     mp.set_start_method('spawn')
     
-    train, dev = load_data_minor()
-    # train, dev = load_data()
+    # train, dev = load_data_minor()
+    train, dev = load_data()
     configs = opt(train)
-    # eval(dev, configs[1])
+    eval(dev, configs[2])
     

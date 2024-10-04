@@ -1,4 +1,4 @@
-from compiler.optimizer.layered_optimizer_pluggable import InnerLoopBayesianOptimization, OuterLoopOptimization
+from compiler.optimizer.layered_optimizer_pluggable import InnerLoopBayesianOptimization, OuterLoopOptimization, OuterLoopOptConfig
 from compiler.optimizer.params.fewshot import LMFewShot
 from compiler.optimizer.params.scaffolding import LMScaffolding
 from compiler.optimizer.importance_eval_new import LMImportanceEvaluator
@@ -6,7 +6,7 @@ from compiler.optimizer.params import reasoning, model_selection, common
 from compiler.optimizer.evaluation.evaluator import EvaluatorInterface, EvaluationResult, EvaluatorPlugin, EvalTask
 import runpy
 import uuid
-import multiprocessing as mp
+import multiprocess as mp
 import json
 import os
 import random
@@ -17,6 +17,7 @@ from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
 from compiler.optimizer.plugin import OptimizerSchema
 import dspy
 from dspy.datasets.hotpotqa import HotPotQA
+from compiler.optimizer.params import ensemble
 
 def load_data():
     dataset = HotPotQA(train_seed=1, train_size=150, eval_seed=2023, dev_size=200, test_size=0)
@@ -59,17 +60,32 @@ def opt(data):
         save_ckpt_interval=1,
     )
     
+    usc_ensemble = ensemble.UniversalSelfConsistency(3, temperature=0.5)
+    ensemble_params = ensemble.ModuleEnsemble(
+        "ensemble", [IdentityOption(), usc_ensemble]
+    )
+    outer_loop = OuterLoopOptimization(
+        universal_params=[ensemble_params],
+        quality_constraint=0.3,
+        save_ckpt_interval=1,
+    )
+    
     evaluator = EvaluatorPlugin(
         eval_set=data,
         n_parallel=20,
     )
     
-    cost, pareto_frontier = inner_loop.optimize(
+    out_opt_config = OuterLoopOptConfig(
         script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
-        n_trials=2,
+        total_budget=20,
+        inner_step_budget=2,
+        outer_throughput=2,
+        log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/test_SH_2',
+    )
+    cost, pareto_frontier = outer_loop.optimize(
+        inner_loop=inner_loop,
         evaluator=evaluator,
-        log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/test_continue_inner',
-        throughput=1,
+        opt_config=out_opt_config,
     )
     return pareto_frontier
 
@@ -87,7 +103,8 @@ def eval(data, config: InnerLoopBayesianOptimization.TrialLog):
     print(str(eval_result))
     
 if __name__ == '__main__':
-    mp.set_start_method('spawn')
+    # mp.set_start_method('spawn')
+    mp.context._force_start_method('spawn')
     
     train, dev = load_data_minor()
     # train, dev = load_data()

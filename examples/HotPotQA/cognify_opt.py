@@ -6,7 +6,7 @@ from compiler.optimizer.params import reasoning, model_selection, common
 from compiler.optimizer.evaluation.evaluator import EvaluatorInterface, EvaluationResult, EvaluatorPlugin, EvalTask
 import runpy
 import uuid
-import multiprocessing as mp
+import multiprocess as mp
 import json
 import os
 import random
@@ -83,9 +83,10 @@ def eval(data, config):
     print(str(eval_result))
     
 if __name__ == '__main__':
-    mp.set_start_method('spawn')
+    # mp.set_start_method('spawn')
+    mp.context._force_start_method('spawn')
     
     train, val, dev = load_data()
     configs = opt(train)
-    eval(dev, configs[1])
+    # eval(dev, configs[1])
     

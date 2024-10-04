@@ -11,6 +11,7 @@ from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.messages import HumanMessage, BaseMessage, merge_message_runs, AIMessage
+from langchain_aws import BedrockLLM
 from .utils import var_2_str
 
 import logging
@@ -343,12 +344,19 @@ def langchain_lm_kernel({inputs_str}):
     def set_lm(self):
         logger.debug(f'Setting LM for {self.name}: {self.lm_config}')
         model_name: str = self.lm_config['model']
-        if model_name.startswith('gpt-') or model_name.startswith('o1-'):
-            self.lm = ChatOpenAI(
-                **self.lm_config, 
-                callbacks=[LLMTracker(self)]
+        # by default openai
+        if not self.lm_config.get('who_service'):
+            self.lm_config['who_serice'] = 'openai'
+        if self.lm_config['who_service'] == 'openai':
+            if model_name.startswith('gpt-') or model_name.startswith('o1-'):
+                self.lm = ChatOpenAI(
+                    **self.lm_config, 
+                    callbacks=[LLMTracker(self)]
+                )
+        if self.lm_config['who_service'] == 'bedrock':
+            self.lm = BedrockLLM(
+                **self.lm_config['llm_args'],
             )
-        else:
             raise ValueError(f"Model {model_name} not supported")
         return
 

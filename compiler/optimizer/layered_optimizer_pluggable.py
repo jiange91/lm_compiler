@@ -290,7 +290,7 @@ class InnerLoopBayesianOptimization:
     ):
         eval_result: EvaluationResult = evaluator.evaluate(task)
         score, price = eval_result.reduced_score, eval_result.reduced_price
-        logger.info(f"- Trial {trial.number} result: score: {score}, price: {price}")
+        logger.info(f"- InnerLoop - Trial {trial.number} result: score: {score}, price: {price}")
         self.opt_logs[trial.number].score = score
         self.opt_logs[trial.number].price = price
         
@@ -473,7 +473,8 @@ class InnerLoopBayesianOptimization:
                 self.opt_logs[int(trial_id)] = trial_log
                 self.study.add_trial(trial_log.program[0])
                 self.opt_cost += trial_log.eval_cost
-        if n_trials > 0: 
+        if n_trials > 0:
+            logger.info(f"Starting InnerLoop Optimization with {n_trials} trials")
             self._optimize(
                 n_trials=n_trials,
                 script_path=script_path,
@@ -508,33 +509,38 @@ class InnerLoopEvaluator:
     def __init__(
         self,
         inner_loop: InnerLoopBayesianOptimization,
-        n_trials: int,
         evaluator: EvaluatorPlugin,
+        eval_task: EvalTask,
         throughput: int = 1,
         log_dir: str = 'holm_log',
         quality_constraint: float = None,
     ):
-        self.evaluator = evaluator
         self.inner_loop = inner_loop
-        self.n_trials = n_trials
+        self.evaluator = evaluator
+        self.eval_task = eval_task
         self.throughput = throughput
         self.log_dir = log_dir
         self.quality_constraint = quality_constraint
+        
+        self.best_score = -1e10
+        self.lowest_effective_price = 1e10
     
     def __call__(
         self,
-        task: EvalTask
+        n_trials: int,
     ) -> Tuple[EvaluationResult, list[InnerLoopBayesianOptimization.TrialLog]]:
+        """Run inner-loop opt for num_trials and update the pareto
+        """
         opt_cost, pareto_frontier = self.inner_loop.optimize(
-            script_path=task.script_path,
-            n_trials=self.n_trials,
+            script_path=self.eval_task.script_path,
+            n_trials=n_trials,
             evaluator=self.evaluator,
             throughput=self.throughput,
             log_dir=self.log_dir,
-            script_args=task.args,
-            module_pool=task.module_pool,
-            flatten_module_mapping=task.module_map_table,
-            other_python_paths=task.other_python_paths,
+            script_args=self.eval_task.args,
+            module_pool=self.eval_task.module_pool,
+            flatten_module_mapping=self.eval_task.module_map_table,
+            other_python_paths=self.eval_task.other_python_paths,
         )
         best_scores, best_prices = [], []
         for inner_trial_log in pareto_frontier:
@@ -545,23 +551,121 @@ class InnerLoopEvaluator:
             best_scores.append(inner_trial_log.score)
             best_prices.append(inner_trial_log.price)
         
-        if len(best_scores) == 0:
-            reduced_score, reduced_price = -1e10, 1e10
-        else:
-            reduced_score, reduced_price = max(best_scores), min(best_prices)
+        if len(best_scores) > 0:
+            self.best_score, self.lowest_effective_price = max(best_scores), min(best_prices)
         result = EvaluationResult(
             scores=best_scores,
             prices=best_prices,
-            reduced_score=reduced_score,
-            reduced_price=reduced_price,
+            reduced_score=self.best_score,
+            reduced_price=self.lowest_effective_price,
             demos=None,
             meta={'inner_opt_cost': opt_cost}
         )
         return result, pareto_frontier
 
+class SuccessiveHalving:
+    def __init__(
+        self, 
+        inner_step_budget: int,
+        selected_outer_runs: list[InnerLoopEvaluator],
+    ):
+        self.inner_step_budget = inner_step_budget
+        self.selected_outer_runs = selected_outer_runs
+        # disable quality constraint for now
+        self.quality_constraints = []
+        for outer_run in self.selected_outer_runs:
+            self.quality_constraints.append(outer_run.quality_constraint)
+            outer_run.quality_constraint = None
+        
+        self.ready_to_run = [i for i in range(len(selected_outer_runs))]
+        self.num_inner_trials = [0] * len(selected_outer_runs)
+        
+    def run_and_prune(self):
+        logger.info(f"SH next with {self.ready_to_run}")
+        for i in self.ready_to_run:
+            self.num_inner_trials[i] += self.inner_step_budget
+        # futures: set[Future] = set()
+        # with ThreadPoolExecutor(max_workers=len(self.ready_to_run)) as executor:
+        #     for i in self.ready_to_run:
+        #         futures.add(executor.submit(
+        #             self.selected_outer_runs[i], self.inner_step_budget
+        #         ))
+        # outer_indicators = []
+        # for f in futures:
+        #     eval_result, pareto_frontier = f.result()
+        #     outer_indicators.append((eval_result.reduced_score, eval_result.reduced_price))
+        outer_indicators = []
+        for i in self.ready_to_run:
+            eval_result, pareto_frontier = self.selected_outer_runs[i](self.inner_step_budget)
+            outer_indicators.append((eval_result.reduced_score, eval_result.reduced_price))
+        # sort by score and price, higher score then lower price
+        sorted_indicator_indices = sorted(
+            range(len(outer_indicators)),
+            key=lambda i: (-outer_indicators[i][0], outer_indicators[i][1])
+        )
+        runs_left_to_run = sorted_indicator_indices[:len(self.ready_to_run) // 2]
+        self.ready_to_run = [self.ready_to_run[i] for i in runs_left_to_run]
+    
+    def execute(self):
+        while len(self.ready_to_run) > 0:
+            self.run_and_prune()
+        # reset quality constraint
+        for i, outer_run in enumerate(self.selected_outer_runs):
+            outer_run.quality_constraint = self.quality_constraints[i]
+        # Collect inner loop performance
+        outer_run_evals = []
+        for outer_run in self.selected_outer_runs:
+            outer_run_evals.append(outer_run(n_trials=0))
+        return outer_run_evals, self.num_inner_trials
+
+@dataclass
+class OuterLoopOptConfig:
+    script_path: str
+    
+    total_budget: int
+    inner_step_budget: int = 1
+    outer_throughput: int = 1
+    inner_throughput: int = 1
+    
+    log_dir: str = 'holm_log'
+    script_args: list[str] = field(default_factory=list)
+    opt_log_path: str = field(default=None)
+    param_save_path: str = field(default=None)
+    
+    def finalize_config(self) -> list[LangChainLM]:
+        log_dir = self.log_dir
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir, exist_ok=True)
+        
+        if self.opt_log_path is None:
+            self.opt_log_path = os.path.join(log_dir, 'outer_opt_logs.json')
+        if self.param_save_path is None:
+            self.param_save_path = os.path.join(log_dir, 'outer_params.json')
+        
+        if os.path.exists(self.param_save_path):
+            logger.info(f'Loading outerloop params from {self.param_save_path}')
+            params = load_params(self.param_save_path)
+            self.dedicated_params = params
+            self.universal_params = []
+        
+        self.script_args = self.script_args or []
+        dir = os.path.dirname(self.script_path)
+        if dir not in sys.path:
+            sys.path.insert(0, dir)
+        sys.argv = [self.script_path] + self.script_args
+        schema = OptimizerSchema.capture(self.script_path)
+        lm_modules = Module.all_of_type(schema.opt_target_modules, LangChainLM)
+            
+        for lm in lm_modules:
+            lm.enclosing_module = None
+            lm.reset()
+        return lm_modules
+    
+
 class OuterLoopOptimization:
     @dataclass
     class TrialLog:
+        inner_trials: int
         params: dict[str, Any]
         id: str = field(default_factory=lambda: uuid.uuid4().hex)
         best_score: float = field(default=0.0)
@@ -573,6 +677,7 @@ class OuterLoopOptimization:
         def to_dict(self):
             return {
                 'id': self.id,
+                'inner_trials': self.inner_trials,
                 'params': self.params,
                 'best_score': self.best_score,
                 'lowest_effective_price': self.lowest_effective_price,
@@ -614,13 +719,13 @@ class OuterLoopOptimization:
             inner_log_dir = obj['inner_opt_log_dir']
             feedback_consumer = InnerLoopEvaluator(
                 inner_loop=copy.deepcopy(inner_loop),
-                n_trials=0,
                 evaluator=None,
+                eval_task=eval_task,
                 throughput=0,
                 log_dir=inner_log_dir,
                 quality_constraint=outer_loop.quality_constraint,
             )
-            eval_result, inner_pareto_trial_logs = feedback_consumer(eval_task)
+            eval_result, inner_pareto_trial_logs = feedback_consumer(0)
             best_score, best_price = eval_result.reduced_score, eval_result.reduced_price
             
             # Validate the applied inner loop compilation
@@ -631,6 +736,7 @@ class OuterLoopOptimization:
             # assert inner_pareto_ids == set(obj['inner_pareto_frontier']), "Inner pareto frontier mismatch"
             
             return trial, cls(
+                inner_trials=obj['inner_trials'],
                 params=obj['params'],
                 id=obj['id'],
                 best_score=obj['best_score'],
@@ -639,7 +745,6 @@ class OuterLoopOptimization:
                 inner_opt_log_dir=inner_log_dir,
                 inner_pareto_frontier=inner_pareto_trial_logs,
             )
-            
     
     def __init__(
         self,
@@ -787,20 +892,23 @@ class OuterLoopOptimization:
                 trial = self.study.ask(self.param_categorical_dist)
                 
             logger.info(f"- OuterLoop - apply param - Trial {trial.number} params: {trial.params}")
-            self.opt_logs[trial.number] = OuterLoopOptimization.TrialLog(params=trial.params)
+            self.opt_logs[trial.number] = OuterLoopOptimization.TrialLog(
+                inner_trials=0,
+                params=trial.params
+            )
             
             lms_copy = copy.deepcopy(lms)
             new_modules, mapping = self._apply_params(trial, lms_copy)
             next_to_run.append((trial, new_modules, mapping))
         return next_to_run
-
-    def _eval_and_update(
+    
+    def _update(
         self,
         trial: optuna.trial.Trial,
-        task: EvalTask,
-        inner_evaluator: InnerLoopEvaluator,
+        eval_result: EvaluationResult,
+        inner_pareto_trial_logs: list[InnerLoopBayesianOptimization.TrialLog],
+        num_inner_trial: int,
     ):
-        eval_result, inner_pareto_trial_logs = inner_evaluator(task)
         inner_cost = eval_result.meta['inner_opt_cost']
         self.opt_cost += inner_cost
             
@@ -810,6 +918,7 @@ class OuterLoopOptimization:
         self.opt_logs[trial.number].best_score = best_score
         self.opt_logs[trial.number].lowest_effective_price = best_price
         self.opt_logs[trial.number].eval_cost = inner_cost
+        self.opt_logs[trial.number].inner_trials += num_inner_trial
         
         # Register all inner-best compiled programs
         self.opt_logs[trial.number].inner_pareto_frontier = inner_pareto_trial_logs
@@ -833,6 +942,14 @@ class OuterLoopOptimization:
                 # create new study and migrate all trials
                 new_study = self.init_study(self.study)
                 self.study = new_study
+
+    def _eval_and_update(
+        self,
+        trial: optuna.trial.Trial,
+        inner_evaluator: InnerLoopEvaluator,
+    ):
+        eval_result, inner_pareto_trial_logs = inner_evaluator(self.opt_config.inner_step_budget)
+        self._update(trial, eval_result, inner_pareto_trial_logs, self.opt_config.inner_step_budget)
                 
     def _get_new_python_paths(self):
         new_python_paths = []
@@ -879,13 +996,13 @@ class OuterLoopOptimization:
             self.opt_logs[next_trial.number].inner_opt_log_dir = inner_log_dir
             feedback_consumer = InnerLoopEvaluator(
                 inner_loop=copy.deepcopy(inner_loop),
-                n_trials=n_inner_trials,
                 evaluator=evaluator,
+                eval_task=eval_task,
                 throughput=inner_throughput,
                 log_dir=inner_log_dir,
                 quality_constraint=self.quality_constraint,
             )
-            self._eval_and_update(next_trial, eval_task, feedback_consumer)
+            self._eval_and_update(next_trial, feedback_consumer)
             if should_save_ckpt and self.save_ckpt_interval > 0 and i + 1 % self.save_ckpt_interval == 0:
                 self.save_ckpt(opt_log_path, param_save_path)
     
@@ -938,6 +1055,90 @@ class OuterLoopOptimization:
                             n_outer_trials, n_inner_trials, script_path, script_args, lms, evaluator, inner_loop, inner_throughput, log_dir, opt_log_path, param_save_path, False)
                         )
     
+    def _opt_loop_with_successive_halving(
+        self,
+        inner_loop: InnerLoopBayesianOptimization,
+        lms: list[LangChainLM],
+        evaluator: EvaluatorPlugin,
+    ):
+        # Clever resource allocation
+        trials_one_outer_step = self.opt_config.inner_step_budget * (2*self.opt_config.outer_throughput - 1)
+        num_outer_steps = math.ceil(self.opt_config.total_budget / trials_one_outer_step)
+        for i in range(num_outer_steps):
+            # propose outer configs to run
+            outer_runs = []
+            outer_trials = []
+            for j in range(self.opt_config.outer_throughput):
+                next_trial, program, mapping = self.propose(lms, 1)[0]
+                
+                # use inner loop optimization as evaluator
+                mapping = mflatten(mapping)
+                
+                # register new module paths
+                python_paths = self._get_new_python_paths()
+                # remove duplicate paths
+                python_paths = list(set(python_paths))
+                
+                eval_task = EvalTask(
+                    script_path=self.opt_config.script_path,
+                    args=self.opt_config.script_args,
+                    module_map_table=mapping,
+                    module_pool={lm.name: lm for lm in program},
+                    other_python_paths=python_paths,
+                )
+                inner_log_dir = os.path.join(self.opt_config.log_dir, 'inner_loop', uuid.uuid4().hex)
+                self.opt_logs[next_trial.number].inner_opt_log_dir = inner_log_dir
+                feedback_consumer = InnerLoopEvaluator(
+                    inner_loop=copy.deepcopy(inner_loop),
+                    evaluator=evaluator,
+                    eval_task=eval_task,
+                    throughput=self.opt_config.inner_throughput,
+                    log_dir=inner_log_dir,
+                    quality_constraint=self.quality_constraint,
+                )
+                outer_runs.append(feedback_consumer)
+                outer_trials.append(next_trial)
+            # Apply Successive Halving to outer runs
+            sh = SuccessiveHalving(self.opt_config.inner_step_budget, outer_runs)
+            outer_run_evals, num_inner_trials = sh.execute()
+            # Use feedback to update the outer loop
+            for outer_trial, (eval_result, inner_pareto_trial_logs), num_inner_trial in zip(outer_trials, outer_run_evals, num_inner_trials):
+                self._update(outer_trial, eval_result, inner_pareto_trial_logs, num_inner_trial)
+            
+            # save checkpoint
+            if self.save_ckpt_interval > 0 and i + 1 % self.save_ckpt_interval == 0:
+                self.save_ckpt(self.opt_config.opt_log_path, self.opt_config.param_save_path)
+
+    def _optimize_new(
+        self,
+        inner_loop: InnerLoopBayesianOptimization,
+        lms: list[LangChainLM],
+        evaluator: EvaluatorPlugin,
+    ):
+        if self.opt_config.outer_throughput == 1:
+            n_outer_trials = math.ceil(self.opt_config.total_budget / self.opt_config.inner_step_budget)
+            self._opt_loop(
+                n_outer_trials=n_outer_trials,
+                n_inner_trials=self.opt_config.inner_step_budget,
+                script_path=self.opt_config.script_path,
+                script_args=self.opt_config.script_args,
+                lms=lms,
+                evaluator=evaluator,
+                inner_loop=inner_loop,
+                inner_throughput=self.opt_config.inner_throughput,
+                log_dir=self.opt_config.log_dir,
+                opt_log_path=self.opt_config.opt_log_path,
+                param_save_path=self.opt_config.param_save_path,
+                should_save_ckpt=True,
+            )
+        else:
+            # Clever resource allocation
+            self._opt_loop_with_successive_halving(
+                inner_loop=inner_loop,
+                lms=lms,
+                evaluator=evaluator,
+            )
+    
     def get_pareto_front(self) -> list[Tuple[int, InnerLoopBayesianOptimization.TrialLog]]:
         """
         Find the pareto-efficient points
@@ -973,79 +1174,38 @@ class OuterLoopOptimization:
     def optimize(
         self,
         inner_loop: InnerLoopBayesianOptimization,
-        n_trials: int,
-        script_path: str,
         evaluator: EvaluatorPlugin,
-        script_args: list[str] = None,
-        module_pool: dict[str, Module] = None,
-        
-        resource_ratio: float = 1 / 10, # trials in outer vs inner loop
-        throughput: int = 1,
-        inner_throughput: int = 1,
-        log_dir: str = 'holm_log',
+        opt_config: OuterLoopOptConfig,
     ) -> Tuple[float, list[InnerLoopBayesianOptimization.TrialLog]]:
         self.opt_cost = 0
-        self.outer_loop_log_dir = log_dir
-        if not os.path.exists(log_dir):
-            os.makedirs(log_dir, exist_ok=True)
         
-        tpe_log_path = os.path.join(self.outer_loop_log_dir, 'outer_opt_logs.json')
-        param_save_path = os.path.join(self.outer_loop_log_dir, 'outer_params.json')
-        
-        if os.path.exists(param_save_path):
-            logger.info(f'Loading outerloop params from {param_save_path}')
-            params = load_params(param_save_path)
-            self.dedicated_params = params
-            self.universal_params = []
-        
-        script_args = script_args or []
-        if module_pool is None:
-            dir = os.path.dirname(script_path)
-            if dir not in sys.path:
-                sys.path.insert(0, dir)
-            sys.argv = [script_path] + script_args
-            schema = OptimizerSchema.capture(script_path)
-            lm_modules = schema.opt_target_modules
-            
-        for lm in lm_modules:
-            lm.enclosing_module = None
-            lm.reset()
-            
+        lm_modules = opt_config.finalize_config()
+        self.opt_config = opt_config
         self.prepare_opt_env(lm_modules)
         
-        if os.path.exists(tpe_log_path):
-            with open(tpe_log_path, 'r') as f:
+        if os.path.exists(self.opt_config.opt_log_path):
+            with open(self.opt_config.opt_log_path, 'r') as f:
                 opt_trace = json.load(f)
             for trial_id, trial_meta in opt_trace.items():
                 outer_trial, trial_log = OuterLoopOptimization.TrialLog.from_dict(
                     obj=trial_meta,
                     outer_loop=self,
                     inner_loop=inner_loop,
-                    script_path=script_path,
-                    script_args=script_args,
+                    script_path=self.opt_config.script_path,
+                    script_args=self.opt_config.script_args,
                     modules=lm_modules,
                 )
                 self.opt_logs[int(trial_id)] = trial_log
                 self.study.add_trial(outer_trial)
                 self.opt_cost += trial_log.eval_cost
         else:
-            n_outer_trials = math.ceil(n_trials * resource_ratio)
-            n_inner_trials = min(n_trials, math.floor(1 / resource_ratio))
-            self._optimize(
-                n_outer_trials=n_outer_trials,
-                n_inner_trials=n_inner_trials,
-                script_path=script_path,
-                script_args=script_args,
-                lms=lm_modules,
-                evaluator=evaluator,
-                log_dir=log_dir,
+            self._optimize_new(
                 inner_loop=inner_loop,
-                throughput=throughput,
-                inner_throughput=inner_throughput,
-                opt_log_path=tpe_log_path,
-                param_save_path=param_save_path,
+                lms=lm_modules,
+                evaluator=evaluator
             )
-            self.save_ckpt(tpe_log_path, param_save_path)
+            print("OuterLoop Optimization finished!!! saving checkpoint")
+            self.save_ckpt(self.opt_config.opt_log_path, self.opt_config.param_save_path)
         
         # Collect optimization results
         pareto_programs = self.get_pareto_front()

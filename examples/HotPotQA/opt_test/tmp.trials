@@ -1,0 +1,1 @@
+{"id": "8995c2dd0cfd4282bad52e6308d340b8", "params": {"generate_query_few_shot": "Identity", "generate_query_reasoning": "ZeroShotCoT", "refine_query_few_shot": "Identity", "refine_query_reasoning": "Identity", "generate_answer_few_shot": "Identity", "generate_answer_reasoning": "Identity"}, "score": 0.07310141917618554, "price": 0.00042039, "eval_cost": 0.0}

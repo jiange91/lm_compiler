@@ -18,6 +18,16 @@ from compiler.optimizer.plugin import OptimizerSchema
 import dspy
 from dspy.datasets.hotpotqa import HotPotQA
 
+def load_data_minor():
+    trainset = [
+        ("Are both Cangzhou and Qionghai in the Hebei province of China?", "no"),
+        ("Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?", 'National Hockey League'),
+        ("The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?", "Steve Yzerman"),
+        ("What river is near the Crichton Collegiate Church?", "the River Tyne"),
+        ("What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?", "design their own interdisciplinary program"),
+    ]
+    return trainset, trainset[-1:]
+
 def load_data():
     dataset = HotPotQA(train_seed=1, train_size=150, eval_seed=2023, dev_size=200, test_size=0)
     def get_input_label(x):
@@ -58,7 +68,7 @@ def opt(data):
         script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
         n_trials=30,
         evaluator=evaluator,
-        log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_logs_full',
+        log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test',
         throughput=2,
     )
     return pareto_frontier
@@ -86,7 +96,8 @@ if __name__ == '__main__':
     # mp.set_start_method('spawn')
     mp.context._force_start_method('spawn')
     
-    train, val, dev = load_data()
+    # train, val, dev = load_data()
+    train, dev = load_data_minor()
     configs = opt(train)
     # eval(dev, configs[1])
     

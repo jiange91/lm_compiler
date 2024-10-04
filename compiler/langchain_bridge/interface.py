@@ -345,19 +345,19 @@ def langchain_lm_kernel({inputs_str}):
         logger.debug(f'Setting LM for {self.name}: {self.lm_config}')
         model_name: str = self.lm_config['model']
         # by default openai
-        if not self.lm_config.get('who_service'):
-            self.lm_config['who_serice'] = 'openai'
-        if self.lm_config['who_service'] == 'openai':
-            if model_name.startswith('gpt-') or model_name.startswith('o1-'):
-                self.lm = ChatOpenAI(
-                    **self.lm_config, 
-                    callbacks=[LLMTracker(self)]
-                )
-        if self.lm_config['who_service'] == 'bedrock':
-            self.lm = BedrockLLM(
-                **self.lm_config['llm_args'],
+        # if 'who_service' not in self.lm_config:
+        #     self.lm_config['who_service'] = 'openai'
+        # if self.lm_config['who_service'] == 'openai':
+        if model_name.startswith('gpt-') or model_name.startswith('o1-'):
+            self.lm = ChatOpenAI(
+                **self.lm_config, 
+                callbacks=[LLMTracker(self)]
             )
-            raise ValueError(f"Model {model_name} not supported")
+        # if self.lm_config['who_service'] == 'bedrock':
+        #     self.lm = BedrockLLM(
+        #         **self.lm_config['llm_args'],
+        #     )
+        #     raise ValueError(f"Model {model_name} not supported")
         return
 
     def get_lm_history(self):

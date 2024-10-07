@@ -132,6 +132,22 @@ class TokenUsage:
             return (5 * prompt + 15 * completion) / 1e6
         elif 'gpt-4o-2024-08-06' in model:
             return (2.5 * prompt + 10 * completion) / 1e6
+        elif 'meta-llama/Llama-3.2-3B-Instruct-Turbo' in model:
+            return 0.06 * (prompt + completion) / 1e6
+        elif 'meta-llama/Llama-3.2-11B-Vision-Instruct-Turbo' in model:
+            return 0.18 * (prompt + completion) / 1e6
+        elif 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo' in model:
+            return 0.18 * (prompt + completion) / 1e6
+        elif 'meta-llama/Meta-Llama-3-8B-Instruct-Lite' in model:
+            return 0.10 * (prompt + completion) / 1e6
+        elif 'Qwen/Qwen2-72B-Instruct' in model:
+            return 0.9 * (prompt + completion) / 1e6
+        elif 'mistralai/Mistral-7B-Instruct-v0.3' in model:
+            return 0.2 * (prompt + completion) / 1e6
+        elif 'google/gemma-2-9b-it' in model:
+            return 0.3 * (prompt + completion) / 1e6
+        else:
+            raise ValueError(f"Model {model} pricing is not supported")
     
     def get_price(self):
         return self.pricing_pM(self.model, self.prompt_tokens, self.completion_tokens)
@@ -270,7 +286,7 @@ class LLMPredictor(Module):
             
         if self.kernel is None:
             self.initialize_kernel()
-            
+        
         result = self.kernel(**kwargs)
         
         lm_hist = self.get_lm_history()

@@ -26,6 +26,7 @@ from compiler.IR.llm import LLMPredictor, LMConfig, LMSemantic, Demonstration
 from compiler.IR.schema_parser import get_pydantic_format_instruction as get_format_instruction
 from compiler.IR.schema_parser import pydentic_model_repr
 from compiler.langchain_bridge.utils import var_2_str
+import copy
 
 logger = logging.getLogger(__name__)
 
@@ -112,7 +113,7 @@ class LangChainSemantic(LMSemantic):
                 self.output_type_hint = get_format_instruction(output_format)
         
         self.message_template_predefined = len(following_messages) > 0
-        self.follwing_messages = following_messages
+        self.following_messages = following_messages
         self._chat_prompt_template: ChatPromptTemplate = None
         self.usr_demos = demos
         self.compiler_demos = []
@@ -202,8 +203,8 @@ class LangChainSemantic(LMSemantic):
                     "text": usr_prompt
                 }
             )
-            self.usr_prmopt_template = HumanMessagePromptTemplate.from_template(template=user_messages)
-            self.follwing_messages = [self.usr_prmopt_template]
+            self.usr_prompt_template = HumanMessagePromptTemplate.from_template(template=usr_prompt) # temporarily remove image support
+            self.following_messages = [self.usr_prompt_template]
         # setup prompt template
         if self.enable_memory:
             self.chat_prompt_template = ChatPromptTemplate.from_messages(
@@ -224,7 +225,7 @@ class LangChainSemantic(LMSemantic):
             self.add_demos_to_prompt()
         
         # add user prompt
-        self.chat_prompt_template.extend(self.follwing_messages)
+        self.chat_prompt_template.extend(self.following_messages)
         # add all output format instructions
         ospec = self.get_output_format_spec()
         if ospec:
@@ -320,7 +321,14 @@ class LangChainLM(LLMPredictor):
             routine = routine | self.semantic.parser
             langchain_kernel_template = f"""
 def langchain_lm_kernel({inputs_str}):
-    result = routine.invoke({invoke_arg_dict_str})
+    try:
+        print("langchain lm output parse")
+        result = routine.invoke({invoke_arg_dict_str})
+    except Exception as e:
+        print(e)
+        print("ERR IN langchain_lm output parse")
+        print(chat_template)
+        print(routine)
     result = output_format.parse_obj(result)
     # print(result)
     return {result_str}
@@ -329,7 +337,14 @@ def langchain_lm_kernel({inputs_str}):
             result_str = f'{{"{self.semantic.outputs[0]}": result.content}}'
             langchain_kernel_template = f"""
 def langchain_lm_kernel({inputs_str}):
-    result = routine.invoke({invoke_arg_dict_str})
+    try:
+        print("langchain lm no output parse")
+        result = routine.invoke({invoke_arg_dict_str})
+    except Exception as e:
+        print(e)
+        print("ERR IN langchain_lm no output parse")
+        print(chat_template)
+        print(routine)
     return {result_str}
 """
         self.kernel_str = langchain_kernel_template
@@ -339,9 +354,60 @@ def langchain_lm_kernel({inputs_str}):
              {
                 'routine': routine, 
                 'output_format': self.semantic.output_format,
+                'chat_template': self.semantic.chat_prompt_template,
             }, local_name_space)
         return local_name_space['langchain_lm_kernel']
     
+    # def invoke_routine_runnable(self, invoke_arg_dict_str):
+    #     if self.reasoning is not None:
+    #         return self.reasoning.get_invoke_routine(self)
+    #     self.semantic.build_prompt_template() # will rebuild the prompt template for each re-compile
+    #     #NOTE: use imperative merge at runtime bc message placeholder cannot be merged statically
+        
+    #     routine = self.semantic.chat_prompt_template | self.lm
+    #     if self.semantic.enable_memory:
+    #         routine = RunnableWithMessageHistory(
+    #             runnable=routine,
+    #             get_session_history=lambda: self.chat_history,
+    #             input_messages_key=self.semantic.input_key_in_mem,
+    #             history_messages_key="compiler_chat_history",
+    #         )
+    #     if self.semantic.output_format:
+    #         routine = routine | self.semantic.parser
+    #         try:
+    #             result = routine.invoke(invoke_arg_dict_str)
+    #         except:
+    #             print(self.semantic.chat_prompt_template)
+    #             exit(0)
+    #         result = self.semantic.output_format.model_validate(result)
+    #     else:
+    #         try:
+    #             result = routine.invoke(invoke_arg_dict_str)
+    #         except:
+    #             print(self.semantic.chat_prompt_template)
+    #             exit(0)
+    #     returnable = {f'{self.semantic.outputs[0]}': result}
+    #     return returnable
+
+    # def forward(self, **kwargs):
+    #     if self.lm is None:
+    #         # if lm is reset or not set, initialize it and the kernel
+    #         self.set_lm()
+            
+    #     result = self.invoke_routine_runnable(kwargs)
+        
+    #     lm_hist = self.get_lm_history()
+    #     self.step_info.append({
+    #         'inputs': copy.deepcopy(self.input_cache),
+    #         'rationale': self.rationale,
+    #         'output': lm_hist[-1]['response'],
+    #     })
+    #     self.rationale = None
+    #     self.input_cache = {}
+    #     self.lm_history.extend(lm_hist)
+        
+    #     return result
+
     def set_lm(self):
         logger.debug(f'Setting LM for {self.name}: {self.lm_config}')
         model_name: str = self.lm_config['model']
@@ -356,7 +422,7 @@ def langchain_lm_kernel({inputs_str}):
             )
         else:
             self.lm = ChatTogether(
-                **self.lm_config, 
+                **self.lm_config,
                 callbacks=[LLMTracker(self)]
             )
         # else:

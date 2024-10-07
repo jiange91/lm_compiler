@@ -1,0 +1,912 @@
+[
+    {
+        "name": "few_shot",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_demos_2ed749f2-ccb8-4f8c-a45d-695acf505a43": {
+                "name": "refine_query_demos_2ed749f2-ccb8-4f8c-a45d-695acf505a43",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "5a95c513-1171-4c33-921b-5677ce7d2da2",
+                    "0814bd75-6eef-4873-bb62-75ccb3649c42"
+                ]
+            },
+            "refine_query_demos_a1bc1811-8f3a-449a-be12-cf6aee0a12e3": {
+                "name": "refine_query_demos_a1bc1811-8f3a-449a-be12-cf6aee0a12e3",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "fd346f6c-44cd-4394-92bd-79afd9fa4a2f",
+                    "0814bd75-6eef-4873-bb62-75ccb3649c42"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_pool": [
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Pat Verbeek\" | \"Pat Verbeek Patrick Martin Verbeek (born May 24, 1964) is a Canadian former ice hockey player who played for the New Jersey Devils, Hartford Whalers, New York Rangers, Dallas Stars, and Detroit Red Wings during his career. His nickname, \"\"The Little Ball of Hate\"\", was given to him in 1995 by Glenn Healy after fellow New York Rangers teammate Ray Ferraro was tagged as the \"\"Big Ball of Hate\"\". Verbeek is currently employed as Assistant General Manager with the Tampa Bay Lightning with former Detroit teammate Steve Yzerman, the current General Manager of the Lightning. He previously served as pro\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "\"Steve Yzerman retirement Tampa Bay Lightning general manager\"",
+                "id": "0814bd75-6eef-4873-bb62-75ccb3649c42",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"', '\"Vegas Golden Knights\" | \"move by signing Reid Duke to a three-year entry-level contract. The team announced inaugural head coach Gerard Gallant on April 13, 2017. Over the next two months, the Golden Knights developed their farm system, announcing affiliations with the Chicago Wolves of the American Hockey League and the Quad City Mallards of the ECHL. The team participated in the 2017 NHL Expansion Draft on June 21, 2017, selecting an available player from all 30 teams in the NHL. The draft picks were announced at T-Mobile Arena during the NHL Awards ceremony. Some notable selections included goalie Marc-Andre Fleury from the Pittsburgh\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "NHL Expansion Draft 2017 details Marc-Andre Fleury Vegas Golden Knights",
+                "id": "5a95c513-1171-4c33-921b-5677ce7d2da2",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "\"Steve Yzerman retirement Canadian professional ice hockey player Tampa Bay Lightning general manager\"",
+                "id": "fd346f6c-44cd-4394-92bd-79afd9fa4a2f",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Vegas Golden Knights\" | \"move by signing Reid Duke to a three-year entry-level contract. The team announced inaugural head coach Gerard Gallant on April 13, 2017. Over the next two months, the Golden Knights developed their farm system, announcing affiliations with the Chicago Wolves of the American Hockey League and the Quad City Mallards of the ECHL. The team participated in the 2017 NHL Expansion Draft on June 21, 2017, selecting an available player from all 30 teams in the NHL. The draft picks were announced at T-Mobile Arena during the NHL Awards ceremony. Some notable selections included goalie Marc-Andre Fleury from the Pittsburgh\"', '\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "NHL Expansion Draft 2017 details Marc-Andre Fleury Vegas Golden Knights",
+                "id": "1463010d-0940-4a7f-ae8d-a36683d36b43",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "\"Steve Yzerman retirement impact on Detroit Red Wings era change\"",
+                "id": "1d35a2d5-01ec-44dc-8106-aea5da8a9749",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['Cangzhou | \"Cangzhou Cangzhou () is a prefecture-level city in eastern Hebei province, People\\'s Republic of China. At the 2010 census, Cangzhou\\'s built-up (\"\"or metro\"\") area made of Yunhe, Xinhua districts and Cang County largely being conurbated had a population of 1,205,814 inhabitants, while the prefecture-level administrative unit in total has a population of 7,134,062. It lies approximately from the major port city of Tianjin, and from Beijing. Cangzhou is reported to have been founded in the Southern and Northern Dynasties period (420\u2212589 CE). Cangzhou City comprises 2 districts, 4 county-level cities, 9 counties and 1 autonomous county. Cangzhou\\'s urban center is\"', '\"Wuqiao County\" | \"Wuqiao County Wuqiao County (, literally \"\"Wu Bridge\"\") is a county of southeastern Hebei province, China, bordering Shandong province to the southeast. It is the southernmost county-level division of the prefecture-level city of Cangzhou. Wuqiao covers an area of with a population of 280,000 and 444 natural villages under its jurisdiction. Over a period of more than 1500 years, Wuqiao is an old county with a vivid and rich history and culture. Wuqiao is situated in the center of the Huabei Plains and has a pleasant climate most of the year round and it is possible to pleasurably visit here\"']",
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "\"Are Cangzhou and Qionghai in Hebei province China?\"",
+                "id": "3c90eb7a-5600-481c-b87c-c2120290adfd",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query:\n\"Steve Yzerman retirement Detroit Red Wings Tampa Bay Lightning general manager\"",
+                "id": "c24c4326-3f1c-47d8-b681-ce1f14b76094",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the problem step by step.\n\n1. **Identify Key Information in the Context**:\n   - The context mentions Steve Yzerman, a Canadian former professional ice hockey player.\n   - It states that he spent his entire NHL career with the Detroit Red Wings and is a member of the Hockey Hall of Fame.\n   - After retiring, he served in the front office of the Red Wings and became the general manager of the Tampa Bay Lightning.\n\n2. **Understand the Question**:\n   - The question asks about the Canadian retired professional ice hockey player whose retirement marked the beginning of a new era for the Detroit Red Wings.\n   - It specifically mentions that this player is the current general manager of the Tampa Bay Lightning.\n\n3. **Connect the Dots**:\n   - From the context, we can conclude that Steve Yzerman is the player in question since he is both a retired player from the Red Wings and the current general manager of the Lightning.\n\n4. **Formulate the Search Query**:\n   - The search query should focus on Steve Yzerman's retirement and his role with the Tampa Bay Lightning, as well as his connection to the Detroit Red Wings.\n\nNow, based on this analysis, the final search query would be:\n\nsearch_query:\n\"Steve Yzerman retirement Detroit Red Wings Tampa Bay Lightning general manager\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"', '\"Vegas Golden Knights\" | \"move by signing Reid Duke to a three-year entry-level contract. The team announced inaugural head coach Gerard Gallant on April 13, 2017. Over the next two months, the Golden Knights developed their farm system, announcing affiliations with the Chicago Wolves of the American Hockey League and the Quad City Mallards of the ECHL. The team participated in the 2017 NHL Expansion Draft on June 21, 2017, selecting an available player from all 30 teams in the NHL. The draft picks were announced at T-Mobile Arena during the NHL Awards ceremony. Some notable selections included goalie Marc-Andre Fleury from the Pittsburgh\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "search_query:\n\"NHL Expansion Draft 2017 conducted by\"",
+                "id": "ec84ad47-b6bc-4cb7-8884-c5d8b0abc93a",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the problem step by step.\n\n1. **Identify Key Elements in the Context**:\n   - The context mentions the \"2017 NHL Expansion Draft\" where Marc-Andre Fleury was selected by the Vegas Golden Knights.\n   - It also notes that the draft involved selecting players from all 30 NHL teams.\n\n2. **Understand the Question**:\n   - The question asks who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights.\n\n3. **Determine Relevant Information**:\n   - The NHL Expansion Draft is typically conducted by the NHL, but it may also involve specific officials or commissioners.\n\n4. **Formulate the Search Query**:\n   - The search query should include terms related to the NHL Expansion Draft and the specific year (2017) to find information about who conducted it.\n\nNow, let's create the search query based on this analysis.\n\nsearch_query:\n\"NHL Expansion Draft 2017 conducted by\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "\"Steve Yzerman retirement Tampa Bay Lightning general manager\"",
+                "id": "0877c2c0-8c83-4114-ac9d-846451e14321",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"', '\"Vegas Golden Knights\" | \"move by signing Reid Duke to a three-year entry-level contract. The team announced inaugural head coach Gerard Gallant on April 13, 2017. Over the next two months, the Golden Knights developed their farm system, announcing affiliations with the Chicago Wolves of the American Hockey League and the Quad City Mallards of the ECHL. The team participated in the 2017 NHL Expansion Draft on June 21, 2017, selecting an available player from all 30 teams in the NHL. The draft picks were announced at T-Mobile Arena during the NHL Awards ceremony. Some notable selections included goalie Marc-Andre Fleury from the Pittsburgh\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "NHL Expansion Draft 2017 details Marc-Andre Fleury Vegas Golden Knights",
+                "id": "0b0b21a9-d1c9-4bea-99e7-276bf5fcc235",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query:\n\"Steve Yzerman retirement Tampa Bay Lightning general manager\"",
+                "id": "027076f7-70b3-4110-8847-908b6e599017",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the problem step by step.\n\n1. **Identify Key Information in the Context**:\n   - The context mentions Steve Yzerman, a Canadian former professional ice hockey player.\n   - It states that he spent his entire NHL career with the Detroit Red Wings and is a member of the Hockey Hall of Fame.\n   - After retiring, he served in the front office of the Red Wings and became the general manager of the Tampa Bay Lightning.\n\n2. **Understand the Question**:\n   - The question asks about the Canadian retired professional ice hockey player who the Detroit Red Wings entered a new era after his retirement.\n   - It also specifies that this player is the current general manager of the Tampa Bay Lightning.\n\n3. **Link the Context to the Question**:\n   - From the context, we can see that Steve Yzerman fits both criteria: he is a retired player from the Red Wings and is currently the general manager of the Tampa Bay Lightning.\n\n4. **Formulate the Search Query**:\n   - The search query should focus on Steve Yzerman's retirement and his role with the Tampa Bay Lightning, as well as his significance to the Detroit Red Wings.\n\nNow, based on this analysis, the final search query would be:\n\nsearch_query:\n\"Steve Yzerman retirement Tampa Bay Lightning general manager\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"', '\"Vegas Golden Knights\" | \"move by signing Reid Duke to a three-year entry-level contract. The team announced inaugural head coach Gerard Gallant on April 13, 2017. Over the next two months, the Golden Knights developed their farm system, announcing affiliations with the Chicago Wolves of the American Hockey League and the Quad City Mallards of the ECHL. The team participated in the 2017 NHL Expansion Draft on June 21, 2017, selecting an available player from all 30 teams in the NHL. The draft picks were announced at T-Mobile Arena during the NHL Awards ceremony. Some notable selections included goalie Marc-Andre Fleury from the Pittsburgh\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "search_query:\n\"NHL Expansion Draft 2017 conducted by\"",
+                "id": "a270ef68-af0c-4a10-b6e4-dc86c4b3e732",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the problem step by step.\n\n1. **Identify Key Elements in the Context**:\n   - The context mentions the \"2017 NHL Expansion Draft\" where Marc-Andre Fleury was selected by the Vegas Golden Knights.\n   - It also notes that the draft involved selecting players from all 30 NHL teams.\n\n2. **Understand the Question**:\n   - The question asks who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights.\n\n3. **Determine Relevant Information**:\n   - The NHL Expansion Draft is typically conducted by the NHL, but it may also involve specific officials or commissioners.\n\n4. **Formulate the Search Query**:\n   - The search query should include terms related to the NHL Expansion Draft and the specific year (2017) to find information about who conducted it.\n\nNow, let's create the search query based on this reasoning.\n\n**Final Search Query**:\n\"NHL Expansion Draft 2017 conducted by\""
+            },
+            {
+                "inputs": {
+                    "context": "['Cangzhou | \"Cangzhou Cangzhou () is a prefecture-level city in eastern Hebei province, People\\'s Republic of China. At the 2010 census, Cangzhou\\'s built-up (\"\"or metro\"\") area made of Yunhe, Xinhua districts and Cang County largely being conurbated had a population of 1,205,814 inhabitants, while the prefecture-level administrative unit in total has a population of 7,134,062. It lies approximately from the major port city of Tianjin, and from Beijing. Cangzhou is reported to have been founded in the Southern and Northern Dynasties period (420\u2212589 CE). Cangzhou City comprises 2 districts, 4 county-level cities, 9 counties and 1 autonomous county. Cangzhou\\'s urban center is\"', 'Cangzhou | \"a heavily industrial city but the city\\'s administrative territory also includes strongly agricultural areas, and is well known in China for its Chinese jujubes (Chinese dates) and pear (widely known under the export name of \"\"Tianjin Ya Pear\"\"). The North China Oil Field is within Cangzhou City\\'s jurisdiction. Cangzhou also encompasses a large fishing port and the coal-exporting Huanghua Harbour. Cangzhou is located in eastern Hebei, immediately to the south of Tianjin, near the coast of the Bohai Sea of the Pacific Ocean. Bordering prefecture-level cities are Hengshui to the southwest, Baoding to the west, and Langfang to the north.\"']",
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "search_query:\nCangzhou Qionghai location Hebei province China",
+                "id": "06e23a13-ccab-4bac-8095-cb9a3e07a7d6",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query:\n\"Steve Yzerman retirement Tampa Bay Lightning general manager\"",
+                "id": "c8024a11-e1f1-4c2b-89ab-407899bd3664",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['Cangzhou | \"Cangzhou Cangzhou () is a prefecture-level city in eastern Hebei province, People\\'s Republic of China. At the 2010 census, Cangzhou\\'s built-up (\"\"or metro\"\") area made of Yunhe, Xinhua districts and Cang County largely being conurbated had a population of 1,205,814 inhabitants, while the prefecture-level administrative unit in total has a population of 7,134,062. It lies approximately from the major port city of Tianjin, and from Beijing. Cangzhou is reported to have been founded in the Southern and Northern Dynasties period (420\u2212589 CE). Cangzhou City comprises 2 districts, 4 county-level cities, 9 counties and 1 autonomous county. Cangzhou\\'s urban center is\"', 'Cangzhou | \"a heavily industrial city but the city\\'s administrative territory also includes strongly agricultural areas, and is well known in China for its Chinese jujubes (Chinese dates) and pear (widely known under the export name of \"\"Tianjin Ya Pear\"\"). The North China Oil Field is within Cangzhou City\\'s jurisdiction. Cangzhou also encompasses a large fishing port and the coal-exporting Huanghua Harbour. Cangzhou is located in eastern Hebei, immediately to the south of Tianjin, near the coast of the Bohai Sea of the Pacific Ocean. Bordering prefecture-level cities are Hengshui to the southwest, Baoding to the west, and Langfang to the north.\"']",
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "search_query:\nCangzhou Qionghai location Hebei province China",
+                "id": "694b7169-d979-4cfb-a24a-f4c750562c25",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query:\n\"Steve Yzerman retirement Tampa Bay Lightning general manager\"",
+                "id": "4125889c-a9ca-47a7-9d49-13577e5e5924",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query:\n\"Steve Yzerman retirement Canadian professional ice hockey player Tampa Bay Lightning general manager\"",
+                "id": "1c5a7853-8120-4ad0-9b25-4276a9477c12",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the problem step by step.\n\n1. **Identify Key Information in the Context**:\n   - The context mentions Steve Yzerman, a Canadian former professional ice hockey player.\n   - It states that he spent his entire NHL career with the Detroit Red Wings and is a member of the Hockey Hall of Fame.\n   - After retiring, he became the general manager of the Tampa Bay Lightning.\n   - The context also notes that he was involved with Team Canada in international tournaments.\n\n2. **Understand the Question**:\n   - The question asks for the name of the Canadian retired professional ice hockey player who is the current general manager of the Tampa Bay Lightning and is associated with the Detroit Red Wings.\n\n3. **Extract Relevant Keywords**:\n   - \"Steve Yzerman\"\n   - \"retirement\"\n   - \"Canadian professional ice hockey player\"\n   - \"Tampa Bay Lightning\"\n   - \"general manager\"\n   - \"Detroit Red Wings\"\n\n4. **Formulate the Search Query**:\n   - The search query should encapsulate the key elements that will help retrieve information about Steve Yzerman's retirement and his role with the Tampa Bay Lightning.\n\nBased on this analysis, the final search query would be:\n\nsearch_query:\n\"Steve Yzerman retirement Canadian professional ice hockey player Tampa Bay Lightning general manager\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Meleko Mokgosi\" | \"Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized Study at New York University. His work includes large-scale paintings that explore themes of colonialism, democracy, nationalism, and life in Southern Africa. Mokgosi was born in 1981 in Francistown, Botswana, and raised in the city of Maun. He began drawing in primary school. While in high school, he became interested in the potential of making political commentary with art. In 2003, he moved to the United States, participated in the Whitney Independent Study Program, and studied art at Williams College and UCLA,\"', '\"Meleko Mokgosi\" | \"a series of more than 50 paintings on the subject of colonialism in Africa. A book on the \"\"Pax Kaffraria\"\" project was published by the Hammer Museum in 2014. In 2014, Mokgosi began the project \"\"Democratic Intuition\"\", which he described as being about \"\"how do normal people understand, reciprocate, have access to, and not have access to the ideas of democracy and the democratic\"\". He presented the first two chapters of this work at his first solo New York exhibition in 2016. Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized\"']",
+                    "question": "What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?"
+                },
+                "output": "search_query:\n\"Gallatin School of Individualized Study New York University student activities programs Meleko Mokgosi\"",
+                "id": "1b10c202-e8d1-42e0-8c79-86725e491540",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the context and question step by step.\n\n1. **Identify Key Information in the Context**:\n   - Meleko Mokgosi is an artist and assistant professor at the Gallatin School of Individualized Study at New York University.\n   - His work explores themes such as colonialism, democracy, and nationalism.\n   - He has been involved in various art projects and exhibitions.\n\n2. **Understand the Question**:\n   - The question asks about what students do at the Gallatin School of Individualized Study at New York University, where Meleko Mokgosi teaches.\n\n3. **Extract Relevant Keywords**:\n   - \"students\"\n   - \"Gallatin School of Individualized Study\"\n   - \"New York University\"\n   - \"Meleko Mokgosi\"\n\n4. **Formulate the Search Query**:\n   - The search query should focus on the activities or programs that students engage in at the Gallatin School of Individualized Study at NYU.\n\nBased on this reasoning, the search query would be:\n\nsearch_query:\n\"Gallatin School of Individualized Study New York University student activities programs Meleko Mokgosi\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query:\n\"Steve Yzerman retirement Detroit Red Wings Tampa Bay Lightning general manager\"",
+                "id": "cf4a7936-3d42-4db3-9a58-3ff4d765d0e6",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the problem step by step.\n\n1. **Identify Key Information in the Context**:\n   - The context mentions Steve Yzerman, a Canadian former professional ice hockey player.\n   - It states that he spent his entire NHL career with the Detroit Red Wings and is a member of the Hockey Hall of Fame.\n   - After retiring, he served in the front office of the Red Wings and became the general manager of the Tampa Bay Lightning.\n\n2. **Understand the Question**:\n   - The question asks about the Canadian retired professional ice hockey player whose retirement marked the beginning of a new era for the Detroit Red Wings.\n   - It specifically mentions that this player is the current general manager of the Tampa Bay Lightning.\n\n3. **Connect the Dots**:\n   - From the context, we can see that Steve Yzerman fits the description in the question. He is a retired player from the Red Wings and is currently the general manager of the Tampa Bay Lightning.\n\n4. **Formulate the Search Query**:\n   - The search query should focus on Steve Yzerman's retirement and his role with the Tampa Bay Lightning, as well as his connection to the Detroit Red Wings.\n\nNow, based on this analysis, the final search query would be:\n\nsearch_query:\n\"Steve Yzerman retirement Detroit Red Wings Tampa Bay Lightning general manager\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"', '\"Vegas Golden Knights\" | \"move by signing Reid Duke to a three-year entry-level contract. The team announced inaugural head coach Gerard Gallant on April 13, 2017. Over the next two months, the Golden Knights developed their farm system, announcing affiliations with the Chicago Wolves of the American Hockey League and the Quad City Mallards of the ECHL. The team participated in the 2017 NHL Expansion Draft on June 21, 2017, selecting an available player from all 30 teams in the NHL. The draft picks were announced at T-Mobile Arena during the NHL Awards ceremony. Some notable selections included goalie Marc-Andre Fleury from the Pittsburgh\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "search_query:\n\"2017 NHL Expansion Draft conducted by\"",
+                "id": "017f29c1-f2dc-43fa-b57d-8a8a1e072817",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the problem step by step.\n\n1. **Identify Key Elements in the Context**:\n   - The context mentions the \"2017 NHL Expansion Draft\" where Marc-Andre Fleury was selected by the Vegas Golden Knights.\n   - It also notes that the draft involved selecting players from all 30 NHL teams.\n\n2. **Understand the Question**:\n   - The question asks who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights.\n\n3. **Determine Relevant Information**:\n   - The NHL Expansion Draft is typically conducted by the NHL, but it may also involve specific individuals or committees responsible for overseeing the draft process.\n\n4. **Formulate the Search Query**:\n   - The search query should include terms related to the \"2017 NHL Expansion Draft\" and who was responsible for conducting it.\n\nBased on this reasoning, the search query would be:\n\nsearch_query:\n\"2017 NHL Expansion Draft conducted by\""
+            }
+        ],
+        "demo_pq": [
+            [
+                0.14285714285714288,
+                "3c90eb7a-5600-481c-b87c-c2120290adfd"
+            ],
+            [
+                0.25,
+                "017f29c1-f2dc-43fa-b57d-8a8a1e072817"
+            ],
+            [
+                0.25,
+                "a270ef68-af0c-4a10-b6e4-dc86c4b3e732"
+            ],
+            [
+                0.2727272727272727,
+                "5a95c513-1171-4c33-921b-5677ce7d2da2"
+            ],
+            [
+                0.25,
+                "ec84ad47-b6bc-4cb7-8884-c5d8b0abc93a"
+            ],
+            [
+                0.2727272727272727,
+                "1463010d-0940-4a7f-ae8d-a36683d36b43"
+            ],
+            [
+                0.3636363636363636,
+                "c24c4326-3f1c-47d8-b681-ce1f14b76094"
+            ],
+            [
+                1.0,
+                "0814bd75-6eef-4873-bb62-75ccb3649c42"
+            ],
+            [
+                0.3076923076923077,
+                "1b10c202-e8d1-42e0-8c79-86725e491540"
+            ],
+            [
+                0.2727272727272727,
+                "0b0b21a9-d1c9-4bea-99e7-276bf5fcc235"
+            ],
+            [
+                1.0,
+                "027076f7-70b3-4110-8847-908b6e599017"
+            ],
+            [
+                1.0,
+                "fd346f6c-44cd-4394-92bd-79afd9fa4a2f"
+            ],
+            [
+                1.0,
+                "06e23a13-ccab-4bac-8095-cb9a3e07a7d6"
+            ],
+            [
+                1.0,
+                "c8024a11-e1f1-4c2b-89ab-407899bd3664"
+            ],
+            [
+                1.0,
+                "694b7169-d979-4cfb-a24a-f4c750562c25"
+            ],
+            [
+                1.0,
+                "4125889c-a9ca-47a7-9d49-13577e5e5924"
+            ],
+            [
+                1.0,
+                "1c5a7853-8120-4ad0-9b25-4276a9477c12"
+            ],
+            [
+                1.0,
+                "0877c2c0-8c83-4114-ac9d-846451e14321"
+            ],
+            [
+                0.3636363636363636,
+                "cf4a7936-3d42-4db3-9a58-3ff4d765d0e6"
+            ],
+            [
+                1.0,
+                "1d35a2d5-01ec-44dc-8106-aea5da8a9749"
+            ]
+        ],
+        "max_num": 2,
+        "current_best_score_sum": 2.0
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_demos_c4794a83-2f5d-4735-9889-72d28730731a": {
+                "name": "generate_query_demos_c4794a83-2f5d-4735-9889-72d28730731a",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "62701173-6732-414d-bd1b-dd012aeb12e8",
+                    "cae92fec-e4be-481b-9d75-aca2f7438746"
+                ]
+            },
+            "generate_query_demos_096ad1c0-6321-49bf-8a97-2ad291464399": {
+                "name": "generate_query_demos_096ad1c0-6321-49bf-8a97-2ad291464399",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "e1fa01b9-2098-435d-9c90-5c54307f3ade",
+                    "cae92fec-e4be-481b-9d75-aca2f7438746"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_pool": [
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "\"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\"",
+                "id": "cae92fec-e4be-481b-9d75-aca2f7438746",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "NHL draft 2017 Marc-Andre Fleury Vegas Golden Knights details",
+                "id": "62701173-6732-414d-bd1b-dd012aeb12e8",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query: \"Wings new era retirement Canadian ice hockey player general manager Tampa Bay Lightning NHL\"",
+                "id": "e1fa01b9-2098-435d-9c90-5c54307f3ade",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Wings new era retirement Canadian professional ice hockey player general manager Tampa Bay Lightning NHL\""
+            },
+            {
+                "inputs": {
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "search_query: \"Marc-Andre Fleury draft Vegas Golden Knights 2017 expansion draft details\"",
+                "id": "3becc2a3-27a3-4498-a102-e925d3b5b1d0",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Marc-Andre Fleury draft Vegas Golden Knights 2017-18 season who conducted\""
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query: \"Wings new era retirement Canadian ice hockey player general manager Tampa Bay Lightning NHL\"",
+                "id": "77add735-0a89-4ad0-a73c-7878bce95dae",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Wings new era retirement Canadian professional ice hockey player general manager Tampa Bay Lightning NHL\""
+            },
+            {
+                "inputs": {
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "search_query: \"Are Cangzhou and Qionghai in Hebei province China?\"",
+                "id": "74440f8c-4299-43ca-85ec-84142014d2ad",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Cangzhou Qionghai location Hebei province China\""
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query:\n\"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\"",
+                "id": "bf69b532-8002-4be4-97c4-290c68fa53b1",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "search_query: \"NHL draft 2017 Marc-Andre Fleury Vegas Golden Knights details\"",
+                "id": "cd674c44-cf8e-4f8d-bcd6-c18753e11337",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query:\n\"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\"",
+                "id": "a9a1bf9a-b876-4b70-ac5e-91ca0406560e",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query:\n\"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\""
+            },
+            {
+                "inputs": {
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "search_query:\n\"NHL expansion draft 2017 Marc-Andre Fleury Vegas Golden Knights details\"",
+                "id": "4ded5c9d-8313-4e33-b2a9-e830fd6d23be",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query:\n\"NHL expansion draft 2017 Marc-Andre Fleury Vegas Golden Knights details\""
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query:\n\"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\"",
+                "id": "70eab420-db21-452f-a2d6-85c607f23764",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "search_query: \"NHL draft 2017 Marc-Andre Fleury Vegas Golden Knights commissioner\"",
+                "id": "2e7a0a97-d7e5-4b2e-b0db-273f5d9b8546",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "search_query: \"Cangzhou Qionghai Hebei province China\"",
+                "id": "30aa17c9-5d1e-43a0-9293-f41cc4673425",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Cangzhou Qionghai Hebei province China location\""
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query: \"Wings new era retirement Canadian ice hockey player general manager Tampa Bay Lightning NHL\"",
+                "id": "a91315e7-f5b6-4f89-8643-bf1d4e9263f1",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Wings new era retirement Canadian ice hockey player general manager Tampa Bay Lightning NHL\""
+            },
+            {
+                "inputs": {
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "search_query:\n\"Cangzhou Qionghai Hebei province China location\"",
+                "id": "a05c66d3-d5db-4f39-bd01-4ed744ff5013",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query:\n\"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\"",
+                "id": "77b21655-d310-4a53-8ac7-da52e35bf7ac",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query:\n\"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\"",
+                "id": "7667d904-868c-4c2e-b5fc-efc09f054a92",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?"
+                },
+                "output": "search_query:\n\"New York University Meleko Mokgosi students activities\"",
+                "id": "d5c3ddc8-4bf5-42c6-a9ce-21a3b8dde230",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query:\n\"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\"",
+                "id": "5a4211fc-e616-44c7-a3f2-712cfd2644de",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query:\n\"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\""
+            },
+            {
+                "inputs": {
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "search_query:\n\"NHL expansion draft 2017 Marc-Andre Fleury Vegas Golden Knights details\"",
+                "id": "0c416041-e198-4e94-9d6a-79cfe291911d",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query:\n\"NHL expansion draft 2017 Marc-Andre Fleury Vegas Golden Knights details\""
+            }
+        ],
+        "demo_pq": [
+            [
+                0.14285714285714288,
+                "74440f8c-4299-43ca-85ec-84142014d2ad"
+            ],
+            [
+                0.25,
+                "0c416041-e198-4e94-9d6a-79cfe291911d"
+            ],
+            [
+                0.25,
+                "2e7a0a97-d7e5-4b2e-b0db-273f5d9b8546"
+            ],
+            [
+                0.2727272727272727,
+                "62701173-6732-414d-bd1b-dd012aeb12e8"
+            ],
+            [
+                0.25,
+                "cd674c44-cf8e-4f8d-bcd6-c18753e11337"
+            ],
+            [
+                0.2727272727272727,
+                "3becc2a3-27a3-4498-a102-e925d3b5b1d0"
+            ],
+            [
+                0.3636363636363636,
+                "bf69b532-8002-4be4-97c4-290c68fa53b1"
+            ],
+            [
+                1.0,
+                "7667d904-868c-4c2e-b5fc-efc09f054a92"
+            ],
+            [
+                0.3076923076923077,
+                "d5c3ddc8-4bf5-42c6-a9ce-21a3b8dde230"
+            ],
+            [
+                0.2727272727272727,
+                "4ded5c9d-8313-4e33-b2a9-e830fd6d23be"
+            ],
+            [
+                1.0,
+                "70eab420-db21-452f-a2d6-85c607f23764"
+            ],
+            [
+                1.0,
+                "e1fa01b9-2098-435d-9c90-5c54307f3ade"
+            ],
+            [
+                1.0,
+                "30aa17c9-5d1e-43a0-9293-f41cc4673425"
+            ],
+            [
+                1.0,
+                "a91315e7-f5b6-4f89-8643-bf1d4e9263f1"
+            ],
+            [
+                1.0,
+                "a05c66d3-d5db-4f39-bd01-4ed744ff5013"
+            ],
+            [
+                1.0,
+                "cae92fec-e4be-481b-9d75-aca2f7438746"
+            ],
+            [
+                1.0,
+                "77b21655-d310-4a53-8ac7-da52e35bf7ac"
+            ],
+            [
+                1.0,
+                "a9a1bf9a-b876-4b70-ac5e-91ca0406560e"
+            ],
+            [
+                0.3636363636363636,
+                "5a4211fc-e616-44c7-a3f2-712cfd2644de"
+            ],
+            [
+                1.0,
+                "77add735-0a89-4ad0-a73c-7878bce95dae"
+            ]
+        ],
+        "max_num": 2,
+        "current_best_score_sum": 2.0
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_demos_9f9300b5-445c-4288-bf6d-8476da5610ec": {
+                "name": "generate_answer_demos_9f9300b5-445c-4288-bf6d-8476da5610ec",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "24ef65fa-ca84-448a-ad0e-5e93b527bc43",
+                    "8dc223d6-d6f3-43da-8092-6f2ee80df6d5"
+                ]
+            },
+            "generate_answer_demos_e03fd696-2ff9-4bc6-92ef-19da88dc085f": {
+                "name": "generate_answer_demos_e03fd696-2ff9-4bc6-92ef-19da88dc085f",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "e9c66388-a64d-4a9c-a447-692a48d2d10c",
+                    "8dc223d6-d6f3-43da-8092-6f2ee80df6d5"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_pool": [
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Pat Verbeek\" | \"Pat Verbeek Patrick Martin Verbeek (born May 24, 1964) is a Canadian former ice hockey player who played for the New Jersey Devils, Hartford Whalers, New York Rangers, Dallas Stars, and Detroit Red Wings during his career. His nickname, \"\"The Little Ball of Hate\"\", was given to him in 1995 by Glenn Healy after fellow New York Rangers teammate Ray Ferraro was tagged as the \"\"Big Ball of Hate\"\". Verbeek is currently employed as Assistant General Manager with the Tampa Bay Lightning with former Detroit teammate Steve Yzerman, the current General Manager of the Lightning. He previously served as pro\"', '\"Tampa Bay Lightning\" | \"during the regular season, finishing third overall in the league. Steve Yzerman was once again nominated for the NHL General Manager of the Year Award. During the playoffs, the Lightning eliminated the New Jersey Devils in the first round and the Boston Bruins in the second round, both in five games. However, they were defeated in the Eastern Conference Finals by the eventual-Stanley Cup champions, the Washington Capitals, in seven games. On September 11, 2018, It was announced that Steve Yzerman would be resigning from his position as GM, and Julien BriseBois would be currently taking his place. The Lightning\"', '\"2018\u201319 Tampa Bay Lightning season\" | \"the head coach of the Iowa Wild of the American Hockey League. Lalonde had previously worked with Lightning head coach Jon Cooper while he was the head coach of the Green Bay Gamblers of the United States Hockey League. On September 11, 2018, Steve Yzerman unexpectedly announced that he was resigning as General Manager after eight season, however, he was remaining with the team in an advisory role for the final year of his contract. Assistant General Manager Julien BriseBois replaced Yzerman as general manager. BriseBois had served as assistant general manager since 2010. In that capacity BriseBois also served\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "Steve Yzerman",
+                "id": "8dc223d6-d6f3-43da-8092-6f2ee80df6d5",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To answer the question, we need to identify the Canadian retired professional ice hockey player whose retirement marked the beginning of a new era for the Detroit Red Wings and who is currently the general manager of the Tampa Bay Lightning.\n\n1. **Identify the players mentioned in the context**:\n   - **Steve Yzerman**: A Canadian former professional ice hockey player who spent his entire NHL career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. He served as the general manager of the Tampa Bay Lightning.\n   - **Pat Verbeek**: Another Canadian former ice hockey player who played for several teams, including the Detroit Red Wings, and is currently the Assistant General Manager of the Tampa Bay Lightning.\n\n2. **Determine the significance of Steve Yzerman's retirement**:\n   - The context mentions that Steve Yzerman announced his resignation as General Manager of the Tampa Bay Lightning on September 11, 2018, but it does not explicitly state his retirement as a player. However, it is known that he retired from playing in 2006.\n\n3. **Conclusion**:\n   - Since the question asks about the player whose retirement led to a new era for the Red Wings and who is currently the general manager of the Lightning, the answer is Steve Yzerman.\n\nFinal response: Steve Yzerman"
+            },
+            {
+                "inputs": {
+                    "context": "['\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"', '\"Vegas Golden Knights\" | \"move by signing Reid Duke to a three-year entry-level contract. The team announced inaugural head coach Gerard Gallant on April 13, 2017. Over the next two months, the Golden Knights developed their farm system, announcing affiliations with the Chicago Wolves of the American Hockey League and the Quad City Mallards of the ECHL. The team participated in the 2017 NHL Expansion Draft on June 21, 2017, selecting an available player from all 30 teams in the NHL. The draft picks were announced at T-Mobile Arena during the NHL Awards ceremony. Some notable selections included goalie Marc-Andre Fleury from the Pittsburgh\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "The National Hockey League (NHL) conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season.",
+                "id": "24ef65fa-ca84-448a-ad0e-5e93b527bc43",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To determine who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season, we can analyze the context provided.\n\n1. **Identify the Draft**: The context mentions the \"2017 NHL Expansion Draft\" which took place on June 21, 2017. This is the draft where the Vegas Golden Knights selected players from existing NHL teams to form their roster.\n\n2. **Who Conducts the Draft**: The NHL Expansion Draft is conducted by the National Hockey League (NHL). The league organizes the event, sets the rules, and oversees the selection process.\n\n3. **Marc-Andre Fleury's Selection**: The context specifically states that Marc-Andre Fleury was selected by the Vegas Golden Knights during this draft.\n\nBased on this analysis, the answer to the question is:\n\nThe National Hockey League (NHL) conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season."
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "Steve Yzerman.",
+                "id": "e9c66388-a64d-4a9c-a447-692a48d2d10c",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: The context provided mentions Steve Yzerman, a Canadian former professional ice hockey player who played his entire NHL career with the Detroit Red Wings and later became the general manager of the Tampa Bay Lightning. \n\n1. **Identify the key points about Steve Yzerman**:\n   - He is a retired professional ice hockey player.\n   - He played for the Detroit Red Wings.\n   - He served as general manager for the Tampa Bay Lightning after leaving the Red Wings.\n\n2. **Understand the question**:\n   - The question asks about the retirement of a Canadian retired professional ice hockey player who is also the current general manager of the Tampa Bay Lightning.\n\n3. **Link the information**:\n   - Since the context states that Yzerman left the Red Wings organization to become the general manager of the Lightning, it implies that his retirement marked a significant change for the Red Wings, leading to a new era for the team.\n\nBased on this analysis, the answer to the question is:\n\nSteve Yzerman."
+            },
+            {
+                "inputs": {
+                    "context": "['\"Vegas Golden Knights\" | \"move by signing Reid Duke to a three-year entry-level contract. The team announced inaugural head coach Gerard Gallant on April 13, 2017. Over the next two months, the Golden Knights developed their farm system, announcing affiliations with the Chicago Wolves of the American Hockey League and the Quad City Mallards of the ECHL. The team participated in the 2017 NHL Expansion Draft on June 21, 2017, selecting an available player from all 30 teams in the NHL. The draft picks were announced at T-Mobile Arena during the NHL Awards ceremony. Some notable selections included goalie Marc-Andre Fleury from the Pittsburgh\"', '\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "The National Hockey League (NHL) conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season.",
+                "id": "eaf98c58-7c4a-4a9c-8a4b-ad505fbaa0be",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To determine who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season, we can analyze the context provided.\n\n1. **Identify the Draft**: The context mentions the \"2017 NHL Expansion Draft\" which took place on June 21, 2017. This is the draft where the Vegas Golden Knights selected players from existing NHL teams.\n\n2. **Who Conducts the Draft**: The NHL Expansion Draft is conducted by the National Hockey League (NHL). The league organizes the draft, sets the rules, and oversees the selection process.\n\n3. **Fleury's Selection**: The context specifically states that Marc-Andre Fleury was left exposed by the Pittsburgh Penguins and was selected by the Vegas Golden Knights during this draft.\n\nBased on this analysis, the answer to the question is:\n\nThe National Hockey League (NHL) conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season."
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"', '\"History of the Detroit Red Wings\" | \"to take the series. Continuing the shakeup of the Red Wings roster, the off-season saw the departure of Brendan Shanahan and the return of Dominik Hasek, while Steve Yzerman announced his retirement after a 23-season Hall of Fame-caliber career with the Wings, at the time having played the second most games in history all with a single team (behind fellow Red Wing Alex Delvecchio and later also surpassed by Nicklas Lidstrom). Yzerman retired with the additional distinction of having been the longest-serving team captain in NHL history. The Red Wings opened the 2006\u201307 season with Nicklas Lidstrom as the new\"', '\"2006\u201307 Detroit Red Wings season\" | \"2006\u201307 Detroit Red Wings season The 2006\u201307 Detroit Red Wings season was the 81st National Hockey League season in Detroit, Michigan. The Wings entered a new era, following the retirement of longtime captain Steve Yzerman after 22 seasons in the NHL, all spent with Detroit. The Wings named Yzerman a team vice-president, Yzerman\\'s number 19 was retired by the Wings in January. The Red Wings lost another longtime player in Brendan Shanahan, who signed with the New York Rangers, although they retained the services of goaltender Dominik Hasek, who re-signed with the club as a free agent. Hasek remained one\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "Steve Yzerman",
+                "id": "06e95ade-ffed-47ae-9e68-a94d517de498",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['Cangzhou | \"Cangzhou Cangzhou () is a prefecture-level city in eastern Hebei province, People\\'s Republic of China. At the 2010 census, Cangzhou\\'s built-up (\"\"or metro\"\") area made of Yunhe, Xinhua districts and Cang County largely being conurbated had a population of 1,205,814 inhabitants, while the prefecture-level administrative unit in total has a population of 7,134,062. It lies approximately from the major port city of Tianjin, and from Beijing. Cangzhou is reported to have been founded in the Southern and Northern Dynasties period (420\u2212589 CE). Cangzhou City comprises 2 districts, 4 county-level cities, 9 counties and 1 autonomous county. Cangzhou\\'s urban center is\"', '\"Wuqiao County\" | \"Wuqiao County Wuqiao County (, literally \"\"Wu Bridge\"\") is a county of southeastern Hebei province, China, bordering Shandong province to the southeast. It is the southernmost county-level division of the prefecture-level city of Cangzhou. Wuqiao covers an area of with a population of 280,000 and 444 natural villages under its jurisdiction. Over a period of more than 1500 years, Wuqiao is an old county with a vivid and rich history and culture. Wuqiao is situated in the center of the Huabei Plains and has a pleasant climate most of the year round and it is possible to pleasurably visit here\"', 'Cangzhou | \"a heavily industrial city but the city\\'s administrative territory also includes strongly agricultural areas, and is well known in China for its Chinese jujubes (Chinese dates) and pear (widely known under the export name of \"\"Tianjin Ya Pear\"\"). The North China Oil Field is within Cangzhou City\\'s jurisdiction. Cangzhou also encompasses a large fishing port and the coal-exporting Huanghua Harbour. Cangzhou is located in eastern Hebei, immediately to the south of Tianjin, near the coast of the Bohai Sea of the Pacific Ocean. Bordering prefecture-level cities are Hengshui to the southwest, Baoding to the west, and Langfang to the north.\"']",
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "No, only Cangzhou is in Hebei province. Qionghai is located in Hainan province.",
+                "id": "9a09fc34-4cac-454a-a0ba-765ee30532d9",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"', '\"Steve Yzerman\" | \"in his role, and with his path to GM also blocked by Assistant General Manager Jim Nill, who himself had been given another long-term deal, it became clear that it would not be with the Red Wings. It was later revealed by The Detroit News in 2016 that Red Wings owner Mike Ilitch attempted to promote Holland to make room for Yzerman to become the team\\'s General Manager, but Holland declined the promotion. Not long after Holland received his extension, Craig Leipold, owner of the Minnesota Wild, and Jeffrey Vinik, the then-new owner of the Tampa Bay Lightning, sought to\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "The Wings entered a new era following the retirement of Steve Yzerman.",
+                "id": "22fb02de-1e3e-4af7-978b-14e076e1aa6e",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"', '\"Vegas Golden Knights\" | \"move by signing Reid Duke to a three-year entry-level contract. The team announced inaugural head coach Gerard Gallant on April 13, 2017. Over the next two months, the Golden Knights developed their farm system, announcing affiliations with the Chicago Wolves of the American Hockey League and the Quad City Mallards of the ECHL. The team participated in the 2017 NHL Expansion Draft on June 21, 2017, selecting an available player from all 30 teams in the NHL. The draft picks were announced at T-Mobile Arena during the NHL Awards ceremony. Some notable selections included goalie Marc-Andre Fleury from the Pittsburgh\"', '\"2017 NHL Expansion Draft\" | \"2017 NHL Expansion Draft The 2017 NHL Expansion Draft was an expansion draft conducted by the National Hockey League on June 18\u201320, 2017 to fill the roster of the league\\'s expansion team for the 2017\u201318 season, the Vegas Golden Knights. The team\\'s selections were announced on June 21 during the NHL Awards ceremony at T-Mobile Arena. In the offseason before the 2015\u201316 NHL season, the league opened a window for ownership groups to bid for expansion teams for the first time since 2000. Two ownership groups submitted bids to the league, one each from Las Vegas and Quebec City. If\"', '\"2017 NHL Expansion Draft\" | \"protected for contractual reasons. In return for agreeing not to select certain unprotected players, the Golden Knights were granted concessions by other franchises. Not all players selected by the Golden Knights in the Expansion Draft would remain with the team. Some players were traded in the following days, some the day after: Other players who were no longer on the Golden Knights\\' roster at the start of the 2017\u201318 NHL season include the following: 2017 NHL Expansion Draft The 2017 NHL Expansion Draft was an expansion draft conducted by the National Hockey League on June 18\u201320, 2017 to fill the\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "The draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season was conducted by the National Hockey League (NHL).",
+                "id": "e7ca4d8d-5961-4064-81f4-f9f8f7f0020f",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"', '\"Tampa Bay Lightning\" | \"during the regular season, finishing third overall in the league. Steve Yzerman was once again nominated for the NHL General Manager of the Year Award. During the playoffs, the Lightning eliminated the New Jersey Devils in the first round and the Boston Bruins in the second round, both in five games. However, they were defeated in the Eastern Conference Finals by the eventual-Stanley Cup champions, the Washington Capitals, in seven games. On September 11, 2018, It was announced that Steve Yzerman would be resigning from his position as GM, and Julien BriseBois would be currently taking his place. The Lightning\"', '\"2018\u201319 Tampa Bay Lightning season\" | \"the head coach of the Iowa Wild of the American Hockey League. Lalonde had previously worked with Lightning head coach Jon Cooper while he was the head coach of the Green Bay Gamblers of the United States Hockey League. On September 11, 2018, Steve Yzerman unexpectedly announced that he was resigning as General Manager after eight season, however, he was remaining with the team in an advisory role for the final year of his contract. Assistant General Manager Julien BriseBois replaced Yzerman as general manager. BriseBois had served as assistant general manager since 2010. In that capacity BriseBois also served\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "Steve Yzerman",
+                "id": "1bba7af4-5bb1-4e06-aeeb-c56c4b5b45ec",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To answer the question, we need to identify the Canadian retired professional ice hockey player whose retirement marked the beginning of a new era for the Detroit Red Wings and who is currently the general manager of the Tampa Bay Lightning.\n\n1. **Identify the players mentioned in the context**:\n   - **Steve Yzerman**: A Canadian former professional ice hockey player who spent his entire NHL career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. He served as the general manager of the Tampa Bay Lightning.\n   - **Pat Verbeek**: Another Canadian former ice hockey player who played for several teams, including the Detroit Red Wings, and is currently the Assistant General Manager of the Tampa Bay Lightning.\n\n2. **Determine the significance of Steve Yzerman's retirement**:\n   - The context mentions that Steve Yzerman announced his resignation as General Manager of the Tampa Bay Lightning on September 11, 2018, but it does not explicitly state his retirement as a player. However, it is known that he retired from playing in 2006.\n\n3. **Conclusion**:\n   - Since the question asks about the player whose retirement led to a new era for the Red Wings and who is currently the general manager of the Lightning, the answer is Steve Yzerman.\n\nFinal response: Steve Yzerman"
+            },
+            {
+                "inputs": {
+                    "context": "['\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"', '\"Vegas Golden Knights\" | \"move by signing Reid Duke to a three-year entry-level contract. The team announced inaugural head coach Gerard Gallant on April 13, 2017. Over the next two months, the Golden Knights developed their farm system, announcing affiliations with the Chicago Wolves of the American Hockey League and the Quad City Mallards of the ECHL. The team participated in the 2017 NHL Expansion Draft on June 21, 2017, selecting an available player from all 30 teams in the NHL. The draft picks were announced at T-Mobile Arena during the NHL Awards ceremony. Some notable selections included goalie Marc-Andre Fleury from the Pittsburgh\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "The National Hockey League (NHL) conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season.",
+                "id": "490f6a10-58ab-466f-a57d-71921d516750",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To determine who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season, we can analyze the context provided.\n\n1. **Identify the Draft**: The context mentions the \"2017 NHL Expansion Draft\" which took place on June 21, 2017. This is the draft where the Vegas Golden Knights selected players from existing NHL teams to form their roster.\n\n2. **Who Conducts the Draft**: The NHL Expansion Draft is conducted by the National Hockey League (NHL). The league organizes the event, sets the rules, and oversees the selection process.\n\n3. **Marc-Andre Fleury's Selection**: The context specifically states that Marc-Andre Fleury was selected by the Vegas Golden Knights during this draft.\n\nBased on this analysis, the answer to the question is:\n\nThe National Hockey League (NHL) conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season."
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"', '\"Tampa Bay Lightning\" | \"during the regular season, finishing third overall in the league. Steve Yzerman was once again nominated for the NHL General Manager of the Year Award. During the playoffs, the Lightning eliminated the New Jersey Devils in the first round and the Boston Bruins in the second round, both in five games. However, they were defeated in the Eastern Conference Finals by the eventual-Stanley Cup champions, the Washington Capitals, in seven games. On September 11, 2018, It was announced that Steve Yzerman would be resigning from his position as GM, and Julien BriseBois would be currently taking his place. The Lightning\"', '\"2018\u201319 Tampa Bay Lightning season\" | \"the head coach of the Iowa Wild of the American Hockey League. Lalonde had previously worked with Lightning head coach Jon Cooper while he was the head coach of the Green Bay Gamblers of the United States Hockey League. On September 11, 2018, Steve Yzerman unexpectedly announced that he was resigning as General Manager after eight season, however, he was remaining with the team in an advisory role for the final year of his contract. Assistant General Manager Julien BriseBois replaced Yzerman as general manager. BriseBois had served as assistant general manager since 2010. In that capacity BriseBois also served\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "Steve Yzerman",
+                "id": "df096e5c-fa27-4b96-a54d-03766f66cc77",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"', '\"Vegas Golden Knights\" | \"move by signing Reid Duke to a three-year entry-level contract. The team announced inaugural head coach Gerard Gallant on April 13, 2017. Over the next two months, the Golden Knights developed their farm system, announcing affiliations with the Chicago Wolves of the American Hockey League and the Quad City Mallards of the ECHL. The team participated in the 2017 NHL Expansion Draft on June 21, 2017, selecting an available player from all 30 teams in the NHL. The draft picks were announced at T-Mobile Arena during the NHL Awards ceremony. Some notable selections included goalie Marc-Andre Fleury from the Pittsburgh\"', '\"2017 NHL Expansion Draft\" | \"2017 NHL Expansion Draft The 2017 NHL Expansion Draft was an expansion draft conducted by the National Hockey League on June 18\u201320, 2017 to fill the roster of the league\\'s expansion team for the 2017\u201318 season, the Vegas Golden Knights. The team\\'s selections were announced on June 21 during the NHL Awards ceremony at T-Mobile Arena. In the offseason before the 2015\u201316 NHL season, the league opened a window for ownership groups to bid for expansion teams for the first time since 2000. Two ownership groups submitted bids to the league, one each from Las Vegas and Quebec City. If\"', '\"2017 NHL Expansion Draft\" | \"protected for contractual reasons. In return for agreeing not to select certain unprotected players, the Golden Knights were granted concessions by other franchises. Not all players selected by the Golden Knights in the Expansion Draft would remain with the team. Some players were traded in the following days, some the day after: Other players who were no longer on the Golden Knights\\' roster at the start of the 2017\u201318 NHL season include the following: 2017 NHL Expansion Draft The 2017 NHL Expansion Draft was an expansion draft conducted by the National Hockey League on June 18\u201320, 2017 to fill the\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "The draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season was conducted by the National Hockey League (NHL).",
+                "id": "2a73f695-cdbe-4d1f-b72f-bd8a58997622",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['Cangzhou | \"Cangzhou Cangzhou () is a prefecture-level city in eastern Hebei province, People\\'s Republic of China. At the 2010 census, Cangzhou\\'s built-up (\"\"or metro\"\") area made of Yunhe, Xinhua districts and Cang County largely being conurbated had a population of 1,205,814 inhabitants, while the prefecture-level administrative unit in total has a population of 7,134,062. It lies approximately from the major port city of Tianjin, and from Beijing. Cangzhou is reported to have been founded in the Southern and Northern Dynasties period (420\u2212589 CE). Cangzhou City comprises 2 districts, 4 county-level cities, 9 counties and 1 autonomous county. Cangzhou\\'s urban center is\"', 'Cangzhou | \"a heavily industrial city but the city\\'s administrative territory also includes strongly agricultural areas, and is well known in China for its Chinese jujubes (Chinese dates) and pear (widely known under the export name of \"\"Tianjin Ya Pear\"\"). The North China Oil Field is within Cangzhou City\\'s jurisdiction. Cangzhou also encompasses a large fishing port and the coal-exporting Huanghua Harbour. Cangzhou is located in eastern Hebei, immediately to the south of Tianjin, near the coast of the Bohai Sea of the Pacific Ocean. Bordering prefecture-level cities are Hengshui to the southwest, Baoding to the west, and Langfang to the north.\"']",
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "No.",
+                "id": "940466f5-8fd1-4d9e-85a9-942b9e7fc712",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"', '\"Tampa Bay Lightning\" | \"during the regular season, finishing third overall in the league. Steve Yzerman was once again nominated for the NHL General Manager of the Year Award. During the playoffs, the Lightning eliminated the New Jersey Devils in the first round and the Boston Bruins in the second round, both in five games. However, they were defeated in the Eastern Conference Finals by the eventual-Stanley Cup champions, the Washington Capitals, in seven games. On September 11, 2018, It was announced that Steve Yzerman would be resigning from his position as GM, and Julien BriseBois would be currently taking his place. The Lightning\"', '\"2018\u201319 Tampa Bay Lightning season\" | \"the head coach of the Iowa Wild of the American Hockey League. Lalonde had previously worked with Lightning head coach Jon Cooper while he was the head coach of the Green Bay Gamblers of the United States Hockey League. On September 11, 2018, Steve Yzerman unexpectedly announced that he was resigning as General Manager after eight season, however, he was remaining with the team in an advisory role for the final year of his contract. Assistant General Manager Julien BriseBois replaced Yzerman as general manager. BriseBois had served as assistant general manager since 2010. In that capacity BriseBois also served\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "Steve Yzerman",
+                "id": "5b969ad3-4b8d-4562-bf87-49f35ec3f7a7",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['Cangzhou | \"Cangzhou Cangzhou () is a prefecture-level city in eastern Hebei province, People\\'s Republic of China. At the 2010 census, Cangzhou\\'s built-up (\"\"or metro\"\") area made of Yunhe, Xinhua districts and Cang County largely being conurbated had a population of 1,205,814 inhabitants, while the prefecture-level administrative unit in total has a population of 7,134,062. It lies approximately from the major port city of Tianjin, and from Beijing. Cangzhou is reported to have been founded in the Southern and Northern Dynasties period (420\u2212589 CE). Cangzhou City comprises 2 districts, 4 county-level cities, 9 counties and 1 autonomous county. Cangzhou\\'s urban center is\"', 'Cangzhou | \"a heavily industrial city but the city\\'s administrative territory also includes strongly agricultural areas, and is well known in China for its Chinese jujubes (Chinese dates) and pear (widely known under the export name of \"\"Tianjin Ya Pear\"\"). The North China Oil Field is within Cangzhou City\\'s jurisdiction. Cangzhou also encompasses a large fishing port and the coal-exporting Huanghua Harbour. Cangzhou is located in eastern Hebei, immediately to the south of Tianjin, near the coast of the Bohai Sea of the Pacific Ocean. Bordering prefecture-level cities are Hengshui to the southwest, Baoding to the west, and Langfang to the north.\"']",
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "No.",
+                "id": "3c643e91-1ee2-4bdc-9abc-c63ddfcf9b95",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"', '\"Tampa Bay Lightning\" | \"during the regular season, finishing third overall in the league. Steve Yzerman was once again nominated for the NHL General Manager of the Year Award. During the playoffs, the Lightning eliminated the New Jersey Devils in the first round and the Boston Bruins in the second round, both in five games. However, they were defeated in the Eastern Conference Finals by the eventual-Stanley Cup champions, the Washington Capitals, in seven games. On September 11, 2018, It was announced that Steve Yzerman would be resigning from his position as GM, and Julien BriseBois would be currently taking his place. The Lightning\"', '\"2018\u201319 Tampa Bay Lightning season\" | \"the head coach of the Iowa Wild of the American Hockey League. Lalonde had previously worked with Lightning head coach Jon Cooper while he was the head coach of the Green Bay Gamblers of the United States Hockey League. On September 11, 2018, Steve Yzerman unexpectedly announced that he was resigning as General Manager after eight season, however, he was remaining with the team in an advisory role for the final year of his contract. Assistant General Manager Julien BriseBois replaced Yzerman as general manager. BriseBois had served as assistant general manager since 2010. In that capacity BriseBois also served\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "Steve Yzerman",
+                "id": "ac071a65-656e-4468-b557-2d62c2dc07db",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"', '\"2018\u201319 Tampa Bay Lightning season\" | \"the head coach of the Iowa Wild of the American Hockey League. Lalonde had previously worked with Lightning head coach Jon Cooper while he was the head coach of the Green Bay Gamblers of the United States Hockey League. On September 11, 2018, Steve Yzerman unexpectedly announced that he was resigning as General Manager after eight season, however, he was remaining with the team in an advisory role for the final year of his contract. Assistant General Manager Julien BriseBois replaced Yzerman as general manager. BriseBois had served as assistant general manager since 2010. In that capacity BriseBois also served\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "Steve Yzerman",
+                "id": "693463ee-a97e-4bba-9197-0ec518b6e296",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To answer the question, we need to identify the Canadian retired professional ice hockey player whose retirement marked the beginning of a new era for the Detroit Red Wings and who is currently the general manager of the Tampa Bay Lightning.\n\n1. **Identify the players mentioned in the context**:\n   - **Steve Yzerman**: A Canadian former professional ice hockey player who spent his entire NHL career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. He served as the general manager of the Tampa Bay Lightning.\n   - **Pat Verbeek**: Another Canadian former ice hockey player who played for several teams, including the Detroit Red Wings, and is currently the Assistant General Manager of the Tampa Bay Lightning.\n\n2. **Determine the significance of Steve Yzerman's retirement**:\n   - The context mentions that Steve Yzerman announced his resignation as General Manager of the Tampa Bay Lightning on September 11, 2018, but it does not explicitly state his retirement as a player. However, it is known that he retired from playing in 2006.\n\n3. **Conclusion**:\n   - Since the question asks about the player whose retirement led to a new era for the Red Wings and who is currently the general manager of the Lightning, the answer is Steve Yzerman.\n\nFinal response: Steve Yzerman"
+            },
+            {
+                "inputs": {
+                    "context": "['\"Meleko Mokgosi\" | \"Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized Study at New York University. His work includes large-scale paintings that explore themes of colonialism, democracy, nationalism, and life in Southern Africa. Mokgosi was born in 1981 in Francistown, Botswana, and raised in the city of Maun. He began drawing in primary school. While in high school, he became interested in the potential of making political commentary with art. In 2003, he moved to the United States, participated in the Whitney Independent Study Program, and studied art at Williams College and UCLA,\"', '\"Meleko Mokgosi\" | \"a series of more than 50 paintings on the subject of colonialism in Africa. A book on the \"\"Pax Kaffraria\"\" project was published by the Hammer Museum in 2014. In 2014, Mokgosi began the project \"\"Democratic Intuition\"\", which he described as being about \"\"how do normal people understand, reciprocate, have access to, and not have access to the ideas of democracy and the democratic\"\". He presented the first two chapters of this work at his first solo New York exhibition in 2016. Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized\"']",
+                    "question": "What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?"
+                },
+                "output": "Students at the Gallatin School of Individualized Study at New York University design their own academic programs and engage in interdisciplinary studies.",
+                "id": "76f10e8e-4e11-4ffa-8d24-43b7be987f20",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To answer the question about what students do at the Gallatin School of Individualized Study at New York University, where Meleko Mokgosi is an artist and assistant professor, we can analyze the context provided.\n\n1. **Identify the School**: The context mentions that Meleko Mokgosi is an assistant professor at the Gallatin School of Individualized Study at New York University.\n\n2. **Understanding the School's Focus**: The Gallatin School is known for its unique approach to education, allowing students to design their own academic programs. This means that students at Gallatin typically engage in a highly individualized study that can include a wide range of subjects and disciplines.\n\n3. **Activities of Students**: Given the nature of the Gallatin School, students likely participate in:\n   - Creating personalized curricula that reflect their interests and career goals.\n   - Engaging in interdisciplinary studies that combine various fields of knowledge.\n   - Participating in discussions, projects, and exhibitions that may include political commentary and artistic expression, as suggested by Mokgosi's work.\n\nBased on this analysis, the answer to the question is:\n\nStudents at the Gallatin School of Individualized Study at New York University design their own academic programs and engage in interdisciplinary studies."
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"', '\"Steve Yzerman\" | \"in his role, and with his path to GM also blocked by Assistant General Manager Jim Nill, who himself had been given another long-term deal, it became clear that it would not be with the Red Wings. It was later revealed by The Detroit News in 2016 that Red Wings owner Mike Ilitch attempted to promote Holland to make room for Yzerman to become the team\\'s General Manager, but Holland declined the promotion. Not long after Holland received his extension, Craig Leipold, owner of the Minnesota Wild, and Jeffrey Vinik, the then-new owner of the Tampa Bay Lightning, sought to\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "The Wings entered a new era following the retirement of Steve Yzerman.",
+                "id": "dabfeb1b-3273-4398-94d5-ce9fa736d2bb",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"', '\"Vegas Golden Knights\" | \"move by signing Reid Duke to a three-year entry-level contract. The team announced inaugural head coach Gerard Gallant on April 13, 2017. Over the next two months, the Golden Knights developed their farm system, announcing affiliations with the Chicago Wolves of the American Hockey League and the Quad City Mallards of the ECHL. The team participated in the 2017 NHL Expansion Draft on June 21, 2017, selecting an available player from all 30 teams in the NHL. The draft picks were announced at T-Mobile Arena during the NHL Awards ceremony. Some notable selections included goalie Marc-Andre Fleury from the Pittsburgh\"', '\"2017 NHL Expansion Draft\" | \"2017 NHL Expansion Draft The 2017 NHL Expansion Draft was an expansion draft conducted by the National Hockey League on June 18\u201320, 2017 to fill the roster of the league\\'s expansion team for the 2017\u201318 season, the Vegas Golden Knights. The team\\'s selections were announced on June 21 during the NHL Awards ceremony at T-Mobile Arena. In the offseason before the 2015\u201316 NHL season, the league opened a window for ownership groups to bid for expansion teams for the first time since 2000. Two ownership groups submitted bids to the league, one each from Las Vegas and Quebec City. If\"', '\"2017 NHL Expansion Draft\" | \"protected for contractual reasons. In return for agreeing not to select certain unprotected players, the Golden Knights were granted concessions by other franchises. Not all players selected by the Golden Knights in the Expansion Draft would remain with the team. Some players were traded in the following days, some the day after: Other players who were no longer on the Golden Knights\\' roster at the start of the 2017\u201318 NHL season include the following: 2017 NHL Expansion Draft The 2017 NHL Expansion Draft was an expansion draft conducted by the National Hockey League on June 18\u201320, 2017 to fill the\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "The draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season was conducted by the National Hockey League (NHL).",
+                "id": "3e934132-7fcc-4d3a-98bf-0e0ef384b953",
+                "reasoning": null
+            }
+        ],
+        "demo_pq": [
+            [
+                0.14285714285714288,
+                "9a09fc34-4cac-454a-a0ba-765ee30532d9"
+            ],
+            [
+                0.25,
+                "3e934132-7fcc-4d3a-98bf-0e0ef384b953"
+            ],
+            [
+                0.25,
+                "2a73f695-cdbe-4d1f-b72f-bd8a58997622"
+            ],
+            [
+                0.2727272727272727,
+                "eaf98c58-7c4a-4a9c-8a4b-ad505fbaa0be"
+            ],
+            [
+                0.25,
+                "e7ca4d8d-5961-4064-81f4-f9f8f7f0020f"
+            ],
+            [
+                0.2727272727272727,
+                "24ef65fa-ca84-448a-ad0e-5e93b527bc43"
+            ],
+            [
+                0.3636363636363636,
+                "22fb02de-1e3e-4af7-978b-14e076e1aa6e"
+            ],
+            [
+                1.0,
+                "693463ee-a97e-4bba-9197-0ec518b6e296"
+            ],
+            [
+                0.3076923076923077,
+                "76f10e8e-4e11-4ffa-8d24-43b7be987f20"
+            ],
+            [
+                0.2727272727272727,
+                "490f6a10-58ab-466f-a57d-71921d516750"
+            ],
+            [
+                1.0,
+                "df096e5c-fa27-4b96-a54d-03766f66cc77"
+            ],
+            [
+                1.0,
+                "e9c66388-a64d-4a9c-a447-692a48d2d10c"
+            ],
+            [
+                1.0,
+                "940466f5-8fd1-4d9e-85a9-942b9e7fc712"
+            ],
+            [
+                1.0,
+                "5b969ad3-4b8d-4562-bf87-49f35ec3f7a7"
+            ],
+            [
+                1.0,
+                "3c643e91-1ee2-4bdc-9abc-c63ddfcf9b95"
+            ],
+            [
+                1.0,
+                "ac071a65-656e-4468-b557-2d62c2dc07db"
+            ],
+            [
+                1.0,
+                "8dc223d6-d6f3-43da-8092-6f2ee80df6d5"
+            ],
+            [
+                1.0,
+                "1bba7af4-5bb1-4e06-aeeb-c56c4b5b45ec"
+            ],
+            [
+                0.3636363636363636,
+                "dabfeb1b-3273-4398-94d5-ce9fa736d2bb"
+            ],
+            [
+                1.0,
+                "06e95ade-ffed-47ae-9e68-a94d517de498"
+            ]
+        ],
+        "max_num": 2,
+        "current_best_score_sum": 2.0
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    }
+]

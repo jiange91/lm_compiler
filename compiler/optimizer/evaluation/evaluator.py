@@ -19,8 +19,10 @@ from compiler.IR.base import ComposibleModuleInterface
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsageSummary, TokenUsage
 from compiler.optimizer.evaluation.metric import MetricBase
+from compiler.optimizer.params.common import ParamBase
 from compiler.optimizer.plugin import OptimizerSchema
 from compiler.utils import get_bill
+from compiler.optimizer.core.flow import TopDownInformation, ModuleTransformTrace
 
 logger = logging.getLogger(__name__)
 
@@ -170,15 +172,35 @@ class Evaluator(EvaluatorInterface):
 @dataclass
 class EvalTask:
     """Define a task to evaluate the score of a workflow
-    
-    module_pool should include all the modules that are to be used in the workflow
     """
+    # execution env
     script_path: str
     args: list[str] # cmd args to the script
-    module_map_table: dict[str, str]
-    module_pool: dict[str, Module]
-    other_python_paths: Optional[list[str]] = None
+    other_python_paths: list[str]
     
+    # transformation meta
+    all_params: dict[str, ParamBase] # {param_hash: param}
+    module_name_paths: dict[str, list[str]]
+    aggregated_proposals: dict[str, dict[str, list[tuple[str, str]]]] # {layer_name: {module_name: [(param, option)]}}
+    
+    def __getstate__(self) -> object:
+        state = self.__dict__.copy()
+        state.pop('all_params')
+        state['all_params_ser'] = {}
+        param_hashes = self.all_params.keys()
+        for hash in param_hashes:
+            state['all_params_ser'][hash] = self.all_params[hash].to_dict()
+        return state
+
+    def __setstate__(self, state: dict) -> None:
+        param_pool = state.pop('all_params_ser')
+        self.__dict__.update(state)
+        self.all_params = {}
+        # restore params
+        for hash, param_dict in param_pool.items():
+            t = ParamBase.registry[param_dict['type']]
+            self.all_params[hash] = t.from_dict(param_dict)
+
     def add_PYTHON_PATH(self):
         dir = os.path.dirname(self.script_path)
         if dir not in sys.path:
@@ -187,31 +209,56 @@ class EvalTask:
             for path in self.other_python_paths:
                 if path not in sys.path:
                     sys.path.append(path)
-    
-    def evaluate_program(self, input: dict, label: dict):
+                
+    def replay_module_transformations(self, ms: list[Module]) -> dict[str, Module]:
+        module_pool = {m.name: m for m in ms}
+        module_ttrace = ModuleTransformTrace({m.name: type(m) for m in ms})
+        
+        for layer_name, proposal in self.aggregated_proposals.items():
+            for module_name, l_param_option in proposal.items():
+                module = module_pool[module_name]
+                for param_name, option_name in l_param_option:
+                    param_hash = ParamBase.chash(module_name, param_name)
+                    param = self.all_params[param_hash]
+                    
+                    new_module, new_mapping = param.apply_option(option_name, module)
+                    
+                    for old_name, new_name in new_mapping.items():
+                        module_ttrace.add_mapping(old_name, [new_name])
+                    module_pool[new_module.name] = new_module
+                    module = new_module
+        
+        # check if modules are transformed correctly
+        # check equivalence of current name path and registered name path
+        assert module_ttrace.eq_transform_path(self.module_name_paths), "Module transformation not consistent"
+        
+        module_ttrace.mflatten()
+        new_modules_dict = {
+            ori_name: module_pool[new_name] 
+            for ori_name, new_name in module_ttrace.flattened_name_paths.items()
+        }
+        return new_modules_dict
+                    
+    def evaluate_program(self, input, label):
         self.add_PYTHON_PATH()
         sys.argv = [self.script_path] + self.args
         schema = OptimizerSchema.capture(self.script_path)
         logger.debug(f'opt_target_modules = {schema.opt_target_modules}')
         assert schema.opt_target_modules, "No module to optimize"
+        module_pool = {m.name: m for m in schema.opt_target_modules}
         
         # replace module invoke with new module
-        for m in schema.opt_target_modules:
-            if self.module_pool:
-                if m.name in self.module_map_table:
-                    new_module = self.module_pool[self.module_map_table[m.name]]
-                else:
-                    new_module = self.module_pool[m.name]
-            else:
-                continue
-            if isinstance(new_module, Workflow):
-                new_module.compile()
-            logger.debug(f'replace {m} with {new_module}')
-            m.invoke = new_module.invoke
-            m.reset()
-            
-        if self.module_pool is None:
-            self.module_pool = {m.name: m for m in schema.opt_target_modules} 
+        # this does not replace the model but only the invoke function
+        if self.aggregated_proposals is not None:
+            new_modules_dict = self.replay_module_transformations(schema.opt_target_modules)
+            for m in schema.opt_target_modules:
+                new_module = new_modules_dict[m.name]
+                if isinstance(new_module, Workflow):
+                    new_module.compile()
+                logger.debug(f'replace {m} with {new_module}')
+                m.invoke = new_module.invoke
+                m.reset()
+                module_pool[m.name] = new_module
             
         result = schema.program(input)
         score = schema.score_fn(label, result)
@@ -219,7 +266,7 @@ class EvalTask:
         # get price and demo of running the program
         usages = []
         lm_2_demo = {}
-        for lm in Module.all_of_type(self.module_pool.values(), LLMPredictor):
+        for lm in Module.all_of_type(module_pool.values(), LLMPredictor):
             usages.extend(lm.get_token_usage())
             lm_2_demo[lm.name] = lm.get_step_as_example()
         
@@ -227,7 +274,26 @@ class EvalTask:
         price = summary.total_price
         return result, score, price, lm_2_demo
 
-class EvaluatorPlugin:
+    @classmethod
+    def from_top_down_info(cls, tdi: TopDownInformation):
+        return cls(
+            script_path=tdi.script_path,
+            args=tdi.script_args,
+            other_python_paths=tdi.other_python_paths,
+            all_params=tdi.all_params,
+            module_name_paths=tdi.module_ttrace.module_name_paths,
+            aggregated_proposals=tdi.module_ttrace.aggregated_proposals,
+        )
+    
+class GeneralEvaluatorInterface(ABC):
+    @abstractmethod
+    def evaluate(
+        self,
+        task: EvalTask,
+    ) -> EvaluationResult:
+        ...
+
+class EvaluatorPlugin(GeneralEvaluatorInterface):
     def __init__(
         self,
         eval_set: Iterable[Tuple[any,any]], # list of input data and labels

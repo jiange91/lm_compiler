@@ -73,6 +73,8 @@ class BasicMH(dspy.Module):
         context = []
 
         search_query = self.initial_generate_query.invoke({'question': question}).content
+        # avoid only searching the first line
+        search_query = search_query.replace("\n", ". ")
         # print("Search query:", search_query)
         passages = self.retrieve(search_query).passages
         # print("Passages:", passages)
@@ -80,6 +82,8 @@ class BasicMH(dspy.Module):
         
         for _ in range(2-1):
             search_query = self.follwing_generate_query.invoke({'context': context, 'question': question}).content
+            # avoid only searching the first line
+            search_query = search_query.replace("\n", ". ")
             # print("Search query:", search_query)
             passages = self.retrieve(search_query).passages
             # print("Passages:", passages)

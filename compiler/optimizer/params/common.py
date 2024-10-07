@@ -6,7 +6,6 @@ import logging
 import json
 
 from compiler.IR.base import Module, ComposibleModuleInterface
-from compiler.optimizer.evaluation.evaluator import EvaluationResult
 from compiler.patterns.blocker import Protection
 
 logger = logging.getLogger(__name__)
@@ -187,9 +186,13 @@ class ParamBase(metaclass=ParamMeta):
             self.default_option = default_option
         self.inherit = inherit
     
+    @staticmethod
+    def chash(module_name, param_name):
+        return f"{module_name}_{param_name}"
+    
     @property
     def hash(self):
-        return f"{self.module_name}_{self.name}"
+        return ParamBase.chash(self.module_name, self.name)
        
     def apply_option(self, option: str, module: Module) -> tuple[Module, T_ModuleMapping]:
         """Apply the idx-th option to the module
@@ -269,6 +272,6 @@ class DynamicParamBase(ParamBase, ABC):
         ...
     
     @abstractmethod
-    def evole(self, eval_result: EvaluationResult) -> EvolveType:
+    def evole(self, eval_result) -> EvolveType:
         ...
         

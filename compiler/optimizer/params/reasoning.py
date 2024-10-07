@@ -76,16 +76,17 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
         """
         old_semantic = lm_module.semantic
         # remove format instruction
+        following_messages = old_semantic.follwing_messages if old_semantic.message_template_predefined else []
         new_semantic = LangChainSemantic(
             system_prompt=old_semantic.system_prompt,
             inputs=old_semantic.inputs,
-            output_format=f"rationale_from_{lm_module.name}",
+            output_format=old_semantic.outputs[0],
             need_output_type_hint=False,
             output_format_instructions=None,
             img_input_idices=old_semantic.img_input_idices,
             enable_memory=old_semantic.enable_memory,
             input_key_in_mem=old_semantic.input_key_in_mem,
-            following_messages=old_semantic.follwing_messages.copy(),
+            following_messages=following_messages,
             demos=old_semantic.demos,
         )
         new_semantic.build_prompt_template()
@@ -109,7 +110,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
                 output_vars = ', '.join([f'{{{ovar}}}' for ovar in old_semantic.get_agent_outputs()])
                 if old_semantic.output_type_hint or old_semantic.output_format_instructions:
                     chat_messages.extend([
-                        HumanMessage(f"Now please format your final response {output_vars} according to the following instructions:\n"),
+                        HumanMessage(f"Now please give your final response according to the following instructions:\n"),
                         old_semantic.get_output_format_spec(),
                     ])
                     if old_semantic.output_format:
@@ -123,7 +124,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
                 else:
                     assert len(old_semantic.get_agent_outputs()) == 1, "No formatted agent only has one output"
                     chat_messages.append(
-                        HumanMessage(f"Based on these informations, please give your response {output_vars}\n")
+                        HumanMessage(f"Based on these informations, please give your final response directly.")
                     )
                     result = post_reasoning_routine.invoke(chat_messages).content
                     return {old_semantic.get_agent_outputs()[0]: result}
@@ -167,7 +168,7 @@ class ZeroShotCoT(ReasonThenFormat):
         chat_messages: list[BaseMessage], 
         lm: ChatOpenAI, 
     ) -> list[BaseMessage]:
-        h = HumanMessage("Let's solve this problem step by step before giving your response\n")
+        h = HumanMessage("Let's solve this problem step by step before giving the final response\n")
         chat_messages.append(h)
         result = lm.invoke(chat_messages)
         logger.debug(f"Zero-shot CoT in module {lm.name}, reasoning: {result.content}")
@@ -183,7 +184,7 @@ class PlanBefore(ReasonThenFormat):
         chat_messages: list[BaseMessage], 
         lm: ChatOpenAI, 
     ) -> list[BaseMessage]:
-        h = HumanMessage("Let's first plan necessary steps to approach this problem before giving yout response\n")
+        h = HumanMessage("Let's first plan necessary steps to approach this problem before giving the final response\n")
         chat_messages.append(h)
         result = lm.invoke(chat_messages)
         logger.debug(f"PlanBefore in module {lm.name}, reasoning: {result.content}")

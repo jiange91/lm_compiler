@@ -197,7 +197,7 @@ class Module(ModuleIterface):
     ) -> list['Module']:
         """Find all modules that satisfy the predicate
         
-        will search recursively into all composible modules
+        If not match and is composible module, will search recursively into all composible modules
         """
         targets = []
         for m in modules:
@@ -213,7 +213,7 @@ class Module(ModuleIterface):
     def all_of_type(modules: Iterable['Module'], T: Type['Module']) -> list['Module']:
         """Find all modules of type T in the given modules
         
-        will search recursively into all composible modules
+        will search recursively into all composible modules if not match
         """
         return Module.all_with_predicate(modules, lambda x: isinstance(x, T))
 

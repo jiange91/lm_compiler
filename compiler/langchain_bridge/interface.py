@@ -135,8 +135,17 @@ class LangChainSemantic(LMSemantic):
         self._chat_prompt_template = value
     
     def add_demos_to_prompt(self):
+        input_fields = []
+        for i, input in enumerate(self.inputs):
+            if not self.img_input_idices or i not in self.img_input_idices:
+                input_fields.append(f"{input}:\n${{{input}}}")
+        
+        example_format = "\n\n".join(input_fields) + \
+                        "\n\nreasoning:\nOptional(${reasoning})" + \
+                        f"\n\n{self.outputs[0]}:\n${{{self.outputs[0]}}}"
+        
         self.chat_prompt_template.append(HumanMessage(
-            "Let me show you some examples:\n"
+            f"Let me show you some examples following the format:\n\n{example_format}\n\n---"
         ))
         
         for i, demo in enumerate(self.demos):
@@ -145,14 +154,14 @@ class LangChainSemantic(LMSemantic):
             for key, value in demo.inputs.items():
                 if key not in self.img_input_names:
                     input_str.append(f"{key}:\n{value}")
-            text_input_str = '\n'.join(input_str)
+            text_input_str = '\n\n'.join(input_str)
             self.chat_prompt_template.append(HumanMessage(
-                f"---\n**Example query {i+1}**:\n{text_input_str}\n"
+                f"\n\n{text_input_str}"
             ))
             for key, value in demo.inputs.items():
                 if key in self.img_input_names:
                     self.chat_prompt_template.append(
-                        HumanMessage(f"{key}:\n")
+                        HumanMessage(f"\n\n{key}:\n")
                     )
                     self.chat_prompt_template.append(
                         HumanMessage(
@@ -165,21 +174,29 @@ class LangChainSemantic(LMSemantic):
                         )
                     )
             if demo.reasoning:
-                self.chat_prompt_template.append(
-                    HumanMessage(demo.reasoning)
-            )
+                self.chat_prompt_template.append(HumanMessage(f"\n\nreasoning:\n{demo.reasoning}"))
+            else:
+                self.chat_prompt_template.append(HumanMessage(f"\n\nreasoning:\nN/A"))
+                
             # add output, only consider text now
             self.chat_prompt_template.append(HumanMessage(
-                f"**Example Answer**:\n{demo.output}\n"
+                f"\n\n{self.outputs[0]}:\n{demo.output}\n"
             ))
         self.chat_prompt_template.append(HumanMessage(
-            "---\n"
+            "\n\n---"
         ))
         
     def build_prompt_template(self):
         # setup message list
         if not self.message_template_predefined:
             user_messages = []
+            input_names = ", ".join(f"`{input}`" for input in self.inputs)
+            user_messages.append(
+                {
+                    "type": "text",
+                    "text": f"Given {input_names}, please only provide {self.outputs[0]} in your response unless instructed otherwise."
+                }
+            )
             if self.img_input_idices is not None:
                 for img_idx in self.img_input_idices:
                     user_messages.append(

@@ -1,0 +1,152 @@
+{
+    "f1a8b69c9f8c46feae1abb98faead48b": {
+        "id": "f1a8b69c9f8c46feae1abb98faead48b",
+        "bo_trial_id": 0,
+        "params": {
+            "refine_query_few_shot": "Identity",
+            "refine_query_reasoning": "Identity",
+            "generate_query_few_shot": "Identity",
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.3541791541791542,
+        "price": 0.00047678999999999994,
+        "eval_cost": 0.0023839499999999997
+    },
+    "3c4458346f974cde9075afc5e700ad2c": {
+        "id": "3c4458346f974cde9075afc5e700ad2c",
+        "bo_trial_id": 1,
+        "params": {
+            "refine_query_few_shot": "Identity",
+            "refine_query_reasoning": "Identity",
+            "generate_query_few_shot": "Identity",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.3541791541791542,
+        "price": 0.00044762999999999997,
+        "eval_cost": 0.00223815
+    },
+    "ea299eeec59e4830967152484eee11f0": {
+        "id": "ea299eeec59e4830967152484eee11f0",
+        "bo_trial_id": 2,
+        "params": {
+            "refine_query_few_shot": "Identity",
+            "refine_query_reasoning": "Identity",
+            "generate_query_few_shot": "Identity",
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "Identity"
+        },
+        "score": 0.2645867542419267,
+        "price": 0.00026148,
+        "eval_cost": 0.0013074
+    },
+    "1cfa0e6fa8ec4bff9e6e6e787edfade0": {
+        "id": "1cfa0e6fa8ec4bff9e6e6e787edfade0",
+        "bo_trial_id": 3,
+        "params": {
+            "refine_query_few_shot": "refine_query_demos_2ed749f2-ccb8-4f8c-a45d-695acf505a43",
+            "refine_query_reasoning": "ZeroShotCoT",
+            "generate_query_few_shot": "generate_query_demos_c4794a83-2f5d-4735-9889-72d28730731a",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "Identity"
+        },
+        "score": 0.19301165501165501,
+        "price": 0.00072882,
+        "eval_cost": 0.0036441
+    },
+    "68d049a68c81469fa3fc14290ff4c5cd": {
+        "id": "68d049a68c81469fa3fc14290ff4c5cd",
+        "bo_trial_id": 4,
+        "params": {
+            "refine_query_few_shot": "Identity",
+            "refine_query_reasoning": "Identity",
+            "generate_query_few_shot": "generate_query_demos_c4794a83-2f5d-4735-9889-72d28730731a",
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "generate_answer_demos_9f9300b5-445c-4288-bf6d-8476da5610ec",
+            "generate_answer_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.3617982017982018,
+        "price": 0.00100512,
+        "eval_cost": 0.0050256
+    },
+    "f979a0caf2984e15974599bbd7d46da9": {
+        "id": "f979a0caf2984e15974599bbd7d46da9",
+        "bo_trial_id": 5,
+        "params": {
+            "refine_query_few_shot": "refine_query_demos_2ed749f2-ccb8-4f8c-a45d-695acf505a43",
+            "refine_query_reasoning": "ZeroShotCoT",
+            "generate_query_few_shot": "generate_query_demos_c4794a83-2f5d-4735-9889-72d28730731a",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "Identity"
+        },
+        "score": 0.3293449429131588,
+        "price": 0.0007272299999999999,
+        "eval_cost": 0.00363615
+    },
+    "aa49f7237d75451787f9fbe9167d0a19": {
+        "id": "aa49f7237d75451787f9fbe9167d0a19",
+        "bo_trial_id": 6,
+        "params": {
+            "refine_query_few_shot": "refine_query_demos_2ed749f2-ccb8-4f8c-a45d-695acf505a43",
+            "refine_query_reasoning": "Identity",
+            "generate_query_few_shot": "generate_query_demos_096ad1c0-6321-49bf-8a97-2ad291464399",
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "generate_answer_demos_e03fd696-2ff9-4bc6-92ef-19da88dc085f",
+            "generate_answer_reasoning": "Identity"
+        },
+        "score": 0.46797853309481213,
+        "price": 0.00066378,
+        "eval_cost": 0.0033189
+    },
+    "94e81a0a9ae4402aa94e7b347973f23b": {
+        "id": "94e81a0a9ae4402aa94e7b347973f23b",
+        "bo_trial_id": 7,
+        "params": {
+            "refine_query_few_shot": "refine_query_demos_a1bc1811-8f3a-449a-be12-cf6aee0a12e3",
+            "refine_query_reasoning": "ZeroShotCoT",
+            "generate_query_few_shot": "generate_query_demos_c4794a83-2f5d-4735-9889-72d28730731a",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "generate_answer_demos_9f9300b5-445c-4288-bf6d-8476da5610ec",
+            "generate_answer_reasoning": "ZeroShotCoT"
+        },
+        "score": 0.3690753690753691,
+        "price": 0.0014039999999999999,
+        "eval_cost": 0.007019999999999999
+    },
+    "938bab48ff8a48e28489643df7cd48ad": {
+        "id": "938bab48ff8a48e28489643df7cd48ad",
+        "bo_trial_id": 8,
+        "params": {
+            "refine_query_few_shot": "refine_query_demos_2ed749f2-ccb8-4f8c-a45d-695acf505a43",
+            "refine_query_reasoning": "Identity",
+            "generate_query_few_shot": "generate_query_demos_c4794a83-2f5d-4735-9889-72d28730731a",
+            "generate_query_reasoning": "Identity",
+            "generate_answer_few_shot": "generate_answer_demos_9f9300b5-445c-4288-bf6d-8476da5610ec",
+            "generate_answer_reasoning": "Identity"
+        },
+        "score": 0.5542802025560646,
+        "price": 0.0005625599999999999,
+        "eval_cost": 0.0028128
+    },
+    "555175f160e748e0886de8ee4275ca37": {
+        "id": "555175f160e748e0886de8ee4275ca37",
+        "bo_trial_id": 9,
+        "params": {
+            "refine_query_few_shot": "refine_query_demos_2ed749f2-ccb8-4f8c-a45d-695acf505a43",
+            "refine_query_reasoning": "ZeroShotCoT",
+            "generate_query_few_shot": "generate_query_demos_c4794a83-2f5d-4735-9889-72d28730731a",
+            "generate_query_reasoning": "ZeroShotCoT",
+            "generate_answer_few_shot": "Identity",
+            "generate_answer_reasoning": "Identity"
+        },
+        "score": 0.18696172248803827,
+        "price": 0.00078219,
+        "eval_cost": 0.00391095
+    }
+}

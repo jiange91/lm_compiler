@@ -65,10 +65,10 @@ def opt(data):
     )
     
     cost, pareto_frontier = inner_loop.optimize(
-        script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
+        script_path=f'/home/reyna/Cognify/examples/HotPotQA/cognify_anno.py',
         n_trials=30,
         evaluator=evaluator,
-        log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test',
+        log_dir=f'/home/reyna/Cognify/examples/HotPotQA/opt_gemma_2_9b_it',
         throughput=2,
     )
     return pareto_frontier

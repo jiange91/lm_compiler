@@ -3,18 +3,20 @@ from dsp.utils.utils import deduplicate
 import dspy.evaluate
 from compiler.utils import load_api_key
 import string
+import time
 
-load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')
+load_api_key('/home/reyna/Cognify/secrets.toml')
 
 colbert = dspy.ColBERTv2(url='http://192.168.1.18:8893/api/search')
 dspy.configure(rm=colbert)
 
 from compiler.optimizer.params.reasoning import ZeroShotCoT
+from compiler.optimizer.params.common import IdentityOption
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 from compiler.optimizer import register_opt_program_entry, register_opt_score_fn
 
 lm_config = {
-    'model': 'gpt-4o-mini',
+    'model': 'google/gemma-2-9b-it',
     'temperature': 0.0,
 }
 
@@ -59,6 +61,14 @@ if cot_fixed:
     ZeroShotCoT.direct_apply(following_query_agent)
     ZeroShotCoT.direct_apply(answer_agent)
 
+"""
+{'generate_answer_few_shot': 'Identity', 
+'generate_answer_reasoning': 'ZeroShotCoT', 
+'generate_query_few_shot': 'Identity', 
+'generate_query_reasoning': 'ZeroShotCoT', 
+'refine_query_few_shot': 'Identity', 
+'refine_query_reasoning': 'ZeroShotCoT'}
+"""
 
 class BasicMH(dspy.Module):
     def __init__(self, passages_per_hop=3):
@@ -73,6 +83,7 @@ class BasicMH(dspy.Module):
         context = []
 
         search_query = self.initial_generate_query.invoke({'question': question}).content
+        
         # print("Search query:", search_query)
         passages = self.retrieve(search_query).passages
         # print("Passages:", passages)
@@ -110,7 +121,7 @@ def answer_f1(label: str, pred: str):
 
 from compiler.optimizer.params.reasoning import ZeroShotCoT
 if __name__ == "__main__":
-    input = {'question': "What river is near the Crichton Collegiate Church?"}
+    input = "What river is near the Crichton Collegiate Church?"
     answer = trial(input)
     label = 'River Tyne'
     print(f'Answer: {answer}')

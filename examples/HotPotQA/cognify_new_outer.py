@@ -65,7 +65,7 @@ def opt(data):
     )
     
     inner_opt_config = flow.OptConfig(
-        n_trials=10,
+        n_trials=4,
         throughput=2,
         log_dir=None,
     )
@@ -76,7 +76,7 @@ def opt(data):
     )
     
     outer_opt_config = flow.OptConfig(
-        n_trials=3,
+        n_trials=0,
         throughput=1,
         log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test',
     )
@@ -96,12 +96,11 @@ def opt(data):
         script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
     )
     
-    # eval_result = inner_loop.easy_eval(
-    #     trial_log_id='b26f2181821a4b059e3c0b5093689693',
-    #     opt_config=opt_config,
-    #     script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
-    # )
-    # print(eval_result)
+    eval_result = opt_driver.evaluate(
+        bot_trial_log_id='8465400c739047b58fc6e76847edd793',
+        opt_log_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test/inner_loop/c85a9b9fd5e74d4c8998eb6bba497d63/opt_logs.json',
+    )
+    print(eval_result)
     
     
 if __name__ == '__main__':

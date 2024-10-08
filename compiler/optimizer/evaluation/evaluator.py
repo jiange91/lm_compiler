@@ -200,6 +200,15 @@ class EvalTask:
         for hash, param_dict in param_pool.items():
             t = ParamBase.registry[param_dict['type']]
             self.all_params[hash] = t.from_dict(param_dict)
+    
+    def to_dict(self) -> dict:
+        return self.__getstate__()
+
+    @classmethod
+    def from_dict(cls, state: dict) -> 'EvalTask':
+        obj = cls.__new__(cls)
+        obj.__setstate__(state)
+        return obj
 
     def add_PYTHON_PATH(self):
         dir = os.path.dirname(self.script_path)

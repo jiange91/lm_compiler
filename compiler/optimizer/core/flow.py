@@ -168,15 +168,24 @@ class TopDownInformation:
             name_2_type = {m.name: type(m) for m in self.current_module_pool.values()}
             self.module_ttrace = ModuleTransformTrace(name_2_type)
         self.module_ttrace.mflatten()
+    
         
-@dataclass
 class TrialLog:
-    params: dict[str, any]
-    bo_trial_id: int
-    id: str = field(default_factory=lambda: uuid.uuid4().hex) # unique id for each trial
-    score: float = field(default=0.0)
-    price: float = field(default=0.0)
-    eval_cost: float = field(default=0.0)
+    def __init__(
+        self,
+        params: dict[str, any],
+        bo_trial_id: int,
+        id: str = None,
+        score: float = 0.0,
+        price: float = 0.0,
+        eval_cost: float = 0.0,
+    ):
+        self.id: str = id or uuid.uuid4().hex
+        self.params = params
+        self.bo_trial_id = bo_trial_id
+        self.score = score
+        self.price = price
+        self.eval_cost = eval_cost
     
     def to_dict(self):
         return {

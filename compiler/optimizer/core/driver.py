@@ -136,3 +136,14 @@ class MultiLayerOptimizationDriver:
             other_python_paths=other_python_paths,
         )
     
+    def evaluate(
+        self,
+        bot_trial_log_id: str,
+        opt_log_path: str,
+    ):
+        bot_layer: BottomLevelOptimization = self.opt_layers[-1]
+        return bot_layer.easy_eval(
+            trial_log_id=bot_trial_log_id,
+            opt_log_path=opt_log_path,
+        )
+        

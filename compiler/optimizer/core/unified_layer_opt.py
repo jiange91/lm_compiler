@@ -1,7 +1,7 @@
 import os
 import sys
 import json
-from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal
+from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal, get_type_hints
 import copy
 import logging
 import optunahub
@@ -204,6 +204,10 @@ class OptimizationLayer:
                 new_modules.append(new_module)
         return new_modules, trace_for_next_level
 
+    def create_log_at_proposal(self, trial: optuna.trial.Trial) -> TrialLog:
+        trial_log = TrialLog(params=trial.params, bo_trial_id=trial.number)
+        return trial_log
+
     def propose(
         self,
         ms: list[Module],
@@ -219,15 +223,17 @@ class OptimizationLayer:
                 trial = self.study.ask(self.param_categorical_dist)
             
             logger.info(f"- {self.name} - apply param - Trial {trial.number} params: {trial.params}")
-            trial_log = TrialLog(params=trial.params, bo_trial_id=trial.number)
+            trial_log = self.create_log_at_proposal(trial)
             self.opt_logs[trial_log.id] = trial_log
             program_copy = copy.deepcopy(ms)
             new_modules, new_trace = self._apply_params(trial.params, program_copy)
             next_to_run.append((trial, new_modules, new_trace, trial_log.id))
         return next_to_run
+    
 
     def evaluate(
         self,
+        log_id: str,
         new_top_down_info: TopDownInformation,
     ) -> EvaluationResult:
         eval_task = EvalTask.from_top_down_info(new_top_down_info)
@@ -283,6 +289,22 @@ class OptimizationLayer:
         params = [param for params in self.params.values() for param in params]
         dump_params(params, param_save_path)
     
+    def load_opt_ckpt(self, opt_log_path: str):
+        with open(opt_log_path, 'r') as f:
+            opt_trace = json.load(f)
+            
+        for trial_log_id, trial_meta in opt_trace.items():
+            trial_log = TrialLog.from_dict(trial_meta)
+            self.opt_logs[trial_log_id] = trial_log
+            self.opt_cost += trial_log.eval_cost
+            
+            trial = optuna.trial.create_trial(
+                params=trial_log.params,
+                values=[trial_log.score, trial_log.price],
+                distributions=self.param_categorical_dist,
+            )
+            self.study.add_trial(trial)
+    
     def prepare_next_level_tdi(
         self, 
         new_program: list[Module], 
@@ -293,9 +315,20 @@ class OptimizationLayer:
         NOTE: default implementation does not set opt_config for next level
         bottom layer works fine but outer layer needs to reset themselves
         """
-        next_level_info: TopDownInformation = copy.copy(self.top_down_info)
-        next_level_info.module_ttrace = new_trace
-        next_level_info.current_module_pool = {m.name: m for m in new_program}
+        
+        # add new python paths incase new module imports are added
+        python_paths = self.top_down_info.other_python_paths + self._get_new_python_paths()
+        python_paths = list(set(python_paths))
+        
+        next_level_info = TopDownInformation(
+            opt_config=copy.deepcopy(self.top_down_info.opt_config),
+            all_params=self.top_down_info.all_params.copy(), # params from upper-levels will not be changed
+            module_ttrace=new_trace,
+            current_module_pool={m.name: m for m in new_program},
+            script_path=self.top_down_info.script_path,
+            script_args=self.top_down_info.script_args,
+            other_python_paths=python_paths,
+        )
         
         # add current level params for next level
         for lm_name, params in self.params.items():
@@ -303,11 +336,6 @@ class OptimizationLayer:
             # so we make a copy of the current params
             for param in params:
                 next_level_info.all_params[param.hash] = copy.deepcopy(param)
-        
-        # add new python paths incase new module imports are added
-        python_paths = next_level_info.other_python_paths + self._get_new_python_paths()
-        python_paths = list(set(python_paths))
-        next_level_info.other_python_paths = python_paths
         
         return next_level_info
     
@@ -320,7 +348,7 @@ class OptimizationLayer:
             next_trial, program, new_trace, log_id = self.propose(base_program, 1)[0]
             next_level_info = self.prepare_next_level_tdi(program, new_trace)
             
-            eval_result = self.evaluate(next_level_info)
+            eval_result = self.evaluate(log_id, next_level_info)
             self.update(next_trial, eval_result, log_id)
         except Exception as e:
             logger.error(f'Error in evaluating task: {e}')
@@ -389,20 +417,7 @@ class OptimizationLayer:
         # load previous optimization logs if exists
         opt_log_path = self.top_down_info.opt_config.opt_log_path
         if os.path.exists(opt_log_path):
-            with open(opt_log_path, 'r') as f:
-                opt_trace = json.load(f)
-                
-            for trial_log_id, trial_meta in opt_trace.items():
-                trial_log = TrialLog.from_dict(trial_meta)
-                self.opt_logs[trial_log_id] = trial_log
-                self.opt_cost += trial_log.eval_cost
-                
-                trial = optuna.trial.create_trial(
-                    params=trial_log.params,
-                    values=[trial_log.score, trial_log.price],
-                    distributions=self.param_categorical_dist,
-                )
-                self.study.add_trial(trial)
+            self.load_opt_ckpt(opt_log_path)
         
         # start optimization
         total_budget = self.top_down_info.opt_config.n_trials
@@ -444,53 +459,30 @@ class OptimizationLayer:
         )
         return self.optimize(tdi)
 
-    def easy_eval(
-        self,
-        trial_log_id: str,
-        opt_config: OptConfig,
-        script_path: str,
-        script_args: Optional[list[str]] = None,
-        other_python_paths: Optional[list[str]] = None,
-    ) -> EvaluationResult:
-        # dummy optimization, populate all the necessary info
-        opt_config.n_trials = 0
-        cost, pareto_frontier, opt_logs = self.easy_optimize(
-            opt_config=opt_config,
-            script_path=script_path,
-            script_args=script_args,
-            other_python_paths=other_python_paths,
-        )
-        
-        # apply selected trial
-        trial_log = self.opt_logs[trial_log_id]
-        logger.info(f"----- Testing select trial {trial_log_id} -----")
-        logger.info("  Params: {}".format(trial_log.params))
-        logger.info("  Values: score= {}, price@1= {}".format(trial_log.score, trial_log.price))
-        
-        program_copy = copy.deepcopy(list(self.top_down_info.current_module_pool.values()))
-        new_modules, new_trace = self._apply_params(
-            trial_log.params, program_copy
-        )
-        next_level_info: TopDownInformation = copy.copy(self.top_down_info)
-        next_level_info.module_ttrace = new_trace
-        next_level_info.current_module_pool = {m.name: m for m in new_modules}
-        
-        for lm_name, params in self.params.items():
-            # NOTE: params might be updated when scheduling the current iteration
-            # so we make a copy of the current params
-            for param in params:
-                next_level_info.all_params[param.hash] = copy.deepcopy(param)
-        
-        python_paths = next_level_info.other_python_paths + self._get_new_python_paths()
-        python_paths = list(set(python_paths))
-        next_level_info.other_python_paths = python_paths
-        
-        # run evaluation
-        eval_result = self.evaluate(next_level_info)
-        return eval_result
 
+class BottomLevelTrialLog(TrialLog):
+    def __init__(
+        self, 
+        params,
+        bo_trial_id, 
+        id = None,
+        score = 0, 
+        price = 0, 
+        eval_cost = 0,
+        eval_task: dict = None,
+    ):
+        super().__init__(params, bo_trial_id, id, score, price, eval_cost)
+        self.eval_task = eval_task
+    
+    def to_dict(self):
+        return {
+            **super().to_dict(),
+            'eval_task': self.eval_task,
+        }
 
 class BottomLevelOptimization(OptimizationLayer):
+    opt_logs: dict[int, BottomLevelTrialLog] = None
+    
     def __init__(
         self,
         name: str,
@@ -503,7 +495,56 @@ class BottomLevelOptimization(OptimizationLayer):
         super().__init__(
             name, evaluator, dedicate_params, universal_params, target_modules, save_ckpt_interval
         )
+        self.opt_logs: dict[int, BottomLevelTrialLog] = None
+        
+    def create_log_at_proposal(self, trial: optuna.trial.Trial) -> BottomLevelTrialLog:
+        return BottomLevelTrialLog(
+            params=trial.params, bo_trial_id=trial.number
+        )
     
+    def evaluate(self, log_id, new_top_down_info):
+        eval_task = EvalTask.from_top_down_info(new_top_down_info)
+        self.opt_logs[log_id].eval_task = eval_task.to_dict()
+        eval_result: EvaluationResult = self.evaluator.evaluate(eval_task)
+        return eval_result
+    
+    def load_opt_ckpt(self, opt_log_path: str):
+        with open(opt_log_path, 'r') as f:
+            opt_trace = json.load(f)
+            
+        for trial_log_id, trial_meta in opt_trace.items():
+            trial_log = BottomLevelTrialLog.from_dict(trial_meta)
+            self.opt_logs[trial_log_id] = trial_log
+            self.opt_cost += trial_log.eval_cost
+            
+            trial = optuna.trial.create_trial(
+                params=trial_log.params,
+                values=[trial_log.score, trial_log.price],
+                distributions=self.param_categorical_dist,
+            )
+            self.study.add_trial(trial)
+    
+    def easy_eval(
+        self,
+        trial_log_id: str,
+        opt_log_path: str,
+    ) -> EvaluationResult:
+        if not os.path.exists(opt_log_path):
+            raise ValueError(f'Opt log path {opt_log_path} does not exist')
+        
+        with open(opt_log_path, 'r') as f:
+            opt_trace = json.load(f)
+        trial_log = BottomLevelTrialLog.from_dict(opt_trace[trial_log_id])
+        
+        # apply selected trial
+        logger.info(f"----- Testing select trial {trial_log_id} -----")
+        logger.info("  Params: {}".format(trial_log.params))
+        logger.info("  Values: score= {}, price@1= {}".format(trial_log.score, trial_log.price))
+        
+        eval_task = EvalTask.from_dict(trial_log.eval_task)
+        # run evaluation
+        eval_result = self.evaluator.evaluate(eval_task)
+        return eval_result
 
 class LayerEvaluator(GeneralEvaluatorInterface):
     def __init__(
@@ -541,8 +582,30 @@ class LayerEvaluator(GeneralEvaluatorInterface):
             demos=None,
         )
         return result
-
+    
+class UpperLevelTrialLog(TrialLog):
+    def __init__(
+        self, 
+        params, 
+        bo_trial_id, 
+        id = None,
+        score = 0, 
+        price = 0, 
+        eval_cost = 0,
+        next_level_log_dir = None,
+    ):
+        super().__init__(params, bo_trial_id, id, score, price, eval_cost)
+        self.next_level_log_dir = next_level_log_dir
+    
+    def to_dict(self):
+        return {
+            **super().to_dict(),
+            'next_level_log_dir': self.next_level_log_dir,
+        }
+    
 class UpperLevelOptimization(OptimizationLayer):
+    opt_logs: dict[int, UpperLevelTrialLog] = None
+    
     def __init__(
         self, 
         name: str,
@@ -557,6 +620,27 @@ class UpperLevelOptimization(OptimizationLayer):
             name, evaluator, dedicate_params, universal_params, target_modules, save_ckpt_interval
         )
         self.next_level_opt_config = next_level_opt_config
+    
+    def create_log_at_proposal(self, trial: optuna.trial.Trial) -> UpperLevelTrialLog:
+        return UpperLevelTrialLog(
+            params=trial.params, bo_trial_id=trial.number
+        )
+        
+    def load_opt_ckpt(self, opt_log_path: str):
+        with open(opt_log_path, 'r') as f:
+            opt_trace = json.load(f)
+            
+        for trial_log_id, trial_meta in opt_trace.items():
+            trial_log = UpperLevelTrialLog.from_dict(trial_meta)
+            self.opt_logs[trial_log_id] = trial_log
+            self.opt_cost += trial_log.eval_cost
+            
+            trial = optuna.trial.create_trial(
+                params=trial_log.params,
+                values=[trial_log.score, trial_log.price],
+                distributions=self.param_categorical_dist,
+            )
+            self.study.add_trial(trial)
     
     def _optimize_iteration(self, base_program):
         next_trial, program, new_trace, log_id = self.propose(base_program, 1)[0]
@@ -577,9 +661,12 @@ class UpperLevelOptimization(OptimizationLayer):
             next_level_info.opt_config.log_dir,
             uuid.uuid4().hex 
         )
+        self.opt_logs[log_id].next_level_log_dir = next_level_info.opt_config.log_dir
+        
         # set these path to None to let the next level to decide
         next_level_info.opt_config.opt_log_path = None
         next_level_info.opt_config.param_save_path = None
 
+        # run evaluation
         eval_result = self.evaluator.evaluate(next_level_info)
         self.update(next_trial, eval_result, log_id)

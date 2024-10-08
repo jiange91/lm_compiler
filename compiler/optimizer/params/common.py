@@ -5,7 +5,7 @@ from typing import Type, Union
 import logging
 import json
 
-from compiler.IR.base import Module, ComposibleModuleInterface
+from compiler.IR.base import Module
 from compiler.patterns.blocker import Protection
 
 logger = logging.getLogger(__name__)

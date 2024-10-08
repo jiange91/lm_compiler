@@ -180,7 +180,7 @@ class EvalTask:
     
     # transformation meta
     all_params: dict[str, ParamBase] # {param_hash: param}
-    module_name_paths: dict[str, list[str]]
+    module_name_paths: dict[str, str]
     aggregated_proposals: dict[str, dict[str, list[tuple[str, str]]]] # {layer_name: {module_name: [(param, option)]}}
     
     def __getstate__(self) -> object:
@@ -213,6 +213,10 @@ class EvalTask:
     def replay_module_transformations(self, ms: list[Module]) -> dict[str, Module]:
         module_pool = {m.name: m for m in ms}
         module_ttrace = ModuleTransformTrace({m.name: type(m) for m in ms})
+        # collect all module names that will be transformed
+        all_opt_target_name = set()
+        for proposal in self.aggregated_proposals.values():
+            all_opt_target_name.update(proposal.keys())
         
         for layer_name, proposal in self.aggregated_proposals.items():
             for module_name, l_param_option in proposal.items():
@@ -224,8 +228,12 @@ class EvalTask:
                     new_module, new_mapping = param.apply_option(option_name, module)
                     
                     for old_name, new_name in new_mapping.items():
-                        module_ttrace.add_mapping(old_name, [new_name])
+                        module_ttrace.add_mapping(old_name, new_name)
                     module_pool[new_module.name] = new_module
+                    for next_opt_target in Module.all_with_predicate(
+                        [new_module], lambda m: m.name in all_opt_target_name
+                    ):
+                        module_pool[next_opt_target.name] = next_opt_target
                     module = new_module
         
         # check if modules are transformed correctly
@@ -289,7 +297,7 @@ class GeneralEvaluatorInterface(ABC):
     @abstractmethod
     def evaluate(
         self,
-        task: EvalTask,
+        task: Union[EvalTask, TopDownInformation],
     ) -> EvaluationResult:
         ...
 

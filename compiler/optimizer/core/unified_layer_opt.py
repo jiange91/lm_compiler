@@ -32,6 +32,7 @@ from compiler.optimizer.core.flow import TrialLog, ModuleTransformTrace, TopDown
 
 logger = logging.getLogger(__name__)
 
+
 class OptimizationLayer:
     def __init__(
         self,
@@ -65,9 +66,9 @@ class OptimizationLayer:
         """
         self.name = name
         self.evaluator = evaluator
-        self.dedicated_params = dedicate_params
+        self.dedicate_params = dedicate_params
         self.universal_params = universal_params
-        if len(self.dedicated_params) + len(self.universal_params) == 0:
+        if len(self.dedicate_params) + len(self.universal_params) == 0:
             raise ValueError('No params provided for optimization')
         
         self.opt_direction = 'maximize'
@@ -119,8 +120,8 @@ class OptimizationLayer:
                     self.params[lm_name] = params_cpy
             
             # apply dedicated params
-            if self.dedicated_params:
-                for param in self.dedicated_params:
+            if self.dedicate_params:
+                for param in self.dedicate_params:
                     target_names = []
                     if param.module_name in old_2_new_lms:
                         target_names = old_2_new_lms[param.module_name]
@@ -193,7 +194,7 @@ class OptimizationLayer:
                 selected = trial_params[param.hash]
                 new_module, new_mapping = param.apply_option(selected, module_dict[lm_name])
                 for old_name, new_name in new_mapping.items():
-                    trace_for_next_level.add_mapping(old_name, [new_name])
+                    trace_for_next_level.add_mapping(old_name, new_name)
                 new_modules.append(new_module)
                 changed_modules.add(lm_name)
                 trace_for_next_level.register_proposal(self.name, [(lm_name, param.name, selected)])
@@ -282,29 +283,49 @@ class OptimizationLayer:
         params = [param for params in self.params.values() for param in params]
         dump_params(params, param_save_path)
     
-    def _optimize_iteration(
-        self,
-        base_program: list[Module],
-    ):
-        next_trial, program, new_trace, log_id = self.propose(base_program, 1)[0]
+    def prepare_next_level_tdi(
+        self, 
+        new_program: list[Module], 
+        new_trace: ModuleTransformTrace,
+    ) -> TopDownInformation:
+        """create info for next level optimization or actual evaluation
         
-        # create info for next level optimization or actual evaluation
+        NOTE: default implementation does not set opt_config for next level
+        bottom layer works fine but outer layer needs to reset themselves
+        """
         next_level_info: TopDownInformation = copy.copy(self.top_down_info)
         next_level_info.module_ttrace = new_trace
-        next_level_info.current_module_pool = {m.name: m for m in program}
+        next_level_info.current_module_pool = {m.name: m for m in new_program}
         
+        # add current level params for next level
         for lm_name, params in self.params.items():
             # NOTE: params might be updated when scheduling the current iteration
             # so we make a copy of the current params
             for param in params:
                 next_level_info.all_params[param.hash] = copy.deepcopy(param)
         
+        # add new python paths incase new module imports are added
         python_paths = next_level_info.other_python_paths + self._get_new_python_paths()
         python_paths = list(set(python_paths))
         next_level_info.other_python_paths = python_paths
         
-        eval_result = self.evaluate(next_level_info)
-        self.update(next_trial, eval_result, log_id)
+        return next_level_info
+    
+    
+    def _optimize_iteration(
+        self,
+        base_program: list[Module],
+    ):
+        try:
+            next_trial, program, new_trace, log_id = self.propose(base_program, 1)[0]
+            next_level_info = self.prepare_next_level_tdi(program, new_trace)
+            
+            eval_result = self.evaluate(next_level_info)
+            self.update(next_trial, eval_result, log_id)
+        except Exception as e:
+            logger.error(f'Error in evaluating task: {e}')
+            raise
+        
     
     def _optimize(self, base_program: list[Module]):
         opt_config = self.top_down_info.opt_config
@@ -317,18 +338,16 @@ class OptimizationLayer:
             with ThreadPoolExecutor(max_workers=opt_config.throughput) as executor:
                 for n_submitted_trials in range(opt_config.n_trials):
                     if len(futures) >= opt_config.throughput:
-                        try:
-                            completed, futures = wait(futures, return_when=FIRST_COMPLETED)
-                            for f in completed:
-                                try:
-                                    f.result()
-                                    counter += 1
-                                    if self.save_ckpt_interval > 0 and counter % self.save_ckpt_interval == 0:
-                                        self.save_ckpt(opt_config.opt_log_path, opt_config.param_save_path)
-                                except Exception as e:
-                                    logger.error(f'Error in evaluating task: {e}')
-                        except Exception as e:
-                            logger.error(f'Error in waiting for futures: {e}')
+                        completed, futures = wait(futures, return_when=FIRST_COMPLETED)
+                        for f in completed:
+                            try:
+                                f.result()
+                                counter += 1
+                                if self.save_ckpt_interval > 0 and counter % self.save_ckpt_interval == 0:
+                                    self.save_ckpt(opt_config.opt_log_path, opt_config.param_save_path)
+                            except Exception as e:
+                                logger.error(f'Error in evaluating task: {e}')
+                                raise
                     futures.add(executor.submit(self._optimize_iteration, base_program))
                 wait(futures, return_when="ALL_COMPLETED")
                 
@@ -359,7 +378,7 @@ class OptimizationLayer:
     def optimize(
         self,
         current_tdi: TopDownInformation,
-    ):
+    ) -> tuple[float, list[TrialLog], dict[int, TrialLog]]:
         self.opt_cost = 0
         
         # prepare optimization environment
@@ -485,3 +504,82 @@ class BottomLevelOptimization(OptimizationLayer):
             name, evaluator, dedicate_params, universal_params, target_modules, save_ckpt_interval
         )
     
+
+class LayerEvaluator(GeneralEvaluatorInterface):
+    def __init__(
+        self,
+        target_layer: OptimizationLayer,
+        quality_constraint: float = None,
+    ):
+        self.target_layer = target_layer
+        self.quality_constraint = quality_constraint
+    
+    def evaluate(self, layer_task: TopDownInformation) -> EvaluationResult:
+        #NOTE: optimization will change layer meta, make a copy
+        target_layer_cpy = copy.deepcopy(self.target_layer)
+        eval_cost, pareto_frontier, opt_logs = target_layer_cpy.optimize(layer_task)
+        scores, prices = [], []
+        for trial_log in opt_logs.values():
+            scores.append(trial_log.score)
+            prices.append(trial_log.price)
+        reduced_score = max(scores)
+        if self.quality_constraint is not None:
+            # Consider retainment for reduced price
+            passed_price = [price for i, price in enumerate(prices) 
+                            if scores[i] >= self.quality_constraint]
+            if not passed_price:
+                reduced_price = 1e10
+            else:
+                reduced_price = min(passed_price)
+        else:
+            reduced_price = min(prices)
+        result = EvaluationResult(
+            scores=scores,
+            prices=prices,
+            reduced_score=reduced_score,
+            reduced_price=reduced_price,
+            demos=None,
+        )
+        return result
+
+class UpperLevelOptimization(OptimizationLayer):
+    def __init__(
+        self, 
+        name: str,
+        evaluator: LayerEvaluator,
+        dedicate_params: list[ParamBase] = [],
+        universal_params: list[ParamBase] = [],
+        target_modules: Iterable[str] = None,
+        save_ckpt_interval: int = 0,
+        next_level_opt_config: OptConfig = None,
+    ):
+        super().__init__(
+            name, evaluator, dedicate_params, universal_params, target_modules, save_ckpt_interval
+        )
+        self.next_level_opt_config = next_level_opt_config
+    
+    def _optimize_iteration(self, base_program):
+        next_trial, program, new_trace, log_id = self.propose(base_program, 1)[0]
+        
+        next_level_info = self.prepare_next_level_tdi(program, new_trace)
+        # reset opt_config for next level
+        if self.next_level_opt_config:
+            next_level_info.opt_config.update(self.next_level_opt_config)
+        # incase log_dir is not set
+        if self.next_level_opt_config.log_dir is None:
+            current_level_log_dir = self.top_down_info.opt_config.log_dir
+            next_level_info.opt_config.log_dir = os.path.join(
+                current_level_log_dir, 
+                self.evaluator.target_layer.name,
+            )
+        # each outer-loop config will spawn a new inner-loop, avoid conflict
+        next_level_info.opt_config.log_dir = os.path.join(
+            next_level_info.opt_config.log_dir,
+            uuid.uuid4().hex 
+        )
+        # set these path to None to let the next level to decide
+        next_level_info.opt_config.opt_log_path = None
+        next_level_info.opt_config.param_save_path = None
+
+        eval_result = self.evaluator.evaluate(next_level_info)
+        self.update(next_trial, eval_result, log_id)

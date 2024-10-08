@@ -1,0 +1,38 @@
+{
+    "4fb3c305d56c4b5781e2bf0c2ce90430": {
+        "id": "4fb3c305d56c4b5781e2bf0c2ce90430",
+        "bo_trial_id": 0,
+        "params": {
+            "generate_answer_ensemble": "universal_self_consistency",
+            "refine_query_ensemble": "universal_self_consistency",
+            "generate_query_ensemble": "Identity"
+        },
+        "score": 0.49523809523809526,
+        "price": 0.0009027,
+        "eval_cost": 0.01941867
+    },
+    "d89e6ffe17fc4076be2e0a59ceb5c8d3": {
+        "id": "d89e6ffe17fc4076be2e0a59ceb5c8d3",
+        "bo_trial_id": 1,
+        "params": {
+            "generate_answer_ensemble": "Identity",
+            "refine_query_ensemble": "universal_self_consistency",
+            "generate_query_ensemble": "universal_self_consistency"
+        },
+        "score": 0.5360323886639676,
+        "price": 0.00092874,
+        "eval_cost": 0.0161925
+    },
+    "159ac54e4c754003b73cd2c817b602a0": {
+        "id": "159ac54e4c754003b73cd2c817b602a0",
+        "bo_trial_id": 2,
+        "params": {
+            "generate_answer_ensemble": "Identity",
+            "refine_query_ensemble": "Identity",
+            "generate_query_ensemble": "universal_self_consistency"
+        },
+        "score": 0.5360323886639676,
+        "price": 0.00088989,
+        "eval_cost": 0.01081497
+    }
+}

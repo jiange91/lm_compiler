@@ -14,7 +14,6 @@ from compiler.IR.base import Module
 from compiler.IR.program import Workflow
 from compiler.IR.llm import LLMPredictor, Demonstration
 from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, IdentityOption
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, Evaluator
 from compiler.optimizer.params.utils import dump_params, load_params
 
@@ -25,8 +24,8 @@ class LMFewShot(DynamicParamBase):
     def __init__(
         self, 
         name: str,
-        module_name: str,
         max_num: int = 5,
+        module_name: str = None,
         eval_result: EvaluationResult = None,
         inherit: bool = False,
     ):

@@ -11,7 +11,6 @@ from dataclasses import dataclass, field
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.optimizer.params.common import ParamBase
 from compiler.optimizer.plugin import OptimizerSchema
-from compiler.optimizer.params.utils import dump_params, load_params
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +33,7 @@ class ModuleTransformTrace:
         self.module_name_paths: dict[str, str] = {}
         # level_name -> module_name -> [(param_name, option_name)]
         self.aggregated_proposals: dict[str, dict[str, list[tuple[str, str]]]] = {}
-        self.flattened_name_paths: dict[str, set[str]] = defaultdict(set)
+        self.flattened_name_paths: dict[str, str] = {}
     
     def add_mapping(self, ori_name: str, new_name: str):
         if ori_name in self.module_name_paths:
@@ -103,11 +102,11 @@ class ModuleTransformTrace:
                 return (ori_name, derivatives)
         return (new_module.name, [new_module])
 
-    def eq_transform_path(self, other: dict[str, list[str]]) -> bool:
+    def eq_transform_path(self, other: dict[str, str]) -> bool:
         if self.module_name_paths.keys() != other.keys():
                 return False
-        for old_name, new_names in self.module_name_paths.items():
-            if set(new_names) != set(other[old_name]):
+        for old_name, new_name in self.module_name_paths.items():
+            if new_name != other[old_name]:
                 return False
         return True
 
@@ -126,9 +125,18 @@ class OptConfig:
             self.opt_log_path = os.path.join(self.log_dir, 'opt_logs.json')
         if self.param_save_path is None:
             self.param_save_path = os.path.join(self.log_dir, 'opt_params.json')
+    
+    def update(self, other: 'OptConfig'):
+        # for all not None fields in other, update self
+        for key, value in other.__dict__.items():
+            if value is not None:
+                setattr(self, key, value)
 
 @dataclass
 class TopDownInformation:
+    """
+    Information that is passed from the top level to the lower level
+    """
     # optimization config for current level
     opt_config: OptConfig
     

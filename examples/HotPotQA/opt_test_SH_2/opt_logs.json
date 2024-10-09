@@ -1,58 +1,58 @@
 {
-    "24eff1de57974f33a13e48570c70044e": {
-        "id": "24eff1de57974f33a13e48570c70044e",
+    "da3218355de6494ab490a32dd469d6ad": {
+        "id": "da3218355de6494ab490a32dd469d6ad",
         "bo_trial_id": 0,
         "params": {
-            "generate_query_ensemble": "universal_self_consistency",
-            "refine_query_ensemble": "universal_self_consistency",
-            "generate_answer_ensemble": "Identity"
+            "generate_answer_ensemble": "Identity",
+            "refine_query_ensemble": "Identity",
+            "generate_query_ensemble": "Identity"
         },
-        "score": 0.3541791541791542,
-        "price": 0.00105036,
-        "eval_cost": 0.00472191,
-        "next_level_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test_SH_2/inner_loop/72dc34fc4bf34f4e98d1cc433419eb0f",
+        "score": 0.3850494333252954,
+        "price": 0.00045648,
+        "eval_cost": 0.00326412,
+        "next_level_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test_SH_2/inner_loop/34300bb6001c494d937927f7817387ce",
         "num_next_level_trials": 4
     },
-    "9ff0f29ea5a74344b0b5a50cf8f577b3": {
-        "id": "9ff0f29ea5a74344b0b5a50cf8f577b3",
+    "016ad8201d2f403ebdb4c9f4fdc52ac3": {
+        "id": "016ad8201d2f403ebdb4c9f4fdc52ac3",
         "bo_trial_id": 1,
         "params": {
-            "generate_query_ensemble": "universal_self_consistency",
-            "refine_query_ensemble": "Identity",
-            "generate_answer_ensemble": "universal_self_consistency"
+            "generate_answer_ensemble": "universal_self_consistency",
+            "refine_query_ensemble": "universal_self_consistency",
+            "generate_query_ensemble": "universal_self_consistency"
         },
-        "score": 0.4717948717948718,
-        "price": 0.00133998,
-        "eval_cost": 0.01449342,
-        "next_level_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test_SH_2/inner_loop/e5dbd75307344c8e9f2ea29fe490dd4c",
+        "score": 0.4594965675057209,
+        "price": 0.0018040500000000002,
+        "eval_cost": 0.02022288,
+        "next_level_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test_SH_2/inner_loop/a9cd0723c172454a850cc0911dfd338c",
         "num_next_level_trials": 8
     },
-    "f146f6ba4d0c4e5e935303e3ce59bed6": {
-        "id": "f146f6ba4d0c4e5e935303e3ce59bed6",
+    "4b25d03282b24b9ea86a4bb5340440cf": {
+        "id": "4b25d03282b24b9ea86a4bb5340440cf",
         "bo_trial_id": 2,
         "params": {
-            "generate_query_ensemble": "universal_self_consistency",
+            "generate_answer_ensemble": "universal_self_consistency",
             "refine_query_ensemble": "Identity",
-            "generate_answer_ensemble": "universal_self_consistency"
+            "generate_query_ensemble": "Identity"
         },
-        "score": 0.46070921985815605,
-        "price": 0.0007959299999999999,
-        "eval_cost": 0.01751748,
-        "next_level_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test_SH_2/inner_loop/a05513c29d7a47f293feaf69139a1225",
+        "score": 0.6466422466422467,
+        "price": 0.00076329,
+        "eval_cost": 0.01386018,
+        "next_level_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test_SH_2/inner_loop/445109df126447ae9e9a86801f4a5fc2",
         "num_next_level_trials": 8
     },
-    "9396647ed0934318b96a5a5f1cac5c22": {
-        "id": "9396647ed0934318b96a5a5f1cac5c22",
+    "92ffd2507e314eb980487f9da30a45f2": {
+        "id": "92ffd2507e314eb980487f9da30a45f2",
         "bo_trial_id": 3,
         "params": {
-            "generate_query_ensemble": "Identity",
-            "refine_query_ensemble": "Identity",
-            "generate_answer_ensemble": "universal_self_consistency"
+            "generate_answer_ensemble": "Identity",
+            "refine_query_ensemble": "universal_self_consistency",
+            "generate_query_ensemble": "universal_self_consistency"
         },
-        "score": 0.35475912975912977,
-        "price": 0.00055566,
-        "eval_cost": 0.00468126,
-        "next_level_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test_SH_2/inner_loop/9b9a02f1d41f4ff5b64fb0963e074cd4",
+        "score": 0.34261345062260395,
+        "price": 0.00106881,
+        "eval_cost": 0.00471534,
+        "next_level_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test_SH_2/inner_loop/42b1bef799f4474088d5173d9dbd145f",
         "num_next_level_trials": 4
     }
 }

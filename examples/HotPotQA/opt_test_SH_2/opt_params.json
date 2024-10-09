@@ -1,7 +1,7 @@
 [
     {
         "name": "ensemble",
-        "module_name": "generate_query",
+        "module_name": "generate_answer",
         "options": {
             "Identity": {
                 "name": "Identity",
@@ -37,7 +37,7 @@
     },
     {
         "name": "ensemble",
-        "module_name": "generate_answer",
+        "module_name": "generate_query",
         "options": {
             "Identity": {
                 "name": "Identity",

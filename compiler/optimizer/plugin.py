@@ -36,5 +36,4 @@ class OptimizerSchema:
             score_fn=get_registered_opt_score_fn(),
             opt_target_modules=get_registered_opt_modules(),
         )
-        clear_registry()
         return schema

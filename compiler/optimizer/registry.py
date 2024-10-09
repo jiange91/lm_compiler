@@ -1,6 +1,6 @@
 import functools
 
-_reg_opt_modules_ = []
+_reg_opt_modules_ = {}
 _reg_opt_program_entry_ = None
 _reg_opt_score_fn_ = None
 
@@ -12,7 +12,7 @@ def clear_registry():
     _reg_opt_score_fn_ = None
 
 def register_opt_module(module):
-    _reg_opt_modules_.append(module)
+    _reg_opt_modules_[module.name] = module
 
 def register_opt_program_entry(program):
     global _reg_opt_program_entry_
@@ -25,7 +25,7 @@ def register_opt_score_fn(score_fn):
     return score_fn
     
 def get_registered_opt_modules():
-    return _reg_opt_modules_.copy()
+    return list(_reg_opt_modules_.values())
 
 def get_registered_opt_program_entry():
     return _reg_opt_program_entry_

@@ -29,7 +29,8 @@ from compiler.optimizer.evaluation.metric import MetricBase, MInput
 from compiler.optimizer.plugin import OptimizerSchema
 from optuna.samplers import TPESampler
 from compiler.optimizer.core.flow import TrialLog, ModuleTransformTrace, TopDownInformation, OptConfig
-from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization, UpperLevelOptimization, LayerEvaluator
+from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization 
+from compiler.optimizer.core.upper_layer import UpperLevelOptimization, LayerEvaluator
 
 class layerConfig:
     def __init__(
@@ -40,6 +41,7 @@ class layerConfig:
         target_modules: Iterable[str] = None,
         save_ckpt_interval: int = 0,
         opt_config: OptConfig = None,
+        use_SH_allocation: bool = False,
     ):
         """Config for each optimization layer
         
@@ -56,6 +58,8 @@ class layerConfig:
             
             opt_config (OptConfig, optional): optimization config. Defaults to None.
                 all fields not set here will be decided by the upper layer
+            
+            use_SH_allocation (bool, optional): whether to use SH allocation. Defaults to False.
         """
         self.layer_name = layer_name
         self.dedicate_params = dedicate_params
@@ -63,6 +67,7 @@ class layerConfig:
         self.target_modules = target_modules
         self.save_ckpt_interval = save_ckpt_interval
         self.opt_config = opt_config
+        self.use_SH_allocation = use_SH_allocation
         
         if len(self.dedicate_params) + len(self.universal_params) == 0:
             raise ValueError(f'No params provided for optimization layer {layer_name}')
@@ -119,6 +124,7 @@ class MultiLayerOptimizationDriver:
                     target_modules=layer_config.target_modules,
                     save_ckpt_interval=layer_config.save_ckpt_interval,
                     next_level_opt_config=self.layer_configs[idx + 1].opt_config,
+                    use_SH_allocation=layer_config.use_SH_allocation
                 )
             self.opt_layers[idx] = opt_layer
             

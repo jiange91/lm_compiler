@@ -1,0 +1,1080 @@
+[
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_sampler_1_demos_872000ae-d938-4d22-80f6-07479f50f28d": {
+                "name": "generate_query_sampler_1_demos_872000ae-d938-4d22-80f6-07479f50f28d",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "71bbd510-8f95-4673-9573-640ad1701188",
+                    "3db96a38-139f-460e-8924-08de09d13a10"
+                ]
+            },
+            "generate_query_sampler_1_demos_28a167fc-5e1e-4748-857a-2dfa98e8f88a": {
+                "name": "generate_query_sampler_1_demos_28a167fc-5e1e-4748-857a-2dfa98e8f88a",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "e60db133-dcc6-49d7-8961-5437253fa2d2",
+                    "3db96a38-139f-460e-8924-08de09d13a10"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_pool": [
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "\"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\"",
+                "id": "3db96a38-139f-460e-8924-08de09d13a10",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "Cangzhou Qionghai location Hebei province China",
+                "id": "71bbd510-8f95-4673-9573-640ad1701188",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query: \"Wings new era retirement Canadian NHL player general manager Tampa Bay Lightning\"",
+                "id": "e60db133-dcc6-49d7-8961-5437253fa2d2",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Wings new era retirement Canadian professional ice hockey player general manager Tampa Bay Lightning NHL\""
+            },
+            {
+                "inputs": {
+                    "question": "What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?"
+                },
+                "output": "search_query: \"New York University student activities Meleko Mokgosi assistant professor\"",
+                "id": "338fa844-2163-4c6c-a2c2-f662a95700ba",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"New York University student activities Meleko Mokgosi artist assistant professor\""
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query: \"Wings new era retirement Canadian player general manager Tampa Bay Lightning NHL 2023\"",
+                "id": "0a124ace-6739-4236-bfd3-1cde9f84920a",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Wings new era retirement Canadian player general manager Tampa Bay Lightning NHL\""
+            },
+            {
+                "inputs": {
+                    "question": "What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?"
+                },
+                "output": "search_query: \"student activities New York University Meleko Mokgosi\"",
+                "id": "26264fbd-6501-486d-b832-9cc7bf398eec",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"New York University student activities Meleko Mokgosi artist assistant professor\""
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query: \"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\"",
+                "id": "49f17db5-72be-4684-8a91-3fb688df8810",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "search_query: \"2017 NHL draft Marc-Andre Fleury Vegas Golden Knights conductor\"",
+                "id": "d7225f85-9d8e-4211-aa42-92f1736fa2b4",
+                "reasoning": null
+            }
+        ],
+        "demo_pq": [
+            [
+                0.125,
+                "71bbd510-8f95-4673-9573-640ad1701188"
+            ],
+            [
+                0.2105263157894737,
+                "338fa844-2163-4c6c-a2c2-f662a95700ba"
+            ],
+            [
+                0.27586206896551724,
+                "26264fbd-6501-486d-b832-9cc7bf398eec"
+            ],
+            [
+                0.2727272727272727,
+                "d7225f85-9d8e-4211-aa42-92f1736fa2b4"
+            ],
+            [
+                1.0,
+                "0a124ace-6739-4236-bfd3-1cde9f84920a"
+            ],
+            [
+                1.0,
+                "e60db133-dcc6-49d7-8961-5437253fa2d2"
+            ],
+            [
+                1.0,
+                "49f17db5-72be-4684-8a91-3fb688df8810"
+            ],
+            [
+                1.0,
+                "3db96a38-139f-460e-8924-08de09d13a10"
+            ]
+        ],
+        "max_num": 2,
+        "current_best_score_sum": 2.0
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_demos_64a12efe-27c7-4fb8-8cca-75a7cc294bef": {
+                "name": "generate_answer_demos_64a12efe-27c7-4fb8-8cca-75a7cc294bef",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "495247a6-c83a-4b99-87fd-b59149df5c33",
+                    "02095c32-be8c-4d2f-a02a-5446755cf01d"
+                ]
+            },
+            "generate_answer_demos_67227fd1-d71f-4965-831e-416b523dd324": {
+                "name": "generate_answer_demos_67227fd1-d71f-4965-831e-416b523dd324",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "fd7c37ad-2bf0-4d31-b824-0efea2ee7f98",
+                    "02095c32-be8c-4d2f-a02a-5446755cf01d"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_pool": [
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Pat Verbeek\" | \"Pat Verbeek Patrick Martin Verbeek (born May 24, 1964) is a Canadian former ice hockey player who played for the New Jersey Devils, Hartford Whalers, New York Rangers, Dallas Stars, and Detroit Red Wings during his career. His nickname, \"\"The Little Ball of Hate\"\", was given to him in 1995 by Glenn Healy after fellow New York Rangers teammate Ray Ferraro was tagged as the \"\"Big Ball of Hate\"\". Verbeek is currently employed as Assistant General Manager with the Tampa Bay Lightning with former Detroit teammate Steve Yzerman, the current General Manager of the Lightning. He previously served as pro\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "Steve Yzerman",
+                "id": "02095c32-be8c-4d2f-a02a-5446755cf01d",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['Cangzhou | \"Cangzhou Cangzhou () is a prefecture-level city in eastern Hebei province, People\\'s Republic of China. At the 2010 census, Cangzhou\\'s built-up (\"\"or metro\"\") area made of Yunhe, Xinhua districts and Cang County largely being conurbated had a population of 1,205,814 inhabitants, while the prefecture-level administrative unit in total has a population of 7,134,062. It lies approximately from the major port city of Tianjin, and from Beijing. Cangzhou is reported to have been founded in the Southern and Northern Dynasties period (420\u2212589 CE). Cangzhou City comprises 2 districts, 4 county-level cities, 9 counties and 1 autonomous county. Cangzhou\\'s urban center is\"', 'Cangzhou | \"a heavily industrial city but the city\\'s administrative territory also includes strongly agricultural areas, and is well known in China for its Chinese jujubes (Chinese dates) and pear (widely known under the export name of \"\"Tianjin Ya Pear\"\"). The North China Oil Field is within Cangzhou City\\'s jurisdiction. Cangzhou also encompasses a large fishing port and the coal-exporting Huanghua Harbour. Cangzhou is located in eastern Hebei, immediately to the south of Tianjin, near the coast of the Bohai Sea of the Pacific Ocean. Bordering prefecture-level cities are Hengshui to the southwest, Baoding to the west, and Langfang to the north.\"']",
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "No, only Cangzhou is in the Hebei province of China. Qionghai is located in Hainan province.",
+                "id": "495247a6-c83a-4b99-87fd-b59149df5c33",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"', '\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Martin St. Louis\" | \"to do so since the creation of the universal NHL Entry Draft in 1969. St. Louis set a career high and tied a Lightning franchise record by scoring four goals in a January 18, 2014, game against the San Jose Sharks. His 600th career assist came two weeks later in a 5\u20133 loss to the Ottawa Senators on January 30. On January 17, 2017 St. Louis\\' number 26 became the first to be retired in Lightning history. In January 2014, Lightning general manager Steve Yzerman, who also served as the general manager for Canada\\'s team at the 2014 Winter Olympics,\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "Steve Yzerman",
+                "id": "fd7c37ad-2bf0-4d31-b824-0efea2ee7f98",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To answer the question, we need to identify the Canadian retired professional ice hockey player who retired and whose retirement marked the beginning of a new era for the Detroit Red Wings, as well as confirm that this player is also the current general manager of the Tampa Bay Lightning.\n\n1. **Identify the player**: The context mentions Steve Yzerman, who is a Canadian former professional ice hockey player and a member of the Hockey Hall of Fame. He spent his entire NHL playing career with the Detroit Red Wings and later became the general manager of the Tampa Bay Lightning.\n\n2. **Retirement and new era**: The context implies that Yzerman's retirement as a player and subsequent roles in management (including his time with the Red Wings) would signify a transition for the team. \n\n3. **Current role**: The context confirms that Steve Yzerman is indeed the general manager of the Tampa Bay Lightning.\n\nBased on this analysis, the answer to the question is:\n\nSteve Yzerman"
+            },
+            {
+                "inputs": {
+                    "context": "['\"Meleko Mokgosi\" | \"Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized Study at New York University. His work includes large-scale paintings that explore themes of colonialism, democracy, nationalism, and life in Southern Africa. Mokgosi was born in 1981 in Francistown, Botswana, and raised in the city of Maun. He began drawing in primary school. While in high school, he became interested in the potential of making political commentary with art. In 2003, he moved to the United States, participated in the Whitney Independent Study Program, and studied art at Williams College and UCLA,\"', '\"Meleko Mokgosi\" | \"a series of more than 50 paintings on the subject of colonialism in Africa. A book on the \"\"Pax Kaffraria\"\" project was published by the Hammer Museum in 2014. In 2014, Mokgosi began the project \"\"Democratic Intuition\"\", which he described as being about \"\"how do normal people understand, reciprocate, have access to, and not have access to the ideas of democracy and the democratic\"\". He presented the first two chapters of this work at his first solo New York exhibition in 2016. Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized\"', '\"Gallatin School of Individualized Study\" | \"NYU across several disciplines. Students can request to change academic advisors. In order to qualify for graduation, all students in the Gallatin undergraduate program must successfully complete a final oral examination called the Colloquium. The Colloquium is an intellectual conversation among four people (the student, the student\\'s adviser, and two other members of the faculty) about a selection of books representing several academic disciplines and historical periods. The Colloquium provides an opportunity for students to reflect on their Gallatin concentration and to synthesize various experiences studying books, taking courses, doing independent studies and internships into an integrated discussion about several\"', '\"Gallatin School of Individualized Study\" | \"Gallatin School of Individualized Study The Gallatin School of Individualized Study (commonly known as Gallatin) is a small interdisciplinary college within New York University. Students design their own interdisciplinary program that meets their specific interests and career goals. Coursework can be taken at any of the schools that comprise NYU in addition to the school\\'s own offerings. Founded in 1972 as the University Without Walls, the school was renamed the Gallatin Division in 1976 after Albert Gallatin, Secretary of the Treasury under Thomas Jefferson, and the founder of NYU. In 1995, the school took its current name, The Gallatin School\"']",
+                    "question": "What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?"
+                },
+                "output": "Students at the Gallatin School of Individualized Study at New York University design their own interdisciplinary programs, take courses from various schools within NYU, and must complete a final oral examination called the Colloquium to graduate.",
+                "id": "6ff3a716-b3c0-47eb-850c-b7a30f1ec0a8",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure, let's break down the information step by step.\n\n1. **Identify the School**: The context mentions that Meleko Mokgosi is an assistant professor at the Gallatin School of Individualized Study at New York University (NYU).\n\n2. **Understand the School's Structure**: The Gallatin School is described as a small interdisciplinary college within NYU where students design their own interdisciplinary programs tailored to their specific interests and career goals.\n\n3. **Coursework Flexibility**: Students at Gallatin can take coursework from any of the schools that comprise NYU, in addition to the offerings from Gallatin itself.\n\n4. **Graduation Requirement**: To graduate, students must complete a final oral examination called the Colloquium, which involves an intellectual conversation about a selection of books across various academic disciplines and historical periods.\n\n5. **Purpose of the Colloquium**: This examination allows students to reflect on their concentration and synthesize their experiences from studying, courses, independent studies, and internships into an integrated discussion.\n\nBased on this analysis, we can conclude that students at the Gallatin School of Individualized Study at NYU design their own interdisciplinary programs, take courses from various schools within NYU, and must complete a final oral examination called the Colloquium to graduate. \n\nNow, I will provide the final response."
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "Steve Yzerman",
+                "id": "ab2acda4-3a03-487b-a3b3-0c0cbf4fa909",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Meleko Mokgosi\" | \"Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized Study at New York University. His work includes large-scale paintings that explore themes of colonialism, democracy, nationalism, and life in Southern Africa. Mokgosi was born in 1981 in Francistown, Botswana, and raised in the city of Maun. He began drawing in primary school. While in high school, he became interested in the potential of making political commentary with art. In 2003, he moved to the United States, participated in the Whitney Independent Study Program, and studied art at Williams College and UCLA,\"', '\"York College, City University of New York\" | \"was instrumental in ensuring the school\u2019s survival through the fiscal crisis of the 1970s. York College Student Activities strives to complement the academic experience with co- and extra-curricular programs that promote social and personal development. York College staff advises and assists student groups in planning social, educational, and recreational programs, and provides opportunities for the development of leadership skills. Academic, social, athletic, cultural, recreational, political, and special interest groups add additional sets of valuable learning experiences for both students and faculty. Student Activities works closely with the Student Government Association (SGA). SGA is composed of students elected by their peers\"', '\"Gallatin School of Individualized Study\" | \"Gallatin School of Individualized Study The Gallatin School of Individualized Study (commonly known as Gallatin) is a small interdisciplinary college within New York University. Students design their own interdisciplinary program that meets their specific interests and career goals. Coursework can be taken at any of the schools that comprise NYU in addition to the school\\'s own offerings. Founded in 1972 as the University Without Walls, the school was renamed the Gallatin Division in 1976 after Albert Gallatin, Secretary of the Treasury under Thomas Jefferson, and the founder of NYU. In 1995, the school took its current name, The Gallatin School\"', '\"Gallatin School of Individualized Study\" | \"books and themes. In preparing for the Colloquium, each student creates a book list of twenty to twenty-five works and writes a brief paper known as the Rationale which describes the themes the student plans to discuss in the Colloquium. There are a variety of student-run organizations at Gallatin that span a vast array of interests for both undergraduate and graduate students of the school: Gallatin School of Individualized Study The Gallatin School of Individualized Study (commonly known as Gallatin) is a small interdisciplinary college within New York University. Students design their own interdisciplinary program that meets their specific interests\"']",
+                    "question": "What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?"
+                },
+                "output": "Students at the Gallatin School of Individualized Study at New York University design their own interdisciplinary programs that meet their specific interests and career goals.",
+                "id": "91e26e36-8e12-413e-a1af-8c3b068570ad",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Pat Verbeek\" | \"Pat Verbeek Patrick Martin Verbeek (born May 24, 1964) is a Canadian former ice hockey player who played for the New Jersey Devils, Hartford Whalers, New York Rangers, Dallas Stars, and Detroit Red Wings during his career. His nickname, \"\"The Little Ball of Hate\"\", was given to him in 1995 by Glenn Healy after fellow New York Rangers teammate Ray Ferraro was tagged as the \"\"Big Ball of Hate\"\". Verbeek is currently employed as Assistant General Manager with the Tampa Bay Lightning with former Detroit teammate Steve Yzerman, the current General Manager of the Lightning. He previously served as pro\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "Steve Yzerman",
+                "id": "61e8cabd-3b16-4a87-9612-d5c70ffcfaa6",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To answer the question, we need to identify the Canadian retired professional ice hockey player whose retirement marked the beginning of a new era for the Detroit Red Wings and who is currently the general manager of the Tampa Bay Lightning.\n\n1. **Identify the players mentioned in the context**:\n   - **Steve Yzerman**: A Canadian former professional ice hockey player who spent his entire NHL career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. He served as the general manager of the Tampa Bay Lightning after his retirement.\n   - **Pat Verbeek**: Another Canadian former ice hockey player who played for several teams, including the Detroit Red Wings, and is currently the Assistant General Manager of the Tampa Bay Lightning.\n\n2. **Determine the significance of their retirements**:\n   - The context indicates that Steve Yzerman was a long-time player for the Red Wings and served in various roles after his playing career, including as general manager of the Lightning. His retirement would likely signify a major transition for the Red Wings.\n\n3. **Conclusion**:\n   - Since the question specifically asks about the player whose retirement led to a new era for the Red Wings and who is currently the general manager of the Lightning, the answer is clearly **Steve Yzerman**.\n\nFinal response: Steve Yzerman"
+            },
+            {
+                "inputs": {
+                    "context": "['\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"', '\"Marc-Andre\u0301 Fleury\" | \"Marc-Andr\u00e9 Fleury Marc-Andr\u00e9 Fleury (born November 28, 1984), nicknamed Flower, is a Canadian professional ice hockey goaltender playing for the Vegas Golden Knights of the National Hockey League (NHL). Drafted out of the Quebec Major Junior Hockey League (QMJHL) first overall by the Pittsburgh Penguins in the 2003 NHL Entry Draft, Fleury played major junior for four seasons with the Cape Breton Screaming Eagles, earning both the Mike Bossy Trophy as the league\\'s top prospect and the Telus Cup as the top defensive player in 2003. He joined the Penguins in 2003\u201304 and during his 13 seasons with the team\"', '\"Vegas Golden Knights\" | \"move by signing Reid Duke to a three-year entry-level contract. The team announced inaugural head coach Gerard Gallant on April 13, 2017. Over the next two months, the Golden Knights developed their farm system, announcing affiliations with the Chicago Wolves of the American Hockey League and the Quad City Mallards of the ECHL. The team participated in the 2017 NHL Expansion Draft on June 21, 2017, selecting an available player from all 30 teams in the NHL. The draft picks were announced at T-Mobile Arena during the NHL Awards ceremony. Some notable selections included goalie Marc-Andre Fleury from the Pittsburgh\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "The National Hockey League (NHL) conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season.",
+                "id": "999a4c7f-e075-4ba9-b5f2-f9f667f50c5f",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To determine who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season, we can analyze the context provided.\n\n1. **Understanding the Draft**: The context mentions the \"2017 NHL Expansion Draft,\" which is the event where the Vegas Golden Knights selected players from existing NHL teams to build their roster.\n\n2. **Identifying the Conducting Body**: The NHL Expansion Draft is organized and conducted by the National Hockey League (NHL). This means that the league itself oversees the process of the draft.\n\n3. **Specific Mention in the Context**: The context states that the Golden Knights participated in the 2017 NHL Expansion Draft on June 21, 2017, and selected Marc-Andre Fleury from the Pittsburgh Penguins.\n\nBased on this analysis, the final answer is:\n\nThe National Hockey League (NHL) conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season."
+            }
+        ],
+        "demo_pq": [
+            [
+                0.125,
+                "495247a6-c83a-4b99-87fd-b59149df5c33"
+            ],
+            [
+                0.2105263157894737,
+                "6ff3a716-b3c0-47eb-850c-b7a30f1ec0a8"
+            ],
+            [
+                0.27586206896551724,
+                "91e26e36-8e12-413e-a1af-8c3b068570ad"
+            ],
+            [
+                0.2727272727272727,
+                "999a4c7f-e075-4ba9-b5f2-f9f667f50c5f"
+            ],
+            [
+                1.0,
+                "ab2acda4-3a03-487b-a3b3-0c0cbf4fa909"
+            ],
+            [
+                1.0,
+                "fd7c37ad-2bf0-4d31-b824-0efea2ee7f98"
+            ],
+            [
+                1.0,
+                "61e8cabd-3b16-4a87-9612-d5c70ffcfaa6"
+            ],
+            [
+                1.0,
+                "02095c32-be8c-4d2f-a02a-5446755cf01d"
+            ]
+        ],
+        "max_num": 2,
+        "current_best_score_sum": 2.0
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_aggregator_demos_55b4b02c-868d-4ed0-adac-29a0ff0ef973": {
+                "name": "refine_query_aggregator_demos_55b4b02c-868d-4ed0-adac-29a0ff0ef973",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "1c414a75-58ff-4f36-843b-6a93104553e7",
+                    "d833a0d2-617f-48be-9833-d374b0acb8bb"
+                ]
+            },
+            "refine_query_aggregator_demos_c44083e9-a969-49b3-9371-9e9a8eac1202": {
+                "name": "refine_query_aggregator_demos_c44083e9-a969-49b3-9371-9e9a8eac1202",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "3fc9a394-a91f-4fba-abc1-e007beb90c7f",
+                    "d833a0d2-617f-48be-9833-d374b0acb8bb"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_pool": [
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"\\', \\'\"Pat Verbeek\" | \"Pat Verbeek Patrick Martin Verbeek (born May 24, 1964) is a Canadian former ice hockey player who played for the New Jersey Devils, Hartford Whalers, New York Rangers, Dallas Stars, and Detroit Red Wings during his career. His nickname, \"\"The Little Ball of Hate\"\", was given to him in 1995 by Glenn Healy after fellow New York Rangers teammate Ray Ferraro was tagged as the \"\"Big Ball of Hate\"\". Verbeek is currently employed as Assistant General Manager with the Tampa Bay Lightning with former Detroit teammate Steve Yzerman, the current General Manager of the Lightning. He previously served as pro\"\\']', 'question': 'The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: \"Steve Yzerman retirement Canadian ice hockey player general manager Tampa Bay Lightning\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: \"Steve Yzerman retirement Tampa Bay Lightning general manager\"\n        "
+                },
+                "output": "\"Steve Yzerman retirement general manager Tampa Bay Lightning Detroit Red Wings\"",
+                "id": "d833a0d2-617f-48be-9833-d374b0acb8bb",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the task step by step.\n\n1. **Understanding the Context**: The context provides information about two Canadian former professional ice hockey players: Steve Yzerman and Pat Verbeek. It highlights Yzerman's career with the Detroit Red Wings, his role as a general manager for the Tampa Bay Lightning, and his achievements, including being a member of the Hockey Hall of Fame. It also mentions Pat Verbeek's career and his current role as Assistant General Manager with the Tampa Bay Lightning.\n\n2. **Analyzing the Question**: The question asks about the Canadian retired professional ice hockey player whose retirement marked the beginning of a new era for the Wings (Detroit Red Wings) and who is currently the general manager of the Tampa Bay Lightning. \n\n3. **Identifying Key Elements**: \n   - The player in question is Canadian.\n   - The player is retired.\n   - The player is currently the general manager of the Tampa Bay Lightning.\n   - The context suggests that this player is significant to the Detroit Red Wings.\n\n4. **Reviewing Proposals**: \n   - **Proposal 0** mentions \"Steve Yzerman retirement Canadian ice hockey player general manager Tampa Bay Lightning.\"\n   - **Proposal 1** states \"Steve Yzerman retirement Tampa Bay Lightning general manager.\"\n\n5. **Finding Consensus**: Both proposals agree on Steve Yzerman being the player in question. They both mention his retirement and his role as general manager of the Tampa Bay Lightning.\n\n6. **Finalizing the Search Query**: The search query should encapsulate the key elements identified in the context and question. Since both proposals point to Steve Yzerman, we can construct a search query that reflects this.\n\n**Final Search Query**: \"Steve Yzerman retirement general manager Tampa Bay Lightning Detroit Red Wings\" \n\nThis query effectively captures the necessary details to retrieve relevant information regarding Steve Yzerman's retirement and his impact on the Detroit Red Wings and the Tampa Bay Lightning."
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'Cangzhou | \"Cangzhou Cangzhou () is a prefecture-level city in eastern Hebei province, People\\\\\\'s Republic of China. At the 2010 census, Cangzhou\\\\\\'s built-up (\"\"or metro\"\") area made of Yunhe, Xinhua districts and Cang County largely being conurbated had a population of 1,205,814 inhabitants, while the prefecture-level administrative unit in total has a population of 7,134,062. It lies approximately from the major port city of Tianjin, and from Beijing. Cangzhou is reported to have been founded in the Southern and Northern Dynasties period (420\u2212589 CE). Cangzhou City comprises 2 districts, 4 county-level cities, 9 counties and 1 autonomous county. Cangzhou\\\\\\'s urban center is\"\\', \\'Cangzhou | \"a heavily industrial city but the city\\\\\\'s administrative territory also includes strongly agricultural areas, and is well known in China for its Chinese jujubes (Chinese dates) and pear (widely known under the export name of \"\"Tianjin Ya Pear\"\"). The North China Oil Field is within Cangzhou City\\\\\\'s jurisdiction. Cangzhou also encompasses a large fishing port and the coal-exporting Huanghua Harbour. Cangzhou is located in eastern Hebei, immediately to the south of Tianjin, near the coast of the Bohai Sea of the Pacific Ocean. Bordering prefecture-level cities are Hengshui to the southwest, Baoding to the west, and Langfang to the north.\"\\']', 'question': 'Are both Cangzhou and Qionghai in the Hebei province of China?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: \"Is Qionghai in Hebei province, China?\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: \"Is Qionghai in Hebei province China?\"\n        "
+                },
+                "output": "\"Is Cangzhou in Hebei province and is Qionghai in Hainan province, China?\"",
+                "id": "1c414a75-58ff-4f36-843b-6a93104553e7",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To solve the problem step by step, let's break down the components:\n\n1. **Understanding the Context**: The context provided gives detailed information about Cangzhou, a city in Hebei province, China. It includes demographic data, geographical location, and economic activities. However, it does not mention Qionghai.\n\n2. **Analyzing the Question**: The question asks whether both Cangzhou and Qionghai are in Hebei province. Since the context only discusses Cangzhou, we need to determine the location of Qionghai.\n\n3. **Researching Qionghai**: Qionghai is a city located in Hainan province, not Hebei. This is crucial information that directly answers the question.\n\n4. **Proposals Review**: The proposals generated by the worker agent focus on confirming the location of Qionghai but do not provide a definitive answer to the question. They both ask if Qionghai is in Hebei, which is not the case.\n\n5. **Final Search Query Construction**: Given the context and the question, the search query should aim to clarify the locations of both cities. A suitable search query would be:\n\n**Search Query**: \"Is Cangzhou in Hebei province and is Qionghai in Hainan province, China?\" \n\nThis query encapsulates the necessary information to confirm the locations of both cities and directly addresses the question posed."
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\\\\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"\\', \\'\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\\\\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"\\']', 'question': 'The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: \"Steve Yzerman retirement Canadian professional ice hockey player general manager Tampa Bay Lightning\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"retirement Canadian retired professional ice hockey player general manager Tampa Bay Lightning\"\n\nAnswer: search_query: \"retirement Steve Yzerman Canadian retired professional ice hockey player general manager Tampa Bay Lightning\"\n        "
+                },
+                "output": "search_query: \"retirement Steve Yzerman Canadian retired professional ice hockey player general manager Tampa Bay Lightning\"",
+                "id": "3fc9a394-a91f-4fba-abc1-e007beb90c7f",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"retirement Steve Yzerman Canadian retired professional ice hockey player general manager Tampa Bay Lightning\""
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'\"Meleko Mokgosi\" | \"Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized Study at New York University. His work includes large-scale paintings that explore themes of colonialism, democracy, nationalism, and life in Southern Africa. Mokgosi was born in 1981 in Francistown, Botswana, and raised in the city of Maun. He began drawing in primary school. While in high school, he became interested in the potential of making political commentary with art. In 2003, he moved to the United States, participated in the Whitney Independent Study Program, and studied art at Williams College and UCLA,\"\\', \\'\"Meleko Mokgosi\" | \"a series of more than 50 paintings on the subject of colonialism in Africa. A book on the \"\"Pax Kaffraria\"\" project was published by the Hammer Museum in 2014. In 2014, Mokgosi began the project \"\"Democratic Intuition\"\", which he described as being about \"\"how do normal people understand, reciprocate, have access to, and not have access to the ideas of democracy and the democratic\"\". He presented the first two chapters of this work at his first solo New York exhibition in 2016. Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized\"\\']', 'question': 'What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: \"New York University Gallatin School of Individualized Study student activities\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To generate an effective search query based on the provided context and question, let's break down the elements:\n\n1. **Context Summary**:\n   - Meleko Mokgosi is an artist and assistant professor at the Gallatin School of Individualized Study at New York University (NYU).\n   - His work deals with themes like colonialism, democracy, and nationalism, particularly in Southern Africa.\n   - He has a background in political commentary through art and has participated in various art projects and exhibitions.\n\n2. **Question Breakdown**:\n   - The question asks what students do at the Gallatin School of Individualized Study at NYU.\n   - It implies a need for information about student activities, programs, courses, or general academic life at that specific school.\n\n3. **Relevant Keywords for Search**:\n   - \"Gallatin School of Individualized Study\"\n   - \"New York University\"\n   - \"student activities\"\n   - \"programs\"\n   - \"courses\"\n   - \"academic life\"\n\n4. **Search Query Construction**:\n   - The query should encapsulate the relevant keywords to get precise information about what students do at the Gallatin School.\n\nFinal Search Query:\n\"Gallatin School of Individualized Study NYU student activities programs courses academic life\"\n\nAnswer: \"Gallatin School of Individualized Study NYU student activities programs courses academic life\"\n        "
+                },
+                "output": "\"Gallatin School of Individualized Study NYU student activities programs courses academic life\"",
+                "id": "9cda5e38-7245-4a2f-be7a-ada7a425ccd3",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Gallatin School of Individualized Study NYU student activities programs courses academic life\""
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"\\', \\'\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\\\\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"\\']', 'question': 'The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: Steve Yzerman retirement Canadian professional ice hockey player Tampa Bay Lightning general manager\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To generate an effective search query based on the provided context and question, we need to extract the key information from both.\n\n1. **Identify Key Information from the Context:**\n   - The context mentions Steve Yzerman as a \"Canadian former professional ice hockey player\" who spent his entire NHL career with the Detroit Red Wings and later became the general manager of the Tampa Bay Lightning.\n   - It also states that he was a Hall of Fame player and served in various roles within the hockey community.\n\n2. **Identify Key Information from the Question:**\n   - The question is asking about the Canadian retired professional ice hockey player who retired and led the Detroit Red Wings into a new era as the current general manager of the Tampa Bay Lightning.\n\n3. **Combine Key Elements:**\n   - The key elements to include in the search query are: \"Steve Yzerman\", \"retirement\", \"Detroit Red Wings\", \"Tampa Bay Lightning\", \"general manager\".\n\nBased on this analysis, the final search query would be:\n\n**search_query:** \"Steve Yzerman retirement Detroit Red Wings Tampa Bay Lightning general manager\"\n\nAnswer: search_query: \"Steve Yzerman retirement Detroit Red Wings Tampa Bay Lightning general manager\"\n        "
+                },
+                "output": "search_query: \"Steve Yzerman retirement Detroit Red Wings Tampa Bay Lightning general manager\"",
+                "id": "6b7b7b90-92a4-47f2-8761-687bc83ebd83",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'\"Meleko Mokgosi\" | \"Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized Study at New York University. His work includes large-scale paintings that explore themes of colonialism, democracy, nationalism, and life in Southern Africa. Mokgosi was born in 1981 in Francistown, Botswana, and raised in the city of Maun. He began drawing in primary school. While in high school, he became interested in the potential of making political commentary with art. In 2003, he moved to the United States, participated in the Whitney Independent Study Program, and studied art at Williams College and UCLA,\"\\', \\'\"York College, City University of New York\" | \"was instrumental in ensuring the school\u2019s survival through the fiscal crisis of the 1970s. York College Student Activities strives to complement the academic experience with co- and extra-curricular programs that promote social and personal development. York College staff advises and assists student groups in planning social, educational, and recreational programs, and provides opportunities for the development of leadership skills. Academic, social, athletic, cultural, recreational, political, and special interest groups add additional sets of valuable learning experiences for both students and faculty. Student Activities works closely with the Student Government Association (SGA). SGA is composed of students elected by their peers\"\\']', 'question': 'What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: students activities New York University Meleko Mokgosi assistant professor\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To generate an effective search query based on the provided context and question, we'll break down the elements involved:\n\n1. **Identify the subject**: The subject of the question is students at New York University, specifically in the context of Meleko Mokgosi's role as an artist and assistant professor.\n\n2. **Key details from the context**: \n   - Meleko Mokgosi is an artist and assistant professor at the Gallatin School of Individualized Study at New York University.\n   - The context mentions themes of art, political commentary, and education but does not detail student activities specifically.\n\n3. **Focus of the question**: The question asks about what students do at the school where Mokgosi teaches, indicating a need for information on student activities, programs, or experiences at the Gallatin School.\n\n4. **Search intent**: The goal is to find information about student life, activities, or programs at the Gallatin School of Individualized Study at NYU.\n\nBased on this analysis, the search query should encapsulate the main elements:\n\n**Search Query**: \"Gallatin School of Individualized Study New York University student activities programs\"\n\nAnswer: \"Gallatin School of Individualized Study New York University student activities programs\"\n        "
+                },
+                "output": "\"Gallatin School of Individualized Study New York University student activities programs\"",
+                "id": "b2e060ca-44d9-4af3-887d-7ee298706c61",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"\\', \\'\"Pat Verbeek\" | \"Pat Verbeek Patrick Martin Verbeek (born May 24, 1964) is a Canadian former ice hockey player who played for the New Jersey Devils, Hartford Whalers, New York Rangers, Dallas Stars, and Detroit Red Wings during his career. His nickname, \"\"The Little Ball of Hate\"\", was given to him in 1995 by Glenn Healy after fellow New York Rangers teammate Ray Ferraro was tagged as the \"\"Big Ball of Hate\"\". Verbeek is currently employed as Assistant General Manager with the Tampa Bay Lightning with former Detroit teammate Steve Yzerman, the current General Manager of the Lightning. He previously served as pro\"\\']', 'question': 'The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: search_query: \"Steve Yzerman retirement Canadian ice hockey player general manager Tampa Bay Lightning\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: \"Steve Yzerman retirement Tampa Bay Lightning general manager\"\n        "
+                },
+                "output": "\"Steve Yzerman retirement general manager Tampa Bay Lightning Detroit Red Wings\"",
+                "id": "afc95f0d-5a3c-40a9-8428-c549a6b24fc5",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\\\\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\\\\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"\\', \\'\"Marc-Andre\u0301 Fleury\" | \"Marc-Andr\u00e9 Fleury Marc-Andr\u00e9 Fleury (born November 28, 1984), nicknamed Flower, is a Canadian professional ice hockey goaltender playing for the Vegas Golden Knights of the National Hockey League (NHL). Drafted out of the Quebec Major Junior Hockey League (QMJHL) first overall by the Pittsburgh Penguins in the 2003 NHL Entry Draft, Fleury played major junior for four seasons with the Cape Breton Screaming Eagles, earning both the Mike Bossy Trophy as the league\\\\\\'s top prospect and the Telus Cup as the top defensive player in 2003. He joined the Penguins in 2003\u201304 and during his 13 seasons with the team\"\\']', 'question': 'Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: search_query:\n\"NHL Expansion Draft 2017 conducted by who Marc-Andre Fleury Vegas Golden Knights\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: NHL Expansion Draft 2017 details Marc-Andre Fleury Vegas Golden Knights\n        "
+                },
+                "output": "\"NHL Expansion Draft 2017 conducted by who Marc-Andre Fleury Vegas Golden Knights\"",
+                "id": "549aa3cd-147f-4d92-8037-ca7cd3af500f",
+                "reasoning": null
+            }
+        ],
+        "demo_pq": [
+            [
+                0.125,
+                "1c414a75-58ff-4f36-843b-6a93104553e7"
+            ],
+            [
+                0.2105263157894737,
+                "9cda5e38-7245-4a2f-be7a-ada7a425ccd3"
+            ],
+            [
+                0.27586206896551724,
+                "b2e060ca-44d9-4af3-887d-7ee298706c61"
+            ],
+            [
+                0.2727272727272727,
+                "549aa3cd-147f-4d92-8037-ca7cd3af500f"
+            ],
+            [
+                1.0,
+                "6b7b7b90-92a4-47f2-8761-687bc83ebd83"
+            ],
+            [
+                1.0,
+                "3fc9a394-a91f-4fba-abc1-e007beb90c7f"
+            ],
+            [
+                1.0,
+                "afc95f0d-5a3c-40a9-8428-c549a6b24fc5"
+            ],
+            [
+                1.0,
+                "d833a0d2-617f-48be-9833-d374b0acb8bb"
+            ]
+        ],
+        "max_num": 2,
+        "current_best_score_sum": 2.0
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_aggregator_demos_ffdecdcc-2a75-47ed-b1dc-761a867c526a": {
+                "name": "generate_query_aggregator_demos_ffdecdcc-2a75-47ed-b1dc-761a867c526a",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "0ca82004-9aca-43a2-90d4-cf03efe46eb3",
+                    "78d3eee2-bc72-449c-a6e3-f3a0d6090acd"
+                ]
+            },
+            "generate_query_aggregator_demos_21eb4715-f6b2-4fc5-b600-ad5c77e7f694": {
+                "name": "generate_query_aggregator_demos_21eb4715-f6b2-4fc5-b600-ad5c77e7f694",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "564e15c0-43d8-46db-b73e-1cb1738b8ca3",
+                    "78d3eee2-bc72-449c-a6e3-f3a0d6090acd"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_pool": [
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided question. You should think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information. \n",
+                    "inputs": "{'question': 'The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: \"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: \"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\"\n        "
+                },
+                "output": "\"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\"",
+                "id": "78d3eee2-bc72-449c-a6e3-f3a0d6090acd",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided question. You should think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information. \n",
+                    "inputs": "{'question': 'Are both Cangzhou and Qionghai in the Hebei province of China?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: Cangzhou Qionghai Hebei province China location comparison\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: Cangzhou Qionghai location Hebei province China\n        "
+                },
+                "output": "Cangzhou Qionghai Hebei province China location comparison",
+                "id": "0ca82004-9aca-43a2-90d4-cf03efe46eb3",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided question. You should think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information. \n",
+                    "inputs": "{'question': 'The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Wings new era retirement Canadian retired professional ice hockey player general manager Tampa Bay Lightning NHL\"\n\nAnswer: search_query: \"Wings new era retirement Canadian hockey player general manager Tampa Bay Lightning NHL\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Wings new era retirement Canadian professional ice hockey player general manager Tampa Bay Lightning NHL\"\n\nAnswer: search_query: \"Wings new era retirement Canadian NHL player general manager Tampa Bay Lightning\"\n        "
+                },
+                "output": "search_query: \"Wings new era retirement Canadian NHL player general manager Tampa Bay Lightning\"",
+                "id": "564e15c0-43d8-46db-b73e-1cb1738b8ca3",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Wings new era retirement Canadian retired professional ice hockey player general manager Tampa Bay Lightning NHL\""
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided question. You should think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information. \n",
+                    "inputs": "{'question': 'What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"New York University students activities Meleko Mokgosi artist assistant professor\"\n\nAnswer: search_query: \"New York University student activities Meleko Mokgosi assistant professor\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"New York University student activities Meleko Mokgosi artist assistant professor\"\n\nAnswer: search_query: \"New York University student activities Meleko Mokgosi assistant professor\"\n        "
+                },
+                "output": "search_query: \"New York University student activities Meleko Mokgosi artist assistant professor\"",
+                "id": "0830faf1-99cb-4508-96c9-e63dd3220076",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"New York University student activities Meleko Mokgosi artist assistant professor\""
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided question. You should think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information. \n",
+                    "inputs": "{'question': 'The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Wings new era retirement Canadian professional ice hockey player general manager Tampa Bay Lightning NHL\"\n\nAnswer: search_query: \"Wings new era retirement Canadian NHL player general manager Tampa Bay Lightning\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Wings new era retirement Canadian player general manager Tampa Bay Lightning NHL\"\n\nAnswer: search_query: \"Wings new era retirement Canadian player general manager Tampa Bay Lightning NHL 2023\"\n        "
+                },
+                "output": "search_query: \"Wings new era retirement Canadian professional ice hockey player general manager Tampa Bay Lightning NHL\"",
+                "id": "42f53b07-a521-484f-9897-db6855bfc75b",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Wings new era retirement Canadian professional ice hockey player general manager Tampa Bay Lightning NHL\""
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided question. You should think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information. \n",
+                    "inputs": "{'question': 'What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"New York University student activities Meleko Mokgosi artist assistant professor\"\n\nAnswer: search_query: \"student activities New York University Meleko Mokgosi\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"New York University student activities Meleko Mokgosi artist assistant professor\"\n\nAnswer: search_query: \"student activities New York University Meleko Mokgosi\"\n        "
+                },
+                "output": "search_query: \"student activities New York University Meleko Mokgosi\"",
+                "id": "d5f22823-5092-41a9-9265-9bd54d76665e",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"student activities New York University Meleko Mokgosi\""
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided question. You should think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information. \n",
+                    "inputs": "{'question': 'The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: \"retirement Canadian ice hockey player general manager Tampa Bay Lightning\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: search_query: \"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\"\n        "
+                },
+                "output": "\"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\"",
+                "id": "ffca1a66-66af-415b-bbd0-ce241692ad59",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the task step by step.\n\n1. **Understanding the Input**: The input question is asking about a specific Canadian retired professional ice hockey player who is also the general manager of the Tampa Bay Lightning and whose retirement marked the beginning of a new era for the Wings.\n\n2. **Analyzing the Proposals**:\n   - **Proposal 0** focuses on the retirement of a Canadian ice hockey player and mentions the general manager role at the Tampa Bay Lightning but lacks the context of the \"Wings\" and the \"new era.\"\n   - **Proposal 1** includes more context by mentioning the \"Wings\" and the \"new era,\" making it more relevant to the question.\n\n3. **Identifying Key Elements**: The key elements to include in the search query are:\n   - Canadian retired professional ice hockey player\n   - General manager of the Tampa Bay Lightning\n   - Retirement\n   - The Wings\n   - New era\n\n4. **Combining Elements**: The search query should encapsulate all these elements in a coherent manner to ensure it retrieves pertinent information.\n\n5. **Finalizing the Search Query**: Based on the analysis, the search query should be comprehensive and include all relevant aspects.\n\nNow, let's provide the final search query based on the consensus from the proposals. \n\n**Final Search Query**:\n\"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings new era\""
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided question. You should think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information. \n",
+                    "inputs": "{'question': 'Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: NHL draft 2017 Marc-Andre Fleury Vegas Golden Knights conductor\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: search_query: \"2017 NHL draft Marc-Andre Fleury Vegas Golden Knights conductor\"\n        "
+                },
+                "output": "\"2017 NHL draft Marc-Andre Fleury Vegas Golden Knights conductor\"",
+                "id": "298d488f-5a7a-4713-b383-77462df8c391",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the task step by step.\n\n1. **Understanding the Worker Task**: The worker is tasked with generating a search query based on a specific question. The search query should encapsulate the key elements of the question to retrieve relevant information.\n\n2. **Analyzing the Inputs**: The input question is: \"Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?\" This question focuses on identifying the individual or entity responsible for conducting the NHL draft in 2017, specifically regarding Marc-Andre Fleury's selection by the Vegas Golden Knights.\n\n3. **Reviewing the Proposals**:\n   - **Proposal 0**: \"NHL draft 2017 Marc-Andre Fleury Vegas Golden Knights conductor\"\n   - **Proposal 1**: \"2017 NHL draft Marc-Andre Fleury Vegas Golden Knights conductor\"\n\n4. **Identifying Points of Agreement**: Both proposals mention the \"NHL draft 2017,\" \"Marc-Andre Fleury,\" and \"Vegas Golden Knights,\" and both refer to the \"conductor\" of the draft. The main difference is the order of the words.\n\n5. **Selecting the Best Proposal**: Both proposals are quite similar, but Proposal 1 is slightly clearer due to the phrasing \"2017 NHL draft,\" which is a more standard way to refer to the event.\n\n6. **Finalizing the Search Query**: Based on the analysis, the final search query should be a coherent and comprehensive representation of the question.\n\nFinal search_query:\n\"2017 NHL draft Marc-Andre Fleury Vegas Golden Knights conductor\""
+            }
+        ],
+        "demo_pq": [
+            [
+                0.125,
+                "0ca82004-9aca-43a2-90d4-cf03efe46eb3"
+            ],
+            [
+                0.2105263157894737,
+                "0830faf1-99cb-4508-96c9-e63dd3220076"
+            ],
+            [
+                0.27586206896551724,
+                "d5f22823-5092-41a9-9265-9bd54d76665e"
+            ],
+            [
+                0.2727272727272727,
+                "298d488f-5a7a-4713-b383-77462df8c391"
+            ],
+            [
+                1.0,
+                "42f53b07-a521-484f-9897-db6855bfc75b"
+            ],
+            [
+                1.0,
+                "564e15c0-43d8-46db-b73e-1cb1738b8ca3"
+            ],
+            [
+                1.0,
+                "ffca1a66-66af-415b-bbd0-ce241692ad59"
+            ],
+            [
+                1.0,
+                "78d3eee2-bc72-449c-a6e3-f3a0d6090acd"
+            ]
+        ],
+        "max_num": 2,
+        "current_best_score_sum": 2.0
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_sampler_0_demos_7fde2cad-c6d4-43e1-a93c-cebac6f516cc": {
+                "name": "refine_query_sampler_0_demos_7fde2cad-c6d4-43e1-a93c-cebac6f516cc",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "7a15a28a-e9fc-4874-8c9c-dc9544f838af",
+                    "c651a52e-3a71-4ffa-ab10-1b9a18665d36"
+                ]
+            },
+            "refine_query_sampler_0_demos_7bc9ed76-9670-47c2-98a0-d1bd9be8a6eb": {
+                "name": "refine_query_sampler_0_demos_7bc9ed76-9670-47c2-98a0-d1bd9be8a6eb",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "6c2ac141-f955-4da0-abc3-6d27e574bbab",
+                    "c651a52e-3a71-4ffa-ab10-1b9a18665d36"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_pool": [
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Pat Verbeek\" | \"Pat Verbeek Patrick Martin Verbeek (born May 24, 1964) is a Canadian former ice hockey player who played for the New Jersey Devils, Hartford Whalers, New York Rangers, Dallas Stars, and Detroit Red Wings during his career. His nickname, \"\"The Little Ball of Hate\"\", was given to him in 1995 by Glenn Healy after fellow New York Rangers teammate Ray Ferraro was tagged as the \"\"Big Ball of Hate\"\". Verbeek is currently employed as Assistant General Manager with the Tampa Bay Lightning with former Detroit teammate Steve Yzerman, the current General Manager of the Lightning. He previously served as pro\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "\"Steve Yzerman retirement Canadian ice hockey player general manager Tampa Bay Lightning\"",
+                "id": "c651a52e-3a71-4ffa-ab10-1b9a18665d36",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['Cangzhou | \"Cangzhou Cangzhou () is a prefecture-level city in eastern Hebei province, People\\'s Republic of China. At the 2010 census, Cangzhou\\'s built-up (\"\"or metro\"\") area made of Yunhe, Xinhua districts and Cang County largely being conurbated had a population of 1,205,814 inhabitants, while the prefecture-level administrative unit in total has a population of 7,134,062. It lies approximately from the major port city of Tianjin, and from Beijing. Cangzhou is reported to have been founded in the Southern and Northern Dynasties period (420\u2212589 CE). Cangzhou City comprises 2 districts, 4 county-level cities, 9 counties and 1 autonomous county. Cangzhou\\'s urban center is\"', 'Cangzhou | \"a heavily industrial city but the city\\'s administrative territory also includes strongly agricultural areas, and is well known in China for its Chinese jujubes (Chinese dates) and pear (widely known under the export name of \"\"Tianjin Ya Pear\"\"). The North China Oil Field is within Cangzhou City\\'s jurisdiction. Cangzhou also encompasses a large fishing port and the coal-exporting Huanghua Harbour. Cangzhou is located in eastern Hebei, immediately to the south of Tianjin, near the coast of the Bohai Sea of the Pacific Ocean. Bordering prefecture-level cities are Hengshui to the southwest, Baoding to the west, and Langfang to the north.\"']",
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "\"Is Qionghai in Hebei province, China?\"",
+                "id": "7a15a28a-e9fc-4874-8c9c-dc9544f838af",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "\"Steve Yzerman retirement Canadian professional ice hockey player general manager Tampa Bay Lightning\"",
+                "id": "6c2ac141-f955-4da0-abc3-6d27e574bbab",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Meleko Mokgosi\" | \"Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized Study at New York University. His work includes large-scale paintings that explore themes of colonialism, democracy, nationalism, and life in Southern Africa. Mokgosi was born in 1981 in Francistown, Botswana, and raised in the city of Maun. He began drawing in primary school. While in high school, he became interested in the potential of making political commentary with art. In 2003, he moved to the United States, participated in the Whitney Independent Study Program, and studied art at Williams College and UCLA,\"', '\"Meleko Mokgosi\" | \"a series of more than 50 paintings on the subject of colonialism in Africa. A book on the \"\"Pax Kaffraria\"\" project was published by the Hammer Museum in 2014. In 2014, Mokgosi began the project \"\"Democratic Intuition\"\", which he described as being about \"\"how do normal people understand, reciprocate, have access to, and not have access to the ideas of democracy and the democratic\"\". He presented the first two chapters of this work at his first solo New York exhibition in 2016. Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized\"']",
+                    "question": "What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?"
+                },
+                "output": "\"New York University Gallatin School of Individualized Study student activities\"",
+                "id": "3eac6895-c19e-490d-804e-d7f429a26bee",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "Steve Yzerman retirement Canadian professional ice hockey player Tampa Bay Lightning general manager",
+                "id": "b07500df-f4c7-4b13-92b2-9d136734e967",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Meleko Mokgosi\" | \"Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized Study at New York University. His work includes large-scale paintings that explore themes of colonialism, democracy, nationalism, and life in Southern Africa. Mokgosi was born in 1981 in Francistown, Botswana, and raised in the city of Maun. He began drawing in primary school. While in high school, he became interested in the potential of making political commentary with art. In 2003, he moved to the United States, participated in the Whitney Independent Study Program, and studied art at Williams College and UCLA,\"', '\"York College, City University of New York\" | \"was instrumental in ensuring the school\u2019s survival through the fiscal crisis of the 1970s. York College Student Activities strives to complement the academic experience with co- and extra-curricular programs that promote social and personal development. York College staff advises and assists student groups in planning social, educational, and recreational programs, and provides opportunities for the development of leadership skills. Academic, social, athletic, cultural, recreational, political, and special interest groups add additional sets of valuable learning experiences for both students and faculty. Student Activities works closely with the Student Government Association (SGA). SGA is composed of students elected by their peers\"']",
+                    "question": "What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?"
+                },
+                "output": "students activities New York University Meleko Mokgosi assistant professor",
+                "id": "247c6194-e51f-4ddf-bb70-3555d3bc2f9c",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Pat Verbeek\" | \"Pat Verbeek Patrick Martin Verbeek (born May 24, 1964) is a Canadian former ice hockey player who played for the New Jersey Devils, Hartford Whalers, New York Rangers, Dallas Stars, and Detroit Red Wings during his career. His nickname, \"\"The Little Ball of Hate\"\", was given to him in 1995 by Glenn Healy after fellow New York Rangers teammate Ray Ferraro was tagged as the \"\"Big Ball of Hate\"\". Verbeek is currently employed as Assistant General Manager with the Tampa Bay Lightning with former Detroit teammate Steve Yzerman, the current General Manager of the Lightning. He previously served as pro\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query: \"Steve Yzerman retirement Canadian ice hockey player general manager Tampa Bay Lightning\"",
+                "id": "1c2f1f7e-501d-4409-880d-f5238e292613",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"', '\"Marc-Andre\u0301 Fleury\" | \"Marc-Andr\u00e9 Fleury Marc-Andr\u00e9 Fleury (born November 28, 1984), nicknamed Flower, is a Canadian professional ice hockey goaltender playing for the Vegas Golden Knights of the National Hockey League (NHL). Drafted out of the Quebec Major Junior Hockey League (QMJHL) first overall by the Pittsburgh Penguins in the 2003 NHL Entry Draft, Fleury played major junior for four seasons with the Cape Breton Screaming Eagles, earning both the Mike Bossy Trophy as the league\\'s top prospect and the Telus Cup as the top defensive player in 2003. He joined the Penguins in 2003\u201304 and during his 13 seasons with the team\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "search_query:\n\"NHL Expansion Draft 2017 conducted by who Marc-Andre Fleury Vegas Golden Knights\"",
+                "id": "676c20db-de1c-4dbe-8600-9e52c0db3d49",
+                "reasoning": null
+            }
+        ],
+        "demo_pq": [
+            [
+                0.125,
+                "7a15a28a-e9fc-4874-8c9c-dc9544f838af"
+            ],
+            [
+                0.2105263157894737,
+                "3eac6895-c19e-490d-804e-d7f429a26bee"
+            ],
+            [
+                0.27586206896551724,
+                "247c6194-e51f-4ddf-bb70-3555d3bc2f9c"
+            ],
+            [
+                0.2727272727272727,
+                "676c20db-de1c-4dbe-8600-9e52c0db3d49"
+            ],
+            [
+                1.0,
+                "b07500df-f4c7-4b13-92b2-9d136734e967"
+            ],
+            [
+                1.0,
+                "6c2ac141-f955-4da0-abc3-6d27e574bbab"
+            ],
+            [
+                1.0,
+                "1c2f1f7e-501d-4409-880d-f5238e292613"
+            ],
+            [
+                1.0,
+                "c651a52e-3a71-4ffa-ab10-1b9a18665d36"
+            ]
+        ],
+        "max_num": 2,
+        "current_best_score_sum": 2.0
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_sampler_1_demos_db261573-411b-4b5e-9cfe-d27b6291fe8c": {
+                "name": "refine_query_sampler_1_demos_db261573-411b-4b5e-9cfe-d27b6291fe8c",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "65ef292c-2f4b-48fd-9144-12cf8ddb2dc6",
+                    "dd3992d2-2ef8-4a8b-a734-70e69bac7270"
+                ]
+            },
+            "refine_query_sampler_1_demos_8b41a5a5-ef22-4cdc-8fb2-1ac006e5a9ea": {
+                "name": "refine_query_sampler_1_demos_8b41a5a5-ef22-4cdc-8fb2-1ac006e5a9ea",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "7f3aed5c-0430-4d4d-b5b9-f8962c92fa87",
+                    "dd3992d2-2ef8-4a8b-a734-70e69bac7270"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_pool": [
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Pat Verbeek\" | \"Pat Verbeek Patrick Martin Verbeek (born May 24, 1964) is a Canadian former ice hockey player who played for the New Jersey Devils, Hartford Whalers, New York Rangers, Dallas Stars, and Detroit Red Wings during his career. His nickname, \"\"The Little Ball of Hate\"\", was given to him in 1995 by Glenn Healy after fellow New York Rangers teammate Ray Ferraro was tagged as the \"\"Big Ball of Hate\"\". Verbeek is currently employed as Assistant General Manager with the Tampa Bay Lightning with former Detroit teammate Steve Yzerman, the current General Manager of the Lightning. He previously served as pro\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "\"Steve Yzerman retirement Tampa Bay Lightning general manager\"",
+                "id": "dd3992d2-2ef8-4a8b-a734-70e69bac7270",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['Cangzhou | \"Cangzhou Cangzhou () is a prefecture-level city in eastern Hebei province, People\\'s Republic of China. At the 2010 census, Cangzhou\\'s built-up (\"\"or metro\"\") area made of Yunhe, Xinhua districts and Cang County largely being conurbated had a population of 1,205,814 inhabitants, while the prefecture-level administrative unit in total has a population of 7,134,062. It lies approximately from the major port city of Tianjin, and from Beijing. Cangzhou is reported to have been founded in the Southern and Northern Dynasties period (420\u2212589 CE). Cangzhou City comprises 2 districts, 4 county-level cities, 9 counties and 1 autonomous county. Cangzhou\\'s urban center is\"', 'Cangzhou | \"a heavily industrial city but the city\\'s administrative territory also includes strongly agricultural areas, and is well known in China for its Chinese jujubes (Chinese dates) and pear (widely known under the export name of \"\"Tianjin Ya Pear\"\"). The North China Oil Field is within Cangzhou City\\'s jurisdiction. Cangzhou also encompasses a large fishing port and the coal-exporting Huanghua Harbour. Cangzhou is located in eastern Hebei, immediately to the south of Tianjin, near the coast of the Bohai Sea of the Pacific Ocean. Bordering prefecture-level cities are Hengshui to the southwest, Baoding to the west, and Langfang to the north.\"']",
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "\"Is Qionghai in Hebei province China?\"",
+                "id": "65ef292c-2f4b-48fd-9144-12cf8ddb2dc6",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"', '\"Steve Yzerman\" | \"the Detroit Red Wings, winning a fourth Stanley Cup championship as the vice-president of operations in 2007\u201308. In May 2010, he left the Red Wings organization to become general manager of the Tampa Bay Lightning, serving in that capacity until September 2018. Yzerman has represented his country in several international tournaments as a member of Canada\\'s national hockey team (Team Canada). In 2002, Yzerman won an Olympic gold medal, making him one of few players to win an Olympic gold medal and the Stanley Cup in the same year. Yzerman was the general manager of Team Canada for the 2007\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query: \"retirement Steve Yzerman Canadian retired professional ice hockey player general manager Tampa Bay Lightning\"",
+                "id": "7f3aed5c-0430-4d4d-b5b9-f8962c92fa87",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"retirement Canadian retired professional ice hockey player general manager Tampa Bay Lightning\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Meleko Mokgosi\" | \"Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized Study at New York University. His work includes large-scale paintings that explore themes of colonialism, democracy, nationalism, and life in Southern Africa. Mokgosi was born in 1981 in Francistown, Botswana, and raised in the city of Maun. He began drawing in primary school. While in high school, he became interested in the potential of making political commentary with art. In 2003, he moved to the United States, participated in the Whitney Independent Study Program, and studied art at Williams College and UCLA,\"', '\"Meleko Mokgosi\" | \"a series of more than 50 paintings on the subject of colonialism in Africa. A book on the \"\"Pax Kaffraria\"\" project was published by the Hammer Museum in 2014. In 2014, Mokgosi began the project \"\"Democratic Intuition\"\", which he described as being about \"\"how do normal people understand, reciprocate, have access to, and not have access to the ideas of democracy and the democratic\"\". He presented the first two chapters of this work at his first solo New York exhibition in 2016. Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized\"']",
+                    "question": "What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?"
+                },
+                "output": "\"Gallatin School of Individualized Study NYU student activities programs courses academic life\"",
+                "id": "e2f7bb04-35e7-4fbb-b697-b9e9be2a5139",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To generate an effective search query based on the provided context and question, let's break down the elements:\n\n1. **Context Summary**:\n   - Meleko Mokgosi is an artist and assistant professor at the Gallatin School of Individualized Study at New York University (NYU).\n   - His work deals with themes like colonialism, democracy, and nationalism, particularly in Southern Africa.\n   - He has a background in political commentary through art and has participated in various art projects and exhibitions.\n\n2. **Question Breakdown**:\n   - The question asks what students do at the Gallatin School of Individualized Study at NYU.\n   - It implies a need for information about student activities, programs, courses, or general academic life at that specific school.\n\n3. **Relevant Keywords for Search**:\n   - \"Gallatin School of Individualized Study\"\n   - \"New York University\"\n   - \"student activities\"\n   - \"programs\"\n   - \"courses\"\n   - \"academic life\"\n\n4. **Search Query Construction**:\n   - The query should encapsulate the relevant keywords to get precise information about what students do at the Gallatin School.\n\nFinal Search Query:\n\"Gallatin School of Individualized Study NYU student activities programs courses academic life\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"2010\u201311 Tampa Bay Lightning season\" | \"2010\u201311 Tampa Bay Lightning season The 2010\u201311 Tampa Bay Lightning season was the 19th season for the Lightning franchise of the National Hockey League (NHL). For the first time since the 2006\u201307 season, the Lightning qualified for the playoffs. On May 25, 2010, the Lightning announced Hall of Fame player and former Detroit Red Wings executive Steve Yzerman as their new general manager. He hired Guy Boucher, coach of the American Hockey League (AHL)\\'s Hamilton Bulldogs, as the new head coach on June 9, 2010. In October, the Lightning compiled a 7\u20132\u20131 record and with 15 points, leading not only\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query: \"Steve Yzerman retirement Detroit Red Wings Tampa Bay Lightning general manager\"",
+                "id": "1c07e7c8-581b-415f-908d-601e77d8ab20",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To generate an effective search query based on the provided context and question, we need to extract the key information from both.\n\n1. **Identify Key Information from the Context:**\n   - The context mentions Steve Yzerman as a \"Canadian former professional ice hockey player\" who spent his entire NHL career with the Detroit Red Wings and later became the general manager of the Tampa Bay Lightning.\n   - It also states that he was a Hall of Fame player and served in various roles within the hockey community.\n\n2. **Identify Key Information from the Question:**\n   - The question is asking about the Canadian retired professional ice hockey player who retired and led the Detroit Red Wings into a new era as the current general manager of the Tampa Bay Lightning.\n\n3. **Combine Key Elements:**\n   - The key elements to include in the search query are: \"Steve Yzerman\", \"retirement\", \"Detroit Red Wings\", \"Tampa Bay Lightning\", \"general manager\".\n\nBased on this analysis, the final search query would be:\n\n**search_query:** \"Steve Yzerman retirement Detroit Red Wings Tampa Bay Lightning general manager\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Meleko Mokgosi\" | \"Meleko Mokgosi Meleko Mokgosi (born 1981) is an artist and assistant professor at the Gallatin School of Individualized Study at New York University. His work includes large-scale paintings that explore themes of colonialism, democracy, nationalism, and life in Southern Africa. Mokgosi was born in 1981 in Francistown, Botswana, and raised in the city of Maun. He began drawing in primary school. While in high school, he became interested in the potential of making political commentary with art. In 2003, he moved to the United States, participated in the Whitney Independent Study Program, and studied art at Williams College and UCLA,\"', '\"York College, City University of New York\" | \"was instrumental in ensuring the school\u2019s survival through the fiscal crisis of the 1970s. York College Student Activities strives to complement the academic experience with co- and extra-curricular programs that promote social and personal development. York College staff advises and assists student groups in planning social, educational, and recreational programs, and provides opportunities for the development of leadership skills. Academic, social, athletic, cultural, recreational, political, and special interest groups add additional sets of valuable learning experiences for both students and faculty. Student Activities works closely with the Student Government Association (SGA). SGA is composed of students elected by their peers\"']",
+                    "question": "What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?"
+                },
+                "output": "\"Gallatin School of Individualized Study New York University student activities programs\"",
+                "id": "ec6fa967-cbaf-4ce5-9245-9594ccc9de6a",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To generate an effective search query based on the provided context and question, we'll break down the elements involved:\n\n1. **Identify the subject**: The subject of the question is students at New York University, specifically in the context of Meleko Mokgosi's role as an artist and assistant professor.\n\n2. **Key details from the context**: \n   - Meleko Mokgosi is an artist and assistant professor at the Gallatin School of Individualized Study at New York University.\n   - The context mentions themes of art, political commentary, and education but does not detail student activities specifically.\n\n3. **Focus of the question**: The question asks about what students do at the school where Mokgosi teaches, indicating a need for information on student activities, programs, or experiences at the Gallatin School.\n\n4. **Search intent**: The goal is to find information about student life, activities, or programs at the Gallatin School of Individualized Study at NYU.\n\nBased on this analysis, the search query should encapsulate the main elements:\n\n**Search Query**: \"Gallatin School of Individualized Study New York University student activities programs\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Steve Yzerman\" | \"Steve Yzerman Stephen Gregory Yzerman (; born May 9, 1965) is a Canadian former professional ice hockey player who spent his entire National Hockey League (NHL) playing career with the Detroit Red Wings and is a member of the Hockey Hall of Fame. After his retirement as a player he served in the front office of the Red Wings, and then as general manager of the Tampa Bay Lightning, while also being executive director for Team Canada in two Olympics. Prior to the 1986\u201387 season at the age of 21, Yzerman was named captain of the Red Wings and continuously\"', '\"Pat Verbeek\" | \"Pat Verbeek Patrick Martin Verbeek (born May 24, 1964) is a Canadian former ice hockey player who played for the New Jersey Devils, Hartford Whalers, New York Rangers, Dallas Stars, and Detroit Red Wings during his career. His nickname, \"\"The Little Ball of Hate\"\", was given to him in 1995 by Glenn Healy after fellow New York Rangers teammate Ray Ferraro was tagged as the \"\"Big Ball of Hate\"\". Verbeek is currently employed as Assistant General Manager with the Tampa Bay Lightning with former Detroit teammate Steve Yzerman, the current General Manager of the Lightning. He previously served as pro\"']",
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "\"Steve Yzerman retirement Tampa Bay Lightning general manager\"",
+                "id": "c48a8dcb-85c8-4764-a126-4ce720904dc3",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Marc-Andre\u0301 Fleury\" | \"route to a Stanley Cup championship victory, defeating the Nashville Predators in six games. The win was the third Stanley Cup of Fleury\\'s career. On June 21, 2017, with the emergence of Matt Murray, Fleury was left exposed by the Penguins and later selected by the Vegas Golden Knights in the 2017 NHL Expansion Draft. He stopped 45 of 46 shots in the Golden Knights\\' first NHL game, a 2\u20131 victory over the Dallas Stars. On October 15, 2017, Fleury was placed on Long Term Injury Reserve (LTIR) after taking a knee to the head from Anthony Mantha of the\"', '\"Marc-Andre\u0301 Fleury\" | \"Marc-Andr\u00e9 Fleury Marc-Andr\u00e9 Fleury (born November 28, 1984), nicknamed Flower, is a Canadian professional ice hockey goaltender playing for the Vegas Golden Knights of the National Hockey League (NHL). Drafted out of the Quebec Major Junior Hockey League (QMJHL) first overall by the Pittsburgh Penguins in the 2003 NHL Entry Draft, Fleury played major junior for four seasons with the Cape Breton Screaming Eagles, earning both the Mike Bossy Trophy as the league\\'s top prospect and the Telus Cup as the top defensive player in 2003. He joined the Penguins in 2003\u201304 and during his 13 seasons with the team\"']",
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "NHL Expansion Draft 2017 details Marc-Andre Fleury Vegas Golden Knights",
+                "id": "010f4ce0-e560-4811-9505-b22c50cfa910",
+                "reasoning": null
+            }
+        ],
+        "demo_pq": [
+            [
+                0.125,
+                "65ef292c-2f4b-48fd-9144-12cf8ddb2dc6"
+            ],
+            [
+                0.2105263157894737,
+                "e2f7bb04-35e7-4fbb-b697-b9e9be2a5139"
+            ],
+            [
+                0.27586206896551724,
+                "ec6fa967-cbaf-4ce5-9245-9594ccc9de6a"
+            ],
+            [
+                0.2727272727272727,
+                "010f4ce0-e560-4811-9505-b22c50cfa910"
+            ],
+            [
+                1.0,
+                "1c07e7c8-581b-415f-908d-601e77d8ab20"
+            ],
+            [
+                1.0,
+                "7f3aed5c-0430-4d4d-b5b9-f8962c92fa87"
+            ],
+            [
+                1.0,
+                "c48a8dcb-85c8-4764-a126-4ce720904dc3"
+            ],
+            [
+                1.0,
+                "dd3992d2-2ef8-4a8b-a734-70e69bac7270"
+            ]
+        ],
+        "max_num": 2,
+        "current_best_score_sum": 2.0
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_sampler_0_demos_f06af62e-bbe7-48c3-b32a-eec53525d10a": {
+                "name": "generate_query_sampler_0_demos_f06af62e-bbe7-48c3-b32a-eec53525d10a",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "69e3a5be-cfab-4a47-978c-ef0facc80ddb",
+                    "28f9f2a7-6e02-451b-8679-a600fed6793a"
+                ]
+            },
+            "generate_query_sampler_0_demos_f1579f39-64fb-46b6-910e-a5be6f436f79": {
+                "name": "generate_query_sampler_0_demos_f1579f39-64fb-46b6-910e-a5be6f436f79",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "fe59e55b-a612-4fef-a871-807d1775aaab",
+                    "28f9f2a7-6e02-451b-8679-a600fed6793a"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_pool": [
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "\"Canadian retired professional ice hockey player general manager Tampa Bay Lightning retirement Wings\"",
+                "id": "28f9f2a7-6e02-451b-8679-a600fed6793a",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Are both Cangzhou and Qionghai in the Hebei province of China?"
+                },
+                "output": "Cangzhou Qionghai Hebei province China location comparison",
+                "id": "69e3a5be-cfab-4a47-978c-ef0facc80ddb",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query: \"Wings new era retirement Canadian hockey player general manager Tampa Bay Lightning NHL\"",
+                "id": "fe59e55b-a612-4fef-a871-807d1775aaab",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Wings new era retirement Canadian retired professional ice hockey player general manager Tampa Bay Lightning NHL\""
+            },
+            {
+                "inputs": {
+                    "question": "What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?"
+                },
+                "output": "search_query: \"New York University student activities Meleko Mokgosi assistant professor\"",
+                "id": "92a93eb4-9cde-4fe9-be80-91bacd7c0b00",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"New York University students activities Meleko Mokgosi artist assistant professor\""
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "search_query: \"Wings new era retirement Canadian NHL player general manager Tampa Bay Lightning\"",
+                "id": "6d661989-1a02-48fd-b469-df6228a83709",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"Wings new era retirement Canadian professional ice hockey player general manager Tampa Bay Lightning NHL\""
+            },
+            {
+                "inputs": {
+                    "question": "What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?"
+                },
+                "output": "search_query: \"student activities New York University Meleko Mokgosi\"",
+                "id": "30376931-1b26-434e-bfb3-bc660f9facb1",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: search_query: \"New York University student activities Meleko Mokgosi artist assistant professor\""
+            },
+            {
+                "inputs": {
+                    "question": "The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?"
+                },
+                "output": "\"retirement Canadian ice hockey player general manager Tampa Bay Lightning\"",
+                "id": "b5316b70-1c9a-4401-9799-55447241ea57",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?"
+                },
+                "output": "NHL draft 2017 Marc-Andre Fleury Vegas Golden Knights conductor",
+                "id": "70d20ac9-6164-4669-a8f4-f125c4042260",
+                "reasoning": null
+            }
+        ],
+        "demo_pq": [
+            [
+                0.125,
+                "69e3a5be-cfab-4a47-978c-ef0facc80ddb"
+            ],
+            [
+                0.2105263157894737,
+                "92a93eb4-9cde-4fe9-be80-91bacd7c0b00"
+            ],
+            [
+                0.27586206896551724,
+                "30376931-1b26-434e-bfb3-bc660f9facb1"
+            ],
+            [
+                0.2727272727272727,
+                "70d20ac9-6164-4669-a8f4-f125c4042260"
+            ],
+            [
+                1.0,
+                "6d661989-1a02-48fd-b469-df6228a83709"
+            ],
+            [
+                1.0,
+                "fe59e55b-a612-4fef-a871-807d1775aaab"
+            ],
+            [
+                1.0,
+                "b5316b70-1c9a-4401-9799-55447241ea57"
+            ],
+            [
+                1.0,
+                "28f9f2a7-6e02-451b-8679-a600fed6793a"
+            ]
+        ],
+        "max_num": 2,
+        "current_best_score_sum": 2.0
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    }
+]

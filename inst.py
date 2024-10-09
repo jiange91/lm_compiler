@@ -1,1 +1,12 @@
-a = {"agents": {"Context Analyzer": {"inputs": ["context"], "outputs": ["context_summary"], "prompt": "You are the Context Analyzer. Your task is to thoroughly analyze the provided context and extract key pieces of information that are relevant to answering a question. Identify and summarize the main points, facts, and any other critical details that could be useful for answering a question based on this context.", "next_action": ["Question Interpreter"], "dynamic_action_decision": "None"}, "Question Interpreter": {"inputs": ["question"], "outputs": ["question_breakdown"], "prompt": "You are the Question Interpreter. Your task is to carefully analyze the given question to understand what is being asked. Break down the question into its core components and identify the type of information needed to answer it. Clearly state the main query and any sub-queries that need to be addressed.", "next_action": ["Information Matcher"], "dynamic_action_decision": "None"}, "Information Matcher": {"inputs": ["context_summary", "question_breakdown"], "outputs": ["matched_information"], "prompt": "You are the Information Matcher. Your task is to match the key points and relevant details from the context summary with the components of the question breakdown. Identify which pieces of information from the context are relevant to each part of the question. Clearly indicate how each piece of information addresses specific parts of the question.", "next_action": ["Answer Synthesizer"], "dynamic_action_decision": "None"}, "Answer Synthesizer": {"inputs": ["matched_information"], "outputs": ["answer"], "prompt": "You are the Answer Synthesizer. Your task is to synthesize a clear and coherent answer to the question using the matched information provided. Ensure that your answer is logically derived from the context and addresses all parts of the question. Provide a well-reasoned explanation to support your answer.", "next_action": ["END"], "dynamic_action_decision": "None"}}}
+outer_indicators = [
+    (0.4773892773892774, 0.00281712),
+    (0.5, 0.00140676),
+]
+ready_to_run = [0, 1]
+
+sorted_indicator_indices = sorted(
+    range(len(outer_indicators)),
+    key=lambda i: (-outer_indicators[i][0], outer_indicators[i][1])
+)
+runs_left_to_run = sorted_indicator_indices[:len(ready_to_run) // 2]
+print([ready_to_run[i] for i in runs_left_to_run])

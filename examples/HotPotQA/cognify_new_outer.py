@@ -76,14 +76,15 @@ def opt(data):
     )
     
     outer_opt_config = flow.OptConfig(
-        n_trials=0,
-        throughput=1,
-        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test',
+        n_trials=4,
+        throughput=2,
+        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test_SH_2',
     )
     outer_loop_config = driver.layerConfig(
         layer_name='outer_loop',
         universal_params=[ensemble_params],
         opt_config=outer_opt_config,
+        use_SH_allocation=True,
     )
     
     opt_driver = driver.MultiLayerOptimizationDriver(
@@ -96,11 +97,11 @@ def opt(data):
         script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
     )
     
-    eval_result = opt_driver.evaluate(
-        bot_trial_log_id='8465400c739047b58fc6e76847edd793',
-        opt_log_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test/inner_loop/c85a9b9fd5e74d4c8998eb6bba497d63/opt_logs.json',
-    )
-    print(eval_result)
+    # eval_result = opt_driver.evaluate(
+    #     bot_trial_log_id='1138a518deaf401aaf3571d06259f9be',
+    #     opt_log_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test_SH/inner_loop/d08054f3708c4556a2d5a8256a8ec3fa/opt_logs.json',
+    # )
+    # print(eval_result)
     
     
 if __name__ == '__main__':

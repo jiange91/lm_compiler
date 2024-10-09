@@ -84,7 +84,11 @@ class LMFewShot(DynamicParamBase):
     @classmethod
     def from_dict(cls, data: dict):
         name, module_name, max_num, current_best_score_sum = data['name'], data['module_name'], data['max_num'], data['current_best_score_sum']
-        param = cls(name, module_name, max_num)
+        param = cls(
+            name=name, 
+            module_name=module_name, 
+            max_num=max_num,
+        )
         
         demo_pool = {demo['id']: Demonstration(**demo) for demo in data['demo_pool']}
         demo_l = data['demo_pq']

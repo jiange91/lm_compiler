@@ -339,7 +339,6 @@ class OptimizationLayer:
         
         return next_level_info
     
-    
     def _optimize_iteration(
         self,
         base_program: list[Module],
@@ -354,7 +353,6 @@ class OptimizationLayer:
             logger.error(f'Error in evaluating task: {e}')
             raise
         
-    
     def _optimize(self, base_program: list[Module]):
         opt_config = self.top_down_info.opt_config
         if opt_config.throughput == 1:
@@ -545,128 +543,3 @@ class BottomLevelOptimization(OptimizationLayer):
         # run evaluation
         eval_result = self.evaluator.evaluate(eval_task)
         return eval_result
-
-class LayerEvaluator(GeneralEvaluatorInterface):
-    def __init__(
-        self,
-        target_layer: OptimizationLayer,
-        quality_constraint: float = None,
-    ):
-        self.target_layer = target_layer
-        self.quality_constraint = quality_constraint
-    
-    def evaluate(self, layer_task: TopDownInformation) -> EvaluationResult:
-        #NOTE: optimization will change layer meta, make a copy
-        target_layer_cpy = copy.deepcopy(self.target_layer)
-        eval_cost, pareto_frontier, opt_logs = target_layer_cpy.optimize(layer_task)
-        scores, prices = [], []
-        for trial_log in opt_logs.values():
-            scores.append(trial_log.score)
-            prices.append(trial_log.price)
-        reduced_score = max(scores)
-        if self.quality_constraint is not None:
-            # Consider retainment for reduced price
-            passed_price = [price for i, price in enumerate(prices) 
-                            if scores[i] >= self.quality_constraint]
-            if not passed_price:
-                reduced_price = 1e10
-            else:
-                reduced_price = min(passed_price)
-        else:
-            reduced_price = min(prices)
-        result = EvaluationResult(
-            scores=scores,
-            prices=prices,
-            reduced_score=reduced_score,
-            reduced_price=reduced_price,
-            demos=None,
-        )
-        return result
-    
-class UpperLevelTrialLog(TrialLog):
-    def __init__(
-        self, 
-        params, 
-        bo_trial_id, 
-        id = None,
-        score = 0, 
-        price = 0, 
-        eval_cost = 0,
-        next_level_log_dir = None,
-    ):
-        super().__init__(params, bo_trial_id, id, score, price, eval_cost)
-        self.next_level_log_dir = next_level_log_dir
-    
-    def to_dict(self):
-        return {
-            **super().to_dict(),
-            'next_level_log_dir': self.next_level_log_dir,
-        }
-    
-class UpperLevelOptimization(OptimizationLayer):
-    opt_logs: dict[int, UpperLevelTrialLog] = None
-    
-    def __init__(
-        self, 
-        name: str,
-        evaluator: LayerEvaluator,
-        dedicate_params: list[ParamBase] = [],
-        universal_params: list[ParamBase] = [],
-        target_modules: Iterable[str] = None,
-        save_ckpt_interval: int = 0,
-        next_level_opt_config: OptConfig = None,
-    ):
-        super().__init__(
-            name, evaluator, dedicate_params, universal_params, target_modules, save_ckpt_interval
-        )
-        self.next_level_opt_config = next_level_opt_config
-    
-    def create_log_at_proposal(self, trial: optuna.trial.Trial) -> UpperLevelTrialLog:
-        return UpperLevelTrialLog(
-            params=trial.params, bo_trial_id=trial.number
-        )
-        
-    def load_opt_ckpt(self, opt_log_path: str):
-        with open(opt_log_path, 'r') as f:
-            opt_trace = json.load(f)
-            
-        for trial_log_id, trial_meta in opt_trace.items():
-            trial_log = UpperLevelTrialLog.from_dict(trial_meta)
-            self.opt_logs[trial_log_id] = trial_log
-            self.opt_cost += trial_log.eval_cost
-            
-            trial = optuna.trial.create_trial(
-                params=trial_log.params,
-                values=[trial_log.score, trial_log.price],
-                distributions=self.param_categorical_dist,
-            )
-            self.study.add_trial(trial)
-    
-    def _optimize_iteration(self, base_program):
-        next_trial, program, new_trace, log_id = self.propose(base_program, 1)[0]
-        
-        next_level_info = self.prepare_next_level_tdi(program, new_trace)
-        # reset opt_config for next level
-        if self.next_level_opt_config:
-            next_level_info.opt_config.update(self.next_level_opt_config)
-        # incase log_dir is not set
-        if self.next_level_opt_config.log_dir is None:
-            current_level_log_dir = self.top_down_info.opt_config.log_dir
-            next_level_info.opt_config.log_dir = os.path.join(
-                current_level_log_dir, 
-                self.evaluator.target_layer.name,
-            )
-        # each outer-loop config will spawn a new inner-loop, avoid conflict
-        next_level_info.opt_config.log_dir = os.path.join(
-            next_level_info.opt_config.log_dir,
-            uuid.uuid4().hex 
-        )
-        self.opt_logs[log_id].next_level_log_dir = next_level_info.opt_config.log_dir
-        
-        # set these path to None to let the next level to decide
-        next_level_info.opt_config.opt_log_path = None
-        next_level_info.opt_config.param_save_path = None
-
-        # run evaluation
-        eval_result = self.evaluator.evaluate(next_level_info)
-        self.update(next_trial, eval_result, log_id)

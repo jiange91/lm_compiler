@@ -19,7 +19,6 @@ from compiler.IR.llm import LLMPredictor, Demonstration
 from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, IdentityOption, AddNewModuleImportInterface
 from compiler.optimizer.decompose import LMTaskDecompose, StructuredAgentSystem
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, get_inspect_runnable, var_2_str
-from compiler.optimizer.evaluation.evaluator import EvaluationResult, Evaluator
 from compiler.optimizer.params.utils import dump_params, load_params
 from compiler.optimizer.plugin import OptimizerSchema
 from abc import ABC, ABCMeta

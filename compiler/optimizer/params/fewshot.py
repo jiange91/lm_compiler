@@ -14,7 +14,7 @@ from compiler.IR.base import Module
 from compiler.IR.program import Workflow
 from compiler.IR.llm import LLMPredictor, Demonstration
 from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, IdentityOption
-from compiler.optimizer.evaluation.evaluator import EvaluationResult, Evaluator
+from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from compiler.optimizer.params.utils import dump_params, load_params
 
     
@@ -45,8 +45,9 @@ class LMFewShot(DynamicParamBase):
     @classmethod
     def bootstrap(
         cls,
-        workflow: Workflow,
-        evaluator: Evaluator,
+        evaluator: EvaluatorPlugin,
+        script_path: str,
+        script_args: list[str] = [],
         max_num: int = 5,
         target_modules: Optional[list[str]] = None,
         log_path: Optional[str] = None,
@@ -60,18 +61,33 @@ class LMFewShot(DynamicParamBase):
             if os.path.exists(log_path):
                 logger.info(f'Loading from {log_path}')
                 return load_params(log_path)
-            
-        eval_result = evaluator(workflow)
-        if target_modules is not None:
-            lms = workflow.get_all_modules(lambda x: x.name in target_modules)
-            for lm in lms:
-                if not isinstance(lm, LLMPredictor):
-                    raise ValueError(f'{lm.name} is not a LLMPredictor')
-        else:
-            lms: list[LLMPredictor] = workflow.get_all_modules(lambda x: isinstance(x, LLMPredictor))
+        
+        eval_task = EvalTask(
+            script_path=script_path,
+            args=script_args,
+            other_python_paths=[],
+            all_params={},
+            module_name_paths={},
+            aggregated_proposals={},
+        )
+        eval_result = evaluator.evaluate(eval_task)
         params = []
-        for lm in lms:
-            params.append(cls('fewshot_demo', lm.name, max_num, eval_result))
+        module_with_demo = set()
+        for module_2_demo in eval_result.demos:
+            module_with_demo.update(module_2_demo.keys())
+        # filter target modules
+        module_with_demo = module_with_demo & set(target_modules) if target_modules else module_with_demo
+        
+        for m_name in module_with_demo:
+            params.append(
+                cls(
+                    name='fewshot_demo',
+                    max_num=max_num,
+                    module_name=m_name, 
+                    eval_result=eval_result,
+                    inherit=False,
+                )
+            )
         # if log_path provided, save to it
         if log_path is not None:
             logger.info(f'Saving to {log_path}')

@@ -15,7 +15,6 @@ import multiprocess as mp
 
 import logging
 
-from compiler.IR.base import ComposibleModuleInterface
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsageSummary, TokenUsage
 from compiler.optimizer.evaluation.metric import MetricBase
@@ -59,115 +58,6 @@ class EvaluationResult:
     
     def __str__(self) -> str:
         return f"EvalResult: score={self.reduced_score}, price={self.reduced_price}, {len(self.scores)} samples"
-
-class EvaluatorInterface(ABC):
-    
-    @abstractmethod
-    def __call__(
-        self,
-        workflow: Workflow,
-    ) -> EvaluationResult:
-        """Evaluate the workflow with the given metric and eval_set
-        
-        Should not change the state of given workflow
-        """
-        ...
-    
-
-class Evaluator(EvaluatorInterface):
-    def __init__(
-        self,
-        metric: MetricBase,
-        eval_set: Iterable[Tuple[StatePool, Any]], 
-        num_thread: int = 1,
-        score_reducer: Callable = None,
-        price_reducer: Callable = None,
-    ) -> None:
-        self.metric = metric
-        self.eval_set = eval_set
-        self.score_reducer = score_reducer if score_reducer is not None else default_reduer
-        self.price_reducer = price_reducer if price_reducer is not None else default_reduer
-        self.num_thread = num_thread
-    
-    def _single_thread_run(
-        self,
-        workflow: Workflow,
-    ) -> EvaluationResult:
-        program = copy.deepcopy(workflow)
-        prices = []
-        states = []
-        scores = []
-        demos = []
-        for input_state, label in self.eval_set:
-            state_cpy = copy.deepcopy(input_state)
-            program.reset()
-            program.pregel_run(state_cpy)
-            
-            program.update_token_usage_summary()
-            price = get_bill(program.token_usage_buffer)[0]
-            prices.append(price)
-            states.append(state_cpy)
-            scores.append(self.metric(label, state_cpy))
-            
-            demo = {}
-            for lm in program.get_all_modules(lambda x: isinstance(x, LLMPredictor)):
-                demo[lm.name] = lm.get_step_as_example()
-            demos.append(demo)
-        return EvaluationResult(
-            scores=scores, 
-            prices=prices, 
-            demos=demos)
-    
-    def _multi_thread_run(
-        self,
-        workflow: Workflow,
-        num_thread: int,
-    ) -> EvaluationResult:
-        def routine(input_state, label, workflow: Workflow):
-            state_cpy = copy.deepcopy(input_state)
-            program = copy.deepcopy(workflow)
-            program.reset()
-            program.pregel_run(state_cpy)
-            program.update_token_usage_summary()
-            price = get_bill(program.token_usage_buffer)[0]
-            
-            demo = {}
-            for lm in program.get_all_modules(lambda x: isinstance(x, LLMPredictor)):
-                demo[lm.name] = lm.get_step_as_example()
-            return state_cpy, self.metric(label, state_cpy), price, demo
-        
-        with ThreadPoolExecutor(num_thread) as executor:
-            futures = []
-            for input_state, label in self.eval_set:
-                futures.append(executor.submit(routine, input_state, label, workflow))
-            states, scores, prices, demos = [], [], [], []
-            for future in futures:
-                state, score, price, demo = future.result()
-                states.append(state)
-                scores.append(score)
-                prices.append(price)
-                demos.append(demo)
-        return EvaluationResult(
-            scores=scores, 
-            prices=prices, 
-            demos=demos)
-    
-
-    def __call__(
-        self,
-        workflow: Workflow,
-    ) -> EvaluationResult:
-        """Evaluate the workflow with the given metric and eval_set
-        
-        Will not change the state of given workflow
-        """
-        if self.num_thread == 1:
-            eval = self._single_thread_run(workflow)
-        else:
-            eval = self._multi_thread_run(workflow, self.num_thread)
-        eval.reduced_score = self.score_reducer(eval.scores)
-        eval.reduced_price = self.price_reducer(eval.prices)
-        return eval
 
 @dataclass
 class EvalTask:
@@ -318,7 +208,8 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         score_reducer: Callable = None,
         price_reducer: Callable = None,
     ):
-        self.eval_set = eval_set
+        self.full_eval_set = eval_set
+        self.eval_set = list(range(len(self.full_eval_set)))
         self.n_parallel = n_parallel
         self.score_reducer = score_reducer if score_reducer is not None else default_reduer
         self.price_reducer = price_reducer if price_reducer is not None else default_reduer
@@ -329,10 +220,11 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
     ):
         task.add_PYTHON_PATH()
         logger.debug(f'sys_path = {sys.path}')
-        
-        with mp.Pool(processes=self.n_parallel) as pool:
+        n_parallel = min(self.n_parallel, len(self.eval_set)) 
+        with mp.Pool(processes=n_parallel) as pool:
             tasks = []
-            for input, label in self.eval_set:
+            for pair_idx in self.eval_set:
+                input, label = self.full_eval_set[pair_idx]
                 tasks.append(
                     pool.apply_async(task.evaluate_program, args=(input, label))
                 )
@@ -355,3 +247,51 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
             demos=demos,
         )
     
+    def down_sample(
+        self,
+        sample_size: int,
+        task: EvalTask,
+        sample_mode: Literal['random', 'difficulty'],
+        prob_convertor: Callable[[EvaluationResult], Sequence[int]] = None,
+    ):
+        """Generate a subset of the eval_set according to answer score
+        
+        The objective is to reduce the evaluation cost with the following two principles:
+        
+        1. subset should have good coverage of the input space, spanning from easy to hard
+        2. harder questions are more important
+        
+        In case the task itself does not provide meaningful comparative scores (e.g. classification task), use `random` sample mode to randomly sample from the eval_set or use `difficulty` at your own risk.
+        
+        NOTE: since we only care about comparative score, maybe use the most efficient config with least bias (e.g. cheap models) to evaluate the subset
+        
+        The default prob_convertor works fine for score within range[0,1], but you can provide a custom one if needed
+        
+        also please be informed that we always assume score is higher the better
+        """
+        full_indices = list(range(len(self.full_eval_set))) 
+        if sample_mode == 'random':
+            self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False)
+            return
+
+        eval_result = self.evaluate(task)
+        # if user provide a custom prob convertor
+        if prob_convertor is not None:
+            probs = prob_convertor(eval_result)
+            self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False, p=probs)
+        
+        # sampling prob is reverse to the score
+        # also smooth it to reduce extremely easy or hard questions
+        def transform(x):
+            return np.exp(-x)
+        scaled_reverse_score = transform(np.array(eval_result.scores))
+        # normalize to prob
+        probs = scaled_reverse_score / scaled_reverse_score.sum()
+        # sample according to the prob
+        self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False, p=probs)
+ 
+        
+        
+        
+        
+        

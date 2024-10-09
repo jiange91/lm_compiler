@@ -41,16 +41,20 @@ TDemoInTrial = dict[str, Demonstration]
 class EvaluationResult:
     def __init__(
         self,
+        ids: Sequence[int],
         scores: Sequence[float],
         prices: Sequence[float],
+        total_eval_cost: float,
         reduced_score: Optional[float] = None,
         reduced_price: Optional[float] = None,
         demos: Optional[Sequence[TDemoInTrial]] = None,
         
         meta: Optional[dict] = None,
     ) -> None:
+        self.ids = ids
         self.scores = scores
         self.prices = prices
+        self.total_eval_cost = total_eval_cost
         self.reduced_score = reduced_score
         self.reduced_price = reduced_price
         self.demos = demos
@@ -240,8 +244,10 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         reduced_score = self.score_reducer(scores)
         reduced_price = self.price_reducer(prices)
         return EvaluationResult(
+            ids=self.eval_set,
             scores=scores,
             prices=prices,
+            total_eval_cost=sum(prices),
             reduced_score=reduced_score,
             reduced_price=reduced_price,
             demos=demos,
@@ -290,8 +296,5 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         # sample according to the prob
         self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False, p=probs)
  
-        
-        
-        
         
         

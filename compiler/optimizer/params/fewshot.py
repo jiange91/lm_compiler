@@ -28,13 +28,23 @@ class LMFewShot(DynamicParamBase):
         module_name: str = None,
         eval_result: EvaluationResult = None,
         inherit: bool = False,
+        allow_duplicate: bool = False,
     ):
         # NOTE: identity option is added to escape from bad demos
         super().__init__(name, [IdentityOption()], 0, module_name, inherit=inherit, inherit_options=False)
-        self.demo_pool: dict[str, Demonstration] = {}
-        self.demo_pq = []
+        # cached good demos in all options
+        # demo_id -> Demonstration
+        self.demo_cache: dict[str, Demonstration] = {}
+        # task_id -> score
+        self.best_score_by_task: dict[int, float] = {}
+        # priority queue for demos (score, task_id, demo_id)
+        self.demo_pq: list[tuple[float, int, str]] = []
+        # task_id in priority queue
+        self.task_id_set = set()
+        
         self.max_num = max_num
         self.current_best_score_sum = float('-inf')
+        self.allow_duplicate = allow_duplicate
         if eval_result is not None:
             t = self.evole(eval_result)
             # Some agent might not have a single demo so this assert is not valid
@@ -42,6 +52,128 @@ class LMFewShot(DynamicParamBase):
             if t == EvolveType.ID:
                 Warning(f'Given evaluation result does not contain good demos for {module_name}')
     
+
+    def evole(self, eval_result: EvaluationResult) -> EvolveType:
+        """Update demo range given current evaluation result
+        
+        always select top k demos as new option candidate 
+        only accept this candidate if sum of their score is higher than current best option
+        
+        """
+        # update demo pool
+        updated = set()
+        demo_pool: dict[int, Demonstration] = {}
+        for task_id, demo, score in zip(eval_result.ids, eval_result.demos, eval_result.scores):
+            demo_pool[task_id] = demo[self.module_name]
+            # NOTE: use < to prevent too frequent update of same task demo
+            # also this check requires demo to surpass itself even for allow_duplicate
+            if task_id not in self.best_score_by_task or self.best_score_by_task[task_id] < score: 
+                updated.add(task_id)
+                self.best_score_by_task[task_id] = score
+        
+        # update priority queue
+        new_option = False
+        for task_id in updated:
+            score, demo = self.best_score_by_task[task_id], demo_pool[task_id]
+            if len(self.demo_pq) < self.max_num:
+                heapq.heappush(self.demo_pq, (score, task_id, demo.id))
+                self.task_id_set.add(task_id)
+                new_option = True
+                continue
+            
+            # if allow_duplicate or not added yet, directly replace the lowest score demo
+            if self.allow_duplicate:
+                # more strict condition for allow_duplicate
+                if score > self.demo_pq[0][0]:
+                    heapq.heapreplace(self.demo_pq, (score, task_id, demo.id))
+                    self.task_id_set.add(task_id)
+                    new_option = True
+            elif task_id not in self.task_id_set:
+                # prepare trying similar quality demos if different task_id
+                if score >= self.demo_pq[0][0]:
+                    heapq.heapreplace(self.demo_pq, (score, task_id, demo.id))
+                    self.task_id_set.add(task_id)
+                    new_option = True
+            else:
+                # same task_id already in the queue, need to replace the same task demo
+                new_pq = [e for e in self.demo_pq if e[1] != task_id]
+                heapq.heapify(new_pq)
+                heapq.heappush(new_pq, (score, task_id, demo.id))
+                self.demo_pq = new_pq
+                new_option = True
+            
+        if new_option:
+            score_sum = 0
+            demos = []
+            for score, task_id, demo_id in self.demo_pq:
+                score_sum += score
+                if demo_id not in self.demo_cache:
+                    self.demo_cache[demo_id] = demo_pool[task_id]
+                demos.append(self.demo_cache[demo_id])
+            self.current_best_score_sum = score_sum
+            option_name = f'{self.module_name}_demos_{str(uuid.uuid4())}'
+            self.add_option(DemoOption(option_name, demos))
+            return EvolveType.RANGE
+        return EvolveType.ID
+
+
+    @classmethod
+    def from_dict(cls, data: dict):
+        name, module_name, max_num, current_best_score_sum = data['name'], data['module_name'], data['max_num'], data['current_best_score_sum']
+        allow_duplicate = data.get('allow_duplicate', False)
+        param = cls(
+            name=name, 
+            module_name=module_name, 
+            max_num=max_num,
+            allow_duplicate=allow_duplicate,
+        )
+        
+        demo_cache = {}
+        for e in data['demo_cache']:
+            demo = Demonstration(**e)
+            demo_cache[demo.id] = demo
+        param.demo_cache = demo_cache
+        param.best_score_by_task = data['best_score_by_task']
+        
+        demo_pq = [
+            (
+                e['score'], 
+                e['task_id'], 
+                e['demo_id'],
+            ) for e in data['demo_pq']
+        ]
+        heapq.heapify(demo_pq) 
+        param.demo_pq = demo_pq
+        
+        task_id_set = set(data['task_id_set'])
+        param.task_id_set = task_id_set
+        
+        loaded_options = data['options']
+        loaded_options.pop('Identity', None)
+        loaded_options = {name: DemoOption.from_dict(option, demo_cache) for name, option in loaded_options.items()}
+        
+        param.current_best_score_sum = current_best_score_sum
+        param.options.update(loaded_options)
+        return param
+            
+    
+    def to_dict(self):
+        base = super().to_dict()
+        base['demo_cache'] = [dataclasses.asdict(v) for k, v in self.demo_cache.items()]
+        base['best_score_by_task'] = self.best_score_by_task
+        base['demo_pq'] = [
+            {
+                'score': score,
+                'task_id': task_id,
+                'demo_id': demo_id
+            } for score, task_id, demo_id in self.demo_pq
+        ]
+        base['task_id_set'] = list(self.task_id_set)
+        base['max_num'] = self.max_num
+        base['current_best_score_sum'] = self.current_best_score_sum
+        base['allow_duplicate'] = self.allow_duplicate
+        return base
+
     @classmethod
     def bootstrap(
         cls,
@@ -51,6 +183,7 @@ class LMFewShot(DynamicParamBase):
         max_num: int = 5,
         target_modules: Optional[list[str]] = None,
         log_path: Optional[str] = None,
+        allow_duplicate: bool = False,
     ):
         """Collect good demos for LLMs in a workflow
         
@@ -86,6 +219,7 @@ class LMFewShot(DynamicParamBase):
                     module_name=m_name, 
                     eval_result=eval_result,
                     inherit=False,
+                    allow_duplicate=allow_duplicate,
                 )
             )
         # if log_path provided, save to it
@@ -96,64 +230,6 @@ class LMFewShot(DynamicParamBase):
                 os.makedirs(dir, exist_ok=True)
             dump_params(params, log_path)
         return params
-
-    @classmethod
-    def from_dict(cls, data: dict):
-        name, module_name, max_num, current_best_score_sum = data['name'], data['module_name'], data['max_num'], data['current_best_score_sum']
-        param = cls(
-            name=name, 
-            module_name=module_name, 
-            max_num=max_num,
-        )
-        
-        demo_pool = {demo['id']: Demonstration(**demo) for demo in data['demo_pool']}
-        demo_l = data['demo_pq']
-        demo_pq = [(score, demo_id) for score, demo_id in demo_l]
-        
-        loaded_options = data['options']
-        loaded_options.pop('Identity', None)
-        loaded_options = {name: DemoOption.from_dict(option, demo_pool) for name, option in loaded_options.items()}
-        
-        param.demo_pool = demo_pool
-        param.demo_pq = demo_pq
-        param.current_best_score_sum = current_best_score_sum
-        param.options.update(loaded_options)
-        return param
-            
-    
-    def evole(self, eval_result: EvaluationResult) -> EvolveType:
-        """Update demo range given current evaluation result
-        
-        always select top k demos as new option candidate 
-        only accept this candidate if sum of their score is higher than current best option
-        
-        """
-        selection = heapq.nlargest(self.max_num, enumerate(eval_result.scores), key=lambda x: x[1])
-        for i, score in selection:
-            demo = eval_result.demos[i][self.module_name]
-            if demo is not None:
-                heapq.heappush(self.demo_pq, (score, demo.id))
-                self.demo_pool[demo.id] = demo
-            
-        score_sum = 0
-        demos = []
-        for score, demo_id in self.demo_pq[-self.max_num:]:
-            score_sum += score
-            demos.append(self.demo_pool[demo_id])
-        if demos and score_sum > self.current_best_score_sum:
-            self.current_best_score_sum = score_sum
-            option_name = f'{self.module_name}_demos_{str(uuid.uuid4())}'
-            self.add_option(DemoOption(option_name, demos))
-            return EvolveType.RANGE
-        return EvolveType.ID
-
-    def to_dict(self):
-        base = super().to_dict()
-        base['demo_pool'] = [dataclasses.asdict(demo) for demo in self.demo_pool.values()]
-        base['demo_pq'] = self.demo_pq
-        base['max_num'] = self.max_num
-        base['current_best_score_sum'] = self.current_best_score_sum
-        return base
 
     def custom_clean(self):
         self.demo_pool.clear()

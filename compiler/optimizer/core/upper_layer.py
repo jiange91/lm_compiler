@@ -47,8 +47,9 @@ class LayerEvaluator(GeneralEvaluatorInterface):
         #NOTE: optimization will change layer meta, make a copy
         target_layer_cpy = copy.deepcopy(self.target_layer)
         eval_cost, pareto_frontier, opt_logs = target_layer_cpy.optimize(layer_task)
-        scores, prices = [], []
+        inner_log_ids, scores, prices = [], [], []
         for trial_log in opt_logs.values():
+            inner_log_ids.append(trial_log.id)
             scores.append(trial_log.score)
             prices.append(trial_log.price)
         reduced_score = max(scores)
@@ -63,8 +64,10 @@ class LayerEvaluator(GeneralEvaluatorInterface):
         else:
             reduced_price = min(prices)
         result = EvaluationResult(
+            ids=inner_log_ids,
             scores=scores,
             prices=prices,
+            total_eval_cost=eval_cost,
             reduced_score=reduced_score,
             reduced_price=reduced_price,
             demos=None,
@@ -97,10 +100,10 @@ class SuccessiveHalving:
             tdi = self.selected_runs[i][1]
             self.num_inner_trials[i] += tdi.opt_config.n_trials
             
-        futures: set[Future] = set()
+        futures: list[Future] = []
         with ThreadPoolExecutor(max_workers=len(self.ready_to_run)) as executor:
             for i in self.ready_to_run:
-                futures.add(executor.submit(
+                futures.append(executor.submit(
                     self.selected_runs[i][0].evaluate, self.selected_runs[i][1]
                 ))
                 

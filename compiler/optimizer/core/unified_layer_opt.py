@@ -247,13 +247,12 @@ class OptimizationLayer:
         log_id: str,
     ):
         score, price = eval_result.reduced_score, eval_result.reduced_price
-        logger.info(f"- {self.name} - Trial {trial.number} result: score: {score}, price: {price}")
+        logger.info(f"- {self.name} - Trial {trial.number} result: score: {score}, price@1: {price}")
         self.opt_logs[log_id].score = score
         self.opt_logs[log_id].price = price
         
-        total_price = sum(eval_result.prices)
-        self.opt_logs[log_id].eval_cost = total_price
-        self.opt_cost += total_price
+        self.opt_logs[log_id].eval_cost = eval_result.total_eval_cost
+        self.opt_cost += eval_result.total_eval_cost
          
         # update study if any dynamic params can evolve
         with self._study_lock:

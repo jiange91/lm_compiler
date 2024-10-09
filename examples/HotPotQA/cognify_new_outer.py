@@ -60,24 +60,22 @@ def opt(data):
 
     evaluator = EvaluatorPlugin(
         eval_set=data,
-        n_parallel=40,
+        n_parallel=20,
     )
     
-    down_sample_task = EvalTask(
-        script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
-        args=[],
-        other_python_paths=[],
-        all_params={},
-        module_name_paths={},
-        aggregated_proposals={},
-    )
-    evaluator.down_sample(3, down_sample_task, 'difficulty')
-    
-    return
+    # down_sample_task = EvalTask(
+    #     script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
+    #     args=[],
+    #     other_python_paths=[],
+    #     all_params={},
+    #     module_name_paths={},
+    #     aggregated_proposals={},
+    # )
+    # evaluator.down_sample(4, down_sample_task, 'difficulty')
     
     inner_opt_config = flow.OptConfig(
-        n_trials=8,
-        throughput=2,
+        n_trials=2,
+        throughput=1,
         log_dir=None,
     )
     inner_loop_config = driver.layerConfig(
@@ -88,9 +86,9 @@ def opt(data):
     )
     
     outer_opt_config = flow.OptConfig(
-        n_trials=0,
+        n_trials=4,
         throughput=2,
-        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/whole_opt_test',
+        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/new_few_shot_opt_2',
     )
     outer_loop_config = driver.layerConfig(
         layer_name='outer_loop',
@@ -110,11 +108,11 @@ def opt(data):
         script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
     )
     
-    eval_result = opt_driver.evaluate(
-        bot_trial_log_id='10255fbe478343c885dcfc566a734226',
-        opt_log_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/whole_opt_test/inner_loop/17dfd7780bc646b9b11dee72fec2f395/opt_logs.json',
-    )
-    print(eval_result)
+    # eval_result = opt_driver.evaluate(
+    #     bot_trial_log_id='10255fbe478343c885dcfc566a734226',
+    #     opt_log_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/whole_opt_test/inner_loop/17dfd7780bc646b9b11dee72fec2f395/opt_logs.json',
+    # )
+    # print(eval_result)
     
     
 if __name__ == '__main__':

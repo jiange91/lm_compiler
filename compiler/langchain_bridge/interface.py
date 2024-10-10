@@ -27,6 +27,7 @@ from compiler.IR.schema_parser import get_pydantic_format_instruction as get_for
 from compiler.IR.schema_parser import pydentic_model_repr
 from compiler.langchain_bridge.utils import var_2_str
 import copy
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -417,12 +418,14 @@ def langchain_lm_kernel({inputs_str}):
         # if self.lm_config['who_service'] == 'openai':
         if model_name.startswith('gpt-') or model_name.startswith('o1-'):
             self.lm = ChatOpenAI(
-                **self.lm_config, 
+                **self.lm_config,
+                api_key=os.environ['OPENAI_API_KEY'],
                 callbacks=[LLMTracker(self)]
             )
         else:
             self.lm = ChatTogether(
                 **self.lm_config,
+                api_key=os.environ['TOGETHER_API_KEY'],
                 callbacks=[LLMTracker(self)]
             )
         # else:

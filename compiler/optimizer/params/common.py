@@ -186,6 +186,9 @@ class ParamBase(metaclass=ParamMeta):
             self.default_option = default_option
         self.inherit = inherit
     
+    def get_default_option(self):
+        return self.options[self.default_option]
+    
     @staticmethod
     def chash(module_name, param_name):
         return f"{module_name}_{param_name}"

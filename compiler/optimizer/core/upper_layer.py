@@ -87,7 +87,7 @@ class SuccessiveHalving:
     3. repeat from step 1 until no trials left
     """
     def __init__(
-        self, 
+        self,
         selected_runs: list[Tuple[LayerEvaluator, TopDownInformation]],
     ):
         self.selected_runs = selected_runs

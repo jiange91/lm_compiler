@@ -61,7 +61,12 @@ class EvaluationResult:
         self.meta = meta
     
     def __str__(self) -> str:
-        return f"EvalResult: score={self.reduced_score}, price={self.reduced_price}, {len(self.scores)} samples"
+        return (
+            f"EvalResult: score: {self.reduced_score}, "
+            f"price: {self.reduced_price}, " 
+            f"{len(self.scores)} samples, "
+            f"eval cost: {self.total_eval_cost}"
+        )
 
 @dataclass
 class EvalTask:
@@ -149,27 +154,31 @@ class EvalTask:
             for ori_name, new_name in module_ttrace.flattened_name_paths.items()
         }
         return new_modules_dict
-                    
-    def evaluate_program(self, input, label):
+
+    def get_program_schema(self):
         self.add_PYTHON_PATH()
         sys.argv = [self.script_path] + self.args
         schema = OptimizerSchema.capture(self.script_path)
+        
         logger.debug(f'opt_target_modules = {schema.opt_target_modules}')
         assert schema.opt_target_modules, "No module to optimize"
+        return schema
+                    
+    def evaluate_program(self, input, label):
+        schema = self.get_program_schema()
         module_pool = {m.name: m for m in schema.opt_target_modules}
         
         # replace module invoke with new module
         # this does not replace the model but only the invoke function
-        if self.aggregated_proposals is not None:
-            new_modules_dict = self.replay_module_transformations(schema.opt_target_modules)
+        if self.aggregated_proposals:
+            module_pool = self.replay_module_transformations(schema.opt_target_modules)
             for m in schema.opt_target_modules:
-                new_module = new_modules_dict[m.name]
+                new_module = module_pool[m.name]
                 if isinstance(new_module, Workflow):
                     new_module.compile()
                 logger.debug(f'replace {m} with {new_module}')
                 m.invoke = new_module.invoke
                 m.reset()
-                module_pool[m.name] = new_module
             
         result = schema.program(input)
         score = schema.score_fn(label, result)
@@ -277,14 +286,15 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         """
         full_indices = list(range(len(self.full_eval_set))) 
         if sample_mode == 'random':
-            self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False)
+            self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False).tolist()
             return
 
         eval_result = self.evaluate(task)
         # if user provide a custom prob convertor
         if prob_convertor is not None:
             probs = prob_convertor(eval_result)
-            self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False, p=probs)
+            self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False, p=probs).tolist()
+            return
         
         # sampling prob is reverse to the score
         # also smooth it to reduce extremely easy or hard questions
@@ -294,7 +304,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         # normalize to prob
         probs = scaled_reverse_score / scaled_reverse_score.sum()
         # sample according to the prob
-        self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False, p=probs)
+        self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False, p=probs).tolist()
  
         
         

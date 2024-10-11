@@ -77,7 +77,6 @@ class MultiLayerOptimizationDriver:
     def __init__(
         self,
         layer_configs: Sequence[layerConfig],
-        evaluator: EvaluatorPlugin,
         quality_constraint: float = None,
     ):
         """Driver for multi-layer optimization
@@ -88,15 +87,13 @@ class MultiLayerOptimizationDriver:
         NOTE: the order of the layers is from top to bottom, i.e., the last layer will run program evaluation directly while others will run layer evaluation
         """
         self.layer_configs = layer_configs
-        self.evaluator = evaluator
         self.quality_constraint = quality_constraint
         
         # initialize optimization layers
         self.opt_layers: list[OptimizationLayer] = [None] * len(layer_configs)
-        self.build_tiered_optimization()
     
     def build_tiered_optimization(
-        self,
+        self, evaluator: EvaluatorPlugin
     ):
         """Build tiered optimization from bottom to top
         """
@@ -105,7 +102,7 @@ class MultiLayerOptimizationDriver:
             if ri == 0:
                 opt_layer = BottomLevelOptimization(
                     name=layer_config.layer_name,
-                    evaluator=self.evaluator,
+                    evaluator=evaluator,
                     dedicate_params=layer_config.dedicate_params,
                     universal_params=layer_config.universal_params,
                     target_modules=layer_config.target_modules,
@@ -129,11 +126,13 @@ class MultiLayerOptimizationDriver:
             self.opt_layers[idx] = opt_layer
             
     def run(
-        self, 
+        self,
+        evaluator: EvaluatorPlugin,
         script_path: str,
         script_args: Optional[list[str]] = None,
         other_python_paths: Optional[list[str]] = None,
     ) -> tuple[float, list[TrialLog], dict[int, TrialLog]]:
+        self.build_tiered_optimization(evaluator)
         first_layer_opt_config = self.layer_configs[0].opt_config
         return self.opt_layers[0].easy_optimize(
             opt_config=first_layer_opt_config,
@@ -144,12 +143,17 @@ class MultiLayerOptimizationDriver:
     
     def evaluate(
         self,
+        evaluator: EvaluatorPlugin,
         bot_trial_log_id: str,
         opt_log_path: str,
     ):
         bot_layer: BottomLevelOptimization = self.opt_layers[-1]
-        return bot_layer.easy_eval(
+        train_eval = bot_layer.evaluator
+        bot_layer.evaluator = evaluator
+        result = bot_layer.easy_eval(
             trial_log_id=bot_trial_log_id,
             opt_log_path=opt_log_path,
         )
+        bot_layer.evaluator = train_eval
+        return result
         

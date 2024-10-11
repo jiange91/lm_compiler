@@ -15,6 +15,7 @@ import optuna
 from compiler.optimizer.params.common import IdentityOption
 from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
 from compiler.optimizer.plugin import OptimizerSchema
+from compiler.optimizer.analysis.param_sensitivity import SensitivityAnalyzer
 
 def load_data():
     data_path = 'examples/IR_matplot_agent/benchmark_data'
@@ -40,7 +41,6 @@ def load_data():
         label = {"ground_truth": f"/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/benchmark_data/ground_truth/example_{example_id}.png"}
         all_data.append((input, label))
     return all_data
-
 
 
 def opt(train):

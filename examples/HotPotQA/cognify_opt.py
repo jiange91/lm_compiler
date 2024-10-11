@@ -32,15 +32,14 @@ def load_data():
     dataset = HotPotQA(train_seed=1, train_size=150, eval_seed=2023, dev_size=200, test_size=0)
     def get_input_label(x):
         return x.question, x.answer
-    trainset = [get_input_label(x) for x in dataset.train[0:100]]
-    valset = [get_input_label(x) for x in dataset.train[100:150]]
+    trainset = [get_input_label(x) for x in dataset.train[0:25]]
+    valset = [get_input_label(x) for x in dataset.train[25:150]]
     devset = [get_input_label(x) for x in dataset.dev]
     print(devset[0])
     return trainset, valset, devset[:50]
 
 def opt(data):
     lm_options = [
-        'gpt-4o-2024-08-06',
         'gpt-4o-mini',
     ]
     model_param = model_selection.LMSelection(
@@ -55,7 +54,7 @@ def opt(data):
     
     inner_loop = InnerLoopBayesianOptimization(
         # universal_params=[model_param, few_shot_params, reasoning_param],
-        universal_params=[few_shot_params, reasoning_param],
+        universal_params=[few_shot_params, reasoning_param, model_param],
         # universal_params=[few_shot_params],
     )
     
@@ -65,19 +64,18 @@ def opt(data):
     )
     
     cost, pareto_frontier = inner_loop.optimize(
-        script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
+        script_path=f'/home/reyna/Cognify/examples/HotPotQA/cognify_anno.py',
         n_trials=30,
         evaluator=evaluator,
-        log_dir=f'/mnt/ssd4/lm_compiler/examples/HotPotQA/opt_test',
+        log_dir=f'/home/reyna/Cognify/examples/HotPotQA/opt_real_mini',
         throughput=2,
     )
     return pareto_frontier
 
 def eval(data, config):
-    trial, task = config
     print("----- Testing select trial -----")
-    print("  Params: {}".format(trial.params))
-    f1, f2 = trial.values
+    print("  Params: {}".format(config.params))
+    f1, f2 = config.score, config.price
     print("  Values: score= {}, cost= {}".format(f1, f2))
     evaluator = EvaluatorPlugin(
         eval_set=data,
@@ -89,7 +87,7 @@ def eval(data, config):
     #     module_map_table=None,
     #     module_pool=None,
     # )
-    eval_result = evaluator.evaluate(task)
+    eval_result = evaluator.evaluate(config.program[1])
     print(str(eval_result))
     
 if __name__ == '__main__':
@@ -99,5 +97,13 @@ if __name__ == '__main__':
     # train, val, dev = load_data()
     train, dev = load_data_minor()
     configs = opt(train)
-    # eval(dev, configs[1])
+    best_score = 0
+    best_config = None
+    for config in configs:
+        current_max = max(config.score, best_score)
+        if current_max > best_score:
+            best_score = current_max
+            best_config = config
+
+    eval(dev, best_config)
     

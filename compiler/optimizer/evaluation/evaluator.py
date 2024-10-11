@@ -193,6 +193,26 @@ class EvalTask:
         summary = TokenUsageSummary.summarize(usages)
         price = summary.total_price
         return result, score, price, lm_2_demo
+    
+# class NoDaemonProcess(mp.Process):
+#     @property
+#     def daemon(self):
+#         return False
+
+#     @daemon.setter
+#     def daemon(self, value):
+#         pass
+
+
+# class NoDaemonContext(type(mp.get_context(method="spawn"))):
+#     Process = NoDaemonProcess
+
+# # We sub-class multiprocessing.pool.Pool instead of multiprocessing.Pool
+# # because the latter is only a wrapper function, not a proper class.
+# class MyPool(mp.pool.Pool):
+#     def __init__(self, *args, **kwargs):
+#         kwargs['context'] = NoDaemonContext()
+#         super(MyPool, self).__init__(*args, **kwargs)
 
     @classmethod
     def from_top_down_info(cls, tdi: TopDownInformation):

@@ -9,6 +9,7 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 import copy
 import types
 from langchain_openai import ChatOpenAI
+from langchain_together import ChatTogether
 from langchain_core.messages import BaseMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages.utils import get_buffer_string
@@ -76,7 +77,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
         """
         old_semantic = lm_module.semantic
         # remove format instruction
-        following_messages = old_semantic.follwing_messages if old_semantic.message_template_predefined else []
+        following_messages = old_semantic.following_messages.copy() if old_semantic.message_template_predefined else []
         new_semantic = LangChainSemantic(
             system_prompt=old_semantic.system_prompt,
             inputs=old_semantic.inputs,
@@ -115,18 +116,39 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
                     ])
                     if old_semantic.output_format:
                         post_reasoning_routine = post_reasoning_routine | old_semantic.parser
-                        result = post_reasoning_routine.invoke(chat_messages)
+                        try:
+                            print("if old_semantic.output_format")
+                            result = post_reasoning_routine.invoke(chat_messages)
+                        except Exception as e:
+                            print(e)
+                            print("ERR IN new_invocation_routine if old_semantic.output_format")
+                            print(chat_messages)
+                            print(post_reasoning_routine)
                         result = old_semantic.output_format.model_validate(result) 
                         return {key: getattr(result, key) for key in old_semantic.get_agent_outputs()}
                     else:
-                        result = post_reasoning_routine.invoke(chat_messages).content
+                        try:
+                            print("else old_semantic.output_format")
+                            result = post_reasoning_routine.invoke(chat_messages).content
+                        except Exception as e:
+                            print(e)
+                            print("ERR IN new_invocation_routine else not old_semantic.output_format")
+                            print(chat_messages)
+                            print(post_reasoning_routine)
                         return {old_semantic.get_agent_outputs()[0]: result}
                 else:
                     assert len(old_semantic.get_agent_outputs()) == 1, "No formatted agent only has one output"
                     chat_messages.append(
                         HumanMessage(f"Based on these informations, please give your final response directly.")
                     )
-                    result = post_reasoning_routine.invoke(chat_messages).content
+                    try:
+                        print("not old_semantic.output_type_hint")
+                        result = post_reasoning_routine.invoke(chat_messages).content
+                    except Exception as e:
+                        print(e)
+                        print("ERR IN new_invocation_routine else not old_semantic.output_type_hint")
+                        print(chat_messages)
+                        print(post_reasoning_routine)
                     return {old_semantic.get_agent_outputs()[0]: result}
             
             inputs_str = ', '.join(new_semantic.inputs)
@@ -166,11 +188,18 @@ class ZeroShotCoT(ReasonThenFormat):
     def reasoning_step(
         self, 
         chat_messages: list[BaseMessage], 
-        lm: ChatOpenAI, 
+        lm: ChatOpenAI | ChatTogether, 
     ) -> list[BaseMessage]:
         h = HumanMessage("Let's solve this problem step by step before giving the final response\n")
         chat_messages.append(h)
-        result = lm.invoke(chat_messages)
+        try:
+            print("zero shot reasoning step")
+            result = lm.invoke(chat_messages)
+        except Exception as e:
+            print(e)
+            print("ERR IN zero-shot reasoning step")
+            print(chat_messages)
+            print(lm)
         logger.debug(f"Zero-shot CoT in module {lm.name}, reasoning: {result.content}")
         return [h, result]
         

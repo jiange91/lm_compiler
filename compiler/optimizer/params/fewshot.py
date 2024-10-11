@@ -232,7 +232,9 @@ class LMFewShot(DynamicParamBase):
         return params
 
     def custom_clean(self):
-        self.demo_pool.clear()
+        self.demo_cache.clear()
+        self.best_score_by_task.clear()
+        self.task_id_set.clear()
         self.demo_pq.clear()
         self.current_best_score_sum = float('-inf')
     

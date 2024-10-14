@@ -52,8 +52,12 @@ class SensitivityAnalyzer:
             if self.try_options is None:
                 raise ValueError('try_options should be provided if aggregated_proposals is not given')
     
-    def run(self, quantile: float = 0.5):
+    def run(self) -> dict[str, tuple[float, float]]:
         """get top quantile sensitive modules in scores w.r.t. the target param
+        
+        return a mapping of module_name -> (score_sensitivity, price_sensitivity)
+        
+        sensitivity is defined as the max difference in the score or price (average over all eval data)
         """
         logger.info(f'Starting sensitivity analysis for {self.target_param_type.__name__}')
         log_path = os.path.join(self.log_dir, f'{self.target_param_type.__name__}_sensitivity.json')
@@ -61,8 +65,10 @@ class SensitivityAnalyzer:
             logger.info(f'loading from existing log {log_path}')
             with open(log_path, 'r') as f:
                 overall_sensitive = json.load(f)
-                m_score_sensitivity = overall_sensitive['score']
-                m_price_sensitivity = overall_sensitive['price']
+                s_m_score = overall_sensitive['score']
+                s_m_price = overall_sensitive['price']
+                m_score_sensitivity = {m_name: score for m_name, score in s_m_score}
+                m_price_sensitivity = {m_name: price for m_name, price in s_m_price}
         else:
             if not os.path.exists(self.log_dir):
                 os.makedirs(self.log_dir, exist_ok=True)
@@ -97,15 +103,19 @@ class SensitivityAnalyzer:
                 m_score_sensitivity[m_name] = max(scores) - min(scores)
             for m_name, prices in m_prices.items():
                 m_price_sensitivity[m_name] = max(prices) - min(prices)
-            m_score_sensitivity = sorted(m_score_sensitivity.items(), key=lambda x: x[1], reverse=True)
-            m_price_sensitivity = sorted(m_price_sensitivity.items(), key=lambda x: x[1], reverse=True)
-            overall_sensitive = {'score': m_score_sensitivity, 'price': m_price_sensitivity}
+                
+            s_m_score = sorted(m_score_sensitivity.items(), key=lambda x: x[1], reverse=True)
+            s_m_price = sorted(m_price_sensitivity.items(), key=lambda x: x[1], reverse=True)
+            overall_sensitive = {'score': s_m_score, 'price': s_m_price}
             json.dump(overall_sensitive, open(log_path, 'w+'), indent=4)
         
-        # top quantile important modules in scores
-        sensitive_ms = [m_name for m_name, score in m_score_sensitivity[:int(len(m_score_sensitivity) * quantile)]]
-        logger.info(f"Sensitive modules by score: {sensitive_ms}")
-        return sensitive_ms
+        # module_name -> (score_sensitivity, price_sensitivity)
+        m_2_sensitivity: dict[str, tuple[float, float]] = {}
+        for m_name, score in s_m_score:
+            m_2_sensitivity[m_name] = (score, m_price_sensitivity[m_name])
+        logger.info(f"Most Sensitive modules by score: {s_m_score[0]}")
+        logger.info(f"Most Sensitive modules by price: {s_m_price[0]}")
+        return m_2_sensitivity
     
     def spawn_tasks(self) -> list[tuple[str, EvalTask]]:
         """generate tasks for sensitivity analysis

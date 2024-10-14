@@ -12,7 +12,6 @@ from compiler.IR.llm import LMConfig, LLMPredictor
 from compiler.optimizer.params.common import ParamBase, OptionBase
 from compiler.langchain_bridge.interface import LangChainLM
 from compiler.optimizer.evaluation.metric import MetricBase
-from compiler.optimizer.evaluation.evaluator import Evaluator
 
 logger = logging.getLogger(__name__)
 

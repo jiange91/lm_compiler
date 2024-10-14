@@ -5,21 +5,25 @@ from compiler.utils import load_api_key
 import string
 import time
 
-load_api_key('/home/reyna/Cognify/secrets.toml')
+load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')
 
 colbert = dspy.ColBERTv2(url='http://192.168.1.18:8893/api/search')
 dspy.configure(rm=colbert)
 
+import copy
 from compiler.optimizer.params.reasoning import ZeroShotCoT
 from compiler.optimizer.params.common import IdentityOption
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
+from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsageSummary, TokenUsage
 from compiler.optimizer import register_opt_program_entry, register_opt_score_fn
 
-lm_config = {
-    'model': 'google/gemma-2-9b-it',
-    'temperature': 0.0,
-}
-
+lm_config = LMConfig(
+    provider='fireworks',
+    kwargs= {
+        'model': 'accounts/fireworks/models/llama-v3p2-3b-instruct',
+        'temperature': 0.0,
+    }
+)
 
 initial_query_prompt = """
 You are an expert in generating a search query based on the provided question. You should think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information. 
@@ -117,9 +121,9 @@ def answer_f1(label: str, pred: str):
     if isinstance(label, str):
         label = [label]
     score = F1(pred, label)
-    print(f'Label: {label}')
-    print(f'Pred: {pred}')
-    print(f'Score: {score}\n')
+    # print(f'Label: {label}')
+    # print(f'Pred: {pred}')
+    # print(f'Score: {score}\n')
     return score
 
 from compiler.optimizer.params.reasoning import ZeroShotCoT
@@ -130,3 +134,8 @@ if __name__ == "__main__":
     print(f'Answer: {answer}')
     print(f'Score: {answer_f1(label, answer)}')
     
+    usages = []
+    for m in [first_query_agent, following_query_agent, answer_agent]:
+        usages.extend(m.get_token_usage())
+    summary = TokenUsageSummary.summarize(usages)
+    print(f'Token Usage Summary: {summary}')

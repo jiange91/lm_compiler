@@ -89,7 +89,6 @@ from dsp.utils.metrics import normalize_text
 
 def f1_score(prediction, ground_truth):
 
-    
     ground_truth_tokens = ground_truth
     prediction_tokens = [str(pred.split(" | ")[0]).strip().strip('\'"')  for pred in prediction]
         

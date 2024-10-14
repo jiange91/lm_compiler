@@ -1,5 +1,6 @@
 from langchain_openai import ChatOpenAI
 from langchain_together import ChatTogether
+from langchain_fireworks import ChatFireworks
 from langchain_core.outputs.llm_result import LLMResult
 from langchain_core.prompts.chat import MessageLikeRepresentation
 from langchain_core.callbacks import BaseCallbackHandler
@@ -36,11 +37,11 @@ from langchain_core.runnables import RunnableLambda
 
 def inspect_with_msg(msg: str):
     def inspect_input(inputs, **kwargs):
-        print(msg, flush=True)
-        if isinstance(inputs, BaseMessage):
-            print(var_2_str([inputs]), flush=True)
-        else:
-            print(var_2_str(inputs), flush=True)
+        # print(msg, flush=True)
+        # if isinstance(inputs, BaseMessage):
+        #     print(var_2_str([inputs]), flush=True)
+        # else:
+        #     print(var_2_str(inputs), flush=True)
         return inputs
     return inspect_input
 
@@ -214,14 +215,14 @@ class LangChainSemantic(LMSemantic):
             for i, input in enumerate(self.inputs):
                 if not self.img_input_idices or i not in self.img_input_idices:
                     input_fields.append(f"{input}:\n{{{input}}}")
-            usr_prompt = "\n".join(input_fields)
+            real_usr_query = "\n".join(input_fields)
             user_messages.append(
                 {
                     "type": "text",
-                    "text": usr_prompt
+                    "text": real_usr_query, 
                 }
             )
-            self.usr_prompt_template = HumanMessagePromptTemplate.from_template(template=usr_prompt) # temporarily remove image support
+            self.usr_prompt_template = HumanMessagePromptTemplate.from_template(template=user_messages) # temporarily remove image support
             self.following_messages = [self.usr_prompt_template]
         # setup prompt template
         if self.enable_memory:
@@ -340,7 +341,7 @@ class LangChainLM(LLMPredictor):
             langchain_kernel_template = f"""
 def langchain_lm_kernel({inputs_str}):
     try:
-        print("langchain lm output parse")
+        # print("langchain lm output parse")
         result = routine.invoke({invoke_arg_dict_str})
     except Exception as e:
         print(e)
@@ -356,7 +357,7 @@ def langchain_lm_kernel({inputs_str}):
             langchain_kernel_template = f"""
 def langchain_lm_kernel({inputs_str}):
     try:
-        print("langchain lm no output parse")
+        # print("langchain lm no output parse")
         result = routine.invoke({invoke_arg_dict_str})
     except Exception as e:
         print(e)
@@ -428,25 +429,26 @@ def langchain_lm_kernel({inputs_str}):
 
     def set_lm(self):
         logger.debug(f'Setting LM for {self.name}: {self.lm_config}')
-        model_name: str = self.lm_config['model']
-        # by default openai
-        # if 'who_service' not in self.lm_config:
-        #     self.lm_config['who_service'] = 'openai'
-        # if self.lm_config['who_service'] == 'openai':
-        if model_name.startswith('gpt-') or model_name.startswith('o1-'):
+        if self.lm_config.provider == 'openai':
             self.lm = ChatOpenAI(
-                **self.lm_config,
+                **self.lm_config.kwargs,
                 api_key=os.environ['OPENAI_API_KEY'],
                 callbacks=[LLMTracker(self)]
             )
-        else:
+        elif self.lm_config.provider == 'together':
             self.lm = ChatTogether(
-                **self.lm_config,
+                **self.lm_config.kwargs,
                 api_key=os.environ['TOGETHER_API_KEY'],
                 callbacks=[LLMTracker(self)]
             )
-        # else:
-        #     raise ValueError(f"Model {model_name} not supported")
+        elif self.lm_config.provider == 'fireworks':
+            self.lm = ChatFireworks(
+                **self.lm_config.kwargs,
+                api_key=os.environ['FIREWORKS_API_KEY'],
+                callbacks=[LLMTracker(self)],
+            )
+        else:
+            raise ValueError(f"Provider {self.lm_config.provider} not supported")
         return
 
     def get_lm_history(self):

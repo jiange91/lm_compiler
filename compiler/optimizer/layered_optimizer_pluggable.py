@@ -24,7 +24,7 @@ from compiler.optimizer.params.common import ParamBase, OptionBase, DynamicParam
 from compiler.optimizer.params.utils import dump_params, load_params
 from compiler.optimizer.params.model_selection import LMSelection
 from compiler.langchain_bridge.interface import LangChainLM
-from compiler.optimizer.evaluation.evaluator import EvaluatorInterface, EvaluationResult, EvaluatorPlugin, EvalTask
+from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from compiler.optimizer.evaluation.metric import MetricBase, MInput
 from compiler.optimizer.plugin import OptimizerSchema
 from optuna.samplers import TPESampler

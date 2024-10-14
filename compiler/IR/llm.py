@@ -20,15 +20,21 @@ from langchain_core.messages.utils import get_buffer_string
 
 @dataclass
 class LMConfig(ABC):
+    provider: str
     kwargs: dict = field(default_factory=dict)
     
-    @abstractmethod
-    def to_json(self):
-        ...
+    def to_dict(self):
+        return {
+            'provider': self.provider,
+            'kwargs': self.kwargs
+        }
     
-    @abstractmethod
-    def from_json(self, data):
-        ...
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            provider=data['provider'],
+            kwargs=data['kwargs']
+        )
         
 @dataclass
 class Demonstration:
@@ -133,7 +139,7 @@ class TokenUsage:
         elif 'gpt-4o-2024-08-06' in model:
             return (2.5 * prompt + 10 * completion) / 1e6
         elif 'meta-llama/Llama-3.2-3B-Instruct-Turbo' in model:
-            return 0.06 * (prompt + completion) / 1e6
+            return 0.06 * (prompt + completion) / 1e6 # change to fireworks price
         elif 'meta-llama/Llama-3.2-11B-Vision-Instruct-Turbo' in model:
             return 0.18 * (prompt + completion) / 1e6
         elif 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo' in model:
@@ -146,6 +152,8 @@ class TokenUsage:
             return 0.2 * (prompt + completion) / 1e6
         elif 'google/gemma-2-9b-it' in model:
             return 0.3 * (prompt + completion) / 1e6
+        elif 'accounts/fireworks/models/llama-v3p2-3b-instruct' in model:
+            return 0.1 * (prompt + completion) / 1e6
         else:
             raise ValueError(f"Model {model} pricing is not supported")
     
@@ -180,10 +188,15 @@ class TokenUsageSummary:
             summary.total_price += record.get_price()
         return summary
     
+    def __str__(self):
+        return f"Total Price: {self.total_price} USD\n" + '\n'.join(
+            [f"{model}: {usage.prompt_tokens} prompt tokens, {usage.completion_tokens} completion tokens" for model, usage in self.token_consumed.items()]
+        )
+    
 class LLMPredictor(Module):
     def __init__(self, name, semantic: LMSemantic, lm, **kwargs) -> None:
         self.lm_history = []
-        self.lm_config = {}
+        self.lm_config: LMConfig = None
         self.lm = lm
         self.input_cache = {}
         self.step_info = []

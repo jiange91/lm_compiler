@@ -1,0 +1,269 @@
+[
+    {
+        "name": "lm_model",
+        "module_name": "generate_query",
+        "options": {
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "model": "gpt-4o-mini"
+                    }
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o-mini",
+        "type": "LMSelection"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "refine_query_sampler_0",
+        "options": {
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "model": "gpt-4o-mini"
+                    }
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o-mini",
+        "type": "LMSelection"
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_sampler_0",
+        "options": {
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "ZeroShotCoT",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "refine_query_sampler_1",
+        "options": {
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "model": "gpt-4o-mini"
+                    }
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o-mini",
+        "type": "LMSelection"
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_sampler_1",
+        "options": {
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "ZeroShotCoT",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "refine_query_sampler_2",
+        "options": {
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "model": "gpt-4o-mini"
+                    }
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o-mini",
+        "type": "LMSelection"
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_sampler_2",
+        "options": {
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "ZeroShotCoT",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "refine_query_aggregator",
+        "options": {
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "model": "gpt-4o-mini"
+                    }
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o-mini",
+        "type": "LMSelection"
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_aggregator",
+        "options": {
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "ZeroShotCoT",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "generate_answer_sampler_0",
+        "options": {
+            "fireworks_accounts/fireworks/models/llama-v3p2-3b-instruct": {
+                "name": "fireworks_accounts/fireworks/models/llama-v3p2-3b-instruct",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "fireworks",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "model": "accounts/fireworks/models/llama-v3p2-3b-instruct"
+                    }
+                }
+            }
+        },
+        "default_option": "fireworks_accounts/fireworks/models/llama-v3p2-3b-instruct",
+        "type": "LMSelection"
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_sampler_0",
+        "options": {
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "ZeroShotCoT",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "generate_answer_sampler_1",
+        "options": {
+            "fireworks_accounts/fireworks/models/llama-v3p2-3b-instruct": {
+                "name": "fireworks_accounts/fireworks/models/llama-v3p2-3b-instruct",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "fireworks",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "model": "accounts/fireworks/models/llama-v3p2-3b-instruct"
+                    }
+                }
+            }
+        },
+        "default_option": "fireworks_accounts/fireworks/models/llama-v3p2-3b-instruct",
+        "type": "LMSelection"
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_sampler_1",
+        "options": {
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "ZeroShotCoT",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "generate_answer_sampler_2",
+        "options": {
+            "fireworks_accounts/fireworks/models/llama-v3p2-3b-instruct": {
+                "name": "fireworks_accounts/fireworks/models/llama-v3p2-3b-instruct",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "fireworks",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "model": "accounts/fireworks/models/llama-v3p2-3b-instruct"
+                    }
+                }
+            }
+        },
+        "default_option": "fireworks_accounts/fireworks/models/llama-v3p2-3b-instruct",
+        "type": "LMSelection"
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_sampler_2",
+        "options": {
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "ZeroShotCoT",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "generate_answer_aggregator",
+        "options": {
+            "fireworks_accounts/fireworks/models/llama-v3p2-3b-instruct": {
+                "name": "fireworks_accounts/fireworks/models/llama-v3p2-3b-instruct",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "fireworks",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "model": "accounts/fireworks/models/llama-v3p2-3b-instruct"
+                    }
+                }
+            }
+        },
+        "default_option": "fireworks_accounts/fireworks/models/llama-v3p2-3b-instruct",
+        "type": "LMSelection"
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_aggregator",
+        "options": {
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "ZeroShotCoT",
+        "type": "LMReasoning"
+    }
+]

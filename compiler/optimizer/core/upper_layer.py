@@ -43,7 +43,11 @@ class LayerEvaluator(GeneralEvaluatorInterface):
         self.target_layer = target_layer
         self.quality_constraint = quality_constraint
     
-    def evaluate(self, layer_task: TopDownInformation) -> EvaluationResult:
+    def evaluate(
+        self, 
+        layer_task: TopDownInformation, 
+        show_process=False
+    ) -> EvaluationResult:
         #NOTE: optimization will change layer meta, make a copy
         target_layer_cpy = copy.deepcopy(self.target_layer)
         eval_cost, pareto_frontier, opt_logs = target_layer_cpy.optimize(layer_task)

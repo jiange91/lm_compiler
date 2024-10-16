@@ -20,14 +20,23 @@ class LMSelection(ParamBase):
             default_option=default_option,
             module_name=module_name,
         )
+
+def override_lm_config(lm_module: LLMPredictor, model_config: LMConfig):
+    """update the lm_config of the module
     
+    passed in model_config should not be changed
+    """
+    lm_module.lm_config.provider = model_config.provider
+    lm_module.lm_config.cost_indicator = model_config.cost_indicator
+    lm_module.lm_config.kwargs.update(model_config.kwargs)
     
 class ModelOption(OptionBase):
     def __init__(self, model_config: LMConfig, tag: str = None):
-        tag = tag or uuid.uuid4().hex
+        tag = tag or f'{model_config.provider}_{model_config.kwargs["model"]}'
         super().__init__(tag)
         # NOTE: deepcopy is necessary in case module config is shared in memory
         self.model_config = copy.deepcopy(model_config)
+        self.cost_indicator = model_config.cost_indicator
         
     def apply(self, lm_module: LLMPredictor):
         lm_module.lm_config = self.model_config

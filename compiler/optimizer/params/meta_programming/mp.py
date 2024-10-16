@@ -62,6 +62,7 @@ meta_model = MetaPromptingScaffolding(
 class MetaPrompting(ReasonThenFormat):
     def __init__(self):
         super().__init__("MetaPrompting")
+        self.cost_indicator = 8.0
         
     def reasoning_step(
         self, 

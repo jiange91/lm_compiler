@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 class OptionBase(ABC):
     def __init__(self, name: str):
         self.name = name
+        self.cost_indicator = 1.0
     
     @abstractmethod
     def apply(self, module: Module) -> Module:
@@ -29,6 +30,8 @@ class OptionBase(ABC):
                 return self.apply(module)
         except Exception as e:
             logger.error(f'Error in applying {self.name} to {module.name}')
+            logger.error(e)
+            raise
     
     def to_dict(self):
         return {
@@ -40,6 +43,9 @@ class OptionBase(ABC):
     def from_dict(cls, data: dict):
         data.pop('type', None)
         return cls(**data)
+
+    def obtain_cost_indicator(self) -> float:
+        return self.cost_indicator
 
 class IdentityOption(OptionBase):
     def __init__(self):

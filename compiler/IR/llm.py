@@ -20,12 +20,25 @@ from langchain_core.messages.utils import get_buffer_string
 
 @dataclass
 class LMConfig(ABC):
+    """
+    
+    Args:
+        provider: The provider of the language model
+        
+        cost_indicator: The cost indicator of the language model
+            E.g. if you have model options: [llama-3b-fireworks, 4o-mini, 4o]
+                you maye set the indocator for each option as [0.3, 1, 20]
+            
+        kwargs: The kwargs to initialize the language model
+    """
     provider: str
+    cost_indicator: float = field(default=1.0)
     kwargs: dict = field(default_factory=dict)
     
     def to_dict(self):
         return {
             'provider': self.provider,
+            'cost_indicator': self.cost_indicator,
             'kwargs': self.kwargs
         }
     
@@ -33,6 +46,7 @@ class LMConfig(ABC):
     def from_dict(cls, data):
         return cls(
             provider=data['provider'],
+            cost_indicator=data.get('cost_indicator', 1.0),
             kwargs=data['kwargs']
         )
         

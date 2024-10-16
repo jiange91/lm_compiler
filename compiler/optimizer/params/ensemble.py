@@ -141,7 +141,7 @@ Please read through all the responses carefully and provide a clear, consistent 
         lm_cpys = [copy.deepcopy(lm) for _ in range(self.num_path)]
         for i, lm_cpy in enumerate(lm_cpys):
             lm_cpy.name = f'{lm.name}_sampler_{i}'
-            lm_cpy.lm_config['temperature'] = self.temperature
+            lm_cpy.lm_config.kwargs['temperature'] = self.temperature
             lm_cpy.reset()
             sub_graph.add_module(lm_cpy)
             sub_graph.add_edge(input_name, lm_cpy.name)
@@ -174,7 +174,7 @@ Please read through all the responses carefully and provide a clear, consistent 
             output_format_instructions=output_format_instruction,
         )
         agg_lm = LangChainLM(f"{lm.name}_aggregator", agg_semantic)
-        agg_lm.lm_config = lm.lm_config
+        agg_lm.lm_config = copy.deepcopy(lm.lm_config)
         sub_graph.add_module(agg_lm)
         sub_graph.add_edge(sampler_post_process.name, agg_lm.name)
         

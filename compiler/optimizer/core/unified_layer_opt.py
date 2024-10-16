@@ -28,6 +28,7 @@ from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorP
 from compiler.optimizer.evaluation.metric import MetricBase, MInput
 from compiler.optimizer.plugin import OptimizerSchema
 from optuna.samplers import TPESampler
+from compiler.optimizer.bo.tpe import FrugalTPESampler
 from compiler.optimizer.core.flow import TrialLog, ModuleTransformTrace, TopDownInformation, OptConfig
 
 logger = logging.getLogger(__name__)
@@ -141,6 +142,23 @@ class OptimizationLayer:
         self.opt_logs = {}
         self.study = self.init_study()
         self._study_lock = threading.Lock()
+    
+    def param_cost_estimator(self, trial_proposal: dict[str, Any]) -> float:
+        total_cost = 0.0
+        # convert to external params
+        ext_trial_proposal = {}
+        for param_name, dist in self.param_categorical_dist.items():
+            ext_trial_proposal[param_name] = dist.to_external_repr(trial_proposal[param_name])
+        for lm_name, params in self.params.items():
+            agent_cost = 1.0
+            # for param imposed on the same agent, multiply the cost
+            for param in params:
+                selected = ext_trial_proposal[param.hash]
+                option = param.options.get(selected, None)
+                if option:
+                    agent_cost *= option.cost_indicator
+            total_cost += agent_cost
+        return total_cost
         
     def init_study(
         self,
@@ -157,7 +175,12 @@ class OptimizationLayer:
         """
         new_study = optuna.create_study(
             directions=['maximize', 'minimize'],
-            sampler=TPESampler(multivariate=True)
+            # sampler=TPESampler(multivariate=True)
+            sampler=FrugalTPESampler(
+                cost_estimator=self.param_cost_estimator,
+                multivariate=True,
+                n_startup_trials=5,
+            )
         )
         
         f_trials = []
@@ -540,5 +563,5 @@ class BottomLevelOptimization(OptimizationLayer):
         
         eval_task = EvalTask.from_dict(trial_log.eval_task)
         # run evaluation
-        eval_result = self.evaluator.evaluate(eval_task)
+        eval_result = self.evaluator.evaluate(eval_task, show_process=True)
         return eval_result

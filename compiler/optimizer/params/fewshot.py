@@ -85,12 +85,14 @@ class LMFewShot(DynamicParamBase):
             if self.allow_duplicate:
                 # more strict condition for allow_duplicate
                 if score > self.demo_pq[0][0]:
+                    self.task_id_set.remove(self.demo_pq[0][1])
                     heapq.heapreplace(self.demo_pq, (score, task_id, demo.id))
                     self.task_id_set.add(task_id)
                     new_option = True
             elif task_id not in self.task_id_set:
                 # prepare trying similar quality demos if different task_id
                 if score >= self.demo_pq[0][0]:
+                    self.task_id_set.remove(self.demo_pq[0][1])
                     heapq.heapreplace(self.demo_pq, (score, task_id, demo.id))
                     self.task_id_set.add(task_id)
                     new_option = True
@@ -242,6 +244,7 @@ class DemoOption(OptionBase):
     def __init__(self, tag: str, demos: list[Demonstration]):
         super().__init__(tag)
         self.demos = demos
+        self.cost_indicator = len(demos) + 1
     
     def apply(self, lm_module: LLMPredictor):
         lm_module.semantic.set_demos(self.demos)

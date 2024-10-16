@@ -17,10 +17,15 @@ from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsageSummary, TokenUsage
 from compiler.optimizer import register_opt_program_entry, register_opt_score_fn
 
-lm_config = LMConfig(
-    provider='fireworks',
+qgen_lm_config = LMConfig(
+    # provider='fireworks',
+    # kwargs= {
+    #     'model': 'accounts/fireworks/models/llama-v3p2-3b-instruct',
+    #     'temperature': 0.0,
+    # }
+    provider='openai',
     kwargs= {
-        'model': 'accounts/fireworks/models/llama-v3p2-3b-instruct',
+        'model': 'gpt-4o-mini',
         'temperature': 0.0,
     }
 )
@@ -34,7 +39,7 @@ first_query_semantic = LangChainSemantic(
     output_format='search_query',
 )
 first_query_agent = LangChainLM('generate_query', first_query_semantic, opt_register=True)
-first_query_agent.lm_config = lm_config
+first_query_agent.lm_config = qgen_lm_config
 
 following_query_prompt = """
 You are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.
@@ -46,7 +51,14 @@ following_query_semantic = LangChainSemantic(
     output_format='search_query',
 )
 following_query_agent = LangChainLM('refine_query', following_query_semantic, opt_register=True)
-following_query_agent.lm_config = lm_config
+refine_lm_config = LMConfig(
+    provider='openai',
+    kwargs= {
+        'model': 'gpt-4o-mini',
+        'temperature': 0.0,
+    }
+)
+following_query_agent.lm_config = refine_lm_config
 
 answer_prompt = """
 You are good at answering questions with ground truth. Using the provided context, carefully analyze the information to answer the question. Your answer should be clear and supported by logical reasoning derived from the context. 
@@ -57,22 +69,21 @@ answer_semantic = LangChainSemantic(
     output_format='answer',
 )
 answer_agent = LangChainLM('generate_answer', answer_semantic, opt_register=True)
-answer_agent.lm_config = lm_config
+answer_lm_config = LMConfig(
+    provider='openai',
+    kwargs= {
+        'model': 'gpt-4o-mini',
+        'temperature': 0.0,
+    }
+)
+answer_agent.lm_config = answer_lm_config
 
-cot_fixed = False
+cot_fixed = True
 if cot_fixed:
     ZeroShotCoT.direct_apply(first_query_agent)
     ZeroShotCoT.direct_apply(following_query_agent)
     ZeroShotCoT.direct_apply(answer_agent)
 
-"""
-{'generate_answer_few_shot': 'Identity', 
-'generate_answer_reasoning': 'ZeroShotCoT', 
-'generate_query_few_shot': 'Identity', 
-'generate_query_reasoning': 'ZeroShotCoT', 
-'refine_query_few_shot': 'Identity', 
-'refine_query_reasoning': 'ZeroShotCoT'}
-"""
 
 class BasicMH(dspy.Module):
     def __init__(self, passages_per_hop=3):
@@ -111,7 +122,7 @@ qa_agent = BasicMH(passages_per_hop=2)
 @register_opt_program_entry
 def trial(question: str):
     answer = qa_agent(question=question)
-    print(f'Question: {question}')
+    # print(f'Question: {question}')
     return answer
 
 from dsp.utils.metrics import HotPotF1, F1
@@ -121,16 +132,16 @@ def answer_f1(label: str, pred: str):
     if isinstance(label, str):
         label = [label]
     score = F1(pred, label)
-    # print(f'Label: {label}')
-    # print(f'Pred: {pred}')
-    # print(f'Score: {score}\n')
+    print(f'Label: {label}')
+    print(f'Pred: {pred}')
+    print(f'Score: {score}\n')
     return score
 
 from compiler.optimizer.params.reasoning import ZeroShotCoT
 if __name__ == "__main__":
-    input = "What river is near the Crichton Collegiate Church?"
+    input = "Which documentary was released first, Grizzly Man or Best Boy?"
     answer = trial(input)
-    label = 'River Tyne'
+    label = 'Best Boy'
     print(f'Answer: {answer}')
     print(f'Score: {answer_f1(label, answer)}')
     

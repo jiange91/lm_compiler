@@ -4,6 +4,7 @@ from compiler.optimizer.params import reasoning, model_selection, common
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from compiler.optimizer.analysis.param_sensitivity import SensitivityAnalyzer
 from compiler.langchain_bridge.interface import LangChainLM
+from compiler.optimizer.params import ensemble
 import runpy
 import uuid
 import multiprocess as mp
@@ -16,6 +17,7 @@ from compiler.IR.llm import LMConfig
 from compiler.optimizer.params.common import IdentityOption
 from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
 from compiler.optimizer.plugin import OptimizerSchema
+from compiler.optimizer.core import driver, flow
 import dspy
 from dspy.datasets.hotpotqa import HotPotQA
 
@@ -26,6 +28,7 @@ def load_data_minor():
         ("The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?", "Steve Yzerman"),
         ("What river is near the Crichton Collegiate Church?", "the River Tyne"),
         ("What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?", "design their own interdisciplinary program"),
+        ("Which documentary was released first, Grizzly Man or Best Boy?", "Best Boy")
     ]
     return trainset, trainset[-1:]
 
@@ -41,28 +44,25 @@ def load_data():
 
 def opt(data):
     lm_options = [
-        LMConfig(
-            provider='fireworks', 
-            kwargs= {
-                'model': 'accounts/fireworks/models/llama-v3p2-3b-instruct',
-                'temperature': 0.0,
-            }
-        ),
+        # LMConfig(
+        #     provider='fireworks',
+        #     cost_indicator=0.3,
+        #     kwargs= {
+        #         'model': 'accounts/fireworks/models/llama-v3p2-3b-instruct',
+        #         # 'temperature': 0.0,
+        #     }
+        # ),
         LMConfig(
             provider='openai',
+            cost_indicator=1.0,
             kwargs= {
                 'model': 'gpt-4o-mini',
-                'temperature': 0.0,
+                # 'temperature': 0.0,
             }
         )
     ]
     model_param = model_selection.LMSelection(
         'lm_model', model_selection.model_option_factory(lm_options)
-    )
-    
-    evaluator = EvaluatorPlugin(
-        eval_set=data,
-        n_parallel=32,
     )
     
     plain_task = EvalTask(
@@ -73,7 +73,16 @@ def opt(data):
         module_name_paths={},
         aggregated_proposals={},
     )
-    
+    evaluator = EvaluatorPlugin(
+        eval_set=data,
+        n_parallel=25,
+    )
+    evaluator.down_sample(
+        sample_size=25,
+        task=plain_task, 
+        sample_mode='difficulty',
+        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/down_sample_logs',
+    )
     model_sensitivity = SensitivityAnalyzer(
         target_param_type=model_selection.LMSelection,
         eval_task=plain_task,
@@ -85,7 +94,64 @@ def opt(data):
     )
     sensitivity_result = model_sensitivity.run()
     print(sensitivity_result)
-    return 
+    
+    reasoning_param = reasoning.LMReasoning(
+        "reasoning", [IdentityOption(), ZeroShotCoT()] 
+    )
+    few_shot_params = LMFewShot("few_shot", 2)
+    inner_opt_config = flow.OptConfig(
+        n_trials=16,
+        throughput=2,
+        log_dir=None,
+    )
+    inner_loop_config = driver.layerConfig(
+        layer_name='inner_loop',
+        universal_params=[few_shot_params, reasoning_param],
+        opt_config=inner_opt_config,
+        save_ckpt_interval=1,
+    )
+    
+    outer_opt_config = flow.OptConfig(
+        n_trials=0,
+        throughput=1,
+        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/more_control',
+    )
+    
+    usc_ensemble = ensemble.UniversalSelfConsistency(3, temperature=0.7)
+    ensemble_params = ensemble.ModuleEnsemble(
+        "ensemble", [IdentityOption(), usc_ensemble]
+    )
+    ensemble_params.module_name = 'generate_answer'
+    outer_loop_config = driver.layerConfig(
+        layer_name='outer_loop',
+        # universal_params=[ensemble_params],
+        dedicate_params=[ensemble_params],
+        opt_config=outer_opt_config,
+        save_ckpt_interval=1,
+        # use_SH_allocation=True,
+    )
+    
+    opt_driver = driver.MultiLayerOptimizationDriver(
+        layer_configs=[outer_loop_config, inner_loop_config],
+    )
+    cost, pareto_frontier, opt_logs = opt_driver.run(
+        evaluator=evaluator,
+        script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
+    )
+    return opt_driver
+
+def eval(opt_driver, data):
+    evaluator = EvaluatorPlugin(
+        eval_set=data,
+        n_parallel=100,
+    )
+    eval_result = opt_driver.evaluate(
+        evaluator=evaluator,
+        bot_trial_log_id='4808fc6fb2db4d18a219caf88a8e51d7',
+        opt_log_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/more_control/inner_loop/4a853ee5754b4e39a8d1d650b0d94d2f/opt_logs.json',
+    )
+    print(eval_result)
+    
 
     
 if __name__ == '__main__':
@@ -94,5 +160,6 @@ if __name__ == '__main__':
     
     # train, val, dev = load_data()
     train, dev = load_data_minor()
-    configs = opt(train)
+    opt_driver = opt(train)
+    eval(opt_driver, dev)
     

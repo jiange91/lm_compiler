@@ -37,11 +37,11 @@ from langchain_core.runnables import RunnableLambda
 
 def inspect_with_msg(msg: str):
     def inspect_input(inputs, **kwargs):
-        # print(msg, flush=True)
-        # if isinstance(inputs, BaseMessage):
-        #     print(var_2_str([inputs]), flush=True)
-        # else:
-        #     print(var_2_str(inputs), flush=True)
+        print(msg, flush=True)
+        if isinstance(inputs, BaseMessage):
+            print(var_2_str([inputs]), flush=True)
+        else:
+            print(var_2_str(inputs), flush=True)
         return inputs
     return inspect_input
 
@@ -198,7 +198,7 @@ class LangChainSemantic(LMSemantic):
             user_messages.append(
                 {
                     "type": "text",
-                    "text": f"Given {input_names}, please only provide {self.outputs[0]} in your response unless instructed otherwise."
+                    "text": f"Given {input_names}, please only provide `{self.outputs[0]}` in your response unless instructed otherwise."
                 }
             )
             if self.img_input_idices is not None:

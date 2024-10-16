@@ -11,7 +11,7 @@ from concurrent.futures import ThreadPoolExecutor
 import uuid
 from abc import ABC, abstractmethod
 import multiprocess as mp
-
+from tqdm import tqdm
 
 import logging
 
@@ -230,6 +230,7 @@ class GeneralEvaluatorInterface(ABC):
     def evaluate(
         self,
         task: Union[EvalTask, TopDownInformation],
+        show_process: bool = False,
     ) -> EvaluationResult:
         ...
 
@@ -250,6 +251,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
     def evaluate(
         self,
         task: EvalTask,
+        show_process: bool = False,
     ):
         task.add_PYTHON_PATH()
         logger.debug(f'sys_path = {sys.path}')
@@ -261,7 +263,17 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
                 tasks.append(
                     pool.apply_async(task.evaluate_program, args=(input, label))
                 )
-            results = [task.get() for task in tasks]
+            if show_process:
+                results = []
+                total_score = 0.0
+                with tqdm(tasks, dynamic_ncols=True) as pbar:
+                    for task in pbar:
+                        result = task.get()
+                        results.append(result)
+                        total_score += result[1]
+                        pbar.set_postfix({'avg_score': total_score / len(results)})
+            else:
+                results = [task.get() for task in tasks]
             
         prices = []
         scores = []
@@ -288,6 +300,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         task: EvalTask,
         sample_mode: Literal['random', 'difficulty'],
         prob_convertor: Callable[[EvaluationResult], Sequence[int]] = None,
+        log_dir: str = "eval_down_sample_logs",
     ):
         """Generate a subset of the eval_set according to answer score
         
@@ -304,27 +317,38 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         
         also please be informed that we always assume score is higher the better
         """
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir, exist_ok=True)
+        log_path = os.path.join(log_dir, 'down_sample_ids.json')
+        
+        if os.path.exists(log_path):
+            logger.info(f'Loading downsampled indices from {log_path}')
+            self.eval_set = json.load(open(log_path, 'r'))
+            if len(self.eval_set) != sample_size:
+                raise ValueError(f'Loaded eval set size {len(self.eval_set)} does not match sample size {sample_size}')
+            return
+        
         full_indices = list(range(len(self.full_eval_set))) 
         if sample_mode == 'random':
             self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False).tolist()
-            return
-
-        eval_result = self.evaluate(task)
-        # if user provide a custom prob convertor
-        if prob_convertor is not None:
-            probs = prob_convertor(eval_result)
-            self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False, p=probs).tolist()
-            return
-        
-        # sampling prob is reverse to the score
-        # also smooth it to reduce extremely easy or hard questions
-        def transform(x):
-            return np.exp(-x)
-        scaled_reverse_score = transform(np.array(eval_result.scores))
-        # normalize to prob
-        probs = scaled_reverse_score / scaled_reverse_score.sum()
-        # sample according to the prob
-        self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False, p=probs).tolist()
+        else:
+            logger.info('Down sampling with difficulty, start profiling...')
+            eval_result = self.evaluate(task, show_process=True)
+            # if user provide a custom prob convertor
+            if prob_convertor is not None:
+                probs = prob_convertor(eval_result)
+                self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False, p=probs).tolist()
+            else:
+                # sampling prob is reverse to the score
+                # also smooth it to reduce extremely easy or hard questions
+                def transform(x):
+                    return np.exp(-x)
+                scaled_reverse_score = transform(np.array(eval_result.scores))
+                # normalize to prob
+                probs = scaled_reverse_score / scaled_reverse_score.sum()
+                # sample according to the prob
+                self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False, p=probs).tolist()
+                
+        json.dump(self.eval_set, open(log_path, 'w'))
  
-        
         

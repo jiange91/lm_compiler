@@ -1,0 +1,1545 @@
+[
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_demos_7ed3ad9f-94e6-46d4-8530-8ec723799b5e": {
+                "name": "generate_answer_demos_7ed3ad9f-94e6-46d4-8530-8ec723799b5e",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "183b3129-e09a-408f-a8da-173a3bb165f0",
+                    "744a2646-8406-4fe0-a81f-db4e78cd7855",
+                    "1eb3ecc2-8ec5-48a3-98a7-cb5b7882362c",
+                    "77594d64-3c9d-41c2-9423-7b14462a098c",
+                    "623a1da6-07d6-4284-8f32-3cba2d047339",
+                    "ff711c35-ded7-4626-b50b-08de357d7650",
+                    "0ee6855c-4f94-4e95-94e2-299bb516b454",
+                    "6979e708-8ceb-4688-8556-412a893d4021"
+                ]
+            },
+            "generate_answer_demos_9915d8b9-c665-4d89-af31-5c476ce17f94": {
+                "name": "generate_answer_demos_9915d8b9-c665-4d89-af31-5c476ce17f94",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "8755e77d-6726-43ec-8ad0-3fd9738499c0",
+                    "744a2646-8406-4fe0-a81f-db4e78cd7855",
+                    "1eb3ecc2-8ec5-48a3-98a7-cb5b7882362c",
+                    "77594d64-3c9d-41c2-9423-7b14462a098c",
+                    "623a1da6-07d6-4284-8f32-3cba2d047339",
+                    "ff711c35-ded7-4626-b50b-08de357d7650",
+                    "0ee6855c-4f94-4e95-94e2-299bb516b454",
+                    "6979e708-8ceb-4688-8556-412a893d4021"
+                ]
+            },
+            "generate_answer_demos_2296f5f2-5c93-4f5e-882c-5c42994fe700": {
+                "name": "generate_answer_demos_2296f5f2-5c93-4f5e-882c-5c42994fe700",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "77594d64-3c9d-41c2-9423-7b14462a098c",
+                    "b11a6ec9-0bb3-4aae-a87e-773572940570",
+                    "bf3adb16-5e96-4a9d-ac50-18c897a9c6f1",
+                    "4b97f896-54da-4c47-b00c-595bc89769a7",
+                    "623a1da6-07d6-4284-8f32-3cba2d047339",
+                    "772edc94-8695-498e-8bac-4849bde0cfa2",
+                    "58df90ad-7e9e-419a-a3d8-f498e7fea6a5",
+                    "6979e708-8ceb-4688-8556-412a893d4021"
+                ]
+            },
+            "generate_answer_demos_fd7b6582-7130-43ca-b93a-ab315b240bd4": {
+                "name": "generate_answer_demos_fd7b6582-7130-43ca-b93a-ab315b240bd4",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "bf3adb16-5e96-4a9d-ac50-18c897a9c6f1",
+                    "df62c5c5-f369-4c60-93e7-1166dfa2347b",
+                    "1ef8edff-0c99-4c8e-bfe8-ed713ac8ee74",
+                    "6979e708-8ceb-4688-8556-412a893d4021",
+                    "623a1da6-07d6-4284-8f32-3cba2d047339",
+                    "772edc94-8695-498e-8bac-4849bde0cfa2",
+                    "58df90ad-7e9e-419a-a3d8-f498e7fea6a5",
+                    "e4815df4-482d-4830-abd0-cc31374ecc89"
+                ]
+            },
+            "generate_answer_demos_7e0287b5-781e-41a8-9e1d-bbb183f00342": {
+                "name": "generate_answer_demos_7e0287b5-781e-41a8-9e1d-bbb183f00342",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "630b7bb6-cfca-4c4f-ad4c-3d6217db08ff",
+                    "df62c5c5-f369-4c60-93e7-1166dfa2347b",
+                    "1ef8edff-0c99-4c8e-bfe8-ed713ac8ee74",
+                    "6979e708-8ceb-4688-8556-412a893d4021",
+                    "623a1da6-07d6-4284-8f32-3cba2d047339",
+                    "772edc94-8695-498e-8bac-4849bde0cfa2",
+                    "58df90ad-7e9e-419a-a3d8-f498e7fea6a5",
+                    "e4815df4-482d-4830-abd0-cc31374ecc89"
+                ]
+            },
+            "generate_answer_demos_145f4ab2-fef9-49d6-9200-ae29aa95fca0": {
+                "name": "generate_answer_demos_145f4ab2-fef9-49d6-9200-ae29aa95fca0",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "1989953e-4488-4f93-9920-ae5a8d82eda2",
+                    "df62c5c5-f369-4c60-93e7-1166dfa2347b",
+                    "1ef8edff-0c99-4c8e-bfe8-ed713ac8ee74",
+                    "6979e708-8ceb-4688-8556-412a893d4021",
+                    "623a1da6-07d6-4284-8f32-3cba2d047339",
+                    "772edc94-8695-498e-8bac-4849bde0cfa2",
+                    "58df90ad-7e9e-419a-a3d8-f498e7fea6a5",
+                    "e4815df4-482d-4830-abd0-cc31374ecc89"
+                ]
+            },
+            "generate_answer_demos_13983e46-4cb5-44af-a9f3-de0c0ce27dee": {
+                "name": "generate_answer_demos_13983e46-4cb5-44af-a9f3-de0c0ce27dee",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "caabd549-1621-4483-bf5f-f3eeb358d551",
+                    "a69a48d9-b389-4f96-83d4-38709b2cabb8",
+                    "3dafeec0-ad0e-40cf-afb4-ca8fefabc70e",
+                    "6937689e-ac91-43b1-beae-ce038967c011",
+                    "77ee85b3-30e9-4965-9c2d-02b02400e291",
+                    "f60ffe82-cc92-483c-9c4e-a675e4138f8b",
+                    "dd201ace-61b2-4dea-abf2-db25ff5a7c3d",
+                    "e879326c-62b5-4842-980d-38b215b419d9"
+                ]
+            },
+            "generate_answer_demos_6a8c4559-fa71-4c63-bf99-4104f6990e8c": {
+                "name": "generate_answer_demos_6a8c4559-fa71-4c63-bf99-4104f6990e8c",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "e1a78140-be7d-4022-9953-03c7fac5659c",
+                    "a69a48d9-b389-4f96-83d4-38709b2cabb8",
+                    "3dafeec0-ad0e-40cf-afb4-ca8fefabc70e",
+                    "6937689e-ac91-43b1-beae-ce038967c011",
+                    "77ee85b3-30e9-4965-9c2d-02b02400e291",
+                    "f60ffe82-cc92-483c-9c4e-a675e4138f8b",
+                    "dd201ace-61b2-4dea-abf2-db25ff5a7c3d",
+                    "e879326c-62b5-4842-980d-38b215b419d9"
+                ]
+            },
+            "generate_answer_demos_151b1299-9753-4b0c-957d-a0838e39d766": {
+                "name": "generate_answer_demos_151b1299-9753-4b0c-957d-a0838e39d766",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "4a740461-fcf8-420a-b93b-4742bc352fd7",
+                    "a69a48d9-b389-4f96-83d4-38709b2cabb8",
+                    "3dafeec0-ad0e-40cf-afb4-ca8fefabc70e",
+                    "6937689e-ac91-43b1-beae-ce038967c011",
+                    "77ee85b3-30e9-4965-9c2d-02b02400e291",
+                    "f60ffe82-cc92-483c-9c4e-a675e4138f8b",
+                    "dd201ace-61b2-4dea-abf2-db25ff5a7c3d",
+                    "e879326c-62b5-4842-980d-38b215b419d9"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "['\"Joakim Noah\" | \"six attempts. With the help of Noah on both the offensive and defensive sides of the ball, the Florida Gators were able to win their second championship in two years. The Chicago Bulls selected Noah as the ninth overall pick in the 2007 NBA draft. Noah and his teammates at Florida, Corey Brewer and Al Horford, became the highest-picked trio from the same college in the history of the NBA. Horford was chosen third overall by the Atlanta Hawks, and Brewer was chosen seventh overall by the Minnesota Timberwolves. On November 6, 2007, Noah made his regular season debut off\"', '\"Kobe Bryant\" | \"addition to winning his MVP award, Bryant was the only unanimous selection to the All-NBA team on May 8, 2008, for the third straight season and sixth time in his career. He would then headline the NBA All-Defensive First Team with Kevin Garnett, receiving 52 points overall including 24 first-place nods, earning his eighth selection. The Lakers concluded the 2007\u201308 regular season with a 57\u201325 record, finishing first in the Western Conference and setting up themselves for a first-round contest against the Nuggets. In Game 1, Bryant, who said he made himself a decoy through most of the game, scored\"', '\"NBA All-Defensive Team\" | \"each second team vote. The top five players with the highest point total make the first team, with the next five making the second team. In the case of a tie at the fifth position of either team, the roster is expanded. If the first team consists of six players due to a tie, the second team will still consist of five players with the potential for more expansion in the event of additional ties. Ties have occurred several times, most recently in 2013 when Tyson Chandler and Joakim Noah tied in votes received. Tim Duncan holds the record for\"', '\"Joakim Noah\" | \"was awarded the NBA Defensive Player of the Year award for the first time in his career. He is the second Chicago Bull to win the award, after Michael Jordan who won it in the season. On June 4, 2014, Noah was named to the 2014 All-NBA first team. On January 27, 2015, Noah had a season-best game with 18 points and 15 rebounds in a 113\u2013111 overtime win over the Golden State Warriors. He finished the season averaging 7.2 points and 9.6 rebounds, his lowest averages since the 2009\u201310 season. Noah lost his starting spot to Nikola Miroti\u0107 during\"']",
+                    "question": "Who did the ninth overall pick in the 2007 NBA draft tie with during voting for the 2013 NBA All-Defensive Team?"
+                },
+                "output": "Joakim Noah tied with Tyson Chandler during voting for the 2013 NBA All-Defensive Team.",
+                "id": "183b3129-e09a-408f-a8da-173a3bb165f0",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Hargus \"\"Pig\"\" Robbins\" | \"ask for Pig, I want Pig!\"\" Hargus \"\"Pig\"\" Robbins Hargus Melvin \"\"Pig\"\" Robbins (born January 18, 1938, in Spring City, Tennessee) is an American session keyboard, and piano player. Having played on records for artists such as Dolly Parton, Connie Smith, Patti Page, Loretta Lynn, Kenny Rogers, George Jones,Charlie Rich, Bob Dylan, Neil Young, Mark Knopfler, John Hartford, Ween, Alan Jackson, Merle Haggard, Roger Miller, David Allan Coe, Moe Bandy, George Hamilton IV, Sturgill Simpson and Conway Twitty, he played on Roger Miller\\'s Grammy Award-winning \"\"Dang Me\"\" in 1964. He is blind, having lost his sight at age four due\"', '\"Hargus \"\"Pig\"\" Robbins\" | \"Hargus \"\"Pig\"\" Robbins Hargus Melvin \"\"Pig\"\" Robbins (born January 18, 1938, in Spring City, Tennessee) is an American session keyboard, and piano player. Having played on records for artists such as Dolly Parton, Connie Smith, Patti Page, Loretta Lynn, Kenny Rogers, George Jones,Charlie Rich, Bob Dylan, Neil Young, Mark Knopfler, John Hartford, Ween, Alan Jackson, Merle Haggard, Roger Miller, David Allan Coe, Moe Bandy, George Hamilton IV, Sturgill Simpson and Conway Twitty, he played on Roger Miller\\'s Grammy Award-winning \"\"Dang Me\"\" in 1964. He is blind, having lost his sight at age four due to an accident involving his father\\'s\"']",
+                    "question": "Hargus Melvin \"Pig\" Robbins who has played with an American alternative rock band whose highest charting single was what?"
+                },
+                "output": "Hargus Melvin \"Pig\" Robbins has played with the American alternative rock band Ween, whose highest charting single is \"Push th' Little Daisies.\"",
+                "id": "744a2646-8406-4fe0-a81f-db4e78cd7855",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Harold E. Wilson\" | \"forth in the following CITATION: Harold E. Wilson Chief Warrant Officer Harold Edward Wilson (December 5, 1921 \u2013 March 29, 1998) was a United States Marine who earned the United States\\' military highest award, the Medal of Honor, for heroism as a platoon sergeant of a rifle platoon in Korea on the night of April 23\u201324, 1951. He received the award from President Harry S. Truman during ceremonies at the White House on April 11, 1952. Wounded four times during the night-long battle, he refused medical treatment to rally his men against overwhelming Communist forces. With both arms virtually disabled,\"', '\"Harold E. Wilson\" | \"Harold E. Wilson Chief Warrant Officer Harold Edward Wilson (December 5, 1921 \u2013 March 29, 1998) was a United States Marine who earned the United States\\' military highest award, the Medal of Honor, for heroism as a platoon sergeant of a rifle platoon in Korea on the night of April 23\u201324, 1951. He received the award from President Harry S. Truman during ceremonies at the White House on April 11, 1952. Wounded four times during the night-long battle, he refused medical treatment to rally his men against overwhelming Communist forces. With both arms virtually disabled, he continued to pass ammunition\"']",
+                    "question": "What head of state position was held by Harry S Truman when he gave Harold E Wilson the Medal of Honor?"
+                },
+                "output": "Harry S. Truman was the President of the United States when he awarded Harold E. Wilson the Medal of Honor.",
+                "id": "1eb3ecc2-8ec5-48a3-98a7-cb5b7882362c",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Tae Kwon Do Times\" | \"Tae Kwon Do Times Tae Kwon Do Times is a magazine devoted to the martial art of taekwondo, and is published in the United States of America. While the title suggests that it focuses on taekwondo exclusively, the magazine also covers other Korean martial arts. \"\"Tae Kwon Do Times\"\" has published articles by a wide range of authors, including He-Young Kimm, Thomas Kurz, Scott Shaw, and Mark Van Schuyver. \"\"Tae Kwon Do Times\"\" is a widely known publication within the international taekwondo community, appearing in several organizations\\' websites and individuals\\' biographies. Shaw lists it as one of five important taekwondo\"', '\"Tae Kwon Do Times\" | \"wife, Soja Kim. The Kims retired from their involvement in the magazine in 2005. Currently, Woo Jin Jung is the Publisher and Chief Executive Officer of the magazine. \"\"Tae Kwon Do Times\"\" maintains correspondents both inside the USA, such as Jere Hilland, and outside the USA, such as Joon No in Australia and George Ashiru in Nigeria. a. Several martial art schools and other martial art organizations mention \"\"Tae Kwon Do Times\"\", cite articles from it, or reproduce portions of it. b. Several martial artists refer to their biographies, articles, or awards published in \"\"Tae Kwon Do Times\"\". c. The\"']",
+                    "question": "Which magazine has published articles by Scott Shaw, Tae Kwon Do Times or Southwest Art?"
+                },
+                "output": "Tae Kwon Do Times",
+                "id": "77594d64-3c9d-41c2-9423-7b14462a098c",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Rudd Concession\" | \"his country. However, the whites kept coming, particularly after the discovery in 1886 of gold deposits in the South African Republic (or Transvaal), which prompted the Witwatersrand Gold Rush and the founding of Johannesburg. After rumours spread among the Witwatersrand (or Rand) prospectors of even richer tracts, \"\"a second Rand\"\", north of the Limpopo, the miners began to trek north to seek concessions from Lobengula that would allow them to search for gold in Matabeleland and Mashonaland. These efforts were mostly in vain. Apart from the Tati Concession, which covered a small strip of land on the border with the\"', 'Soweto | \"farms were surveyed) named Randjeslaagte, situated between the farms Doornfontein to the east, Braamfontein to the west and Turffontein to the south. Within a decade of the discovery of gold in Johannesburg, 100,000 people flocked to this part of the Zuid-Afrikaansche Republic in search of riches. They were of all races and all nationalities. In October 1887 the government of the South African Republic (ZAR) bought the south-eastern portion of the farm Braamfontein. There were large quantities of clay, suitable for brickmaking, along the stream. The government decided that more money was to be made from issuing brick maker\\'s licences\"']",
+                    "question": "What country does Rand Show and Johannesburg have in common?"
+                },
+                "output": "South Africa",
+                "id": "623a1da6-07d6-4284-8f32-3cba2d047339",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Wormholes in fiction\" | \"Wormholes in fiction An Einstein\u2013Rosen bridge, or wormhole, is a postulated method, within the general theory of relativity, of moving from one point in space to another without crossing the space between. Wormholes are a popular feature of science fiction as they allow faster-than-light (FTL) interstellar travel within human timescales. A related concept in various fictional genres is the Portable hole. While there\\'s no clear demarcation between the two, this article deals with fictional, but pseudo-scientific, treatments of faster-than-light travel through space. Wormholes are also the principal means of space travel in the \"\"Stargate\"\" movie and the spin-off television series,\"', 'Wormhole | \"published in July 1935. For the Schwarzschild spherically symmetric static solution If one replaces formula_9 with formula_10 according to formula_11 For the combined field, gravity and electricity, Einstein and Rosen derived the following Schwarzschild static spherically symmetric solution The field equations without denominators in the case when formula_1 = 0 can be written In order to eliminate singularities, if one replaces formula_9 by formula_10 according to the equation: and with formula_1 = 0 one obtains Wormholes are a common element in science fiction because they allow interstellar, intergalactic, and sometimes even interuniversal travel within human lifetime scales. In fiction, wormholes\"']",
+                    "question": "What person does Wormholes in fiction and Nathan Rosen have in common?"
+                },
+                "output": "Albert Einstein",
+                "id": "ff711c35-ded7-4626-b50b-08de357d7650",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Colorado Springs Airport\" | \"Colorado Springs Airport City of Colorado Springs Municipal Airport (also known as Colorado Springs Airport) is a city-owned public civil-military airport southeast of Colorado Springs, in El Paso County, Colorado. It is the second busiest commercial service airport in the state. Peterson Air Force Base, which is located on the north side of runway 13/31, is a tenant of the airport. In 1927 the airport opened on east of the city, with two gravel runways. In the late 1930s the first scheduled airline flight went from El Paso, Texas, through Pueblo, Colorado Springs, to Denver and back. The first municipal\"', '\"Colorado Springs Airport\" | \"4 helicopter, and 26 military. Colorado Springs Airport City of Colorado Springs Municipal Airport (also known as Colorado Springs Airport) is a city-owned public civil-military airport southeast of Colorado Springs, in El Paso County, Colorado. It is the second busiest commercial service airport in the state. Peterson Air Force Base, which is located on the north side of runway 13/31, is a tenant of the airport. In 1927 the airport opened on east of the city, with two gravel runways. In the late 1930s the first scheduled airline flight went from El Paso, Texas, through Pueblo, Colorado Springs, to Denver\"']",
+                    "question": "Which of the following airports hosts Peterson Air Force Base as a tenant: Newark Liberty International Airport or Colorado Springs Airport?"
+                },
+                "output": "Colorado Springs Airport",
+                "id": "0ee6855c-4f94-4e95-94e2-299bb516b454",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Juan Pablo Di Pace\" | \"2005 film \"\"Survival Island\"\". He is also featured in \"\"Mamma Mia!\"\" (2008). Upon moving to Spain he played regular roles in TV series such as \"\"Supercharly\"\", \"\"Angel o Demonio\"\", \"\"Los Hombres de Paco\"\", \"\"90-60-90\"\", and \"\"El Don de Alba\"\". In 2011 he starred in the final season of \"\"F\u00edsica o Qu\u00edmica,\"\". Di Pace also starred in the video for the 2004 Eric Prydz hit \"\"Call On Me\"\". In the video, he is the only man amongst a group of women in an aerobics class. He also directed and starred in the sequel \"\"What a Feeling\"\" by Hughes Corporation in 2006,\"', '\"Juan Pablo Di Pace\" | \"Juan Pablo Di Pace Juan Pablo Di Pace is an Argentinian actor, singer and director. Di Pace began his career in the United Kingdom, performing in a number of musicals and appearing in films like \"\"Survival Island\"\" (2005) and \"\"Mamma Mia!\"\" (2008). He later moved to Spain, starring in several television series from 2009 to 2013. In 2014, Di Pace began starring as Nicolas Trevi\u00f1o in the TNT drama series \"\"Dallas\"\". Starting in 2016, he played the role of Kimmy Gibbler\\'s estranged husband, Fernando, on \"\"Fuller House\"\", the sequel series to \"\"Full House\"\". Di Pace was born in Buenos Aires,\"']",
+                    "question": "Juan Pablo Di Pace had a role on the sequel series to what Jeff Franklin-created American sitcom?"
+                },
+                "output": "Full House",
+                "id": "6979e708-8ceb-4688-8556-412a893d4021",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Nigel Walley\" | \"friends and school friends. Walley was one of four tea-chest bass players in the fledgling lineup of the group, the others being Vaughan, Bill Smith and Len Garry. Playing tea-chest bass with the group from 1956 to 1958, Walley lost the tea chest when he left it at a bus stop after being threatened by two aggressive local boys. He then decided to become the group\\'s manager, at Lennon\\'s request. On 2 July 1957, Walley and Lennon were turned down when they tried to sign on as ship\\'s stewards (as Lennon\\'s father had been), in the seamen\\'s employment office at\"', '\"Nigel Walley\" | \"playing skiffle between the performances of three jazz groups at The Cavern Club. Paul McCartney made his debut with the group on Friday, 18 October 1957, at a Conservative Club social\u2014organised by Walley\u2014which was held at the New Clubmoor Hall in the Norris Green section of Liverpool. Lennon and McCartney wore cream-coloured sports jackets, which were paid for by Walley, and he collected half a crown per week from each member until the bill was settled. McCartney later clashed with Walley about payment: \"\"The funny thing was that whenever Paul [McCartney] was around he used to say, \\'Don\\'t pay anyone\"', '\"The Quarrymen\" | \"sent flyers to local theatres and ballrooms, and put up posters designed by Lennon: \"\"Country-and-western, rock n\\' roll, skiffle band \u2014 The Quarrymen \u2014 Open for Engagements \u2014 Please Call Nigel Walley, Tel.Gateacre 1715\"\". Walley managed to secure the group several paid engagements throughout the spring of 1957, including one at The Cavern Club A jazz club at the time, the Cavern tolerated skiffle as it was considered an offshoot of jazz. Lennon, however, began leading the band in several rock and roll numbers, prompting the club\\'s manager to send up a note ordering the group to \"\"Cut out the\"']",
+                    "question": "What instrument did Nigel Walley play in John Lennon's band formed in 1956, which would later become the Beatles?"
+                },
+                "output": "Nigel Walley played the tea-chest bass in John Lennon's band formed in 1956.",
+                "id": "8755e77d-6726-43ec-8ad0-3fd9738499c0",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"History of Manchester City F.C. (1965\u20132001)\" | \"Mercer was and is still seen with great affection and his widow Norah Mercer later said that Joe Mercer\\'s time at City was one of the most enjoyable periods of his life, adding that he loved the supporters and players at the club. Manchester City were invited to take part in the 1972 FA Charity Shield in which they beat Aston Villa 1-0. From 1972 to 1974 Manchester City underwent several changes both on and off the field. Businessman Peter Swales gained control of the club, and Malcolm Allison resigned midway through a poor 1972/73 season that almost saw the\"', '\"Alan Oakes\" | \"behind champions Derby County. As other teams pulled out, Manchester City agreed to take part in the 1972 FA Charity Shield, and they took the shield back to Maine Road with a 1\u20130 win over Aston Villa at Villa Park. However, he was restricted to just 15 appearances in 1972\u201373, as City ended the campaign in 11th place under the management of Johnny Hart. Oakes returned to post 33 appearances in 1973\u201374, the season in which Denis Law famously sent Manchester United out of the top-flight. New boss Tony Book failed to bring back the glory years for Manchester City\"', '\"History of Aston Villa F.C. (1874\u20131961)\" | \"History of Aston Villa F.C. (1874\u20131961) Aston Villa F.C. were formed in March 1874, by four members of the Villa Cross Wesleyan Chapel (known as early as 1867 as Aston Villa Wesleyan Chapel) in Lozells. The four founders were Jack Hughes, Frederick Matthews, Walter Price and William Scattergood. The first match was against the local Aston Brook St Mary\\'s Rugby team. As a condition of the match, the Villa side had to agree to play the first half under rugby rules and the second half under football rules. The club were soon playing the modern version of football though and\"', '\"History of Aston Villa F.C. (1874\u20131961)\" | \"they chose football after witnessing an \"\"impromptu game on a meadow off Heathfield Road\"\". The four founders of Aston Villa were Jack Hughes, Frederick Matthews, Walter Price and William Scattergood. Their first match was played against the local Aston Brook St Mary\\'s Rugby team on Wilson Road, Aston. As a condition of the match, the Villa side had to agree to play the first half under rugby rules, and the second half under football rules. The game was a scoreless draw at half time but Jack Hughes scored a goal in the second half to ensure that Villa won their\"']",
+                    "question": "In what year was the club founded that played Manchester City in the 1972 FA Charity Shield"
+                },
+                "output": "1874",
+                "id": "b11a6ec9-0bb3-4aae-a87e-773572940570",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To determine the year the club that played Manchester City in the 1972 FA Charity Shield was founded, we need to identify the opponent in that match. \n\nFrom the context provided, it states that Manchester City played against Aston Villa in the 1972 FA Charity Shield and won the match 1-0. \n\nNext, we need to find out when Aston Villa was founded. The context mentions that Aston Villa F.C. was formed in March 1874.\n\nNow that we have identified both the opponent and the founding year, we can conclude that Aston Villa, the club that played Manchester City in the 1972 FA Charity Shield, was founded in 1874.\n\nThus, the final response is: 1874."
+            },
+            {
+                "inputs": {
+                    "context": "['\"Nigel Walley\" | \"friends and school friends. Walley was one of four tea-chest bass players in the fledgling lineup of the group, the others being Vaughan, Bill Smith and Len Garry. Playing tea-chest bass with the group from 1956 to 1958, Walley lost the tea chest when he left it at a bus stop after being threatened by two aggressive local boys. He then decided to become the group\\'s manager, at Lennon\\'s request. On 2 July 1957, Walley and Lennon were turned down when they tried to sign on as ship\\'s stewards (as Lennon\\'s father had been), in the seamen\\'s employment office at\"', '\"Nigel Walley\" | \"playing skiffle between the performances of three jazz groups at The Cavern Club. Paul McCartney made his debut with the group on Friday, 18 October 1957, at a Conservative Club social\u2014organised by Walley\u2014which was held at the New Clubmoor Hall in the Norris Green section of Liverpool. Lennon and McCartney wore cream-coloured sports jackets, which were paid for by Walley, and he collected half a crown per week from each member until the bill was settled. McCartney later clashed with Walley about payment: \"\"The funny thing was that whenever Paul [McCartney] was around he used to say, \\'Don\\'t pay anyone\"', '\"Nigel Walley\" | \"Nigel Walley Christopher Nigel Walley (born 30 June 1941) is a former golfer and tea-chest bass player of The Quarrymen, which included John Lennon. Walley later became manager of the group. His surname has often been spelt incorrectly as \\'Whalley\\' in numerous books and on web pages. Walley\\'s father was Chief Superintendent Harold Walley, who was the head of Liverpool\\'s Police \\'A\\' Division. The Walley family lived in Vale Road, Liverpool, which was at the back of Lennon\\'s home at 251 Menlove Avenue, belonging to his aunt and guardian, Mimi Smith. Walley and Lennon became friends at the age of\"']",
+                    "question": "What instrument did Nigel Walley play in John Lennon's band formed in 1956, which would later become the Beatles?"
+                },
+                "output": "Tea-chest bass.",
+                "id": "bf3adb16-5e96-4a9d-ac50-18c897a9c6f1",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the information step by step.\n\n1. **Identify the Band**: The context mentions \"The Quarrymen,\" which is the band that included John Lennon and later evolved into The Beatles.\n\n2. **Nigel Walley's Role**: The context states that Nigel Walley was one of the four tea-chest bass players in the group from 1956 to 1958.\n\n3. **Instrument Played**: The specific instrument mentioned is the \"tea-chest bass,\" which is a type of bass instrument made from a tea chest.\n\n4. **Timeline**: The context indicates that Walley played this instrument during the early years of the band, specifically from 1956 until he transitioned to being the group's manager.\n\nNow that we have analyzed the information, we can conclude that the instrument Nigel Walley played in John Lennon's band was the tea-chest bass. \n\nFinal response: Tea-chest bass."
+            },
+            {
+                "inputs": {
+                    "context": "['\"Everything Has Changed\" | \"Everything Has Changed \"\"Everything Has Changed\"\" is a song written and performed by American singer-songwriter Taylor Swift and English singer-songwriter Ed Sheeran, taken from Swift\\'s fourth studio album, \"\"Red\"\" (2012). Produced by Butch Walker, the track was released as the sixth single from the album on July 16, 2013. \"\"Everything Has Changed\"\" is a guitar ballad combining folk and pop genres about \"\"wanting to get to know a new lover better\"\". The single gained mixed reviews from music critics, who were ambivalent towards its composition. \"\"Everything Has Changed\"\" peaked at number 32 on the \"\"Billboard\"\" Hot 100 chart in the\"', '\"Everything\\'s Changed\" | \"album, 1999\\'s \"\"Lonely Grill\"\". \"\"Everything\\'s Changed\"\" debuted at number 73 on the U.S. \"\"Billboard\"\" Hot Country Singles & Tracks for the week of July 4, 1998. Everything\\'s Changed \"\"Everything\\'s Changed\"\" is a song written by Richie McDonald, Larry Boone and Paul Nelson, and performed by American country music band Lonestar. It was released in June 1998 as the fourth and final single from their 1997 album \"\"Crazy Nights\"\". Their ninth chart single overall, it was also the last single to feature bass guitarist John Rich, who left the band to pursue a solo career. The song peaked at number 2\"', '\"Red (Taylor Swift album)\" | \"Red (Taylor Swift album) Red is the fourth studio album by American singer-songwriter Taylor Swift, and her last to feature a country sound. It was released on October 22, 2012, by Big Machine Records, as the follow-up to her third studio album, \"\"Speak Now\"\". The album title was inspired by the \"\"semi-toxic relationships\"\" that Swift experienced during the process of conceiving this album, with Swift describing the emotions she felt as \"\"red emotions\"\" due to their intense and tumultuous nature. \"\"Red\"\" touches on Swift\\'s signature themes of love and heartbreak, however, from a more mature perspective while exploring other themes\"', '\"1989 (Taylor Swift album)\" | \"1989 (Taylor Swift album) 1989 is the fifth studio album by American singer-songwriter Taylor Swift, released on October 27, 2014 through Big Machine Records. Swift began composing the album following the release of her previous studio effort, \"\"Red\"\" (2012). Over the course of the two-year songwriting period, she collaborated with producers Max Martin and Shellback\u2014Martin served as the album\\'s executive producer alongside Swift. The album\\'s title was named after the singer\\'s birth year and its music was inspired by the pop music of the 1980s. The album represents a departure from the country music of Swift\\'s previous albums, and is\"']",
+                    "question": "\"Everything Has Changed\" is a song from an album released under which record label ?"
+                },
+                "output": "Big Machine Records.",
+                "id": "4b97f896-54da-4c47-b00c-595bc89769a7",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To determine the record label under which \"Everything Has Changed\" was released, we need to analyze the context provided.\n\n1. The song \"Everything Has Changed\" is performed by Taylor Swift and Ed Sheeran and is part of Swift's fourth studio album, \"Red.\"\n2. The context mentions that \"Red\" was released on October 22, 2012, by Big Machine Records.\n\nSince \"Everything Has Changed\" is a track from the \"Red\" album, we can conclude that it was also released under the same record label.\n\nNow, we can provide the final response based on this analysis. \n\nThe record label is Big Machine Records."
+            },
+            {
+                "inputs": {
+                    "context": "['\"NBA All-Defensive Team\" | \"each second team vote. The top five players with the highest point total make the first team, with the next five making the second team. In the case of a tie at the fifth position of either team, the roster is expanded. If the first team consists of six players due to a tie, the second team will still consist of five players with the potential for more expansion in the event of additional ties. Ties have occurred several times, most recently in 2013 when Tyson Chandler and Joakim Noah tied in votes received. Tim Duncan holds the record for\"', '\"Joakim Noah\" | \"was awarded the NBA Defensive Player of the Year award for the first time in his career. He is the second Chicago Bull to win the award, after Michael Jordan who won it in the season. On June 4, 2014, Noah was named to the 2014 All-NBA first team. On January 27, 2015, Noah had a season-best game with 18 points and 15 rebounds in a 113\u2013111 overtime win over the Golden State Warriors. He finished the season averaging 7.2 points and 9.6 rebounds, his lowest averages since the 2009\u201310 season. Noah lost his starting spot to Nikola Miroti\u0107 during\"', '\"Joakim Noah\" | \"six attempts. With the help of Noah on both the offensive and defensive sides of the ball, the Florida Gators were able to win their second championship in two years. The Chicago Bulls selected Noah as the ninth overall pick in the 2007 NBA draft. Noah and his teammates at Florida, Corey Brewer and Al Horford, became the highest-picked trio from the same college in the history of the NBA. Horford was chosen third overall by the Atlanta Hawks, and Brewer was chosen seventh overall by the Minnesota Timberwolves. On November 6, 2007, Noah made his regular season debut off\"', '\"2007 NBA draft\" | \"draft belonged to teams that had missed the playoffs; the order was determined through a lottery. The lottery would determine the three teams that would obtain the first three picks on the draft. The remaining first-round picks and the second-round picks were assigned to teams in reverse order of their win-loss record in the previous season. On April 20, 2007, the NBA performed a tie-breaker to determine the order of the picks for teams with identical win-loss record. The lottery was held on May 22, 2007 in Secaucus, New Jersey. The Portland Trail Blazers, who had the seventh-worst record in\"']",
+                    "question": "Who did the ninth overall pick in the 2007 NBA draft tie with during voting for the 2013 NBA All-Defensive Team?"
+                },
+                "output": "Tyson Chandler.",
+                "id": "772edc94-8695-498e-8bac-4849bde0cfa2",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To solve the problem, we need to extract relevant information from the provided context regarding the 2007 NBA draft and the 2013 NBA All-Defensive Team voting.\n\n1. **Identify the ninth overall pick in the 2007 NBA draft**: The context states that Joakim Noah was selected as the ninth overall pick in the 2007 NBA draft.\n\n2. **Look for information about the 2013 NBA All-Defensive Team**: The context mentions that there was a tie in votes for the fifth position of the All-Defensive Team in 2013, specifically naming Tyson Chandler and Joakim Noah as tied in votes received.\n\n3. **Determine who Joakim Noah tied with**: From the information gathered, Joakim Noah tied with Tyson Chandler during the voting for the 2013 NBA All-Defensive Team.\n\nNow that we have analyzed the context and gathered the necessary information, we can provide the final response. \n\n**Final Response**: Tyson Chandler."
+            },
+            {
+                "inputs": {
+                    "context": "['\"Hargus \"\"Pig\"\" Robbins\" | \"ask for Pig, I want Pig!\"\" Hargus \"\"Pig\"\" Robbins Hargus Melvin \"\"Pig\"\" Robbins (born January 18, 1938, in Spring City, Tennessee) is an American session keyboard, and piano player. Having played on records for artists such as Dolly Parton, Connie Smith, Patti Page, Loretta Lynn, Kenny Rogers, George Jones,Charlie Rich, Bob Dylan, Neil Young, Mark Knopfler, John Hartford, Ween, Alan Jackson, Merle Haggard, Roger Miller, David Allan Coe, Moe Bandy, George Hamilton IV, Sturgill Simpson and Conway Twitty, he played on Roger Miller\\'s Grammy Award-winning \"\"Dang Me\"\" in 1964. He is blind, having lost his sight at age four due\"', '\"Hargus \"\"Pig\"\" Robbins\" | \"Hargus \"\"Pig\"\" Robbins Hargus Melvin \"\"Pig\"\" Robbins (born January 18, 1938, in Spring City, Tennessee) is an American session keyboard, and piano player. Having played on records for artists such as Dolly Parton, Connie Smith, Patti Page, Loretta Lynn, Kenny Rogers, George Jones,Charlie Rich, Bob Dylan, Neil Young, Mark Knopfler, John Hartford, Ween, Alan Jackson, Merle Haggard, Roger Miller, David Allan Coe, Moe Bandy, George Hamilton IV, Sturgill Simpson and Conway Twitty, he played on Roger Miller\\'s Grammy Award-winning \"\"Dang Me\"\" in 1964. He is blind, having lost his sight at age four due to an accident involving his father\\'s\"']",
+                    "question": "Hargus Melvin \"Pig\" Robbins who has played with an American alternative rock band whose highest charting single was what?"
+                },
+                "output": "\"Push th' Little Daisies.\"",
+                "id": "58df90ad-7e9e-419a-a3d8-f498e7fea6a5",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To answer the question about Hargus Melvin \"Pig\" Robbins and his collaboration with an American alternative rock band, we need to identify the band mentioned in the context and determine their highest charting single.\n\n1. **Identify the Alternative Rock Band**: The context lists several artists that Hargus \"Pig\" Robbins has played with, including \"Ween.\" Ween is known as an American alternative rock band.\n\n2. **Determine the Highest Charting Single**: Ween's highest charting single is \"Push th' Little Daisies,\" which reached number 9 on the Billboard Modern Rock Tracks chart in 1992.\n\nNow that we have identified the band and their highest charting single, we can formulate the final response. \n\nThe answer is: \"Push th' Little Daisies.\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Philip Labonte\" | \"a lot of 80s hair metal bands. In an interview, Phil said, \"\"I fell in love with the whole glam world. And then like death metal too, Cannibal Corpse\u2026it\\'s very wide range of what people like, you know, Justin Timberlake\u2026all that stuff.\"\" He mentioned via Twitter and Facebook that he is a huge fan of Bring Me The Horizon and The Acacia Strain. He also is known for being a huge fan of non-metal acts such as Sarah McLachlan, Garth Brooks, Snoop Dogg, Eminem, Dr. Dre, Taylor Swift, Carly Rae Jepsen, Fall Out Boy, and Skrillex. Philip Labonte Philip Steven\"', '\"Philip Labonte\" | \"Philip Labonte Philip Steven Labonte (born April 15, 1975) is an American musician from Massachusetts, best known as the lead singer of the American metalcore band All That Remains. Labonte is the former lead vocalist for Shadows Fall, was the touring vocalist for Killswitch Engage in early 2010, and also filled in for Five Finger Death Punch vocalist Ivan L. Moody in late 2016. In the mid-\\'90s, Labonte was in a band called Perpetual Doom. The band played death metal and its members were teenagers at the time. The original vocalist of Perpetual Doom was Scott Estes; Labonte, however, took\"']",
+                    "question": "What genre of music has American musicians Jonathan Davis and Philip Labonte both have in common in the bands they have played in?"
+                },
+                "output": "Metal",
+                "id": "df62c5c5-f369-4c60-93e7-1166dfa2347b",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Angry Birds Action!\" | \"Angry Birds Action! Angry Birds Action! was a 2016 pinball video game developed by Tag Games and published by Rovio Entertainment as the thirteenth game in the \"\"Angry Birds\"\" series, and the first to have the birds appear like their counterparts in \"\"The Angry Birds Movie\"\". It was soft-launched in New Zealand on February 16, 2016 and was released for iOS and Android worldwide on April 28, 2016. It used the basic mechanics of pinball with the various Angry Birds acting as the pinball. It was free-to-play with optional purchases for in-game currency. In October 2017, the game was removed\"', '\"Angry Birds Evolution\" | \"ran from July 11, 2016 to August 3, 2016 and was only available on iOS. After the beta ended, the game was soft-launched in Hong Kong on August 17, 2016, then was released in more Asian countries in October 2016. On June 15, 2017, the game received a final, global release. This game is a turn-based role-playing game, like \"\"Angry Birds Epic\"\", but its battles incorporate the pinball-like elements of \"\"Angry Birds Action\"\", in the sense that the player launches birds at a handful of pigs in a rectangular battlefield, bouncing off of its boundaries, obstacles and enemies strategically to\"']",
+                    "question": "Where did the game the Angry Birds Movie was based on first launch?"
+                },
+                "output": "New Zealand",
+                "id": "1ef8edff-0c99-4c8e-bfe8-ed713ac8ee74",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Johnny Narron\" | \"Angels organization. Johnny Narron John A. Narron, Jr. (born 1951) is the for the Columbus Clippers, the AAA affiliate of the Cleveland Indians. He is a former hitting coach of the Milwaukee Brewers and former assistant hitting coach of the Texas Rangers of Major League Baseball. He is a confidant and friend of center fielder Josh Hamilton and temporarily acted as an \"\"accountability partner\"\" to help Hamilton in his recovery from drug addiction. The native of Goldsboro, North Carolina was a first baseman in the minor league systems of the New York Yankees and Chicago White Sox in 1974 and\"', '\"Johnny Narron\" | \"Johnny Narron John A. Narron, Jr. (born 1951) is the for the Columbus Clippers, the AAA affiliate of the Cleveland Indians. He is a former hitting coach of the Milwaukee Brewers and former assistant hitting coach of the Texas Rangers of Major League Baseball. He is a confidant and friend of center fielder Josh Hamilton and temporarily acted as an \"\"accountability partner\"\" to help Hamilton in his recovery from drug addiction. The native of Goldsboro, North Carolina was a first baseman in the minor league systems of the New York Yankees and Chicago White Sox in 1974 and 1975. He\"', '\"Josh Hamilton\" | \"Josh Hamilton Joshua Holt Hamilton (born May 21, 1981) is an American former professional baseball outfielder. He played for the Cincinnati Reds (2007), Texas Rangers (2008-2012, 2015), and Los Angeles Angels of Anaheim (2013\u20132014). Hamilton is a five-time MLB All-Star and won the American League Most Valuable Player Award (MVP) in 2010. Josh Hamilton was the first overall pick in the 1999 MLB draft by the Tampa Bay Devil Rays. He was considered a blue chip prospect until injuries and a drug addiction derailed his career, beginning in 2001. Prior to the 2007 season, Hamilton was selected by the Chicago\"', '\"Josh Hamilton\" | \"the recipient of several intentional walks in the ALCS win against the Yankees, he won the ALCS MVP Award. On November 23, 2010 Hamilton was voted the AL MVP. Hamilton avoided arbitration by signing for 2 years and $24 million on February 10, 2011, with the Texas Rangers. On April 12, in Detroit, he suffered a fracture to his right humerus on a play at home plate. On May 18, he began a rehab assignment at the Double-A Frisco RoughRiders. He returned to the Rangers\\' lineup on May 23, and went 2\u20134 against Chicago White Sox pitcher John Danks, hitting\"']",
+                    "question": "Johnny Narron is a friend of this center fielder whom he helped in his recovery from drug addiction who won the MVP award in what year?"
+                },
+                "output": "2010",
+                "id": "e4815df4-482d-4830-abd0-cc31374ecc89",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Baltasar Korma\u0301kur\" | \"Baltasar Korm\u00e1kur Baltasar Korm\u00e1kur Samper (born 27 February 1966) is an Icelandic actor, theater and film director, and film producer. He is best known for directing the films \"\"101 Reykjav\u00edk\"\", \"\"Hafi\u00f0\"\", \"\"A Little Trip to Heaven\"\" (starring Julia Stiles and Forest Whitaker), a film based on the book \"\"M\u00fdrin\"\" \"\"(Jar City)\"\" by Arnaldur Indri\u00f0ason, \"\"Contraband\"\", \"\"2 Guns\"\" (starring Mark Wahlberg and Denzel Washington) and \"\"Everest\"\". Korm\u00e1kur was born in Reykjav\u00edk, Iceland. His father is the Spanish painter Baltasar Samper. His son is actor Baltasar Breki Samper. For his film \"\"M\u00fdrin\"\", he won the Crystal Globe award at the Karlovy Vary\"', '\"Baltasar Korma\u0301kur\" | \"expected release in 2015. In February 2015, it was announced that his next film will be the crime-thriller, \"\"The Oath\"\", which is based on a script by actor \u00d3lafur Egilsson. Baltasar Korm\u00e1kur Baltasar Korm\u00e1kur Samper (born 27 February 1966) is an Icelandic actor, theater and film director, and film producer. He is best known for directing the films \"\"101 Reykjav\u00edk\"\", \"\"Hafi\u00f0\"\", \"\"A Little Trip to Heaven\"\" (starring Julia Stiles and Forest Whitaker), a film based on the book \"\"M\u00fdrin\"\" \"\"(Jar City)\"\" by Arnaldur Indri\u00f0ason, \"\"Contraband\"\", \"\"2 Guns\"\" (starring Mark Wahlberg and Denzel Washington) and \"\"Everest\"\". Korm\u00e1kur was born in Reykjav\u00edk,\"']",
+                    "question": "Are Baltasar Korm\u00e1kur and John G. Avildsen both film producers?"
+                },
+                "output": "No.",
+                "id": "630b7bb6-cfca-4c4f-ad4c-3d6217db08ff",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Nita Strauss\" | \"Nita Strauss Nita Strauss (born December 7, 1986) is an American guitarist. Best known for her work with Iron Maiden all-female tribute band The Iron Maidens, her career has included performing with several rock ensembles such as the band Femme Fatale and the LA Kiss musical backing group. In June 2014, she replaced Orianthi in the band of American hard rock musician Alice Cooper. She was also ranked #1 on the list of \\'10 Female Guitar Players You Should Know\\' published by \"\"Guitar World\"\". She comes from a long line of classical musicians - one of her ancestors on her\"', '\"The Iron Maidens\" | \"The Iron Maidens The Iron Maidens are an American heavy metal band from Los Angeles, California. Formed in 2001 as an all-female tribute act to English heavy metal band Iron Maiden. The band currently consists of vocalist Kirsten Rosenberg, bassist Wanda Ortiz, drummer Linda McDonald, guitarist Courtney Cox, and guitarist Nikki Stringfield. The Iron Maidens were originally formed in June 2001 by vocalist Jenny Warren and bassist Melanie Sisneros, formerly of the Iron Maiden tribute band \"\"Wrathchild\"\". Linda McDonald (drums) and Josephine Draven (guitar), both formerly of Phantom Blue, and Sara Marsh (guitar), joined Warren and Sisneros shortly afterward to\"', '\"Nita Strauss\" | \"father\\'s side of the family is the Austrian composer Johann Strauss II. In June 2014, it was announced that Nita would replace Orianthi as Alice Cooper\\'s touring guitarist for the 2014 tour dates, a role she has continued in 2018. Strauss is featured as the main guitarist on seven songs in Docker\\'s Guild album called \"\"The Heisenberg Diaries \u2013 Book A: Sounds of Future Past\"\", released on January 21, 2016. Strauss met Docker through their mutual friend Jeff Gilooly In 2018, Strauss started to make appearances on WWE shows. On April 8, she appeared at WrestleMania 34, playing guitar in\"']",
+                    "question": "This American guitarist best known for her work with the Iron Maidens is an ancestor of a composer who was known as what?"
+                },
+                "output": "Waltz King.",
+                "id": "1989953e-4488-4f93-9920-ae5a8d82eda2",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the information step by step.\n\n1. **Identify the American Guitarist**: The context mentions Nita Strauss as the American guitarist best known for her work with the Iron Maidens.\n\n2. **Look for Information about Her Ancestor**: The context states that one of Nita Strauss's ancestors is the Austrian composer Johann Strauss II.\n\n3. **Determine What Johann Strauss II is Known As**: Johann Strauss II is commonly known as the \"Waltz King\" due to his significant contributions to the waltz genre of music.\n\nNow that we have analyzed the information, we can conclude that Nita Strauss is an ancestor of a composer known as the \"Waltz King.\" \n\nFinal response: Waltz King."
+            },
+            {
+                "inputs": {
+                    "context": "['\"Nigel Walley\" | \"friends and school friends. Walley was one of four tea-chest bass players in the fledgling lineup of the group, the others being Vaughan, Bill Smith and Len Garry. Playing tea-chest bass with the group from 1956 to 1958, Walley lost the tea chest when he left it at a bus stop after being threatened by two aggressive local boys. He then decided to become the group\\'s manager, at Lennon\\'s request. On 2 July 1957, Walley and Lennon were turned down when they tried to sign on as ship\\'s stewards (as Lennon\\'s father had been), in the seamen\\'s employment office at\"', '\"Nigel Walley\" | \"playing skiffle between the performances of three jazz groups at The Cavern Club. Paul McCartney made his debut with the group on Friday, 18 October 1957, at a Conservative Club social\u2014organised by Walley\u2014which was held at the New Clubmoor Hall in the Norris Green section of Liverpool. Lennon and McCartney wore cream-coloured sports jackets, which were paid for by Walley, and he collected half a crown per week from each member until the bill was settled. McCartney later clashed with Walley about payment: \"\"The funny thing was that whenever Paul [McCartney] was around he used to say, \\'Don\\'t pay anyone\"', '\"Nigel Walley\" | \"Nigel Walley Christopher Nigel Walley (born 30 June 1941) is a former golfer and tea-chest bass player of The Quarrymen, which included John Lennon. Walley later became manager of the group. His surname has often been spelt incorrectly as \\'Whalley\\' in numerous books and on web pages. Walley\\'s father was Chief Superintendent Harold Walley, who was the head of Liverpool\\'s Police \\'A\\' Division. The Walley family lived in Vale Road, Liverpool, which was at the back of Lennon\\'s home at 251 Menlove Avenue, belonging to his aunt and guardian, Mimi Smith. Walley and Lennon became friends at the age of\"']",
+                    "question": "What instrument did Nigel Walley play in John Lennon's band formed in 1956, which would later become the Beatles?"
+                },
+                "output": "Tea-chest bass",
+                "id": "caabd549-1621-4483-bf5f-f3eeb358d551",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Angry Birds Action!\" | \"Angry Birds Action! Angry Birds Action! was a 2016 pinball video game developed by Tag Games and published by Rovio Entertainment as the thirteenth game in the \"\"Angry Birds\"\" series, and the first to have the birds appear like their counterparts in \"\"The Angry Birds Movie\"\". It was soft-launched in New Zealand on February 16, 2016 and was released for iOS and Android worldwide on April 28, 2016. It used the basic mechanics of pinball with the various Angry Birds acting as the pinball. It was free-to-play with optional purchases for in-game currency. In October 2017, the game was removed\"', '\"Angry Birds Evolution\" | \"ran from July 11, 2016 to August 3, 2016 and was only available on iOS. After the beta ended, the game was soft-launched in Hong Kong on August 17, 2016, then was released in more Asian countries in October 2016. On June 15, 2017, the game received a final, global release. This game is a turn-based role-playing game, like \"\"Angry Birds Epic\"\", but its battles incorporate the pinball-like elements of \"\"Angry Birds Action\"\", in the sense that the player launches birds at a handful of pigs in a rectangular battlefield, bouncing off of its boundaries, obstacles and enemies strategically to\"', '\"Angry Birds Rio\" | \"first use of boss levels. In \"\"Rio\"\", the Angry Birds have been kidnapped and taken to Rio. Just as in the original \"\"Angry Birds\"\", players use a slingshot to launch birds at nearby structures, with the intent of hitting targets located on or within them. Instead of the pigs that have stolen eggs, players must now rescue caged exotic birds or defeat Nigel\\'s marmosets, depending on the level being played. Because of the game\\'s setting, several characters from \"\"Rio\"\" make appearances. Blu and Jewel both feature as types of bird exclusive to this game, along with all the existing birds\"']",
+                    "question": "Where did the game the Angry Birds Movie was based on first launch?"
+                },
+                "output": "New Zealand",
+                "id": "a69a48d9-b389-4f96-83d4-38709b2cabb8",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Joakim Noah\" | \"six attempts. With the help of Noah on both the offensive and defensive sides of the ball, the Florida Gators were able to win their second championship in two years. The Chicago Bulls selected Noah as the ninth overall pick in the 2007 NBA draft. Noah and his teammates at Florida, Corey Brewer and Al Horford, became the highest-picked trio from the same college in the history of the NBA. Horford was chosen third overall by the Atlanta Hawks, and Brewer was chosen seventh overall by the Minnesota Timberwolves. On November 6, 2007, Noah made his regular season debut off\"', '\"2012\u201313 Los Angeles Lakers season\" | \"playoffs for the first time since 2007, and suffered their first opening-round sweep since 1967. Bryant was named All-NBA First Team for the 11th time in his career, his 15th overall selection. Howard was named to the Third Team. 2013 second-round draft pick from Memphis Memphis\\' own 2013 second-round pick to the L.A. Lakers (top 55 protected in the 2013 Draft). If Memphis\\' own 2013 second-round pick is in the top 55 picks, then Memphis\\' obligations to the L.A. Lakers shall be extinguished. [L.A. Lakers \u2013 Memphis, February 18, 2009] 2013 first round draft pick to Phoenix The L.A. Lakers\"', '\"Joakim Noah\" | \"Joakim Noah Joakim Simon Noah ( ; born February 25, 1985) is a professional basketball player for the Memphis Grizzlies of the National Basketball Association (NBA). Born in New York City to a Swedish mother and a French father, he holds American, Swedish and French citizenship. He played college basketball for the Florida Gators, winning back-to-back NCAA championships in 2006 and 2007. The Chicago Bulls selected Noah with the ninth overall pick in the 2007 NBA draft. Noah is a two-time NBA All-Star and was named to the All-NBA First Team in 2014 when he also was named the NBA\"']",
+                    "question": "Who did the ninth overall pick in the 2007 NBA draft tie with during voting for the 2013 NBA All-Defensive Team?"
+                },
+                "output": "Tyson Chandler",
+                "id": "3dafeec0-ad0e-40cf-afb4-ca8fefabc70e",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Rudd Concession\" | \"his country. However, the whites kept coming, particularly after the discovery in 1886 of gold deposits in the South African Republic (or Transvaal), which prompted the Witwatersrand Gold Rush and the founding of Johannesburg. After rumours spread among the Witwatersrand (or Rand) prospectors of even richer tracts, \"\"a second Rand\"\", north of the Limpopo, the miners began to trek north to seek concessions from Lobengula that would allow them to search for gold in Matabeleland and Mashonaland. These efforts were mostly in vain. Apart from the Tati Concession, which covered a small strip of land on the border with the\"', 'Soweto | \"farms were surveyed) named Randjeslaagte, situated between the farms Doornfontein to the east, Braamfontein to the west and Turffontein to the south. Within a decade of the discovery of gold in Johannesburg, 100,000 people flocked to this part of the Zuid-Afrikaansche Republic in search of riches. They were of all races and all nationalities. In October 1887 the government of the South African Republic (ZAR) bought the south-eastern portion of the farm Braamfontein. There were large quantities of clay, suitable for brickmaking, along the stream. The government decided that more money was to be made from issuing brick maker\\'s licences\"']",
+                    "question": "What country does Rand Show and Johannesburg have in common?"
+                },
+                "output": "South Africa",
+                "id": "6937689e-ac91-43b1-beae-ce038967c011",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Philip Labonte\" | \"a lot of 80s hair metal bands. In an interview, Phil said, \"\"I fell in love with the whole glam world. And then like death metal too, Cannibal Corpse\u2026it\\'s very wide range of what people like, you know, Justin Timberlake\u2026all that stuff.\"\" He mentioned via Twitter and Facebook that he is a huge fan of Bring Me The Horizon and The Acacia Strain. He also is known for being a huge fan of non-metal acts such as Sarah McLachlan, Garth Brooks, Snoop Dogg, Eminem, Dr. Dre, Taylor Swift, Carly Rae Jepsen, Fall Out Boy, and Skrillex. Philip Labonte Philip Steven\"', '\"Philip Labonte\" | \"Philip Labonte Philip Steven Labonte (born April 15, 1975) is an American musician from Massachusetts, best known as the lead singer of the American metalcore band All That Remains. Labonte is the former lead vocalist for Shadows Fall, was the touring vocalist for Killswitch Engage in early 2010, and also filled in for Five Finger Death Punch vocalist Ivan L. Moody in late 2016. In the mid-\\'90s, Labonte was in a band called Perpetual Doom. The band played death metal and its members were teenagers at the time. The original vocalist of Perpetual Doom was Scott Estes; Labonte, however, took\"']",
+                    "question": "What genre of music has American musicians Jonathan Davis and Philip Labonte both have in common in the bands they have played in?"
+                },
+                "output": "Metal",
+                "id": "77ee85b3-30e9-4965-9c2d-02b02400e291",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Hargus \"\"Pig\"\" Robbins\" | \"ask for Pig, I want Pig!\"\" Hargus \"\"Pig\"\" Robbins Hargus Melvin \"\"Pig\"\" Robbins (born January 18, 1938, in Spring City, Tennessee) is an American session keyboard, and piano player. Having played on records for artists such as Dolly Parton, Connie Smith, Patti Page, Loretta Lynn, Kenny Rogers, George Jones,Charlie Rich, Bob Dylan, Neil Young, Mark Knopfler, John Hartford, Ween, Alan Jackson, Merle Haggard, Roger Miller, David Allan Coe, Moe Bandy, George Hamilton IV, Sturgill Simpson and Conway Twitty, he played on Roger Miller\\'s Grammy Award-winning \"\"Dang Me\"\" in 1964. He is blind, having lost his sight at age four due\"', '\"Hargus \"\"Pig\"\" Robbins\" | \"Hargus \"\"Pig\"\" Robbins Hargus Melvin \"\"Pig\"\" Robbins (born January 18, 1938, in Spring City, Tennessee) is an American session keyboard, and piano player. Having played on records for artists such as Dolly Parton, Connie Smith, Patti Page, Loretta Lynn, Kenny Rogers, George Jones,Charlie Rich, Bob Dylan, Neil Young, Mark Knopfler, John Hartford, Ween, Alan Jackson, Merle Haggard, Roger Miller, David Allan Coe, Moe Bandy, George Hamilton IV, Sturgill Simpson and Conway Twitty, he played on Roger Miller\\'s Grammy Award-winning \"\"Dang Me\"\" in 1964. He is blind, having lost his sight at age four due to an accident involving his father\\'s\"']",
+                    "question": "Hargus Melvin \"Pig\" Robbins who has played with an American alternative rock band whose highest charting single was what?"
+                },
+                "output": "\"Push th' Little Daisies\"",
+                "id": "f60ffe82-cc92-483c-9c4e-a675e4138f8b",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Juan Pablo Di Pace\" | \"Juan Pablo Di Pace Juan Pablo Di Pace is an Argentinian actor, singer and director. Di Pace began his career in the United Kingdom, performing in a number of musicals and appearing in films like \"\"Survival Island\"\" (2005) and \"\"Mamma Mia!\"\" (2008). He later moved to Spain, starring in several television series from 2009 to 2013. In 2014, Di Pace began starring as Nicolas Trevi\u00f1o in the TNT drama series \"\"Dallas\"\". Starting in 2016, he played the role of Kimmy Gibbler\\'s estranged husband, Fernando, on \"\"Fuller House\"\", the sequel series to \"\"Full House\"\". Di Pace was born in Buenos Aires,\"', '\"Juan Pablo Di Pace\" | \"2005 film \"\"Survival Island\"\". He is also featured in \"\"Mamma Mia!\"\" (2008). Upon moving to Spain he played regular roles in TV series such as \"\"Supercharly\"\", \"\"Angel o Demonio\"\", \"\"Los Hombres de Paco\"\", \"\"90-60-90\"\", and \"\"El Don de Alba\"\". In 2011 he starred in the final season of \"\"F\u00edsica o Qu\u00edmica,\"\". Di Pace also starred in the video for the 2004 Eric Prydz hit \"\"Call On Me\"\". In the video, he is the only man amongst a group of women in an aerobics class. He also directed and starred in the sequel \"\"What a Feeling\"\" by Hughes Corporation in 2006,\"']",
+                    "question": "Juan Pablo Di Pace had a role on the sequel series to what Jeff Franklin-created American sitcom?"
+                },
+                "output": "Full House",
+                "id": "dd201ace-61b2-4dea-abf2-db25ff5a7c3d",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Johnny Narron\" | \"Angels organization. Johnny Narron John A. Narron, Jr. (born 1951) is the for the Columbus Clippers, the AAA affiliate of the Cleveland Indians. He is a former hitting coach of the Milwaukee Brewers and former assistant hitting coach of the Texas Rangers of Major League Baseball. He is a confidant and friend of center fielder Josh Hamilton and temporarily acted as an \"\"accountability partner\"\" to help Hamilton in his recovery from drug addiction. The native of Goldsboro, North Carolina was a first baseman in the minor league systems of the New York Yankees and Chicago White Sox in 1974 and\"', '\"Johnny Narron\" | \"Johnny Narron John A. Narron, Jr. (born 1951) is the for the Columbus Clippers, the AAA affiliate of the Cleveland Indians. He is a former hitting coach of the Milwaukee Brewers and former assistant hitting coach of the Texas Rangers of Major League Baseball. He is a confidant and friend of center fielder Josh Hamilton and temporarily acted as an \"\"accountability partner\"\" to help Hamilton in his recovery from drug addiction. The native of Goldsboro, North Carolina was a first baseman in the minor league systems of the New York Yankees and Chicago White Sox in 1974 and 1975. He\"', '\"Josh Hamilton\" | \"Josh Hamilton Joshua Holt Hamilton (born May 21, 1981) is an American former professional baseball outfielder. He played for the Cincinnati Reds (2007), Texas Rangers (2008-2012, 2015), and Los Angeles Angels of Anaheim (2013\u20132014). Hamilton is a five-time MLB All-Star and won the American League Most Valuable Player Award (MVP) in 2010. Josh Hamilton was the first overall pick in the 1999 MLB draft by the Tampa Bay Devil Rays. He was considered a blue chip prospect until injuries and a drug addiction derailed his career, beginning in 2001. Prior to the 2007 season, Hamilton was selected by the Chicago\"', '\"Josh Hamilton\" | \"the recipient of several intentional walks in the ALCS win against the Yankees, he won the ALCS MVP Award. On November 23, 2010 Hamilton was voted the AL MVP. Hamilton avoided arbitration by signing for 2 years and $24 million on February 10, 2011, with the Texas Rangers. On April 12, in Detroit, he suffered a fracture to his right humerus on a play at home plate. On May 18, he began a rehab assignment at the Double-A Frisco RoughRiders. He returned to the Rangers\\' lineup on May 23, and went 2\u20134 against Chicago White Sox pitcher John Danks, hitting\"']",
+                    "question": "Johnny Narron is a friend of this center fielder whom he helped in his recovery from drug addiction who won the MVP award in what year?"
+                },
+                "output": "2010",
+                "id": "e879326c-62b5-4842-980d-38b215b419d9",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Baltasar Korma\u0301kur\" | \"Baltasar Korm\u00e1kur Baltasar Korm\u00e1kur Samper (born 27 February 1966) is an Icelandic actor, theater and film director, and film producer. He is best known for directing the films \"\"101 Reykjav\u00edk\"\", \"\"Hafi\u00f0\"\", \"\"A Little Trip to Heaven\"\" (starring Julia Stiles and Forest Whitaker), a film based on the book \"\"M\u00fdrin\"\" \"\"(Jar City)\"\" by Arnaldur Indri\u00f0ason, \"\"Contraband\"\", \"\"2 Guns\"\" (starring Mark Wahlberg and Denzel Washington) and \"\"Everest\"\". Korm\u00e1kur was born in Reykjav\u00edk, Iceland. His father is the Spanish painter Baltasar Samper. His son is actor Baltasar Breki Samper. For his film \"\"M\u00fdrin\"\", he won the Crystal Globe award at the Karlovy Vary\"', '\"Baltasar Korma\u0301kur\" | \"expected release in 2015. In February 2015, it was announced that his next film will be the crime-thriller, \"\"The Oath\"\", which is based on a script by actor \u00d3lafur Egilsson. Baltasar Korm\u00e1kur Baltasar Korm\u00e1kur Samper (born 27 February 1966) is an Icelandic actor, theater and film director, and film producer. He is best known for directing the films \"\"101 Reykjav\u00edk\"\", \"\"Hafi\u00f0\"\", \"\"A Little Trip to Heaven\"\" (starring Julia Stiles and Forest Whitaker), a film based on the book \"\"M\u00fdrin\"\" \"\"(Jar City)\"\" by Arnaldur Indri\u00f0ason, \"\"Contraband\"\", \"\"2 Guns\"\" (starring Mark Wahlberg and Denzel Washington) and \"\"Everest\"\". Korm\u00e1kur was born in Reykjav\u00edk,\"']",
+                    "question": "Are Baltasar Korm\u00e1kur and John G. Avildsen both film producers?"
+                },
+                "output": "No.",
+                "id": "e1a78140-be7d-4022-9953-03c7fac5659c",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"The Dandy Warhols\" | \"after their song \"\"Bohemian Like You\"\" enjoyed extensive exposure due to being featured in a Vodafone advertisement. The Dandy Warhols were the subject of the 2004 documentary film \"\"Dig!\"\", along with San Francisco psychedelic outfit The Brian Jonestown Massacre. They have released nine studio albums, two compilation albums, six EPs, and twenty-seven singles to date. The Dandy Warhols were formed in Portland, Oregon in 1994 by Courtney Taylor-Taylor and Peter Holmstr\u00f6m. Soon after, drummer Eric Hedford joined, and, following an unsuccessful experiment with Taylor-Taylor\\'s girlfriend on bass guitar, Zia McCabe joined the band as keyboardist after Taylor-Taylor saw her working\"', '\"The Ocean Blue\" | \"The Ocean Blue The Ocean Blue, formed in Hershey, Pennsylvania in 1986, is an American indie pop band that combines melodic guitars and synthesizers. Its core original members included David Schelzel on lead vocals/guitar, Steve Lau on keyboards/saxophone, Bobby Mittan on bass guitar and Rob Minnig on drums and vocals. Its current line-up includes David Schelzel on lead vocals/guitar, Oed Ronne on keyboards/guitar/vocals, Bobby Mittan on bass guitar and Peter Anderson on drums. The band\\'s sound may be best described as jangly guitar-based modern rock. Influences include such bands as The Smiths, Cocteau Twins, R.E.M., Echo & the Bunnymen and\"', '\"The Dandy Warhols\" | \"The Dandy Warhols The Dandy Warhols are an American alternative rock band, formed in Portland, Oregon in 1994 by singer-guitarist Courtney Taylor-Taylor and guitarist Peter Holmstr\u00f6m. They were later joined by keyboardist Zia McCabe and drummer Eric Hedford. Hedford left in 1998 and was replaced by Taylor-Taylor\\'s cousin Brent DeBoer. The band\\'s name is a play on the name of American pop artist Andy Warhol. The band gained recognition after they were signed to Capitol Records and released their major label album debut, \"\"...The Dandy Warhols Come Down\"\", in 1997. In 2001, the band rose to new levels of fame\"']",
+                    "question": "What was formed farther east, The Ocean Blue or The Dandy Warhols"
+                },
+                "output": "The Ocean Blue",
+                "id": "4a740461-fcf8-420a-b93b-4742bc352fd7",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "83": 1.0,
+            "80": 1.0,
+            "2": 1.0,
+            "86": 1.0,
+            "21": 0.19999999999999998,
+            "26": 1.0,
+            "16": 1.0,
+            "35": 0.5,
+            "93": 0.8,
+            "47": 1.0,
+            "52": 0.13793103448275862,
+            "78": 0.8571428571428571,
+            "54": 1.0,
+            "23": 1.0,
+            "5": 1.0,
+            "73": 1.0,
+            "70": 1.0,
+            "48": 0,
+            "22": 1.0,
+            "19": 1.0,
+            "63": 1.0,
+            "15": 0,
+            "4": 1.0,
+            "7": 1.0,
+            "72": 1.0,
+            "83": 1.0,
+            "80": 1.0,
+            "2": 1.0,
+            "86": 1.0,
+            "21": 1.0,
+            "26": 0.6666666666666666,
+            "16": 1.0,
+            "35": 0.5,
+            "93": 0.8,
+            "47": 1.0,
+            "52": 0.21052631578947367,
+            "78": 0.8571428571428571,
+            "54": 1.0,
+            "23": 1.0,
+            "5": 1.0,
+            "73": 1.0,
+            "70": 1.0,
+            "48": 0,
+            "22": 1.0,
+            "19": 0,
+            "63": 1.0,
+            "15": 0,
+            "4": 1.0,
+            "7": 1.0,
+            "72": 1.0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": 54,
+                "demo_id": "4a740461-fcf8-420a-b93b-4742bc352fd7"
+            },
+            {
+                "score": 1.0,
+                "task_id": 63,
+                "demo_id": "a69a48d9-b389-4f96-83d4-38709b2cabb8"
+            },
+            {
+                "score": 1.0,
+                "task_id": 70,
+                "demo_id": "3dafeec0-ad0e-40cf-afb4-ca8fefabc70e"
+            },
+            {
+                "score": 1.0,
+                "task_id": 73,
+                "demo_id": "6937689e-ac91-43b1-beae-ce038967c011"
+            },
+            {
+                "score": 1.0,
+                "task_id": 72,
+                "demo_id": "77ee85b3-30e9-4965-9c2d-02b02400e291"
+            },
+            {
+                "score": 1.0,
+                "task_id": 80,
+                "demo_id": "f60ffe82-cc92-483c-9c4e-a675e4138f8b"
+            },
+            {
+                "score": 1.0,
+                "task_id": 83,
+                "demo_id": "dd201ace-61b2-4dea-abf2-db25ff5a7c3d"
+            },
+            {
+                "score": 1.0,
+                "task_id": 86,
+                "demo_id": "e879326c-62b5-4842-980d-38b215b419d9"
+            }
+        ],
+        "task_id_set": [
+            70,
+            72,
+            73,
+            80,
+            83,
+            86,
+            54,
+            63
+        ],
+        "max_num": 8,
+        "current_best_score_sum": 8.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_demos_10b24299-89bf-41b7-9038-4028e2576847": {
+                "name": "refine_query_demos_10b24299-89bf-41b7-9038-4028e2576847",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "c03e883d-484b-4469-89dc-548664689b28",
+                    "fa4d9aef-c83d-4d02-8c1f-2b4473bf13e1",
+                    "6142ebf5-2084-4997-8fa4-5768867582dc",
+                    "36680e58-88b1-4c06-91c0-90760687fb48",
+                    "24858b73-0b47-46b1-af7e-9046a744c835",
+                    "a3c7a797-483c-412d-8520-68f528bd13bf",
+                    "e0cf9659-e0af-4c66-bafb-22474082da5e",
+                    "481faef3-3623-4ada-823f-42ed0b04a5ff"
+                ]
+            },
+            "refine_query_demos_3bdf7287-ec7e-43b3-b23c-beb74f866455": {
+                "name": "refine_query_demos_3bdf7287-ec7e-43b3-b23c-beb74f866455",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "368786c1-14af-4800-b5f1-acb869bfbf21",
+                    "fa4d9aef-c83d-4d02-8c1f-2b4473bf13e1",
+                    "6142ebf5-2084-4997-8fa4-5768867582dc",
+                    "36680e58-88b1-4c06-91c0-90760687fb48",
+                    "24858b73-0b47-46b1-af7e-9046a744c835",
+                    "a3c7a797-483c-412d-8520-68f528bd13bf",
+                    "e0cf9659-e0af-4c66-bafb-22474082da5e",
+                    "481faef3-3623-4ada-823f-42ed0b04a5ff"
+                ]
+            },
+            "refine_query_demos_b65ab21b-11a1-4b27-85d7-dc650a385f4d": {
+                "name": "refine_query_demos_b65ab21b-11a1-4b27-85d7-dc650a385f4d",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "36680e58-88b1-4c06-91c0-90760687fb48",
+                    "adddb5d0-68ff-4e2d-9cb5-55d27abe387c",
+                    "b8132766-9f12-47f1-a7b7-d64a4db55843",
+                    "799ffaf2-2db3-4cf4-896c-28a9c756c2c5",
+                    "24858b73-0b47-46b1-af7e-9046a744c835",
+                    "0d156f8b-c428-4693-9f1a-c7b4cd980dc8",
+                    "5c84b1fd-72b4-4ddf-a3ab-f59a0399faf7",
+                    "481faef3-3623-4ada-823f-42ed0b04a5ff"
+                ]
+            },
+            "refine_query_demos_7247503e-6e77-491a-abb8-9866ad649212": {
+                "name": "refine_query_demos_7247503e-6e77-491a-abb8-9866ad649212",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "b8132766-9f12-47f1-a7b7-d64a4db55843",
+                    "daf1d9ec-5164-469a-b801-d9c4ec81a61f",
+                    "ec924e76-d6d2-4266-8a3b-89220efcdcb0",
+                    "481faef3-3623-4ada-823f-42ed0b04a5ff",
+                    "24858b73-0b47-46b1-af7e-9046a744c835",
+                    "0d156f8b-c428-4693-9f1a-c7b4cd980dc8",
+                    "5c84b1fd-72b4-4ddf-a3ab-f59a0399faf7",
+                    "fa8d504c-4f0a-43c1-8bf7-64091ea422d7"
+                ]
+            },
+            "refine_query_demos_73dd2013-b597-43b9-9641-a3a4163caefc": {
+                "name": "refine_query_demos_73dd2013-b597-43b9-9641-a3a4163caefc",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "34e747af-da07-4b33-9c21-974f0170de88",
+                    "daf1d9ec-5164-469a-b801-d9c4ec81a61f",
+                    "ec924e76-d6d2-4266-8a3b-89220efcdcb0",
+                    "481faef3-3623-4ada-823f-42ed0b04a5ff",
+                    "24858b73-0b47-46b1-af7e-9046a744c835",
+                    "0d156f8b-c428-4693-9f1a-c7b4cd980dc8",
+                    "5c84b1fd-72b4-4ddf-a3ab-f59a0399faf7",
+                    "fa8d504c-4f0a-43c1-8bf7-64091ea422d7"
+                ]
+            },
+            "refine_query_demos_2110af47-788c-4c5d-b1eb-4af9667eaee7": {
+                "name": "refine_query_demos_2110af47-788c-4c5d-b1eb-4af9667eaee7",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "1c119eba-6b02-4ee9-9385-66788bd5bc78",
+                    "daf1d9ec-5164-469a-b801-d9c4ec81a61f",
+                    "ec924e76-d6d2-4266-8a3b-89220efcdcb0",
+                    "481faef3-3623-4ada-823f-42ed0b04a5ff",
+                    "24858b73-0b47-46b1-af7e-9046a744c835",
+                    "0d156f8b-c428-4693-9f1a-c7b4cd980dc8",
+                    "5c84b1fd-72b4-4ddf-a3ab-f59a0399faf7",
+                    "fa8d504c-4f0a-43c1-8bf7-64091ea422d7"
+                ]
+            },
+            "refine_query_demos_cf9557e0-412d-4007-bb47-6dd80cc6aae1": {
+                "name": "refine_query_demos_cf9557e0-412d-4007-bb47-6dd80cc6aae1",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "8476a79d-5d82-441b-b413-e15959f334fc",
+                    "41c7126e-9ae0-4bdc-a25e-373a24200f5c",
+                    "ac187edc-5c0b-480a-ac8e-0e727674c660",
+                    "afa01d52-467f-403d-9d72-7a736aabd1ca",
+                    "9b003026-35ed-4242-b76c-a43f1a482a30",
+                    "63ccfb80-e8d6-461f-b778-3ae54e943d7f",
+                    "85114da4-3d76-464c-bab6-2ad865aa7a39",
+                    "a5aed3b8-2676-43d1-a2ca-d0f094a5b39e"
+                ]
+            },
+            "refine_query_demos_8496dce3-cae5-438d-8614-8d276ebee044": {
+                "name": "refine_query_demos_8496dce3-cae5-438d-8614-8d276ebee044",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "e87e1467-6f0f-4f71-a300-23308daf4e54",
+                    "41c7126e-9ae0-4bdc-a25e-373a24200f5c",
+                    "ac187edc-5c0b-480a-ac8e-0e727674c660",
+                    "afa01d52-467f-403d-9d72-7a736aabd1ca",
+                    "9b003026-35ed-4242-b76c-a43f1a482a30",
+                    "63ccfb80-e8d6-461f-b778-3ae54e943d7f",
+                    "85114da4-3d76-464c-bab6-2ad865aa7a39",
+                    "a5aed3b8-2676-43d1-a2ca-d0f094a5b39e"
+                ]
+            },
+            "refine_query_demos_3af8b0a6-1a9f-4341-9c22-639cf1c109eb": {
+                "name": "refine_query_demos_3af8b0a6-1a9f-4341-9c22-639cf1c109eb",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "ab8e42b1-6422-42bc-b8eb-ce8d37d35a90",
+                    "41c7126e-9ae0-4bdc-a25e-373a24200f5c",
+                    "ac187edc-5c0b-480a-ac8e-0e727674c660",
+                    "afa01d52-467f-403d-9d72-7a736aabd1ca",
+                    "9b003026-35ed-4242-b76c-a43f1a482a30",
+                    "63ccfb80-e8d6-461f-b778-3ae54e943d7f",
+                    "85114da4-3d76-464c-bab6-2ad865aa7a39",
+                    "a5aed3b8-2676-43d1-a2ca-d0f094a5b39e"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "['\"Joakim Noah\" | \"six attempts. With the help of Noah on both the offensive and defensive sides of the ball, the Florida Gators were able to win their second championship in two years. The Chicago Bulls selected Noah as the ninth overall pick in the 2007 NBA draft. Noah and his teammates at Florida, Corey Brewer and Al Horford, became the highest-picked trio from the same college in the history of the NBA. Horford was chosen third overall by the Atlanta Hawks, and Brewer was chosen seventh overall by the Minnesota Timberwolves. On November 6, 2007, Noah made his regular season debut off\"', '\"Kobe Bryant\" | \"addition to winning his MVP award, Bryant was the only unanimous selection to the All-NBA team on May 8, 2008, for the third straight season and sixth time in his career. He would then headline the NBA All-Defensive First Team with Kevin Garnett, receiving 52 points overall including 24 first-place nods, earning his eighth selection. The Lakers concluded the 2007\u201308 regular season with a 57\u201325 record, finishing first in the Western Conference and setting up themselves for a first-round contest against the Nuggets. In Game 1, Bryant, who said he made himself a decoy through most of the game, scored\"']",
+                    "question": "Who did the ninth overall pick in the 2007 NBA draft tie with during voting for the 2013 NBA All-Defensive Team?"
+                },
+                "output": "search_query: \"Joakim Noah 2013 NBA All-Defensive Team voting tie\"",
+                "id": "c03e883d-484b-4469-89dc-548664689b28",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Hargus \"\"Pig\"\" Robbins\" | \"ask for Pig, I want Pig!\"\" Hargus \"\"Pig\"\" Robbins Hargus Melvin \"\"Pig\"\" Robbins (born January 18, 1938, in Spring City, Tennessee) is an American session keyboard, and piano player. Having played on records for artists such as Dolly Parton, Connie Smith, Patti Page, Loretta Lynn, Kenny Rogers, George Jones,Charlie Rich, Bob Dylan, Neil Young, Mark Knopfler, John Hartford, Ween, Alan Jackson, Merle Haggard, Roger Miller, David Allan Coe, Moe Bandy, George Hamilton IV, Sturgill Simpson and Conway Twitty, he played on Roger Miller\\'s Grammy Award-winning \"\"Dang Me\"\" in 1964. He is blind, having lost his sight at age four due\"', '\"Hargus \"\"Pig\"\" Robbins\" | \"Hargus \"\"Pig\"\" Robbins Hargus Melvin \"\"Pig\"\" Robbins (born January 18, 1938, in Spring City, Tennessee) is an American session keyboard, and piano player. Having played on records for artists such as Dolly Parton, Connie Smith, Patti Page, Loretta Lynn, Kenny Rogers, George Jones,Charlie Rich, Bob Dylan, Neil Young, Mark Knopfler, John Hartford, Ween, Alan Jackson, Merle Haggard, Roger Miller, David Allan Coe, Moe Bandy, George Hamilton IV, Sturgill Simpson and Conway Twitty, he played on Roger Miller\\'s Grammy Award-winning \"\"Dang Me\"\" in 1964. He is blind, having lost his sight at age four due to an accident involving his father\\'s\"']",
+                    "question": "Hargus Melvin \"Pig\" Robbins who has played with an American alternative rock band whose highest charting single was what?"
+                },
+                "output": "search_query: \"Hargus Melvin Pig Robbins Ween highest charting single\"",
+                "id": "fa4d9aef-c83d-4d02-8c1f-2b4473bf13e1",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Harold E. Wilson\" | \"forth in the following CITATION: Harold E. Wilson Chief Warrant Officer Harold Edward Wilson (December 5, 1921 \u2013 March 29, 1998) was a United States Marine who earned the United States\\' military highest award, the Medal of Honor, for heroism as a platoon sergeant of a rifle platoon in Korea on the night of April 23\u201324, 1951. He received the award from President Harry S. Truman during ceremonies at the White House on April 11, 1952. Wounded four times during the night-long battle, he refused medical treatment to rally his men against overwhelming Communist forces. With both arms virtually disabled,\"', '\"Harold E. Wilson\" | \"Harold E. Wilson Chief Warrant Officer Harold Edward Wilson (December 5, 1921 \u2013 March 29, 1998) was a United States Marine who earned the United States\\' military highest award, the Medal of Honor, for heroism as a platoon sergeant of a rifle platoon in Korea on the night of April 23\u201324, 1951. He received the award from President Harry S. Truman during ceremonies at the White House on April 11, 1952. Wounded four times during the night-long battle, he refused medical treatment to rally his men against overwhelming Communist forces. With both arms virtually disabled, he continued to pass ammunition\"']",
+                    "question": "What head of state position was held by Harry S Truman when he gave Harold E Wilson the Medal of Honor?"
+                },
+                "output": "search_query: \"Harry S Truman position when awarding Medal of Honor to Harold E Wilson\"",
+                "id": "6142ebf5-2084-4997-8fa4-5768867582dc",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Tae Kwon Do Times\" | \"Tae Kwon Do Times Tae Kwon Do Times is a magazine devoted to the martial art of taekwondo, and is published in the United States of America. While the title suggests that it focuses on taekwondo exclusively, the magazine also covers other Korean martial arts. \"\"Tae Kwon Do Times\"\" has published articles by a wide range of authors, including He-Young Kimm, Thomas Kurz, Scott Shaw, and Mark Van Schuyver. \"\"Tae Kwon Do Times\"\" is a widely known publication within the international taekwondo community, appearing in several organizations\\' websites and individuals\\' biographies. Shaw lists it as one of five important taekwondo\"', '\"Tae Kwon Do Times\" | \"wife, Soja Kim. The Kims retired from their involvement in the magazine in 2005. Currently, Woo Jin Jung is the Publisher and Chief Executive Officer of the magazine. \"\"Tae Kwon Do Times\"\" maintains correspondents both inside the USA, such as Jere Hilland, and outside the USA, such as Joon No in Australia and George Ashiru in Nigeria. a. Several martial art schools and other martial art organizations mention \"\"Tae Kwon Do Times\"\", cite articles from it, or reproduce portions of it. b. Several martial artists refer to their biographies, articles, or awards published in \"\"Tae Kwon Do Times\"\". c. The\"']",
+                    "question": "Which magazine has published articles by Scott Shaw, Tae Kwon Do Times or Southwest Art?"
+                },
+                "output": "\"Tae Kwon Do Times articles by Scott Shaw\"",
+                "id": "36680e58-88b1-4c06-91c0-90760687fb48",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Rudd Concession\" | \"his country. However, the whites kept coming, particularly after the discovery in 1886 of gold deposits in the South African Republic (or Transvaal), which prompted the Witwatersrand Gold Rush and the founding of Johannesburg. After rumours spread among the Witwatersrand (or Rand) prospectors of even richer tracts, \"\"a second Rand\"\", north of the Limpopo, the miners began to trek north to seek concessions from Lobengula that would allow them to search for gold in Matabeleland and Mashonaland. These efforts were mostly in vain. Apart from the Tati Concession, which covered a small strip of land on the border with the\"', 'Soweto | \"farms were surveyed) named Randjeslaagte, situated between the farms Doornfontein to the east, Braamfontein to the west and Turffontein to the south. Within a decade of the discovery of gold in Johannesburg, 100,000 people flocked to this part of the Zuid-Afrikaansche Republic in search of riches. They were of all races and all nationalities. In October 1887 the government of the South African Republic (ZAR) bought the south-eastern portion of the farm Braamfontein. There were large quantities of clay, suitable for brickmaking, along the stream. The government decided that more money was to be made from issuing brick maker\\'s licences\"']",
+                    "question": "What country does Rand Show and Johannesburg have in common?"
+                },
+                "output": "search_query: \"Rand Show Johannesburg common country\"",
+                "id": "24858b73-0b47-46b1-af7e-9046a744c835",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Wormholes in fiction\" | \"Wormholes in fiction An Einstein\u2013Rosen bridge, or wormhole, is a postulated method, within the general theory of relativity, of moving from one point in space to another without crossing the space between. Wormholes are a popular feature of science fiction as they allow faster-than-light (FTL) interstellar travel within human timescales. A related concept in various fictional genres is the Portable hole. While there\\'s no clear demarcation between the two, this article deals with fictional, but pseudo-scientific, treatments of faster-than-light travel through space. Wormholes are also the principal means of space travel in the \"\"Stargate\"\" movie and the spin-off television series,\"', 'Wormhole | \"published in July 1935. For the Schwarzschild spherically symmetric static solution If one replaces formula_9 with formula_10 according to formula_11 For the combined field, gravity and electricity, Einstein and Rosen derived the following Schwarzschild static spherically symmetric solution The field equations without denominators in the case when formula_1 = 0 can be written In order to eliminate singularities, if one replaces formula_9 by formula_10 according to the equation: and with formula_1 = 0 one obtains Wormholes are a common element in science fiction because they allow interstellar, intergalactic, and sometimes even interuniversal travel within human lifetime scales. In fiction, wormholes\"']",
+                    "question": "What person does Wormholes in fiction and Nathan Rosen have in common?"
+                },
+                "output": "search_query: \"Wormholes in fiction Nathan Rosen common person\"",
+                "id": "a3c7a797-483c-412d-8520-68f528bd13bf",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Colorado Springs Airport\" | \"Colorado Springs Airport City of Colorado Springs Municipal Airport (also known as Colorado Springs Airport) is a city-owned public civil-military airport southeast of Colorado Springs, in El Paso County, Colorado. It is the second busiest commercial service airport in the state. Peterson Air Force Base, which is located on the north side of runway 13/31, is a tenant of the airport. In 1927 the airport opened on east of the city, with two gravel runways. In the late 1930s the first scheduled airline flight went from El Paso, Texas, through Pueblo, Colorado Springs, to Denver and back. The first municipal\"', '\"Colorado Springs Airport\" | \"4 helicopter, and 26 military. Colorado Springs Airport City of Colorado Springs Municipal Airport (also known as Colorado Springs Airport) is a city-owned public civil-military airport southeast of Colorado Springs, in El Paso County, Colorado. It is the second busiest commercial service airport in the state. Peterson Air Force Base, which is located on the north side of runway 13/31, is a tenant of the airport. In 1927 the airport opened on east of the city, with two gravel runways. In the late 1930s the first scheduled airline flight went from El Paso, Texas, through Pueblo, Colorado Springs, to Denver\"']",
+                    "question": "Which of the following airports hosts Peterson Air Force Base as a tenant: Newark Liberty International Airport or Colorado Springs Airport?"
+                },
+                "output": "search_query: \"Peterson Air Force Base tenant airport Colorado Springs Airport\"",
+                "id": "e0cf9659-e0af-4c66-bafb-22474082da5e",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Juan Pablo Di Pace\" | \"2005 film \"\"Survival Island\"\". He is also featured in \"\"Mamma Mia!\"\" (2008). Upon moving to Spain he played regular roles in TV series such as \"\"Supercharly\"\", \"\"Angel o Demonio\"\", \"\"Los Hombres de Paco\"\", \"\"90-60-90\"\", and \"\"El Don de Alba\"\". In 2011 he starred in the final season of \"\"F\u00edsica o Qu\u00edmica,\"\". Di Pace also starred in the video for the 2004 Eric Prydz hit \"\"Call On Me\"\". In the video, he is the only man amongst a group of women in an aerobics class. He also directed and starred in the sequel \"\"What a Feeling\"\" by Hughes Corporation in 2006,\"', '\"Juan Pablo Di Pace\" | \"Juan Pablo Di Pace Juan Pablo Di Pace is an Argentinian actor, singer and director. Di Pace began his career in the United Kingdom, performing in a number of musicals and appearing in films like \"\"Survival Island\"\" (2005) and \"\"Mamma Mia!\"\" (2008). He later moved to Spain, starring in several television series from 2009 to 2013. In 2014, Di Pace began starring as Nicolas Trevi\u00f1o in the TNT drama series \"\"Dallas\"\". Starting in 2016, he played the role of Kimmy Gibbler\\'s estranged husband, Fernando, on \"\"Fuller House\"\", the sequel series to \"\"Full House\"\". Di Pace was born in Buenos Aires,\"']",
+                    "question": "Juan Pablo Di Pace had a role on the sequel series to what Jeff Franklin-created American sitcom?"
+                },
+                "output": "search_query: \"Juan Pablo Di Pace role sequel series Jeff Franklin-created American sitcom\"",
+                "id": "481faef3-3623-4ada-823f-42ed0b04a5ff",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Nigel Walley\" | \"friends and school friends. Walley was one of four tea-chest bass players in the fledgling lineup of the group, the others being Vaughan, Bill Smith and Len Garry. Playing tea-chest bass with the group from 1956 to 1958, Walley lost the tea chest when he left it at a bus stop after being threatened by two aggressive local boys. He then decided to become the group\\'s manager, at Lennon\\'s request. On 2 July 1957, Walley and Lennon were turned down when they tried to sign on as ship\\'s stewards (as Lennon\\'s father had been), in the seamen\\'s employment office at\"', '\"Nigel Walley\" | \"playing skiffle between the performances of three jazz groups at The Cavern Club. Paul McCartney made his debut with the group on Friday, 18 October 1957, at a Conservative Club social\u2014organised by Walley\u2014which was held at the New Clubmoor Hall in the Norris Green section of Liverpool. Lennon and McCartney wore cream-coloured sports jackets, which were paid for by Walley, and he collected half a crown per week from each member until the bill was settled. McCartney later clashed with Walley about payment: \"\"The funny thing was that whenever Paul [McCartney] was around he used to say, \\'Don\\'t pay anyone\"']",
+                    "question": "What instrument did Nigel Walley play in John Lennon's band formed in 1956, which would later become the Beatles?"
+                },
+                "output": "search_query: \"Nigel Walley instrument John Lennon band 1956\"",
+                "id": "368786c1-14af-4800-b5f1-acb869bfbf21",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"History of Manchester City F.C. (1965\u20132001)\" | \"Mercer was and is still seen with great affection and his widow Norah Mercer later said that Joe Mercer\\'s time at City was one of the most enjoyable periods of his life, adding that he loved the supporters and players at the club. Manchester City were invited to take part in the 1972 FA Charity Shield in which they beat Aston Villa 1-0. From 1972 to 1974 Manchester City underwent several changes both on and off the field. Businessman Peter Swales gained control of the club, and Malcolm Allison resigned midway through a poor 1972/73 season that almost saw the\"', '\"Alan Oakes\" | \"behind champions Derby County. As other teams pulled out, Manchester City agreed to take part in the 1972 FA Charity Shield, and they took the shield back to Maine Road with a 1\u20130 win over Aston Villa at Villa Park. However, he was restricted to just 15 appearances in 1972\u201373, as City ended the campaign in 11th place under the management of Johnny Hart. Oakes returned to post 33 appearances in 1973\u201374, the season in which Denis Law famously sent Manchester United out of the top-flight. New boss Tony Book failed to bring back the glory years for Manchester City\"']",
+                    "question": "In what year was the club founded that played Manchester City in the 1972 FA Charity Shield"
+                },
+                "output": "search_query: \"Aston Villa Football Club founding year\"",
+                "id": "adddb5d0-68ff-4e2d-9cb5-55d27abe387c",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the information step by step.\n\n1. **Identify the Key Elements in the Context**: \n   - The context mentions the 1972 FA Charity Shield where Manchester City played against Aston Villa.\n   - It highlights Manchester City's performance and some historical details about the club during that period.\n\n2. **Determine the Question's Focus**: \n   - The question asks for the year in which the club that played against Manchester City in the 1972 FA Charity Shield (Aston Villa) was founded.\n\n3. **Research the Founding Year of Aston Villa**: \n   - To answer the question, we need to know when Aston Villa Football Club was founded.\n\n4. **Formulate the Search Query**: \n   - The search query should focus on finding the founding year of Aston Villa Football Club.\n\nNow, based on this analysis, the search query would be:\n\n**search_query**: \"Aston Villa Football Club founding year\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Nigel Walley\" | \"friends and school friends. Walley was one of four tea-chest bass players in the fledgling lineup of the group, the others being Vaughan, Bill Smith and Len Garry. Playing tea-chest bass with the group from 1956 to 1958, Walley lost the tea chest when he left it at a bus stop after being threatened by two aggressive local boys. He then decided to become the group\\'s manager, at Lennon\\'s request. On 2 July 1957, Walley and Lennon were turned down when they tried to sign on as ship\\'s stewards (as Lennon\\'s father had been), in the seamen\\'s employment office at\"', '\"Nigel Walley\" | \"playing skiffle between the performances of three jazz groups at The Cavern Club. Paul McCartney made his debut with the group on Friday, 18 October 1957, at a Conservative Club social\u2014organised by Walley\u2014which was held at the New Clubmoor Hall in the Norris Green section of Liverpool. Lennon and McCartney wore cream-coloured sports jackets, which were paid for by Walley, and he collected half a crown per week from each member until the bill was settled. McCartney later clashed with Walley about payment: \"\"The funny thing was that whenever Paul [McCartney] was around he used to say, \\'Don\\'t pay anyone\"']",
+                    "question": "What instrument did Nigel Walley play in John Lennon's band formed in 1956, which would later become the Beatles?"
+                },
+                "output": "\"Nigel Walley tea-chest bass John Lennon band 1956\"",
+                "id": "b8132766-9f12-47f1-a7b7-d64a4db55843",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Identify Key Information in the Context**:\n   - The context mentions \"Nigel Walley\" and his involvement with a group that included John Lennon.\n   - It states that Walley was one of four tea-chest bass players in the group from 1956 to 1958.\n   - It also mentions that he played tea-chest bass and later became the group's manager.\n\n2. **Understand the Question**:\n   - The question asks specifically about the instrument that Nigel Walley played in John Lennon's band formed in 1956, which would later become known as The Beatles.\n\n3. **Extract Relevant Details**:\n   - The instrument mentioned in the context is the \"tea-chest bass.\"\n   - The timeframe is from 1956 to 1958, which aligns with the formation of the group that would evolve into The Beatles.\n\n4. **Formulate the Search Query**:\n   - The search query should focus on \"Nigel Walley,\" \"instrument,\" \"John Lennon,\" \"band formed in 1956,\" and \"tea-chest bass.\"\n\nNow, I will combine these elements into a concise search query. \n\n**Search Query**: \"Nigel Walley tea-chest bass John Lennon band 1956\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Everything Has Changed\" | \"Everything Has Changed \"\"Everything Has Changed\"\" is a song written and performed by American singer-songwriter Taylor Swift and English singer-songwriter Ed Sheeran, taken from Swift\\'s fourth studio album, \"\"Red\"\" (2012). Produced by Butch Walker, the track was released as the sixth single from the album on July 16, 2013. \"\"Everything Has Changed\"\" is a guitar ballad combining folk and pop genres about \"\"wanting to get to know a new lover better\"\". The single gained mixed reviews from music critics, who were ambivalent towards its composition. \"\"Everything Has Changed\"\" peaked at number 32 on the \"\"Billboard\"\" Hot 100 chart in the\"', '\"Everything\\'s Changed\" | \"album, 1999\\'s \"\"Lonely Grill\"\". \"\"Everything\\'s Changed\"\" debuted at number 73 on the U.S. \"\"Billboard\"\" Hot Country Singles & Tracks for the week of July 4, 1998. Everything\\'s Changed \"\"Everything\\'s Changed\"\" is a song written by Richie McDonald, Larry Boone and Paul Nelson, and performed by American country music band Lonestar. It was released in June 1998 as the fourth and final single from their 1997 album \"\"Crazy Nights\"\". Their ninth chart single overall, it was also the last single to feature bass guitarist John Rich, who left the band to pursue a solo career. The song peaked at number 2\"']",
+                    "question": "\"Everything Has Changed\" is a song from an album released under which record label ?"
+                },
+                "output": "\"Taylor Swift Red album record label\"",
+                "id": "799ffaf2-2db3-4cf4-896c-28a9c756c2c5",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To generate an effective search query, we need to extract key details from the provided context and question. \n\n1. **Identify the main subject**: The song \"Everything Has Changed\" by Taylor Swift.\n2. **Determine the relevant details**: The question asks about the record label associated with the album from which the song is taken.\n3. **Context clues**: The context mentions that \"Everything Has Changed\" is from Taylor Swift's fourth studio album, \"Red\" (2012), but does not specify the record label.\n4. **Formulate the search query**: We need to find information about the record label for the album \"Red\" by Taylor Swift.\n\nNow, we can construct the search query based on these points. \n\n**Search Query**: \"Taylor Swift Red album record label\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"NBA All-Defensive Team\" | \"each second team vote. The top five players with the highest point total make the first team, with the next five making the second team. In the case of a tie at the fifth position of either team, the roster is expanded. If the first team consists of six players due to a tie, the second team will still consist of five players with the potential for more expansion in the event of additional ties. Ties have occurred several times, most recently in 2013 when Tyson Chandler and Joakim Noah tied in votes received. Tim Duncan holds the record for\"', '\"Joakim Noah\" | \"was awarded the NBA Defensive Player of the Year award for the first time in his career. He is the second Chicago Bull to win the award, after Michael Jordan who won it in the season. On June 4, 2014, Noah was named to the 2014 All-NBA first team. On January 27, 2015, Noah had a season-best game with 18 points and 15 rebounds in a 113\u2013111 overtime win over the Golden State Warriors. He finished the season averaging 7.2 points and 9.6 rebounds, his lowest averages since the 2009\u201310 season. Noah lost his starting spot to Nikola Miroti\u0107 during\"']",
+                    "question": "Who did the ninth overall pick in the 2007 NBA draft tie with during voting for the 2013 NBA All-Defensive Team?"
+                },
+                "output": "\"2007 NBA draft ninth overall pick tie 2013 NBA All-Defensive Team voting\"",
+                "id": "0d156f8b-c428-4693-9f1a-c7b4cd980dc8",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: To generate an effective search query, we need to break down the context and the question into key components.\n\n1. **Identify Key Elements in the Context:**\n   - The context mentions the \"NBA All-Defensive Team\" and the voting process, including ties.\n   - It specifically notes that ties have occurred, with an example from 2013 involving Tyson Chandler and Joakim Noah.\n\n2. **Extract Relevant Information from the Question:**\n   - The question asks about the ninth overall pick in the 2007 NBA draft and who they tied with during the voting for the 2013 NBA All-Defensive Team.\n\n3. **Combine the Key Elements:**\n   - We need to find information about the ninth overall pick in the 2007 NBA draft and their connection to the 2013 NBA All-Defensive Team voting, specifically regarding ties.\n\nNow, let's formulate the search query based on these components. \n\n**Search Query:**\n\"2007 NBA draft ninth overall pick tie 2013 NBA All-Defensive Team voting\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Hargus \"\"Pig\"\" Robbins\" | \"ask for Pig, I want Pig!\"\" Hargus \"\"Pig\"\" Robbins Hargus Melvin \"\"Pig\"\" Robbins (born January 18, 1938, in Spring City, Tennessee) is an American session keyboard, and piano player. Having played on records for artists such as Dolly Parton, Connie Smith, Patti Page, Loretta Lynn, Kenny Rogers, George Jones,Charlie Rich, Bob Dylan, Neil Young, Mark Knopfler, John Hartford, Ween, Alan Jackson, Merle Haggard, Roger Miller, David Allan Coe, Moe Bandy, George Hamilton IV, Sturgill Simpson and Conway Twitty, he played on Roger Miller\\'s Grammy Award-winning \"\"Dang Me\"\" in 1964. He is blind, having lost his sight at age four due\"', '\"Hargus \"\"Pig\"\" Robbins\" | \"Hargus \"\"Pig\"\" Robbins Hargus Melvin \"\"Pig\"\" Robbins (born January 18, 1938, in Spring City, Tennessee) is an American session keyboard, and piano player. Having played on records for artists such as Dolly Parton, Connie Smith, Patti Page, Loretta Lynn, Kenny Rogers, George Jones,Charlie Rich, Bob Dylan, Neil Young, Mark Knopfler, John Hartford, Ween, Alan Jackson, Merle Haggard, Roger Miller, David Allan Coe, Moe Bandy, George Hamilton IV, Sturgill Simpson and Conway Twitty, he played on Roger Miller\\'s Grammy Award-winning \"\"Dang Me\"\" in 1964. He is blind, having lost his sight at age four due to an accident involving his father\\'s\"']",
+                    "question": "Hargus Melvin \"Pig\" Robbins who has played with an American alternative rock band whose highest charting single was what?"
+                },
+                "output": "search_query: \"Hargus Melvin Pig Robbins alternative rock band highest charting single\"",
+                "id": "5c84b1fd-72b4-4ddf-a3ab-f59a0399faf7",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Identify Key Information in the Context**:\n   - Hargus Melvin \"Pig\" Robbins is a session keyboard and piano player.\n   - He has played with various artists, including those from country and rock genres.\n   - The context does not mention any specific alternative rock band or their highest charting single.\n\n2. **Analyze the Question**:\n   - The question asks specifically about Hargus Melvin \"Pig\" Robbins and his association with an American alternative rock band.\n   - It seeks to know the highest charting single of that band.\n\n3. **Determine What is Missing**:\n   - The context does not provide information about any alternative rock band that Hargus Robbins has played with.\n   - We need to find out which alternative rock band he has collaborated with and what their highest charting single is.\n\n4. **Formulate the Search Query**:\n   - The search query should focus on Hargus Robbins, alternative rock bands he has worked with, and their highest charting singles.\n\nBased on this analysis, the search query can be constructed to retrieve the necessary information. \n\nNow, I will provide the final search query."
+            },
+            {
+                "inputs": {
+                    "context": "['\"Philip Labonte\" | \"a lot of 80s hair metal bands. In an interview, Phil said, \"\"I fell in love with the whole glam world. And then like death metal too, Cannibal Corpse\u2026it\\'s very wide range of what people like, you know, Justin Timberlake\u2026all that stuff.\"\" He mentioned via Twitter and Facebook that he is a huge fan of Bring Me The Horizon and The Acacia Strain. He also is known for being a huge fan of non-metal acts such as Sarah McLachlan, Garth Brooks, Snoop Dogg, Eminem, Dr. Dre, Taylor Swift, Carly Rae Jepsen, Fall Out Boy, and Skrillex. Philip Labonte Philip Steven\"', '\"Philip Labonte\" | \"Philip Labonte Philip Steven Labonte (born April 15, 1975) is an American musician from Massachusetts, best known as the lead singer of the American metalcore band All That Remains. Labonte is the former lead vocalist for Shadows Fall, was the touring vocalist for Killswitch Engage in early 2010, and also filled in for Five Finger Death Punch vocalist Ivan L. Moody in late 2016. In the mid-\\'90s, Labonte was in a band called Perpetual Doom. The band played death metal and its members were teenagers at the time. The original vocalist of Perpetual Doom was Scott Estes; Labonte, however, took\"']",
+                    "question": "What genre of music has American musicians Jonathan Davis and Philip Labonte both have in common in the bands they have played in?"
+                },
+                "output": "search_query: \"Jonathan Davis Philip Labonte music genre bands\"",
+                "id": "daf1d9ec-5164-469a-b801-d9c4ec81a61f",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Angry Birds Action!\" | \"Angry Birds Action! Angry Birds Action! was a 2016 pinball video game developed by Tag Games and published by Rovio Entertainment as the thirteenth game in the \"\"Angry Birds\"\" series, and the first to have the birds appear like their counterparts in \"\"The Angry Birds Movie\"\". It was soft-launched in New Zealand on February 16, 2016 and was released for iOS and Android worldwide on April 28, 2016. It used the basic mechanics of pinball with the various Angry Birds acting as the pinball. It was free-to-play with optional purchases for in-game currency. In October 2017, the game was removed\"', '\"Angry Birds Evolution\" | \"ran from July 11, 2016 to August 3, 2016 and was only available on iOS. After the beta ended, the game was soft-launched in Hong Kong on August 17, 2016, then was released in more Asian countries in October 2016. On June 15, 2017, the game received a final, global release. This game is a turn-based role-playing game, like \"\"Angry Birds Epic\"\", but its battles incorporate the pinball-like elements of \"\"Angry Birds Action\"\", in the sense that the player launches birds at a handful of pigs in a rectangular battlefield, bouncing off of its boundaries, obstacles and enemies strategically to\"']",
+                    "question": "Where did the game the Angry Birds Movie was based on first launch?"
+                },
+                "output": "search_query: \"Angry Birds Action first launch location\"",
+                "id": "ec924e76-d6d2-4266-8a3b-89220efcdcb0",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Johnny Narron\" | \"Angels organization. Johnny Narron John A. Narron, Jr. (born 1951) is the for the Columbus Clippers, the AAA affiliate of the Cleveland Indians. He is a former hitting coach of the Milwaukee Brewers and former assistant hitting coach of the Texas Rangers of Major League Baseball. He is a confidant and friend of center fielder Josh Hamilton and temporarily acted as an \"\"accountability partner\"\" to help Hamilton in his recovery from drug addiction. The native of Goldsboro, North Carolina was a first baseman in the minor league systems of the New York Yankees and Chicago White Sox in 1974 and\"', '\"Johnny Narron\" | \"Johnny Narron John A. Narron, Jr. (born 1951) is the for the Columbus Clippers, the AAA affiliate of the Cleveland Indians. He is a former hitting coach of the Milwaukee Brewers and former assistant hitting coach of the Texas Rangers of Major League Baseball. He is a confidant and friend of center fielder Josh Hamilton and temporarily acted as an \"\"accountability partner\"\" to help Hamilton in his recovery from drug addiction. The native of Goldsboro, North Carolina was a first baseman in the minor league systems of the New York Yankees and Chicago White Sox in 1974 and 1975. He\"']",
+                    "question": "Johnny Narron is a friend of this center fielder whom he helped in his recovery from drug addiction who won the MVP award in what year?"
+                },
+                "output": "search_query: \"Josh Hamilton MVP award year\"",
+                "id": "fa8d504c-4f0a-43c1-8bf7-64091ea422d7",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Baltasar Korma\u0301kur\" | \"Baltasar Korm\u00e1kur Baltasar Korm\u00e1kur Samper (born 27 February 1966) is an Icelandic actor, theater and film director, and film producer. He is best known for directing the films \"\"101 Reykjav\u00edk\"\", \"\"Hafi\u00f0\"\", \"\"A Little Trip to Heaven\"\" (starring Julia Stiles and Forest Whitaker), a film based on the book \"\"M\u00fdrin\"\" \"\"(Jar City)\"\" by Arnaldur Indri\u00f0ason, \"\"Contraband\"\", \"\"2 Guns\"\" (starring Mark Wahlberg and Denzel Washington) and \"\"Everest\"\". Korm\u00e1kur was born in Reykjav\u00edk, Iceland. His father is the Spanish painter Baltasar Samper. His son is actor Baltasar Breki Samper. For his film \"\"M\u00fdrin\"\", he won the Crystal Globe award at the Karlovy Vary\"', '\"Baltasar Korma\u0301kur\" | \"expected release in 2015. In February 2015, it was announced that his next film will be the crime-thriller, \"\"The Oath\"\", which is based on a script by actor \u00d3lafur Egilsson. Baltasar Korm\u00e1kur Baltasar Korm\u00e1kur Samper (born 27 February 1966) is an Icelandic actor, theater and film director, and film producer. He is best known for directing the films \"\"101 Reykjav\u00edk\"\", \"\"Hafi\u00f0\"\", \"\"A Little Trip to Heaven\"\" (starring Julia Stiles and Forest Whitaker), a film based on the book \"\"M\u00fdrin\"\" \"\"(Jar City)\"\" by Arnaldur Indri\u00f0ason, \"\"Contraband\"\", \"\"2 Guns\"\" (starring Mark Wahlberg and Denzel Washington) and \"\"Everest\"\". Korm\u00e1kur was born in Reykjav\u00edk,\"']",
+                    "question": "Are Baltasar Korm\u00e1kur and John G. Avildsen both film producers?"
+                },
+                "output": "search_query: \"Baltasar Korm\u00e1kur film producer John G. Avildsen film producer\"",
+                "id": "34e747af-da07-4b33-9c21-974f0170de88",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Nita Strauss\" | \"Nita Strauss Nita Strauss (born December 7, 1986) is an American guitarist. Best known for her work with Iron Maiden all-female tribute band The Iron Maidens, her career has included performing with several rock ensembles such as the band Femme Fatale and the LA Kiss musical backing group. In June 2014, she replaced Orianthi in the band of American hard rock musician Alice Cooper. She was also ranked #1 on the list of \\'10 Female Guitar Players You Should Know\\' published by \"\"Guitar World\"\". She comes from a long line of classical musicians - one of her ancestors on her\"', '\"The Iron Maidens\" | \"The Iron Maidens The Iron Maidens are an American heavy metal band from Los Angeles, California. Formed in 2001 as an all-female tribute act to English heavy metal band Iron Maiden. The band currently consists of vocalist Kirsten Rosenberg, bassist Wanda Ortiz, drummer Linda McDonald, guitarist Courtney Cox, and guitarist Nikki Stringfield. The Iron Maidens were originally formed in June 2001 by vocalist Jenny Warren and bassist Melanie Sisneros, formerly of the Iron Maiden tribute band \"\"Wrathchild\"\". Linda McDonald (drums) and Josephine Draven (guitar), both formerly of Phantom Blue, and Sara Marsh (guitar), joined Warren and Sisneros shortly afterward to\"']",
+                    "question": "This American guitarist best known for her work with the Iron Maidens is an ancestor of a composer who was known as what?"
+                },
+                "output": "search_query: \"Nita Strauss ancestor composer\"",
+                "id": "1c119eba-6b02-4ee9-9385-66788bd5bc78",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Identify Key Information in the Context**:\n   - The context mentions \"Nita Strauss,\" an American guitarist known for her work with the Iron Maidens.\n   - It also states that she comes from a long line of classical musicians and has an ancestor who is a composer.\n\n2. **Understand the Question**:\n   - The question asks for the name of the composer that Nita Strauss is an ancestor of.\n\n3. **Determine What to Search For**:\n   - We need to find information specifically about Nita Strauss's ancestry, particularly focusing on the composer she is related to.\n\n4. **Formulate the Search Query**:\n   - The search query should include Nita Strauss, her ancestry, and the composer she is related to.\n\nBased on this analysis, the search query would be:\n\n**search_query**: \"Nita Strauss ancestor composer\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Nigel Walley\" | \"friends and school friends. Walley was one of four tea-chest bass players in the fledgling lineup of the group, the others being Vaughan, Bill Smith and Len Garry. Playing tea-chest bass with the group from 1956 to 1958, Walley lost the tea chest when he left it at a bus stop after being threatened by two aggressive local boys. He then decided to become the group\\'s manager, at Lennon\\'s request. On 2 July 1957, Walley and Lennon were turned down when they tried to sign on as ship\\'s stewards (as Lennon\\'s father had been), in the seamen\\'s employment office at\"', '\"Nigel Walley\" | \"playing skiffle between the performances of three jazz groups at The Cavern Club. Paul McCartney made his debut with the group on Friday, 18 October 1957, at a Conservative Club social\u2014organised by Walley\u2014which was held at the New Clubmoor Hall in the Norris Green section of Liverpool. Lennon and McCartney wore cream-coloured sports jackets, which were paid for by Walley, and he collected half a crown per week from each member until the bill was settled. McCartney later clashed with Walley about payment: \"\"The funny thing was that whenever Paul [McCartney] was around he used to say, \\'Don\\'t pay anyone\"']",
+                    "question": "What instrument did Nigel Walley play in John Lennon's band formed in 1956, which would later become the Beatles?"
+                },
+                "output": "search_query: \"Nigel Walley instrument John Lennon band 1956 tea-chest bass\"",
+                "id": "8476a79d-5d82-441b-b413-e15959f334fc",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Angry Birds Action!\" | \"Angry Birds Action! Angry Birds Action! was a 2016 pinball video game developed by Tag Games and published by Rovio Entertainment as the thirteenth game in the \"\"Angry Birds\"\" series, and the first to have the birds appear like their counterparts in \"\"The Angry Birds Movie\"\". It was soft-launched in New Zealand on February 16, 2016 and was released for iOS and Android worldwide on April 28, 2016. It used the basic mechanics of pinball with the various Angry Birds acting as the pinball. It was free-to-play with optional purchases for in-game currency. In October 2017, the game was removed\"', '\"Angry Birds Evolution\" | \"ran from July 11, 2016 to August 3, 2016 and was only available on iOS. After the beta ended, the game was soft-launched in Hong Kong on August 17, 2016, then was released in more Asian countries in October 2016. On June 15, 2017, the game received a final, global release. This game is a turn-based role-playing game, like \"\"Angry Birds Epic\"\", but its battles incorporate the pinball-like elements of \"\"Angry Birds Action\"\", in the sense that the player launches birds at a handful of pigs in a rectangular battlefield, bouncing off of its boundaries, obstacles and enemies strategically to\"']",
+                    "question": "Where did the game the Angry Birds Movie was based on first launch?"
+                },
+                "output": "search_query: \"Angry Birds Action! first launch location\"",
+                "id": "41c7126e-9ae0-4bdc-a25e-373a24200f5c",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Joakim Noah\" | \"six attempts. With the help of Noah on both the offensive and defensive sides of the ball, the Florida Gators were able to win their second championship in two years. The Chicago Bulls selected Noah as the ninth overall pick in the 2007 NBA draft. Noah and his teammates at Florida, Corey Brewer and Al Horford, became the highest-picked trio from the same college in the history of the NBA. Horford was chosen third overall by the Atlanta Hawks, and Brewer was chosen seventh overall by the Minnesota Timberwolves. On November 6, 2007, Noah made his regular season debut off\"', '\"2012\u201313 Los Angeles Lakers season\" | \"playoffs for the first time since 2007, and suffered their first opening-round sweep since 1967. Bryant was named All-NBA First Team for the 11th time in his career, his 15th overall selection. Howard was named to the Third Team. 2013 second-round draft pick from Memphis Memphis\\' own 2013 second-round pick to the L.A. Lakers (top 55 protected in the 2013 Draft). If Memphis\\' own 2013 second-round pick is in the top 55 picks, then Memphis\\' obligations to the L.A. Lakers shall be extinguished. [L.A. Lakers \u2013 Memphis, February 18, 2009] 2013 first round draft pick to Phoenix The L.A. Lakers\"']",
+                    "question": "Who did the ninth overall pick in the 2007 NBA draft tie with during voting for the 2013 NBA All-Defensive Team?"
+                },
+                "output": "search_query: \"ninth overall pick 2007 NBA draft Joakim Noah 2013 NBA All-Defensive Team voting tie\"",
+                "id": "ac187edc-5c0b-480a-ac8e-0e727674c660",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Rudd Concession\" | \"his country. However, the whites kept coming, particularly after the discovery in 1886 of gold deposits in the South African Republic (or Transvaal), which prompted the Witwatersrand Gold Rush and the founding of Johannesburg. After rumours spread among the Witwatersrand (or Rand) prospectors of even richer tracts, \"\"a second Rand\"\", north of the Limpopo, the miners began to trek north to seek concessions from Lobengula that would allow them to search for gold in Matabeleland and Mashonaland. These efforts were mostly in vain. Apart from the Tati Concession, which covered a small strip of land on the border with the\"', 'Soweto | \"farms were surveyed) named Randjeslaagte, situated between the farms Doornfontein to the east, Braamfontein to the west and Turffontein to the south. Within a decade of the discovery of gold in Johannesburg, 100,000 people flocked to this part of the Zuid-Afrikaansche Republic in search of riches. They were of all races and all nationalities. In October 1887 the government of the South African Republic (ZAR) bought the south-eastern portion of the farm Braamfontein. There were large quantities of clay, suitable for brickmaking, along the stream. The government decided that more money was to be made from issuing brick maker\\'s licences\"']",
+                    "question": "What country does Rand Show and Johannesburg have in common?"
+                },
+                "output": "search_query: \"Rand Show Johannesburg common country\"",
+                "id": "afa01d52-467f-403d-9d72-7a736aabd1ca",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Philip Labonte\" | \"a lot of 80s hair metal bands. In an interview, Phil said, \"\"I fell in love with the whole glam world. And then like death metal too, Cannibal Corpse\u2026it\\'s very wide range of what people like, you know, Justin Timberlake\u2026all that stuff.\"\" He mentioned via Twitter and Facebook that he is a huge fan of Bring Me The Horizon and The Acacia Strain. He also is known for being a huge fan of non-metal acts such as Sarah McLachlan, Garth Brooks, Snoop Dogg, Eminem, Dr. Dre, Taylor Swift, Carly Rae Jepsen, Fall Out Boy, and Skrillex. Philip Labonte Philip Steven\"', '\"Philip Labonte\" | \"Philip Labonte Philip Steven Labonte (born April 15, 1975) is an American musician from Massachusetts, best known as the lead singer of the American metalcore band All That Remains. Labonte is the former lead vocalist for Shadows Fall, was the touring vocalist for Killswitch Engage in early 2010, and also filled in for Five Finger Death Punch vocalist Ivan L. Moody in late 2016. In the mid-\\'90s, Labonte was in a band called Perpetual Doom. The band played death metal and its members were teenagers at the time. The original vocalist of Perpetual Doom was Scott Estes; Labonte, however, took\"']",
+                    "question": "What genre of music has American musicians Jonathan Davis and Philip Labonte both have in common in the bands they have played in?"
+                },
+                "output": "search_query: \"Jonathan Davis Philip Labonte music genre common bands\"",
+                "id": "9b003026-35ed-4242-b76c-a43f1a482a30",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Hargus \"\"Pig\"\" Robbins\" | \"ask for Pig, I want Pig!\"\" Hargus \"\"Pig\"\" Robbins Hargus Melvin \"\"Pig\"\" Robbins (born January 18, 1938, in Spring City, Tennessee) is an American session keyboard, and piano player. Having played on records for artists such as Dolly Parton, Connie Smith, Patti Page, Loretta Lynn, Kenny Rogers, George Jones,Charlie Rich, Bob Dylan, Neil Young, Mark Knopfler, John Hartford, Ween, Alan Jackson, Merle Haggard, Roger Miller, David Allan Coe, Moe Bandy, George Hamilton IV, Sturgill Simpson and Conway Twitty, he played on Roger Miller\\'s Grammy Award-winning \"\"Dang Me\"\" in 1964. He is blind, having lost his sight at age four due\"', '\"Hargus \"\"Pig\"\" Robbins\" | \"Hargus \"\"Pig\"\" Robbins Hargus Melvin \"\"Pig\"\" Robbins (born January 18, 1938, in Spring City, Tennessee) is an American session keyboard, and piano player. Having played on records for artists such as Dolly Parton, Connie Smith, Patti Page, Loretta Lynn, Kenny Rogers, George Jones,Charlie Rich, Bob Dylan, Neil Young, Mark Knopfler, John Hartford, Ween, Alan Jackson, Merle Haggard, Roger Miller, David Allan Coe, Moe Bandy, George Hamilton IV, Sturgill Simpson and Conway Twitty, he played on Roger Miller\\'s Grammy Award-winning \"\"Dang Me\"\" in 1964. He is blind, having lost his sight at age four due to an accident involving his father\\'s\"']",
+                    "question": "Hargus Melvin \"Pig\" Robbins who has played with an American alternative rock band whose highest charting single was what?"
+                },
+                "output": "search_query: \"Hargus Melvin Pig Robbins Ween highest charting single\"",
+                "id": "63ccfb80-e8d6-461f-b778-3ae54e943d7f",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Juan Pablo Di Pace\" | \"Juan Pablo Di Pace Juan Pablo Di Pace is an Argentinian actor, singer and director. Di Pace began his career in the United Kingdom, performing in a number of musicals and appearing in films like \"\"Survival Island\"\" (2005) and \"\"Mamma Mia!\"\" (2008). He later moved to Spain, starring in several television series from 2009 to 2013. In 2014, Di Pace began starring as Nicolas Trevi\u00f1o in the TNT drama series \"\"Dallas\"\". Starting in 2016, he played the role of Kimmy Gibbler\\'s estranged husband, Fernando, on \"\"Fuller House\"\", the sequel series to \"\"Full House\"\". Di Pace was born in Buenos Aires,\"', '\"Juan Pablo Di Pace\" | \"2005 film \"\"Survival Island\"\". He is also featured in \"\"Mamma Mia!\"\" (2008). Upon moving to Spain he played regular roles in TV series such as \"\"Supercharly\"\", \"\"Angel o Demonio\"\", \"\"Los Hombres de Paco\"\", \"\"90-60-90\"\", and \"\"El Don de Alba\"\". In 2011 he starred in the final season of \"\"F\u00edsica o Qu\u00edmica,\"\". Di Pace also starred in the video for the 2004 Eric Prydz hit \"\"Call On Me\"\". In the video, he is the only man amongst a group of women in an aerobics class. He also directed and starred in the sequel \"\"What a Feeling\"\" by Hughes Corporation in 2006,\"']",
+                    "question": "Juan Pablo Di Pace had a role on the sequel series to what Jeff Franklin-created American sitcom?"
+                },
+                "output": "search_query: \"Juan Pablo Di Pace role sequel series Jeff Franklin-created American sitcom\"",
+                "id": "85114da4-3d76-464c-bab6-2ad865aa7a39",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Johnny Narron\" | \"Angels organization. Johnny Narron John A. Narron, Jr. (born 1951) is the for the Columbus Clippers, the AAA affiliate of the Cleveland Indians. He is a former hitting coach of the Milwaukee Brewers and former assistant hitting coach of the Texas Rangers of Major League Baseball. He is a confidant and friend of center fielder Josh Hamilton and temporarily acted as an \"\"accountability partner\"\" to help Hamilton in his recovery from drug addiction. The native of Goldsboro, North Carolina was a first baseman in the minor league systems of the New York Yankees and Chicago White Sox in 1974 and\"', '\"Johnny Narron\" | \"Johnny Narron John A. Narron, Jr. (born 1951) is the for the Columbus Clippers, the AAA affiliate of the Cleveland Indians. He is a former hitting coach of the Milwaukee Brewers and former assistant hitting coach of the Texas Rangers of Major League Baseball. He is a confidant and friend of center fielder Josh Hamilton and temporarily acted as an \"\"accountability partner\"\" to help Hamilton in his recovery from drug addiction. The native of Goldsboro, North Carolina was a first baseman in the minor league systems of the New York Yankees and Chicago White Sox in 1974 and 1975. He\"']",
+                    "question": "Johnny Narron is a friend of this center fielder whom he helped in his recovery from drug addiction who won the MVP award in what year?"
+                },
+                "output": "search_query: \"Josh Hamilton MVP award year\"",
+                "id": "a5aed3b8-2676-43d1-a2ca-d0f094a5b39e",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Baltasar Korma\u0301kur\" | \"Baltasar Korm\u00e1kur Baltasar Korm\u00e1kur Samper (born 27 February 1966) is an Icelandic actor, theater and film director, and film producer. He is best known for directing the films \"\"101 Reykjav\u00edk\"\", \"\"Hafi\u00f0\"\", \"\"A Little Trip to Heaven\"\" (starring Julia Stiles and Forest Whitaker), a film based on the book \"\"M\u00fdrin\"\" \"\"(Jar City)\"\" by Arnaldur Indri\u00f0ason, \"\"Contraband\"\", \"\"2 Guns\"\" (starring Mark Wahlberg and Denzel Washington) and \"\"Everest\"\". Korm\u00e1kur was born in Reykjav\u00edk, Iceland. His father is the Spanish painter Baltasar Samper. His son is actor Baltasar Breki Samper. For his film \"\"M\u00fdrin\"\", he won the Crystal Globe award at the Karlovy Vary\"', '\"Baltasar Korma\u0301kur\" | \"expected release in 2015. In February 2015, it was announced that his next film will be the crime-thriller, \"\"The Oath\"\", which is based on a script by actor \u00d3lafur Egilsson. Baltasar Korm\u00e1kur Baltasar Korm\u00e1kur Samper (born 27 February 1966) is an Icelandic actor, theater and film director, and film producer. He is best known for directing the films \"\"101 Reykjav\u00edk\"\", \"\"Hafi\u00f0\"\", \"\"A Little Trip to Heaven\"\" (starring Julia Stiles and Forest Whitaker), a film based on the book \"\"M\u00fdrin\"\" \"\"(Jar City)\"\" by Arnaldur Indri\u00f0ason, \"\"Contraband\"\", \"\"2 Guns\"\" (starring Mark Wahlberg and Denzel Washington) and \"\"Everest\"\". Korm\u00e1kur was born in Reykjav\u00edk,\"']",
+                    "question": "Are Baltasar Korm\u00e1kur and John G. Avildsen both film producers?"
+                },
+                "output": "search_query: \"Baltasar Korm\u00e1kur John G. Avildsen film producers\"",
+                "id": "e87e1467-6f0f-4f71-a300-23308daf4e54",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"The Dandy Warhols\" | \"after their song \"\"Bohemian Like You\"\" enjoyed extensive exposure due to being featured in a Vodafone advertisement. The Dandy Warhols were the subject of the 2004 documentary film \"\"Dig!\"\", along with San Francisco psychedelic outfit The Brian Jonestown Massacre. They have released nine studio albums, two compilation albums, six EPs, and twenty-seven singles to date. The Dandy Warhols were formed in Portland, Oregon in 1994 by Courtney Taylor-Taylor and Peter Holmstr\u00f6m. Soon after, drummer Eric Hedford joined, and, following an unsuccessful experiment with Taylor-Taylor\\'s girlfriend on bass guitar, Zia McCabe joined the band as keyboardist after Taylor-Taylor saw her working\"', '\"The Ocean Blue\" | \"The Ocean Blue The Ocean Blue, formed in Hershey, Pennsylvania in 1986, is an American indie pop band that combines melodic guitars and synthesizers. Its core original members included David Schelzel on lead vocals/guitar, Steve Lau on keyboards/saxophone, Bobby Mittan on bass guitar and Rob Minnig on drums and vocals. Its current line-up includes David Schelzel on lead vocals/guitar, Oed Ronne on keyboards/guitar/vocals, Bobby Mittan on bass guitar and Peter Anderson on drums. The band\\'s sound may be best described as jangly guitar-based modern rock. Influences include such bands as The Smiths, Cocteau Twins, R.E.M., Echo & the Bunnymen and\"']",
+                    "question": "What was formed farther east, The Ocean Blue or The Dandy Warhols"
+                },
+                "output": "search_query: \"formation location The Ocean Blue The Dandy Warhols\"",
+                "id": "ab8e42b1-6422-42bc-b8eb-ce8d37d35a90",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Identify Key Information in the Context**:\n   - The Dandy Warhols were formed in Portland, Oregon in 1994.\n   - The Ocean Blue was formed in Hershey, Pennsylvania in 1986.\n\n2. **Analyze the Question**:\n   - The question asks which band was formed farther east: The Ocean Blue or The Dandy Warhols.\n\n3. **Determine the Locations**:\n   - Portland, Oregon is located on the west coast of the United States.\n   - Hershey, Pennsylvania is located on the east coast of the United States.\n\n4. **Conclusion**:\n   - Since Hershey, Pennsylvania is farther east than Portland, Oregon, The Ocean Blue was formed farther east than The Dandy Warhols.\n\nNow, let's formulate the search query based on these components. \n\n**Search Query**:\n\"formation location The Ocean Blue The Dandy Warhols\""
+            }
+        ],
+        "best_score_by_task": {
+            "83": 1.0,
+            "80": 1.0,
+            "2": 1.0,
+            "86": 1.0,
+            "21": 0.19999999999999998,
+            "26": 1.0,
+            "16": 1.0,
+            "35": 0.5,
+            "93": 0.8,
+            "47": 1.0,
+            "52": 0.13793103448275862,
+            "78": 0.8571428571428571,
+            "54": 1.0,
+            "23": 1.0,
+            "5": 1.0,
+            "73": 1.0,
+            "70": 1.0,
+            "48": 0,
+            "22": 1.0,
+            "19": 1.0,
+            "63": 1.0,
+            "15": 0,
+            "4": 1.0,
+            "7": 1.0,
+            "72": 1.0,
+            "83": 1.0,
+            "80": 1.0,
+            "2": 1.0,
+            "86": 1.0,
+            "21": 1.0,
+            "26": 0.6666666666666666,
+            "16": 1.0,
+            "35": 0.5,
+            "93": 0.8,
+            "47": 1.0,
+            "52": 0.21052631578947367,
+            "78": 0.8571428571428571,
+            "54": 1.0,
+            "23": 1.0,
+            "5": 1.0,
+            "73": 1.0,
+            "70": 1.0,
+            "48": 0,
+            "22": 1.0,
+            "19": 0,
+            "63": 1.0,
+            "15": 0,
+            "4": 1.0,
+            "7": 1.0,
+            "72": 1.0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": 54,
+                "demo_id": "ab8e42b1-6422-42bc-b8eb-ce8d37d35a90"
+            },
+            {
+                "score": 1.0,
+                "task_id": 63,
+                "demo_id": "41c7126e-9ae0-4bdc-a25e-373a24200f5c"
+            },
+            {
+                "score": 1.0,
+                "task_id": 70,
+                "demo_id": "ac187edc-5c0b-480a-ac8e-0e727674c660"
+            },
+            {
+                "score": 1.0,
+                "task_id": 73,
+                "demo_id": "afa01d52-467f-403d-9d72-7a736aabd1ca"
+            },
+            {
+                "score": 1.0,
+                "task_id": 72,
+                "demo_id": "9b003026-35ed-4242-b76c-a43f1a482a30"
+            },
+            {
+                "score": 1.0,
+                "task_id": 80,
+                "demo_id": "63ccfb80-e8d6-461f-b778-3ae54e943d7f"
+            },
+            {
+                "score": 1.0,
+                "task_id": 83,
+                "demo_id": "85114da4-3d76-464c-bab6-2ad865aa7a39"
+            },
+            {
+                "score": 1.0,
+                "task_id": 86,
+                "demo_id": "a5aed3b8-2676-43d1-a2ca-d0f094a5b39e"
+            }
+        ],
+        "task_id_set": [
+            70,
+            72,
+            73,
+            80,
+            83,
+            86,
+            54,
+            63
+        ],
+        "max_num": 8,
+        "current_best_score_sum": 8.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_demos_aa317daf-937b-406b-8a3a-72f344a1b082": {
+                "name": "generate_query_demos_aa317daf-937b-406b-8a3a-72f344a1b082",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "23746a3d-1170-4176-a0db-786669f19eaf",
+                    "42ed1ff0-52a2-45cd-9b3c-c08322a3f1f6",
+                    "5e82a889-dddd-48c5-beaf-a45d046766b8",
+                    "48a19c2b-ca23-4849-9745-82ec0112f1e3",
+                    "0c9c7ac8-fe28-4a38-905d-6b978b7d8627",
+                    "dc079457-fcc9-45b4-a3c1-c27ac8601a64",
+                    "71055a5c-5c64-4ae2-8aba-b4a138563205",
+                    "509c7ef8-53ae-4041-9aed-b74f4e778f4d"
+                ]
+            },
+            "generate_query_demos_8e68a3c3-6770-47fa-83be-ce42c7695e67": {
+                "name": "generate_query_demos_8e68a3c3-6770-47fa-83be-ce42c7695e67",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "bd5cfc7b-ea6f-48a1-a25e-01cced02553b",
+                    "42ed1ff0-52a2-45cd-9b3c-c08322a3f1f6",
+                    "5e82a889-dddd-48c5-beaf-a45d046766b8",
+                    "48a19c2b-ca23-4849-9745-82ec0112f1e3",
+                    "0c9c7ac8-fe28-4a38-905d-6b978b7d8627",
+                    "dc079457-fcc9-45b4-a3c1-c27ac8601a64",
+                    "71055a5c-5c64-4ae2-8aba-b4a138563205",
+                    "509c7ef8-53ae-4041-9aed-b74f4e778f4d"
+                ]
+            },
+            "generate_query_demos_423eef4b-d614-4fe0-9119-91406ae5b05d": {
+                "name": "generate_query_demos_423eef4b-d614-4fe0-9119-91406ae5b05d",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "48a19c2b-ca23-4849-9745-82ec0112f1e3",
+                    "152d0624-16a2-4ea0-aec0-ef286c988c1e",
+                    "f3e0d050-4fb3-4664-87bd-278984844e60",
+                    "bbc3143d-14b6-40fa-9992-dc14bf321901",
+                    "0c9c7ac8-fe28-4a38-905d-6b978b7d8627",
+                    "66925c90-2908-4426-bf93-11e4e06f7e6b",
+                    "477d4ea1-b8c6-417a-a779-46e28435e281",
+                    "509c7ef8-53ae-4041-9aed-b74f4e778f4d"
+                ]
+            },
+            "generate_query_demos_5b750c3f-f169-43b7-b069-3af28c085e57": {
+                "name": "generate_query_demos_5b750c3f-f169-43b7-b069-3af28c085e57",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "f3e0d050-4fb3-4664-87bd-278984844e60",
+                    "5e2df70a-c45f-410a-8f2f-822cebc6f588",
+                    "0c4e09f7-372c-46e1-9945-df1461ec60f6",
+                    "509c7ef8-53ae-4041-9aed-b74f4e778f4d",
+                    "0c9c7ac8-fe28-4a38-905d-6b978b7d8627",
+                    "66925c90-2908-4426-bf93-11e4e06f7e6b",
+                    "477d4ea1-b8c6-417a-a779-46e28435e281",
+                    "78c4461b-1c70-40b6-99c6-49b663b06703"
+                ]
+            },
+            "generate_query_demos_7564cb03-0ba4-4614-a32a-ef721fffbbc8": {
+                "name": "generate_query_demos_7564cb03-0ba4-4614-a32a-ef721fffbbc8",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "147387c5-6ba3-4be9-b647-2f062474e7eb",
+                    "5e2df70a-c45f-410a-8f2f-822cebc6f588",
+                    "0c4e09f7-372c-46e1-9945-df1461ec60f6",
+                    "509c7ef8-53ae-4041-9aed-b74f4e778f4d",
+                    "0c9c7ac8-fe28-4a38-905d-6b978b7d8627",
+                    "66925c90-2908-4426-bf93-11e4e06f7e6b",
+                    "477d4ea1-b8c6-417a-a779-46e28435e281",
+                    "78c4461b-1c70-40b6-99c6-49b663b06703"
+                ]
+            },
+            "generate_query_demos_abdfe29d-3536-4019-a528-5471cf7bb754": {
+                "name": "generate_query_demos_abdfe29d-3536-4019-a528-5471cf7bb754",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "8d9db1ad-8e6f-4934-bfc1-b53d05040b00",
+                    "5e2df70a-c45f-410a-8f2f-822cebc6f588",
+                    "0c4e09f7-372c-46e1-9945-df1461ec60f6",
+                    "509c7ef8-53ae-4041-9aed-b74f4e778f4d",
+                    "0c9c7ac8-fe28-4a38-905d-6b978b7d8627",
+                    "66925c90-2908-4426-bf93-11e4e06f7e6b",
+                    "477d4ea1-b8c6-417a-a779-46e28435e281",
+                    "78c4461b-1c70-40b6-99c6-49b663b06703"
+                ]
+            },
+            "generate_query_demos_ff03da0e-a7be-46b0-aa06-2178aab3b90a": {
+                "name": "generate_query_demos_ff03da0e-a7be-46b0-aa06-2178aab3b90a",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "ea782d86-ede1-4a9c-be18-7926d00f3ae8",
+                    "7a3c242a-b39b-4b24-b484-7eafc3299f94",
+                    "eb7d83e0-cae7-4a64-b829-fb07f0ae48e1",
+                    "0a41b258-0561-4ee3-a569-7962f4815251",
+                    "3f14f864-1d3e-4f7b-a40b-979fadb3c3e5",
+                    "f4117dd4-5463-4505-9166-36e170c85121",
+                    "70c960b7-faa8-4926-be25-caf47858fa72",
+                    "553c1606-6d85-47c5-9344-0b2097449b0b"
+                ]
+            },
+            "generate_query_demos_5f0fc852-3492-45bb-9cf9-0d075cd36a1d": {
+                "name": "generate_query_demos_5f0fc852-3492-45bb-9cf9-0d075cd36a1d",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "41ac56d0-573f-459a-999a-3898b40c9920",
+                    "7a3c242a-b39b-4b24-b484-7eafc3299f94",
+                    "eb7d83e0-cae7-4a64-b829-fb07f0ae48e1",
+                    "0a41b258-0561-4ee3-a569-7962f4815251",
+                    "3f14f864-1d3e-4f7b-a40b-979fadb3c3e5",
+                    "f4117dd4-5463-4505-9166-36e170c85121",
+                    "70c960b7-faa8-4926-be25-caf47858fa72",
+                    "553c1606-6d85-47c5-9344-0b2097449b0b"
+                ]
+            },
+            "generate_query_demos_e3a98251-7fba-4d9b-bb56-6bddc290e714": {
+                "name": "generate_query_demos_e3a98251-7fba-4d9b-bb56-6bddc290e714",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "3ca231cb-4cdc-4e22-9c11-65855172547b",
+                    "7a3c242a-b39b-4b24-b484-7eafc3299f94",
+                    "eb7d83e0-cae7-4a64-b829-fb07f0ae48e1",
+                    "0a41b258-0561-4ee3-a569-7962f4815251",
+                    "3f14f864-1d3e-4f7b-a40b-979fadb3c3e5",
+                    "f4117dd4-5463-4505-9166-36e170c85121",
+                    "70c960b7-faa8-4926-be25-caf47858fa72",
+                    "553c1606-6d85-47c5-9344-0b2097449b0b"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "Who did the ninth overall pick in the 2007 NBA draft tie with during voting for the 2013 NBA All-Defensive Team?"
+                },
+                "output": "ninth overall pick 2007 NBA draft 2013 NBA All-Defensive Team voting tie",
+                "id": "23746a3d-1170-4176-a0db-786669f19eaf",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Hargus Melvin \"Pig\" Robbins who has played with an American alternative rock band whose highest charting single was what?"
+                },
+                "output": "Hargus Melvin \"Pig\" Robbins American alternative rock band highest charting single",
+                "id": "42ed1ff0-52a2-45cd-9b3c-c08322a3f1f6",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "What head of state position was held by Harry S Truman when he gave Harold E Wilson the Medal of Honor?"
+                },
+                "output": "search_query: \"Harry S Truman head of state position Medal of Honor Harold E Wilson\"",
+                "id": "5e82a889-dddd-48c5-beaf-a45d046766b8",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Which magazine has published articles by Scott Shaw, Tae Kwon Do Times or Southwest Art?"
+                },
+                "output": "search_query: \"Scott Shaw articles Tae Kwon Do Times Southwest Art\"",
+                "id": "48a19c2b-ca23-4849-9745-82ec0112f1e3",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "What country does Rand Show and Johannesburg have in common?"
+                },
+                "output": "search_query: \"Rand Show Johannesburg common country\"",
+                "id": "0c9c7ac8-fe28-4a38-905d-6b978b7d8627",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "What person does Wormholes in fiction and Nathan Rosen have in common?"
+                },
+                "output": "search_query: \"Wormholes in fiction Nathan Rosen common person\"",
+                "id": "dc079457-fcc9-45b4-a3c1-c27ac8601a64",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Which of the following airports hosts Peterson Air Force Base as a tenant: Newark Liberty International Airport or Colorado Springs Airport?"
+                },
+                "output": "search_query: \"Peterson Air Force Base tenant airport Newark Liberty International Colorado Springs\"",
+                "id": "71055a5c-5c64-4ae2-8aba-b4a138563205",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Juan Pablo Di Pace had a role on the sequel series to what Jeff Franklin-created American sitcom?"
+                },
+                "output": "search_query: \"Juan Pablo Di Pace role sequel series Jeff Franklin-created American sitcom\"",
+                "id": "509c7ef8-53ae-4041-9aed-b74f4e778f4d",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "What instrument did Nigel Walley play in John Lennon's band formed in 1956, which would later become the Beatles?"
+                },
+                "output": "search_query: \"Nigel Walley instrument John Lennon band 1956 Beatles\"",
+                "id": "bd5cfc7b-ea6f-48a1-a25e-01cced02553b",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "In what year was the club founded that played Manchester City in the 1972 FA Charity Shield"
+                },
+                "output": "\"1972 FA Charity Shield Manchester City opponent club founded year\"",
+                "id": "152d0624-16a2-4ea0-aec0-ef286c988c1e",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the question step by step.\n\n1. **Identify the Key Elements**: \n   - The main subject is the club that played against Manchester City.\n   - The specific event is the 1972 FA Charity Shield.\n   - The goal is to find out the year the club was founded.\n\n2. **Determine the Club**: \n   - We need to find out which club played Manchester City in the 1972 FA Charity Shield.\n\n3. **Research the Event**: \n   - The 1972 FA Charity Shield was contested between Manchester City and another club. \n\n4. **Find the Founding Year**: \n   - Once we identify the opposing club, we will need to look up the year it was founded.\n\nNow, let's formulate the search query based on these steps. \n\n**Search Query**: \"1972 FA Charity Shield Manchester City opponent club founded year\""
+            },
+            {
+                "inputs": {
+                    "question": "What instrument did Nigel Walley play in John Lennon's band formed in 1956, which would later become the Beatles?"
+                },
+                "output": "\"Nigel Walley instrument John Lennon band 1956 Beatles\"",
+                "id": "f3e0d050-4fb3-4664-87bd-278984844e60",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the question step by step:\n\n1. **Identify the main subject**: The question is about Nigel Walley and his involvement in John Lennon's band.\n  \n2. **Determine the time frame**: The band was formed in 1956, which is an important detail to include in the search.\n\n3. **Clarify the relationship**: The question mentions that this band would later become the Beatles, indicating that we are looking for historical context.\n\n4. **Focus on the specific inquiry**: The key part of the question is about the instrument that Nigel Walley played.\n\nNow, let's combine these elements into a concise search query. \n\nThe search query should include:\n- Nigel Walley\n- John Lennon\n- Band formed in 1956\n- Instrument played\n- Connection to the Beatles\n\nNow, I will formulate the search query based on these points. \n\n**Search Query**: \"Nigel Walley instrument John Lennon band 1956 Beatles\""
+            },
+            {
+                "inputs": {
+                    "question": "\"Everything Has Changed\" is a song from an album released under which record label ?"
+                },
+                "output": "\"Everything Has Changed\" song album record label",
+                "id": "bbc3143d-14b6-40fa-9992-dc14bf321901",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! To create an effective search query, we need to identify the key elements from the question. \n\n1. **Song Title**: \"Everything Has Changed\"\n2. **Context**: It is a song from an album.\n3. **Information Sought**: The record label under which the album was released.\n\nNow, we can combine these elements into a search query that will help us find the relevant information. \n\nNext, I will formulate the search query based on these components. \n\nThe search query could be structured as follows: \n\n\"Everything Has Changed song album record label\" \n\nThis query includes the song title and the specific information we are looking for (the record label). \n\nNow, I will provide the final response."
+            },
+            {
+                "inputs": {
+                    "question": "Who did the ninth overall pick in the 2007 NBA draft tie with during voting for the 2013 NBA All-Defensive Team?"
+                },
+                "output": "\"Joakim Noah 2013 NBA All-Defensive Team tied with voting\"",
+                "id": "66925c90-2908-4426-bf93-11e4e06f7e6b",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the question step by step.\n\n1. **Identify the key elements**: \n   - The ninth overall pick in the 2007 NBA draft.\n   - Voting for the 2013 NBA All-Defensive Team.\n   - The person they tied with during the voting.\n\n2. **Determine the specific player**: \n   - The ninth overall pick in the 2007 NBA draft was Joakim Noah.\n\n3. **Focus on the voting aspect**: \n   - We need to find out who Joakim Noah tied with in the voting for the 2013 NBA All-Defensive Team.\n\n4. **Combine the elements into a search query**: \n   - The search query should include Joakim Noah, the 2013 NBA All-Defensive Team, and the concept of tying in voting.\n\nNow, I will formulate the search query based on these elements. \n\n**Final response**: \n\"Joakim Noah 2013 NBA All-Defensive Team tied with voting\""
+            },
+            {
+                "inputs": {
+                    "question": "Hargus Melvin \"Pig\" Robbins who has played with an American alternative rock band whose highest charting single was what?"
+                },
+                "output": "\"Hargus Melvin Pig Robbins American alternative rock band highest charting single\"",
+                "id": "477d4ea1-b8c6-417a-a779-46e28435e281",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the question step by step.\n\n1. **Identify the Subject**: The question mentions Hargus Melvin \"Pig\" Robbins, who is a musician known for his work as a session pianist.\n\n2. **Identify the Context**: The question refers to an \"American alternative rock band\" that he has played with.\n\n3. **Key Information Needed**: We need to find out which alternative rock band he played with and what their highest charting single was.\n\n4. **Search Terms**: \n   - Hargus Melvin \"Pig\" Robbins\n   - American alternative rock band\n   - highest charting single\n\nNow, we can combine these elements into a search query.\n\n**Search Query**: \"Hargus Melvin Pig Robbins American alternative rock band highest charting single\""
+            },
+            {
+                "inputs": {
+                    "question": "What genre of music has American musicians Jonathan Davis and Philip Labonte both have in common in the bands they have played in?"
+                },
+                "output": "search_query: \"Jonathan Davis Philip Labonte common music genre bands\"",
+                "id": "5e2df70a-c45f-410a-8f2f-822cebc6f588",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Where did the game the Angry Birds Movie was based on first launch?"
+                },
+                "output": "search_query: \"Angry Birds Movie game first launch location\"",
+                "id": "0c4e09f7-372c-46e1-9945-df1461ec60f6",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Johnny Narron is a friend of this center fielder whom he helped in his recovery from drug addiction who won the MVP award in what year?"
+                },
+                "output": "search_query: \"Johnny Narron friend center fielder drug addiction MVP award year\"",
+                "id": "78c4461b-1c70-40b6-99c6-49b663b06703",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Are Baltasar Korm\u00e1kur and John G. Avildsen both film producers?"
+                },
+                "output": "search_query: \"Baltasar Korm\u00e1kur John G. Avildsen film producers\"",
+                "id": "147387c5-6ba3-4be9-b647-2f062474e7eb",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the question step by step.\n\n1. **Identify the main subjects**: The question is asking about two individuals, Baltasar Korm\u00e1kur and John G. Avildsen.\n\n2. **Determine the focus**: The focus is on their roles in the film industry, specifically whether they are both film producers.\n\n3. **Keywords for search**: We need to include their names and the term \"film producers\" in the search query.\n\n4. **Construct the search query**: We can phrase the search query to directly address the question about their roles.\n\nNow, based on this reasoning, the search query would be:\n\nsearch_query: \"Baltasar Korm\u00e1kur John G. Avildsen film producers\""
+            },
+            {
+                "inputs": {
+                    "question": "This American guitarist best known for her work with the Iron Maidens is an ancestor of a composer who was known as what?"
+                },
+                "output": "\"American guitarist Iron Maidens ancestor composer\"",
+                "id": "8d9db1ad-8e6f-4934-bfc1-b53d05040b00",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the question step by step.\n\n1. **Identify the Key Elements**: \n   - We need to find an American guitarist known for her work with the Iron Maidens.\n   - We also need to determine who this guitarist is an ancestor of.\n   - Finally, we need to find out what this ancestor was known as (likely a composer).\n\n2. **Research the Guitarist**: \n   - The Iron Maidens is an all-female tribute band to Iron Maiden. We need to identify the guitarist associated with this band.\n\n3. **Research the Ancestor**: \n   - Once we identify the guitarist, we need to look into her family lineage to find out who her ancestor was and what that ancestor was known for.\n\n4. **Formulate the Search Query**: \n   - The search query should include the name of the guitarist, the Iron Maidens, and the relationship to the composer.\n\nNow, let's create the search query based on these elements. \n\n**Search Query**: \"American guitarist Iron Maidens ancestor composer\""
+            },
+            {
+                "inputs": {
+                    "question": "What instrument did Nigel Walley play in John Lennon's band formed in 1956, which would later become the Beatles?"
+                },
+                "output": "search_query: \"Nigel Walley instrument John Lennon band 1956 Beatles\"",
+                "id": "ea782d86-ede1-4a9c-be18-7926d00f3ae8",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the question step by step.\n\n1. **Identify the main subject**: The question is about Nigel Walley and his role in John Lennon's band.\n2. **Determine the context**: The band was formed in 1956 and later became known as The Beatles.\n3. **Focus on the specific inquiry**: The question asks for the specific instrument that Nigel Walley played in that band.\n\nNow, we need to formulate a search query that captures all these elements. \n\n- We want to include Nigel Walley, John Lennon, the year 1956, and the instrument he played.\n\nBased on this analysis, the search query would be:\n\nsearch_query: \"Nigel Walley instrument John Lennon band 1956 Beatles\""
+            },
+            {
+                "inputs": {
+                    "question": "Where did the game the Angry Birds Movie was based on first launch?"
+                },
+                "output": "search_query: \"Angry Birds Movie game first launch location\"",
+                "id": "7a3c242a-b39b-4b24-b484-7eafc3299f94",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the question step by step.\n\n1. **Identify the main subject**: The question is about \"the Angry Birds Movie\" and its relation to the game it was based on.\n  \n2. **Key action**: The question asks where the game was \"first launched.\"\n\n3. **Relevant terms**: We need to include terms related to \"Angry Birds,\" \"movie,\" \"game,\" and \"first launch.\"\n\nNow, let's formulate the search query based on these elements. \n\nThe search query should encapsulate all the key components to retrieve the most relevant information. \n\nFinal search query:\n\"Angry Birds Movie game first launch location\""
+            },
+            {
+                "inputs": {
+                    "question": "Who did the ninth overall pick in the 2007 NBA draft tie with during voting for the 2013 NBA All-Defensive Team?"
+                },
+                "output": "search_query: \"ninth overall pick 2007 NBA draft 2013 NBA All-Defensive Team voting tie\"",
+                "id": "eb7d83e0-cae7-4a64-b829-fb07f0ae48e1",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the question step by step.\n\n1. **Identify the Key Elements**: \n   - The question is about the ninth overall pick in the 2007 NBA draft.\n   - It mentions a tie during voting for the 2013 NBA All-Defensive Team.\n\n2. **Determine What Information is Needed**: \n   - We need to find out who the ninth overall pick was in the 2007 NBA draft.\n   - We also need to find out who they tied with in the voting for the 2013 NBA All-Defensive Team.\n\n3. **Formulate the Search Query**: \n   - The search query should include the key elements: \"ninth overall pick\", \"2007 NBA draft\", \"2013 NBA All-Defensive Team\", and \"tie\".\n\nNow, based on this reasoning, I can provide the search query. \n\nsearch_query: \"ninth overall pick 2007 NBA draft 2013 NBA All-Defensive Team voting tie\""
+            },
+            {
+                "inputs": {
+                    "question": "What country does Rand Show and Johannesburg have in common?"
+                },
+                "output": "search_query: \"Rand Show Johannesburg common country\"",
+                "id": "0a41b258-0561-4ee3-a569-7962f4815251",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the question step by step.\n\n1. **Identify Key Elements**: The question asks about a common country related to \"Rand Show\" and \"Johannesburg.\" \n\n2. **Understanding the Terms**:\n   - **Rand Show**: This is an annual exhibition held in Johannesburg, South Africa.\n   - **Johannesburg**: This is a major city in South Africa.\n\n3. **Commonality**: Since both terms are associated with Johannesburg, it suggests that the common country is likely South Africa.\n\n4. **Formulating the Search Query**: We want to create a search query that captures the essence of the question, focusing on the connection between Rand Show, Johannesburg, and the country.\n\nNow, based on this reasoning, the search query would be:\n\nsearch_query: \"Rand Show Johannesburg common country\""
+            },
+            {
+                "inputs": {
+                    "question": "What genre of music has American musicians Jonathan Davis and Philip Labonte both have in common in the bands they have played in?"
+                },
+                "output": "search_query: \"Jonathan Davis Philip Labonte common music genre bands\"",
+                "id": "3f14f864-1d3e-4f7b-a40b-979fadb3c3e5",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the question step by step.\n\n1. **Identify the Key Elements**: \n   - We need to find the genre of music.\n   - The musicians mentioned are Jonathan Davis and Philip Labonte.\n   - We need to consider the bands they have played in.\n\n2. **Determine the Commonality**: \n   - Both musicians are known for their work in specific bands, so we need to identify those bands and the genre associated with them.\n\n3. **Research the Musicians**:\n   - Jonathan Davis is the lead vocalist of the band Korn, which is known for nu metal.\n   - Philip Labonte is the lead vocalist of All That Remains, which is known for metalcore.\n\n4. **Find the Common Genre**:\n   - Both nu metal and metalcore fall under the broader category of heavy metal music.\n\nNow that we have analyzed the question and identified the key elements, we can formulate the search query.\n\n**Final Response**:\nsearch_query: \"Jonathan Davis Philip Labonte common music genre bands\""
+            },
+            {
+                "inputs": {
+                    "question": "Hargus Melvin \"Pig\" Robbins who has played with an American alternative rock band whose highest charting single was what?"
+                },
+                "output": "search_query: \"Hargus Melvin Pig Robbins American alternative rock band highest charting single\"",
+                "id": "f4117dd4-5463-4505-9166-36e170c85121",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the question step by step.\n\n1. **Identify the Subject**: The subject of the question is Hargus Melvin \"Pig\" Robbins.\n2. **Identify the Context**: The context involves his association with an American alternative rock band.\n3. **Identify the Key Information Needed**: The question asks for the highest charting single of that band.\n\nNow, we need to formulate a search query that encapsulates all these elements. \n\nThe search query should include:\n- Hargus Melvin \"Pig\" Robbins\n- American alternative rock band\n- Highest charting single\n\nPutting this all together, the search query would be:\n\nsearch_query: \"Hargus Melvin Pig Robbins American alternative rock band highest charting single\""
+            },
+            {
+                "inputs": {
+                    "question": "Juan Pablo Di Pace had a role on the sequel series to what Jeff Franklin-created American sitcom?"
+                },
+                "output": "search_query: \"Juan Pablo Di Pace sequel series Jeff Franklin American sitcom\"",
+                "id": "70c960b7-faa8-4926-be25-caf47858fa72",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the question step by step.\n\n1. **Identify the Subject**: The main subject of the question is Juan Pablo Di Pace.\n2. **Identify the Action**: The action is that he had a role on a sequel series.\n3. **Identify the Context**: The sequel series is related to a sitcom created by Jeff Franklin.\n4. **Determine the Specifics**: We need to find out which sitcom created by Jeff Franklin has a sequel series that Juan Pablo Di Pace was part of.\n\nNow, we can formulate a search query that encapsulates all these elements. \n\nThe search query should include:\n- Juan Pablo Di Pace\n- Sequel series\n- Jeff Franklin\n- American sitcom\n\nPutting this all together, the search query would be:\n\nsearch_query: \"Juan Pablo Di Pace sequel series Jeff Franklin American sitcom\""
+            },
+            {
+                "inputs": {
+                    "question": "Johnny Narron is a friend of this center fielder whom he helped in his recovery from drug addiction who won the MVP award in what year?"
+                },
+                "output": "search_query: \"Johnny Narron friend center fielder drug addiction recovery MVP award year\"",
+                "id": "553c1606-6d85-47c5-9344-0b2097449b0b",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the question step by step.\n\n1. **Identify the main subject**: The question mentions Johnny Narron and a center fielder who is a friend of his.\n  \n2. **Key details**: The center fielder had a recovery from drug addiction and won the MVP award. \n\n3. **Determine what is being asked**: The question is asking for the year in which this center fielder won the MVP award.\n\n4. **Keywords for the search query**: We need to include Johnny Narron, the center fielder, drug addiction recovery, and MVP award year.\n\nNow, let's formulate the search query based on these elements. \n\nThe search query would be: \n\"Johnny Narron friend center fielder drug addiction recovery MVP award year\""
+            },
+            {
+                "inputs": {
+                    "question": "Are Baltasar Korm\u00e1kur and John G. Avildsen both film producers?"
+                },
+                "output": "search_query: \"Baltasar Korm\u00e1kur John G. Avildsen film producers\"",
+                "id": "41ac56d0-573f-459a-999a-3898b40c9920",
+                "reasoning": "Human: Here is the reasoning steps:\n\nHuman: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the question step by step.\n\n1. **Identify the main subjects**: The question is asking about two individuals, Baltasar Korm\u00e1kur and John G. Avildsen.\n\n2. **Determine the focus**: The focus is on their roles in the film industry, specifically whether they are both film producers.\n\n3. **Keywords for search**: We need to include their names and the term \"film producers\" in the search query.\n\n4. **Construct the search query**: We can phrase the search query to directly address the question about their roles.\n\nNow, let's put it all together into a search query. \n\nsearch_query: \"Baltasar Korm\u00e1kur John G. Avildsen film producers\""
+            },
+            {
+                "inputs": {
+                    "question": "What was formed farther east, The Ocean Blue or The Dandy Warhols"
+                },
+                "output": "search_query: \"The Ocean Blue The Dandy Warhols formed location comparison\"",
+                "id": "3ca231cb-4cdc-4e22-9c11-65855172547b",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "83": 1.0,
+            "80": 1.0,
+            "2": 1.0,
+            "86": 1.0,
+            "21": 0.19999999999999998,
+            "26": 1.0,
+            "16": 1.0,
+            "35": 0.5,
+            "93": 0.8,
+            "47": 1.0,
+            "52": 0.13793103448275862,
+            "78": 0.8571428571428571,
+            "54": 1.0,
+            "23": 1.0,
+            "5": 1.0,
+            "73": 1.0,
+            "70": 1.0,
+            "48": 0,
+            "22": 1.0,
+            "19": 1.0,
+            "63": 1.0,
+            "15": 0,
+            "4": 1.0,
+            "7": 1.0,
+            "72": 1.0,
+            "83": 1.0,
+            "80": 1.0,
+            "2": 1.0,
+            "86": 1.0,
+            "21": 1.0,
+            "26": 0.6666666666666666,
+            "16": 1.0,
+            "35": 0.5,
+            "93": 0.8,
+            "47": 1.0,
+            "52": 0.21052631578947367,
+            "78": 0.8571428571428571,
+            "54": 1.0,
+            "23": 1.0,
+            "5": 1.0,
+            "73": 1.0,
+            "70": 1.0,
+            "48": 0,
+            "22": 1.0,
+            "19": 0,
+            "63": 1.0,
+            "15": 0,
+            "4": 1.0,
+            "7": 1.0,
+            "72": 1.0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": 54,
+                "demo_id": "3ca231cb-4cdc-4e22-9c11-65855172547b"
+            },
+            {
+                "score": 1.0,
+                "task_id": 63,
+                "demo_id": "7a3c242a-b39b-4b24-b484-7eafc3299f94"
+            },
+            {
+                "score": 1.0,
+                "task_id": 70,
+                "demo_id": "eb7d83e0-cae7-4a64-b829-fb07f0ae48e1"
+            },
+            {
+                "score": 1.0,
+                "task_id": 73,
+                "demo_id": "0a41b258-0561-4ee3-a569-7962f4815251"
+            },
+            {
+                "score": 1.0,
+                "task_id": 72,
+                "demo_id": "3f14f864-1d3e-4f7b-a40b-979fadb3c3e5"
+            },
+            {
+                "score": 1.0,
+                "task_id": 80,
+                "demo_id": "f4117dd4-5463-4505-9166-36e170c85121"
+            },
+            {
+                "score": 1.0,
+                "task_id": 83,
+                "demo_id": "70c960b7-faa8-4926-be25-caf47858fa72"
+            },
+            {
+                "score": 1.0,
+                "task_id": 86,
+                "demo_id": "553c1606-6d85-47c5-9344-0b2097449b0b"
+            }
+        ],
+        "task_id_set": [
+            70,
+            72,
+            73,
+            80,
+            83,
+            86,
+            54,
+            63
+        ],
+        "max_num": 8,
+        "current_best_score_sum": 8.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    }
+]

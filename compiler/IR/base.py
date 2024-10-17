@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from collections import defaultdict, deque
 from abc import ABC, ABCMeta, abstractmethod
 from enum import Enum, auto
-from typing import List, Optional, Tuple, Iterable, Callable, Type
+from typing import List, Optional, Tuple, Iterable, Callable, Type, TypeVar
 import warnings
 import inspect
 import time
@@ -124,7 +124,8 @@ class ModuleIterface(ABC):
         """clear metadata for new run
         """
         ...
-    
+
+MT = TypeVar('MT', bound='Module')   
 
 class Module(ModuleIterface):
     def __init__(self, name, kernel, opt_register: bool = False) -> None:
@@ -210,7 +211,7 @@ class Module(ModuleIterface):
         return targets
     
     @staticmethod
-    def all_of_type(modules: Iterable['Module'], T: Type['Module']) -> list['Module']:
+    def all_of_type(modules: Iterable['Module'], T: Type[MT]) -> list[MT]:
         """Find all modules of type T in the given modules
         
         will search recursively into all composible modules if not match

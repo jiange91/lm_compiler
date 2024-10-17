@@ -16,7 +16,7 @@ from tqdm import tqdm
 import logging
 
 from compiler.IR.program import Workflow, Module, StatePool
-from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsageSummary, TokenUsage
+from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsage
 from compiler.optimizer.evaluation.metric import MetricBase
 from compiler.optimizer.params.common import ParamBase
 from compiler.optimizer.plugin import OptimizerSchema
@@ -184,14 +184,12 @@ class EvalTask:
         score = schema.score_fn(label, result)
         
         # get price and demo of running the program
-        usages = []
+        price = 0.0
         lm_2_demo = {}
         for lm in Module.all_of_type(module_pool.values(), LLMPredictor):
-            usages.extend(lm.get_token_usage())
+            price += lm.get_total_cost()
             lm_2_demo[lm.name] = lm.get_step_as_example()
         
-        summary = TokenUsageSummary.summarize(usages)
-        price = summary.total_price
         return result, score, price, lm_2_demo
     
 # class NoDaemonProcess(mp.Process):

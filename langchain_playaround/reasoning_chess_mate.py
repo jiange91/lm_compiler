@@ -21,7 +21,14 @@ from langchain_core.messages import (
 )
 
 from langchain_openai.chat_models import ChatOpenAI
-model = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
+# model = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
+
+model = ChatOpenAI(
+    api_key="EMPTY",
+    openai_api_base="http://192.168.1.16:30000/v1",
+    model="meta-llama/Llama-3.1-8B-Instruct",
+    temperature=0.0,
+)
 
 chat_prompt = ChatPromptTemplate.from_messages(
     [
@@ -57,7 +64,8 @@ semantic = LangChainSemantic(
 )
 
 qa_agent = LangChainLM('qa_agent', semantic)
-qa_agent.lm_config = {'model': "gpt-4o-mini", 'temperature': 0.0}
+# qa_agent.lm_config = {'model': "gpt-4o-mini", 'temperature': 0.0}
+qa_agent.lm = model
 
 qa_flow = Workflow('qa_flow')
 qa_flow.add_module(Input('start'))

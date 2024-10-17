@@ -1,9 +1,9 @@
 from compiler.IR.base import Module
 from dataclasses import dataclass, field
 from collections import defaultdict
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod, ABCMeta
 from enum import Enum, auto
-from typing import List, Optional, Tuple, Iterable, Callable, Union, Any
+from typing import List, Optional, Tuple, Iterable, Callable, Union, Any, Literal
 import inspect
 import time
 import logging
@@ -17,9 +17,14 @@ from compiler.IR.base import Module
 from langchain_core.messages.base import BaseMessage
 from langchain_core.messages.utils import get_buffer_string
 
+@dataclass
+class TokenUsage:
+    prompt_tokens: int = field(default=0)
+    completion_tokens: int = field(default=0)
+    
 
 @dataclass
-class LMConfig(ABC):
+class LMConfig:
     """
     
     Args:
@@ -31,24 +36,52 @@ class LMConfig(ABC):
             
         kwargs: The kwargs to initialize the language model
     """
-    provider: str
+    provider: Literal['openai', 'together', 'fireworks', 'local']
+    model: str
     cost_indicator: float = field(default=1.0)
     kwargs: dict = field(default_factory=dict)
+    price_table: dict[str, float] = field(default_factory=dict)
     
     def to_dict(self):
-        return {
-            'provider': self.provider,
-            'cost_indicator': self.cost_indicator,
-            'kwargs': self.kwargs
-        }
+        return self.__dict__
     
     @classmethod
     def from_dict(cls, data):
-        return cls(
-            provider=data['provider'],
-            cost_indicator=data.get('cost_indicator', 1.0),
-            kwargs=data['kwargs']
-        )
+        return cls.from_dict(data)
+
+    def get_price(self, usage: TokenUsage):
+        if self.provider == 'local':
+            return 0.0
+        prompt, completion = usage.prompt_tokens, usage.completion_tokens
+        model = self.model
+        if self.provider == 'openai':
+            if 'gpt-4o-mini' in model:
+                return (0.15 * prompt +  0.6 * completion) / 1e6
+            elif 'gpt-4o-2024-05-13' in model:
+                return (5 * prompt + 15 * completion) / 1e6
+            elif 'gpt-4o-2024-08-06' in model:
+                return (2.5 * prompt + 10 * completion) / 1e6
+        elif self.provider == 'together':
+            if 'meta-llama/Llama-3.2-3B-Instruct-Turbo' in model:
+                return 0.06 * (prompt + completion) / 1e6 # change to fireworks price
+            elif 'meta-llama/Llama-3.2-11B-Vision-Instruct-Turbo' in model:
+                return 0.18 * (prompt + completion) / 1e6
+            elif 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo' in model:
+                return 0.18 * (prompt + completion) / 1e6
+            elif 'meta-llama/Meta-Llama-3-8B-Instruct-Lite' in model:
+                return 0.10 * (prompt + completion) / 1e6
+            elif 'Qwen/Qwen2-72B-Instruct' in model:
+                return 0.9 * (prompt + completion) / 1e6
+            elif 'mistralai/Mistral-7B-Instruct-v0.3' in model:
+                return 0.2 * (prompt + completion) / 1e6
+            elif 'google/gemma-2-9b-it' in model:
+                return 0.3 * (prompt + completion) / 1e6
+        elif self.provider == 'fireworks':
+            if 'accounts/fireworks/models/llama-v3p2-3b-instruct' in model:
+                return 0.1 * (prompt + completion) / 1e6
+        
+        raise ValueError(f"Model {model} from provider {self.provider} pricing is not supported")
+            
         
 @dataclass
 class Demonstration:
@@ -129,83 +162,6 @@ class LMSemantic(ABC):
     def set_demos(self, demos: list[Demonstration]):
         ...
  
-@dataclass
-class TokenUsage:
-    model: str
-    prompt_tokens: int = field(default=0)
-    completion_tokens: int = field(default=0)
-    
-    def __add__(self, other):
-        if self.model != other.model:
-            raise ValueError(f"Cannot add token usage of different models: {self.model} and {other.model}")
-        return TokenUsage(
-            model=self.model,
-            prompt_tokens=self.prompt_tokens + other.prompt_tokens,
-            completion_tokens=self.completion_tokens + other.completion_tokens
-        )
-
-    @staticmethod
-    def pricing_pM(model, prompt, completion):
-        if 'gpt-4o-mini' in model:
-            return (0.15 * prompt +  0.6 * completion) / 1e6
-        elif 'gpt-4o-2024-05-13' in model:
-            return (5 * prompt + 15 * completion) / 1e6
-        elif 'gpt-4o-2024-08-06' in model:
-            return (2.5 * prompt + 10 * completion) / 1e6
-        elif 'meta-llama/Llama-3.2-3B-Instruct-Turbo' in model:
-            return 0.06 * (prompt + completion) / 1e6 # change to fireworks price
-        elif 'meta-llama/Llama-3.2-11B-Vision-Instruct-Turbo' in model:
-            return 0.18 * (prompt + completion) / 1e6
-        elif 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo' in model:
-            return 0.18 * (prompt + completion) / 1e6
-        elif 'meta-llama/Meta-Llama-3-8B-Instruct-Lite' in model:
-            return 0.10 * (prompt + completion) / 1e6
-        elif 'Qwen/Qwen2-72B-Instruct' in model:
-            return 0.9 * (prompt + completion) / 1e6
-        elif 'mistralai/Mistral-7B-Instruct-v0.3' in model:
-            return 0.2 * (prompt + completion) / 1e6
-        elif 'google/gemma-2-9b-it' in model:
-            return 0.3 * (prompt + completion) / 1e6
-        elif 'accounts/fireworks/models/llama-v3p2-3b-instruct' in model:
-            return 0.1 * (prompt + completion) / 1e6
-        else:
-            raise ValueError(f"Model {model} pricing is not supported")
-    
-    def get_price(self):
-        return self.pricing_pM(self.model, self.prompt_tokens, self.completion_tokens)
-
-@dataclass
-class TokenUsageSummary:
-    total_price: float = field(default=0)
-    token_consumed: dict[str, TokenUsage] = field(default_factory=dict)
-    
-    def __add__(self, other: 'TokenUsageSummary'):
-        summary = copy.deepcopy(other)
-        for model, usage in self.token_consumed.items():
-            if model not in summary.token_consumed:
-                summary.token_consumed[model] = copy.deepcopy(usage)
-            else:
-                summary.token_consumed[model] += usage
-        return summary
-    
-    @classmethod
-    def summarize(cls, records: Iterable[TokenUsage]) -> 'TokenUsageSummary':
-        summary = cls()
-        for record in records:
-            if record.model not in summary.token_consumed:
-                usage = TokenUsage(record.model, 0, 0)
-                summary.token_consumed[record.model] = usage
-            else:
-                usage = summary.token_consumed[record.model]
-            usage.prompt_tokens += record.prompt_tokens
-            usage.completion_tokens += record.completion_tokens
-            summary.total_price += record.get_price()
-        return summary
-    
-    def __str__(self):
-        return f"Total Price: {self.total_price} USD\n" + '\n'.join(
-            [f"{model}: {usage.prompt_tokens} prompt tokens, {usage.completion_tokens} completion tokens" for model, usage in self.token_consumed.items()]
-        )
     
 class LLMPredictor(Module):
     def __init__(self, name, semantic: LMSemantic, lm, **kwargs) -> None:
@@ -285,22 +241,22 @@ class LLMPredictor(Module):
         """
         raise NotImplementedError
 
-    def get_token_usage(self) -> list[TokenUsage]:
+    def get_token_usage(self) -> TokenUsage:
         """get current token usage of the LLM
         
         Please reset the usage cache at your will
         """
-        records = []
         #NOTE: a LLMPredictor might have multiple LLMs in its history
         # if the config is dynamically changing
+        usage = TokenUsage()
         for meta in self.lm_history:
-            usage = TokenUsage(
-                model=meta['model'],
-                prompt_tokens=meta['prompt_tokens'],
-                completion_tokens=meta['completion_tokens']
-            )
-            records.append(usage)
-        return records
+            usage.prompt_tokens += meta['prompt_tokens']
+            usage.completion_tokens += meta['completion_tokens']
+        return usage
+
+    def get_total_cost(self) -> float:
+        usage = self.get_token_usage()
+        return self.lm_config.get_price(usage)
 
     def on_invoke(self, kwargs: dict):
         self.input_cache = kwargs

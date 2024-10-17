@@ -447,6 +447,15 @@ def langchain_lm_kernel({inputs_str}):
                 api_key=os.environ['FIREWORKS_API_KEY'],
                 callbacks=[LLMTracker(self)],
             )
+        elif self.lm_config.provider == 'local':
+            base_url = self.lm_config.kwargs.get('openai_api_base', None)
+            if base_url is None:
+                raise ValueError("Local provider requires openai_api_base")
+            self.lm = ChatOpenAI(
+                **self.lm_config.kwargs,
+                api_key="DUMMY",
+                callbacks=[LLMTracker(self)]
+            )
         else:
             raise ValueError(f"Provider {self.lm_config.provider} not supported")
         return

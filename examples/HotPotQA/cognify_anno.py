@@ -14,7 +14,7 @@ import copy
 from compiler.optimizer.params.reasoning import ZeroShotCoT
 from compiler.optimizer.params.common import IdentityOption
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
-from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsageSummary, TokenUsage
+from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsage
 from compiler.optimizer import register_opt_program_entry, register_opt_score_fn
 
 qgen_lm_config = LMConfig(
@@ -23,10 +23,18 @@ qgen_lm_config = LMConfig(
     #     'model': 'accounts/fireworks/models/llama-v3p2-3b-instruct',
     #     'temperature': 0.0,
     # }
-    provider='openai',
-    kwargs= {
-        'model': 'gpt-4o-mini',
+    
+    # provider='openai',
+    # kwargs= {
+    #     'model': 'gpt-4o-mini',
+    #     'temperature': 0.0,
+    # }
+    
+    provider="local",
+    model='llama-3.1-8b',
+    kwargs={
         'temperature': 0.0,
+        'openai_api_base': 'http://192.168.1.16:30000/v1',
     }
 )
 
@@ -52,10 +60,17 @@ following_query_semantic = LangChainSemantic(
 )
 following_query_agent = LangChainLM('refine_query', following_query_semantic, opt_register=True)
 refine_lm_config = LMConfig(
-    provider='openai',
-    kwargs= {
-        'model': 'gpt-4o-mini',
+    # provider='openai',
+    # kwargs= {
+    #     'model': 'gpt-4o-mini',
+    #     'temperature': 0.0,
+    # }
+    
+    provider="local",
+    model='llama-3.1-8b',
+    kwargs={
         'temperature': 0.0,
+        'openai_api_base': 'http://192.168.1.16:30000/v1',
     }
 )
 following_query_agent.lm_config = refine_lm_config
@@ -70,10 +85,17 @@ answer_semantic = LangChainSemantic(
 )
 answer_agent = LangChainLM('generate_answer', answer_semantic, opt_register=True)
 answer_lm_config = LMConfig(
-    provider='openai',
-    kwargs= {
-        'model': 'gpt-4o-mini',
+    # provider='openai',
+    # kwargs= {
+    #     'model': 'gpt-4o-mini',
+    #     'temperature': 0.0,
+    # }
+    
+    provider="local",
+    model='llama-3.1-8b',
+    kwargs={
         'temperature': 0.0,
+        'openai_api_base': 'http://192.168.1.16:30000/v1',
     }
 )
 answer_agent.lm_config = answer_lm_config
@@ -145,8 +167,7 @@ if __name__ == "__main__":
     print(f'Answer: {answer}')
     print(f'Score: {answer_f1(label, answer)}')
     
-    usages = []
+    price = 0.0
     for m in [first_query_agent, following_query_agent, answer_agent]:
-        usages.extend(m.get_token_usage())
-    summary = TokenUsageSummary.summarize(usages)
-    print(f'Token Usage Summary: {summary}')
+        price += m.get_total_cost()
+    print(f'Token price: {price}')

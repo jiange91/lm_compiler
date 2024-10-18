@@ -37,11 +37,11 @@ from langchain_core.runnables import RunnableLambda
 
 def inspect_with_msg(msg: str):
     def inspect_input(inputs, **kwargs):
-        print(msg, flush=True)
-        if isinstance(inputs, BaseMessage):
-            print(var_2_str([inputs]), flush=True)
-        else:
-            print(var_2_str(inputs), flush=True)
+        # print(msg, flush=True)
+        # if isinstance(inputs, BaseMessage):
+        #     print(var_2_str([inputs]), flush=True)
+        # else:
+        #     print(var_2_str(inputs), flush=True)
         return inputs
     return inspect_input
 
@@ -148,10 +148,9 @@ class LangChainSemantic(LMSemantic):
                         "\n\nreasoning:\nOptional(${reasoning})" + \
                         f"\n\n{self.outputs[0]}:\n${{{self.outputs[0]}}}"
         
-        self.chat_prompt_template.append(HumanMessage(
-            f"Let me show you some examples following the format:\n\n{example_format}\n\n---"
-        ))
-        
+        demo_strs = [
+            f"Let me show you some examples following the format:\n\n{example_format}\n\n---\n\n"
+        ]
         for i, demo in enumerate(self.demos):
             # add normal text inputs
             input_str = []
@@ -159,9 +158,7 @@ class LangChainSemantic(LMSemantic):
                 if key not in self.img_input_names:
                     input_str.append(f"{key}:\n{value}")
             text_input_str = '\n\n'.join(input_str)
-            self.chat_prompt_template.append(HumanMessage(
-                f"\n\n{text_input_str}"
-            ))
+            demo_strs.append(f"{text_input_str}")
             for key, value in demo.inputs.items():
                 if key in self.img_input_names:
                     self.chat_prompt_template.append(
@@ -178,27 +175,27 @@ class LangChainSemantic(LMSemantic):
                         )
                     )
             if demo.reasoning:
-                self.chat_prompt_template.append(HumanMessage(f"\n\nreasoning:\n{demo.reasoning}"))
+                demo_strs.append(f"\n\nreasoning:\n{demo.reasoning}")
             else:
-                self.chat_prompt_template.append(HumanMessage(f"\n\nreasoning:\nN/A"))
+                demo_strs.append("\n\nreasoning:\nN/A")
                 
             # add output, only consider text now
-            self.chat_prompt_template.append(HumanMessage(
-                f"\n\n{self.outputs[0]}:\n{demo.output}\n"
-            ))
-        self.chat_prompt_template.append(HumanMessage(
-            "\n\n---"
-        ))
+            demo_strs.append(
+                f"\n\n{self.outputs[0]}:\n{demo.output}\n\n---\n\n"
+            )
+        demo_message = HumanMessage("".join(demo_strs))
+        self.chat_prompt_template.append(demo_message)
         
-    def build_prompt_template(self):
+    def build_prompt_template(self, strict_output: bool = True):
         # setup message list
         if not self.message_template_predefined:
             user_messages = []
             input_names = ", ".join(f"`{input}`" for input in self.inputs)
+            strictly = " only" if strict_output else ""
             user_messages.append(
                 {
                     "type": "text",
-                    "text": f"Given {input_names}, please only provide `{self.outputs[0]}` in your response unless instructed otherwise."
+                    "text": f"Given {input_names}, please{strictly} provide `{self.outputs[0]}` in your response."
                 }
             )
             if self.img_input_idices is not None:
@@ -429,20 +426,30 @@ def langchain_lm_kernel({inputs_str}):
 
     def set_lm(self):
         logger.debug(f'Setting LM for {self.name}: {self.lm_config}')
+        # self.lm = ChatOpenAI(
+        #     model='gpt-4o-mini',
+        #     **self.lm_config.kwargs,
+        #     api_key=os.environ['OPENAI_API_KEY'],
+        #     callbacks=[LLMTracker(self)]
+        # )
+        # return
         if self.lm_config.provider == 'openai':
             self.lm = ChatOpenAI(
+                model=self.lm_config.model,
                 **self.lm_config.kwargs,
                 api_key=os.environ['OPENAI_API_KEY'],
                 callbacks=[LLMTracker(self)]
             )
         elif self.lm_config.provider == 'together':
             self.lm = ChatTogether(
+                model=self.lm_config.model,
                 **self.lm_config.kwargs,
                 api_key=os.environ['TOGETHER_API_KEY'],
                 callbacks=[LLMTracker(self)]
             )
         elif self.lm_config.provider == 'fireworks':
             self.lm = ChatFireworks(
+                model=self.lm_config.model,
                 **self.lm_config.kwargs,
                 api_key=os.environ['FIREWORKS_API_KEY'],
                 callbacks=[LLMTracker(self)],
@@ -452,6 +459,7 @@ def langchain_lm_kernel({inputs_str}):
             if base_url is None:
                 raise ValueError("Local provider requires openai_api_base")
             self.lm = ChatOpenAI(
+                model=self.lm_config.model,
                 **self.lm_config.kwargs,
                 api_key="DUMMY",
                 callbacks=[LLMTracker(self)]

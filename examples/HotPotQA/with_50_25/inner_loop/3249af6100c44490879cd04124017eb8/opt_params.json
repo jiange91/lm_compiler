@@ -1,0 +1,1382 @@
+[
+    {
+        "name": "few_shot",
+        "module_name": "refine_query_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_sampler_2_demos_7cb7453a-ba2e-4b62-bba4-52405bc5365d": {
+                "name": "refine_query_sampler_2_demos_7cb7453a-ba2e-4b62-bba4-52405bc5365d",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "7d676f3b-3179-4948-aa70-148a5a4b01df",
+                    "2022b4f2-c50f-41b7-884b-a1a0bdd1e3b1",
+                    "831edd76-5a34-4e75-8ae0-44594ee3c745",
+                    "76bb2692-bb8b-4fed-b171-df16aa953d94",
+                    "7c355906-04bb-4c75-ae07-51989e1c135e",
+                    "bbd90480-20ce-4021-a77a-b162553e3e98"
+                ]
+            },
+            "refine_query_sampler_2_demos_f0ec472d-0f4e-4a06-a4df-2050070cbc8f": {
+                "name": "refine_query_sampler_2_demos_f0ec472d-0f4e-4a06-a4df-2050070cbc8f",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "a807b1f2-99c3-48b6-86e6-9c3934cadd6e",
+                    "2022b4f2-c50f-41b7-884b-a1a0bdd1e3b1",
+                    "35855e60-4a9a-4378-933c-aa2f4da96bb3",
+                    "76bb2692-bb8b-4fed-b171-df16aa953d94",
+                    "7c355906-04bb-4c75-ae07-51989e1c135e",
+                    "bbd90480-20ce-4021-a77a-b162553e3e98"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "['Oroblanco | \"Oroblanco An oroblanco, oro blanco (white gold) or sweetie (\"\"Citrus grandis\"\" Osbeck \u00d7 \"\"C. Paradisi\"\" Macf.) is a sweet seedless citrus hybrid fruit similar to grapefruit. It is often referred to as oroblanco grapefruit. Oroblanco was developed as a cross between a diploid acidless pomelo and a seedy white tetraploid grapefruit, resulting in a triploid seedless fruit that is less acidic and less bitter than the grapefruit. The oroblanco was patented by the University of California in 1981 after its development by Robert Soost and James W. Cameron at that university\\'s citrus experiment station in Riverside, California. The nine-year project\"', 'Melogold | \"and texture are the same as Oroblanco. As with Oroblanco the central core hollow is greater than Marsh at maturity. The flesh is tender and juicy, separating well from the segment membranes. Percent juice has been equal to Marsh and slightly higher than Oroblanco. In 1958, CRC 2240 (pomelo) Robert K. Soost and James W. Cameron crossed with a seedy, white, tetraploid grapefruit. Two of the triploid offspring had particularly favorable characteristics. One was released in 1980 as \\'Oroblanco\\'. The second was released as Melogold. Oroblanco was more similar to grapefruit, while Melogold was more similar to pomelo. Melogold was\"']",
+                    "question": "What fruit are the oroblanco and the pomelo similar to?"
+                },
+                "output": "search_query: \"Oroblanco fruit similarities pomelo grapefruit\"",
+                "id": "7d676f3b-3179-4948-aa70-148a5a4b01df",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Merl Reagle\" | \"Merl Reagle Merl Harry Reagle (January 5, 1950 \u2013 August 22, 2015) was an American crossword constructor. For 30 years, he constructed a puzzle every Sunday for the \"\"San Francisco Chronicle\"\" (originally the \"\"San Francisco Examiner\"\"), which he syndicated to more than 50 Sunday newspapers, including the \"\"Washington Post\"\", the \"\"Los Angeles Times\"\", the \"\"Philadelphia Inquirer\"\", the \"\"Seattle Times\"\", \"\"The Plain Dealer\"\" (Cleveland, Ohio), the \"\"Hartford Courant\"\", the \"\"New York Observer\"\", and the \"\"Arizona Daily Star\"\". Reagle also produced a bimonthly crossword puzzle for \"\"AARP The Magazine\"\" magazine, a monthly crossword puzzle for the Society of Former Special Agents of\"', '\"Merl Reagle\" | \"new type of crossword puzzle: \"\"less stodgy and more hip.\"\" This trend was encouraged by \"\"The New York Times\"\" crossword puzzle editor Will Shortz, who sought to appeal to a wider and younger readership with \"\"pop culture references ... humorous word play, and ... unique and clever themes\"\". In 2011 Reagle donated his expertise to produce an awareness-building campaign for the Alzheimer\\'s Foundation of America. Reagle created the National Brain Game Challenge, an online contest featuring a Sunday crossword that contains a clued secret message. Cash prizes, including a first prize of $25,000, are awarded in two categories, \"\"casual solver\"\"\"']",
+                    "question": "Merle Reagle did crosswords for what magazine that has a focus on aging issues?"
+                },
+                "output": "search_query: \"Merl Reagle crossword puzzle AARP The Magazine\"",
+                "id": "2022b4f2-c50f-41b7-884b-a1a0bdd1e3b1",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Cabin Pressure (radio series)\" | \"Nicholas Lezard praised the first series highly, called \"\"the writing and performances ... exceptional\"\" and suggested that the show \"\"deserves an award\"\". Gillian Reynolds of \"\"The Daily Telegraph\"\" called \"\"Cabin Pressure\"\" \"\"one of the best written, cast, acted and directed comedies on anywhere.\"\" Partly due to the popularity of leading actor Benedict Cumberbatch, the show has a significant fandom, and its final episode received a record number of requests for audience tickets for a Radio 4 comedy recording: 22,854 requests for just 200 available tickets. It has been argued that this is an example of the Odagiri effect occurring in\"', '\"Roger Allam\" | \"Roger Allam Roger William Allam (born 26 October 1953) is an English actor, known primarily for his stage career, although he has performed in film, television and radio. He played Inspector Javert in the original London production of the stage musical \"\"Les Mis\u00e9rables\"\", First Officer Douglas Richardson in the award-winning radio series \"\"Cabin Pressure\"\", and DI Fred Thursday in the TV series \"\"Endeavour\"\". He is also known for his roles as Illyrio Mopatis in the HBO series \"\"Game of Thrones\"\", Royalton in \"\"Speed Racer\"\", Lewis Prothero in the 2005 adaptation of \"\"V for Vendetta\"\" and as Peter Mannion MP in\"']",
+                    "question": "Which English actor starred in Cabin Pressure "
+                },
+                "output": "search_query: \"English actor Cabin Pressure cast\"",
+                "id": "831edd76-5a34-4e75-8ae0-44594ee3c745",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Without Limits\" | \"Without Limits Without Limits is a 1998 biographical sports film. It is written and directed by Robert Towne and follows the relationship between record-breaking distance runner Steve Prefontaine and his coach Bill Bowerman, who later co-founded Nike, Inc. Billy Crudup plays Prefontaine and Donald Sutherland plays Bowerman. It also stars Monica Potter, Jeremy Sisto, Judith Ivey, Matthew Lillard and William Mapother. \"\"Without Limits\"\" was produced by Tom Cruise (Cruise and Mapother are cousins) and Paula Wagner, and released and distributed by Warner Bros. Due to a very low-key promotional campaign, the $25 million film grossed only $777,000 at the box\"', '\"Nike, Inc.\" | \"Nike pays top athletes in many sports to use their products and promote and advertise their technology and design. Nike\\'s first professional athlete endorser was Romanian tennis player Ilie N\u0103stase. The first track endorser was distance runner Steve Prefontaine. Prefontaine was the prized pupil of the company\\'s co-founder, Bill Bowerman, while he coached at the University of Oregon. Today, the Steve Prefontaine Building is named in his honor at Nike\\'s corporate headquarters. Nike has also sponsored many other successful track and field athletes over the years, such as Carl Lewis, Jackie Joyner-Kersee and Sebastian Coe. The signing of basketball player\"']",
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "search_query: \"R Lee Ermy character Prefontaine film American track and field coach co-founder Nike Inc\"",
+                "id": "76bb2692-bb8b-4fed-b171-df16aa953d94",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Square Dance (ballet)\" | \"Square Dance (ballet) Square Dance is a ballet made by New York City Ballet co-founder and balletmaster George Balanchine to Antonio Vivaldi\\'s \"\"Concerto Grosso in B minor\"\" and the first movement of his \"\"Concerto Grosso in E major\"\", Op. 3, nos. 10 and 12, respectively; in 1976 he added Arcangelo Corelli\\'s \"\"Sarabanda, Badinerie e Giga\"\", second and third movements. The premiere took place on November 21, 1957, at City Center of Music and Drama, New York, with lighting by Mark Stanley. The original version placed the musicians on stage with a square dance caller calling the steps; from its 1976\"', '\"Chaconne (ballet)\" | \"Chaconne (ballet) Chaconne is a ballet made by New York City Ballet co-founder and ballet master George Balanchine to ballet music from Gluck\\'s \"\"Orfeo ed Euridice\"\" (Vienna, 1762; Paris, 1774). The premiere took place Wednesday, 22 January 1976 at the New York State Theater, Lincoln Center, with lighting by Ronald Bates; Robert Irving conducted. \"\"Chaconne\"\" was danced in practice clothes at its premiere; Karinska\\'s costumes were added in the spring season. The finale to \"\"Orfeo ed Euridice\"\" is a \"\"chaconne\"\", a dance form built on a short bass phrase and often used by 17th and 18th century opera composers to\"']",
+                    "question": "Which Italian composer did George Balanchine add in 1976?"
+                },
+                "output": "search_query: \"George Balanchine 1976 Italian composer added ballet\"",
+                "id": "7c355906-04bb-4c75-ae07-51989e1c135e",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Leslie Skinner\" | \"Leslie Skinner Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the bazooka. Born in San Francisco, California, in 1900, Skinner was the only son of an army surgeon. As a young teenager, he had a fascination with rockets and began to build his own, an activity that was forbidden after he had set fire to the hospital roof at Fort Strong, Massachusetts in 1915. He graduated from Boston\"', '\"Leslie Skinner\" | \"manufacturing Oerlikon Group. In 1970, he moved to Belleair Bluffs, Florida and took up sculpture. Leslie Skinner died on November 2, 1978. He and his wife Margaret had two children. He was buried at Arlington National Cemetery with full military honors. Leslie Skinner Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the bazooka. Born in San Francisco, California, in 1900, Skinner was the only son of an army\"']",
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "search_query: \"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"",
+                "id": "bbd90480-20ce-4021-a77a-b162553e3e98",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Princess Sumaya University for Technology\" | \"located at the heart of Jordan\\'s scientific, academic and R&D corridor. Furthermore, the center will extend its services to cover not only Jordan but the region as a whole. The center is planned to be the regions\\' cornerstone for technology commercialization and entrepreneurship development. The QRCE will target university students, researchers, innovators, entrepreneurs and others. According to PSUT\\'s development plan, the next step will be the establishment of a business school to be linked to the center. Working closely with local and international organizations; the QRCE focuses on issues such as: capacity building, consulting, counseling and developing the local \"\"Entrepreneurial\"', '\"Princess Sumaya University for Technology\" | \"Jordanian university students to design the path to achieve their dreams. Princess Sumaya University for Technology Princess Sumaya University for Technology (PSUT), established in 1991, is a specialized, Non-governmental, Non-profit, Jordanian university, owned by the leading applied research centre in Jordan, the Royal Scientific Society (RSS). PSUT\\'s area of specialization is IT, Communications and Electronics. As a nonprofit institution, PSUT embraces both the public and private sectors, but while akin to public universities in its mission, it is more aligned to the private sector in drive and spirit. PSUT is located in Amman, Jordan, offering an array of ICT related\"']",
+                    "question": "Are Princess Sumaya University for Technology and Tennessee Technological University from the same country?"
+                },
+                "output": "search_query: \"Princess Sumaya University for Technology country location Tennessee Technological University\"",
+                "id": "a807b1f2-99c3-48b6-86e6-9c3934cadd6e",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Reggie Theus\" | \"their assistant coach Kenny Natt would lead the team in the interim period. Theus was an assistant coach with the Minnesota Timberwolves under head coach Kurt Rambis from 2009 to 2011. In April 2010 Theus was interviewed by DePaul University for its head coaching position. He became the head coach of the Los Angeles D-Fenders of the NBA D-League in October 2012. Theus was named the head coach of California State University Northridge in 2013. In his first season with the Matadors he led them to a 17-18 record, but managed to reach the Big West Conference Finals where they\"', '\"Reggie Theus\" | \"Reggie Theus Reginald Wayne Theus (born October 13, 1957) is an American retired basketball player and the former head coach of California State University, Northridge. He formerly served as head coach for the NBA\\'s Sacramento Kings and New Mexico State University\\'s men\\'s basketball team. He was also an assistant coach for the University of Louisville under Rick Pitino. Theus played his college basketball at UNLV for head coach Jerry Tarkanian from 1976 to 1978. In three seasons with the Runnin\\' Rebels, Theus averaged 12.9 points, 4.4 assists and 4.3 rebounds per game. Theus, who became one of the best players\"']",
+                    "question": "Reggie Theus was the assistant coach for what man who had coached in the NBA?"
+                },
+                "output": "search_query: \"Reggie Theus assistant coach Rick Pitino\"",
+                "id": "35855e60-4a9a-4378-933c-aa2f4da96bb3",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_1": 1.0,
+            "eval_17": 0,
+            "eval_30": 0,
+            "eval_11": 0.8,
+            "eval_32": 1.0,
+            "eval_47": 0,
+            "eval_14": 0,
+            "eval_13": 0.6,
+            "eval_37": 1.0,
+            "eval_29": 0,
+            "eval_8": 1.0,
+            "eval_44": 0,
+            "eval_7": 1.0,
+            "eval_31": 0,
+            "eval_28": 0,
+            "eval_26": 1.0,
+            "eval_43": 1.0,
+            "eval_36": 0,
+            "eval_12": 0,
+            "eval_0": 0.125,
+            "eval_20": 1.0,
+            "eval_6": 0,
+            "eval_34": 0,
+            "eval_35": 0.125,
+            "eval_24": 1.0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_24",
+                "demo_id": "a807b1f2-99c3-48b6-86e6-9c3934cadd6e"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_32",
+                "demo_id": "2022b4f2-c50f-41b7-884b-a1a0bdd1e3b1"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_43",
+                "demo_id": "35855e60-4a9a-4378-933c-aa2f4da96bb3"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "76bb2692-bb8b-4fed-b171-df16aa953d94"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_37",
+                "demo_id": "7c355906-04bb-4c75-ae07-51989e1c135e"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "bbd90480-20ce-4021-a77a-b162553e3e98"
+            }
+        ],
+        "task_id_set": [
+            "eval_8",
+            "eval_43",
+            "eval_7",
+            "eval_32",
+            "eval_37",
+            "eval_24"
+        ],
+        "max_num": 6,
+        "current_best_score_sum": 6.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "refine_query_sampler_2",
+        "options": {
+            "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d": {
+                "name": "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "fireworks",
+                    "model": "accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+                    "cost_indicator": 0.6,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            },
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+        "type": "LMSelection"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_demos_9f438710-1d09-499c-8567-95a42f2b2325": {
+                "name": "generate_query_demos_9f438710-1d09-499c-8567-95a42f2b2325",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "619d46e5-812f-478b-adf9-d564d0280c11",
+                    "9b9b25f3-2185-4135-9e65-440b1539ccd7",
+                    "12c78ba6-0817-4f1e-a100-1926f8d3d4e7",
+                    "788bda3c-fd5e-4b6a-8f2c-851a45ec907a",
+                    "4d8ed61a-e2df-405d-ae1f-759e6640b934",
+                    "50ccbd38-eea6-4f0e-83ee-142d6b905f6f"
+                ]
+            },
+            "generate_query_demos_0ca02634-d34a-4db4-8fab-9e3bf432d31e": {
+                "name": "generate_query_demos_0ca02634-d34a-4db4-8fab-9e3bf432d31e",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "e4bc3b81-c294-470f-8396-66545c098bb1",
+                    "9b9b25f3-2185-4135-9e65-440b1539ccd7",
+                    "c2485a01-9c55-4711-bdc7-2126d3d061c2",
+                    "788bda3c-fd5e-4b6a-8f2c-851a45ec907a",
+                    "4d8ed61a-e2df-405d-ae1f-759e6640b934",
+                    "50ccbd38-eea6-4f0e-83ee-142d6b905f6f"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "What fruit are the oroblanco and the pomelo similar to?"
+                },
+                "output": "search_query: \"oroblanco pomelo similar fruit comparison\"",
+                "id": "619d46e5-812f-478b-adf9-d564d0280c11",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Merle Reagle did crosswords for what magazine that has a focus on aging issues?"
+                },
+                "output": "search_query: \"Merle Reagle crossword magazine aging issues\"",
+                "id": "9b9b25f3-2185-4135-9e65-440b1539ccd7",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Which English actor starred in Cabin Pressure "
+                },
+                "output": "search_query: \"English actor Cabin Pressure cast\"",
+                "id": "12c78ba6-0817-4f1e-a100-1926f8d3d4e7",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "search_query: \"R Lee Ermy character Prefontaine film American track and field coach co-founder Nike Inc\"",
+                "id": "788bda3c-fd5e-4b6a-8f2c-851a45ec907a",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Which Italian composer did George Balanchine add in 1976?"
+                },
+                "output": "search_query: \"Italian composer added by George Balanchine 1976\"",
+                "id": "4d8ed61a-e2df-405d-ae1f-759e6640b934",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "search_query: \"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"",
+                "id": "50ccbd38-eea6-4f0e-83ee-142d6b905f6f",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Are Princess Sumaya University for Technology and Tennessee Technological University from the same country?"
+                },
+                "output": "\"Princess Sumaya University for Technology location Jordan Tennessee Technological University location United States\"",
+                "id": "e4bc3b81-c294-470f-8396-66545c098bb1",
+                "reasoning": "Human: Let's solve this problem step by step before giving the final response\n\nAI: To determine if Princess Sumaya University for Technology and Tennessee Technological University are from the same country, we need to identify the countries where these universities are located.\n\nPrincess Sumaya University for Technology is located in Jordan, and Tennessee Technological University is located in the United States.\n\nSince Jordan and the United States are two different countries, the answer to the question is no, they are not from the same country.\n\nNow, let's construct the search query based on this reasoning.\n\nsearch_query: \"Princess Sumaya University for Technology location Jordan Tennessee Technological University location United States\""
+            },
+            {
+                "inputs": {
+                    "question": "Reggie Theus was the assistant coach for what man who had coached in the NBA?"
+                },
+                "output": "\"Reggie Theus NBA assistant coach\"",
+                "id": "c2485a01-9c55-4711-bdc7-2126d3d061c2",
+                "reasoning": "Human: Let's solve this problem step by step before giving the final response\n\nAI: Let's break down the question step by step.\n\nThe question is asking about Reggie Theus being an assistant coach for a man who had coached in the NBA. This implies that we are looking for a person who is a former NBA coach and had an assistant coach named Reggie Theus.\n\nReasoning:\nTheus is a well-known name in the NBA, and I'm thinking that the person he assisted might be a Hall of Fame coach or a coach with a long and notable career in the league.\n\nNext step: I'd like to try to identify the person Reggie Theus assisted."
+            }
+        ],
+        "best_score_by_task": {
+            "eval_1": 1.0,
+            "eval_17": 0,
+            "eval_30": 0,
+            "eval_11": 0.8,
+            "eval_32": 1.0,
+            "eval_47": 0,
+            "eval_14": 0,
+            "eval_13": 0.6,
+            "eval_37": 1.0,
+            "eval_29": 0,
+            "eval_8": 1.0,
+            "eval_44": 0,
+            "eval_7": 1.0,
+            "eval_31": 0,
+            "eval_28": 0,
+            "eval_26": 1.0,
+            "eval_43": 1.0,
+            "eval_36": 0,
+            "eval_12": 0,
+            "eval_0": 0.125,
+            "eval_20": 1.0,
+            "eval_6": 0,
+            "eval_34": 0,
+            "eval_35": 0.125,
+            "eval_24": 1.0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_24",
+                "demo_id": "e4bc3b81-c294-470f-8396-66545c098bb1"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_32",
+                "demo_id": "9b9b25f3-2185-4135-9e65-440b1539ccd7"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_43",
+                "demo_id": "c2485a01-9c55-4711-bdc7-2126d3d061c2"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "788bda3c-fd5e-4b6a-8f2c-851a45ec907a"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_37",
+                "demo_id": "4d8ed61a-e2df-405d-ae1f-759e6640b934"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "50ccbd38-eea6-4f0e-83ee-142d6b905f6f"
+            }
+        ],
+        "task_id_set": [
+            "eval_8",
+            "eval_43",
+            "eval_7",
+            "eval_32",
+            "eval_37",
+            "eval_24"
+        ],
+        "max_num": 6,
+        "current_best_score_sum": 6.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "generate_query",
+        "options": {
+            "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d": {
+                "name": "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "fireworks",
+                    "model": "accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+                    "cost_indicator": 0.6,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            },
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+        "type": "LMSelection"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_aggregator_demos_22802799-d8b7-4446-96c8-e553a267a397": {
+                "name": "refine_query_aggregator_demos_22802799-d8b7-4446-96c8-e553a267a397",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "2cdcf906-791f-4ef5-9b8a-e652fe3fbed2",
+                    "ae5c9208-95d8-488e-aaa4-8409f19883bf",
+                    "5f36bfb1-5655-4faa-b67b-1254c336f198",
+                    "8cda0192-ceb7-4423-8706-ea67cf7ab83c",
+                    "368679fb-a16c-4e44-af3a-8ac9c395f6a2",
+                    "ddc91872-9db8-44f4-b370-81f5d4c067d1"
+                ]
+            },
+            "refine_query_aggregator_demos_2d07563b-eec8-483b-ac0b-a6dc08890122": {
+                "name": "refine_query_aggregator_demos_2d07563b-eec8-483b-ac0b-a6dc08890122",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "c504a4e0-7c17-4d77-81f4-4f8c3f0d0753",
+                    "ae5c9208-95d8-488e-aaa4-8409f19883bf",
+                    "d43727e6-4b52-4658-bc82-46897dde3fe2",
+                    "8cda0192-ceb7-4423-8706-ea67cf7ab83c",
+                    "368679fb-a16c-4e44-af3a-8ac9c395f6a2",
+                    "ddc91872-9db8-44f4-b370-81f5d4c067d1"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'Oroblanco | \"Oroblanco An oroblanco, oro blanco (white gold) or sweetie (\"\"Citrus grandis\"\" Osbeck \u00d7 \"\"C. Paradisi\"\" Macf.) is a sweet seedless citrus hybrid fruit similar to grapefruit. It is often referred to as oroblanco grapefruit. Oroblanco was developed as a cross between a diploid acidless pomelo and a seedy white tetraploid grapefruit, resulting in a triploid seedless fruit that is less acidic and less bitter than the grapefruit. The oroblanco was patented by the University of California in 1981 after its development by Robert Soost and James W. Cameron at that university\\\\\\'s citrus experiment station in Riverside, California. The nine-year project\"\\', \\'Melogold | \"and texture are the same as Oroblanco. As with Oroblanco the central core hollow is greater than Marsh at maturity. The flesh is tender and juicy, separating well from the segment membranes. Percent juice has been equal to Marsh and slightly higher than Oroblanco. In 1958, CRC 2240 (pomelo) Robert K. Soost and James W. Cameron crossed with a seedy, white, tetraploid grapefruit. Two of the triploid offspring had particularly favorable characteristics. One was released in 1980 as \\\\\\'Oroblanco\\\\\\'. The second was released as Melogold. Oroblanco was more similar to grapefruit, while Melogold was more similar to pomelo. Melogold was\"\\']', 'question': 'What fruit are the oroblanco and the pomelo similar to?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: search_query: \"Oroblanco fruit similarities pomelo grapefruit\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: search_query: \"Oroblanco fruit similarities with pomelo grapefruit\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: search_query: \"Oroblanco fruit similarities pomelo grapefruit\"\n        "
+                },
+                "output": "search_query: \"Oroblanco fruit similarities with pomelo grapefruit\"",
+                "id": "2cdcf906-791f-4ef5-9b8a-e652fe3fbed2",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'\"Merl Reagle\" | \"Merl Reagle Merl Harry Reagle (January 5, 1950 \u2013 August 22, 2015) was an American crossword constructor. For 30 years, he constructed a puzzle every Sunday for the \"\"San Francisco Chronicle\"\" (originally the \"\"San Francisco Examiner\"\"), which he syndicated to more than 50 Sunday newspapers, including the \"\"Washington Post\"\", the \"\"Los Angeles Times\"\", the \"\"Philadelphia Inquirer\"\", the \"\"Seattle Times\"\", \"\"The Plain Dealer\"\" (Cleveland, Ohio), the \"\"Hartford Courant\"\", the \"\"New York Observer\"\", and the \"\"Arizona Daily Star\"\". Reagle also produced a bimonthly crossword puzzle for \"\"AARP The Magazine\"\" magazine, a monthly crossword puzzle for the Society of Former Special Agents of\"\\', \\'\"Merl Reagle\" | \"new type of crossword puzzle: \"\"less stodgy and more hip.\"\" This trend was encouraged by \"\"The New York Times\"\" crossword puzzle editor Will Shortz, who sought to appeal to a wider and younger readership with \"\"pop culture references ... humorous word play, and ... unique and clever themes\"\". In 2011 Reagle donated his expertise to produce an awareness-building campaign for the Alzheimer\\\\\\'s Foundation of America. Reagle created the National Brain Game Challenge, an online contest featuring a Sunday crossword that contains a clued secret message. Cash prizes, including a first prize of $25,000, are awarded in two categories, \"\"casual solver\"\"\"\\']', 'question': 'Merle Reagle did crosswords for what magazine that has a focus on aging issues?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: search_query: \"Merl Reagle crossword puzzle AARP The Magazine\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: search_query: \"Merl Reagle crossword puzzle AARP The Magazine\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: search_query: \"Merl Reagle crossword puzzle AARP The Magazine\"\n        "
+                },
+                "output": "search_query: \"Merl Reagle crossword puzzle AARP The Magazine\"",
+                "id": "ae5c9208-95d8-488e-aaa4-8409f19883bf",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'\"Cabin Pressure (radio series)\" | \"Nicholas Lezard praised the first series highly, called \"\"the writing and performances ... exceptional\"\" and suggested that the show \"\"deserves an award\"\". Gillian Reynolds of \"\"The Daily Telegraph\"\" called \"\"Cabin Pressure\"\" \"\"one of the best written, cast, acted and directed comedies on anywhere.\"\" Partly due to the popularity of leading actor Benedict Cumberbatch, the show has a significant fandom, and its final episode received a record number of requests for audience tickets for a Radio 4 comedy recording: 22,854 requests for just 200 available tickets. It has been argued that this is an example of the Odagiri effect occurring in\"\\', \\'\"Roger Allam\" | \"Roger Allam Roger William Allam (born 26 October 1953) is an English actor, known primarily for his stage career, although he has performed in film, television and radio. He played Inspector Javert in the original London production of the stage musical \"\"Les Mis\u00e9rables\"\", First Officer Douglas Richardson in the award-winning radio series \"\"Cabin Pressure\"\", and DI Fred Thursday in the TV series \"\"Endeavour\"\". He is also known for his roles as Illyrio Mopatis in the HBO series \"\"Game of Thrones\"\", Royalton in \"\"Speed Racer\"\", Lewis Prothero in the 2005 adaptation of \"\"V for Vendetta\"\" and as Peter Mannion MP in\"\\']', 'question': 'Which English actor starred in Cabin Pressure '}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: search_query: \"English actor Cabin Pressure cast\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: search_query: \"English actor Cabin Pressure\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: search_query: \"English actor Cabin Pressure cast\"\n        "
+                },
+                "output": "search_query: \"English actor Cabin Pressure cast\"",
+                "id": "5f36bfb1-5655-4faa-b67b-1254c336f198",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'\"Without Limits\" | \"Without Limits Without Limits is a 1998 biographical sports film. It is written and directed by Robert Towne and follows the relationship between record-breaking distance runner Steve Prefontaine and his coach Bill Bowerman, who later co-founded Nike, Inc. Billy Crudup plays Prefontaine and Donald Sutherland plays Bowerman. It also stars Monica Potter, Jeremy Sisto, Judith Ivey, Matthew Lillard and William Mapother. \"\"Without Limits\"\" was produced by Tom Cruise (Cruise and Mapother are cousins) and Paula Wagner, and released and distributed by Warner Bros. Due to a very low-key promotional campaign, the $25 million film grossed only $777,000 at the box\"\\', \\'\"Nike, Inc.\" | \"Nike pays top athletes in many sports to use their products and promote and advertise their technology and design. Nike\\\\\\'s first professional athlete endorser was Romanian tennis player Ilie N\u0103stase. The first track endorser was distance runner Steve Prefontaine. Prefontaine was the prized pupil of the company\\\\\\'s co-founder, Bill Bowerman, while he coached at the University of Oregon. Today, the Steve Prefontaine Building is named in his honor at Nike\\\\\\'s corporate headquarters. Nike has also sponsored many other successful track and field athletes over the years, such as Carl Lewis, Jackie Joyner-Kersee and Sebastian Coe. The signing of basketball player\"\\']', 'question': 'What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: search_query: \"R Lee Ermy character Prefontaine film American track and field coach co-founder Nike Inc\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: search_query: \"R Lee Ermy character Prefontaine film American track and field coach co-founder Nike\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: search_query: \"R Lee Ermy character Prefontaine film American track and field coach co-founder Nike Inc\"\n        "
+                },
+                "output": "search_query: \"R Lee Ermy character Prefontaine film American track and field coach co-founder Nike Inc\"",
+                "id": "8cda0192-ceb7-4423-8706-ea67cf7ab83c",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'\"Square Dance (ballet)\" | \"Square Dance (ballet) Square Dance is a ballet made by New York City Ballet co-founder and balletmaster George Balanchine to Antonio Vivaldi\\\\\\'s \"\"Concerto Grosso in B minor\"\" and the first movement of his \"\"Concerto Grosso in E major\"\", Op. 3, nos. 10 and 12, respectively; in 1976 he added Arcangelo Corelli\\\\\\'s \"\"Sarabanda, Badinerie e Giga\"\", second and third movements. The premiere took place on November 21, 1957, at City Center of Music and Drama, New York, with lighting by Mark Stanley. The original version placed the musicians on stage with a square dance caller calling the steps; from its 1976\"\\', \\'\"Chaconne (ballet)\" | \"Chaconne (ballet) Chaconne is a ballet made by New York City Ballet co-founder and ballet master George Balanchine to ballet music from Gluck\\\\\\'s \"\"Orfeo ed Euridice\"\" (Vienna, 1762; Paris, 1774). The premiere took place Wednesday, 22 January 1976 at the New York State Theater, Lincoln Center, with lighting by Ronald Bates; Robert Irving conducted. \"\"Chaconne\"\" was danced in practice clothes at its premiere; Karinska\\\\\\'s costumes were added in the spring season. The finale to \"\"Orfeo ed Euridice\"\" is a \"\"chaconne\"\", a dance form built on a short bass phrase and often used by 17th and 18th century opera composers to\"\\']', 'question': 'Which Italian composer did George Balanchine add in 1976?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: search_query: \"George Balanchine 1976 Italian composer added to Square Dance ballet\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: search_query: \"George Balanchine 1976 Italian composer added Square Dance ballet\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: search_query: \"George Balanchine 1976 Italian composer added ballet\"\n        "
+                },
+                "output": "search_query: \"George Balanchine 1976 Italian composer added to Square Dance ballet\"",
+                "id": "368679fb-a16c-4e44-af3a-8ac9c395f6a2",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'\"Leslie Skinner\" | \"Leslie Skinner Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the bazooka. Born in San Francisco, California, in 1900, Skinner was the only son of an army surgeon. As a young teenager, he had a fascination with rockets and began to build his own, an activity that was forbidden after he had set fire to the hospital roof at Fort Strong, Massachusetts in 1915. He graduated from Boston\"\\', \\'\"Leslie Skinner\" | \"manufacturing Oerlikon Group. In 1970, he moved to Belleair Bluffs, Florida and took up sculpture. Leslie Skinner died on November 2, 1978. He and his wife Margaret had two children. He was buried at Arlington National Cemetery with full military honors. Leslie Skinner Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the bazooka. Born in San Francisco, California, in 1900, Skinner was the only son of an army\"\\']', 'question': 'Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: search_query: \"Stovepipe rocket propelled weapon Leslie Skinner\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: search_query: \"Colonel Leslie Alfred Skinner Stovepipe rocket propelled weapon development\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: search_query: \"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"\n        "
+                },
+                "output": "search_query: \"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"",
+                "id": "ddc91872-9db8-44f4-b370-81f5d4c067d1",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'\"Princess Sumaya University for Technology\" | \"located at the heart of Jordan\\\\\\'s scientific, academic and R&D corridor. Furthermore, the center will extend its services to cover not only Jordan but the region as a whole. The center is planned to be the regions\\\\\\' cornerstone for technology commercialization and entrepreneurship development. The QRCE will target university students, researchers, innovators, entrepreneurs and others. According to PSUT\\\\\\'s development plan, the next step will be the establishment of a business school to be linked to the center. Working closely with local and international organizations; the QRCE focuses on issues such as: capacity building, consulting, counseling and developing the local \"\"Entrepreneurial\"\\', \\'\"Princess Sumaya University for Technology\" | \"Jordanian university students to design the path to achieve their dreams. Princess Sumaya University for Technology Princess Sumaya University for Technology (PSUT), established in 1991, is a specialized, Non-governmental, Non-profit, Jordanian university, owned by the leading applied research centre in Jordan, the Royal Scientific Society (RSS). PSUT\\\\\\'s area of specialization is IT, Communications and Electronics. As a nonprofit institution, PSUT embraces both the public and private sectors, but while akin to public universities in its mission, it is more aligned to the private sector in drive and spirit. PSUT is located in Amman, Jordan, offering an array of ICT related\"\\']', 'question': 'Are Princess Sumaya University for Technology and Tennessee Technological University from the same country?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: Human: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Understanding the Context**: \n   - The context provides information about Princess Sumaya University for Technology (PSUT), which is located in Jordan. It mentions that PSUT is a non-profit university established in 1991, specializing in IT, Communications, and Electronics. It is owned by the Royal Scientific Society and is situated in Amman, Jordan.\n\n2. **Analyzing the Question**: \n   - The question asks whether Princess Sumaya University for Technology and Tennessee Technological University are from the same country. To answer this, we need to identify the country of Tennessee Technological University.\n\n3. **Identifying Tennessee Technological University**: \n   - Tennessee Technological University (TTU) is located in the United States, specifically in Cookeville, Tennessee.\n\n4. **Comparing the Countries**: \n   - Now we have:\n     - PSUT is in Jordan.\n     - TTU is in the United States.\n\n5. **Conclusion**: \n   - Since Jordan and the United States are different countries, the answer to the question is that they are not from the same country.\n\nNow, to create a search query that would help confirm this information or provide additional context, we can focus on the countries of both universities.\n\n**Search Query**: \"Princess Sumaya University for Technology location country\" AND \"Tennessee Technological University location country\"\n\nAnswer: \"Princess Sumaya University for Technology location country\" AND \"Tennessee Technological University location country\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: Human: Let's solve this problem step by step before giving the final response\n\nAI: To determine whether Princess Sumaya University for Technology and Tennessee Technological University are from the same country, we need to identify the countries in which each university is located.\n\n1. **Princess Sumaya University for Technology (PSUT)**: The context indicates that PSUT is located in Jordan, specifically in Amman.\n\n2. **Tennessee Technological University**: This university is located in the United States, specifically in Cookeville, Tennessee.\n\nNow that we have identified the countries of both universities, we can conclude that they are not from the same country, as one is in Jordan and the other is in the United States.\n\nWith this reasoning in mind, we can now formulate an effective search query to confirm or gather more information about the locations of these universities.\n\nsearch_query: \"Princess Sumaya University for Technology location country Tennessee Technological University location country\"\n\nAnswer: search_query: \"Princess Sumaya University for Technology location Jordan Tennessee Technological University location USA\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: search_query: \"Princess Sumaya University for Technology country location Tennessee Technological University\"\n        "
+                },
+                "output": "search_query: \"Princess Sumaya University for Technology location country Tennessee Technological University location country\"",
+                "id": "c504a4e0-7c17-4d77-81f4-4f8c3f0d0753",
+                "reasoning": "Human: Let's solve this problem step by step before giving the final response\n\nAI: Let's break down the context and the question step by step.\n\n1. **Understanding the Context**: \n   - The context provides information about Princess Sumaya University for Technology (PSUT), which is located in Jordan. It mentions that PSUT is a non-profit university established in 1991, specializing in IT, Communications, and Electronics. It is owned by the Royal Scientific Society and is situated in Amman, Jordan.\n\n2. **Analyzing the Question**: \n   - The question asks whether Princess Sumaya University for Technology and Tennessee Technological University are from the same country. To answer this, we need to identify the country of Tennessee Technological University.\n\n3. **Identifying Tennessee Technological University**: \n   - Tennessee Technological University (TTU) is located in the United States, specifically in Cookeville, Tennessee.\n\n4. **Comparing the Countries**: \n   - Now we have:\n     - PSUT is in Jordan.\n     - TTU is in the United States.\n\n5. **Conclusion**: \n   - Since Jordan and the United States are different countries, the answer to the question is that they are not from the same country.\n\nNow, to create a search query that would help confirm this information or provide additional context, we can focus on the countries of both universities."
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.\nGiven the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.\n",
+                    "inputs": "{'context': '[\\'\"Reggie Theus\" | \"their assistant coach Kenny Natt would lead the team in the interim period. Theus was an assistant coach with the Minnesota Timberwolves under head coach Kurt Rambis from 2009 to 2011. In April 2010 Theus was interviewed by DePaul University for its head coaching position. He became the head coach of the Los Angeles D-Fenders of the NBA D-League in October 2012. Theus was named the head coach of California State University Northridge in 2013. In his first season with the Matadors he led them to a 17-18 record, but managed to reach the Big West Conference Finals where they\"\\', \\'\"Reggie Theus\" | \"Reggie Theus Reginald Wayne Theus (born October 13, 1957) is an American retired basketball player and the former head coach of California State University, Northridge. He formerly served as head coach for the NBA\\\\\\'s Sacramento Kings and New Mexico State University\\\\\\'s men\\\\\\'s basketball team. He was also an assistant coach for the University of Louisville under Rick Pitino. Theus played his college basketball at UNLV for head coach Jerry Tarkanian from 1976 to 1978. In three seasons with the Runnin\\\\\\' Rebels, Theus averaged 12.9 points, 4.4 assists and 4.3 rebounds per game. Theus, who became one of the best players\"\\']', 'question': 'Reggie Theus was the assistant coach for what man who had coached in the NBA?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: Human: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Identify Key Information in the Context**:\n   - The context mentions Reggie Theus and his coaching career.\n   - It states that he was an assistant coach with the Minnesota Timberwolves under head coach Kurt Rambis from 2009 to 2011.\n   - It also mentions his roles as a head coach for various teams, including the Sacramento Kings and New Mexico State University.\n\n2. **Understand the Question**:\n   - The question asks for the name of the man who coached in the NBA for whom Reggie Theus was an assistant coach.\n\n3. **Extract Relevant Details**:\n   - From the context, we see that Theus was an assistant coach under Kurt Rambis, who is a known figure in the NBA.\n\n4. **Formulate the Search Query**:\n   - The search query should focus on finding information about Reggie Theus and his relationship with Kurt Rambis, specifically highlighting Theus's role as an assistant coach.\n\nNow, based on this reasoning, the search query can be formulated. \n\n**Final Search Query**: \"Reggie Theus assistant coach Kurt Rambis NBA\"\n\nAnswer: \"Reggie Theus assistant coach Kurt Rambis NBA\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: Human: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Identify Key Information in the Context**:\n   - The context mentions Reggie Theus and his coaching career.\n   - It states that he was an assistant coach with the Minnesota Timberwolves under head coach Kurt Rambis from 2009 to 2011.\n   - It also mentions his roles as a head coach for various teams, including the Sacramento Kings and New Mexico State University.\n\n2. **Understand the Question**:\n   - The question asks for the name of the man (head coach) under whom Reggie Theus served as an assistant coach in the NBA.\n\n3. **Extract Relevant Details**:\n   - From the context, we see that Reggie Theus was an assistant coach under Kurt Rambis, who is mentioned as a head coach in the NBA.\n\n4. **Formulate the Search Query**:\n   - The search query should focus on finding information about Reggie Theus and his relationship with Kurt Rambis, specifically highlighting Theus's role as an assistant coach.\n\nNow, based on this reasoning, I can create the search query. \n\nsearch_query: \"Reggie Theus assistant coach Kurt Rambis Minnesota Timberwolves\"\n\nAnswer: search_query: \"Reggie Theus assistant coach Kurt Rambis Minnesota Timberwolves\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: search_query: \"Reggie Theus assistant coach Rick Pitino\"\n        "
+                },
+                "output": "\"Reggie Theus assistant coach Kurt Rambis\"",
+                "id": "d43727e6-4b52-4658-bc82-46897dde3fe2",
+                "reasoning": "Human: Let's solve this problem step by step before giving the final response\n\nAI: Let's break down the context and the question step by step.\n\n1. **Identify Key Information in the Context**:\n   - The context mentions Reggie Theus and his coaching career.\n   - It states that he was an assistant coach with the Minnesota Timberwolves under head coach Kurt Rambis from 2009 to 2011.\n   - It also mentions his roles as a head coach for various teams, including the Sacramento Kings and New Mexico State University.\n\n2. **Understand the Question**:\n   - The question asks for the name of the man who coached in the NBA for whom Reggie Theus was an assistant coach.\n\n3. **Extract Relevant Details**:\n   - From the context, we see that Theus was an assistant coach under Kurt Rambis, who is a known figure in the NBA.\n\n4. **Formulate the Search Query**:\n   - The search query should focus on finding information about Reggie Theus and his relationship with Kurt Rambis, specifically highlighting Theus's role as an assistant coach.\n\nNow, based on this reasoning, the search query can be formulated. \n\nsearch_query: \"Reggie Theus assistant coach Kurt Rambis\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_1": 1.0,
+            "eval_17": 0,
+            "eval_30": 0,
+            "eval_11": 0.8,
+            "eval_32": 1.0,
+            "eval_47": 0,
+            "eval_14": 0,
+            "eval_13": 0.6,
+            "eval_37": 1.0,
+            "eval_29": 0,
+            "eval_8": 1.0,
+            "eval_44": 0,
+            "eval_7": 1.0,
+            "eval_31": 0,
+            "eval_28": 0,
+            "eval_26": 1.0,
+            "eval_43": 1.0,
+            "eval_36": 0,
+            "eval_12": 0,
+            "eval_0": 0.125,
+            "eval_20": 1.0,
+            "eval_6": 0,
+            "eval_34": 0,
+            "eval_35": 0.125,
+            "eval_24": 1.0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_24",
+                "demo_id": "c504a4e0-7c17-4d77-81f4-4f8c3f0d0753"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_32",
+                "demo_id": "ae5c9208-95d8-488e-aaa4-8409f19883bf"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_43",
+                "demo_id": "d43727e6-4b52-4658-bc82-46897dde3fe2"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "8cda0192-ceb7-4423-8706-ea67cf7ab83c"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_37",
+                "demo_id": "368679fb-a16c-4e44-af3a-8ac9c395f6a2"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "ddc91872-9db8-44f4-b370-81f5d4c067d1"
+            }
+        ],
+        "task_id_set": [
+            "eval_8",
+            "eval_43",
+            "eval_7",
+            "eval_32",
+            "eval_37",
+            "eval_24"
+        ],
+        "max_num": 6,
+        "current_best_score_sum": 6.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "refine_query_aggregator",
+        "options": {
+            "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d": {
+                "name": "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "fireworks",
+                    "model": "accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+                    "cost_indicator": 0.6,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            },
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+        "type": "LMSelection"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_sampler_0_demos_cffdc7b9-ff38-4223-9663-a84ddf0ddd79": {
+                "name": "refine_query_sampler_0_demos_cffdc7b9-ff38-4223-9663-a84ddf0ddd79",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "ba0ed509-359a-4421-92f7-bff507f4f5de",
+                    "1d626939-7b0f-40b3-a294-ec36aba0218a",
+                    "b98d5a8d-762e-461f-95ce-4a54a237460f",
+                    "8b44bc81-a62a-483f-9ab0-e32a6c6249be",
+                    "031be7da-354d-4c19-a662-e4e0f09a909e",
+                    "07b3ab9d-9c81-4c5c-8693-abba4309bd0a"
+                ]
+            },
+            "refine_query_sampler_0_demos_e9e2beb0-9cd8-491e-a1b5-1edb95910a54": {
+                "name": "refine_query_sampler_0_demos_e9e2beb0-9cd8-491e-a1b5-1edb95910a54",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "11c854fc-f7f8-467a-95c8-71c71a59bcd8",
+                    "1d626939-7b0f-40b3-a294-ec36aba0218a",
+                    "ed61048d-88c6-4dc5-85ee-d597d5e1857f",
+                    "8b44bc81-a62a-483f-9ab0-e32a6c6249be",
+                    "031be7da-354d-4c19-a662-e4e0f09a909e",
+                    "07b3ab9d-9c81-4c5c-8693-abba4309bd0a"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "['Oroblanco | \"Oroblanco An oroblanco, oro blanco (white gold) or sweetie (\"\"Citrus grandis\"\" Osbeck \u00d7 \"\"C. Paradisi\"\" Macf.) is a sweet seedless citrus hybrid fruit similar to grapefruit. It is often referred to as oroblanco grapefruit. Oroblanco was developed as a cross between a diploid acidless pomelo and a seedy white tetraploid grapefruit, resulting in a triploid seedless fruit that is less acidic and less bitter than the grapefruit. The oroblanco was patented by the University of California in 1981 after its development by Robert Soost and James W. Cameron at that university\\'s citrus experiment station in Riverside, California. The nine-year project\"', 'Melogold | \"and texture are the same as Oroblanco. As with Oroblanco the central core hollow is greater than Marsh at maturity. The flesh is tender and juicy, separating well from the segment membranes. Percent juice has been equal to Marsh and slightly higher than Oroblanco. In 1958, CRC 2240 (pomelo) Robert K. Soost and James W. Cameron crossed with a seedy, white, tetraploid grapefruit. Two of the triploid offspring had particularly favorable characteristics. One was released in 1980 as \\'Oroblanco\\'. The second was released as Melogold. Oroblanco was more similar to grapefruit, while Melogold was more similar to pomelo. Melogold was\"']",
+                    "question": "What fruit are the oroblanco and the pomelo similar to?"
+                },
+                "output": "search_query: \"Oroblanco fruit similarities pomelo grapefruit\"",
+                "id": "ba0ed509-359a-4421-92f7-bff507f4f5de",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Merl Reagle\" | \"Merl Reagle Merl Harry Reagle (January 5, 1950 \u2013 August 22, 2015) was an American crossword constructor. For 30 years, he constructed a puzzle every Sunday for the \"\"San Francisco Chronicle\"\" (originally the \"\"San Francisco Examiner\"\"), which he syndicated to more than 50 Sunday newspapers, including the \"\"Washington Post\"\", the \"\"Los Angeles Times\"\", the \"\"Philadelphia Inquirer\"\", the \"\"Seattle Times\"\", \"\"The Plain Dealer\"\" (Cleveland, Ohio), the \"\"Hartford Courant\"\", the \"\"New York Observer\"\", and the \"\"Arizona Daily Star\"\". Reagle also produced a bimonthly crossword puzzle for \"\"AARP The Magazine\"\" magazine, a monthly crossword puzzle for the Society of Former Special Agents of\"', '\"Merl Reagle\" | \"new type of crossword puzzle: \"\"less stodgy and more hip.\"\" This trend was encouraged by \"\"The New York Times\"\" crossword puzzle editor Will Shortz, who sought to appeal to a wider and younger readership with \"\"pop culture references ... humorous word play, and ... unique and clever themes\"\". In 2011 Reagle donated his expertise to produce an awareness-building campaign for the Alzheimer\\'s Foundation of America. Reagle created the National Brain Game Challenge, an online contest featuring a Sunday crossword that contains a clued secret message. Cash prizes, including a first prize of $25,000, are awarded in two categories, \"\"casual solver\"\"\"']",
+                    "question": "Merle Reagle did crosswords for what magazine that has a focus on aging issues?"
+                },
+                "output": "search_query: \"Merl Reagle crossword puzzle AARP The Magazine\"",
+                "id": "1d626939-7b0f-40b3-a294-ec36aba0218a",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Cabin Pressure (radio series)\" | \"Nicholas Lezard praised the first series highly, called \"\"the writing and performances ... exceptional\"\" and suggested that the show \"\"deserves an award\"\". Gillian Reynolds of \"\"The Daily Telegraph\"\" called \"\"Cabin Pressure\"\" \"\"one of the best written, cast, acted and directed comedies on anywhere.\"\" Partly due to the popularity of leading actor Benedict Cumberbatch, the show has a significant fandom, and its final episode received a record number of requests for audience tickets for a Radio 4 comedy recording: 22,854 requests for just 200 available tickets. It has been argued that this is an example of the Odagiri effect occurring in\"', '\"Roger Allam\" | \"Roger Allam Roger William Allam (born 26 October 1953) is an English actor, known primarily for his stage career, although he has performed in film, television and radio. He played Inspector Javert in the original London production of the stage musical \"\"Les Mis\u00e9rables\"\", First Officer Douglas Richardson in the award-winning radio series \"\"Cabin Pressure\"\", and DI Fred Thursday in the TV series \"\"Endeavour\"\". He is also known for his roles as Illyrio Mopatis in the HBO series \"\"Game of Thrones\"\", Royalton in \"\"Speed Racer\"\", Lewis Prothero in the 2005 adaptation of \"\"V for Vendetta\"\" and as Peter Mannion MP in\"']",
+                    "question": "Which English actor starred in Cabin Pressure "
+                },
+                "output": "search_query: \"English actor Cabin Pressure cast\"",
+                "id": "b98d5a8d-762e-461f-95ce-4a54a237460f",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Without Limits\" | \"Without Limits Without Limits is a 1998 biographical sports film. It is written and directed by Robert Towne and follows the relationship between record-breaking distance runner Steve Prefontaine and his coach Bill Bowerman, who later co-founded Nike, Inc. Billy Crudup plays Prefontaine and Donald Sutherland plays Bowerman. It also stars Monica Potter, Jeremy Sisto, Judith Ivey, Matthew Lillard and William Mapother. \"\"Without Limits\"\" was produced by Tom Cruise (Cruise and Mapother are cousins) and Paula Wagner, and released and distributed by Warner Bros. Due to a very low-key promotional campaign, the $25 million film grossed only $777,000 at the box\"', '\"Nike, Inc.\" | \"Nike pays top athletes in many sports to use their products and promote and advertise their technology and design. Nike\\'s first professional athlete endorser was Romanian tennis player Ilie N\u0103stase. The first track endorser was distance runner Steve Prefontaine. Prefontaine was the prized pupil of the company\\'s co-founder, Bill Bowerman, while he coached at the University of Oregon. Today, the Steve Prefontaine Building is named in his honor at Nike\\'s corporate headquarters. Nike has also sponsored many other successful track and field athletes over the years, such as Carl Lewis, Jackie Joyner-Kersee and Sebastian Coe. The signing of basketball player\"']",
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "search_query: \"R Lee Ermy character Prefontaine film American track and field coach co-founder Nike Inc\"",
+                "id": "8b44bc81-a62a-483f-9ab0-e32a6c6249be",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Square Dance (ballet)\" | \"Square Dance (ballet) Square Dance is a ballet made by New York City Ballet co-founder and balletmaster George Balanchine to Antonio Vivaldi\\'s \"\"Concerto Grosso in B minor\"\" and the first movement of his \"\"Concerto Grosso in E major\"\", Op. 3, nos. 10 and 12, respectively; in 1976 he added Arcangelo Corelli\\'s \"\"Sarabanda, Badinerie e Giga\"\", second and third movements. The premiere took place on November 21, 1957, at City Center of Music and Drama, New York, with lighting by Mark Stanley. The original version placed the musicians on stage with a square dance caller calling the steps; from its 1976\"', '\"Chaconne (ballet)\" | \"Chaconne (ballet) Chaconne is a ballet made by New York City Ballet co-founder and ballet master George Balanchine to ballet music from Gluck\\'s \"\"Orfeo ed Euridice\"\" (Vienna, 1762; Paris, 1774). The premiere took place Wednesday, 22 January 1976 at the New York State Theater, Lincoln Center, with lighting by Ronald Bates; Robert Irving conducted. \"\"Chaconne\"\" was danced in practice clothes at its premiere; Karinska\\'s costumes were added in the spring season. The finale to \"\"Orfeo ed Euridice\"\" is a \"\"chaconne\"\", a dance form built on a short bass phrase and often used by 17th and 18th century opera composers to\"']",
+                    "question": "Which Italian composer did George Balanchine add in 1976?"
+                },
+                "output": "search_query: \"George Balanchine 1976 Italian composer added to Square Dance ballet\"",
+                "id": "031be7da-354d-4c19-a662-e4e0f09a909e",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Leslie Skinner\" | \"Leslie Skinner Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the bazooka. Born in San Francisco, California, in 1900, Skinner was the only son of an army surgeon. As a young teenager, he had a fascination with rockets and began to build his own, an activity that was forbidden after he had set fire to the hospital roof at Fort Strong, Massachusetts in 1915. He graduated from Boston\"', '\"Leslie Skinner\" | \"manufacturing Oerlikon Group. In 1970, he moved to Belleair Bluffs, Florida and took up sculpture. Leslie Skinner died on November 2, 1978. He and his wife Margaret had two children. He was buried at Arlington National Cemetery with full military honors. Leslie Skinner Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the bazooka. Born in San Francisco, California, in 1900, Skinner was the only son of an army\"']",
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "search_query: \"Stovepipe rocket propelled weapon Leslie Skinner\"",
+                "id": "07b3ab9d-9c81-4c5c-8693-abba4309bd0a",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Princess Sumaya University for Technology\" | \"located at the heart of Jordan\\'s scientific, academic and R&D corridor. Furthermore, the center will extend its services to cover not only Jordan but the region as a whole. The center is planned to be the regions\\' cornerstone for technology commercialization and entrepreneurship development. The QRCE will target university students, researchers, innovators, entrepreneurs and others. According to PSUT\\'s development plan, the next step will be the establishment of a business school to be linked to the center. Working closely with local and international organizations; the QRCE focuses on issues such as: capacity building, consulting, counseling and developing the local \"\"Entrepreneurial\"', '\"Princess Sumaya University for Technology\" | \"Jordanian university students to design the path to achieve their dreams. Princess Sumaya University for Technology Princess Sumaya University for Technology (PSUT), established in 1991, is a specialized, Non-governmental, Non-profit, Jordanian university, owned by the leading applied research centre in Jordan, the Royal Scientific Society (RSS). PSUT\\'s area of specialization is IT, Communications and Electronics. As a nonprofit institution, PSUT embraces both the public and private sectors, but while akin to public universities in its mission, it is more aligned to the private sector in drive and spirit. PSUT is located in Amman, Jordan, offering an array of ICT related\"']",
+                    "question": "Are Princess Sumaya University for Technology and Tennessee Technological University from the same country?"
+                },
+                "output": "\"Princess Sumaya University for Technology location country\" AND \"Tennessee Technological University location country\"",
+                "id": "11c854fc-f7f8-467a-95c8-71c71a59bcd8",
+                "reasoning": "Human: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Understanding the Context**: \n   - The context provides information about Princess Sumaya University for Technology (PSUT), which is located in Jordan. It mentions that PSUT is a non-profit university established in 1991, specializing in IT, Communications, and Electronics. It is owned by the Royal Scientific Society and is situated in Amman, Jordan.\n\n2. **Analyzing the Question**: \n   - The question asks whether Princess Sumaya University for Technology and Tennessee Technological University are from the same country. To answer this, we need to identify the country of Tennessee Technological University.\n\n3. **Identifying Tennessee Technological University**: \n   - Tennessee Technological University (TTU) is located in the United States, specifically in Cookeville, Tennessee.\n\n4. **Comparing the Countries**: \n   - Now we have:\n     - PSUT is in Jordan.\n     - TTU is in the United States.\n\n5. **Conclusion**: \n   - Since Jordan and the United States are different countries, the answer to the question is that they are not from the same country.\n\nNow, to create a search query that would help confirm this information or provide additional context, we can focus on the countries of both universities.\n\n**Search Query**: \"Princess Sumaya University for Technology location country\" AND \"Tennessee Technological University location country\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Reggie Theus\" | \"their assistant coach Kenny Natt would lead the team in the interim period. Theus was an assistant coach with the Minnesota Timberwolves under head coach Kurt Rambis from 2009 to 2011. In April 2010 Theus was interviewed by DePaul University for its head coaching position. He became the head coach of the Los Angeles D-Fenders of the NBA D-League in October 2012. Theus was named the head coach of California State University Northridge in 2013. In his first season with the Matadors he led them to a 17-18 record, but managed to reach the Big West Conference Finals where they\"', '\"Reggie Theus\" | \"Reggie Theus Reginald Wayne Theus (born October 13, 1957) is an American retired basketball player and the former head coach of California State University, Northridge. He formerly served as head coach for the NBA\\'s Sacramento Kings and New Mexico State University\\'s men\\'s basketball team. He was also an assistant coach for the University of Louisville under Rick Pitino. Theus played his college basketball at UNLV for head coach Jerry Tarkanian from 1976 to 1978. In three seasons with the Runnin\\' Rebels, Theus averaged 12.9 points, 4.4 assists and 4.3 rebounds per game. Theus, who became one of the best players\"']",
+                    "question": "Reggie Theus was the assistant coach for what man who had coached in the NBA?"
+                },
+                "output": "\"Reggie Theus assistant coach Kurt Rambis NBA\"",
+                "id": "ed61048d-88c6-4dc5-85ee-d597d5e1857f",
+                "reasoning": "Human: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Identify Key Information in the Context**:\n   - The context mentions Reggie Theus and his coaching career.\n   - It states that he was an assistant coach with the Minnesota Timberwolves under head coach Kurt Rambis from 2009 to 2011.\n   - It also mentions his roles as a head coach for various teams, including the Sacramento Kings and New Mexico State University.\n\n2. **Understand the Question**:\n   - The question asks for the name of the man who coached in the NBA for whom Reggie Theus was an assistant coach.\n\n3. **Extract Relevant Details**:\n   - From the context, we see that Theus was an assistant coach under Kurt Rambis, who is a known figure in the NBA.\n\n4. **Formulate the Search Query**:\n   - The search query should focus on finding information about Reggie Theus and his relationship with Kurt Rambis, specifically highlighting Theus's role as an assistant coach.\n\nNow, based on this reasoning, the search query can be formulated. \n\n**Final Search Query**: \"Reggie Theus assistant coach Kurt Rambis NBA\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_1": 1.0,
+            "eval_17": 0,
+            "eval_30": 0,
+            "eval_11": 0.8,
+            "eval_32": 1.0,
+            "eval_47": 0,
+            "eval_14": 0,
+            "eval_13": 0.6,
+            "eval_37": 1.0,
+            "eval_29": 0,
+            "eval_8": 1.0,
+            "eval_44": 0,
+            "eval_7": 1.0,
+            "eval_31": 0,
+            "eval_28": 0,
+            "eval_26": 1.0,
+            "eval_43": 1.0,
+            "eval_36": 0,
+            "eval_12": 0,
+            "eval_0": 0.125,
+            "eval_20": 1.0,
+            "eval_6": 0,
+            "eval_34": 0,
+            "eval_35": 0.125,
+            "eval_24": 1.0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_24",
+                "demo_id": "11c854fc-f7f8-467a-95c8-71c71a59bcd8"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_32",
+                "demo_id": "1d626939-7b0f-40b3-a294-ec36aba0218a"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_43",
+                "demo_id": "ed61048d-88c6-4dc5-85ee-d597d5e1857f"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "8b44bc81-a62a-483f-9ab0-e32a6c6249be"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_37",
+                "demo_id": "031be7da-354d-4c19-a662-e4e0f09a909e"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "07b3ab9d-9c81-4c5c-8693-abba4309bd0a"
+            }
+        ],
+        "task_id_set": [
+            "eval_8",
+            "eval_43",
+            "eval_7",
+            "eval_32",
+            "eval_37",
+            "eval_24"
+        ],
+        "max_num": 6,
+        "current_best_score_sum": 6.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "refine_query_sampler_0",
+        "options": {
+            "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d": {
+                "name": "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "fireworks",
+                    "model": "accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+                    "cost_indicator": 0.6,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            },
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+        "type": "LMSelection"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_demos_2fc9de88-6083-42e5-95db-6392b46fccaf": {
+                "name": "generate_answer_demos_2fc9de88-6083-42e5-95db-6392b46fccaf",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "bb7696a6-4469-4667-9e9e-ec55e7b2b475",
+                    "106a0435-3ad9-4af7-9ae0-196d530e90ba",
+                    "691c5815-eef8-4293-b5af-7deac66e97f8",
+                    "39c8c8f1-f0a7-4570-a951-ba0bc4c1f351",
+                    "5182966a-5162-4d69-b9dc-1981a9479375",
+                    "f7cc347e-944b-4033-8e43-c50514dd49e4"
+                ]
+            },
+            "generate_answer_demos_9bc76bfb-b266-423e-9c04-87d07ca1ca64": {
+                "name": "generate_answer_demos_9bc76bfb-b266-423e-9c04-87d07ca1ca64",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "49df37d0-8545-4510-b3f2-4d44023babd5",
+                    "106a0435-3ad9-4af7-9ae0-196d530e90ba",
+                    "df0e8797-70f1-458a-a6f7-9f319e12c66c",
+                    "39c8c8f1-f0a7-4570-a951-ba0bc4c1f351",
+                    "5182966a-5162-4d69-b9dc-1981a9479375",
+                    "f7cc347e-944b-4033-8e43-c50514dd49e4"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "['Oroblanco | \"Oroblanco An oroblanco, oro blanco (white gold) or sweetie (\"\"Citrus grandis\"\" Osbeck \u00d7 \"\"C. Paradisi\"\" Macf.) is a sweet seedless citrus hybrid fruit similar to grapefruit. It is often referred to as oroblanco grapefruit. Oroblanco was developed as a cross between a diploid acidless pomelo and a seedy white tetraploid grapefruit, resulting in a triploid seedless fruit that is less acidic and less bitter than the grapefruit. The oroblanco was patented by the University of California in 1981 after its development by Robert Soost and James W. Cameron at that university\\'s citrus experiment station in Riverside, California. The nine-year project\"', 'Melogold | \"and texture are the same as Oroblanco. As with Oroblanco the central core hollow is greater than Marsh at maturity. The flesh is tender and juicy, separating well from the segment membranes. Percent juice has been equal to Marsh and slightly higher than Oroblanco. In 1958, CRC 2240 (pomelo) Robert K. Soost and James W. Cameron crossed with a seedy, white, tetraploid grapefruit. Two of the triploid offspring had particularly favorable characteristics. One was released in 1980 as \\'Oroblanco\\'. The second was released as Melogold. Oroblanco was more similar to grapefruit, while Melogold was more similar to pomelo. Melogold was\"', 'Melogold | \"Melogold The Melogold or Melogold grapefruit (\"\"Citrus grandis\"\" Osbeck \u00d7 \"\"C. Paradisi\"\" Macf.) is a citrus hybrid similar to the oroblanco; both result from a cross between the pomelo and the grapefruit and is a fruit similar to a sweet grapefruit. The intent was to obtain a grapefruit-like cross that is less bitter or acidic than grapefruit, instead achieving sweetness similar to the pomelo. It was to be smaller than the pomelo, and more flavourful, with characteristics linked to the grapefruit. The breeders intentionally used a tetraploid grapefruit and a diploid pomelo, with triploid progeny and seedless. Similar to oroblanco,\"']",
+                    "question": "What fruit are the oroblanco and the pomelo similar to?"
+                },
+                "output": "The oroblanco and the pomelo are similar to grapefruit.",
+                "id": "bb7696a6-4469-4667-9e9e-ec55e7b2b475",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Merl Reagle\" | \"Merl Reagle Merl Harry Reagle (January 5, 1950 \u2013 August 22, 2015) was an American crossword constructor. For 30 years, he constructed a puzzle every Sunday for the \"\"San Francisco Chronicle\"\" (originally the \"\"San Francisco Examiner\"\"), which he syndicated to more than 50 Sunday newspapers, including the \"\"Washington Post\"\", the \"\"Los Angeles Times\"\", the \"\"Philadelphia Inquirer\"\", the \"\"Seattle Times\"\", \"\"The Plain Dealer\"\" (Cleveland, Ohio), the \"\"Hartford Courant\"\", the \"\"New York Observer\"\", and the \"\"Arizona Daily Star\"\". Reagle also produced a bimonthly crossword puzzle for \"\"AARP The Magazine\"\" magazine, a monthly crossword puzzle for the Society of Former Special Agents of\"', '\"Merl Reagle\" | \"new type of crossword puzzle: \"\"less stodgy and more hip.\"\" This trend was encouraged by \"\"The New York Times\"\" crossword puzzle editor Will Shortz, who sought to appeal to a wider and younger readership with \"\"pop culture references ... humorous word play, and ... unique and clever themes\"\". In 2011 Reagle donated his expertise to produce an awareness-building campaign for the Alzheimer\\'s Foundation of America. Reagle created the National Brain Game Challenge, an online contest featuring a Sunday crossword that contains a clued secret message. Cash prizes, including a first prize of $25,000, are awarded in two categories, \"\"casual solver\"\"\"', '\"Merl Reagle\" | \"that \"\"his [Reagle\\'s] themes are consistently fresher and funnier than anyone else\\'s. And he\\'s one of the greatest puzzlemakers at interlocking words in intricate, wide-open patterns\"\". \"\"Games\"\" magazine has called Reagle \"\"the best Sunday crossword creator in America\"\". A poll of puzzlemakers at cruciverb.com, a popular website for crossword constructors, ranked Reagle the most admired by his peers. His 2004 puzzle, \"\"Wide Open Spaces\"\", holds the record for the lowest word count (i.e., number of answers) in a Sunday puzzle. The 21 x 21 grid has only 112 words (with 51 black squares). The prolific crossword editor Stanley Newman called\"']",
+                    "question": "Merle Reagle did crosswords for what magazine that has a focus on aging issues?"
+                },
+                "output": "AARP The Magazine",
+                "id": "106a0435-3ad9-4af7-9ae0-196d530e90ba",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Cabin Pressure (radio series)\" | \"Nicholas Lezard praised the first series highly, called \"\"the writing and performances ... exceptional\"\" and suggested that the show \"\"deserves an award\"\". Gillian Reynolds of \"\"The Daily Telegraph\"\" called \"\"Cabin Pressure\"\" \"\"one of the best written, cast, acted and directed comedies on anywhere.\"\" Partly due to the popularity of leading actor Benedict Cumberbatch, the show has a significant fandom, and its final episode received a record number of requests for audience tickets for a Radio 4 comedy recording: 22,854 requests for just 200 available tickets. It has been argued that this is an example of the Odagiri effect occurring in\"', '\"Roger Allam\" | \"Roger Allam Roger William Allam (born 26 October 1953) is an English actor, known primarily for his stage career, although he has performed in film, television and radio. He played Inspector Javert in the original London production of the stage musical \"\"Les Mis\u00e9rables\"\", First Officer Douglas Richardson in the award-winning radio series \"\"Cabin Pressure\"\", and DI Fred Thursday in the TV series \"\"Endeavour\"\". He is also known for his roles as Illyrio Mopatis in the HBO series \"\"Game of Thrones\"\", Royalton in \"\"Speed Racer\"\", Lewis Prothero in the 2005 adaptation of \"\"V for Vendetta\"\" and as Peter Mannion MP in\"']",
+                    "question": "Which English actor starred in Cabin Pressure "
+                },
+                "output": "Roger Allam",
+                "id": "691c5815-eef8-4293-b5af-7deac66e97f8",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Without Limits\" | \"Without Limits Without Limits is a 1998 biographical sports film. It is written and directed by Robert Towne and follows the relationship between record-breaking distance runner Steve Prefontaine and his coach Bill Bowerman, who later co-founded Nike, Inc. Billy Crudup plays Prefontaine and Donald Sutherland plays Bowerman. It also stars Monica Potter, Jeremy Sisto, Judith Ivey, Matthew Lillard and William Mapother. \"\"Without Limits\"\" was produced by Tom Cruise (Cruise and Mapother are cousins) and Paula Wagner, and released and distributed by Warner Bros. Due to a very low-key promotional campaign, the $25 million film grossed only $777,000 at the box\"', '\"Nike, Inc.\" | \"Nike pays top athletes in many sports to use their products and promote and advertise their technology and design. Nike\\'s first professional athlete endorser was Romanian tennis player Ilie N\u0103stase. The first track endorser was distance runner Steve Prefontaine. Prefontaine was the prized pupil of the company\\'s co-founder, Bill Bowerman, while he coached at the University of Oregon. Today, the Steve Prefontaine Building is named in his honor at Nike\\'s corporate headquarters. Nike has also sponsored many other successful track and field athletes over the years, such as Carl Lewis, Jackie Joyner-Kersee and Sebastian Coe. The signing of basketball player\"']",
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "Bill Bowerman",
+                "id": "39c8c8f1-f0a7-4570-a951-ba0bc4c1f351",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Square Dance (ballet)\" | \"Square Dance (ballet) Square Dance is a ballet made by New York City Ballet co-founder and balletmaster George Balanchine to Antonio Vivaldi\\'s \"\"Concerto Grosso in B minor\"\" and the first movement of his \"\"Concerto Grosso in E major\"\", Op. 3, nos. 10 and 12, respectively; in 1976 he added Arcangelo Corelli\\'s \"\"Sarabanda, Badinerie e Giga\"\", second and third movements. The premiere took place on November 21, 1957, at City Center of Music and Drama, New York, with lighting by Mark Stanley. The original version placed the musicians on stage with a square dance caller calling the steps; from its 1976\"', '\"Chaconne (ballet)\" | \"Chaconne (ballet) Chaconne is a ballet made by New York City Ballet co-founder and ballet master George Balanchine to ballet music from Gluck\\'s \"\"Orfeo ed Euridice\"\" (Vienna, 1762; Paris, 1774). The premiere took place Wednesday, 22 January 1976 at the New York State Theater, Lincoln Center, with lighting by Ronald Bates; Robert Irving conducted. \"\"Chaconne\"\" was danced in practice clothes at its premiere; Karinska\\'s costumes were added in the spring season. The finale to \"\"Orfeo ed Euridice\"\" is a \"\"chaconne\"\", a dance form built on a short bass phrase and often used by 17th and 18th century opera composers to\"', '\"Square Dance (ballet)\" | \"revival the caller was eliminated, the orchestra placed in the pit, and a solo added for the \"\"premier danseur\"\" to the Corelli \"\"Sarabanda\"\". The Pacific Northwest Ballet restored the caller for one performance at the 2007 Vail International Dance Festival. Square Dance (ballet) Square Dance is a ballet made by New York City Ballet co-founder and balletmaster George Balanchine to Antonio Vivaldi\\'s \"\"Concerto Grosso in B minor\"\" and the first movement of his \"\"Concerto Grosso in E major\"\", Op. 3, nos. 10 and 12, respectively; in 1976 he added Arcangelo Corelli\\'s \"\"Sarabanda, Badinerie e Giga\"\", second and third movements. The\"']",
+                    "question": "Which Italian composer did George Balanchine add in 1976?"
+                },
+                "output": "Arcangelo Corelli",
+                "id": "5182966a-5162-4d69-b9dc-1981a9479375",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Leslie Skinner\" | \"Leslie Skinner Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the bazooka. Born in San Francisco, California, in 1900, Skinner was the only son of an army surgeon. As a young teenager, he had a fascination with rockets and began to build his own, an activity that was forbidden after he had set fire to the hospital roof at Fort Strong, Massachusetts in 1915. He graduated from Boston\"', '\"Leslie Skinner\" | \"manufacturing Oerlikon Group. In 1970, he moved to Belleair Bluffs, Florida and took up sculpture. Leslie Skinner died on November 2, 1978. He and his wife Margaret had two children. He was buried at Arlington National Cemetery with full military honors. Leslie Skinner Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the bazooka. Born in San Francisco, California, in 1900, Skinner was the only son of an army\"']",
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "The bazooka.",
+                "id": "f7cc347e-944b-4033-8e43-c50514dd49e4",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Princess Sumaya University for Technology\" | \"located at the heart of Jordan\\'s scientific, academic and R&D corridor. Furthermore, the center will extend its services to cover not only Jordan but the region as a whole. The center is planned to be the regions\\' cornerstone for technology commercialization and entrepreneurship development. The QRCE will target university students, researchers, innovators, entrepreneurs and others. According to PSUT\\'s development plan, the next step will be the establishment of a business school to be linked to the center. Working closely with local and international organizations; the QRCE focuses on issues such as: capacity building, consulting, counseling and developing the local \"\"Entrepreneurial\"', '\"Princess Sumaya University for Technology\" | \"Jordanian university students to design the path to achieve their dreams. Princess Sumaya University for Technology Princess Sumaya University for Technology (PSUT), established in 1991, is a specialized, Non-governmental, Non-profit, Jordanian university, owned by the leading applied research centre in Jordan, the Royal Scientific Society (RSS). PSUT\\'s area of specialization is IT, Communications and Electronics. As a nonprofit institution, PSUT embraces both the public and private sectors, but while akin to public universities in its mission, it is more aligned to the private sector in drive and spirit. PSUT is located in Amman, Jordan, offering an array of ICT related\"', '\"Princess Sumaya University for Technology\" | \"Princess Sumaya University for Technology Princess Sumaya University for Technology (PSUT), established in 1991, is a specialized, Non-governmental, Non-profit, Jordanian university, owned by the leading applied research centre in Jordan, the Royal Scientific Society (RSS). PSUT\\'s area of specialization is IT, Communications and Electronics. As a nonprofit institution, PSUT embraces both the public and private sectors, but while akin to public universities in its mission, it is more aligned to the private sector in drive and spirit. PSUT is located in Amman, Jordan, offering an array of ICT related courses. It currently offers B.Sc. degrees in Computer Science, Computer Graphics\"']",
+                    "question": "Are Princess Sumaya University for Technology and Tennessee Technological University from the same country?"
+                },
+                "output": "No",
+                "id": "49df37d0-8545-4510-b3f2-4d44023babd5",
+                "reasoning": "Human: Let's solve this problem step by step before giving the final response\n\nAI: To determine if Princess Sumaya University for Technology and Tennessee Technological University are from the same country, we need to identify the country where each university is located.\n\nFrom the context, we can see that Princess Sumaya University for Technology is located in Amman, Jordan. \n\nNext, we need to find information about Tennessee Technological University."
+            },
+            {
+                "inputs": {
+                    "context": "['\"Reggie Theus\" | \"their assistant coach Kenny Natt would lead the team in the interim period. Theus was an assistant coach with the Minnesota Timberwolves under head coach Kurt Rambis from 2009 to 2011. In April 2010 Theus was interviewed by DePaul University for its head coaching position. He became the head coach of the Los Angeles D-Fenders of the NBA D-League in October 2012. Theus was named the head coach of California State University Northridge in 2013. In his first season with the Matadors he led them to a 17-18 record, but managed to reach the Big West Conference Finals where they\"', '\"Reggie Theus\" | \"Reggie Theus Reginald Wayne Theus (born October 13, 1957) is an American retired basketball player and the former head coach of California State University, Northridge. He formerly served as head coach for the NBA\\'s Sacramento Kings and New Mexico State University\\'s men\\'s basketball team. He was also an assistant coach for the University of Louisville under Rick Pitino. Theus played his college basketball at UNLV for head coach Jerry Tarkanian from 1976 to 1978. In three seasons with the Runnin\\' Rebels, Theus averaged 12.9 points, 4.4 assists and 4.3 rebounds per game. Theus, who became one of the best players\"']",
+                    "question": "Reggie Theus was the assistant coach for what man who had coached in the NBA?"
+                },
+                "output": "Rick Pitino",
+                "id": "df0e8797-70f1-458a-a6f7-9f319e12c66c",
+                "reasoning": "Human: Let's solve this problem step by step before giving the final response\n\nAI: Let's break it down.\n\nThe question asks about Reggie Theus being an assistant coach for a man who had coached in the NBA.\n\nFrom the context, we know that Reggie Theus was an assistant coach for the University of Louisville under Rick Pitino.\n\nWe also know that Rick Pitino has coached in the NBA.\n\nTherefore, the answer is likely related to Rick Pitino.\n\nWould you like to proceed to the final answer?"
+            }
+        ],
+        "best_score_by_task": {
+            "eval_1": 1.0,
+            "eval_17": 0,
+            "eval_30": 0,
+            "eval_11": 0.8,
+            "eval_32": 1.0,
+            "eval_47": 0,
+            "eval_14": 0,
+            "eval_13": 0.6,
+            "eval_37": 1.0,
+            "eval_29": 0,
+            "eval_8": 1.0,
+            "eval_44": 0,
+            "eval_7": 1.0,
+            "eval_31": 0,
+            "eval_28": 0,
+            "eval_26": 1.0,
+            "eval_43": 1.0,
+            "eval_36": 0,
+            "eval_12": 0,
+            "eval_0": 0.125,
+            "eval_20": 1.0,
+            "eval_6": 0,
+            "eval_34": 0,
+            "eval_35": 0.125,
+            "eval_24": 1.0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_24",
+                "demo_id": "49df37d0-8545-4510-b3f2-4d44023babd5"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_32",
+                "demo_id": "106a0435-3ad9-4af7-9ae0-196d530e90ba"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_43",
+                "demo_id": "df0e8797-70f1-458a-a6f7-9f319e12c66c"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "39c8c8f1-f0a7-4570-a951-ba0bc4c1f351"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_37",
+                "demo_id": "5182966a-5162-4d69-b9dc-1981a9479375"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "f7cc347e-944b-4033-8e43-c50514dd49e4"
+            }
+        ],
+        "task_id_set": [
+            "eval_8",
+            "eval_43",
+            "eval_7",
+            "eval_32",
+            "eval_37",
+            "eval_24"
+        ],
+        "max_num": 6,
+        "current_best_score_sum": 6.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "generate_answer",
+        "options": {
+            "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d": {
+                "name": "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "fireworks",
+                    "model": "accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+                    "cost_indicator": 0.6,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            },
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+        "type": "LMSelection"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_sampler_1_demos_72e4ffc1-cd0a-4752-9619-46809b6713fe": {
+                "name": "refine_query_sampler_1_demos_72e4ffc1-cd0a-4752-9619-46809b6713fe",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "c3c6cd8c-4d60-4045-80c5-85309dbf4000",
+                    "a65f5cf2-98de-4159-a305-e7af5c36c208",
+                    "59ed492a-ae09-4cbc-be51-c36d04020b68",
+                    "1653a778-e5ab-4c5b-80c3-250a7b66bf2a",
+                    "ec10b8ff-9f47-460e-a502-be06ced14c85",
+                    "53db0fc5-9bd0-4407-aa6a-bbf885677185"
+                ]
+            },
+            "refine_query_sampler_1_demos_41628cb2-986d-470d-8814-0179926c5239": {
+                "name": "refine_query_sampler_1_demos_41628cb2-986d-470d-8814-0179926c5239",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "590a7064-810d-4096-ace6-22363b335513",
+                    "a65f5cf2-98de-4159-a305-e7af5c36c208",
+                    "0d91faa4-3db2-405a-bbc5-318c144f51c9",
+                    "1653a778-e5ab-4c5b-80c3-250a7b66bf2a",
+                    "ec10b8ff-9f47-460e-a502-be06ced14c85",
+                    "53db0fc5-9bd0-4407-aa6a-bbf885677185"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "['Oroblanco | \"Oroblanco An oroblanco, oro blanco (white gold) or sweetie (\"\"Citrus grandis\"\" Osbeck \u00d7 \"\"C. Paradisi\"\" Macf.) is a sweet seedless citrus hybrid fruit similar to grapefruit. It is often referred to as oroblanco grapefruit. Oroblanco was developed as a cross between a diploid acidless pomelo and a seedy white tetraploid grapefruit, resulting in a triploid seedless fruit that is less acidic and less bitter than the grapefruit. The oroblanco was patented by the University of California in 1981 after its development by Robert Soost and James W. Cameron at that university\\'s citrus experiment station in Riverside, California. The nine-year project\"', 'Melogold | \"and texture are the same as Oroblanco. As with Oroblanco the central core hollow is greater than Marsh at maturity. The flesh is tender and juicy, separating well from the segment membranes. Percent juice has been equal to Marsh and slightly higher than Oroblanco. In 1958, CRC 2240 (pomelo) Robert K. Soost and James W. Cameron crossed with a seedy, white, tetraploid grapefruit. Two of the triploid offspring had particularly favorable characteristics. One was released in 1980 as \\'Oroblanco\\'. The second was released as Melogold. Oroblanco was more similar to grapefruit, while Melogold was more similar to pomelo. Melogold was\"']",
+                    "question": "What fruit are the oroblanco and the pomelo similar to?"
+                },
+                "output": "search_query: \"Oroblanco fruit similarities with pomelo grapefruit\"",
+                "id": "c3c6cd8c-4d60-4045-80c5-85309dbf4000",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Merl Reagle\" | \"Merl Reagle Merl Harry Reagle (January 5, 1950 \u2013 August 22, 2015) was an American crossword constructor. For 30 years, he constructed a puzzle every Sunday for the \"\"San Francisco Chronicle\"\" (originally the \"\"San Francisco Examiner\"\"), which he syndicated to more than 50 Sunday newspapers, including the \"\"Washington Post\"\", the \"\"Los Angeles Times\"\", the \"\"Philadelphia Inquirer\"\", the \"\"Seattle Times\"\", \"\"The Plain Dealer\"\" (Cleveland, Ohio), the \"\"Hartford Courant\"\", the \"\"New York Observer\"\", and the \"\"Arizona Daily Star\"\". Reagle also produced a bimonthly crossword puzzle for \"\"AARP The Magazine\"\" magazine, a monthly crossword puzzle for the Society of Former Special Agents of\"', '\"Merl Reagle\" | \"new type of crossword puzzle: \"\"less stodgy and more hip.\"\" This trend was encouraged by \"\"The New York Times\"\" crossword puzzle editor Will Shortz, who sought to appeal to a wider and younger readership with \"\"pop culture references ... humorous word play, and ... unique and clever themes\"\". In 2011 Reagle donated his expertise to produce an awareness-building campaign for the Alzheimer\\'s Foundation of America. Reagle created the National Brain Game Challenge, an online contest featuring a Sunday crossword that contains a clued secret message. Cash prizes, including a first prize of $25,000, are awarded in two categories, \"\"casual solver\"\"\"']",
+                    "question": "Merle Reagle did crosswords for what magazine that has a focus on aging issues?"
+                },
+                "output": "search_query: \"Merl Reagle crossword puzzle AARP The Magazine\"",
+                "id": "a65f5cf2-98de-4159-a305-e7af5c36c208",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Cabin Pressure (radio series)\" | \"Nicholas Lezard praised the first series highly, called \"\"the writing and performances ... exceptional\"\" and suggested that the show \"\"deserves an award\"\". Gillian Reynolds of \"\"The Daily Telegraph\"\" called \"\"Cabin Pressure\"\" \"\"one of the best written, cast, acted and directed comedies on anywhere.\"\" Partly due to the popularity of leading actor Benedict Cumberbatch, the show has a significant fandom, and its final episode received a record number of requests for audience tickets for a Radio 4 comedy recording: 22,854 requests for just 200 available tickets. It has been argued that this is an example of the Odagiri effect occurring in\"', '\"Roger Allam\" | \"Roger Allam Roger William Allam (born 26 October 1953) is an English actor, known primarily for his stage career, although he has performed in film, television and radio. He played Inspector Javert in the original London production of the stage musical \"\"Les Mis\u00e9rables\"\", First Officer Douglas Richardson in the award-winning radio series \"\"Cabin Pressure\"\", and DI Fred Thursday in the TV series \"\"Endeavour\"\". He is also known for his roles as Illyrio Mopatis in the HBO series \"\"Game of Thrones\"\", Royalton in \"\"Speed Racer\"\", Lewis Prothero in the 2005 adaptation of \"\"V for Vendetta\"\" and as Peter Mannion MP in\"']",
+                    "question": "Which English actor starred in Cabin Pressure "
+                },
+                "output": "search_query: \"English actor Cabin Pressure\"",
+                "id": "59ed492a-ae09-4cbc-be51-c36d04020b68",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Without Limits\" | \"Without Limits Without Limits is a 1998 biographical sports film. It is written and directed by Robert Towne and follows the relationship between record-breaking distance runner Steve Prefontaine and his coach Bill Bowerman, who later co-founded Nike, Inc. Billy Crudup plays Prefontaine and Donald Sutherland plays Bowerman. It also stars Monica Potter, Jeremy Sisto, Judith Ivey, Matthew Lillard and William Mapother. \"\"Without Limits\"\" was produced by Tom Cruise (Cruise and Mapother are cousins) and Paula Wagner, and released and distributed by Warner Bros. Due to a very low-key promotional campaign, the $25 million film grossed only $777,000 at the box\"', '\"Nike, Inc.\" | \"Nike pays top athletes in many sports to use their products and promote and advertise their technology and design. Nike\\'s first professional athlete endorser was Romanian tennis player Ilie N\u0103stase. The first track endorser was distance runner Steve Prefontaine. Prefontaine was the prized pupil of the company\\'s co-founder, Bill Bowerman, while he coached at the University of Oregon. Today, the Steve Prefontaine Building is named in his honor at Nike\\'s corporate headquarters. Nike has also sponsored many other successful track and field athletes over the years, such as Carl Lewis, Jackie Joyner-Kersee and Sebastian Coe. The signing of basketball player\"']",
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "search_query: \"R Lee Ermy character Prefontaine film American track and field coach co-founder Nike\"",
+                "id": "1653a778-e5ab-4c5b-80c3-250a7b66bf2a",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Square Dance (ballet)\" | \"Square Dance (ballet) Square Dance is a ballet made by New York City Ballet co-founder and balletmaster George Balanchine to Antonio Vivaldi\\'s \"\"Concerto Grosso in B minor\"\" and the first movement of his \"\"Concerto Grosso in E major\"\", Op. 3, nos. 10 and 12, respectively; in 1976 he added Arcangelo Corelli\\'s \"\"Sarabanda, Badinerie e Giga\"\", second and third movements. The premiere took place on November 21, 1957, at City Center of Music and Drama, New York, with lighting by Mark Stanley. The original version placed the musicians on stage with a square dance caller calling the steps; from its 1976\"', '\"Chaconne (ballet)\" | \"Chaconne (ballet) Chaconne is a ballet made by New York City Ballet co-founder and ballet master George Balanchine to ballet music from Gluck\\'s \"\"Orfeo ed Euridice\"\" (Vienna, 1762; Paris, 1774). The premiere took place Wednesday, 22 January 1976 at the New York State Theater, Lincoln Center, with lighting by Ronald Bates; Robert Irving conducted. \"\"Chaconne\"\" was danced in practice clothes at its premiere; Karinska\\'s costumes were added in the spring season. The finale to \"\"Orfeo ed Euridice\"\" is a \"\"chaconne\"\", a dance form built on a short bass phrase and often used by 17th and 18th century opera composers to\"']",
+                    "question": "Which Italian composer did George Balanchine add in 1976?"
+                },
+                "output": "search_query: \"George Balanchine 1976 Italian composer added Square Dance ballet\"",
+                "id": "ec10b8ff-9f47-460e-a502-be06ced14c85",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Leslie Skinner\" | \"Leslie Skinner Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the bazooka. Born in San Francisco, California, in 1900, Skinner was the only son of an army surgeon. As a young teenager, he had a fascination with rockets and began to build his own, an activity that was forbidden after he had set fire to the hospital roof at Fort Strong, Massachusetts in 1915. He graduated from Boston\"', '\"Leslie Skinner\" | \"manufacturing Oerlikon Group. In 1970, he moved to Belleair Bluffs, Florida and took up sculpture. Leslie Skinner died on November 2, 1978. He and his wife Margaret had two children. He was buried at Arlington National Cemetery with full military honors. Leslie Skinner Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the bazooka. Born in San Francisco, California, in 1900, Skinner was the only son of an army\"']",
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "search_query: \"Colonel Leslie Alfred Skinner Stovepipe rocket propelled weapon development\"",
+                "id": "53db0fc5-9bd0-4407-aa6a-bbf885677185",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "['\"Princess Sumaya University for Technology\" | \"located at the heart of Jordan\\'s scientific, academic and R&D corridor. Furthermore, the center will extend its services to cover not only Jordan but the region as a whole. The center is planned to be the regions\\' cornerstone for technology commercialization and entrepreneurship development. The QRCE will target university students, researchers, innovators, entrepreneurs and others. According to PSUT\\'s development plan, the next step will be the establishment of a business school to be linked to the center. Working closely with local and international organizations; the QRCE focuses on issues such as: capacity building, consulting, counseling and developing the local \"\"Entrepreneurial\"', '\"Princess Sumaya University for Technology\" | \"Jordanian university students to design the path to achieve their dreams. Princess Sumaya University for Technology Princess Sumaya University for Technology (PSUT), established in 1991, is a specialized, Non-governmental, Non-profit, Jordanian university, owned by the leading applied research centre in Jordan, the Royal Scientific Society (RSS). PSUT\\'s area of specialization is IT, Communications and Electronics. As a nonprofit institution, PSUT embraces both the public and private sectors, but while akin to public universities in its mission, it is more aligned to the private sector in drive and spirit. PSUT is located in Amman, Jordan, offering an array of ICT related\"']",
+                    "question": "Are Princess Sumaya University for Technology and Tennessee Technological University from the same country?"
+                },
+                "output": "search_query: \"Princess Sumaya University for Technology location Jordan Tennessee Technological University location USA\"",
+                "id": "590a7064-810d-4096-ace6-22363b335513",
+                "reasoning": "Human: Let's solve this problem step by step before giving the final response\n\nAI: To determine whether Princess Sumaya University for Technology and Tennessee Technological University are from the same country, we need to identify the countries in which each university is located.\n\n1. **Princess Sumaya University for Technology (PSUT)**: The context indicates that PSUT is located in Jordan, specifically in Amman.\n\n2. **Tennessee Technological University**: This university is located in the United States, specifically in Cookeville, Tennessee.\n\nNow that we have identified the countries of both universities, we can conclude that they are not from the same country, as one is in Jordan and the other is in the United States.\n\nWith this reasoning in mind, we can now formulate an effective search query to confirm or gather more information about the locations of these universities.\n\nsearch_query: \"Princess Sumaya University for Technology location country Tennessee Technological University location country\""
+            },
+            {
+                "inputs": {
+                    "context": "['\"Reggie Theus\" | \"their assistant coach Kenny Natt would lead the team in the interim period. Theus was an assistant coach with the Minnesota Timberwolves under head coach Kurt Rambis from 2009 to 2011. In April 2010 Theus was interviewed by DePaul University for its head coaching position. He became the head coach of the Los Angeles D-Fenders of the NBA D-League in October 2012. Theus was named the head coach of California State University Northridge in 2013. In his first season with the Matadors he led them to a 17-18 record, but managed to reach the Big West Conference Finals where they\"', '\"Reggie Theus\" | \"Reggie Theus Reginald Wayne Theus (born October 13, 1957) is an American retired basketball player and the former head coach of California State University, Northridge. He formerly served as head coach for the NBA\\'s Sacramento Kings and New Mexico State University\\'s men\\'s basketball team. He was also an assistant coach for the University of Louisville under Rick Pitino. Theus played his college basketball at UNLV for head coach Jerry Tarkanian from 1976 to 1978. In three seasons with the Runnin\\' Rebels, Theus averaged 12.9 points, 4.4 assists and 4.3 rebounds per game. Theus, who became one of the best players\"']",
+                    "question": "Reggie Theus was the assistant coach for what man who had coached in the NBA?"
+                },
+                "output": "search_query: \"Reggie Theus assistant coach Kurt Rambis Minnesota Timberwolves\"",
+                "id": "0d91faa4-3db2-405a-bbc5-318c144f51c9",
+                "reasoning": "Human: Let's solve this problem step by step before giving the final response\n\nAI: Sure! Let's break down the context and the question step by step.\n\n1. **Identify Key Information in the Context**:\n   - The context mentions Reggie Theus and his coaching career.\n   - It states that he was an assistant coach with the Minnesota Timberwolves under head coach Kurt Rambis from 2009 to 2011.\n   - It also mentions his roles as a head coach for various teams, including the Sacramento Kings and New Mexico State University.\n\n2. **Understand the Question**:\n   - The question asks for the name of the man (head coach) under whom Reggie Theus served as an assistant coach in the NBA.\n\n3. **Extract Relevant Details**:\n   - From the context, we see that Reggie Theus was an assistant coach under Kurt Rambis, who is mentioned as a head coach in the NBA.\n\n4. **Formulate the Search Query**:\n   - The search query should focus on finding information about Reggie Theus and his relationship with Kurt Rambis, specifically highlighting Theus's role as an assistant coach.\n\nNow, based on this reasoning, I can create the search query. \n\nsearch_query: \"Reggie Theus assistant coach Kurt Rambis Minnesota Timberwolves\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_1": 1.0,
+            "eval_17": 0,
+            "eval_30": 0,
+            "eval_11": 0.8,
+            "eval_32": 1.0,
+            "eval_47": 0,
+            "eval_14": 0,
+            "eval_13": 0.6,
+            "eval_37": 1.0,
+            "eval_29": 0,
+            "eval_8": 1.0,
+            "eval_44": 0,
+            "eval_7": 1.0,
+            "eval_31": 0,
+            "eval_28": 0,
+            "eval_26": 1.0,
+            "eval_43": 1.0,
+            "eval_36": 0,
+            "eval_12": 0,
+            "eval_0": 0.125,
+            "eval_20": 1.0,
+            "eval_6": 0,
+            "eval_34": 0,
+            "eval_35": 0.125,
+            "eval_24": 1.0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_24",
+                "demo_id": "590a7064-810d-4096-ace6-22363b335513"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_32",
+                "demo_id": "a65f5cf2-98de-4159-a305-e7af5c36c208"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_43",
+                "demo_id": "0d91faa4-3db2-405a-bbc5-318c144f51c9"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "1653a778-e5ab-4c5b-80c3-250a7b66bf2a"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_37",
+                "demo_id": "ec10b8ff-9f47-460e-a502-be06ced14c85"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "53db0fc5-9bd0-4407-aa6a-bbf885677185"
+            }
+        ],
+        "task_id_set": [
+            "eval_8",
+            "eval_43",
+            "eval_7",
+            "eval_32",
+            "eval_37",
+            "eval_24"
+        ],
+        "max_num": 6,
+        "current_best_score_sum": 6.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "refine_query_sampler_1",
+        "options": {
+            "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d": {
+                "name": "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "fireworks",
+                    "model": "accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+                    "cost_indicator": 0.6,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            },
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "fireworks_accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+        "type": "LMSelection"
+    }
+]

@@ -113,7 +113,7 @@ def f1_score(prediction, ground_truth):
     return f1
 
 scores = []
-for datapoint in devset[:1]:
+for datapoint in devset[:30]:
     print("Question:", datapoint['question'])
     question= datapoint['question']
     prediction = agent(claim=question).retrieved_docs
@@ -122,3 +122,8 @@ for datapoint in devset[:1]:
     scores.append(score)
     
 print("Avg score:", sum(scores) / len(scores))
+
+# Set up an evaluator on the first 300 examples of the devset.
+# config = dict(num_threads=8, display_progress=True, display_table=5)
+# evaluate = Evaluate(devset=devset, metric=f1_score, **config)
+# print(evaluate(agent))

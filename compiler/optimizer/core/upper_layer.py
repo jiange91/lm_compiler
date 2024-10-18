@@ -167,8 +167,8 @@ class UpperLevelTrialLog(TrialLog):
         }
     
 class UpperLevelOptimization(OptimizationLayer):
-    opt_logs: dict[int, UpperLevelTrialLog] = None
-    evaluator: LayerEvaluator = None
+    opt_logs: dict[int, UpperLevelTrialLog]
+    evaluator: LayerEvaluator
     
     def __init__(
         self, 
@@ -268,5 +268,7 @@ class UpperLevelOptimization(OptimizationLayer):
         # use SH allocation
         opt_config = self.top_down_info.opt_config
         n_iters = opt_config.n_trials // opt_config.throughput
-        for _ in range(n_iters):
+        for i in range(n_iters):
             self._optimize_SH(base_program)
+            if self.save_ckpt_interval > 0 and i % self.save_ckpt_interval == 0:
+                self.save_ckpt(opt_config.opt_log_path, opt_config.param_save_path)

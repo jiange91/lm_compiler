@@ -41,7 +41,7 @@ TDemoInTrial = dict[str, Demonstration]
 class EvaluationResult:
     def __init__(
         self,
-        ids: Sequence[int],
+        ids: Sequence[str],
         scores: Sequence[float],
         prices: Sequence[float],
         total_eval_cost: float,
@@ -83,7 +83,7 @@ class EvalTask:
     aggregated_proposals: dict[str, dict[str, list[tuple[str, str]]]] # {layer_name: {module_name: [(param, option)]}}
     
     def __getstate__(self) -> object:
-        state = self.__dict__.copy()
+        state = copy.deepcopy(self.__dict__)
         state.pop('all_params')
         state['all_params_ser'] = {}
         param_hashes = self.all_params.keys()
@@ -192,26 +192,6 @@ class EvalTask:
         
         return result, score, price, lm_2_demo
     
-# class NoDaemonProcess(mp.Process):
-#     @property
-#     def daemon(self):
-#         return False
-
-#     @daemon.setter
-#     def daemon(self, value):
-#         pass
-
-
-# class NoDaemonContext(type(mp.get_context(method="spawn"))):
-#     Process = NoDaemonProcess
-
-# # We sub-class multiprocessing.pool.Pool instead of multiprocessing.Pool
-# # because the latter is only a wrapper function, not a proper class.
-# class MyPool(mp.pool.Pool):
-#     def __init__(self, *args, **kwargs):
-#         kwargs['context'] = NoDaemonContext()
-#         super(MyPool, self).__init__(*args, **kwargs)
-
     @classmethod
     def from_top_down_info(cls, tdi: TopDownInformation):
         return cls(
@@ -235,29 +215,45 @@ class GeneralEvaluatorInterface(ABC):
 class EvaluatorPlugin(GeneralEvaluatorInterface):
     def __init__(
         self,
-        eval_set: Iterable[Tuple[any,any]], # list of input data and labels
+        trainset: Iterable[Tuple[any,any]], # list of input data and labels
+        evalset: Optional[Iterable[Tuple[any,any]]], # list of input data and labels
+        testset: Iterable[Tuple[any,any]], # list of input data and labels
         n_parallel: int = 1,
         score_reducer: Callable = None,
         price_reducer: Callable = None,
     ):
-        self.full_eval_set = eval_set
-        self.eval_set = list(range(len(self.full_eval_set)))
+        self.dataset = {
+            'train': [trainset, list(range(len(trainset)))],
+            'eval': [evalset, None if not evalset else list(range(len(evalset)))],
+            'test': [testset, list(range(len(testset)))]
+        }
+        
         self.n_parallel = n_parallel
         self.score_reducer = score_reducer if score_reducer is not None else default_reduer
         self.price_reducer = price_reducer if price_reducer is not None else default_reduer
-        
+    
     def evaluate(
         self,
         task: EvalTask,
         show_process: bool = False,
     ):
+        return self.get_score(mode='train', task=task, show_process=show_process)
+        
+    def get_score(
+        self,
+        mode: Literal['train', 'eval', 'test'],
+        task: EvalTask,
+        show_process: bool,
+    ):
         task.add_PYTHON_PATH()
         logger.debug(f'sys_path = {sys.path}')
-        n_parallel = min(self.n_parallel, len(self.eval_set)) 
+        
+        data, indices = self.dataset[mode]
+        n_parallel = min(self.n_parallel, len(indices)) 
         with mp.Pool(processes=n_parallel) as pool:
             tasks = []
-            for pair_idx in self.eval_set:
-                input, label = self.full_eval_set[pair_idx]
+            for pair_idx in indices:
+                input, label = data[pair_idx]
                 tasks.append(
                     pool.apply_async(task.evaluate_program, args=(input, label))
                 )
@@ -283,7 +279,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         reduced_score = self.score_reducer(scores)
         reduced_price = self.price_reducer(prices)
         return EvaluationResult(
-            ids=self.eval_set,
+            ids=[f'{mode}_{i}' for i in indices],
             scores=scores,
             prices=prices,
             total_eval_cost=sum(prices),
@@ -294,13 +290,14 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
     
     def down_sample(
         self,
+        mode: Literal['train', 'eval', 'test'],
         sample_size: int,
         task: EvalTask,
         sample_mode: Literal['random', 'difficulty'],
         prob_convertor: Callable[[EvaluationResult], Sequence[int]] = None,
         log_dir: str = "eval_down_sample_logs",
     ):
-        """Generate a subset of the eval_set according to answer score
+        """Generate a subset of the dataset according to answer score
         
         The objective is to reduce the evaluation cost with the following two principles:
         
@@ -317,25 +314,29 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         """
         if not os.path.exists(log_dir):
             os.makedirs(log_dir, exist_ok=True)
-        log_path = os.path.join(log_dir, 'down_sample_ids.json')
+        log_path = os.path.join(log_dir, f'{mode}_sub_ids.json')
         
         if os.path.exists(log_path):
             logger.info(f'Loading downsampled indices from {log_path}')
-            self.eval_set = json.load(open(log_path, 'r'))
-            if len(self.eval_set) != sample_size:
+            indices = json.load(open(log_path, 'r'))
+            if len(indices) != sample_size:
                 raise ValueError(f'Loaded eval set size {len(self.eval_set)} does not match sample size {sample_size}')
+            self.dataset[mode][1] = indices
             return
+            
+        full_indices = list(range(len(self.dataset[mode][0])))
+        if sample_size > len(full_indices):
+            raise ValueError(f'Sample size {sample_size} is larger than the full dataset size {len(full_indices)}')
         
-        full_indices = list(range(len(self.full_eval_set))) 
         if sample_mode == 'random':
-            self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False).tolist()
+            indices = np.random.choice(full_indices, size=sample_size, replace=False).tolist()
         else:
             logger.info('Down sampling with difficulty, start profiling...')
-            eval_result = self.evaluate(task, show_process=True)
+            eval_result = self.get_score(mode, task, show_process=True)
             # if user provide a custom prob convertor
             if prob_convertor is not None:
                 probs = prob_convertor(eval_result)
-                self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False, p=probs).tolist()
+                indices = np.random.choice(full_indices, size=sample_size, replace=False, p=probs).tolist()
             else:
                 # sampling prob is reverse to the score
                 # also smooth it to reduce extremely easy or hard questions
@@ -345,8 +346,8 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
                 # normalize to prob
                 probs = scaled_reverse_score / scaled_reverse_score.sum()
                 # sample according to the prob
-                self.eval_set = np.random.choice(full_indices, size=sample_size, replace=False, p=probs).tolist()
+                indices = np.random.choice(full_indices, size=sample_size, replace=False, p=probs).tolist()
                 
-        json.dump(self.eval_set, open(log_path, 'w'))
- 
-        
+        json.dump(indices, open(log_path, 'w'), indent=4)
+        self.dataset[mode][1] = indices
+    

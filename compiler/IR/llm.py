@@ -21,7 +21,6 @@ from langchain_core.messages.utils import get_buffer_string
 class TokenUsage:
     prompt_tokens: int = field(default=0)
     completion_tokens: int = field(default=0)
-    
 
 @dataclass
 class LMConfig:
@@ -47,7 +46,20 @@ class LMConfig:
     
     @classmethod
     def from_dict(cls, data):
-        return cls.from_dict(data)
+        obj = cls.__new__(cls)
+        obj.__dict__.update(data)
+        return obj
+    
+    def update(self, other: 'LMConfig'):
+        """update the lm_config of the module
+        
+        passed in model_config should not be changed
+        """
+        self.provider = other.provider
+        self.model = other.model
+        self.cost_indicator = other.cost_indicator
+        self.kwargs.update(other.kwargs)
+        self.price_table.update(other.price_table)
 
     def get_price(self, usage: TokenUsage):
         if self.provider == 'local':
@@ -79,6 +91,8 @@ class LMConfig:
         elif self.provider == 'fireworks':
             if 'accounts/fireworks/models/llama-v3p2-3b-instruct' in model:
                 return 0.1 * (prompt + completion) / 1e6
+            elif 'llama-v3p1-8b-instruct' in model:
+                return 0.2 * (prompt + completion) / 1e6
         
         raise ValueError(f"Model {model} from provider {self.provider} pricing is not supported")
             

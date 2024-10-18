@@ -24,22 +24,24 @@ qgen_lm_config = LMConfig(
     #     'temperature': 0.0,
     # }
     
-    # provider='openai',
-    # kwargs= {
-    #     'model': 'gpt-4o-mini',
-    #     'temperature': 0.0,
-    # }
-    
-    provider="local",
-    model='llama-3.1-8b',
-    kwargs={
+    provider='openai',
+    model='gpt-4o-mini',
+    kwargs= {
         'temperature': 0.0,
-        'openai_api_base': 'http://192.168.1.16:30000/v1',
     }
+    
+    # provider="local",
+    # model='llama-3.1-8b',
+    # kwargs={
+    #     'temperature': 0.0,
+    #     'openai_api_base': 'http://192.168.1.16:30000/v1',
+    # }
 )
 
 initial_query_prompt = """
-You are an expert in generating a search query based on the provided question. You should think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information. 
+You are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.
+
+You should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.
 """
 first_query_semantic = LangChainSemantic(
     system_prompt=initial_query_prompt,
@@ -50,8 +52,9 @@ first_query_agent = LangChainLM('generate_query', first_query_semantic, opt_regi
 first_query_agent.lm_config = qgen_lm_config
 
 following_query_prompt = """
-You are an expert in generating a search query based on the provided context and question. Your need to extract relevant details from the provided context and question and generate an effective search query that will lead to precise answers.
-Given the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.
+You are an expert at assessing the adequacy of context information in relation to a given question. Your task is to analyze the provided context (retrieved documents) along with the original question and determine if the context is sufficient to fully answer the question.  
+
+If the context lacks key information, propose a new, refined search query to retrieve additional documents. Your goal is to formulate a query that targets the missing information while avoiding redundancy. You should not assume any prior knowledge beyond the context provided. If the context is sufficient, acknowledge this, but if not, focus on crafting a follow-up search query that seeks external sources to cover any gaps in information.
 """
 following_query_semantic = LangChainSemantic(
     system_prompt=following_query_prompt,
@@ -60,23 +63,23 @@ following_query_semantic = LangChainSemantic(
 )
 following_query_agent = LangChainLM('refine_query', following_query_semantic, opt_register=True)
 refine_lm_config = LMConfig(
-    # provider='openai',
-    # kwargs= {
-    #     'model': 'gpt-4o-mini',
-    #     'temperature': 0.0,
-    # }
-    
-    provider="local",
-    model='llama-3.1-8b',
-    kwargs={
+    provider='openai',
+    model='gpt-4o-mini',
+    kwargs= {
         'temperature': 0.0,
-        'openai_api_base': 'http://192.168.1.16:30000/v1',
     }
+    
+    # provider="local",
+    # model='llama-3.1-8b',
+    # kwargs={
+    #     'temperature': 0.0,
+    #     'openai_api_base': 'http://192.168.1.16:30000/v1',
+    # }
 )
 following_query_agent.lm_config = refine_lm_config
 
 answer_prompt = """
-You are good at answering questions with ground truth. Using the provided context, carefully analyze the information to answer the question. Your answer should be clear and supported by logical reasoning derived from the context. 
+You are an expert at answering questions based on provided documents. Your task is to formulate a clear, accurate, and concise answer to the given question by using the retrieved context (documents) as your source of information. Please ensure that your answer is well-grounded in the context and directly addresses the question.
 """
 answer_semantic = LangChainSemantic(
     system_prompt=answer_prompt,
@@ -85,22 +88,22 @@ answer_semantic = LangChainSemantic(
 )
 answer_agent = LangChainLM('generate_answer', answer_semantic, opt_register=True)
 answer_lm_config = LMConfig(
-    # provider='openai',
-    # kwargs= {
-    #     'model': 'gpt-4o-mini',
-    #     'temperature': 0.0,
-    # }
-    
-    provider="local",
-    model='llama-3.1-8b',
-    kwargs={
+    provider='openai',
+    model='gpt-4o-mini',
+    kwargs= {
         'temperature': 0.0,
-        'openai_api_base': 'http://192.168.1.16:30000/v1',
     }
+    
+    # provider="local",
+    # model='llama-3.1-8b',
+    # kwargs={
+    #     'temperature': 0.0,
+    #     'openai_api_base': 'http://192.168.1.16:30000/v1',
+    # }
 )
 answer_agent.lm_config = answer_lm_config
 
-cot_fixed = True
+cot_fixed = False
 if cot_fixed:
     ZeroShotCoT.direct_apply(first_query_agent)
     ZeroShotCoT.direct_apply(following_query_agent)
@@ -135,7 +138,7 @@ class BasicMH(dspy.Module):
             passages = self.retrieve(search_query).passages
             # print("Passages:", passages)
             context = deduplicate(context + passages)
-
+        # print("Context:", context)
         answer = self.generate_answer.invoke({'context': context, 'question': question}).content
         return answer
 
@@ -154,9 +157,9 @@ def answer_f1(label: str, pred: str):
     if isinstance(label, str):
         label = [label]
     score = F1(pred, label)
-    print(f'Label: {label}')
-    print(f'Pred: {pred}')
-    print(f'Score: {score}\n')
+    # print(f'Label: {label}')
+    # print(f'Pred: {pred}')
+    # print(f'Score: {score}\n')
     return score
 
 from compiler.optimizer.params.reasoning import ZeroShotCoT

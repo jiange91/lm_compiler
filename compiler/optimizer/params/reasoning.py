@@ -90,7 +90,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
             following_messages=following_messages,
             demos=old_semantic.demos,
         )
-        new_semantic.build_prompt_template()
+        new_semantic.build_prompt_template(strict_output=False)
         
         def new_invocation_routine(lm_module: LangChainLM):
             def get_answer(inputs: dict):
@@ -104,7 +104,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
                 
                 # NOTE: this will be cleared after current invocation in compiler/IR/llm.py
                 #       incase a module is reused
-                rationale_str = get_buffer_string(rationale)
+                rationale_str = get_buffer_string(rationale, human_prefix="\n", ai_prefix="\n")
                 lm_module.rationale = rationale_str
                 
                 # prepare output propmt
@@ -114,7 +114,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
                 output_vars = ', '.join([f'{{{ovar}}}' for ovar in old_semantic.get_agent_outputs()])
                 if old_semantic.output_type_hint or old_semantic.output_format_instructions:
                     chat_messages.extend([
-                        HumanMessage(f"Now please `{old_semantic.outputs[0]}` according to the following instructions:\n"),
+                        HumanMessage(f"Now please only give `{old_semantic.outputs[0]}` according to the following instructions:\n"),
                         old_semantic.get_output_format_spec(),
                     ])
                     if old_semantic.output_format:
@@ -142,7 +142,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
                 else:
                     assert len(old_semantic.get_agent_outputs()) == 1, "No formatted agent only has one output"
                     chat_messages.append(
-                        HumanMessage(f"Based on these informations, please provide`{old_semantic.outputs[0]}` directly.")
+                        HumanMessage(f"Based on these informations, please only provide `{old_semantic.outputs[0]}`.")
                     )
                     try:
                         # print("not old_semantic.output_type_hint")
@@ -187,7 +187,9 @@ def langchain_lm_kernel({inputs_str}):
 class ZeroShotCoT(ReasonThenFormat):
     def __init__(self):
         super().__init__("ZeroShotCoT")
-        self.cost_indicator = 4.0
+    
+    def _get_cost_indicator(self):
+        return 4.0
         
     def reasoning_step(
         self, 
@@ -211,7 +213,9 @@ class ZeroShotCoT(ReasonThenFormat):
 class PlanBefore(ReasonThenFormat):
     def __init__(self):
         super().__init__("PlanBefore")
-        self.cost_indicator = 2.5
+    
+    def _get_cost_indicator(self):
+        return 2.5
     
     def reasoning_step(
         self, 

@@ -21,25 +21,20 @@ class LMSelection(ParamBase):
             module_name=module_name,
         )
 
-def override_lm_config(lm_module: LLMPredictor, model_config: LMConfig):
-    """update the lm_config of the module
-    
-    passed in model_config should not be changed
-    """
-    lm_module.lm_config.provider = model_config.provider
-    lm_module.lm_config.cost_indicator = model_config.cost_indicator
-    lm_module.lm_config.kwargs.update(model_config.kwargs)
-    
 class ModelOption(OptionBase):
     def __init__(self, model_config: LMConfig, tag: str = None):
-        tag = tag or f'{model_config.provider}_{model_config.kwargs["model"]}'
+        # NOTE: this assumes provider + model is unique
+        # use this as tag to increase config readability
+        tag = tag or f'{model_config.provider}_{model_config.model}'
         super().__init__(tag)
         # NOTE: deepcopy is necessary in case module config is shared in memory
         self.model_config = copy.deepcopy(model_config)
-        self.cost_indicator = model_config.cost_indicator
-        
+    
+    def _get_cost_indicator(self):
+        return self.model_config.cost_indicator
+       
     def apply(self, lm_module: LLMPredictor):
-        lm_module.lm_config = self.model_config
+        lm_module.lm_config.update(self.model_config)
         # This is incase reset is not called, to trigger rebuild the kernel
         lm_module.lm = None
         return lm_module

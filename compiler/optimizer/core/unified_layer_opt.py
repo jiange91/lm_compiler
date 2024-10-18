@@ -28,6 +28,7 @@ from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorP
 from compiler.optimizer.evaluation.metric import MetricBase, MInput
 from compiler.optimizer.plugin import OptimizerSchema
 from optuna.samplers import TPESampler
+from optuna.trial import TrialState, FrozenTrial
 from compiler.optimizer.bo.tpe import FrugalTPESampler
 from compiler.optimizer.core.flow import TrialLog, ModuleTransformTrace, TopDownInformation, OptConfig
 
@@ -85,9 +86,8 @@ class OptimizationLayer:
         self._study_lock: threading.Lock = None
         self.opt_target_lm_names: set[str] = None
         self.save_ckpt_interval = save_ckpt_interval
-        
         self.top_down_info: TopDownInformation = None
-    
+        
     def prepare_opt_env(self):
         self.params = defaultdict(list)
         
@@ -144,15 +144,23 @@ class OptimizationLayer:
         self._study_lock = threading.Lock()
     
     def param_cost_estimator(self, trial_proposal: dict[str, Any]) -> float:
+        """get the cost of the trial proposal
+        
+        NOTE: trial proposal may not contain all params, e.g. if param only have single option or is sampled independently
+        """
         total_cost = 0.0
         # convert to external params
         ext_trial_proposal = {}
         for param_name, dist in self.param_categorical_dist.items():
+            if dist.single():
+                continue
             ext_trial_proposal[param_name] = dist.to_external_repr(trial_proposal[param_name])
         for lm_name, params in self.params.items():
             agent_cost = 1.0
             # for param imposed on the same agent, multiply the cost
             for param in params:
+                if param.hash not in ext_trial_proposal:
+                    continue
                 selected = ext_trial_proposal[param.hash]
                 option = param.options.get(selected, None)
                 if option:
@@ -173,14 +181,18 @@ class OptimizationLayer:
         Recommand using name based options instead of index based options as the dynamic
         params update may change the mapping between option index and the option itself
         """
-        new_study = optuna.create_study(
-            directions=['maximize', 'minimize'],
-            # sampler=TPESampler(multivariate=True)
-            sampler=FrugalTPESampler(
+        if self.top_down_info.opt_config.frugal_eval_cost:
+            sampler = FrugalTPESampler(
                 cost_estimator=self.param_cost_estimator,
                 multivariate=True,
                 n_startup_trials=5,
             )
+        else:
+            sampler = TPESampler(multivariate=True, n_startup_trials=5)
+
+        new_study = optuna.create_study(
+            directions=['maximize', 'minimize'],
+            sampler=sampler,
         )
         
         f_trials = []
@@ -253,7 +265,6 @@ class OptimizationLayer:
             next_to_run.append((trial, new_modules, new_trace, trial_log.id))
         return next_to_run
     
-
     def evaluate(
         self,
         log_id: str,
@@ -378,8 +389,10 @@ class OptimizationLayer:
     def _optimize(self, base_program: list[Module]):
         opt_config = self.top_down_info.opt_config
         if opt_config.throughput == 1:
-            for _ in range(opt_config.n_trials):
+            for i in range(opt_config.n_trials):
                 self._optimize_iteration(base_program)
+                if self.save_ckpt_interval > 0 and i % self.save_ckpt_interval == 0:
+                    self.save_ckpt(opt_config.opt_log_path, opt_config.param_save_path)
         else:
             futures: set[Future] = set()
             counter = 0
@@ -398,6 +411,11 @@ class OptimizationLayer:
                                 raise
                     futures.add(executor.submit(self._optimize_iteration, base_program))
                 wait(futures, return_when="ALL_COMPLETED")
+    
+    def get_finished_bo_trials(self, need_copy: bool) -> list[FrozenTrial]:
+        states_of_interest = (TrialState.COMPLETE,)
+        return self.study.get_trials(deepcopy=need_copy, states=states_of_interest)
+        
                 
     def get_pareto_front(self) -> list[TrialLog]:
         """
@@ -423,6 +441,9 @@ class OptimizationLayer:
         pareto_frontier = [log for log, eff in zip(trial_logs, is_efficient) if eff]
         return pareto_frontier
     
+    def pre_optimize(self):
+        ...
+    
     def optimize(
         self,
         current_tdi: TopDownInformation,
@@ -442,6 +463,7 @@ class OptimizationLayer:
         # start optimization
         total_budget = self.top_down_info.opt_config.n_trials
         if total_budget > 0:
+            self.pre_optimize()
             logger.info(f"Start optimization {self.name} with {total_budget} trials")
             self._optimize(list(current_tdi.current_module_pool.values()))
             logger.info(f"Optimization {self.name} finished")
@@ -501,7 +523,8 @@ class BottomLevelTrialLog(TrialLog):
         }
 
 class BottomLevelOptimization(OptimizationLayer):
-    opt_logs: dict[int, BottomLevelTrialLog] = None
+    opt_logs: dict[str, BottomLevelTrialLog]
+    evaluator: EvaluatorPlugin
     
     def __init__(
         self,
@@ -527,6 +550,60 @@ class BottomLevelOptimization(OptimizationLayer):
         self.opt_logs[log_id].eval_task = eval_task.to_dict()
         eval_result: EvaluationResult = self.evaluator.evaluate(eval_task)
         return eval_result
+
+    def best_score_config(self) -> BottomLevelTrialLog:
+        best_score_log: BottomLevelTrialLog = None
+        for log in self.opt_logs.values():
+            if best_score_log is None or log.score > best_score_log.score:
+                best_score_log = log
+        return best_score_log
+    
+    def update(
+        self,
+        trial: optuna.trial.Trial,
+        eval_result: EvaluationResult,
+        log_id: str,
+    ):
+        score, price = eval_result.reduced_score, eval_result.reduced_price
+        self.opt_logs[log_id].score = score
+        self.opt_logs[log_id].price = price
+        
+        self.opt_logs[log_id].eval_cost = eval_result.total_eval_cost
+        logger.info(f"- {self.name} - Trial {trial.number} result: score: {score}, price@1: {price}, eval_cost: {eval_result.total_eval_cost}")
+        self.opt_cost += eval_result.total_eval_cost
+         
+        # update study if any dynamic params can evolve
+        with self._study_lock:
+            frozen_trial = self.study.tell(trial, [score, price])
+            existing_trials = self.get_finished_bo_trials(False)
+            if len(existing_trials) > 0 and len(existing_trials) % self.top_down_info.opt_config.evolve_interval == 0:
+                logger.info(f"Eval at {len(existing_trials)} trials, start evolving params")
+                evolve_result = eval_result
+                if self.evaluator.dataset['eval'][0] is not None:
+                    logger.info("Use best score config to get evolving results")
+                    # use best score config to get evolving results
+                    best_score_log = self.best_score_config()
+                    evolve_eval_task = EvalTask.from_dict(best_score_log.eval_task.copy())
+                    evolve_result = self.evaluator.get_score(
+                        mode='eval', task=evolve_eval_task, show_process=False)
+                    logger.info(f"Evolve eval result: {evolve_result}")
+            
+                is_evolved = False
+                for params in self.params.values():
+                    for param in params:
+                        if isinstance(param, DynamicParamBase):
+                            evolve_type = param.evole(evolve_result)
+                            if evolve_type != EvolveType.ID:
+                                is_evolved = True
+                if is_evolved:
+                    # update param dist
+                    self.param_categorical_dist = {
+                        param.hash: optuna.distributions.CategoricalDistribution(list(param.options.keys()))
+                        for _, params in self.params.items() for param in params
+                    }
+                    # create new study and migrate all trials
+                    new_study = self.init_study(self.study)
+                    self.study = new_study
     
     def load_opt_ckpt(self, opt_log_path: str):
         with open(opt_log_path, 'r') as f:
@@ -543,6 +620,38 @@ class BottomLevelOptimization(OptimizationLayer):
                 distributions=self.param_categorical_dist,
             )
             self.study.add_trial(trial)
+    
+    def pre_optimize(self):
+        """Bootstrap the initial evolving params with given config
+        
+        If already load trials from saved opt log, will skip this step
+        """
+        if len(self.get_finished_bo_trials(False)) > 0:
+            return
+        
+        logger.info(f"Start pre-optimization for {self.name}")
+        eval_task = EvalTask.from_top_down_info(self.top_down_info)
+        if self.evaluator.dataset['eval'][0] is None:
+            eval_result = self.evaluator.get_score(mode='train', task=eval_task, show_process=True)
+        else:
+            eval_result = self.evaluator.get_score(mode='eval', task=eval_task, show_process=True)
+        with self._study_lock:
+            is_evolved = False
+            for params in self.params.values():
+                for param in params:
+                    if isinstance(param, DynamicParamBase):
+                        evolve_type = param.evole(eval_result)
+                        if evolve_type != EvolveType.ID:
+                            is_evolved = True
+            if is_evolved:
+                # update param dist
+                self.param_categorical_dist = {
+                    param.hash: optuna.distributions.CategoricalDistribution(list(param.options.keys()))
+                    for _, params in self.params.items() for param in params
+                }
+                # create new study and migrate all trials
+                new_study = self.init_study()
+                self.study = new_study
     
     def easy_eval(
         self,
@@ -563,5 +672,7 @@ class BottomLevelOptimization(OptimizationLayer):
         
         eval_task = EvalTask.from_dict(trial_log.eval_task)
         # run evaluation
-        eval_result = self.evaluator.evaluate(eval_task, show_process=True)
+        eval_result = self.evaluator.get_score(mode='test', task=eval_task, show_process=True)
         return eval_result
+    
+    

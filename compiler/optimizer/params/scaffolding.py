@@ -128,6 +128,9 @@ class DecomposeOption(OptionBase):
         self.new_system = new_system
         self.log_dir = log_dir
     
+    def _get_cost_indicator(self):
+        return len(self.new_system.agents)
+    
     def apply(self, module: LLMPredictor) -> Module:
         new_agent = LMTaskDecompose.materialize_decomposition(
             lm=module,

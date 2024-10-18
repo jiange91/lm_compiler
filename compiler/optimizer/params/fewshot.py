@@ -36,9 +36,9 @@ class LMFewShot(DynamicParamBase):
         # demo_id -> Demonstration
         self.demo_cache: dict[str, Demonstration] = {}
         # task_id -> score
-        self.best_score_by_task: dict[int, float] = {}
+        self.best_score_by_task: dict[str, float] = {}
         # priority queue for demos (score, task_id, demo_id)
-        self.demo_pq: list[tuple[float, int, str]] = []
+        self.demo_pq: list[tuple[float, str, str]] = []
         # task_id in priority queue
         self.task_id_set = set()
         
@@ -244,7 +244,9 @@ class DemoOption(OptionBase):
     def __init__(self, tag: str, demos: list[Demonstration]):
         super().__init__(tag)
         self.demos = demos
-        self.cost_indicator = len(demos) + 1
+    
+    def _get_cost_indicator(self):
+        return len(self.demos) + 1
     
     def apply(self, lm_module: LLMPredictor):
         lm_module.semantic.set_demos(self.demos)

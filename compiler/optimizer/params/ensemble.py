@@ -54,6 +54,9 @@ class EnsembleOptionBase(OptionBase, metaclass=EnsembleOptionMeta):
         super().__init__(name)
         self.num_path = num_path
     
+    def _get_cost_indicator(self):
+        return self.num_path + 1 # 1 for the aggregator
+    
     def sample_then_aggregate(self, module: Module) -> Module:
         raise NotImplementedError
     

@@ -143,17 +143,13 @@ class MultiLayerOptimizationDriver:
     
     def evaluate(
         self,
-        evaluator: EvaluatorPlugin,
         bot_trial_log_id: str,
         opt_log_path: str,
     ):
         bot_layer: BottomLevelOptimization = self.opt_layers[-1]
-        train_eval = bot_layer.evaluator
-        bot_layer.evaluator = evaluator
         result = bot_layer.easy_eval(
             trial_log_id=bot_trial_log_id,
             opt_log_path=opt_log_path,
         )
-        bot_layer.evaluator = train_eval
         return result
         

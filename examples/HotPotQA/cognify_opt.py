@@ -23,14 +23,21 @@ from dspy.datasets.hotpotqa import HotPotQA
 
 def load_data_minor():
     trainset = [
-        ("Are both Cangzhou and Qionghai in the Hebei province of China?", "no"),
-        ("Who conducts the draft in which Marc-Andre Fleury was drafted to the Vegas Golden Knights for the 2017-18 season?", 'National Hockey League'),
-        ("The Wings entered a new era, following the retirement of which Canadian retired professional ice hockey player and current general manager of the Tampa Bay Lightning of the National Hockey League (NHL)?", "Steve Yzerman"),
-        ("What river is near the Crichton Collegiate Church?", "the River Tyne"),
-        ("What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?", "design their own interdisciplinary program"),
-        ("Which documentary was released first, Grizzly Man or Best Boy?", "Best Boy")
+        ("""Are Walt Disney and Sacro GRA both documentry films?""", """yes"""),
+        ("""What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?""", """design their own interdisciplinary program"""),
+        ("""Which is published more frequently, The People's Friend or Bust?""", """The People's Friend"""),
+        ("""How much is spent on the type of whiskey that 1792 Whiskey is in the United States?""", """about $2.7 billion"""),
+        ("""The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?""", """1856"""),
+        ("""What year did the mountain known in Italian as "Monte Vesuvio", erupt?""", """79 AD"""),
+        ("""What was the full name of the author that memorialized Susan Bertie through her single volume of poems?""", """Emilia Lanier"""),
+        ("""How many seasons did, the Guard with a FG%% around .420, play in the NBA ?""", """14 seasons"""),
+        ("""Estonian Philharmonic Chamber Choir won the grammy Award for Best Choral Performance for two songs by a composer born in what year ?""", """1935"""),
+        ("""Which of the sport analyst of The Experts Network is nicknamed  "The Iron Man"?""", """Calvin Edwin Ripken Jr."""),
+        ("""What are both National Bird and America's Heart and Soul?""", """What are both National Bird and America's Heart and Soul?"""),
+        ("""What was the 2010 population of the birthplace of Gerard Piel?""", """17,121"""),
+        ("""On what streets is the hospital that cared for Molly Meldrum located?""", """the corner of Commercial and Punt Roads"""),
     ]
-    return trainset, trainset[-1:]
+    return trainset[:3], trainset[3:5], trainset[:]
 
 def load_data():
     dataset = HotPotQA(train_seed=1, train_size=150, eval_seed=2023, dev_size=200, test_size=0)
@@ -39,10 +46,18 @@ def load_data():
     trainset = [get_input_label(x) for x in dataset.train[0:100]]
     valset = [get_input_label(x) for x in dataset.train[100:150]]
     devset = [get_input_label(x) for x in dataset.dev]
-    print(devset[0], len(devset))
+    print(len(trainset), len(valset), len(devset))
     return trainset, valset, devset
 
-def opt(data):
+def opt(train, val, dev):
+    evaluator = EvaluatorPlugin(
+        trainset=train,
+        # evalset=val,
+        evalset=None,
+        testset=dev,
+        n_parallel=50,
+    )
+    # ================= LM Selection =================
     lm_options = [
         # LMConfig(
         #     provider='fireworks',
@@ -52,12 +67,29 @@ def opt(data):
         #         # 'temperature': 0.0,
         #     }
         # ),
+        # LMConfig(
+        #     provider='fireworks',
+        #     model="accounts/zih015-63d1a0/deployedModels/llama-v3p1-8b-instruct-46c7347d",
+        #     cost_indicator=0.6,
+        #     kwargs= {
+        #         'temperature': 0.0,
+        #     }
+        # ),
+        # LMConfig(
+        #     provider='local',
+        #     model='llama-3.1-8b',
+        #     cost_indicator=0.6,
+        #     kwargs={
+        #         'temperature': 0.0,
+        #         'openai_api_base': 'http://192.168.1.16:30000/v1',
+        #     }
+        # ),
         LMConfig(
             provider='openai',
+            model='gpt-4o-mini',
             cost_indicator=1.0,
             kwargs= {
-                'model': 'gpt-4o-mini',
-                # 'temperature': 0.0,
+                'temperature': 0.0,
             }
         )
     ]
@@ -65,6 +97,7 @@ def opt(data):
         'lm_model', model_selection.model_option_factory(lm_options)
     )
     
+    # ================= Down Sample =================
     plain_task = EvalTask(
         script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
         args=[],
@@ -73,16 +106,21 @@ def opt(data):
         module_name_paths={},
         aggregated_proposals={},
     )
-    evaluator = EvaluatorPlugin(
-        eval_set=data,
-        n_parallel=25,
-    )
     evaluator.down_sample(
-        sample_size=25,
+        sample_size=50,
+        mode='train',
         task=plain_task, 
         sample_mode='difficulty',
         log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/down_sample_logs',
     )
+    evaluator.down_sample(
+        sample_size=25,
+        mode='eval',
+        task=plain_task, 
+        sample_mode='difficulty',
+        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/down_sample_logs',
+    )
+    # ================= Sensitivity Analysis =================
     model_sensitivity = SensitivityAnalyzer(
         target_param_type=model_selection.LMSelection,
         eval_task=plain_task,
@@ -95,18 +133,35 @@ def opt(data):
     sensitivity_result = model_sensitivity.run()
     print(sensitivity_result)
     
+    # ================= Reasoning Options =================
     reasoning_param = reasoning.LMReasoning(
         "reasoning", [IdentityOption(), ZeroShotCoT()] 
     )
-    few_shot_params = LMFewShot("few_shot", 2)
+    # ================= Few Shot Options =================
+    few_shot_params = LMFewShot("few_shot", 8)
+    # ================= Ensemble Options =================
+    refine_usc_ensemble = ensemble.UniversalSelfConsistency(3, temperature=0.7)
+    refine_ensemble_params = ensemble.ModuleEnsemble(
+        "ensemble", [refine_usc_ensemble]
+    )
+    refine_ensemble_params.module_name = 'refine_query'
+    
+    gen_answer_usc_ensemble = ensemble.UniversalSelfConsistency(3, temperature=0.7)
+    gen_answer_ensemble_params = ensemble.ModuleEnsemble(
+        "ensemble", [gen_answer_usc_ensemble]
+    )
+    gen_answer_ensemble_params.module_name = 'generate_answer'
+    
+    # ================= Inner Loop Config =================
     inner_opt_config = flow.OptConfig(
-        n_trials=16,
+        n_trials=0,
         throughput=2,
-        log_dir=None,
+        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/with_50_25_no_outer_fix_prompt_no_frugal',
+        evolve_interval=1,
     )
     inner_loop_config = driver.layerConfig(
         layer_name='inner_loop',
-        universal_params=[few_shot_params, reasoning_param],
+        universal_params=[few_shot_params, reasoning_param, model_param],
         opt_config=inner_opt_config,
         save_ckpt_interval=1,
     )
@@ -114,25 +169,20 @@ def opt(data):
     outer_opt_config = flow.OptConfig(
         n_trials=0,
         throughput=1,
-        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/more_control',
+        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/with_50_25_fix_outer',
     )
     
-    usc_ensemble = ensemble.UniversalSelfConsistency(3, temperature=0.7)
-    ensemble_params = ensemble.ModuleEnsemble(
-        "ensemble", [IdentityOption(), usc_ensemble]
-    )
-    ensemble_params.module_name = 'generate_answer'
     outer_loop_config = driver.layerConfig(
         layer_name='outer_loop',
-        # universal_params=[ensemble_params],
-        dedicate_params=[ensemble_params],
+        # universal_params=[ensemble_params], # will overwrite module name
+        dedicate_params=[refine_ensemble_params, gen_answer_ensemble_params],
         opt_config=outer_opt_config,
         save_ckpt_interval=1,
         # use_SH_allocation=True,
     )
     
     opt_driver = driver.MultiLayerOptimizationDriver(
-        layer_configs=[outer_loop_config, inner_loop_config],
+        layer_configs=[inner_loop_config],
     )
     cost, pareto_frontier, opt_logs = opt_driver.run(
         evaluator=evaluator,
@@ -140,26 +190,20 @@ def opt(data):
     )
     return opt_driver
 
-def eval(opt_driver, data):
-    evaluator = EvaluatorPlugin(
-        eval_set=data,
-        n_parallel=100,
-    )
+def eval(opt_driver: driver.MultiLayerOptimizationDriver):
     eval_result = opt_driver.evaluate(
-        evaluator=evaluator,
-        bot_trial_log_id='4808fc6fb2db4d18a219caf88a8e51d7',
-        opt_log_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/more_control/inner_loop/4a853ee5754b4e39a8d1d650b0d94d2f/opt_logs.json',
+        bot_trial_log_id='2db06dce1a6141c3b93800d5d710e0a2',
+        opt_log_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/with_50_25_no_outer_fix_prompt_no_frugal/opt_logs.json',
     )
     print(eval_result)
-    
 
     
 if __name__ == '__main__':
     # mp.set_start_method('spawn')
     mp.context._force_start_method('spawn')
     
-    # train, val, dev = load_data()
-    train, dev = load_data_minor()
-    opt_driver = opt(train)
-    eval(opt_driver, dev)
+    train, val, dev = load_data()
+    # train, val, dev = load_data_minor()
+    opt_driver = opt(train, val, dev)
+    eval(opt_driver)
     

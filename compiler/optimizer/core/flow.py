@@ -115,8 +115,10 @@ class OptConfig:
     n_trials: int
     throughput: int
     log_dir: str
+    evolve_interval: int = field(default=4)
     opt_log_path: str = field(default=None)
     param_save_path: str = field(default=None)
+    frugal_eval_cost: bool = field(default=True)
     
     def finalize(self):
         if not os.path.exists(self.log_dir):

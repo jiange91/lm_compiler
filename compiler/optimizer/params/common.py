@@ -13,7 +13,13 @@ logger = logging.getLogger(__name__)
 class OptionBase(ABC):
     def __init__(self, name: str):
         self.name = name
-        self.cost_indicator = 1.0
+    
+    def _get_cost_indicator(self):
+        return 1.0
+    
+    @property
+    def cost_indicator(self):
+        return self._get_cost_indicator()
     
     @abstractmethod
     def apply(self, module: Module) -> Module:

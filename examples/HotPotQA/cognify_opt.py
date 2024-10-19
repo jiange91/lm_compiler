@@ -159,11 +159,11 @@ def opt(train, val, dev):
     
     # ================= Inner Loop Config =================
     inner_opt_config = flow.OptConfig(
-        n_trials=8,
+        n_trials=0,
         throughput=2,
-        log_dir=None,
+        log_dir="/mnt/ssd4/lm_compiler/examples/HotPotQA/with_50_25_no_outer_fix_prompt_no_frugal/opt_logs.json",
         evolve_interval=4,
-        frugal_eval_cost=False,
+        frugal_eval_cost=True,
     )
     inner_loop_config = driver.layerConfig(
         layer_name='inner_loop',
@@ -189,8 +189,9 @@ def opt(train, val, dev):
     )
     
     opt_driver = driver.MultiLayerOptimizationDriver(
-        # layer_configs=[inner_loop_config],
-        layer_configs=[outer_loop_config, inner_loop_config],
+        layer_configs=[inner_loop_config],
+        # layer_configs=[outer_loop_config, inner_loop_config],
+        quality_constraint=0.52,
     )
     cost, pareto_frontier, opt_logs = opt_driver.run(
         evaluator=evaluator,
@@ -200,8 +201,8 @@ def opt(train, val, dev):
 
 def eval(opt_driver: driver.MultiLayerOptimizationDriver):
     eval_result = opt_driver.evaluate(
-        bot_trial_log_id='878f49b25dc04fd69f6ddcf56ab007d1',
-        opt_log_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/with_50_25_full_opt/inner_loop/67482ab7f8b844f6a9e7198dd556e8b6/opt_logs.json',
+        bot_trial_log_id='0801a67cbc474b93aaef22b8ca9b1587',
+        opt_log_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/with_50_25_no_outer_fix_prompt_no_frugal/opt_logs.json',
     )
     print(eval_result)
 
@@ -210,7 +211,7 @@ def raw_test(data):
         trainset=None,
         evalset=None,
         testset=data,
-        n_parallel=50,
+        n_parallel=100,
     )
     eval_task = EvalTask(
         script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',

@@ -107,6 +107,7 @@ class MultiLayerOptimizationDriver:
                     universal_params=layer_config.universal_params,
                     target_modules=layer_config.target_modules,
                     save_ckpt_interval=layer_config.save_ckpt_interval,
+                    quality_constraint=self.quality_constraint,
                 )
             else:
                 layer_evaluator = LayerEvaluator(
@@ -121,7 +122,8 @@ class MultiLayerOptimizationDriver:
                     target_modules=layer_config.target_modules,
                     save_ckpt_interval=layer_config.save_ckpt_interval,
                     next_level_opt_config=self.layer_configs[idx + 1].opt_config,
-                    use_SH_allocation=layer_config.use_SH_allocation
+                    use_SH_allocation=layer_config.use_SH_allocation,
+                    quality_constraint=self.quality_constraint,
                 )
             self.opt_layers[idx] = opt_layer
             

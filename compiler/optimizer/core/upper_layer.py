@@ -58,11 +58,14 @@ class LayerEvaluator(GeneralEvaluatorInterface):
             prices.append(trial_log.price)
         reduced_score = max(scores)
         if self.quality_constraint is not None:
-            # Consider retainment for reduced price
+            """
+            Consider cheapest price that passes the quality constraint
+            if no trial passed the quality constraint, set the price to a agreed number, it will be rejected at TPE side no matter what this number is
+            """
             passed_price = [price for i, price in enumerate(prices) 
                             if scores[i] >= self.quality_constraint]
             if not passed_price:
-                reduced_price = 1e10
+                reduced_price = float(0xdeadbeef)
             else:
                 reduced_price = min(passed_price)
         else:
@@ -172,18 +175,12 @@ class UpperLevelOptimization(OptimizationLayer):
     
     def __init__(
         self, 
-        name: str,
-        evaluator: LayerEvaluator,
-        dedicate_params: list[ParamBase] = [],
-        universal_params: list[ParamBase] = [],
-        target_modules: Iterable[str] = None,
-        save_ckpt_interval: int = 0,
         next_level_opt_config: OptConfig = None,
         use_SH_allocation: bool = False,
+        *args,
+        **kwargs,
     ):
-        super().__init__(
-            name, evaluator, dedicate_params, universal_params, target_modules, save_ckpt_interval
-        )
+        super().__init__(*args, **kwargs)
         self.next_level_opt_config = next_level_opt_config
         self.use_SH_allocation = use_SH_allocation
     

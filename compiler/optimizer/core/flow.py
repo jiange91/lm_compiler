@@ -120,6 +120,7 @@ class OptConfig:
     param_save_path: str = field(default=None)
     frugal_eval_cost: bool = field(default=True)
     
+    
     def finalize(self):
         if not os.path.exists(self.log_dir):
             os.makedirs(self.log_dir, exist_ok=True)

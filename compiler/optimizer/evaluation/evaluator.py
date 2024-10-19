@@ -325,7 +325,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
             logger.info(f'Loading downsampled indices from {log_path}')
             indices = json.load(open(log_path, 'r'))
             if len(indices) != sample_size:
-                raise ValueError(f'Loaded eval set size {len(self.eval_set)} does not match sample size {sample_size}')
+                raise ValueError(f'Loaded data size {len(indices)} does not match sample size {sample_size}')
             self.dataset[mode][1] = indices
             return
         

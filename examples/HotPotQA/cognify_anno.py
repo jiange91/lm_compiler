@@ -108,14 +108,14 @@ answer_lm_config = LMConfig(
 )
 answer_agent.lm_config = answer_lm_config
 
-cot_fixed = True
+cot_fixed = False
 if cot_fixed:
     ZeroShotCoT.direct_apply(first_query_agent)
     ZeroShotCoT.direct_apply(following_query_agent)
     ZeroShotCoT.direct_apply(answer_agent)
 
     
-detail_log_level = 0
+detail_log_level = 1
 if detail_log_level == 0:
     _print_internal = lambda *args, **kwargs: None
     _print_expo = lambda *args, **kwargs: None
@@ -147,20 +147,20 @@ class BasicMH(dspy.Module):
         search_query = self.initial_generate_query.invoke({'question': question}).content
         # avoid only searching the first line
         search_query = search_query.replace("\n", ". ")
-        _print_internal("Search query:", search_query)
+        _print_internal("Search query 1:", search_query)
         passages = self.retrieve(search_query).passages
-        _print_internal("Passages:", passages)
+        _print_internal("Passages 1:", passages)
         context = deduplicate(context + passages)
         
         for _ in range(2-1):
             search_query = self.follwing_generate_query.invoke({'context': self.doc_str(context), 'question': question}).content
             # avoid only searching the first line
             search_query = search_query.replace("\n", ". ")
-            _print_internal("Search query:", search_query)
+            _print_internal("Search query 2:", search_query)
             passages = self.retrieve(search_query).passages
-            _print_internal("Passages:", passages)
+            _print_internal("Passages 2:", passages)
             context = deduplicate(context + passages)
-        _print_internal("Context:", context)
+        # _print_internal("Context:", context)
         answer = self.generate_answer.invoke({'context': self.doc_str(context), 'question': question}).content
         return answer
 

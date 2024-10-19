@@ -34,6 +34,9 @@ from compiler.optimizer.core.flow import TrialLog, ModuleTransformTrace, TopDown
 
 logger = logging.getLogger(__name__)
 
+qc_identifier = '_#cognify_quality_constraint'
+def get_quality_constraint(trial: optuna.trial.FrozenTrial):
+    return trial.user_attrs[qc_identifier]
 
 class OptimizationLayer:
     def __init__(
@@ -44,6 +47,7 @@ class OptimizationLayer:
         universal_params: list[ParamBase] = [],
         target_modules: Iterable[str] = None,
         save_ckpt_interval: int = 0,
+        quality_constraint: Optional[float] = None,
     ):
         """
         The optimization will always try to minimize the price and maximize the score
@@ -88,6 +92,8 @@ class OptimizationLayer:
         self.save_ckpt_interval = save_ckpt_interval
         self.top_down_info: TopDownInformation = None
         
+        self.quality_constraint = quality_constraint
+    
     def prepare_opt_env(self):
         self.params = defaultdict(list)
         
@@ -181,14 +187,16 @@ class OptimizationLayer:
         Recommand using name based options instead of index based options as the dynamic
         params update may change the mapping between option index and the option itself
         """
+        qc_fn = get_quality_constraint if self.quality_constraint is not None else None
         if self.top_down_info.opt_config.frugal_eval_cost:
             sampler = FrugalTPESampler(
                 cost_estimator=self.param_cost_estimator,
                 multivariate=True,
                 n_startup_trials=5,
+                constraints_func=qc_fn,
             )
         else:
-            sampler = TPESampler(multivariate=True, n_startup_trials=5)
+            sampler = TPESampler(multivariate=True, n_startup_trials=5, constraints_func=qc_fn)
 
         new_study = optuna.create_study(
             directions=['maximize', 'minimize'],
@@ -274,6 +282,11 @@ class OptimizationLayer:
         eval_result: EvaluationResult = self.evaluator.evaluate(eval_task)
         return eval_result
     
+    def add_constraint(self, score, trial: optuna.trial.Trial):
+        # Soft constraint, if score is lower than the quality constraint, reject it
+        if self.quality_constraint is not None:
+            trial.set_user_attr(qc_identifier, (self.quality_constraint - score, ))
+    
     def update(
         self,
         trial: optuna.trial.Trial,
@@ -287,6 +300,8 @@ class OptimizationLayer:
         
         self.opt_logs[log_id].eval_cost = eval_result.total_eval_cost
         self.opt_cost += eval_result.total_eval_cost
+        
+        self.add_constraint(score, trial)
          
         # update study if any dynamic params can evolve
         with self._study_lock:
@@ -526,18 +541,8 @@ class BottomLevelOptimization(OptimizationLayer):
     opt_logs: dict[str, BottomLevelTrialLog]
     evaluator: EvaluatorPlugin
     
-    def __init__(
-        self,
-        name: str,
-        evaluator: EvaluatorPlugin,
-        dedicate_params: list[ParamBase] = [],
-        universal_params: list[ParamBase] = [],
-        target_modules: Iterable[str] = None,
-        save_ckpt_interval: int = 0,
-    ):
-        super().__init__(
-            name, evaluator, dedicate_params, universal_params, target_modules, save_ckpt_interval
-        )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.opt_logs: dict[int, BottomLevelTrialLog] = None
         
     def create_log_at_proposal(self, trial: optuna.trial.Trial) -> BottomLevelTrialLog:
@@ -571,6 +576,8 @@ class BottomLevelOptimization(OptimizationLayer):
         self.opt_logs[log_id].eval_cost = eval_result.total_eval_cost
         logger.info(f"- {self.name} - Trial {trial.number} result: score: {score}, price@1: {price}, eval_cost: {eval_result.total_eval_cost}")
         self.opt_cost += eval_result.total_eval_cost
+        
+        self.add_constraint(score, trial)
          
         # update study if any dynamic params can evolve
         with self._study_lock:

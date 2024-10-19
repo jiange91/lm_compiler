@@ -5,6 +5,8 @@ sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 from compiler.IR.llm import Demonstration
 from llm.parsers import ColumnFilteringOutput
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import chain
 
 system_prompt = \
 """You are a Careful data scientist.
@@ -21,31 +23,24 @@ Make sure to keep the following points in mind:
 - If you see a keyword in the question or the hint that is present in the column information, consider the column as relevant.
 - Pay close attention to the "Example of values in the column", and if you see a connection between the values and the question, consider the column as relevant."""
 
-inputs = ["QUESTION", "HINT", "COLUMN_PROFILE"]
+inputs = ["COLUMN_PROFILE", "QUESTION", "HINT"]
 
 output_format = ColumnFilteringOutput
 
-output_format_instructions = \
-"""Provide your answer in the following json format:
-
-```json
-{{
-  "chain_of_thought_reasoning": "One line explanation of why or why not the column information is relevant to the question and the hint.",
-  "is_column_information_relevant": "Yes" or "No"
-}}
-```
-
-Only output a json as your response."""
-
-demos = []
 
 semantic = LangChainSemantic(
     system_prompt=system_prompt,
     inputs=inputs,
-    output_format=output_format,
-    output_format_instructions=output_format_instructions,
-    demos=demos
+    output_format="is_column_information_relevant",
+    output_format_instructions="Please response with Yes or No (no other text should be included).",
 )
 exec = LangChainLM('column_filtering', semantic, opt_register=True)
-exec.lm_config = {'model': "gpt-4o-mini", 'temperature': 0.0}
-runnable_exec = exec.as_runnable()
+raw_runnable_exec = exec.as_runnable() | StrOutputParser()
+
+@chain
+def runnable_exec(inputs):
+    is_relevant = raw_runnable_exec.invoke(inputs)
+    return {
+      "chain_of_thought_reasoning": "",
+      "is_column_information_relevant": is_relevant,
+    }

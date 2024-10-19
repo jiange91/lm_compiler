@@ -2,21 +2,27 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', '..', '..', '..'))
+
+from typing import Any
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 from compiler.IR.llm import Demonstration
-from llm.parsers import SQLGenerationOutput
+from llm.parsers import SQLGenerationOutput, RawSqlOutputParser
+from langchain_core.runnables import chain
+
 
 system_prompt = \
 """You are a data science expert.
 Below, you are presented with a database schema and a question.
-Your task is to read the schema, understand the question, and generate a valid SQLite query to answer the question.
-Before generating the final SQL query think step by step on how to write the query.
+Your task is to understand the question, read the schema, and use the hint to pinpoint the specific columns to generate a valid SQLite query to answer the question.
 
-Database Schema
-###
-{DATABASE_SCHEMA}
+<question>
+A natural language question that requires querying a database to retrieve specific information.
 
-This schema offers an in-depth description of the database's architecture, detailing tables, columns, primary keys, foreign keys, and any pertinent information regarding relationships or constraints. Special attention should be given to the examples listed beside each column, as they directly hint at which columns are relevant to our query.
+<database_schema>
+The schema offers an in-depth description of the database's architecture, detailing tables, columns, primary keys, foreign keys, and any pertinent information regarding relationships or constraints. Special attention should be given to the examples listed beside each column, as they directly hint at which columns are relevant to our query.
+
+<hint>
+The hint aims to direct your focus towards the specific elements of the database schema that are crucial for answering the question effectively.
 
 Database admin instructions:
 1. When you need to find the highest or lowest values based on a certain condition, using ORDER BY + LIMIT 1 is prefered over using MAX/MIN within sub queries.
@@ -28,40 +34,32 @@ Database admin instructions:
 7. No matter of how many things the question asks, you should only return one SQL query as the answer having all the information asked in the question, seperated by a comma.
 8. Never use || to concatenate columns in the SELECT. Rather output the columns as they are.
 9. If you are joining multiple tables, make sure to use alias names for the tables and use the alias names to reference the columns in the query. Use T1, T2, T3, ... as alias names.
-10. If you are doing a logical operation on a column, such as mathematical operations and sorting, make sure to filter null values within those columns."""
-
-inputs = ["QUESTION", "HINT"]
-
-output_format = SQLGenerationOutput
-
-output_format_instructions = \
-"""Please respond with a JSON object structured as follows:
-
-{{
-    "chain_of_thought_reasoning": "Your thought process on how you arrived at the final SQL query.",
-    "SQL": "Your SQL query in a single string."
-}}
+10. If you are doing a logical operation on a column, such as mathematical operations and sorting, make sure to filter null values within those columns.
 
 Priority should be given to columns that have been explicitly matched with examples relevant to the question's context.
 
-Take a deep breath and think step by step to find the correct sqlite SQL query. If you follow all the instructions and generate the correct query, I will give you 1 million dollars."""
+Take a deep breath and think carefully to find the correct sqlite SQL query. If you follow all the instructions and generate the correct query, I will give you 1 million dollars.
+"""
 
-demos = []
+inputs = ["QUESTION", "DATABASE_SCHEMA", "HINT"]
 
-registry = {}
+output_format = "sql_query"
 
-def get_executor(schema_string: str):
-    if schema_string in registry:
-        return registry[schema_string]
-    semantic = LangChainSemantic(
-        system_prompt=system_prompt.format(DATABASE_SCHEMA=schema_string),
-        inputs=inputs,
-        output_format=output_format,
-        output_format_instructions=output_format_instructions,
-        demos=demos
-    )
-    exec = LangChainLM('candidate_selection', semantic, opt_register=True)
-    exec.lm_config = {'model': "gpt-4o-mini", 'temperature': 0.0}
-    runnable_exec = exec.as_runnable()
-    registry[schema_string] = runnable_exec
-    return runnable_exec
+output_format_instructions = \
+"""
+Please only provide a valid SQL query in a single string. Do not include any additional information or explanations.
+"""
+
+semantic = LangChainSemantic(
+    system_prompt=system_prompt,
+    inputs=inputs,
+    output_format=output_format,
+    output_format_instructions=output_format_instructions,
+)
+exec = LangChainLM('candidate_selection', semantic, opt_register=True)
+raw_runnable_exec = exec.as_runnable() | RawSqlOutputParser()
+
+@chain
+def runnable_exec(input: dict):
+    sql = raw_runnable_exec.invoke(input)
+    return {"SQL": sql, "chain_of_thought_reasoning": ""}

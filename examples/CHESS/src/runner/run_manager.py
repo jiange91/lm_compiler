@@ -19,6 +19,7 @@ class RunManager:
     def __init__(self, args: Any):
         self.args = args
         self.result_directory = self.get_result_directory()
+        print(f"Result directory: {self.result_directory}")
         self.statistics_manager = StatisticsManager(self.result_directory)
         self.tasks: List[Task] = []
         self.total_number_of_tasks = 0

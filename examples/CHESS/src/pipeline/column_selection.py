@@ -2,7 +2,7 @@ import logging
 from typing import Dict, List, Any
 
 from llm.models import async_llm_chain_call
-from pipeline.annotated.column_selection import get_executor
+from pipeline.annotated.column_selection import runnable_exec
 from runner.database_manager import DatabaseManager
 from pipeline.utils import node_decorator, get_last_node_result
 from pipeline.pipeline_manager import PipelineManager
@@ -36,11 +36,12 @@ def column_selection(task: Any, tentative_schema: Dict[str, List[str]], executio
         
         logging.info("Fetching prompt, engine, and parser from PipelineManager")
         prompt, engine, parser, chain = PipelineManager().get_prompt_engine_parser(schema_string=schema_string)
-        chain = get_executor(schema_string)
+        chain = runnable_exec
 
         request_kwargs = {
-            "HINT": task.evidence,
             "QUESTION": task.question,
+            "DATABASE_SCHEMA": schema_string,
+            "HINT": task.evidence,
         }
         
         sampling_count = PipelineManager().column_selection.get("sampling_count", 1)
@@ -95,6 +96,7 @@ def aggregate_columns(columns_dicts: List[Dict[str, Any]], selected_tables: List
     chain_of_thoughts = []
     for column_dict in columns_dicts:
         valid_column_dict = False
+        dict_cot = ""
         for key, value in column_dict.items():
             if key == "chain_of_thought_reasoning":
                 dict_cot = value

@@ -29,7 +29,9 @@ from pipeline.column_selection import column_selection
 from pipeline.candidate_generation import candidate_generation
 from pipeline.revision import revision
 from pipeline.evaluation import evaluation
-
+from pipeline.annotated import cognify_registry
+from compiler.IR.llm import LMConfig
+from llm.models import get_llm_params
 
 def parse_arguments() -> argparse.Namespace:
     """
@@ -100,7 +102,7 @@ def load_dataset(data_path: str) -> List[Dict[str, Any]]:
     """
     with open(data_path, "r") as file:
         dataset = json.load(file)
-    return dataset
+    return dataset[:10]
 
 
 ### Graph State ###
@@ -149,6 +151,24 @@ def main():
 
     run_manager = RunManager(args)
     run_manager.initialize_tasks(dataset)
+    
+    # Set up the language model configurations
+    pipeline_cfg = json.loads(args.pipeline_setup)
+    for node_name, cfg in pipeline_cfg.items():
+        if node_name in cognify_registry._cognify_lm_registry:
+            lm = cognify_registry._cognify_lm_registry[node_name]
+            engine_name = cfg["engine"]
+            temperature = cfg.get("temperature", 0)
+            base_uri = cfg.get("base_uri", None)
+            
+            lm_params = get_llm_params(engine=engine_name, temperature=temperature, base_uri=base_uri)
+            model = lm_params.pop("model")
+            lm.lm_config = LMConfig(
+                provider='openai',
+                model=model,
+                kwargs=lm_params,
+            )
+    
     for task in run_manager.tasks:
         logger = Logger(db_id=task.db_id, question_id=task.question_id, result_directory=run_manager.result_directory)
         logger._set_log_level(args.log_level)

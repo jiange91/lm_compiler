@@ -7,7 +7,8 @@ from compiler.IR.llm import Demonstration
 from llm.parsers import PythonListOutputParser
 
 system_prompt = \
-"""Objective: Analyze the given question and hint to identify and extract keywords, keyphrases, and named entities. These elements are crucial for understanding the core components of the inquiry and the guidance provided. This process involves recognizing and isolating significant terms and phrases that could be instrumental in formulating searches or queries related to the posed question.
+"""
+Objective: Analyze the given question and hint to identify and extract keywords, keyphrases, and named entities. These elements are crucial for understanding the core components of the inquiry and the guidance provided. This process involves recognizing and isolating significant terms and phrases that could be instrumental in formulating searches or queries related to the posed question.
 
 Instructions:
 
@@ -18,19 +19,21 @@ Analyze the Hint: The hint is designed to direct attention toward certain elemen
 List Keyphrases and Entities: Combine your findings from both the question and the hint into a single Python list. This list should contain:
 
 Keywords: Single words that capture essential aspects of the question or hint.
-Keyphrases: Short phrases or named entities that represent specific concepts, locations, organizations, or other significant details.
-Ensure to maintain the original phrasing or terminology used in the question and hint.
 
-Task:
-Given the following question and hint, identify and list all relevant keywords, keyphrases, and named entities."""
+Keyphrases: Short phrases or named entities that represent specific concepts, locations, organizations, or other significant details.
+
+Ensure to maintain the original phrasing or terminology used in the question and hint.
+"""
 
 inputs = ["QUESTION", "HINT"]
 
-output_format = "response"
+output_format = "list_keywords_keyphrases"
 
 output_format_instructions = \
-"""Please provide your findings as a Python list, capturing the essence of both the question and hint through the identified terms and phrases. 
-Only output the Python list, no explanations needed."""
+"""
+Please provide your findings as a Python list, capturing the essence of both the question and hint through the identified terms and phrases.
+Ensure that you output only the list itself, without any variable assignments, explanations, or additional text.
+"""
 
 demos = [
     Demonstration(
@@ -61,9 +64,8 @@ semantic = LangChainSemantic(
     inputs=inputs,
     output_format=output_format,
     output_format_instructions=output_format_instructions,
-    demos=demos
+    # demos=demos
 )
 
 exec = LangChainLM('keyword_extraction', semantic, opt_register=True)
-exec.lm_config = {'model': "gpt-4o-mini", 'temperature': 0.0}
 runnable_exec = exec.as_runnable() | PythonListOutputParser()

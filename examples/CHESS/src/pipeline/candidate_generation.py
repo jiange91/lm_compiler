@@ -2,7 +2,8 @@ import logging
 from typing import Dict, List, Any
 
 from llm.models import async_llm_chain_call
-from pipeline.annotated.candidate_generation import get_executor
+from llm.parsers import SQLGenerationOutput
+from pipeline.annotated.candidate_generation import runnable_exec
 from runner.database_manager import DatabaseManager
 from pipeline.utils import node_decorator, get_last_node_result
 from pipeline.pipeline_manager import PipelineManager
@@ -34,10 +35,11 @@ def candidate_generation(task: Any, tentative_schema: Dict[str, List[str]], exec
     
     logging.info("Fetching prompt, engine, and parser from PipelineManager")
     prompt, engine, parser, chain = PipelineManager().get_prompt_engine_parser(schema_string=schema_string)
-    chain = get_executor(schema_string)
+    chain = runnable_exec
     
     request_kwargs = {
         "QUESTION": task.question,
+        "DATABASE_SCHEMA": schema_string,
         "HINT": task.evidence,
     }
     
@@ -54,9 +56,9 @@ def candidate_generation(task: Any, tentative_schema: Dict[str, List[str]], exec
         sampling_count=sampling_count
     )[0]
 
-    sqls = [res.dict()["SQL"] for res in response]
+    sqls = [res["SQL"] for res in response]
     sql = DatabaseManager().aggregate_sqls(sqls)
-    result = next(res for res in response if res.dict()["SQL"] == sql)
+    result = next(res for res in response if res["SQL"] == sql)
     
     logging.info("Candidate generation completed successfully")
     return result

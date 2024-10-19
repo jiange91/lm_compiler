@@ -62,6 +62,22 @@ class ColumnSelectionOutput(BaseModel):
     """Model for column selection output."""
     table_columns: Dict[str, Tuple[str, List[str]]] = Field(description="A mapping of table and column names to a tuple containing the reason for the column's selection and a list of keywords for data lookup. If no keywords are required, an empty list is provided.")
 
+class RawSqlOutputParser(BaseOutputParser):
+    
+    def __init__(self, **kwargs: Any):
+        super().__init__(**kwargs)
+
+    def parse(self, output: str) -> Any:
+        """
+        Parses the output to extract sql content from markdown.
+        """
+        logging.debug(f"Parsing output with RawSqlOutputParser: {output}")
+        if "```sql" in output:
+            output = output.split("```sql")[1].split("```")[0]
+        output = re.sub(r"^\s+", "", output)
+        output = output.replace("\n", " ").replace("\t", " ")
+        return output
+
 class SQLGenerationOutput(BaseModel):
     """Model for SQL generation output."""
     chain_of_thought_reasoning: str = Field(description="Your thought process on how you arrived at the final SQL query.")

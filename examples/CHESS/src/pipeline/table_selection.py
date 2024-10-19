@@ -2,7 +2,7 @@ import logging
 from typing import Dict, List, Any
 
 from llm.models import async_llm_chain_call
-from pipeline.annotated.table_selection import get_executor
+from pipeline.annotated.table_selection import runnable_exec
 from pipeline.utils import node_decorator, get_last_node_result, add_columns_to_tentative_schema
 from pipeline.pipeline_manager import PipelineManager
 from runner.database_manager import DatabaseManager
@@ -36,11 +36,12 @@ def table_selection(task: Any, tentative_schema: Dict[str, List[str]], execution
         
         logging.info("Fetching prompt, engine, and parser from PipelineManager")
         prompt, engine, parser, chain = PipelineManager().get_prompt_engine_parser(schema_string=schema_string)
-        chain = get_executor(schema_string)
+        chain = runnable_exec
 
         request_kwargs = {
-            "HINT": task.evidence,
             "QUESTION": task.question,
+            "DATABASE_SCHEMA": schema_string,
+            "HINT": task.evidence,
         }
         
         sampling_count = PipelineManager().table_selection.get("sampling_count", 1)

@@ -62,12 +62,13 @@ def column_filtering(task: Any, tentative_schema: Dict[str, Any], execution_hist
         tentative_schema[table_name] = []
         for column_name, column_profile in columns.items():
             try:
-                chosen = (response[index][0].dict()["is_column_information_relevant"].lower() == "yes")
+                chosen = (response[index][0]["is_column_information_relevant"].lower() == "yes")
                 if chosen:
                     tentative_schema[table_name].append(column_name)
             except Exception as e:
                 Logger().log(f"({task.db_id}, {task.question_id}) Error in column filtering: {e}", "error")
                 logging.error(f"Error in column filtering for table '{table_name}', column '{column_name}': {e}")
+                raise
             index += 1
             
     similar_columns = get_last_node_result(execution_history, "entity_retrieval")["similar_columns"]

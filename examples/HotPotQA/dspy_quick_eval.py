@@ -72,11 +72,11 @@ trainset = [
 ]
 
 scores = []
-for datapoint in trainset[:]:
+for datapoint in trainset[-2:-1]:
     print("Question:", datapoint[0])
     question, answer = datapoint
     prediction = agent(question=question).answer
-    # gpt4o_mini.inspect_history(3)
+    gpt4o_mini.inspect_history(3)
     score = answer_f1(answer, prediction)
     scores.append(score)
 

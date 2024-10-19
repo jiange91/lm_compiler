@@ -1,0 +1,1088 @@
+[
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_sampler_1_demos_9fb23d1e-c9ac-43d3-9a5a-c8d4581499fc": {
+                "name": "generate_query_sampler_1_demos_9fb23d1e-c9ac-43d3-9a5a-c8d4581499fc",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "cae614da-78ec-4942-87a0-62e77792efbe",
+                    "c4f00cd8-289d-4be0-b1b3-ab8105577851",
+                    "ba81e888-5f36-4882-8dfc-2df0e6c5ee0f",
+                    "14ae4c38-500f-406a-a2e4-bb0cca5fbcb4"
+                ]
+            },
+            "generate_query_sampler_1_demos_26a3a8ca-b9f8-490c-bc5e-ecd8c128233e": {
+                "name": "generate_query_sampler_1_demos_26a3a8ca-b9f8-490c-bc5e-ecd8c128233e",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "5e7b0dd9-27e4-43dd-8369-3ad2b50c08f4",
+                    "c4f00cd8-289d-4be0-b1b3-ab8105577851",
+                    "a84f439a-b6e1-4d46-bd4e-abd4b23d1ba7",
+                    "14ae4c38-500f-406a-a2e4-bb0cca5fbcb4"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "Are Princess Sumaya University for Technology and Tennessee Technological University from the same country?"
+                },
+                "output": "\"Princess Sumaya University for Technology location country\" AND \"Tennessee Technological University location country\" AND \"are they in the same country?\"",
+                "id": "cae614da-78ec-4942-87a0-62e77792efbe",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct a search query that effectively addresses the question of whether Princess Sumaya University for Technology and Tennessee Technological University are from the same country, we need to break down the elements of the question. \n\n1. **Identify the Institutions**: We need to gather information about both universities - their names and locations.\n2. **Country Information**: We need to confirm the countries where each university is located.\n3. **Comparison**: The query should aim to determine if both universities belong to the same country.\n\nGiven these points, the search query should focus on retrieving information about the locations of both universities and explicitly stating their respective countries. \n\nNow, let's draft a search query that encapsulates these elements.\n\n**Search Query**: \"Princess Sumaya University for Technology location country\" AND \"Tennessee Technological University location country\" AND \"are they in the same country?\""
+            },
+            {
+                "inputs": {
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "\"rocket propelled weapon 'Stovepipe' Colonel Leslie Alfred Skinner development history\"",
+                "id": "c4f00cd8-289d-4be0-b1b3-ab8105577851",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to identify the key elements of the question:\n\n1. **Key Subject**: The question is about a specific type of weapon, which is a \"rocket propelled weapon.\"\n2. **Nickname**: The weapon is referred to as the \"Stovepipe.\"\n3. **Person of Interest**: Colonel Leslie Alfred Skinner is mentioned as someone who contributed to the development of this weapon.\n\nNext, we need to consider the context and potential variations that could help in retrieving relevant information. This includes synonyms, variations in naming conventions, and additional details that might be relevant for a search.\n\n### Key Components to Consider:\n- **Weapon Type**: Rocket propelled weapon\n- **Nickname**: Stovepipe\n- **Developer**: Colonel Leslie Alfred Skinner\n- **Historical Context**: Consider the time period when this weapon might have been developed, which could help in narrowing down the search.\n\n### Search Query Construction:\nNow, we can formulate a search query that encapsulates all these elements. We want to ensure that we capture various possible sources of information, such as articles, military history references, or specific weapon development documentation.\n\n### Proposed Search Query:\n\"rocket propelled weapon 'Stovepipe' Colonel Leslie Alfred Skinner development history\"\n\nThis query includes:\n- The specific type of weapon (rocket propelled weapon)\n- The nickname of the weapon ('Stovepipe')\n- The name of the developer (Colonel Leslie Alfred Skinner)\n- Keywords related to the context of development (development, history)\n\nBy using this structured query, we increase the chances of retrieving detailed information about the weapon in question and the role of Colonel Skinner in its development."
+            },
+            {
+                "inputs": {
+                    "question": "Which Italian composer did George Balanchine add in 1976?"
+                },
+                "output": "\"George Balanchine Italian composer 1976 added choreography ballet\"",
+                "id": "ba81e888-5f36-4882-8dfc-2df0e6c5ee0f",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct a detailed search query, we need to identify the key elements of the question:\n\n1. **Subject**: George Balanchine\n2. **Action**: Added\n3. **Context**: The year 1976\n4. **Detail**: An Italian composer\n\nNext, we can think about what type of information we need to gather. We are looking for sources that discuss George Balanchine's work or contributions in 1976 and specifically mention an Italian composer he incorporated into his ballet or choreography. \n\nNow, let's consider possible keywords and phrases that would help us retrieve relevant documents:\n\n- \"George Balanchine\"\n- \"1976\"\n- \"Italian composer\"\n- \"ballet\"\n- \"added\"\n- \"choreography\"\n\nNow that we've identified the key elements, we can structure these into a coherent search query that will likely yield the most relevant results. \n\nHere's how we can combine these elements:\n\n**Search Query**: \"George Balanchine Italian composer 1976 added choreography ballet\" \n\nThis query includes all the necessary components to find documents related to the specific action taken by Balanchine in the specified year, focusing on Italian composers and their relevance to his works."
+            },
+            {
+                "inputs": {
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "\"R Lee Ermy Prefontaine film character name American track and field coach co-founder of Nike Inc\"",
+                "id": "14ae4c38-500f-406a-a2e4-bb0cca5fbcb4",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to break down the question into its key components:\n\n1. **Identify the main subject**: The question revolves around R Lee Ermy and the character he portrayed in the film \"Prefontaine.\"\n\n2. **Character specifics**: We need to find out the name of the character that R Lee Ermy played in this film.\n\n3. **Relation to track and field**: The question specifies that this character is also an American track and field coach.\n\n4. **Connection to Nike Inc.**: Additionally, the character is noted to be a co-founder of Nike Inc.\n\nWith these elements in mind, the search query should aim to retrieve information about R Lee Ermy, the film \"Prefontaine,\" the character he played, and the relevant historical context regarding the character\u2019s real-life achievements.\n\nNow, let's construct the search query.\n\n**Search Query**: \n\"R Lee Ermy Prefontaine film character name American track and field coach co-founder of Nike Inc\""
+            },
+            {
+                "inputs": {
+                    "question": "Imperfect Circles is an episode of the drama that was developed by whom?"
+                },
+                "output": "\"Imperfect Circles episode drama developed by\" AND \"who developed\"",
+                "id": "5e7b0dd9-27e4-43dd-8369-3ad2b50c08f4",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: : To construct an effective search query, we need to identify the key elements of the question:\n\n1. **Title of the Episode**: The episode in question is titled \"Imperfect Circles.\"\n2. **Type of Show**: It is specified that this is an episode of a drama.\n3. **Development**: The question asks about who developed this episode or the drama it belongs to.\n\nNext, we need to consider what kind of information we are looking for. We want to find sources that discuss the episode \"Imperfect Circles,\" the drama series it is part of, and the individual or team responsible for its development.\n\n### Key Components to Consider:\n- **Episode Title**: \"Imperfect Circles\"\n- **Genre**: Drama\n- **Development Information**: Who developed the episode or the series\n\nNow, let's think about how to structure these elements into a coherent search query that will yield relevant results.\n\n### Proposed Search Query:\n\"Imperfect Circles episode drama developed by\" AND \"who developed\" \n\nThis query includes:\n- The specific episode title (\"Imperfect Circles\")\n- The genre (\"drama\")\n- A focus on the development aspect\n\nBy using this structured query, we increase the chances of retrieving detailed information about the episode and the individuals or teams involved in its development.\n\nsearch_query:\n\"Imperfect Circles episode drama developed by\" AND \"who developed\""
+            },
+            {
+                "inputs": {
+                    "question": "Reggie Theus was the assistant coach for what man who had coached in the NBA?"
+                },
+                "output": "\"Reggie Theus assistant coach NBA coach name\"",
+                "id": "a84f439a-b6e1-4d46-bd4e-abd4b23d1ba7",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: : To construct an effective search query, we need to identify the key elements of the question:\n\n1. **Main Subject**: Reggie Theus\n2. **Role**: Assistant coach\n3. **Context**: The person he assisted who had coached in the NBA\n\nNext, we need to gather information about Reggie Theus's coaching career, specifically focusing on his role as an assistant coach and identifying the NBA coach he worked with. \n\n### Key Components to Consider:\n- **Reggie Theus**: His coaching history and roles\n- **Assistant Coach**: The specific position he held\n- **NBA Coach**: The name of the man he assisted who has a history in the NBA\n\nNow, we can think about the types of sources that would provide this information, such as sports news articles, coaching biographies, or historical records of NBA coaching staff.\n\n### Search Query Construction:\nTo effectively retrieve relevant documents, we can structure the search query to include all the necessary components:\n\n**Search Query**: \"Reggie Theus assistant coach NBA coach name\"\n\nThis query aims to find information specifically about Reggie Theus's role as an assistant coach and the identity of the NBA coach he worked with. \n\nsearch_query:\n\"Reggie Theus assistant coach NBA coach name\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_1": 1.0,
+            "eval_17": 0,
+            "eval_30": 0,
+            "eval_11": 0,
+            "eval_32": 1.0,
+            "eval_47": 0,
+            "eval_14": 0,
+            "eval_13": 0.5,
+            "eval_37": 1.0,
+            "eval_29": 0,
+            "eval_8": 1.0,
+            "eval_44": 0,
+            "eval_7": 1.0,
+            "eval_31": 0,
+            "eval_28": 0,
+            "eval_26": 1.0,
+            "eval_43": 1.0,
+            "eval_36": 0,
+            "eval_12": 0,
+            "eval_0": 0.5,
+            "eval_20": 0.6666666666666666,
+            "eval_6": 0,
+            "eval_34": 0.7499999999999999,
+            "eval_35": 0,
+            "eval_24": 1.0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_1",
+                "demo_id": "5e7b0dd9-27e4-43dd-8369-3ad2b50c08f4"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "c4f00cd8-289d-4be0-b1b3-ab8105577851"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_43",
+                "demo_id": "a84f439a-b6e1-4d46-bd4e-abd4b23d1ba7"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "14ae4c38-500f-406a-a2e4-bb0cca5fbcb4"
+            }
+        ],
+        "task_id_set": [
+            "eval_7",
+            "eval_8",
+            "eval_1",
+            "eval_43"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "generate_query_sampler_1",
+        "options": {
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o-mini",
+        "type": "LMSelection"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_demos_407538b8-804e-481b-a47c-50ec9f3d54bb": {
+                "name": "refine_query_demos_407538b8-804e-481b-a47c-50ec9f3d54bb",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "feb00323-7545-4abb-a94b-2658945752c6",
+                    "26302092-471c-45ac-90f5-63836bba89b1",
+                    "b95caff2-0b8b-44d5-9bb2-3ff575c5c3a0",
+                    "8f6d8cec-7cf6-44c4-ba35-74177ae8924a"
+                ]
+            },
+            "refine_query_demos_06bc084f-b77f-4948-a02f-2e8488176773": {
+                "name": "refine_query_demos_06bc084f-b77f-4948-a02f-2e8488176773",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "a37fd38c-4848-453f-8348-a48ec822c1ff",
+                    "26302092-471c-45ac-90f5-63836bba89b1",
+                    "2be06303-43a4-45be-a20a-cc84692b205e",
+                    "8f6d8cec-7cf6-44c4-ba35-74177ae8924a"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"Princess Sumaya University for Technology\" | \"located at the heart of Jordan's scientific, academic and R&D corridor. Furthermore, the center will extend its services to cover not only Jordan but the region as a whole. The center is planned to be the regions' cornerstone for technology commercialization and entrepreneurship development. The QRCE will target university students, researchers, innovators, entrepreneurs and others. According to PSUT's development plan, the next step will be the establishment of a business school to be linked to the center. Working closely with local and international organizations; the QRCE focuses on issues such as: capacity building, consulting, counseling and developing the local \"\"Entrepreneurial\"\n[2]: \"Princess Sumaya University for Technology\" | \"Princess Sumaya University for Technology Princess Sumaya University for Technology (PSUT), established in 1991, is a specialized, Non-governmental, Non-profit, Jordanian university, owned by the leading applied research centre in Jordan, the Royal Scientific Society (RSS). PSUT's area of specialization is IT, Communications and Electronics. As a nonprofit institution, PSUT embraces both the public and private sectors, but while akin to public universities in its mission, it is more aligned to the private sector in drive and spirit. PSUT is located in Amman, Jordan, offering an array of ICT related courses. It currently offers B.Sc. degrees in Computer Science, Computer Graphics\"",
+                    "question": "Are Princess Sumaya University for Technology and Tennessee Technological University from the same country?"
+                },
+                "output": "\"Where is Tennessee Technological University located?\"",
+                "id": "feb00323-7545-4abb-a94b-2658945752c6",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To determine whether Princess Sumaya University for Technology and Tennessee Technological University are from the same country, we need to gather information about the locations of both universities. \n\nFrom the provided context, we know that Princess Sumaya University for Technology is located in Jordan. However, we need to find out where Tennessee Technological University is located.\n\nTo retrieve this information, an effective search query would focus on identifying the location of Tennessee Technological University. \n\nTherefore, the search query could be:\n\n\"Where is Tennessee Technological University located?\""
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Leslie Skinner\" | \"Leslie Skinner Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the bazooka. Born in San Francisco, California, in 1900, Skinner was the only son of an army surgeon. As a young teenager, he had a fascination with rockets and began to build his own, an activity that was forbidden after he had set fire to the hospital roof at Fort Strong, Massachusetts in 1915. He graduated from Boston\"\n[2]: \"Leslie Skinner\" | \"manufacturing Oerlikon Group. In 1970, he moved to Belleair Bluffs, Florida and took up sculpture. Leslie Skinner died on November 2, 1978. He and his wife Margaret had two children. He was buried at Arlington National Cemetery with full military honors. Leslie Skinner Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the bazooka. Born in San Francisco, California, in 1900, Skinner was the only son of an army\"",
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "\"Stovepipe rocket propelled weapon Colonel Leslie Skinner development\"",
+                "id": "26302092-471c-45ac-90f5-63836bba89b1",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure, let's break down the task step by step.\n\n1. **Identify the Key Information**: The question is asking specifically about a rocket propelled weapon that Colonel Leslie Alfred Skinner helped develop, which is sometimes referred to as the \"Stovepipe.\" \n\n2. **Context Analysis**: The provided context mentions that Skinner played a leading role in the development of several rocket propelled weapons during World War II, particularly the bazooka. However, it does not explicitly mention the \"Stovepipe.\"\n\n3. **Determine Missing Information**: The missing information is the specific name of the rocket propelled weapon referred to as the \"Stovepipe\" and any details about its development or characteristics.\n\n4. **Formulate a Search Query**: The search query should focus on finding information about the \"Stovepipe\" rocket propelled weapon and its connection to Colonel Leslie Alfred Skinner.\n\nNow, based on this reasoning, I will create the search query. \n\n**Search Query**: \"Stovepipe rocket propelled weapon Colonel Leslie Skinner development\""
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Square Dance (ballet)\" | \"Square Dance (ballet) Square Dance is a ballet made by New York City Ballet co-founder and balletmaster George Balanchine to Antonio Vivaldi's \"\"Concerto Grosso in B minor\"\" and the first movement of his \"\"Concerto Grosso in E major\"\", Op. 3, nos. 10 and 12, respectively; in 1976 he added Arcangelo Corelli's \"\"Sarabanda, Badinerie e Giga\"\", second and third movements. The premiere took place on November 21, 1957, at City Center of Music and Drama, New York, with lighting by Mark Stanley. The original version placed the musicians on stage with a square dance caller calling the steps; from its 1976\"\n[2]: \"Suzanne Farrell Ballet\" | \"in spring 2018, which will include new performance and rehearsal space. Ballade (1980) Company Premiere: November 23, 2007. Music by Gabriel Faure. Choreography by George Balanchine Adagio from Concierto de Mozart (1942) Company Premiere: June 6, 2007 Music by Wolfgang Amadeus Mozart. Choreography by George Balanchine Contrapuntal Blues pas de deux from Clarinade (1964) Company Premiere: November 22, 2005 Music by Morton Gould. Choreography by George Balanchine Danses Concertantes (1972) Company Premiere: November 7, 2012 Music by Igor Stravinsky. Choreography by George Balanchine Divertimento Brillante (1967) (from Balanchine\u2019s Glinkiana) Company Premiere: June 8, 2007 Music by Mikhail Ivanovich Glinka. Choreography\"",
+                    "question": "Which Italian composer did George Balanchine add in 1976?"
+                },
+                "output": "\"George Balanchine Square Dance 1976 Arcangelo Corelli addition\"",
+                "id": "b95caff2-0b8b-44d5-9bb2-3ff575c5c3a0",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To find the answer to the question about which Italian composer George Balanchine added in 1976, we need to focus on the context provided. The relevant details mention that Balanchine originally created \"Square Dance\" using music by Antonio Vivaldi and later added music by Arcangelo Corelli in 1976.\n\nNow, to formulate an effective search query, we should aim to retrieve more information specifically about the addition of Arcangelo Corelli's music to \"Square Dance\" in 1976. This will help confirm the details and provide any additional context or significance related to this change.\n\nConsidering this, the search query should be:\n\n**search_query:** \"George Balanchine Square Dance 1976 Arcangelo Corelli addition\""
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Prefontaine (film)\" | \"Prefontaine (film) Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"\"Prefontaine\"\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death. Steve Prefontaine, a Coos Bay, Oregon student, is too small to play\"\n[2]: \"Prefontaine (film)\" | \"program. Prefontaine (film) Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"\"Prefontaine\"\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death. Steve Prefontaine, a Coos Bay, Oregon student, is too small to\"",
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "\"R. Lee Ermey character in Prefontaine film and co-founder of Nike\"",
+                "id": "8f6d8cec-7cf6-44c4-ba35-74177ae8924a",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure, let's break down the information we have and what we need to find.\n\n1. **Context Analysis**: The context provides details about the film \"Prefontaine,\" including the main characters and actors. It mentions that R. Lee Ermey plays a character who is an American track and field coach and co-founder of Nike Inc.\n\n2. **Question Breakdown**: The question specifically asks for the name of the person played by R. Lee Ermey in the film, who is also known for being a track and field coach and a co-founder of Nike Inc.\n\n3. **Key Information Needed**: We need to identify the character played by R. Lee Ermey in the film and confirm his real-life identity as a track and field coach and co-founder of Nike.\n\n4. **Search Query Construction**: To find this information, we should focus on searching for the name of the character R. Lee Ermey portrayed in the film \"Prefontaine\" and any relevant details about that character's real-life counterpart.\n\nBased on this reasoning, the effective search query would be:\n\n**search_query**: \"R. Lee Ermey character in Prefontaine film and co-founder of Nike\""
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Imperfect Circles\" | \"Imperfect Circles \"\"Imperfect Circles\"\" is the seventh episode of the first season of the CBS drama \"\"Under the Dome.\"\" The episode aired on August 5, 2013. The episode was well received by most critics, with some noting the series's progression, and the revelation of the mini-egg. Upon airing, the episode was watched by 10.42 million viewers and received an 18-49 rating of 2.6; the ratings drop from the previous episode may have been due to Time Warner Cable temporarily stopping the broadcast of CBS to subscribers over a financial dispute. Julia's (Rachelle Lefevre) friend, Harriet (played by Megan Ketch), touches\"\n[2]: \"Imperfect Circles\" | \"tonight\u2019s episode. What resulted was a mostly pointless hour of television that made me long for the good old days with Duke\u2019s house fire.\"\" Imperfect Circles \"\"Imperfect Circles\"\" is the seventh episode of the first season of the CBS drama \"\"Under the Dome.\"\" The episode aired on August 5, 2013. The episode was well received by most critics, with some noting the series's progression, and the revelation of the mini-egg. Upon airing, the episode was watched by 10.42 million viewers and received an 18-49 rating of 2.6; the ratings drop from the previous episode may have been due to Time\"",
+                    "question": "Imperfect Circles is an episode of the drama that was developed by whom?"
+                },
+                "output": "\"Who developed Under the Dome CBS drama?\"",
+                "id": "a37fd38c-4848-453f-8348-a48ec822c1ff",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: 1. **Context Analysis**: The provided context discusses the episode \"Imperfect Circles\" from the CBS drama \"Under the Dome.\" It includes details about the episode's air date, viewership, and critical reception. However, it does not mention who developed the series.\n\n2. **Question Breakdown**: The question asks for the name of the person or team who developed the drama \"Under the Dome.\" This information is not present in the context provided.\n\n3. **Key Information Needed**: We need to find out who created or developed \"Under the Dome,\" which may involve looking for the show's creator or production team.\n\n4. **Search Query Construction**: To find this information, we should focus on searching for the creator or developer of \"Under the Dome.\"\n\nBased on this reasoning, the effective search query would be:\n\n**search_query**: \"Who developed Under the Dome CBS drama?\""
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Reggie Theus\" | \"their assistant coach Kenny Natt would lead the team in the interim period. Theus was an assistant coach with the Minnesota Timberwolves under head coach Kurt Rambis from 2009 to 2011. In April 2010 Theus was interviewed by DePaul University for its head coaching position. He became the head coach of the Los Angeles D-Fenders of the NBA D-League in October 2012. Theus was named the head coach of California State University Northridge in 2013. In his first season with the Matadors he led them to a 17-18 record, but managed to reach the Big West Conference Finals where they\"\n[2]: \"Reggie Theus\" | \"Reggie Theus Reginald Wayne Theus (born October 13, 1957) is an American retired basketball player and the former head coach of California State University, Northridge. He formerly served as head coach for the NBA's Sacramento Kings and New Mexico State University's men's basketball team. He was also an assistant coach for the University of Louisville under Rick Pitino. Theus played his college basketball at UNLV for head coach Jerry Tarkanian from 1976 to 1978. In three seasons with the Runnin' Rebels, Theus averaged 12.9 points, 4.4 assists and 4.3 rebounds per game. Theus, who became one of the best players\"",
+                    "question": "Reggie Theus was the assistant coach for what man who had coached in the NBA?"
+                },
+                "output": "\"Kurt Rambis coaching career Reggie Theus assistant coach\"",
+                "id": "2be06303-43a4-45be-a20a-cc84692b205e",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: 1. **Context Analysis**: The provided context mentions Reggie Theus's coaching career, including his time as an assistant coach with the Minnesota Timberwolves under head coach Kurt Rambis. It also notes his various coaching positions, but the specific question focuses on identifying the man he assisted who had coached in the NBA.\n\n2. **Key Information Needed**: The question specifically asks for the name of the head coach under whom Reggie Theus served as an assistant coach in the NBA. \n\n3. **Identifying Relevant Details**: From the context, we see that Theus was an assistant coach under Kurt Rambis with the Minnesota Timberwolves. This is the key detail we need to confirm.\n\n4. **Search Query Construction**: To find more information about Kurt Rambis and his coaching career, particularly in relation to Reggie Theus, we should formulate a search query that targets this relationship.\n\nBased on this reasoning, the effective search query would be:\n\n**search_query**: \"Kurt Rambis coaching career Reggie Theus assistant coach\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_1": 1.0,
+            "eval_17": 0,
+            "eval_30": 0,
+            "eval_11": 0,
+            "eval_32": 1.0,
+            "eval_47": 0,
+            "eval_14": 0,
+            "eval_13": 0.5,
+            "eval_37": 1.0,
+            "eval_29": 0,
+            "eval_8": 1.0,
+            "eval_44": 0,
+            "eval_7": 1.0,
+            "eval_31": 0,
+            "eval_28": 0,
+            "eval_26": 1.0,
+            "eval_43": 1.0,
+            "eval_36": 0,
+            "eval_12": 0,
+            "eval_0": 0.5,
+            "eval_20": 0.6666666666666666,
+            "eval_6": 0,
+            "eval_34": 0.7499999999999999,
+            "eval_35": 0,
+            "eval_24": 1.0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_1",
+                "demo_id": "a37fd38c-4848-453f-8348-a48ec822c1ff"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "26302092-471c-45ac-90f5-63836bba89b1"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_43",
+                "demo_id": "2be06303-43a4-45be-a20a-cc84692b205e"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "8f6d8cec-7cf6-44c4-ba35-74177ae8924a"
+            }
+        ],
+        "task_id_set": [
+            "eval_7",
+            "eval_8",
+            "eval_1",
+            "eval_43"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "refine_query",
+        "options": {
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o-mini",
+        "type": "LMSelection"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_sampler_0_demos_61c96dfa-0076-49a1-8d12-adf919f8f3c6": {
+                "name": "generate_query_sampler_0_demos_61c96dfa-0076-49a1-8d12-adf919f8f3c6",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "d3b9ceb2-848a-4e03-86ce-870c9bf26eb2",
+                    "70d70057-8309-426b-960d-a54db209bd8d",
+                    "988cba28-dc2b-4c31-9cc7-dfe133386077",
+                    "40957330-73b3-4b93-8968-ab7e891d8ac9"
+                ]
+            },
+            "generate_query_sampler_0_demos_573884a4-77a2-4019-8fed-940831124cfe": {
+                "name": "generate_query_sampler_0_demos_573884a4-77a2-4019-8fed-940831124cfe",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "d87d0332-d450-4a14-bae8-25b0cb0a7385",
+                    "70d70057-8309-426b-960d-a54db209bd8d",
+                    "2a82ec80-52d1-4b1b-b120-11ed976277f2",
+                    "40957330-73b3-4b93-8968-ab7e891d8ac9"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "Are Princess Sumaya University for Technology and Tennessee Technological University from the same country?"
+                },
+                "output": "\"Princess Sumaya University for Technology location country\" AND \"Tennessee Technological University location country\"",
+                "id": "d3b9ceb2-848a-4e03-86ce-870c9bf26eb2",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to identify the key elements in the question. The question asks whether Princess Sumaya University for Technology and Tennessee Technological University are from the same country. \n\n1. **Identify the Universities**: We need to gather basic information about both universities, including their locations and countries.\n   - Princess Sumaya University for Technology\n   - Tennessee Technological University\n\n2. **Focus on Country Information**: The query should specifically seek information about the countries where these universities are located.\n\n3. **Consider Variations**: We might need to check for variations in the names of the universities or their abbreviations, as well as any potential common names used in sources.\n\n4. **Contextual Elements**: It may also be beneficial to include keywords that relate to the classification of the universities (e.g., \"location\", \"country\", \"university profile\").\n\nWith these elements in mind, we can construct a search query that will provide the needed information.\n\n**Search Query**: \n\"Princess Sumaya University for Technology location country\" AND \"Tennessee Technological University location country\""
+            },
+            {
+                "inputs": {
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "\"rocket propelled weapon 'Stovepipe' development Colonel Leslie Alfred Skinner\"",
+                "id": "70d70057-8309-426b-960d-a54db209bd8d",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query for the question about the rocket propelled weapon associated with Colonel Leslie Alfred Skinner, we need to identify the key components of the question. The focus is on:\n\n1. **Rocket propelled weapon** - This indicates we are looking for a specific type of military weapon that operates using a rocket propulsion system.\n2. **Nickname \"Stovepipe\"** - The question specifies a colloquial or informal name for the weapon, which is important for precise search results.\n3. **Colonel Leslie Alfred Skinner** - This person's role in the development of the weapon is crucial for contextualizing the search, as it indicates we might want to look for historical documents, military records, or biographies.\n\nGiven these components, our search query should aim to combine these elements effectively. We should consider using keywords and phrases that will yield results specifically related to military technology, the nickname of the weapon, and Skinner's contributions.\n\nNow, let\u2019s formulate the search query:\n\n1. Start with \"rocket propelled weapon\" to ensure that we are focusing on the correct category of weaponry.\n2. Add the term \"Stovepipe\" to connect the nickname to the weapon.\n3. Include \"Colonel Leslie Alfred Skinner\" to pinpoint the individual associated with the development of this weapon.\n\nNow, let's finalize our search query by combining these elements in a structured manner. \n\n**Search Query:** \n\"rocket propelled weapon 'Stovepipe' development Colonel Leslie Alfred Skinner\""
+            },
+            {
+                "inputs": {
+                    "question": "Which Italian composer did George Balanchine add in 1976?"
+                },
+                "output": "\"George Balanchine 1976 Italian composer added ballet performance\"",
+                "id": "988cba28-dc2b-4c31-9cc7-dfe133386077",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Certainly! Let's break down the components of the question to construct an effective search query.\n\n1. **Key Elements Identification**:\n   - **Person of Interest**: George Balanchine\n   - **Year**: 1976\n   - **Action**: Added a composer\n   - **Nationality/Origin of the Composer**: Italian\n   - **Subject**: Composer's identity and relevance to Balanchine\n\n2. **Contextual Considerations**:\n   - George Balanchine is known for his contributions to ballet, so the query may need to focus on the intersection of ballet and the composer\u2019s works.\n   - The year 1976 may relate to a specific ballet performance or event where this addition was made.\n\n3. **Potential Keywords**:\n   - \"George Balanchine\"\n   - \"1976\"\n   - \"Italian composer\"\n   - \"ballet\"\n   - \"added\"\n   - \"performance\"\n   - \"work\"\n\n4. **Search Intent**:\n   - The goal is to find documents, articles, or sources that mention the specific Italian composer that Balanchine incorporated or referenced in his work in 1976.\n\nNow, let's formulate the search query based on these elements. \n\n**Search Query**:\n\"George Balanchine 1976 Italian composer ballet performance added\" \n\nThis query aims to gather information about the Italian composer associated with George Balanchine in 1976, particularly in the context of ballet."
+            },
+            {
+                "inputs": {
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "\"R Lee Ermy character name in Prefontaine film American track and field coach co-founder of Nike Inc\"",
+                "id": "40957330-73b3-4b93-8968-ab7e891d8ac9",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Absolutely, let's break down the question to identify key components that will guide our search query.\n\n1. **Key Figures**: The question mentions \"R Lee Ermy,\" indicating we need information about this actor. \n2. **Film Reference**: The film mentioned is \"Prefontaine.\" This implies that we should focus on the character he played in this specific film.\n3. **Additional Context**: The question also describes the character as an \"American track and field coach\" and identifies him as a \"co-founder of Nike Inc.\" This suggests that we are looking for a specific individual who has a historical or biographical significance in the context of athletics and business.\n4. **Relationships**: We need to find the connection between R Lee Ermy's character in the film \"Prefontaine\" and the American track and field coach who co-founded Nike.\n\nBased on these elements, our search query should target:\n\n- R Lee Ermy\n- Prefontaine film\n- Character name\n- American track and field coach associated with Nike\n\nNow, let's construct the search query by combining these aspects.\n\n**Search Query**:\n\"R Lee Ermy character name in Prefontaine film American track and field coach co-founder of Nike Inc\""
+            },
+            {
+                "inputs": {
+                    "question": "Imperfect Circles is an episode of the drama that was developed by whom?"
+                },
+                "output": "\"Imperfect Circles episode development creators writers producers drama series\"",
+                "id": "d87d0332-d450-4a14-bae8-25b0cb0a7385",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query for the question about the episode \"Imperfect Circles,\" we need to identify the key components of the question. The main focus is on the episode itself and the individual or team responsible for its development. \n\n1. **Identify the Episode**: The title \"Imperfect Circles\" is crucial, as it specifies the exact episode we are inquiring about.\n2. **Context of Development**: The question asks who developed the episode, which implies we are looking for information about the creators, writers, or producers associated with it.\n3. **Drama Genre**: Since the episode is part of a drama, we should include this context to narrow down the search to relevant sources.\n\nNow, we can formulate a search query that encapsulates these elements. \n\n**Search Query**: \n\"Imperfect Circles episode development creators writers producers drama series\" \n\nThis query is structured to retrieve information specifically about the development of the episode \"Imperfect Circles,\" focusing on the individuals or teams involved in its creation within the drama genre."
+            },
+            {
+                "inputs": {
+                    "question": "Reggie Theus was the assistant coach for what man who had coached in the NBA?"
+                },
+                "output": "\"Reggie Theus assistant coach NBA coach\" OR \"Reggie Theus coaching history\" OR \"Reggie Theus who did he coach with in NBA\"",
+                "id": "2a82ec80-52d1-4b1b-b120-11ed976277f2",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to break down the question into its key components:\n\n1. **Subject**: Reggie Theus\n2. **Role**: Assistant coach\n3. **Context**: The person he assisted who had coached in the NBA\n\nNext, we need to consider the type of information we are looking for:\n- We want to find out who Reggie Theus was an assistant coach for, specifically focusing on someone with a history of coaching in the NBA.\n\nNow, we can formulate a search query that captures these elements. The query should include:\n- Reggie Theus\n- Assistant coach\n- NBA coach\n- The relationship between Theus and the NBA coach\n\nTaking all of this into account, the search query could be structured as follows:\n\n**search_query**: \"Reggie Theus assistant coach NBA coach\" OR \"Reggie Theus coaching history\" OR \"Reggie Theus who did he coach with in NBA\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_1": 1.0,
+            "eval_17": 0,
+            "eval_30": 0,
+            "eval_11": 0,
+            "eval_32": 1.0,
+            "eval_47": 0,
+            "eval_14": 0,
+            "eval_13": 0.5,
+            "eval_37": 1.0,
+            "eval_29": 0,
+            "eval_8": 1.0,
+            "eval_44": 0,
+            "eval_7": 1.0,
+            "eval_31": 0,
+            "eval_28": 0,
+            "eval_26": 1.0,
+            "eval_43": 1.0,
+            "eval_36": 0,
+            "eval_12": 0,
+            "eval_0": 0.5,
+            "eval_20": 0.6666666666666666,
+            "eval_6": 0,
+            "eval_34": 0.7499999999999999,
+            "eval_35": 0,
+            "eval_24": 1.0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_1",
+                "demo_id": "d87d0332-d450-4a14-bae8-25b0cb0a7385"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "70d70057-8309-426b-960d-a54db209bd8d"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_43",
+                "demo_id": "2a82ec80-52d1-4b1b-b120-11ed976277f2"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "40957330-73b3-4b93-8968-ab7e891d8ac9"
+            }
+        ],
+        "task_id_set": [
+            "eval_7",
+            "eval_8",
+            "eval_1",
+            "eval_43"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "generate_query_sampler_0",
+        "options": {
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o-mini",
+        "type": "LMSelection"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_demos_83de4141-8381-458e-8472-a9a56a966519": {
+                "name": "generate_answer_demos_83de4141-8381-458e-8472-a9a56a966519",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "b16ad1f7-fd9c-4f44-bde3-92cc1177e144",
+                    "934fcc75-d4f4-4542-a345-f352421f0569",
+                    "975ad8bd-3d80-44d3-8a96-95ddc025219d",
+                    "e8fea64b-945e-431f-aaec-1c05adc4157e"
+                ]
+            },
+            "generate_answer_demos_87d0d065-589f-4eaf-a15c-f5069d329c58": {
+                "name": "generate_answer_demos_87d0d065-589f-4eaf-a15c-f5069d329c58",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "9217eb3a-2ede-4d2c-a65e-6ff4081d8248",
+                    "934fcc75-d4f4-4542-a345-f352421f0569",
+                    "d039c9bf-1379-441f-91e1-5c9fc1607350",
+                    "e8fea64b-945e-431f-aaec-1c05adc4157e"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"Princess Sumaya University for Technology\" | \"located at the heart of Jordan's scientific, academic and R&D corridor. Furthermore, the center will extend its services to cover not only Jordan but the region as a whole. The center is planned to be the regions' cornerstone for technology commercialization and entrepreneurship development. The QRCE will target university students, researchers, innovators, entrepreneurs and others. According to PSUT's development plan, the next step will be the establishment of a business school to be linked to the center. Working closely with local and international organizations; the QRCE focuses on issues such as: capacity building, consulting, counseling and developing the local \"\"Entrepreneurial\"\n[2]: \"Princess Sumaya University for Technology\" | \"Princess Sumaya University for Technology Princess Sumaya University for Technology (PSUT), established in 1991, is a specialized, Non-governmental, Non-profit, Jordanian university, owned by the leading applied research centre in Jordan, the Royal Scientific Society (RSS). PSUT's area of specialization is IT, Communications and Electronics. As a nonprofit institution, PSUT embraces both the public and private sectors, but while akin to public universities in its mission, it is more aligned to the private sector in drive and spirit. PSUT is located in Amman, Jordan, offering an array of ICT related courses. It currently offers B.Sc. degrees in Computer Science, Computer Graphics\"\n[3]: \"Tennessee Technological University\" | \"Tennessee Technological University Tennessee Technological University, popularly known as Tennessee Tech, is an accredited public university located in Cookeville, Tennessee, United States, a city approximately 80 miles (129 km) east of Nashville. It was formerly known as Tennessee Polytechnic Institute (1915), and before that as University of Dixie, the name under which it was founded as a private institution in 1909. Tennessee Tech places special emphasis on undergraduate education in fields related to engineering and technology, although degrees in education, liberal arts, agriculture, nursing, and other fields of study can be pursued as well. Additionally, there are graduate offerings in\"\n[4]: \"Tennessee Technological University\" | \"engineering, education, business, and the liberal arts. Affiliated with the Tennessee Board of Regents, the university is governed by a Board of Trustees. Its athletic teams compete in the Ohio Valley Conference. As of the 2018 fall semester, Tennessee Tech enrolls more than 10,000 students (9,006 undergraduate and 1,180 graduate students), and its campus has 87 buildings on centered along Dixie Avenue in northern Cookeville. The average class size is 26 students, and the student to faculty ratio is 18:1. Fewer than one percent of all classes are taught by teaching assistants, with the rest of the classes being taught\"",
+                    "question": "Are Princess Sumaya University for Technology and Tennessee Technological University from the same country?"
+                },
+                "output": "No.",
+                "id": "b16ad1f7-fd9c-4f44-bde3-92cc1177e144",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information provided in the context step by step.\n\n1. **Identify the Locations**:\n   - **Princess Sumaya University for Technology (PSUT)** is located in Amman, Jordan.\n   - **Tennessee Technological University (Tennessee Tech)** is located in Cookeville, Tennessee, United States.\n\n2. **Determine the Countries**:\n   - PSUT is in Jordan, which is a country in the Middle East.\n   - Tennessee Tech is in the United States, which is a country in North America.\n\n3. **Compare the Countries**:\n   - Since Jordan and the United States are two distinct countries, they are not the same.\n\nNow that we have analyzed the information, we can conclude whether the two universities are from the same country or not. \n\nWould you like to proceed with the final response?"
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Leslie Skinner\" | \"Leslie Skinner Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the bazooka. Born in San Francisco, California, in 1900, Skinner was the only son of an army surgeon. As a young teenager, he had a fascination with rockets and began to build his own, an activity that was forbidden after he had set fire to the hospital roof at Fort Strong, Massachusetts in 1915. He graduated from Boston\"\n[2]: \"Leslie Skinner\" | \"manufacturing Oerlikon Group. In 1970, he moved to Belleair Bluffs, Florida and took up sculpture. Leslie Skinner died on November 2, 1978. He and his wife Margaret had two children. He was buried at Arlington National Cemetery with full military honors. Leslie Skinner Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the bazooka. Born in San Francisco, California, in 1900, Skinner was the only son of an army\"",
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "Bazooka",
+                "id": "934fcc75-d4f4-4542-a345-f352421f0569",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information provided in the context step by step.\n\n1. **Identify the Key Figure**: The context mentions Colonel Leslie Alfred Skinner, who was an American rocket engineer.\n\n2. **Focus on Contributions**: It states that he played a leading role in the development of several rocket-propelled weapons during World War II.\n\n3. **Specific Weapon Mentioned**: Among the weapons he helped develop, the context specifically highlights the bazooka, which is noted as the first shoulder-fired missile system.\n\n4. **Connection to the Term \"Stovepipe\"**: The question refers to a rocket-propelled weapon sometimes called the \"Stovepipe.\" The bazooka is known to have been informally referred to as the \"Stovepipe\" due to its shape.\n\nNow that we have analyzed the context, we can conclude that the weapon Colonel Leslie Alfred Skinner helped develop, which is sometimes referred to as the \"Stovepipe,\" is the bazooka.\n\nShall I provide the final answer?"
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Square Dance (ballet)\" | \"Square Dance (ballet) Square Dance is a ballet made by New York City Ballet co-founder and balletmaster George Balanchine to Antonio Vivaldi's \"\"Concerto Grosso in B minor\"\" and the first movement of his \"\"Concerto Grosso in E major\"\", Op. 3, nos. 10 and 12, respectively; in 1976 he added Arcangelo Corelli's \"\"Sarabanda, Badinerie e Giga\"\", second and third movements. The premiere took place on November 21, 1957, at City Center of Music and Drama, New York, with lighting by Mark Stanley. The original version placed the musicians on stage with a square dance caller calling the steps; from its 1976\"\n[2]: \"Suzanne Farrell Ballet\" | \"in spring 2018, which will include new performance and rehearsal space. Ballade (1980) Company Premiere: November 23, 2007. Music by Gabriel Faure. Choreography by George Balanchine Adagio from Concierto de Mozart (1942) Company Premiere: June 6, 2007 Music by Wolfgang Amadeus Mozart. Choreography by George Balanchine Contrapuntal Blues pas de deux from Clarinade (1964) Company Premiere: November 22, 2005 Music by Morton Gould. Choreography by George Balanchine Danses Concertantes (1972) Company Premiere: November 7, 2012 Music by Igor Stravinsky. Choreography by George Balanchine Divertimento Brillante (1967) (from Balanchine\u2019s Glinkiana) Company Premiere: June 8, 2007 Music by Mikhail Ivanovich Glinka. Choreography\"\n[3]: \"Square Dance (ballet)\" | \"revival the caller was eliminated, the orchestra placed in the pit, and a solo added for the \"\"premier danseur\"\" to the Corelli \"\"Sarabanda\"\". The Pacific Northwest Ballet restored the caller for one performance at the 2007 Vail International Dance Festival. Square Dance (ballet) Square Dance is a ballet made by New York City Ballet co-founder and balletmaster George Balanchine to Antonio Vivaldi's \"\"Concerto Grosso in B minor\"\" and the first movement of his \"\"Concerto Grosso in E major\"\", Op. 3, nos. 10 and 12, respectively; in 1976 he added Arcangelo Corelli's \"\"Sarabanda, Badinerie e Giga\"\", second and third movements. The\"",
+                    "question": "Which Italian composer did George Balanchine add in 1976?"
+                },
+                "output": "Arcangelo Corelli",
+                "id": "975ad8bd-3d80-44d3-8a96-95ddc025219d",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information provided in the context step by step.\n\n1. The context mentions that George Balanchine created a ballet called \"Square Dance.\"\n2. It states that the original music for this ballet was composed by Antonio Vivaldi, specifically his \"Concerto Grosso in B minor\" and the first movement of his \"Concerto Grosso in E major.\"\n3. In 1976, Balanchine added music by another composer to the ballet.\n4. The context specifically names this additional music as \"Sarabanda, Badinerie e Giga,\" which are the second and third movements of a work by Arcangelo Corelli.\n\nFrom this reasoning, we can conclude that the Italian composer added by George Balanchine in 1976 is Arcangelo Corelli. \n\nNow, I can provide the final response. Would you like me to do that?"
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Prefontaine (film)\" | \"Prefontaine (film) Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"\"Prefontaine\"\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death. Steve Prefontaine, a Coos Bay, Oregon student, is too small to play\"\n[2]: \"Prefontaine (film)\" | \"program. Prefontaine (film) Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"\"Prefontaine\"\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death. Steve Prefontaine, a Coos Bay, Oregon student, is too small to\"",
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "Bill Bowerman",
+                "id": "e8fea64b-945e-431f-aaec-1c05adc4157e",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information provided in the context to find the answer.\n\n1. **Identify the character played by R. Lee Ermey**: The context mentions that R. Lee Ermey plays a character in the film \"Prefontaine.\" \n\n2. **Determine the character's identity**: The context states that the film is about Steve Prefontaine, a long-distance runner, and it also mentions Bill Bowerman as a character played by R. Lee Ermey.\n\n3. **Research Bill Bowerman**: Bill Bowerman is known to be an American track and field coach and is indeed one of the co-founders of Nike Inc.\n\nNow that we have identified the character and confirmed his significance, we can formulate the final answer. \n\nWould you like me to provide the final response now?"
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Imperfect Circles\" | \"Imperfect Circles \"\"Imperfect Circles\"\" is the seventh episode of the first season of the CBS drama \"\"Under the Dome.\"\" The episode aired on August 5, 2013. The episode was well received by most critics, with some noting the series's progression, and the revelation of the mini-egg. Upon airing, the episode was watched by 10.42 million viewers and received an 18-49 rating of 2.6; the ratings drop from the previous episode may have been due to Time Warner Cable temporarily stopping the broadcast of CBS to subscribers over a financial dispute. Julia's (Rachelle Lefevre) friend, Harriet (played by Megan Ketch), touches\"\n[2]: \"Imperfect Circles\" | \"tonight\u2019s episode. What resulted was a mostly pointless hour of television that made me long for the good old days with Duke\u2019s house fire.\"\" Imperfect Circles \"\"Imperfect Circles\"\" is the seventh episode of the first season of the CBS drama \"\"Under the Dome.\"\" The episode aired on August 5, 2013. The episode was well received by most critics, with some noting the series's progression, and the revelation of the mini-egg. Upon airing, the episode was watched by 10.42 million viewers and received an 18-49 rating of 2.6; the ratings drop from the previous episode may have been due to Time\"\n[3]: \"Under the Dome (TV series)\" | \"Under the Dome (TV series) Under the Dome is an American science-fiction mystery drama television series. It premiered on CBS on June 24, 2013, and concluded on September 10, 2015. The series was developed by Brian K. Vaughan and based on Stephen King's 2009 novel of the same name. \"\"Under the Dome\"\" tells the story of the residents of the fictional small town of Chester's Mill, when a massive, transparent, indestructible dome suddenly cuts them off from the rest of the world. Military forces, the government, and the media positioned outside the barrier attempt to break it down, while the\"\n[4]: \"Pilot (Under the Dome)\" | \"Pilot (Under the Dome) \"\"Pilot\"\" is the pilot episode of the American science fiction drama \"\"Under the Dome\"\", based on the novel of the same name by author Stephen King. It originally aired on CBS in the United States on June 24, 2013. The premiere episode was met with generally positive reviews from critics; and was watched by 13.53 million American viewers, setting numerous records for CBS. Dale \"\"Barbie\"\" Barbara (Mike Vogel) buries a man's body in the woods of Chester's Mill. As he tries to escape the town, a mysterious, invisible barrier descends on the borders of the township,\"",
+                    "question": "Imperfect Circles is an episode of the drama that was developed by whom?"
+                },
+                "output": "Brian K. Vaughan",
+                "id": "9217eb3a-2ede-4d2c-a65e-6ff4081d8248",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information provided in the context step by step.\n\n1. **Identify the Episode**: The context mentions \"Imperfect Circles\" as the seventh episode of the first season of the CBS drama \"Under the Dome.\"\n\n2. **Determine the Development of the Series**: The context also provides information about the series \"Under the Dome,\" stating that it was developed by Brian K. Vaughan.\n\n3. **Connect the Episode to the Developer**: Since \"Imperfect Circles\" is an episode of \"Under the Dome,\" we can conclude that the episode was developed by the same person who developed the series.\n\nNow that we have analyzed the information, we can formulate the final answer. Would you like me to provide that now?"
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Reggie Theus\" | \"their assistant coach Kenny Natt would lead the team in the interim period. Theus was an assistant coach with the Minnesota Timberwolves under head coach Kurt Rambis from 2009 to 2011. In April 2010 Theus was interviewed by DePaul University for its head coaching position. He became the head coach of the Los Angeles D-Fenders of the NBA D-League in October 2012. Theus was named the head coach of California State University Northridge in 2013. In his first season with the Matadors he led them to a 17-18 record, but managed to reach the Big West Conference Finals where they\"\n[2]: \"Reggie Theus\" | \"Reggie Theus Reginald Wayne Theus (born October 13, 1957) is an American retired basketball player and the former head coach of California State University, Northridge. He formerly served as head coach for the NBA's Sacramento Kings and New Mexico State University's men's basketball team. He was also an assistant coach for the University of Louisville under Rick Pitino. Theus played his college basketball at UNLV for head coach Jerry Tarkanian from 1976 to 1978. In three seasons with the Runnin' Rebels, Theus averaged 12.9 points, 4.4 assists and 4.3 rebounds per game. Theus, who became one of the best players\"",
+                    "question": "Reggie Theus was the assistant coach for what man who had coached in the NBA?"
+                },
+                "output": "Rick Pitino",
+                "id": "d039c9bf-1379-441f-91e1-5c9fc1607350",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information provided in the context step by step.\n\n1. **Identify Reggie Theus**: The context mentions that Reggie Theus is an American retired basketball player and former head coach of California State University, Northridge. \n\n2. **Look for Coaching Positions**: Theus served as an assistant coach for the University of Louisville under Rick Pitino. \n\n3. **Identify Rick Pitino**: Rick Pitino is a well-known figure in basketball, having coached in the NBA as well as in college basketball.\n\n4. **Confirm the Relationship**: Since Theus was an assistant coach under Rick Pitino, and Pitino has coached in the NBA, we can conclude that Theus was the assistant coach for Rick Pitino.\n\nNow that we have analyzed the context, we can formulate the final answer. Would you like me to provide that now?"
+            }
+        ],
+        "best_score_by_task": {
+            "eval_1": 1.0,
+            "eval_17": 0,
+            "eval_30": 0,
+            "eval_11": 0,
+            "eval_32": 1.0,
+            "eval_47": 0,
+            "eval_14": 0,
+            "eval_13": 0.5,
+            "eval_37": 1.0,
+            "eval_29": 0,
+            "eval_8": 1.0,
+            "eval_44": 0,
+            "eval_7": 1.0,
+            "eval_31": 0,
+            "eval_28": 0,
+            "eval_26": 1.0,
+            "eval_43": 1.0,
+            "eval_36": 0,
+            "eval_12": 0,
+            "eval_0": 0.5,
+            "eval_20": 0.6666666666666666,
+            "eval_6": 0,
+            "eval_34": 0.7499999999999999,
+            "eval_35": 0,
+            "eval_24": 1.0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_1",
+                "demo_id": "9217eb3a-2ede-4d2c-a65e-6ff4081d8248"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "934fcc75-d4f4-4542-a345-f352421f0569"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_43",
+                "demo_id": "d039c9bf-1379-441f-91e1-5c9fc1607350"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "e8fea64b-945e-431f-aaec-1c05adc4157e"
+            }
+        ],
+        "task_id_set": [
+            "eval_7",
+            "eval_8",
+            "eval_1",
+            "eval_43"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "generate_answer",
+        "options": {
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o-mini",
+        "type": "LMSelection"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_aggregator_demos_48eba63f-1a31-4ef3-87b3-a8ea1ac0c7b7": {
+                "name": "generate_query_aggregator_demos_48eba63f-1a31-4ef3-87b3-a8ea1ac0c7b7",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "4196d056-083d-40e4-8538-1424cf0437b4",
+                    "036c236d-e73d-4cf6-8a2a-3add39e87651",
+                    "e71499b9-c576-4050-94b2-3e6267ef3c29",
+                    "83d5289c-de29-4608-9bee-37188a94e47c"
+                ]
+            },
+            "generate_query_aggregator_demos_3420a061-5261-4f62-81c4-102e8d0b39b7": {
+                "name": "generate_query_aggregator_demos_3420a061-5261-4f62-81c4-102e8d0b39b7",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "cfdb5927-7d3c-433a-a695-6d9c6a988c70",
+                    "036c236d-e73d-4cf6-8a2a-3add39e87651",
+                    "9ce77954-826e-4978-be00-781a323c72dd",
+                    "83d5289c-de29-4608-9bee-37188a94e47c"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.\n\nYou should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.\n",
+                    "inputs": "{'question': 'Are Princess Sumaya University for Technology and Tennessee Technological University from the same country?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to identify the key elements in the question. The question asks whether Princess Sumaya University for Technology and Tennessee Technological University are from the same country. \n\n1. **Identify the Universities**: We need to gather basic information about both universities, including their locations and countries.\n   - Princess Sumaya University for Technology\n   - Tennessee Technological University\n\n2. **Focus on Country Information**: The query should specifically seek information about the countries where these universities are located.\n\n3. **Consider Variations**: We might need to check for variations in the names of the universities or their abbreviations, as well as any potential common names used in sources.\n\n4. **Contextual Elements**: It may also be beneficial to include keywords that relate to the classification of the universities (e.g., \"location\", \"country\", \"university profile\").\n\nWith these elements in mind, we can construct a search query that will provide the needed information.\n\n**Search Query**: \n\"Princess Sumaya University for Technology location country\" AND \"Tennessee Technological University location country\"\n\nAnswer: \"Princess Sumaya University for Technology location country\" AND \"Tennessee Technological University location country\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct a search query that effectively addresses the question of whether Princess Sumaya University for Technology and Tennessee Technological University are from the same country, we need to break down the elements of the question. \n\n1. **Identify the Institutions**: We need to gather information about both universities - their names and locations.\n2. **Country Information**: We need to confirm the countries where each university is located.\n3. **Comparison**: The query should aim to determine if both universities belong to the same country.\n\nGiven these points, the search query should focus on retrieving information about the locations of both universities and explicitly stating their respective countries. \n\nNow, let's draft a search query that encapsulates these elements.\n\n**Search Query**: \"Princess Sumaya University for Technology location country\" AND \"Tennessee Technological University location country\" AND \"are they in the same country?\"\n\nAnswer: \"Princess Sumaya University for Technology location country\" AND \"Tennessee Technological University location country\" AND \"are they in the same country?\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query for the given question, we need to identify the key elements involved:\n\n1. **Educational Institutions**: We are dealing with two specific universities: Princess Sumaya University for Technology and Tennessee Technological University.\n2. **Geographical Context**: The question seeks to determine whether these two universities are from the same country, which requires information about the locations of each institution.\n\nWith these elements in mind, the search query should focus on retrieving information about the countries where each university is located. \n\nNow, let's formulate the search query:\n\n**Search Query**: \"Princess Sumaya University for Technology location country\" AND \"Tennessee Technological University location country\" \n\nThis query aims to find relevant information about the geographical locations and countries of both universities, allowing us to determine if they are from the same country.\n\nAnswer: \"Princess Sumaya University for Technology country\" AND \"Tennessee Technological University country\"\n        "
+                },
+                "output": "\"Princess Sumaya University for Technology location country\" AND \"Tennessee Technological University location country\"",
+                "id": "4196d056-083d-40e4-8538-1424cf0437b4",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.\n\nYou should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.\n",
+                    "inputs": "{'question': 'Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query for the question about the rocket propelled weapon associated with Colonel Leslie Alfred Skinner, we need to identify the key components of the question. The focus is on:\n\n1. **Rocket propelled weapon** - This indicates we are looking for a specific type of military weapon that operates using a rocket propulsion system.\n2. **Nickname \"Stovepipe\"** - The question specifies a colloquial or informal name for the weapon, which is important for precise search results.\n3. **Colonel Leslie Alfred Skinner** - This person's role in the development of the weapon is crucial for contextualizing the search, as it indicates we might want to look for historical documents, military records, or biographies.\n\nGiven these components, our search query should aim to combine these elements effectively. We should consider using keywords and phrases that will yield results specifically related to military technology, the nickname of the weapon, and Skinner's contributions.\n\nNow, let\u2019s formulate the search query:\n\n1. Start with \"rocket propelled weapon\" to ensure that we are focusing on the correct category of weaponry.\n2. Add the term \"Stovepipe\" to connect the nickname to the weapon.\n3. Include \"Colonel Leslie Alfred Skinner\" to pinpoint the individual associated with the development of this weapon.\n\nNow, let's finalize our search query by combining these elements in a structured manner. \n\n**Search Query:** \n\"rocket propelled weapon 'Stovepipe' development Colonel Leslie Alfred Skinner\"\n\nAnswer: \"rocket propelled weapon 'Stovepipe' development Colonel Leslie Alfred Skinner\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to identify the key elements of the question:\n\n1. **Key Subject**: The question is about a specific type of weapon, which is a \"rocket propelled weapon.\"\n2. **Nickname**: The weapon is referred to as the \"Stovepipe.\"\n3. **Person of Interest**: Colonel Leslie Alfred Skinner is mentioned as someone who contributed to the development of this weapon.\n\nNext, we need to consider the context and potential variations that could help in retrieving relevant information. This includes synonyms, variations in naming conventions, and additional details that might be relevant for a search.\n\n### Key Components to Consider:\n- **Weapon Type**: Rocket propelled weapon\n- **Nickname**: Stovepipe\n- **Developer**: Colonel Leslie Alfred Skinner\n- **Historical Context**: Consider the time period when this weapon might have been developed, which could help in narrowing down the search.\n\n### Search Query Construction:\nNow, we can formulate a search query that encapsulates all these elements. We want to ensure that we capture various possible sources of information, such as articles, military history references, or specific weapon development documentation.\n\n### Proposed Search Query:\n\"rocket propelled weapon 'Stovepipe' Colonel Leslie Alfred Skinner development history\"\n\nThis query includes:\n- The specific type of weapon (rocket propelled weapon)\n- The nickname of the weapon ('Stovepipe')\n- The name of the developer (Colonel Leslie Alfred Skinner)\n- Keywords related to the context of development (development, history)\n\nBy using this structured query, we increase the chances of retrieving detailed information about the weapon in question and the role of Colonel Skinner in its development.\n\nAnswer: \"rocket propelled weapon 'Stovepipe' Colonel Leslie Alfred Skinner development history\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to break down the components of the question and identify the key elements that will guide our search for relevant information. \n\n1. **Key Terms**: \n   - \"rocket propelled weapon\"\n   - \"Stovepipe\"\n   - \"Colonel Leslie Alfred Skinner\"\n   - \"develop\"\n\n2. **Contextual Understanding**: \n   - We are looking for historical information regarding military weaponry, particularly a specific type of rocket weapon. \n   - The term \"Stovepipe\" may refer to a specific model or type of rocket propelled weapon, so we need to include that in our search. \n   - Colonel Leslie Alfred Skinner\u2019s role in the development of this weapon is significant, so we should look for sources that discuss his contributions or the weapon itself.\n\n3. **Possible Nuances**: \n   - It's important to consider variations in terminology and synonyms. For instance, \"rocket propelled weapon\" might also be referred to as \"guided missile\" or \"rocket launcher.\"\n   - The timeframe of development may also be relevant, so including terms that hint at historical context might be useful.\n\nWith these key components in mind, we can construct a search query that seeks to retrieve comprehensive information on the topic.\n\n**Search Query**:\n\"rocket propelled weapon Stovepipe Colonel Leslie Alfred Skinner development history military\"\n\nAnswer: \"rocket propelled weapon Stovepipe Colonel Leslie Alfred Skinner development history military\"\n        "
+                },
+                "output": "\"rocket propelled weapon 'Stovepipe' Colonel Leslie Alfred Skinner development history\"",
+                "id": "036c236d-e73d-4cf6-8a2a-3add39e87651",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.\n\nYou should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.\n",
+                    "inputs": "{'question': 'Which Italian composer did George Balanchine add in 1976?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Certainly! Let's break down the components of the question to construct an effective search query.\n\n1. **Key Elements Identification**:\n   - **Person of Interest**: George Balanchine\n   - **Year**: 1976\n   - **Action**: Added a composer\n   - **Nationality/Origin of the Composer**: Italian\n   - **Subject**: Composer's identity and relevance to Balanchine\n\n2. **Contextual Considerations**:\n   - George Balanchine is known for his contributions to ballet, so the query may need to focus on the intersection of ballet and the composer\u2019s works.\n   - The year 1976 may relate to a specific ballet performance or event where this addition was made.\n\n3. **Potential Keywords**:\n   - \"George Balanchine\"\n   - \"1976\"\n   - \"Italian composer\"\n   - \"ballet\"\n   - \"added\"\n   - \"performance\"\n   - \"work\"\n\n4. **Search Intent**:\n   - The goal is to find documents, articles, or sources that mention the specific Italian composer that Balanchine incorporated or referenced in his work in 1976.\n\nNow, let's formulate the search query based on these elements. \n\n**Search Query**:\n\"George Balanchine 1976 Italian composer ballet performance added\" \n\nThis query aims to gather information about the Italian composer associated with George Balanchine in 1976, particularly in the context of ballet.\n\nAnswer: \"George Balanchine 1976 Italian composer added ballet performance\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct a detailed search query, we need to identify the key elements of the question:\n\n1. **Subject**: George Balanchine\n2. **Action**: Added\n3. **Context**: The year 1976\n4. **Detail**: An Italian composer\n\nNext, we can think about what type of information we need to gather. We are looking for sources that discuss George Balanchine's work or contributions in 1976 and specifically mention an Italian composer he incorporated into his ballet or choreography. \n\nNow, let's consider possible keywords and phrases that would help us retrieve relevant documents:\n\n- \"George Balanchine\"\n- \"1976\"\n- \"Italian composer\"\n- \"ballet\"\n- \"added\"\n- \"choreography\"\n\nNow that we've identified the key elements, we can structure these into a coherent search query that will likely yield the most relevant results. \n\nHere's how we can combine these elements:\n\n**Search Query**: \"George Balanchine Italian composer 1976 added choreography ballet\" \n\nThis query includes all the necessary components to find documents related to the specific action taken by Balanchine in the specified year, focusing on Italian composers and their relevance to his works.\n\nAnswer: \"George Balanchine Italian composer 1976 added choreography ballet\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct a detailed search query, we need to identify the key elements of the question: \n\n1. The main subject: George Balanchine, who is known for his contributions to ballet.\n2. The action: Adding a composer in 1976.\n3. The specific detail sought: The name of the Italian composer.\n\nWith these elements in mind, we should structure a search query that captures all of these points. \n\nNow, let's consider how to phrase the search query to maximize relevance. We want to ensure we include:\n- George Balanchine's name to focus on his work.\n- The year 1976 to specify the timeframe of interest.\n- The term \"Italian composer\" to narrow down the search to the specific nationality of the composer.\n\nAdditionally, it might be beneficial to include terms like \"ballet,\" \"music,\" or \"choreography,\" as these might provide context for the composer's relevance to Balanchine's work.\n\nNow that we have analyzed the components, we can construct a comprehensive search query. \n\nHere\u2019s how the final search query will look: \n\n**search_query**: \"George Balanchine Italian composer added 1976 ballet music choreography\"\n\nAnswer: \"George Balanchine Italian composer added 1976 ballet music choreography\"\n        "
+                },
+                "output": "\"George Balanchine Italian composer added 1976 ballet music choreography\"",
+                "id": "e71499b9-c576-4050-94b2-3e6267ef3c29",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.\n\nYou should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.\n",
+                    "inputs": "{'question': 'What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Absolutely, let's break down the question to identify key components that will guide our search query.\n\n1. **Key Figures**: The question mentions \"R Lee Ermy,\" indicating we need information about this actor. \n2. **Film Reference**: The film mentioned is \"Prefontaine.\" This implies that we should focus on the character he played in this specific film.\n3. **Additional Context**: The question also describes the character as an \"American track and field coach\" and identifies him as a \"co-founder of Nike Inc.\" This suggests that we are looking for a specific individual who has a historical or biographical significance in the context of athletics and business.\n4. **Relationships**: We need to find the connection between R Lee Ermy's character in the film \"Prefontaine\" and the American track and field coach who co-founded Nike.\n\nBased on these elements, our search query should target:\n\n- R Lee Ermy\n- Prefontaine film\n- Character name\n- American track and field coach associated with Nike\n\nNow, let's construct the search query by combining these aspects.\n\n**Search Query**:\n\"R Lee Ermy character name in Prefontaine film American track and field coach co-founder of Nike Inc\"\n\nAnswer: \"R Lee Ermy character name in Prefontaine film American track and field coach co-founder of Nike Inc\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to break down the question into its key components:\n\n1. **Identify the main subject**: The question revolves around R Lee Ermy and the character he portrayed in the film \"Prefontaine.\"\n\n2. **Character specifics**: We need to find out the name of the character that R Lee Ermy played in this film.\n\n3. **Relation to track and field**: The question specifies that this character is also an American track and field coach.\n\n4. **Connection to Nike Inc.**: Additionally, the character is noted to be a co-founder of Nike Inc.\n\nWith these elements in mind, the search query should aim to retrieve information about R Lee Ermy, the film \"Prefontaine,\" the character he played, and the relevant historical context regarding the character\u2019s real-life achievements.\n\nNow, let's construct the search query.\n\n**Search Query**: \n\"R Lee Ermy Prefontaine film character name American track and field coach co-founder of Nike Inc\"\n\nAnswer: \"R Lee Ermy Prefontaine film character name American track and field coach co-founder of Nike Inc\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct a precise search query, we need to break down the question into its key components:\n\n1. **Main Topic**: The question is focused on a specific character portrayed by R Lee Ermy in the film \"Prefontaine.\"\n2. **Person's Role**: This character is described as an American track and field coach.\n3. **Connection to Nike**: The individual is also noted as a co-founder of Nike Inc.\n4. **Film Reference**: The film in question is \"Prefontaine,\" which relates to the life of a famous American distance runner.\n\nWith these components in mind, the search query should aim to gather information that connects R Lee Ermy, his character in \"Prefontaine,\" the identity of that character, and the relevant accomplishments or affiliations of that character, particularly with Nike Inc.\n\nNow, we can formulate a structured search query:\n\n**Search Query**: \"R Lee Ermy character Prefontaine film American track and field coach Nike co-founder name\"\n\nThis query targets all the essential elements of the question while ensuring that it is broad enough to capture various sources that discuss both the film and the individual in question.\n\nAnswer: \"R Lee Ermy character Prefontaine film American track and field coach Nike co-founder name\"\n        "
+                },
+                "output": "\"R Lee Ermy character name in Prefontaine film American track and field coach co-founder of Nike Inc\"",
+                "id": "83d5289c-de29-4608-9bee-37188a94e47c",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.\n\nYou should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.\n",
+                    "inputs": "{'question': 'Imperfect Circles is an episode of the drama that was developed by whom?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query for the question about the episode \"Imperfect Circles,\" we need to identify the key components of the question. The main focus is on the episode itself and the individual or team responsible for its development. \n\n1. **Identify the Episode**: The title \"Imperfect Circles\" is crucial, as it specifies the exact episode we are inquiring about.\n2. **Context of Development**: The question asks who developed the episode, which implies we are looking for information about the creators, writers, or producers associated with it.\n3. **Drama Genre**: Since the episode is part of a drama, we should include this context to narrow down the search to relevant sources.\n\nNow, we can formulate a search query that encapsulates these elements. \n\n**Search Query**: \n\"Imperfect Circles episode development creators writers producers drama series\" \n\nThis query is structured to retrieve information specifically about the development of the episode \"Imperfect Circles,\" focusing on the individuals or teams involved in its creation within the drama genre.\n\nAnswer: \"Imperfect Circles episode development creators writers producers drama series\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: : To construct an effective search query, we need to identify the key elements of the question:\n\n1. **Title of the Episode**: The episode in question is titled \"Imperfect Circles.\"\n2. **Type of Show**: It is specified that this is an episode of a drama.\n3. **Development**: The question asks about who developed this episode or the drama it belongs to.\n\nNext, we need to consider what kind of information we are looking for. We want to find sources that discuss the episode \"Imperfect Circles,\" the drama series it is part of, and the individual or team responsible for its development.\n\n### Key Components to Consider:\n- **Episode Title**: \"Imperfect Circles\"\n- **Genre**: Drama\n- **Development Information**: Who developed the episode or the series\n\nNow, let's think about how to structure these elements into a coherent search query that will yield relevant results.\n\n### Proposed Search Query:\n\"Imperfect Circles episode drama developed by\" AND \"who developed\" \n\nThis query includes:\n- The specific episode title (\"Imperfect Circles\")\n- The genre (\"drama\")\n- A focus on the development aspect\n\nBy using this structured query, we increase the chances of retrieving detailed information about the episode and the individuals or teams involved in its development.\n\nsearch_query:\n\"Imperfect Circles episode drama developed by\" AND \"who developed\"\n\nAnswer: \"Imperfect Circles episode drama developed by\" AND \"who developed\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the question to identify the key elements that need to be included in the search query.\n\n1. **Key Topic**: The episode \"Imperfect Circles\" is the main focus of the question.\n2. **Context**: It is specified that this episode is part of a drama series.\n3. **Information Sought**: The question asks for the developer or creator of the episode.\n\nNow, we need to think about how to structure the search query to retrieve relevant information. We want to ensure that the query captures all these elements effectively.\n\n- We should include the title of the episode \"Imperfect Circles\".\n- We should mention that it is part of a drama series.\n- We need to specify that we are looking for information about the developer or creator of this episode.\n\nWith these considerations in mind, we can formulate a search query that will help find the necessary information. \n\nNow, let's construct the search query. \n\n**Search Query**: \"Imperfect Circles episode drama series developer creator\"\n\nAnswer: \"Imperfect Circles episode drama series developer creator\"\n        "
+                },
+                "output": "\"Imperfect Circles episode drama series developer creator\"",
+                "id": "cfdb5927-7d3c-433a-a695-6d9c6a988c70",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.\n\nYou should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.\n",
+                    "inputs": "{'question': 'Reggie Theus was the assistant coach for what man who had coached in the NBA?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to break down the question into its key components:\n\n1. **Subject**: Reggie Theus\n2. **Role**: Assistant coach\n3. **Context**: The person he assisted who had coached in the NBA\n\nNext, we need to consider the type of information we are looking for:\n- We want to find out who Reggie Theus was an assistant coach for, specifically focusing on someone with a history of coaching in the NBA.\n\nNow, we can formulate a search query that captures these elements. The query should include:\n- Reggie Theus\n- Assistant coach\n- NBA coach\n- The relationship between Theus and the NBA coach\n\nTaking all of this into account, the search query could be structured as follows:\n\n**search_query**: \"Reggie Theus assistant coach NBA coach\" OR \"Reggie Theus coaching history\" OR \"Reggie Theus who did he coach with in NBA\"\n\nAnswer: \"Reggie Theus assistant coach NBA coach\" OR \"Reggie Theus coaching history\" OR \"Reggie Theus who did he coach with in NBA\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: : To construct an effective search query, we need to identify the key elements of the question:\n\n1. **Main Subject**: Reggie Theus\n2. **Role**: Assistant coach\n3. **Context**: The person he assisted who had coached in the NBA\n\nNext, we need to gather information about Reggie Theus's coaching career, specifically focusing on his role as an assistant coach and identifying the NBA coach he worked with. \n\n### Key Components to Consider:\n- **Reggie Theus**: His coaching history and roles\n- **Assistant Coach**: The specific position he held\n- **NBA Coach**: The name of the man he assisted who has a history in the NBA\n\nNow, we can think about the types of sources that would provide this information, such as sports news articles, coaching biographies, or historical records of NBA coaching staff.\n\n### Search Query Construction:\nTo effectively retrieve relevant documents, we can structure the search query to include all the necessary components:\n\n**Search Query**: \"Reggie Theus assistant coach NBA coach name\"\n\nThis query aims to find information specifically about Reggie Theus's role as an assistant coach and the identity of the NBA coach he worked with. \n\nsearch_query:\n\"Reggie Theus assistant coach NBA coach name\"\n\nAnswer: \"Reggie Theus assistant coach NBA coach name\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to identify the key components of the question. The question asks about Reggie Theus and specifically seeks information about the head coach he assisted in the NBA. \n\n1. **Identify Key Elements**:\n   - **Person of Interest**: Reggie Theus\n   - **Role**: Assistant coach\n   - **Context**: NBA (National Basketball Association)\n   - **Information Sought**: The name of the head coach he assisted\n\n2. **Consider Possible Variations**:\n   - The search should account for different phrasing, such as \"Reggie Theus assistant coach NBA\" or \"Reggie Theus coaching history.\"\n   - It may also be useful to include terms like \"head coach\" or \"NBA coaching staff.\"\n\n3. **Formulate the Search Query**:\n   - The search should be structured to retrieve documents that mention Reggie Theus in the context of his coaching career, specifically focusing on his role as an assistant coach and the head coach he worked under.\n\nBased on this reasoning, the search query can be structured as follows:\n\n**search_query**: \"Reggie Theus assistant coach NBA head coach name\" OR \"Reggie Theus coaching staff NBA\" OR \"Reggie Theus coaching history NBA\"\n\nAnswer: \"Reggie Theus assistant coach NBA head coach name\" OR \"Reggie Theus coaching staff NBA\" OR \"Reggie Theus coaching history NBA\"\n        "
+                },
+                "output": "\"Reggie Theus assistant coach NBA head coach name\" OR \"Reggie Theus coaching staff NBA\" OR \"Reggie Theus coaching history NBA\"",
+                "id": "9ce77954-826e-4978-be00-781a323c72dd",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_1": 1.0,
+            "eval_17": 0,
+            "eval_30": 0,
+            "eval_11": 0,
+            "eval_32": 1.0,
+            "eval_47": 0,
+            "eval_14": 0,
+            "eval_13": 0.5,
+            "eval_37": 1.0,
+            "eval_29": 0,
+            "eval_8": 1.0,
+            "eval_44": 0,
+            "eval_7": 1.0,
+            "eval_31": 0,
+            "eval_28": 0,
+            "eval_26": 1.0,
+            "eval_43": 1.0,
+            "eval_36": 0,
+            "eval_12": 0,
+            "eval_0": 0.5,
+            "eval_20": 0.6666666666666666,
+            "eval_6": 0,
+            "eval_34": 0.7499999999999999,
+            "eval_35": 0,
+            "eval_24": 1.0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_1",
+                "demo_id": "cfdb5927-7d3c-433a-a695-6d9c6a988c70"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "036c236d-e73d-4cf6-8a2a-3add39e87651"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_43",
+                "demo_id": "9ce77954-826e-4978-be00-781a323c72dd"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "83d5289c-de29-4608-9bee-37188a94e47c"
+            }
+        ],
+        "task_id_set": [
+            "eval_7",
+            "eval_8",
+            "eval_1",
+            "eval_43"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "generate_query_aggregator",
+        "options": {
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o-mini",
+        "type": "LMSelection"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_sampler_2_demos_77d212f7-c0d6-4906-9a1e-18f7e7e8dbe0": {
+                "name": "generate_query_sampler_2_demos_77d212f7-c0d6-4906-9a1e-18f7e7e8dbe0",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "3bcba6a6-c4eb-4d60-8614-4de8a8c1c615",
+                    "2e6cc60a-2067-4cf3-b64b-1271f397a268",
+                    "dc40712e-7ca9-4cc7-977a-c6cf86b6ac6c",
+                    "18aadb63-5015-455e-b1f3-f742ebd4d697"
+                ]
+            },
+            "generate_query_sampler_2_demos_6c4f87e7-421d-4d80-b87e-d5e0598837be": {
+                "name": "generate_query_sampler_2_demos_6c4f87e7-421d-4d80-b87e-d5e0598837be",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "f524ebe5-8bcc-4356-b038-efb750f4cf77",
+                    "2e6cc60a-2067-4cf3-b64b-1271f397a268",
+                    "17cfd2d8-9df4-4515-8d6b-e6245f37ef4b",
+                    "18aadb63-5015-455e-b1f3-f742ebd4d697"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "Are Princess Sumaya University for Technology and Tennessee Technological University from the same country?"
+                },
+                "output": "\"Princess Sumaya University for Technology country\" AND \"Tennessee Technological University country\"",
+                "id": "3bcba6a6-c4eb-4d60-8614-4de8a8c1c615",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query for the given question, we need to identify the key elements involved:\n\n1. **Educational Institutions**: We are dealing with two specific universities: Princess Sumaya University for Technology and Tennessee Technological University.\n2. **Geographical Context**: The question seeks to determine whether these two universities are from the same country, which requires information about the locations of each institution.\n\nWith these elements in mind, the search query should focus on retrieving information about the countries where each university is located. \n\nNow, let's formulate the search query:\n\n**Search Query**: \"Princess Sumaya University for Technology location country\" AND \"Tennessee Technological University location country\" \n\nThis query aims to find relevant information about the geographical locations and countries of both universities, allowing us to determine if they are from the same country."
+            },
+            {
+                "inputs": {
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "\"rocket propelled weapon Stovepipe Colonel Leslie Alfred Skinner development history military\"",
+                "id": "2e6cc60a-2067-4cf3-b64b-1271f397a268",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to break down the components of the question and identify the key elements that will guide our search for relevant information. \n\n1. **Key Terms**: \n   - \"rocket propelled weapon\"\n   - \"Stovepipe\"\n   - \"Colonel Leslie Alfred Skinner\"\n   - \"develop\"\n\n2. **Contextual Understanding**: \n   - We are looking for historical information regarding military weaponry, particularly a specific type of rocket weapon. \n   - The term \"Stovepipe\" may refer to a specific model or type of rocket propelled weapon, so we need to include that in our search. \n   - Colonel Leslie Alfred Skinner\u2019s role in the development of this weapon is significant, so we should look for sources that discuss his contributions or the weapon itself.\n\n3. **Possible Nuances**: \n   - It's important to consider variations in terminology and synonyms. For instance, \"rocket propelled weapon\" might also be referred to as \"guided missile\" or \"rocket launcher.\"\n   - The timeframe of development may also be relevant, so including terms that hint at historical context might be useful.\n\nWith these key components in mind, we can construct a search query that seeks to retrieve comprehensive information on the topic.\n\n**Search Query**:\n\"rocket propelled weapon Stovepipe Colonel Leslie Alfred Skinner development history military\""
+            },
+            {
+                "inputs": {
+                    "question": "Which Italian composer did George Balanchine add in 1976?"
+                },
+                "output": "\"George Balanchine Italian composer added 1976 ballet music choreography\"",
+                "id": "dc40712e-7ca9-4cc7-977a-c6cf86b6ac6c",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct a detailed search query, we need to identify the key elements of the question: \n\n1. The main subject: George Balanchine, who is known for his contributions to ballet.\n2. The action: Adding a composer in 1976.\n3. The specific detail sought: The name of the Italian composer.\n\nWith these elements in mind, we should structure a search query that captures all of these points. \n\nNow, let's consider how to phrase the search query to maximize relevance. We want to ensure we include:\n- George Balanchine's name to focus on his work.\n- The year 1976 to specify the timeframe of interest.\n- The term \"Italian composer\" to narrow down the search to the specific nationality of the composer.\n\nAdditionally, it might be beneficial to include terms like \"ballet,\" \"music,\" or \"choreography,\" as these might provide context for the composer's relevance to Balanchine's work.\n\nNow that we have analyzed the components, we can construct a comprehensive search query. \n\nHere\u2019s how the final search query will look: \n\n**search_query**: \"George Balanchine Italian composer added 1976 ballet music choreography\""
+            },
+            {
+                "inputs": {
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "\"R Lee Ermy character Prefontaine film American track and field coach Nike co-founder name\"",
+                "id": "18aadb63-5015-455e-b1f3-f742ebd4d697",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct a precise search query, we need to break down the question into its key components:\n\n1. **Main Topic**: The question is focused on a specific character portrayed by R Lee Ermy in the film \"Prefontaine.\"\n2. **Person's Role**: This character is described as an American track and field coach.\n3. **Connection to Nike**: The individual is also noted as a co-founder of Nike Inc.\n4. **Film Reference**: The film in question is \"Prefontaine,\" which relates to the life of a famous American distance runner.\n\nWith these components in mind, the search query should aim to gather information that connects R Lee Ermy, his character in \"Prefontaine,\" the identity of that character, and the relevant accomplishments or affiliations of that character, particularly with Nike Inc.\n\nNow, we can formulate a structured search query:\n\n**Search Query**: \"R Lee Ermy character Prefontaine film American track and field coach Nike co-founder name\"\n\nThis query targets all the essential elements of the question while ensuring that it is broad enough to capture various sources that discuss both the film and the individual in question."
+            },
+            {
+                "inputs": {
+                    "question": "Imperfect Circles is an episode of the drama that was developed by whom?"
+                },
+                "output": "\"Imperfect Circles episode drama series developer creator\"",
+                "id": "f524ebe5-8bcc-4356-b038-efb750f4cf77",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the question to identify the key elements that need to be included in the search query.\n\n1. **Key Topic**: The episode \"Imperfect Circles\" is the main focus of the question.\n2. **Context**: It is specified that this episode is part of a drama series.\n3. **Information Sought**: The question asks for the developer or creator of the episode.\n\nNow, we need to think about how to structure the search query to retrieve relevant information. We want to ensure that the query captures all these elements effectively.\n\n- We should include the title of the episode \"Imperfect Circles\".\n- We should mention that it is part of a drama series.\n- We need to specify that we are looking for information about the developer or creator of this episode.\n\nWith these considerations in mind, we can formulate a search query that will help find the necessary information. \n\nNow, let's construct the search query. \n\n**Search Query**: \"Imperfect Circles episode drama series developer creator\""
+            },
+            {
+                "inputs": {
+                    "question": "Reggie Theus was the assistant coach for what man who had coached in the NBA?"
+                },
+                "output": "\"Reggie Theus assistant coach NBA head coach name\" OR \"Reggie Theus coaching staff NBA\" OR \"Reggie Theus coaching history NBA\"",
+                "id": "17cfd2d8-9df4-4515-8d6b-e6245f37ef4b",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to identify the key components of the question. The question asks about Reggie Theus and specifically seeks information about the head coach he assisted in the NBA. \n\n1. **Identify Key Elements**:\n   - **Person of Interest**: Reggie Theus\n   - **Role**: Assistant coach\n   - **Context**: NBA (National Basketball Association)\n   - **Information Sought**: The name of the head coach he assisted\n\n2. **Consider Possible Variations**:\n   - The search should account for different phrasing, such as \"Reggie Theus assistant coach NBA\" or \"Reggie Theus coaching history.\"\n   - It may also be useful to include terms like \"head coach\" or \"NBA coaching staff.\"\n\n3. **Formulate the Search Query**:\n   - The search should be structured to retrieve documents that mention Reggie Theus in the context of his coaching career, specifically focusing on his role as an assistant coach and the head coach he worked under.\n\nBased on this reasoning, the search query can be structured as follows:\n\n**search_query**: \"Reggie Theus assistant coach NBA head coach name\" OR \"Reggie Theus coaching staff NBA\" OR \"Reggie Theus coaching history NBA\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_1": 1.0,
+            "eval_17": 0,
+            "eval_30": 0,
+            "eval_11": 0,
+            "eval_32": 1.0,
+            "eval_47": 0,
+            "eval_14": 0,
+            "eval_13": 0.5,
+            "eval_37": 1.0,
+            "eval_29": 0,
+            "eval_8": 1.0,
+            "eval_44": 0,
+            "eval_7": 1.0,
+            "eval_31": 0,
+            "eval_28": 0,
+            "eval_26": 1.0,
+            "eval_43": 1.0,
+            "eval_36": 0,
+            "eval_12": 0,
+            "eval_0": 0.5,
+            "eval_20": 0.6666666666666666,
+            "eval_6": 0,
+            "eval_34": 0.7499999999999999,
+            "eval_35": 0,
+            "eval_24": 1.0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_1",
+                "demo_id": "f524ebe5-8bcc-4356-b038-efb750f4cf77"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "2e6cc60a-2067-4cf3-b64b-1271f397a268"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_43",
+                "demo_id": "17cfd2d8-9df4-4515-8d6b-e6245f37ef4b"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "18aadb63-5015-455e-b1f3-f742ebd4d697"
+            }
+        ],
+        "task_id_set": [
+            "eval_7",
+            "eval_8",
+            "eval_1",
+            "eval_43"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "generate_query_sampler_2",
+        "options": {
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o-mini",
+        "type": "LMSelection"
+    }
+]

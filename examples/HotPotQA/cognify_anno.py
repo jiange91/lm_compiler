@@ -47,19 +47,23 @@ first_query_semantic = LangChainSemantic(
     system_prompt=initial_query_prompt,
     inputs=['question'],
     output_format='search_query',
+    output_format_instructions='Output only the search query, without any prefixes, or additional text.'
 )
 first_query_agent = LangChainLM('generate_query', first_query_semantic, opt_register=True)
 first_query_agent.lm_config = qgen_lm_config
 
 following_query_prompt = """
-You are an expert at assessing the adequacy of context information in relation to a given question. Your task is to analyze the provided context (retrieved documents) along with the original question and determine if the context is sufficient to fully answer the question.  
+You are in a critical situation where accurate information is essential for making informed decisions.
 
-If the context lacks key information, propose a new, refined search query to retrieve additional documents. Your goal is to formulate a query that targets the missing information while avoiding redundancy. You should not assume any prior knowledge beyond the context provided. If the context is sufficient, acknowledge this, but if not, focus on crafting a follow-up search query that seeks external sources to cover any gaps in information.
+You are good at extract relevant details from the provided context and question. Your task is to propose an effective search query that will help retrieve additional information to answer the question. Think carefully about the implications of your search. The search query should target the missing information while avoiding redundancy. 
+
+You should not answer the question directly, nor assume any prior knowledge. You must generate an accurate search query that considers the context and question to retrieve the most relevant information.
 """
 following_query_semantic = LangChainSemantic(
     system_prompt=following_query_prompt,
     inputs=['context', 'question'],
     output_format='search_query',
+    output_format_instructions='Output only the search query, without any prefixes, or additional text.'
 )
 following_query_agent = LangChainLM('refine_query', following_query_semantic, opt_register=True)
 refine_lm_config = LMConfig(
@@ -85,6 +89,7 @@ answer_semantic = LangChainSemantic(
     system_prompt=answer_prompt,
     inputs=['context', 'question'],
     output_format='answer',
+    output_format_instructions="Output the answer directly without unnecessary details, explanations, or repetition. Focus on delivering the key information in the most concise way possible (don't have to be a complete sentence)."
 )
 answer_agent = LangChainLM('generate_answer', answer_semantic, opt_register=True)
 answer_lm_config = LMConfig(
@@ -103,12 +108,23 @@ answer_lm_config = LMConfig(
 )
 answer_agent.lm_config = answer_lm_config
 
-cot_fixed = False
+cot_fixed = True
 if cot_fixed:
     ZeroShotCoT.direct_apply(first_query_agent)
     ZeroShotCoT.direct_apply(following_query_agent)
     ZeroShotCoT.direct_apply(answer_agent)
 
+    
+detail_log_level = 0
+if detail_log_level == 0:
+    _print_internal = lambda *args, **kwargs: None
+    _print_expo = lambda *args, **kwargs: None
+elif detail_log_level == 1:
+    _print_internal = lambda *args, **kwargs: None
+    _print_expo = print
+else:
+    _print_internal = print
+    _print_expo = print
 
 class BasicMH(dspy.Module):
     def __init__(self, passages_per_hop=3):
@@ -118,6 +134,12 @@ class BasicMH(dspy.Module):
         self.initial_generate_query = first_query_agent.as_runnable()
         self.follwing_generate_query = following_query_agent.as_runnable()
         self.generate_answer = answer_agent.as_runnable()
+    
+    def doc_str(self, context):
+        docs = []
+        for i, c in enumerate(context):
+            docs.append(f"[{i+1}]: {c}")
+        return "\n".join(docs)
 
     def forward(self, question):
         context = []
@@ -125,21 +147,21 @@ class BasicMH(dspy.Module):
         search_query = self.initial_generate_query.invoke({'question': question}).content
         # avoid only searching the first line
         search_query = search_query.replace("\n", ". ")
-        # print("Search query:", search_query)
+        _print_internal("Search query:", search_query)
         passages = self.retrieve(search_query).passages
-        # print("Passages:", passages)
+        _print_internal("Passages:", passages)
         context = deduplicate(context + passages)
         
         for _ in range(2-1):
-            search_query = self.follwing_generate_query.invoke({'context': context, 'question': question}).content
+            search_query = self.follwing_generate_query.invoke({'context': self.doc_str(context), 'question': question}).content
             # avoid only searching the first line
             search_query = search_query.replace("\n", ". ")
-            # print("Search query:", search_query)
+            _print_internal("Search query:", search_query)
             passages = self.retrieve(search_query).passages
-            # print("Passages:", passages)
+            _print_internal("Passages:", passages)
             context = deduplicate(context + passages)
-        # print("Context:", context)
-        answer = self.generate_answer.invoke({'context': context, 'question': question}).content
+        _print_internal("Context:", context)
+        answer = self.generate_answer.invoke({'context': self.doc_str(context), 'question': question}).content
         return answer
 
 qa_agent = BasicMH(passages_per_hop=2)
@@ -147,7 +169,7 @@ qa_agent = BasicMH(passages_per_hop=2)
 @register_opt_program_entry
 def trial(question: str):
     answer = qa_agent(question=question)
-    # print(f'Question: {question}')
+    _print_expo(f'Question: {question}')
     return answer
 
 from dsp.utils.metrics import HotPotF1, F1
@@ -157,16 +179,16 @@ def answer_f1(label: str, pred: str):
     if isinstance(label, str):
         label = [label]
     score = F1(pred, label)
-    # print(f'Label: {label}')
-    # print(f'Pred: {pred}')
-    # print(f'Score: {score}\n')
+    _print_expo(f'Label: {label}')
+    _print_expo(f'Pred: {pred}')
+    _print_expo(f'Score: {score}\n')
     return score
 
 from compiler.optimizer.params.reasoning import ZeroShotCoT
 if __name__ == "__main__":
-    input = "Which documentary was released first, Grizzly Man or Best Boy?"
+    input = "What was the 2010 population of the birthplace of Gerard Piel?"
     answer = trial(input)
-    label = 'Best Boy'
+    label = '17,121'
     print(f'Answer: {answer}')
     print(f'Score: {answer_f1(label, answer)}')
     

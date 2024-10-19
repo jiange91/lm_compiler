@@ -1,0 +1,1276 @@
+/mnt/ssd4/lm_compiler/cache/compiler
+Question: What was the 2010 population of the birthplace of Gerard Piel?
+Search query: "Gerard Piel birthplace 2010 population"
+Passages: ['"Gerard Piel" | "Gerard Piel Gerard Piel (1 March 1915 in Woodmere, N.Y. – 5 September 2004) was the publisher of the new Scientific American magazine starting in 1948. He wrote for magazines, including ""The Nation"", and published books on science for the general public. In 1990, Piel was presented with the ""In Praise of Reason"" award by the Committee for Skeptical Inquiry (CSICOP). Piel graduated from Harvard University with a bachelor of arts degree in 1937. He was the science editor of Life Magazine from 1939 to 1945. In 1946 and 1947, he worked at the Henry Kaiser Company as assistant to"', '"Gerard Piel" | "the president. In 1948, in association with two colleagues, he launched a new version of Scientific American, to promote science literacy for the general public in the postwar era. He held a number of honorary degrees and awards, including the UNESCO Kalinga Prize in 1962. Gerard Piel Gerard Piel (1 March 1915 in Woodmere, N.Y. – 5 September 2004) was the publisher of the new Scientific American magazine starting in 1948. He wrote for magazines, including ""The Nation"", and published books on science for the general public. In 1990, Piel was presented with the ""In Praise of Reason"" award by"']
+Search query: "Woodmere NY 2010 population"
+Passages: ['"Woodmere, New York" | "to Woodmere. It has approximately 75 volunteer members. Woodmere is located at . According to the United States Census Bureau, the CDP has a total area of 2.7 square miles (7.0 km), of which, 2.6 square miles (6.6 km) of it is land and 0.1 square miles (0.4 km) of it (5.19%) is water. As of the census of 2010, there were 17,121 people. The population density was 6,700 people per square mile. The percentage of family households is 86%. The racial makeup of the CDP was 84% White, 5.0% Black, 2.0% Asian, 0% Pacific Islander, 1.0% from other races,"', '"Woodmere, New York" | "Woodmere, New York Woodmere is a hamlet and census-designated place (CDP) in Nassau County, New York, United States. The population was 17,554 at the 2016 census. Woodmere is one of the Long Island communities known as the Five Towns, which is usually said to comprise the villages of Lawrence and Cedarhurst, the hamlets of Woodmere and Inwood, and ""The Hewletts"", which consist of the villages of Hewlett Bay Park, Hewlett Harbor and Hewlett Neck and the hamlet of Hewlett, along with Woodsburgh. Woodmere is in the Town of Hempstead and is represented by Councilman Bruce Blakeman (Republican, 3rd District). Part"']
+
+
+
+
+[31mSystem message:[0m
+
+Your input fields are:
+1. `context` (str)
+2. `question` (str)
+
+Your output fields are:
+1. `reasoning` (str)
+2. `search_query` (str)
+
+All interactions will be structured in the following way, with the appropriate values filled in.
+
+[[ ## context ## ]]
+{context}
+
+[[ ## question ## ]]
+{question}
+
+[[ ## reasoning ## ]]
+{reasoning}
+
+[[ ## search_query ## ]]
+{search_query}
+
+[[ ## completed ## ]]
+
+In adhering to this structure, your objective is: 
+        In a critical situation where accurate information is essential for making informed decisions, your task is to extract relevant details from the provided context and question. You must generate an effective search query that will lead to precise answers. Given the fields `context` and `question`, think carefully about the implications of your search. Your search query should encapsulate the key elements needed to retrieve the most pertinent information. Remember, the accuracy of your search could influence important outcomes.
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+N/A
+
+[[ ## question ## ]]
+"Everything Has Changed" is a song from an album released under which record label ?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"Everything Has Changed" album record label
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+N/A
+
+[[ ## question ## ]]
+What genre of music has American musicians Jonathan Davis and Philip Labonte both have in common in the bands they have played in?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"common music genre between Jonathan Davis Korn and Philip Labonte All That Remains"
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+N/A
+
+[[ ## question ## ]]
+In which state's mountain region lay the famous peak that inspired the bestselling novel "Cold Mountain?"
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+North Carolina mountain region Cold Mountain novel
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+N/A
+
+[[ ## question ## ]]
+Who was coach of the No. 9-ranked team that was upset in the NCAA Tournament by the 2014-15 UAB Blazers men's basketball team?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"2014-15 NCAA Tournament No. 9-ranked team upset by UAB Blazers coach"
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+N/A
+
+[[ ## question ## ]]
+Which Zealand Institute of Business and Technology campus is located in a city with a population of 50,046?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+Zealand Institute of Business and Technology campuses population 50046
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+N/A
+
+[[ ## question ## ]]
+What head of state position was held by Harry S Truman when he gave Harold E Wilson the Medal of Honor?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"Harry S Truman Medal of Honor Harold E Wilson head of state position"
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+N/A
+
+[[ ## question ## ]]
+The Montenegrin Mountain Hound and Mudhol Hound are both used for what common purpose?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"Montenegrin Mountain Hound Mudhol Hound common purpose hunting"
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+N/A
+
+[[ ## question ## ]]
+In which year was the first of the vampire-themed fantasy romance novels for which The Twilight Saga: The Official Illustrated Guide serves as a spin-off encyclopedic reference book first published?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"first vampire-themed fantasy romance novel published year"
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+[[ ## context ## ]]
+N/A
+
+[[ ## question ## ]]
+What was the 2010 population of the birthplace of Gerard Piel?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mResponse:[0m
+
+[32m[[ ## reasoning ## ]]
+To answer the question, I need to identify the birthplace of Gerard Piel and then find the population of that location in 2010. Since the context is not provided, I will focus on creating a search query that targets both the birthplace and its population data.
+
+[[ ## search_query ## ]]
+"Gerard Piel birthplace 2010 population"
+
+[[ ## completed ## ]][0m
+
+
+
+
+
+[31mSystem message:[0m
+
+Your input fields are:
+1. `context` (str)
+2. `question` (str)
+
+Your output fields are:
+1. `reasoning` (str)
+2. `search_query` (str)
+
+All interactions will be structured in the following way, with the appropriate values filled in.
+
+[[ ## context ## ]]
+{context}
+
+[[ ## question ## ]]
+{question}
+
+[[ ## reasoning ## ]]
+{reasoning}
+
+[[ ## search_query ## ]]
+{search_query}
+
+[[ ## completed ## ]]
+
+In adhering to this structure, your objective is: 
+        Given the fields `context`, `question`, produce the fields `search_query`.
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Annette Snell" | "Annette Snell Annette Snell (March 22, 1945 – April 4, 1977) was an American rhythm and blues singer who recorded in the 1960s and 1970s. She died in the Southern Airways Flight 242 crash. She was born Annetta Snell in Orlando, Florida, and in the early 1960s was a member of a vocal backing group, the Mar-Vells. She then became a member of the girl group The Fabulettes, who made several recordings in 1965 and 1966. In 1968, Snell left the group to go to New York, and then to Nashville, Tennessee, to pursue a solo career. Under the name"»
+[2] «"Southern Airways Flight 242" | "aircraft collided with a gas station/convenience store and other buildings. The pilots and 61 passengers were killed by impact forces and fire, but 20 of the passengers survived as well as both flight attendants. Nine people on the ground were also killed, including a family of seven. Among the passengers killed was rhythm and blues singer Annette Snell. The NTSB investigated the accident and concluded the following probable cause in its final report:The National Transportation Safety Board determines that the probable cause of this accident was the total and unique loss of thrust from both engines while the aircraft was"»
+
+[[ ## question ## ]]
+Singer Annette Snell died in a airplane crash during a forced landing on a highway in what state?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"Southern Airways Flight 242 crash location"
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Douglas Douglas-Hamilton, 14th Duke of Hamilton" | "Douglas Douglas-Hamilton, 14th Duke of Hamilton Air Commodore Douglas Douglas-Hamilton, 14th Duke of Hamilton and 11th Duke of Brandon, (3 February 1903 – 30 March 1973) was a Scottish nobleman and aviator who, together with D.F. McIntyre, was one of the first men to fly over Mount Everest. Hamilton was born in Pimlico, London. He was the son of Alfred, 13th Duke of Hamilton and his wife Nina (née Poore). He was educated at Eton and Balliol College, Oxford, where he gained a Blue in boxing, this in turn, led to his winning of the Scottish Amateur Middleweight title. He"»
+[2] «"Douglas Douglas-Hamilton, 14th Duke of Hamilton" | "Houston-Mount Everest Flight Expedition. Flying in formation higher than any before; Lord Clydesdale, as he was known, was chief pilot on the first flight over Mount Everest in 1933, flying a Westland PV-3 biplane. The extremity endured by the crews of these aeroplanes helped demonstrate the need for pressurised cabins in modern aircraft. It was also the first detailed and scientific survey of the Himalaya region. Indirectly, the expedition resulted in the formation of Scottish Aviation Ltd (now part of BAE Systems). A film, ""Wings over Everest"", by Ivor Montagu and Geoffrey Barkas, was made of the record-setting flight. In"»
+
+[[ ## question ## ]]
+What Scottish nobleman was the subject of a 1934 British short documentary and was the first man to fly over Mount Everest?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+Douglas Douglas-Hamilton 14th Duke of Hamilton 1934 British short documentary
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Johnny Narron" | "Angels organization. Johnny Narron John A. Narron, Jr. (born 1951) is the for the Columbus Clippers, the AAA affiliate of the Cleveland Indians. He is a former hitting coach of the Milwaukee Brewers and former assistant hitting coach of the Texas Rangers of Major League Baseball. He is a confidant and friend of center fielder Josh Hamilton and temporarily acted as an ""accountability partner"" to help Hamilton in his recovery from drug addiction. The native of Goldsboro, North Carolina was a first baseman in the minor league systems of the New York Yankees and Chicago White Sox in 1974 and"»
+[2] «"Johnny Narron" | "Johnny Narron John A. Narron, Jr. (born 1951) is the for the Columbus Clippers, the AAA affiliate of the Cleveland Indians. He is a former hitting coach of the Milwaukee Brewers and former assistant hitting coach of the Texas Rangers of Major League Baseball. He is a confidant and friend of center fielder Josh Hamilton and temporarily acted as an ""accountability partner"" to help Hamilton in his recovery from drug addiction. The native of Goldsboro, North Carolina was a first baseman in the minor league systems of the New York Yankees and Chicago White Sox in 1974 and 1975. He"»
+
+[[ ## question ## ]]
+Johnny Narron is a friend of this center fielder whom he helped in his recovery from drug addiction who won the MVP award in what year?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+Josh Hamilton MVP award year
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Roddy Woomble" | "Roddy Woomble Roderick ""Roddy"" Woomble (born 13 August 1976) is a Scottish singer, songwriter and writer. He is the lead vocalist of indie rock band Idlewild, with whom he has recorded seven studio albums. In 2006, Woomble released his debut solo album, ""My Secret is my Silence"", and released three subsequent albums. In 2007, Woomble curated a collaborative studio album between Scottish writers and musicians, entitled ""Ballads of the Book"", and recorded a collaborative album with folk musicians Kris Drever and John McCusker in 2008, called ""Before the Ruin"". Idlewild was formed in 1995 by Woomble, Rod Jones, Colin Newton"»
+[2] «"Roddy Woomble" | "the success of Idlewild's Top Ten album, ""The Remote Part"", and lived in New York City for some time. Roddy Woomble Roderick ""Roddy"" Woomble (born 13 August 1976) is a Scottish singer, songwriter and writer. He is the lead vocalist of indie rock band Idlewild, with whom he has recorded seven studio albums. In 2006, Woomble released his debut solo album, ""My Secret is my Silence"", and released three subsequent albums. In 2007, Woomble curated a collaborative studio album between Scottish writers and musicians, entitled ""Ballads of the Book"", and recorded a collaborative album with folk musicians Kris Drever and"»
+
+[[ ## question ## ]]
+Are both Ralph Saenz and Roddy Woomble credited as writers?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+Ralph Saenz writing credits
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Magnus Norman" | "Magnus Norman Magnus Norman (born 30 May 1976) is a Swedish tennis coach and a retired professional tennis player. He reached a career-high Association of Tennis Professionals (ATP) world No. 2 singles ranking on June 12, 2000. His career highlights include reaching a Grand Slam final at the French Open in 2000 (lost to Gustavo Kuerten), and winning an ATP Masters Series title at the 2000 Rome Masters (defeated Kuerten in the final). He owns a tennis academy called the Good to Great Tennis Academy, among its students are Stan Wawrinka and Gaël Monfils. Grigor Dimitrov was also a former"»
+[2] «"2000 Indian Wells Masters" | "Australian Open titlist, Masters Cup finalist, 1995 runner-up Andre Agassi, Masters Cup winner, 1995 Wimbledon champion Pete Sampras and Australian Open runner-up Yevgeny Kafelnikov. Also competing in the field were Dubai winner Nicolas Kiefer, Santiago titlist Gustavo Kuerten, Magnus Norman, Marcelo Ríos and Nicolás Lapentti. Àlex Corretja defeated Thomas Enqvist, 6–4, 6–4, 6–3 Lindsay Davenport defeated Martina Hingis 4–6, 6–4, 6–0 Alex O'Brien / Jared Palmer defeated Paul Haarhuis / Sandon Stolle 6–4, 7–6 Lindsay Davenport / Corina Morariu defeated Anna Kournikova / Natasha Zvereva, 6–2, 6–3 2000 Indian Wells Masters The 2000 Indian Wells Masters (also known as Tennis"»
+
+[[ ## question ## ]]
+Who was the Tennis Masters Cup champion in 2000, Gustavo Kuerten or Stan Wawrinka?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"Tennis Masters Cup champion 2000"
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Montenegrin Mountain Hound" | "Montenegrin Mountain Hound The Montenegrin Mountain Hound is a rare dog breed from the mountain regions across the Balkans. Black and tan, with a smooth coat, the Montenegrin Mountain Hound was called ""Black Hound"" in the past. The breed is of the same origin as the other Balkan hounds. He stands high and weighs . The breed is used to hunt fox, hare, and small game, occasionally hunting larger animals such as deer or even wild boar. The breed was formerly known as the Yugoslavian Mountain Hound; the FCI changed the name on July 15, 1997. The first standard dates"»
+[2] «"Montenegrin Mountain Hound" | "was promptly removed after NATO military attack ensued against FR Yugoslavia. Montenegrin Mountain Hound The Montenegrin Mountain Hound is a rare dog breed from the mountain regions across the Balkans. Black and tan, with a smooth coat, the Montenegrin Mountain Hound was called ""Black Hound"" in the past. The breed is of the same origin as the other Balkan hounds. He stands high and weighs . The breed is used to hunt fox, hare, and small game, occasionally hunting larger animals such as deer or even wild boar. The breed was formerly known as the Yugoslavian Mountain Hound; the FCI"»
+
+[[ ## question ## ]]
+The Montenegrin Mountain Hound and Mudhol Hound are both used for what common purpose?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"Montenegrin Mountain Hound Mudhol Hound hunting purpose"
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"William Mapother" | "William Mapother William Reibert Mapother Jr. (; born April 17, 1965) is an American actor, known for his role as Ethan Rom on the television series ""Lost"" and starring in the film ""In the Bedroom"". He is also known for the film ""Another Earth"". Mapother was born in Louisville, Kentucky, the son of Louisa (née Riehm) and William Reibert Mapother Sr. He is of English, Irish, and German ancestry. He is a first cousin of actor Tom Cruise (whose birth name was Thomas Cruise Mapother IV). His father was an attorney, bankruptcy consultant and judge in Louisville, between 1967 and"»
+[2] «"William Mapother" | "1970; William Sr., died on June 22, 2006, after fighting lung cancer and pulmonary fibrosis. Mapother graduated from the University of Notre Dame as an English major. Before becoming an actor, he taught grades 7-12 in L.A.U.S.D. schools in East Los Angeles for three years. Mapother has become widely known as a character actor, who sometimes plays scary or otherwise dark characters. He played a pivotal role in Todd Field's ""In the Bedroom"", and is perhaps best known as Ethan Rom in the TV show ""Lost"", which he played for 11 episodes during the life of the series. Mapother has"»
+
+[[ ## question ## ]]
+"Hurt" is a 2009 gothic horror movie starring William Mapother, but what TV series is he most associated with?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+William Mapother TV series association "Lost"
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"The Ocean Blue" | "The Ocean Blue The Ocean Blue, formed in Hershey, Pennsylvania in 1986, is an American indie pop band that combines melodic guitars and synthesizers. Its core original members included David Schelzel on lead vocals/guitar, Steve Lau on keyboards/saxophone, Bobby Mittan on bass guitar and Rob Minnig on drums and vocals. Its current line-up includes David Schelzel on lead vocals/guitar, Oed Ronne on keyboards/guitar/vocals, Bobby Mittan on bass guitar and Peter Anderson on drums. The band's sound may be best described as jangly guitar-based modern rock. Influences include such bands as The Smiths, Cocteau Twins, R.E.M., Echo & the Bunnymen and"»
+[2] «Atychodracon | "from the Blue Lias Formation at the Street-on-the-Fosse village, located about 14 km northeast of Street, Somerset, England. The Blue Lias, also referred to as the Lower Lias, dates back to the Late Triassic - Early Jurassic boundary, thus includes the Rhaetian, Hettangian, and lower Sinemurian stages. BRSMG Cb 2335 came from the lowermost beds of the formation, and the area around Street probably originates below the first occurrence of ""Psiloceras planorbis"" ammonoid zone (pre-Planorbis beds), in the ""Psiloceras tilmanni"" Zone that immediately follows the Triassic-Jurassic boundary, meaning that an earliest Hettangian age is most likely for the specimen, about"»
+
+[[ ## question ## ]]
+What was formed farther east, The Ocean Blue or The Dandy Warhols
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"The Dandy Warhols formation location"
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Harold E. Wilson" | "Harold E. Wilson Chief Warrant Officer Harold Edward Wilson (December 5, 1921 – March 29, 1998) was a United States Marine who earned the United States' military highest award, the Medal of Honor, for heroism as a platoon sergeant of a rifle platoon in Korea on the night of April 23–24, 1951. He received the award from President Harry S. Truman during ceremonies at the White House on April 11, 1952. Wounded four times during the night-long battle, he refused medical treatment to rally his men against overwhelming Communist forces. With both arms virtually disabled, he continued to pass ammunition"»
+[2] «"Harold E. Wilson" | "forth in the following CITATION: Harold E. Wilson Chief Warrant Officer Harold Edward Wilson (December 5, 1921 – March 29, 1998) was a United States Marine who earned the United States' military highest award, the Medal of Honor, for heroism as a platoon sergeant of a rifle platoon in Korea on the night of April 23–24, 1951. He received the award from President Harry S. Truman during ceremonies at the White House on April 11, 1952. Wounded four times during the night-long battle, he refused medical treatment to rally his men against overwhelming Communist forces. With both arms virtually disabled,"»
+
+[[ ## question ## ]]
+What head of state position was held by Harry S Truman when he gave Harold E Wilson the Medal of Honor?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"Harry S Truman position April 11 1952"
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Acquired taste" | "Acquired taste An acquired taste is an appreciation for something unlikely to be enjoyed by a person who has not had substantial exposure to it. In the case of food and drink, this may be due to a strong odor (such as certain types of cheese, durian, hákarl, black salt, nattō, asafoetida, surströmming, or stinky tofu), taste (alcoholic beverages, Vegemite or Marmite, bitter teas, salty liquorice, malt bread, unsweetened chocolate, sushi, garnatálg), mouthfeel (such as sashimi and sushi featuring uncooked seafood), appearance, or association (such as eating insects or organ meat). The process of acquiring a taste can involve developmental"»
+[2] «Vegemite | "a pleasant umami aftertaste. Criticism varied from ""love it"" to tasting like a ""caramel and turkish delight filling with a lot of salt"" to ""needs more salt"" with several tasters commenting that they thought the aftertaste was unpleasant. In 2017, a premium variety, Vegemite Blend 17, was released for a limited time. It promised a ""richer bolder taste"" but at double the price of the standard product. Other commercial products with Vegemite flavour include Smith's Crisps, In a Biskit, bagel crisps, sausages and meat pies. In October 2006, an Australian news company reported that Vegemite had been banned in the"»
+
+[[ ## question ## ]]
+The Australian food spread developed by Cyril Percy Callister is considered an acquired taste based on what sense?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+Vegemite acquired taste sense of taste
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"The Victorians" | "The Victorians The Victorians - Their Story In Pictures is a 2009 British documentary series which focuses on Victorian art and culture. The four-part series is written and presented by Jeremy Paxman and debuted on BBC One at 9:00pm on Sunday 15 February 2009. A book written by Paxman was published to accompany the series titled ""The Victorians: Britain Through the Paintings of the Age"". In his introduction, Paxman acknowledged that the Irish writer Neil Hegarty had played a significant role in editing the book and bringing it to completion. Paxman was praised by academics and figures in the publishing"»
+[2] «"The Victorians" | "industry for acknowledging Hegarty's substantial contribution. In the book, Paxman wrote that all television is a collaborative exercise, ""so it is rather silly for this book - which accompanies a television series - to appear with only one name on the cover."" A region 2 DVD two disc set ""The Victorians"" was released 15 June 2009. The Victorians The Victorians - Their Story In Pictures is a 2009 British documentary series which focuses on Victorian art and culture. The four-part series is written and presented by Jeremy Paxman and debuted on BBC One at 9:00pm on Sunday 15 February 2009."»
+
+[[ ## question ## ]]
+The Victorians - Their Story In Pictures is a documentary series written by an author born in what year?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"Jeremy Paxman birth year"
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"The Last Shadow Puppets" | "The Last Shadow Puppets The Last Shadow Puppets are an English supergroup consisting of Alex Turner (Arctic Monkeys), Miles Kane (The Rascals, solo artist), James Ford (Simian, Simian Mobile Disco, music producer), and Zach Dawes (Mini Mansions). They are joined live by Loren Humphrey (Guards, music producer, session musician) and Tyler Parkford (Mini Mansions). The band released their debut album ""The Age of the Understatement"" in 2008. Following a lengthy hiatus, they returned, releasing second album ""Everything You've Come to Expect"" in 2016. In August 2007 ""NME"" magazine reported that Arctic Monkeys lead singer Alex Turner and lead singer of"»
+[2] «"Simian Mobile Disco" | "were then polished in their studio for the eventual album release. After wrapping touring and support for ""Whorl"", the duo took a short hiatus in 2015. Ford produced albums for Florence and the Machine, Mumford & Sons, Foals and The Last Shadow Puppets, while Shaw built a new studio and released a series of solo EPs. The duo announced in 2016 that they would release four singles, totalling eight new tracks, during the year born out of jam sessions in the new studio. As of July, two of these singles have been released. The singles see the duo abandoning the"»
+
+[[ ## question ## ]]
+Which band had a longer hiatus, Juliette and the Licks or The Last Shadow Puppets?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"Juliette and the Licks hiatus duration"
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Juan Pablo Di Pace" | "Juan Pablo Di Pace Juan Pablo Di Pace is an Argentinian actor, singer and director. Di Pace began his career in the United Kingdom, performing in a number of musicals and appearing in films like ""Survival Island"" (2005) and ""Mamma Mia!"" (2008). He later moved to Spain, starring in several television series from 2009 to 2013. In 2014, Di Pace began starring as Nicolas Treviño in the TNT drama series ""Dallas"". Starting in 2016, he played the role of Kimmy Gibbler's estranged husband, Fernando, on ""Fuller House"", the sequel series to ""Full House"". Di Pace was born in Buenos Aires,"»
+[2] «"Juan Pablo Di Pace" | "which is loosely based on dance sequences from ""Flashdance"" and ""Dirty Dancing"". In 2008 he directed a music video for Katie Melua, in which he appears opposite his sister, María Victoria Di Pace. In 2009 he appeared on the videoclip """"Time Is Running Out"""" by Muse. In 2013, Di Pace was cast as series regular billionaire businessman Nicolas Treviño for season 3 of the TNT drama series ""Dallas"". In 2016, Di Pace appears in a recurring role as Fernando, the fiancé/ex-husband of Kimmy Gibbler on the Netflix series ""Fuller House"". Starting in Season 2 he was promoted from recurring to"»
+
+[[ ## question ## ]]
+Juan Pablo Di Pace had a role on the sequel series to what Jeff Franklin-created American sitcom?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"Full House" Jeff Franklin created sitcom
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Jim Liberman" | "began racing when he moved to Northern California. He began drag racing in the Stock division at Fremont Raceway in 1964 and made a jump up to funny cars in 1965, driving an injected Nova on nitromethane dubbed ""Hercules"". Later that year he started on the national scene as the driver of Lew Arrington's supercharged GTO Funny Car, ""Brutus"". In 1966, Liberman went out on his own in his first supercharged (steel-bodied) Chevy II, the first to wear the ""Jungle Jim"" name. In 1967, he went on a tour that established him as a household name within drag racing circles"»
+[2] «"Big Brutus" | "Big Brutus Big Brutus is the nickname of the Bucyrus-Erie model 1850-B electric shovel, which was the second largest of its type in operation in the 1960s and 1970s. Big Brutus is the centerpiece of a mining museum in West Mineral, Kansas where it was used in coal strip mining operations. The shovel was designed to dig from down to unearth relatively shallow coal seams, which would themselves be mined with smaller equipment. Fabrication of Big Brutus was completed in May 1963, after which it was shipped in 150 railroad cars to be assembled in Kansas. It operated until 1974,"»
+
+[[ ## question ## ]]
+What is the nickname for this United States drag racer who drove Brutus?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+Jim Liberman nickname Jungle Jim
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"2014–15 UAB Blazers men's basketball team" | "they upset No. 3-seeded and No. 9-ranked Iowa State in the Second Round before losing in the Third Round to No. 11-seeded UCLA. The Blazers finished the 2013–14 season 18–13, 7–9 in C-USA play to finish in a tie for eighth place. They lost in the second round of the C-USA Tournament to Charlotte. !colspan=9 style=| Exhibition !colspan=9 style=| Non-conference regular season !colspan=12 style=| Conference USA regular season !colspan=9 style=| Conference USA Tournament !colspan=9 style=""| NCAA Tournament 2014–15 UAB Blazers men's basketball team The 2014–15 UAB Blazers men's basketball team represented the University of Alabama at Birmingham during the 2014–15"»
+[2] «"2015–16 UAB Blazers men's basketball team" | "upset No. 3-seeded and No. 9-ranked Iowa State in the Second Round before losing in the Third Round to No. 11-seeded UCLA. !colspan=9 style=|Exhibition !colspan=9 style=|Non-conference regular season !colspan=12 style=| Conference USA regular season !colspan=9 style=| Conference USA Tournament !colspan=9 style=| NIT 2015–16 UAB Blazers men's basketball team The 2015–16 UAB Blazers basketball team represented the University of Alabama at Birmingham during the 2015–16 NCAA Division I men's basketball season. The Blazers, led by fourth year head coach Jerod Haase, played their home games at the Bartow Arena as members of Conference USA. They finished the season 26–7, 16–2 in"»
+
+[[ ## question ## ]]
+Who was coach of the No. 9-ranked team that was upset in the NCAA Tournament by the 2014-15 UAB Blazers men's basketball team?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"Iowa State head coach 2014-15 NCAA Tournament"
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"South African rand" | "South African rand The rand (sign: R; code: ZAR) is the currency of South Africa. The Rand is subdivided into 100 cents (sign: ""c""). The ISO 4217 code is ZAR, from Dutch ""Zuid-Afrikaanse Rand"" (South African Rand). The Rand is legal tender in the Common Monetary Area between South Africa, Swaziland (Eswatini), Lesotho, and Namibia, although the last three countries do have their own currencies pegged at par with rand. Before 1976, the rand was legal tender in Botswana. The Rand takes its name from the WitwatersRand (""white waters' ridge"" in English), the ridge upon which Johannesburg is built and"»
+[2] «"South African rand" | "him has been erected (50-Rand); the place of Mandela's 27-year imprisonment at Robben Island, showing a pile of quarried limestone (100-Rand); the statue of Mandela at the Union Buildings in remembrance of when he was inaugurated there in 1994 (200-Rand). South African rand The rand (sign: R; code: ZAR) is the currency of South Africa. The Rand is subdivided into 100 cents (sign: ""c""). The ISO 4217 code is ZAR, from Dutch ""Zuid-Afrikaanse Rand"" (South African Rand). The Rand is legal tender in the Common Monetary Area between South Africa, Swaziland (Eswatini), Lesotho, and Namibia, although the last three countries"»
+
+[[ ## question ## ]]
+What country does Rand Show and Johannesburg have in common?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+South Africa Rand Show Johannesburg common country
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Joakim Noah" | "six attempts. With the help of Noah on both the offensive and defensive sides of the ball, the Florida Gators were able to win their second championship in two years. The Chicago Bulls selected Noah as the ninth overall pick in the 2007 NBA draft. Noah and his teammates at Florida, Corey Brewer and Al Horford, became the highest-picked trio from the same college in the history of the NBA. Horford was chosen third overall by the Atlanta Hawks, and Brewer was chosen seventh overall by the Minnesota Timberwolves. On November 6, 2007, Noah made his regular season debut off"»
+[2] «"NBA All-Defensive Team" | "been voted on by the media. On four occasions, the Defensive Player of the Year winner was not voted to the All-Defensive first team in the same year. Player of the Year winners Alvin Robertson in 1986, Dikembe Mutombo (1995), Tyson Chandler (2012), Marc Gasol (2013) were instead named to the second team. The following table lists the top ten players with the most overall selections. NBA All-Defensive Team The NBA All-Defensive Team is an annual National Basketball Association (NBA) honor given since the 1968–69 NBA season to the best defensive players during the regular season. The All-Defensive Team is"»
+
+[[ ## question ## ]]
+Who did the ninth overall pick in the 2007 NBA draft tie with during voting for the 2013 NBA All-Defensive Team?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+Joakim Noah 2013 NBA All-Defensive Team voting results
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Tae Kwon Do Times" | "Tae Kwon Do Times Tae Kwon Do Times is a magazine devoted to the martial art of taekwondo, and is published in the United States of America. While the title suggests that it focuses on taekwondo exclusively, the magazine also covers other Korean martial arts. ""Tae Kwon Do Times"" has published articles by a wide range of authors, including He-Young Kimm, Thomas Kurz, Scott Shaw, and Mark Van Schuyver. ""Tae Kwon Do Times"" is a widely known publication within the international taekwondo community, appearing in several organizations' websites and individuals' biographies. Shaw lists it as one of five important taekwondo"»
+[2] «"Scott Shaw (artist)" | "other cartoon series, including ""Krypto the Superdog"", ""Johnny Test"", ""What's New, Scooby-Doo?"", ""Duck Dodgers"", """", ""Teamo Supremo"", ""Fantastic Four"", ""Richie Rich"", ""Popeye and Son"", ""The Smurfs"", ""The Snorks, Garfield and Friends"" and ""The Bungle Brothers"" segments of Tex Avery's ""The Kwicky Koala Show"" and many others. Scott also worked on Disney's direct-to-DVD ""Mickey's Twice Upon a Christmas"" and ""Mulan 2"". For nearly 10 years, Shaw was the Senior Art Director of Ogilvy & Mather (Los Angeles), where he co-wrote, co-directed, storyboarded and designed hundreds of animated TV commercials for Post Fruity and Cocoa Pebbles cereal. He also wrote and drew"»
+
+[[ ## question ## ]]
+Which magazine has published articles by Scott Shaw, Tae Kwon Do Times or Southwest Art?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+Scott Shaw articles published in Tae Kwon Do Times or Southwest Art?
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Bernard J. Schaffer" | "Bernard J. Schaffer Bernard J. Schaffer (born 1974) is a police detective, an author, and a former child actor who appeared on the Nickelodeon program ""Don't Just Sit There"". He joined the police department in 1996 and passed the detective's test in 2005. Schaffer cites Stephen King's """" as his favorite book, describing King as ""my Musashi,"" and the ""Harry Potter"" novels as his favorite series. Schaffer has self-published several works, including: He is also the founder of the short-fiction anthology ""Kindle All-Stars"", contributing the Seneca 6 story ""Old-Time Lawmen"" to the first collection, ""Resistance Front"", and the story ""Carnival"»
+[2] «"Bernard J. Schaffer" | "of Cryptids"" in the second collection, ""Carnival of Crypids"". His upcoming projects include the historical sequel ""Whitechapel 2: Inspector Lestrade and the Torso Killer"", the sword-and-sorcery fantasy story ""The Widow Sword"", and a third installment of the ""Kindle All-Stars"" anthology. Bernard J. Schaffer Bernard J. Schaffer (born 1974) is a police detective, an author, and a former child actor who appeared on the Nickelodeon program ""Don't Just Sit There"". He joined the police department in 1996 and passed the detective's test in 2005. Schaffer cites Stephen King's """" as his favorite book, describing King as ""my Musashi,"" and the ""Harry"»
+
+[[ ## question ## ]]
+A police detective, author and former child actor who appeared on a show that had segments about making food and taking things apart, joined the police department in what year?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"Bernard J. Schaffer police department joined year"
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+[[ ## context ## ]]
+[1] «"Gerard Piel" | "Gerard Piel Gerard Piel (1 March 1915 in Woodmere, N.Y. – 5 September 2004) was the publisher of the new Scientific American magazine starting in 1948. He wrote for magazines, including ""The Nation"", and published books on science for the general public. In 1990, Piel was presented with the ""In Praise of Reason"" award by the Committee for Skeptical Inquiry (CSICOP). Piel graduated from Harvard University with a bachelor of arts degree in 1937. He was the science editor of Life Magazine from 1939 to 1945. In 1946 and 1947, he worked at the Henry Kaiser Company as assistant to"»
+[2] «"Gerard Piel" | "the president. In 1948, in association with two colleagues, he launched a new version of Scientific American, to promote science literacy for the general public in the postwar era. He held a number of honorary degrees and awards, including the UNESCO Kalinga Prize in 1962. Gerard Piel Gerard Piel (1 March 1915 in Woodmere, N.Y. – 5 September 2004) was the publisher of the new Scientific American magazine starting in 1948. He wrote for magazines, including ""The Nation"", and published books on science for the general public. In 1990, Piel was presented with the ""In Praise of Reason"" award by"»
+
+[[ ## question ## ]]
+What was the 2010 population of the birthplace of Gerard Piel?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `search_query`, and then ending with the marker for `completed`.
+
+
+[31mResponse:[0m
+
+[32m[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## search_query ## ]]
+"Woodmere NY 2010 population"
+
+[[ ## completed ## ]][0m
+
+
+
+
+
+[31mSystem message:[0m
+
+Your input fields are:
+1. `context` (str)
+2. `question` (str)
+
+Your output fields are:
+1. `reasoning` (str)
+2. `answer` (str)
+
+All interactions will be structured in the following way, with the appropriate values filled in.
+
+[[ ## context ## ]]
+{context}
+
+[[ ## question ## ]]
+{question}
+
+[[ ## reasoning ## ]]
+{reasoning}
+
+[[ ## answer ## ]]
+{answer}
+
+[[ ## completed ## ]]
+
+In adhering to this structure, your objective is: 
+        Propose a comprehensive and engaging instruction that encourages the Language Model to analyze the context carefully and provide a well-reasoned answer to the question. The instruction should emphasize the importance of logical reasoning and thorough understanding of the context to arrive at the correct answer.
+        
+        ---
+        
+        PROPOSED INSTRUCTION: "Using the provided context, carefully analyze the information to answer the question. Take a moment to think critically about the details and relationships presented in the context. Your answer should be clear and supported by logical reasoning derived from the context. Please provide both the answer and a rationale explaining how you arrived at that conclusion.
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Hargus ""Pig"" Robbins" | "ask for Pig, I want Pig!"" Hargus ""Pig"" Robbins Hargus Melvin ""Pig"" Robbins (born January 18, 1938, in Spring City, Tennessee) is an American session keyboard, and piano player. Having played on records for artists such as Dolly Parton, Connie Smith, Patti Page, Loretta Lynn, Kenny Rogers, George Jones,Charlie Rich, Bob Dylan, Neil Young, Mark Knopfler, John Hartford, Ween, Alan Jackson, Merle Haggard, Roger Miller, David Allan Coe, Moe Bandy, George Hamilton IV, Sturgill Simpson and Conway Twitty, he played on Roger Miller's Grammy Award-winning ""Dang Me"" in 1964. He is blind, having lost his sight at age four due"»
+[2] «"Hargus ""Pig"" Robbins" | "Hargus ""Pig"" Robbins Hargus Melvin ""Pig"" Robbins (born January 18, 1938, in Spring City, Tennessee) is an American session keyboard, and piano player. Having played on records for artists such as Dolly Parton, Connie Smith, Patti Page, Loretta Lynn, Kenny Rogers, George Jones,Charlie Rich, Bob Dylan, Neil Young, Mark Knopfler, John Hartford, Ween, Alan Jackson, Merle Haggard, Roger Miller, David Allan Coe, Moe Bandy, George Hamilton IV, Sturgill Simpson and Conway Twitty, he played on Roger Miller's Grammy Award-winning ""Dang Me"" in 1964. He is blind, having lost his sight at age four due to an accident involving his father's"»
+[3] «Ween | "founder Kramer on bass. Ween signed with Elektra Records and released their major label debut ""Pure Guava"" on November 10, 1992. Pure Guava featured their highest charting single, ""Push th' Little Daisies"" which gained them media and MTV attention, as the video was a highlighted target on MTV's ""Beavis and Butt-Head"". The song was also a hit in Australia, reaching #18 on the singles chart. The track ""Flies on My Dick"" featured lead vocals by Guy Heller, singer of Melchiondo's other band, Moistboyz. Heller would occasionally perform the song live with Ween. Ween toured the U.S. in support of the"»
+[4] «"Ween discography" | "their major label debut ""Pure Guava"" in 1992. It features their highest-charting single to date, ""Push th' Little Daisies"". While touring for this album, they played at Chapel Hill, North Carolina, which would later be released as a CD/DVD live album in 2008 titled ""At the Cat's Cradle, 1992"". In 1994 ""Chocolate and Cheese"" was released, which spawned the singles ""Voodoo Lady"", ""Freedom of '76"", and ""I Can't Put My Finger on It"". Ween's next album, released in 1996, was titled ""12 Golden Country Greats"" and was recorded with several prominent Nashville musicians, featuring a distinct country sound. It gave"»
+
+[[ ## question ## ]]
+Hargus Melvin "Pig" Robbins who has played with an American alternative rock band whose highest charting single was what?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+Push th' Little Daisies
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Mac Davis" | "He achieved other successful songs, such as ""Texas In My Rear View Mirror"" and ""Hooked on Music"", which became his biggest Country music success in 1981, going to no. 2. In 1985, he recorded his last top 10 country music success with the song ""I Never Made Love (Till I Made Love With You)"". On January 19, 1985, Davis performed ""God Bless the USA"" at the 50th Presidential Inaugural Gala, held the day before the second inauguration of Ronald Reagan. From 1974 to 1976, Davis had his own television variety show on NBC, ""The Mac Davis Show"". He made his"»
+[2] «"You Made Me Love You (I Didn't Want to Do It)" | "You Made Me Love You (I Didn't Want to Do It) ""You Made Me Love You (I Didn't Want to Do It)"" is a popular song. The music was written by James V. Monaco, the lyrics by Joseph McCarthy and the song was published in 1913. It was introduced by Al Jolson in the Broadway revue ""The Honeymoon Express"" (1913) and used in the 1973 revival of the musical ""Irene"". One of the earliest recordings of the song was by Al Jolson which was recorded on June 4, 1913. It was released on Columbia A-1374 and was a huge hit."»
+[3] «"Mac Davis" | "Mac Davis Morris Mac Davis (born January 21, 1942) is a country music singer, songwriter, and actor, originally from Lubbock, Texas, who has enjoyed much crossover success. His early work writing for Elvis Presley produced the hits ""Memories"", ""In the Ghetto"", ""Don't Cry Daddy"", and ""A Little Less Conversation"". A subsequent solo career in the 1970s produced hits such as ""Baby, Don't Get Hooked on Me."" He also starred in his own variety show, a Broadway musical, and various films and TV shows. Davis graduated at 16 from Lubbock High School in Lubbock, Texas. He spent his childhood years with"»
+[4] «"Mac Davis" | "children. Mac Davis Morris Mac Davis (born January 21, 1942) is a country music singer, songwriter, and actor, originally from Lubbock, Texas, who has enjoyed much crossover success. His early work writing for Elvis Presley produced the hits ""Memories"", ""In the Ghetto"", ""Don't Cry Daddy"", and ""A Little Less Conversation"". A subsequent solo career in the 1970s produced hits such as ""Baby, Don't Get Hooked on Me."" He also starred in his own variety show, a Broadway musical, and various films and TV shows. Davis graduated at 16 from Lubbock High School in Lubbock, Texas. He spent his childhood years"»
+
+[[ ## question ## ]]
+Where was the singer who released the single "I Never Made Love (Till I Made It with You)" originally from ?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+Lubbock, Texas
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"The Tree (2010 film)" | "the 2010 Sydney Film Festival. The film is distributed in the US by Zeitgeist Films, opening on 15 July 2011 in New York, on 22 July in Los Angeles, Boston and Washington, D.C., and throughout the country over the summer. Dawn and Peter O'Neil live together with their children (three boys and a girl), on the outskirts of a small country town. Next to their rambling house stands the kids' favourite playground: a giant Moreton Bay Fig tree (now known in real-life as the Teviotville Tree), whose branches reach high towards the sky and roots stretch far into the ground."»
+[2] «Figght | "Figght Figght is an upcoming action-romance Marathi Film scheduled to release on 11th January, 2019 Indian Marathi language directed by Jimmy Moray. Produced by Lalit Oswaal under banner Futture X Production, starring debutante Jeet in the lead along with Suresh Vishwakarma, Purva Shinde, Anup Ingale and Madhav Abhyankar. The soundtrack of Figght has one rap song, ‘Bukkebaaz’. Composed by Vickie Saxena, the lyrics & Rap is by Ray Marshall, J-Subodh & Azad. The film is edited by Shashank Shah & written by Swapnil Mahaling. The film's soundtrack was composed and produced by Swapnil Godbole. Lyrics written by Mandar Cholkar ""Kalana"»
+[3] «"Pond Hockey (film)" | "Pond Hockey (film) Pond Hockey is a 2008 American documentary film, directed by Tommy Haines, and produced by Northland Films. The film is an examination of the changing culture of pond hockey. Director Tommy Haines and his Minnesota crew chronicle the changing culture of hockey through interviews with Wayne Gretzky, Neal Broten and Sidney Crosby to local rinkrats. Interwoven with the story of the first ever U.S. Pond Hockey Championships. The tournament was composed of 100 teams; the film follows two of these teams: The Federal League Allstars and Sofa King Lazy. ""Pond Hockey"" showed at several North American film"»
+[4] «"Pond Hockey (film)" | "General Partner of the Minnesota Wild. Pond Hockey (film) Pond Hockey is a 2008 American documentary film, directed by Tommy Haines, and produced by Northland Films. The film is an examination of the changing culture of pond hockey. Director Tommy Haines and his Minnesota crew chronicle the changing culture of hockey through interviews with Wayne Gretzky, Neal Broten and Sidney Crosby to local rinkrats. Interwoven with the story of the first ever U.S. Pond Hockey Championships. The tournament was composed of 100 teams; the film follows two of these teams: The Federal League Allstars and Sofa King Lazy. ""Pond Hockey"""»
+
+[[ ## question ## ]]
+Which film was created first, Fig Trees or Pond Hockey?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+Pond Hockey
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Rockefeller University" | "Rockefeller Jr. Greatly elevating the prestige of American science and medicine, it was America's first biomedical institute, like France's Pasteur Institute (1888) and Germany's Robert Koch Institute (1891). The Rockefeller Foundation, a philanthropic organization, founded in 1913, is a separate entity, but had close connections mediated by prominent figures holding dual positions. The first director of laboratories was Simon Flexner, who supervised the development of research capacity at the Institute, whose staff made major discoveries in basic research and medicine. While a student at Johns Hopkins University, Flexner had studied under the Institute's first scientific director, William H. Welch, first"»
+[2] «"History of the Massachusetts Institute of Technology" | "fact counterproductive; they fooled professors into believing that their classes were imparting broad knowledge as intended, but instead locked professors and students into a feedback cycle to the detriment of actual education. In 1986, David Baltimore, a Nobel Laureate, and his colleague, Thereza Imanishi-Kari, were accused of research misconduct. The ensuing controversy involved a Congressional investigation and required him to resign from his new appointment as president of Rockefeller University although the allegations against Imanishi-Kari were dropped and Baltimore eventually became an endowed professor at and president of Caltech. Given the scale and reputation of MIT's research accomplishments, allegations of"»
+[3] «"Massachusetts Institute of Technology" | "world's ""six super brands"" on its ""World Reputation Rankings"", along with Berkeley, Cambridge, Harvard, Oxford and Stanford. In 2017, the Times Higher Education World University Rankings rated MIT the #2 university for arts and humanities. The university historically pioneered research and training collaborations between academia, industry and government. In 1946, President Compton, Harvard Business School professor Georges Doriot, and Massachusetts Investor Trust chairman Merrill Grisswold founded American Research and Development Corporation, the first American venture-capital firm. In 1948, Compton established the MIT Industrial Liaison Program. Throughout the late 1980s and early 1990s, American politicians and business leaders accused MIT and"»
+
+[[ ## question ## ]]
+Are Rockefeller University and Massachusetts Institute of Technology both considered to be prestigious?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+yes
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"The Yankee Years" | "The Yankee Years The Yankee Years is a book written by Tom Verducci and Joe Torre. The book chronicles Torre's years as manager of Major League Baseball's New York Yankees from 1996 to 2007. It goes into great detail on Torre's relationship with the players, general manager Brian Cashman, team owner George Steinbrenner, and the Yankees organization as a whole. Also discussed are major developments in the way baseball management throughout the years changed from a batting average focused market to the in-depth statistical-based approach centered on base-percentage, as well as covering issues such as the ""Steroids Era"". Torre has"»
+[2] «"Joe Torre" | "immediately after the race. In 1997, Torre's autobiography, ""Chasing the Dream"", was released. Later, he authored an advice book, titled ""Joe Torre's Ground Rules for Winners"". His third book, ""The Yankee Years"", was released in February 2009. The book, co-authored by ""Sports Illustrated"" writer Tom Verducci, details Torre's tenure as manager of the New York Yankees. In 2002, Torre and his wife Ali established the Joe Torre Safe at Home Foundation. In October 2007 the Foundation partnered with the Union City, New Jersey Board of Education and the North Hudson Community Action Corporation (NHCAC) to establish the Foundation's Margaret Place"»
+[3] «"Joe Torre" | "was the AL Manager of the Year. He also won two NL West division titles with the Dodgers for a total of 13 division titles. In 2014, Torre was elected to the National Baseball Hall of Fame. Joseph Torre was born July 18, 1940, in Brooklyn, New York. He is the youngest of five children, two girls and three boys of Italian immigrants Joe, Sr., a plainclothes officer in the New York City Police Department, and Margaret. Joe, Sr. abused Margaret until Torre was 13 years old when Torre's brother, Frank, convinced their father to move out. They would later"»
+[4] «"Joe Torre" | "Joe Torre Joseph Paul Torre (; born July 18, 1940) is an American professional baseball executive, serving in the capacity of Major League Baseball's (MLB) chief baseball officer since 2011. A former player, manager and television color commentator, Torre ranks fifth all-time in MLB history with 2,326 wins as a manager. With 2,342 hits during his playing career, Torre is the only major leaguer to achieve both 2,000 hits and 2,000 wins as a manager. From 1996 to 2007, he was the manager of the New York Yankees and guided the team to four World Series championships. Torre's lengthy and"»
+
+[[ ## question ## ]]
+What year was the co-author (with Tom Verducci) of The Yankee Years born?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+1940
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Sunflower Slow Drag" | "Sunflower Slow Drag ""Sunflower Slow Drag"" is a ragtime composition by Scott Joplin and Scott Hayden. It is about four minutes long and has been described as ""full of gaiety and sunshine"". While Joplin's name was given top billing, Jasen and Tichenor assert that everything except the trio was primarily Hayden's work. The trio, attributed to Joplin, is distinguished by its softer dynamics, pentatonic emphasis, and broader range. The copyright was registered March 18, 1901. The piece was originally published by John Stillwell Stark, who advertised it as ""the twin sister of Maple Leaf"". Stark also reported that the trio"»
+[2] «"Sunflower Slow Drag" | "was written during Joplin's courtship of Belle Hayden, his first wife, who was also Scott Hayden's sister-in-law, his brother's widow. Sunflower Slow Drag ""Sunflower Slow Drag"" is a ragtime composition by Scott Joplin and Scott Hayden. It is about four minutes long and has been described as ""full of gaiety and sunshine"". While Joplin's name was given top billing, Jasen and Tichenor assert that everything except the trio was primarily Hayden's work. The trio, attributed to Joplin, is distinguished by its softer dynamics, pentatonic emphasis, and broader range. The copyright was registered March 18, 1901. The piece was originally published"»
+
+[[ ## question ## ]]
+Who composed "Sunflower Slow Drag" with the King of Ragtime?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+Scott Hayden
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"The Devil and Max Devlin" | "The Devil and Max Devlin The Devil and Max Devlin is a 1981 American fantasy-comedy film produced by Walt Disney Productions, directed by Steven Hilliard Stern and starring Elliott Gould, Bill Cosby and Susan Anspach. The film was considered to be controversial for a Disney film at the time because of the subject matter and the fact that Bill Cosby was featured as a character of evil, and was one of three motion pictures that influenced Disney to establish Touchstone Pictures and Hollywood Pictures (and later, to purchase Miramax Films), as a method to produce and release films for mature"»
+[2] «"The Devil and Max Devlin" | "US in late 1981 and then discontinued for years in spite of Bill Cosby's renewed TV popularity because of ""The Cosby Show"" (which started its eight-year run in 1984, the same year Elliott Gould's sitcom ""E/R"" came and went), Anchor Bay Entertainment released the film on DVD in November 2000, and Walt Disney Home Entertainment re-released it on DVD in 2006. In the UK, ironically considering the film's English origins, its 1987 videocassette debut caused a minor stir as it coincided with the growing uproar over ""Video nasties,"" the press-generated term for films with gory violence and explicit sex. Anti-censorship"»
+
+[[ ## question ## ]]
+Was The Devil and Max Devlin or Do Dooni Chaar released first?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+The Devil and Max Devlin
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Kerry Condon" | "Inishmore"" by Martin McDonagh which she performed at the Royal Shakespeare Company and in 2006 at the Lyceum Theatre in New York. For this production she recorded the song ""The Patriot Game"" with The Pogues. That same year, Condon played the role of Ophelia in ""Hamlet"", making her the youngest actress to ever play that role for the RSC. In 2009, she appeared in another play by Martin McDonagh, ""The Cripple of Inishmaan"", for which she won a Lucille Lortel award and a Drama Desk Award. Condon's movie roles include Kate Kelly, Ned Kelly's outlaw sister, in 2003's ""Ned Kelly"""»
+[2] «"Kerry Condon" | "Kerry Condon Kerry Condon (born 4 January 1983) is an Irish television and film actress, best known for her role as Octavia of the Julii in the HBO/BBC series ""Rome,"" as Stacey Ehrmantraut in AMC's ""Better Call Saul"" and as the voice of F.R.I.D.A.Y. in various films in the Marvel Cinematic Universe. She is also the youngest actress ever to play Ophelia in a Royal Shakespeare Company production of ""Hamlet."" She appeared in AMC’s ""The Walking Dead"" in ""30 Days Without an Accident"". In 2001, at the age of 19, Condon originated the role of Mairead in ""The Lieutenant of"»
+[3] «"Maggie Cronin" | "Maggie Cronin Maggie Cronin is an Irish actress and playwright. The Short film The Shore directed by Terry George, in which she appears with Ciarán Hinds, Conleth Hill and Kerry Condon, won the Academy award in the Short Film, Live Action category at 84th Academy Awards in February 2012. She appeared in ""Doctors"" (BBC1 TV) from 2000 -2004 playing the role of Kate McGuire for over 600 episodes. In 2006 she briefly returned when Christopher Timothy's character Brendan ""Mac"" McGuire left the series In 2016 she appeared as Ellen Quinn in My Mother And Other Strangers and also in The"»
+
+[[ ## question ## ]]
+Who acted in the shot film The Shore and is also the youngest actress ever to play Ophelia in a Royal Shakespeare Company production of "Hamlet." ?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+Kerry Condon
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Jim Liberman" | "began racing when he moved to Northern California. He began drag racing in the Stock division at Fremont Raceway in 1964 and made a jump up to funny cars in 1965, driving an injected Nova on nitromethane dubbed ""Hercules"". Later that year he started on the national scene as the driver of Lew Arrington's supercharged GTO Funny Car, ""Brutus"". In 1966, Liberman went out on his own in his first supercharged (steel-bodied) Chevy II, the first to wear the ""Jungle Jim"" name. In 1967, he went on a tour that established him as a household name within drag racing circles"»
+[2] «"Big Brutus" | "Big Brutus Big Brutus is the nickname of the Bucyrus-Erie model 1850-B electric shovel, which was the second largest of its type in operation in the 1960s and 1970s. Big Brutus is the centerpiece of a mining museum in West Mineral, Kansas where it was used in coal strip mining operations. The shovel was designed to dig from down to unearth relatively shallow coal seams, which would themselves be mined with smaller equipment. Fabrication of Big Brutus was completed in May 1963, after which it was shipped in 150 railroad cars to be assembled in Kansas. It operated until 1974,"»
+[3] «"Jim Liberman" | "Jim Liberman Russell James Liberman (September 12, 1945 – September 9, 1977) was an American drag racer, nicknamed ""Jungle Jim"". He was named #17 on the list of the Top 50 NHRA drivers. Liberman was known for driving backwards at after doing his burnout. Liberman was a flamboyant showman who primarily toured the United States drag racing events and averaged an estimated 100 events per year during the 1970s. He refused to lift off the gas when a run was completely out of shape. Liberman was born in Pennsylvania. He dropped out of high school in his junior year and"»
+
+[[ ## question ## ]]
+What is the nickname for this United States drag racer who drove Brutus?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+Jungle Jim
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Tae Kwon Do Times" | "Tae Kwon Do Times Tae Kwon Do Times is a magazine devoted to the martial art of taekwondo, and is published in the United States of America. While the title suggests that it focuses on taekwondo exclusively, the magazine also covers other Korean martial arts. ""Tae Kwon Do Times"" has published articles by a wide range of authors, including He-Young Kimm, Thomas Kurz, Scott Shaw, and Mark Van Schuyver. ""Tae Kwon Do Times"" is a widely known publication within the international taekwondo community, appearing in several organizations' websites and individuals' biographies. Shaw lists it as one of five important taekwondo"»
+[2] «"Scott Shaw (artist)" | "other cartoon series, including ""Krypto the Superdog"", ""Johnny Test"", ""What's New, Scooby-Doo?"", ""Duck Dodgers"", """", ""Teamo Supremo"", ""Fantastic Four"", ""Richie Rich"", ""Popeye and Son"", ""The Smurfs"", ""The Snorks, Garfield and Friends"" and ""The Bungle Brothers"" segments of Tex Avery's ""The Kwicky Koala Show"" and many others. Scott also worked on Disney's direct-to-DVD ""Mickey's Twice Upon a Christmas"" and ""Mulan 2"". For nearly 10 years, Shaw was the Senior Art Director of Ogilvy & Mather (Los Angeles), where he co-wrote, co-directed, storyboarded and designed hundreds of animated TV commercials for Post Fruity and Cocoa Pebbles cereal. He also wrote and drew"»
+[3] «"Scott Shaw" | "to be published on the subjects of anthropology and the social sciences. Though his writings have span many genres, Shaw is most well known as an author on the subject of the martial arts. This is due to the voluminous amount of written work he has composed on the subject. Over three hundred of his articles on the martial arts have been published and he is the author of several books on the subject. The foundation for Shaw's writings on the martial arts began when he was six years old. This is the point when he began his study of"»
+[4] «"Scott Shaw" | "Scott Shaw Scott Shaw (born September 23, 1958) is an American author, actor, composer, martial artist, and filmmaker. Shaw was born in Hollywood, California. He spent his early years in South Central Los Angeles and then returned to Hollywood for his adolescence. He became involved with the martial arts and eastern mysticism at an early age. Shaw has had a career in both the arts and the sciences. He first became noticed as an author when his poetry and literary fiction began to be published in literary journals in the late 1970s. Beginning in the mid-1980s Shaw's writings also began"»
+
+[[ ## question ## ]]
+Which magazine has published articles by Scott Shaw, Tae Kwon Do Times or Southwest Art?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+Tae Kwon Do Times
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Nigel Walley" | "friends and school friends. Walley was one of four tea-chest bass players in the fledgling lineup of the group, the others being Vaughan, Bill Smith and Len Garry. Playing tea-chest bass with the group from 1956 to 1958, Walley lost the tea chest when he left it at a bus stop after being threatened by two aggressive local boys. He then decided to become the group's manager, at Lennon's request. On 2 July 1957, Walley and Lennon were turned down when they tried to sign on as ship's stewards (as Lennon's father had been), in the seamen's employment office at"»
+[2] «"Nigel Walley" | "playing skiffle between the performances of three jazz groups at The Cavern Club. Paul McCartney made his debut with the group on Friday, 18 October 1957, at a Conservative Club social—organised by Walley—which was held at the New Clubmoor Hall in the Norris Green section of Liverpool. Lennon and McCartney wore cream-coloured sports jackets, which were paid for by Walley, and he collected half a crown per week from each member until the bill was settled. McCartney later clashed with Walley about payment: ""The funny thing was that whenever Paul [McCartney] was around he used to say, 'Don't pay anyone"»
+[3] «"Nigel Walley" | "Nigel Walley Christopher Nigel Walley (born 30 June 1941) is a former golfer and tea-chest bass player of The Quarrymen, which included John Lennon. Walley later became manager of the group. His surname has often been spelt incorrectly as 'Whalley' in numerous books and on web pages. Walley's father was Chief Superintendent Harold Walley, who was the head of Liverpool's Police 'A' Division. The Walley family lived in Vale Road, Liverpool, which was at the back of Lennon's home at 251 Menlove Avenue, belonging to his aunt and guardian, Mimi Smith. Walley and Lennon became friends at the age of"»
+
+[[ ## question ## ]]
+What instrument did Nigel Walley play in John Lennon's band formed in 1956, which would later become the Beatles?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+tea-chest bass
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Magnus Norman" | "Magnus Norman Magnus Norman (born 30 May 1976) is a Swedish tennis coach and a retired professional tennis player. He reached a career-high Association of Tennis Professionals (ATP) world No. 2 singles ranking on June 12, 2000. His career highlights include reaching a Grand Slam final at the French Open in 2000 (lost to Gustavo Kuerten), and winning an ATP Masters Series title at the 2000 Rome Masters (defeated Kuerten in the final). He owns a tennis academy called the Good to Great Tennis Academy, among its students are Stan Wawrinka and Gaël Monfils. Grigor Dimitrov was also a former"»
+[2] «"2000 Indian Wells Masters" | "Australian Open titlist, Masters Cup finalist, 1995 runner-up Andre Agassi, Masters Cup winner, 1995 Wimbledon champion Pete Sampras and Australian Open runner-up Yevgeny Kafelnikov. Also competing in the field were Dubai winner Nicolas Kiefer, Santiago titlist Gustavo Kuerten, Magnus Norman, Marcelo Ríos and Nicolás Lapentti. Àlex Corretja defeated Thomas Enqvist, 6–4, 6–4, 6–3 Lindsay Davenport defeated Martina Hingis 4–6, 6–4, 6–0 Alex O'Brien / Jared Palmer defeated Paul Haarhuis / Sandon Stolle 6–4, 7–6 Lindsay Davenport / Corina Morariu defeated Anna Kournikova / Natasha Zvereva, 6–2, 6–3 2000 Indian Wells Masters The 2000 Indian Wells Masters (also known as Tennis"»
+[3] «"2000 Tennis Masters Cup and ATP Tour World Championships" | "and the doubles event at the KSLTA Tennis Center in Bangalore, India, from December 13 through December 26, 2000. Gustavo Kuerten def. Andre Agassi 6–4, 6–4, 6–4 Donald Johnson / Piet Norval def. Mahesh Bhupathi / Leander Paes 7–6, 6–3, 6–4 2000 Tennis Masters Cup and ATP Tour World Championships The 2000 Tennis Masters Cup and the ATP Tour World Championships (also known as the ""Gold Flake ATP Tour World Doubles Championship"" for sponsorship reasons) were tennis tournaments played on indoor hard courts for the singles event, and outdoor hard courts for the doubles event. It was the 31st edition"»
+[4] «"2000 Tennis Masters Cup and ATP Tour World Championships" | "2000 Tennis Masters Cup and ATP Tour World Championships The 2000 Tennis Masters Cup and the ATP Tour World Championships (also known as the ""Gold Flake ATP Tour World Doubles Championship"" for sponsorship reasons) were tennis tournaments played on indoor hard courts for the singles event, and outdoor hard courts for the doubles event. It was the 31st edition of the year-end singles championships, the 27th edition of the year-end doubles championships, and both were part of the 2000 ATP Tour. The singles event took place at the Pavilhão Atlântico in Lisbon, Portugal, from November 28 through December 3, 2000,"»
+
+[[ ## question ## ]]
+Who was the Tennis Masters Cup champion in 2000, Gustavo Kuerten or Stan Wawrinka?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+Gustavo Kuerten
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"William Mapother" | "William Mapother William Reibert Mapother Jr. (; born April 17, 1965) is an American actor, known for his role as Ethan Rom on the television series ""Lost"" and starring in the film ""In the Bedroom"". He is also known for the film ""Another Earth"". Mapother was born in Louisville, Kentucky, the son of Louisa (née Riehm) and William Reibert Mapother Sr. He is of English, Irish, and German ancestry. He is a first cousin of actor Tom Cruise (whose birth name was Thomas Cruise Mapother IV). His father was an attorney, bankruptcy consultant and judge in Louisville, between 1967 and"»
+[2] «"William Mapother" | "1970; William Sr., died on June 22, 2006, after fighting lung cancer and pulmonary fibrosis. Mapother graduated from the University of Notre Dame as an English major. Before becoming an actor, he taught grades 7-12 in L.A.U.S.D. schools in East Los Angeles for three years. Mapother has become widely known as a character actor, who sometimes plays scary or otherwise dark characters. He played a pivotal role in Todd Field's ""In the Bedroom"", and is perhaps best known as Ethan Rom in the TV show ""Lost"", which he played for 11 episodes during the life of the series. Mapother has"»
+[3] «"William Mapother" | "Bateson was recast. In 2014, he played the lead in the paranormal horror film ""The Atticus Institute"". He is a founding partner of the film finance platform Slated. William Mapother William Reibert Mapother Jr. (; born April 17, 1965) is an American actor, known for his role as Ethan Rom on the television series ""Lost"" and starring in the film ""In the Bedroom"". He is also known for the film ""Another Earth"". Mapother was born in Louisville, Kentucky, the son of Louisa (née Riehm) and William Reibert Mapother Sr. He is of English, Irish, and German ancestry. He is a"»
+
+[[ ## question ## ]]
+"Hurt" is a 2009 gothic horror movie starring William Mapother, but what TV series is he most associated with?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+Lost
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Stu Block" | "the US, the album sold approximately 6,300 copies in its first week to debut at #49 on the Billboard 200. Following a period of inactivity, Iced Earth has started writing for their 12th Studio Album tentatively titled ""The Judas Goat,"" with an expected release date and subsequent touring cycle in early 2016. Block is a self-described ""hybrid vocalist"", meaning that he utilizes vocal styles from many different genres of metal. Block has listed Bruce Dickinson, Rob Halford, Daniel Heiman, Tim Roth, Matt Barlow, Tim Owens, Devin Townsend, Jari Mäenpää, George ""Corpsegrinder"" Fisher, Russell Allen and Jørn Lande as his influences"»
+[2] «"Stu Block" | "Stu Block Stuart Block (born November 26, 1977) is a Canadian singer-songwriter, who was the frontman for Canadian progressive death metal band Into Eternity, and is now the lead vocalist for American heavy metal band Iced Earth. Before joining Into Eternity in 2005, Block began his musical career singing for various bands in Vancouver, British Columbia, Canada. After two albums with Into Eternity, Block joined Iced Earth in 2011, with whom he released the album ""Dystopia"" the same year. Block began his musical career in 1998, singing for various metal and rock acts around Vancouver. Prior to joining Into Eternity,"»
+
+[[ ## question ## ]]
+Do Stu Block and Johnny Bonnel's bands play the same type of music?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+no
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"Tiffanie DeBartolo" | "Tiffanie DeBartolo Tiffanie DeBartolo (born November 27, 1970) is an American novelist, filmmaker, and co-founder of independent record label Bright Antenna. She has written two novels, ""God-Shaped Hole"" and ""How To Kill a Rock Star"". She wrote and directed the film ""Dream for an Insomniac"", featuring Jennifer Aniston, but which had a very limited release in 1996. DeBartolo is the daughter of former San Francisco 49ers owner Edward J. DeBartolo, Jr.. She attended the all-girls Villa Maria High School and dropped out her senior year when they wouldn't let her graduate early. She later obtained her GED and graduated from"»
+[2] «"Tiffanie DeBartolo" | "work on the text for a graphic novel about American musician Jeff Buckley. She is one of the owners of the Oakland, California based Indie music record label Bright Antenna, which has released music by Middle Class Rut, Jimmy Gnecco, The Wombats, Magic Wands, Orchestral Manoeuvres in the Dark, Flagship, Beware of Darkness, and Cheerleader. Tiffanie DeBartolo Tiffanie DeBartolo (born November 27, 1970) is an American novelist, filmmaker, and co-founder of independent record label Bright Antenna. She has written two novels, ""God-Shaped Hole"" and ""How To Kill a Rock Star"". She wrote and directed the film ""Dream for an Insomniac"","»
+[3] «"Tony Gatlif" | "author J. M. G. Le Clézio to the screen in ""Mondo"" (1994). His 2004 film ""Exils"", won the Best Director Award at the 2004 Cannes Film Festival. His film ""Transylvania"" also premiered at Cannes in May 2006. Tony Gatlif Tony Gatlif (born as Michel Dahmani on 10 September 1948 in Algiers) is a French film director of Romani ethnicity who also works as a screenwriter, composer, actor, and producer. Gatlif was born in Algeria of Pied noir ancestry. After his childhood there, Gatlif arrived in France in 1960 following the Algerian War of Independence. Gatlif struggled for years to break"»
+[4] «"Tony Gatlif" | "Tony Gatlif Tony Gatlif (born as Michel Dahmani on 10 September 1948 in Algiers) is a French film director of Romani ethnicity who also works as a screenwriter, composer, actor, and producer. Gatlif was born in Algeria of Pied noir ancestry. After his childhood there, Gatlif arrived in France in 1960 following the Algerian War of Independence. Gatlif struggled for years to break into the film industry, playing in several theatrical productions until directing his first film, ""La Tête en ruine"", in 1975. He followed it with the 1979 ""La Terre au ventre"", a story of the Algerian War of"»
+
+[[ ## question ## ]]
+Are Tiffanie DeBartolo and Tony Gatlif both novelists?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+no
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+This is an example of the task, though some input or output fields are not supplied.
+
+[[ ## context ## ]]
+[1] «"The Badge" | "The Badge The Badge is a 2002 mystery-thriller film directed by Robby Henson and starring Billy Bob Thornton, Patricia Arquette and William Devane. La Salle Parish, Louisiana sheriff Darl Hardwick (Billy Bob Thornton) investigates the controversial local murder of a transsexual, with the highly sensitive matter being concealed as much as possible by the parish's most influential figures, such figures even going so far as to frame Hardwick for statutory rape involving a local waitress. With his career as sheriff at an end, Hardwick takes a personal stake in the investigation after becoming acquainted with the victim's widow (Patricia Arquette),"»
+[2] «"The Badge" | "and begins down a somewhat reckless path to an understanding of the victim's world, reconciliation for past sins, and a series of dark truths within the parish itself. The Badge The Badge is a 2002 mystery-thriller film directed by Robby Henson and starring Billy Bob Thornton, Patricia Arquette and William Devane. La Salle Parish, Louisiana sheriff Darl Hardwick (Billy Bob Thornton) investigates the controversial local murder of a transsexual, with the highly sensitive matter being concealed as much as possible by the parish's most influential figures, such figures even going so far as to frame Hardwick for statutory rape involving"»
+[3] «"Patricia Arquette" | "Patricia Arquette Patricia Arquette (born April 8, 1968) is an American actress. She made her feature film debut as Kristen Parker in """" (1987). Her other notable films include ""True Romance"" (1993), ""Ed Wood"" (1994), ""Flirting with Disaster"" (1996), ""Lost Highway"" (1997), ""The Hi-Lo Country"" (1998), ""Bringing Out the Dead"" (1999), and ""Holes"" (2003). For her performance in the coming-of-age drama film ""Boyhood"" (2014), which was filmed from 2002 until 2014, Arquette received widespread critical praise and won the Academy Award, BAFTA Award, Critics' Choice Award, Golden Globe Award, Independent Spirit Award, Satellite Award, and Screen Actors Guild Award, along"»
+[4] «"Patricia Arquette" | "as receptive of the film as audiences, with Roger Ebert remarking ""possibly the funniest movie ever made about Catholicism — from a theological point of view"". Arquette then appeared in Martin Scorsese's ""Bringing out the Dead"", based on the novel by Joe Connelly. The film united her with then-husband Nicolas Cage and received highly favourable critical reviews, but was a box office flop. Janet Maslin of the ""New York Times"" wrote that ""Arquette's quietly credible performance helps center Frank's experiences; one of the film's most honest scenes is one in which they share an ambulance ride without sharing a word""."»
+
+[[ ## question ## ]]
+ The Badge is a 2002 mystery-thriller film starring an American actress whose notible films include what 1999 Martin Scorsese film?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mAssistant message:[0m
+
+[[ ## reasoning ## ]]
+Not supplied for this particular example.
+
+[[ ## answer ## ]]
+Bringing Out the Dead
+
+[[ ## completed ## ]]
+
+
+[31mUser message:[0m
+
+[[ ## context ## ]]
+[1] «"Gerard Piel" | "Gerard Piel Gerard Piel (1 March 1915 in Woodmere, N.Y. – 5 September 2004) was the publisher of the new Scientific American magazine starting in 1948. He wrote for magazines, including ""The Nation"", and published books on science for the general public. In 1990, Piel was presented with the ""In Praise of Reason"" award by the Committee for Skeptical Inquiry (CSICOP). Piel graduated from Harvard University with a bachelor of arts degree in 1937. He was the science editor of Life Magazine from 1939 to 1945. In 1946 and 1947, he worked at the Henry Kaiser Company as assistant to"»
+[2] «"Gerard Piel" | "the president. In 1948, in association with two colleagues, he launched a new version of Scientific American, to promote science literacy for the general public in the postwar era. He held a number of honorary degrees and awards, including the UNESCO Kalinga Prize in 1962. Gerard Piel Gerard Piel (1 March 1915 in Woodmere, N.Y. – 5 September 2004) was the publisher of the new Scientific American magazine starting in 1948. He wrote for magazines, including ""The Nation"", and published books on science for the general public. In 1990, Piel was presented with the ""In Praise of Reason"" award by"»
+[3] «"Woodmere, New York" | "to Woodmere. It has approximately 75 volunteer members. Woodmere is located at . According to the United States Census Bureau, the CDP has a total area of 2.7 square miles (7.0 km), of which, 2.6 square miles (6.6 km) of it is land and 0.1 square miles (0.4 km) of it (5.19%) is water. As of the census of 2010, there were 17,121 people. The population density was 6,700 people per square mile. The percentage of family households is 86%. The racial makeup of the CDP was 84% White, 5.0% Black, 2.0% Asian, 0% Pacific Islander, 1.0% from other races,"»
+[4] «"Woodmere, New York" | "Woodmere, New York Woodmere is a hamlet and census-designated place (CDP) in Nassau County, New York, United States. The population was 17,554 at the 2016 census. Woodmere is one of the Long Island communities known as the Five Towns, which is usually said to comprise the villages of Lawrence and Cedarhurst, the hamlets of Woodmere and Inwood, and ""The Hewletts"", which consist of the villages of Hewlett Bay Park, Hewlett Harbor and Hewlett Neck and the hamlet of Hewlett, along with Woodsburgh. Woodmere is in the Town of Hempstead and is represented by Councilman Bruce Blakeman (Republican, 3rd District). Part"»
+
+[[ ## question ## ]]
+What was the 2010 population of the birthplace of Gerard Piel?
+
+Respond with the corresponding output fields, starting with the field `reasoning`, then `answer`, and then ending with the marker for `completed`.
+
+
+[31mResponse:[0m
+
+[32m[[ ## reasoning ## ]]
+Gerard Piel was born in Woodmere, New York. According to the context provided, the population of Woodmere in 2010 was mentioned as part of the census data. Therefore, the answer can be directly derived from the information given.
+
+[[ ## answer ## ]]
+17,121
+
+[[ ## completed ## ]][0m
+
+
+
+
+
+Label: ['17,121']
+Pred: 17,121
+Score: 1.0
+
+Avg score: 1.0

@@ -37,7 +37,7 @@ def load_data_minor():
         ("""What was the 2010 population of the birthplace of Gerard Piel?""", """17,121"""),
         ("""On what streets is the hospital that cared for Molly Meldrum located?""", """the corner of Commercial and Punt Roads"""),
     ]
-    return trainset[:3], trainset[3:5], trainset[:]
+    return trainset[:3], trainset[3:5], trainset[0:1]
 
 def load_data():
     dataset = HotPotQA(train_seed=1, train_size=150, eval_seed=2023, dev_size=200, test_size=0)
@@ -52,8 +52,8 @@ def load_data():
 def opt(train, val, dev):
     evaluator = EvaluatorPlugin(
         trainset=train,
-        # evalset=val,
-        evalset=None,
+        evalset=val,
+        # evalset=None,
         testset=dev,
         n_parallel=50,
     )
@@ -138,8 +138,13 @@ def opt(train, val, dev):
         "reasoning", [IdentityOption(), ZeroShotCoT()] 
     )
     # ================= Few Shot Options =================
-    few_shot_params = LMFewShot("few_shot", 8)
+    few_shot_params = LMFewShot("few_shot", 4)
     # ================= Ensemble Options =================
+    general_usc_ensemble = ensemble.UniversalSelfConsistency(3, temperature=0.7)
+    general_ensemble_params = ensemble.ModuleEnsemble(
+        "ensemble", [IdentityOption(), general_usc_ensemble]
+    )
+    
     refine_usc_ensemble = ensemble.UniversalSelfConsistency(3, temperature=0.7)
     refine_ensemble_params = ensemble.ModuleEnsemble(
         "ensemble", [refine_usc_ensemble]
@@ -154,10 +159,11 @@ def opt(train, val, dev):
     
     # ================= Inner Loop Config =================
     inner_opt_config = flow.OptConfig(
-        n_trials=0,
+        n_trials=8,
         throughput=2,
-        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/with_50_25_no_outer_fix_prompt_no_frugal',
-        evolve_interval=1,
+        log_dir=None,
+        evolve_interval=4,
+        frugal_eval_cost=False,
     )
     inner_loop_config = driver.layerConfig(
         layer_name='inner_loop',
@@ -168,21 +174,23 @@ def opt(train, val, dev):
     
     outer_opt_config = flow.OptConfig(
         n_trials=0,
-        throughput=1,
-        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/with_50_25_fix_outer',
+        throughput=4,
+        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/with_50_25_full_opt',
+        frugal_eval_cost=False,
     )
     
     outer_loop_config = driver.layerConfig(
         layer_name='outer_loop',
-        # universal_params=[ensemble_params], # will overwrite module name
-        dedicate_params=[refine_ensemble_params, gen_answer_ensemble_params],
+        universal_params=[general_ensemble_params], # will overwrite module name
+        # dedicate_params=[refine_ensemble_params, gen_answer_ensemble_params],
         opt_config=outer_opt_config,
         save_ckpt_interval=1,
-        # use_SH_allocation=True,
+        use_SH_allocation=True,
     )
     
     opt_driver = driver.MultiLayerOptimizationDriver(
-        layer_configs=[inner_loop_config],
+        # layer_configs=[inner_loop_config],
+        layer_configs=[outer_loop_config, inner_loop_config],
     )
     cost, pareto_frontier, opt_logs = opt_driver.run(
         evaluator=evaluator,
@@ -192,10 +200,27 @@ def opt(train, val, dev):
 
 def eval(opt_driver: driver.MultiLayerOptimizationDriver):
     eval_result = opt_driver.evaluate(
-        bot_trial_log_id='2db06dce1a6141c3b93800d5d710e0a2',
-        opt_log_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/with_50_25_no_outer_fix_prompt_no_frugal/opt_logs.json',
+        bot_trial_log_id='878f49b25dc04fd69f6ddcf56ab007d1',
+        opt_log_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/with_50_25_full_opt/inner_loop/67482ab7f8b844f6a9e7198dd556e8b6/opt_logs.json',
     )
     print(eval_result)
+
+def raw_test(data):
+    evaluator = EvaluatorPlugin(
+        trainset=None,
+        evalset=None,
+        testset=data,
+        n_parallel=50,
+    )
+    eval_task = EvalTask(
+        script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
+        args=[],
+        other_python_paths=[],
+        all_params={},
+        module_name_paths={},
+        aggregated_proposals={},
+    )
+    print(evaluator.get_score('test', eval_task, show_process=True))
 
     
 if __name__ == '__main__':
@@ -206,4 +231,4 @@ if __name__ == '__main__':
     # train, val, dev = load_data_minor()
     opt_driver = opt(train, val, dev)
     eval(opt_driver)
-    
+    # raw_test(dev)

@@ -215,17 +215,17 @@ class GeneralEvaluatorInterface(ABC):
 class EvaluatorPlugin(GeneralEvaluatorInterface):
     def __init__(
         self,
-        trainset: Iterable[Tuple[any,any]], # list of input data and labels
+        trainset: Optional[Iterable[Tuple[any,any]]], # list of input data and labels
         evalset: Optional[Iterable[Tuple[any,any]]], # list of input data and labels
-        testset: Iterable[Tuple[any,any]], # list of input data and labels
+        testset: Optional[Iterable[Tuple[any,any]]], # list of input data and labels
         n_parallel: int = 1,
         score_reducer: Callable = None,
         price_reducer: Callable = None,
     ):
         self.dataset = {
-            'train': [trainset, list(range(len(trainset)))],
+            'train': [trainset, None if not trainset else list(range(len(trainset)))],
             'eval': [evalset, None if not evalset else list(range(len(evalset)))],
-            'test': [testset, list(range(len(testset)))]
+            'test': [testset, None if not testset else list(range(len(testset)))]
         }
         
         self.n_parallel = n_parallel
@@ -315,6 +315,11 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         if not os.path.exists(log_dir):
             os.makedirs(log_dir, exist_ok=True)
         log_path = os.path.join(log_dir, f'{mode}_sub_ids.json')
+
+        # validate
+        full_indices = list(range(len(self.dataset[mode][0])))
+        if sample_size > len(full_indices):
+            raise ValueError(f'Sample size {sample_size} is larger than the full dataset size {len(full_indices)}')
         
         if os.path.exists(log_path):
             logger.info(f'Loading downsampled indices from {log_path}')
@@ -323,10 +328,6 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
                 raise ValueError(f'Loaded eval set size {len(self.eval_set)} does not match sample size {sample_size}')
             self.dataset[mode][1] = indices
             return
-            
-        full_indices = list(range(len(self.dataset[mode][0])))
-        if sample_size > len(full_indices):
-            raise ValueError(f'Sample size {sample_size} is larger than the full dataset size {len(full_indices)}')
         
         if sample_mode == 'random':
             indices = np.random.choice(full_indices, size=sample_size, replace=False).tolist()

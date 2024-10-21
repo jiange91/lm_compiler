@@ -55,10 +55,12 @@ class Logger:
         Raises:
             ValueError: If the log level is invalid.
         """
+        if logging.getLogger().hasHandlers():
+            logging.getLogger().handlers.clear()
         log_level_attr = getattr(logging, log_level.upper(), None)
         if log_level_attr is None:
             raise ValueError(f"Invalid log level: {log_level}")
-        logging.basicConfig(level=log_level_attr, format='%(levelname)s: %(message)s')
+        logging.basicConfig(level=log_level_attr, format='%(asctime)s - %(pathname)s:%(lineno)d - %(levelname)s: %(message)s')
 
     def log(self, message: str, log_level: str = "info"):
         """

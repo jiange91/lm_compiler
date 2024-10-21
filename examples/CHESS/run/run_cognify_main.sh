@@ -87,7 +87,7 @@ pipeline_setup='{
 }'
 
 echo -e "${run_name}"
-python3 -u -Xfrozen_modules=off ./src/main_cognify.py --data_mode ${data_mode} --data_path ${data_path}\
+python3 -u -Xfrozen_modules=off ./src/cognify_master.py --data_mode ${data_mode} --data_path ${data_path}\
         --pipeline_nodes ${pipeline_nodes} --pipeline_setup "$pipeline_setup"\
         # --use_checkpoint --checkpoint_nodes ${checkpoint_nodes} --checkpoint_dir ${checkpoint_dir}
   

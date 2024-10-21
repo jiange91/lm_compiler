@@ -2,6 +2,7 @@ import os
 import sys
 import json
 from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal, Sequence
+import time
 import copy
 import logging
 from dataclasses import dataclass
@@ -10,7 +11,7 @@ import numpy as np
 from concurrent.futures import ThreadPoolExecutor
 import uuid
 from abc import ABC, abstractmethod
-import multiprocess as mp
+import multiprocessing as mp
 from tqdm import tqdm
 
 import logging
@@ -44,6 +45,7 @@ class EvaluationResult:
         ids: Sequence[str],
         scores: Sequence[float],
         prices: Sequence[float],
+        exec_times: Sequence[float],
         total_eval_cost: float,
         reduced_score: Optional[float] = None,
         reduced_price: Optional[float] = None,
@@ -54,6 +56,7 @@ class EvaluationResult:
         self.ids = ids
         self.scores = scores
         self.prices = prices
+        self.exec_times = exec_times
         self.total_eval_cost = total_eval_cost
         self.reduced_score = reduced_score
         self.reduced_price = reduced_price
@@ -65,7 +68,8 @@ class EvaluationResult:
             f"EvalResult: score: {self.reduced_score}, "
             f"price: {self.reduced_price}, " 
             f"{len(self.scores)} samples, "
-            f"eval cost: {self.total_eval_cost}"
+            f"eval cost: {self.total_eval_cost}, "
+            f"avg exec time: {sum(self.exec_times) / len(self.exec_times)} s"
         )
 
 @dataclass
@@ -179,8 +183,10 @@ class EvalTask:
                 logger.debug(f'replace {m} with {new_module}')
                 m.invoke = new_module.invoke
                 m.reset()
-            
+        
+        start_time = time.time()
         result = schema.program(input)
+        end_time = time.time()
         score = schema.score_fn(label, result)
         
         # get price and demo of running the program
@@ -190,7 +196,7 @@ class EvalTask:
             price += lm.get_total_cost()
             lm_2_demo[lm.name] = lm.get_step_as_example()
         
-        return result, score, price, lm_2_demo
+        return result, score, price, lm_2_demo, end_time - start_time
     
     @classmethod
     def from_top_down_info(cls, tdi: TopDownInformation):
@@ -238,6 +244,18 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         show_process: bool = False,
     ):
         return self.get_score(mode='train', task=task, show_process=show_process)
+
+    def plot_progress(self, done, total, avg_score, bar_length: int = 100):
+        """
+        Plots the progress of task processing.
+        
+        Args:
+            bar_length (int, optional): The length of the progress bar. Defaults to 100.
+        """
+        processed_ratio = done / total 
+        progress_length = int(processed_ratio * bar_length)
+        print('\x1b[1A' + '\x1b[2K' + '\x1b[1A')  # Clear previous line
+        print(f"[{'=' * progress_length}>{' ' * (bar_length - progress_length)}] {done}/{total} | avg_score: {avg_score}")
         
     def get_score(
         self,
@@ -260,28 +278,30 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
             if show_process:
                 results = []
                 total_score = 0.0
-                with tqdm(tasks, dynamic_ncols=True) as pbar:
-                    for task in pbar:
-                        result = task.get()
-                        results.append(result)
-                        total_score += result[1]
-                        pbar.set_postfix({'avg_score': total_score / len(results)})
+                for i, task in enumerate(tasks):
+                    result = task.get()
+                    results.append(result)
+                    total_score += result[1]
+                    self.plot_progress(i+1, len(indices), total_score/(i+1))
             else:
                 results = [task.get() for task in tasks]
             
         prices = []
         scores = []
         demos = []
-        for result, score, price, demo in results:
+        exec_times = []
+        for result, score, price, demo, exec_time in results:
             prices.append(price)
             scores.append(score)
             demos.append(demo)
+            exec_times.append(exec_time)
         reduced_score = self.score_reducer(scores)
         reduced_price = self.price_reducer(prices)
         return EvaluationResult(
             ids=[f'{mode}_{i}' for i in indices],
             scores=scores,
             prices=prices,
+            exec_times=exec_times,
             total_eval_cost=sum(prices),
             reduced_score=reduced_score,
             reduced_price=reduced_price,

@@ -121,17 +121,17 @@ def opt(train, val, dev):
         log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/down_sample_logs',
     )
     # ================= Sensitivity Analysis =================
-    model_sensitivity = SensitivityAnalyzer(
-        target_param_type=model_selection.LMSelection,
-        eval_task=plain_task,
-        evaluator=evaluator,
-        n_parallel=4,
-        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/sensitivity_logs',
-        try_options=model_param,
-        module_type=LangChainLM,
-    )
-    sensitivity_result = model_sensitivity.run()
-    print(sensitivity_result)
+    # model_sensitivity = SensitivityAnalyzer(
+    #     target_param_type=model_selection.LMSelection,
+    #     eval_task=plain_task,
+    #     evaluator=evaluator,
+    #     n_parallel=4,
+    #     log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/sensitivity_logs',
+    #     try_options=model_param,
+    #     module_type=LangChainLM,
+    # )
+    # sensitivity_result = model_sensitivity.run()
+    # print(sensitivity_result)
     
     # ================= Reasoning Options =================
     reasoning_param = reasoning.LMReasoning(
@@ -159,9 +159,9 @@ def opt(train, val, dev):
     
     # ================= Inner Loop Config =================
     inner_opt_config = flow.OptConfig(
-        n_trials=0,
+        n_trials=10,
         throughput=2,
-        log_dir="/mnt/ssd4/lm_compiler/examples/HotPotQA/with_50_25_no_outer_fix_prompt_no_frugal/opt_logs.json",
+        log_dir="/mnt/ssd4/lm_compiler/examples/HotPotQA/with_50_25_no_outer_fix_prompt_no_frugal/",
         evolve_interval=4,
         frugal_eval_cost=True,
     )
@@ -228,8 +228,8 @@ if __name__ == '__main__':
     # mp.set_start_method('spawn')
     mp.context._force_start_method('spawn')
     
-    train, val, dev = load_data()
-    # train, val, dev = load_data_minor()
+    # train, val, dev = load_data()
+    train, val, dev = load_data_minor()
     opt_driver = opt(train, val, dev)
-    eval(opt_driver)
+    # eval(opt_driver)
     # raw_test(dev)

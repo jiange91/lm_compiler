@@ -1,5 +1,5 @@
 from abc import ABC, ABCMeta
-
+import traceback
 from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase, IdentityOption
 from compiler.IR.llm import LLMPredictor
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, get_inspect_runnable 
@@ -201,12 +201,12 @@ class ZeroShotCoT(ReasonThenFormat):
         try:
             # print("zero shot reasoning step")
             result = lm.invoke(chat_messages)
+            logger.debug(f"Zero-shot CoT in module {lm.name}, reasoning: {result.content}")
         except Exception as e:
+            print(f"ERR IN zero-shot reasoning step {e}")
             print(e)
-            print("ERR IN zero-shot reasoning step")
-            print(chat_messages)
-            print(lm)
-        logger.debug(f"Zero-shot CoT in module {lm.name}, reasoning: {result.content}")
+            traceback.print_exc()
+            raise
         return [h, result]
         
 

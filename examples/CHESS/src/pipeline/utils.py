@@ -2,6 +2,7 @@ from functools import wraps
 from typing import Dict, List, Any, Callable
 from runner.logger import Logger
 from runner.database_manager import DatabaseManager
+import time
 
 def node_decorator(check_schema_status: bool = False) -> Callable:
     """
@@ -25,7 +26,12 @@ def node_decorator(check_schema_status: bool = False) -> Callable:
                 tentative_schema = state["keys"]["tentative_schema"]
                 execution_history = state["keys"]["execution_history"]
                 
+                start_time = time.time()    
                 output = func(task, tentative_schema, execution_history)
+                end_time = time.time()
+                Logger().log(f"{node_name} execution time: {end_time - start_time:.2f} seconds", "warning")
+                result["exec_time"] = end_time - start_time
+                
                 if "tentative_schema" in output:
                     tentative_schema = output["tentative_schema"]
                     state["keys"]["tentative_schema"] = tentative_schema

@@ -38,7 +38,7 @@ Ensure that you output only the list itself, without any variable assignments, e
 demos = [
     Demonstration(
         inputs={
-            "Question": "What is the annual revenue of Acme Corp in the United States for 2022?",
+            "QUESTION": "What is the annual revenue of Acme Corp in the United States for 2022?",
             'HINT': "Focus on financial reports and U.S. market performance for the fiscal year 2022."
         },
         output='["annual revenue", "Acme Corp", "United States", "2022", "financial reports", "U.S. market performance", "fiscal year"]'
@@ -64,7 +64,7 @@ semantic = LangChainSemantic(
     inputs=inputs,
     output_format=output_format,
     output_format_instructions=output_format_instructions,
-    # demos=demos
+    demos=demos
 )
 
 exec = LangChainLM('keyword_extraction', semantic, opt_register=True)

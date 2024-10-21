@@ -12,6 +12,7 @@ import debugpy
 import argparse
 import json
 from datetime import datetime
+import logging
 
 from runner.run_manager import RunManager
 from runner.database_manager import DatabaseManager
@@ -141,7 +142,6 @@ workflow.add_edge("evaluation", END)
 
 app = workflow.compile()
 
-
 def main():
     """
     Main function to run the pipeline with the specified configuration.
@@ -152,27 +152,11 @@ def main():
     run_manager = RunManager(args)
     run_manager.initialize_tasks(dataset)
     
-    # Set up the language model configurations
-    pipeline_cfg = json.loads(args.pipeline_setup)
-    for node_name, cfg in pipeline_cfg.items():
-        if node_name in cognify_registry._cognify_lm_registry:
-            lm = cognify_registry._cognify_lm_registry[node_name]
-            engine_name = cfg["engine"]
-            temperature = cfg.get("temperature", 0)
-            base_uri = cfg.get("base_uri", None)
-            
-            lm_params = get_llm_params(engine=engine_name, temperature=temperature, base_uri=base_uri)
-            model = lm_params.pop("model")
-            lm.lm_config = LMConfig(
-                provider='openai',
-                model=model,
-                kwargs=lm_params,
-            )
-    
     for task in run_manager.tasks:
         logger = Logger(db_id=task.db_id, question_id=task.question_id, result_directory=run_manager.result_directory)
         logger._set_log_level(args.log_level)
         logger.log(f"Processing task: {task.db_id} {task.question_id}", "info")
+        
         database_manager = DatabaseManager(db_mode=args.data_mode, db_id=task.db_id)
         tentative_schema = database_manager.get_db_schema()
         pipeline_manager = PipelineManager(json.loads(args.pipeline_setup))

@@ -4,6 +4,7 @@ import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Dict, List
+import logging
 
 from langchain_core.exceptions import OutputParserException
 from langchain.output_parsers import OutputFixingParser
@@ -16,7 +17,7 @@ def get_llm_params(engine: str, temperature: float = 0, base_uri: str = None) ->
         raise ValueError(f"Engine {engine} not supported")
     
     config = ENGINE_CONFIGS[engine]
-    params = config["params"].copy()
+    params = config["params"]
     if temperature:
         params["temperature"] = temperature
     

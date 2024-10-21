@@ -170,9 +170,6 @@ class Module(ModuleIterface):
         """
         pass
 
-    def on_invoke(self, kwargs: dict):
-        pass
-
     def invoke(self, statep: StatePool):
         logger.debug(f"Invoking {self}")
         for field in self.input_fields:
@@ -180,7 +177,6 @@ class Module(ModuleIterface):
                 raise ValueError(f"Missing field {field} in state when calling {self.name}, available fields: {statep.states.keys()}")
         kargs = {field: statep.news(field) for field in statep.states if field in self.input_fields}
         # time the execution
-        self.on_invoke(kargs)
         start = time.perf_counter()
         result = self.forward(**kargs)
         dur = time.perf_counter() - start

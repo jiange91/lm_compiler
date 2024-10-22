@@ -355,14 +355,13 @@ def langchain_lm_kernel({inputs_str}):
     try:
         # print("langchain lm output parse")
         result = routine.invoke({invoke_arg_dict_str})
+        result = output_format.parse_obj(result)
+        # print(result)
+        return {result_str}
     except Exception as e:
         print(e)
         print("ERR IN langchain_lm output parse")
-        print(chat_template)
-        print(routine)
-    result = output_format.parse_obj(result)
-    # print(result)
-    return {result_str}
+        raise
 """
         else:
             result_str = f'{{"{self.semantic.outputs[0]}": result.content}}'
@@ -371,12 +370,11 @@ def langchain_lm_kernel({inputs_str}):
     try:
         # print("langchain lm no output parse")
         result = routine.invoke({invoke_arg_dict_str})
+        return {result_str}
     except Exception as e:
         print(e)
         print("ERR IN langchain_lm no output parse")
-        print(chat_template)
-        print(routine)
-    return {result_str}
+        raise
 """
         self.kernel_str = langchain_kernel_template
         func_obj = compile(langchain_kernel_template, '<string>', 'exec')

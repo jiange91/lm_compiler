@@ -145,7 +145,7 @@ def async_llm_chain_call(prompt: Any, engine: Any, parser: Any, chain: Any, requ
         for request_id, request_kwargs in enumerate(request_list):
             for _ in range(sampling_count):
                 executor.submit(threaded_llm_call, request_id, prompt, engine, parser, chain, request_kwargs, step, result_queue, log_file_lock)
-                time.sleep(0.2)  # Sleep for a short time to avoid rate limiting
+                time.sleep(0.7)  # Sleep for a short time to avoid rate limiting
 
     results = []
     while not result_queue.empty():

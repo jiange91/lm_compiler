@@ -19,7 +19,8 @@
       "connect": {
         "host": "127.0.0.1", // replace this with remote machine name
         "port": 5678
-      }
+      },
+      "justMyCode": false
     }
   ]
 }

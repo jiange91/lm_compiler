@@ -282,7 +282,7 @@ semantic = LangChainSemantic(
     inputs=inputs,
     output_format="is_column_information_relevant",
     output_format_instructions="Please response with Yes or No (no other text should be included).",
-    demos=demos
+    # demos=demos
 )
 exec = LangChainLM('column_filtering', semantic, opt_register=True)
 raw_runnable_exec = exec.as_runnable() | StrOutputParser()

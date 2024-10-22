@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 import os
 import debugpy
+import multiprocessing as mp
 
 from runner.task import Task
 from typing import Any, Dict, List, TypedDict, Callable
@@ -58,6 +59,7 @@ def parse_arguments() -> argparse.Namespace:
         print("Using checkpoint")
         if not args.checkpoint_nodes:
             raise ValueError("Please provide the checkpoint nodes to use checkpoint")
+        args.checkpoint_nodes = args.checkpoint_nodes.split("+")
         if not args.checkpoint_dir:
             raise ValueError("Please provide the checkpoint path to use checkpoint")
 
@@ -76,22 +78,21 @@ def load_dataset(data_path: str) -> List[Dict[str, Any]]:
     """
     with open(data_path, "r") as file:
         dataset = json.load(file)
-    return dataset[:40]
+    return dataset[:]
 
 
 if __name__ == "__main__":
-    # debugpy.listen(5678)
-    # print("Waiting for debugger attach")
-    # debugpy.wait_for_client()
-    # debugpy.breakpoint()
-    
+    debugpy.listen(5678)
+    print("Waiting for debugger attach")
+    debugpy.wait_for_client()
+    debugpy.breakpoint()
     args = parse_arguments()
     dataset = load_dataset(args.data_path)
     
     inputs = []
     for data in dataset:
         task = Task(data)
-        result_dir = f"cognify_debug_time_entity/{task.db_id}/{task.question_id}/{args.run_start_time}"
+        result_dir = f"cognify_results/debug_revision/{task.db_id}/{task.question_id}/{args.run_start_time}"
         if not os.path.exists(result_dir):
             os.makedirs(result_dir, exist_ok=True)
         inputs.append(
@@ -116,7 +117,7 @@ if __name__ == "__main__":
         trainset=None,
         evalset=None,
         testset=eval_data,
-        n_parallel=40,
+        n_parallel=20,
     )
     eval_result = evaluator.get_score('test', plain_task, show_process=True)
     print(eval_result)

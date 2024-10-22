@@ -1,10 +1,12 @@
 data_mode='dev' # Options: 'dev', 'train' 
 
 data_path="/mnt/ssd4/lm_compiler/examples/CHESS/data/dev/sub_sampled_bird_dev_set.json" # UPDATE THIS WITH THE PATH TO THE TARGET DATASET
+# data_path="/mnt/ssd4/lm_compiler/examples/CHESS/data/dev/other_sub_sampled.json" # UPDATE THIS WITH THE PATH TO THE TARGET DATASET
 
 pipeline_nodes='keyword_extraction+entity_retrieval+context_retrieval+column_filtering+table_selection+column_selection+candidate_generation+revision+evaluation'
-checkpoint_nodes=''
-checkpoint_dir=""
+# pipeline_nodes='evaluation'
+checkpoint_nodes='candidate_generation+revision'
+checkpoint_dir="/mnt/ssd4/lm_compiler/examples/CHESS/cognify_results/all_dev_manual_cot_demo/financial/93/2024-10-21-06-59-37"
 
 # Nodes:
     # keyword_extraction

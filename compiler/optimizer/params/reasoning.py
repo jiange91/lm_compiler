@@ -227,4 +227,3 @@ class PlanBefore(ReasonThenFormat):
         result = lm.invoke(chat_messages)
         logger.debug(f"PlanBefore in module {lm.name}, reasoning: {result.content}")
         return [h, result]
-        

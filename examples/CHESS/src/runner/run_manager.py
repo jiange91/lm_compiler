@@ -90,10 +90,6 @@ class RunManager:
         Returns:
             tuple: The state of the task processing and task identifiers.
         """
-        self.app = build_pipeline(self.args.pipeline_nodes)
-        return self._app_worker(task, self.app)
-    
-    def _app_worker(self, task: Task, app: Any) -> Tuple[Any, str, int]:
         database_manager = DatabaseManager(db_mode=self.args.data_mode, db_id=task.db_id)
         logger = Logger(db_id=task.db_id, question_id=task.question_id, result_directory=self.result_directory)
         logger._set_log_level(self.args.log_level)
@@ -103,9 +99,10 @@ class RunManager:
             tentative_schema, execution_history = self.load_checkpoint(task.db_id, task.question_id)
             initial_state = {"keys": {"task": task, 
                                       "tentative_schema": tentative_schema, "execution_history": execution_history}}
-            # for state in app.stream(initial_state):
+            self.app = build_pipeline(self.args.pipeline_nodes)
+            # for state in self.app.stream(initial_state):
             #     continue
-            state = app.invoke(initial_state)
+            state = self.app.invoke(initial_state)
             return state, task.db_id, task.question_id
         except Exception as e:
             logger.log(f"Error processing task: {task.db_id} {task.question_id}\n{e}", "error")

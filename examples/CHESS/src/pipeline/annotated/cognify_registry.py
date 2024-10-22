@@ -8,7 +8,7 @@ from compiler.optimizer.params.reasoning import ZeroShotCoT
 from llm.models import get_llm_params
 from compiler.IR.llm import LMConfig
 
-add_cot = True
+add_cot = False
 
 if add_cot:
     ZeroShotCoT.direct_apply(column_filtering.exec)

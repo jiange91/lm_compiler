@@ -30,44 +30,10 @@ from pipeline.candidate_generation import candidate_generation
 from pipeline.revision import revision
 from pipeline.evaluation import evaluation
 from pipeline.annotated import cognify_registry
+from pipeline.workflow_builder import build_pipeline
+
 from compiler.IR.llm import LMConfig
 from compiler.optimizer import register_opt_program_entry, register_opt_score_fn
-
-
-### Graph State ###
-class GraphState(TypedDict):
-    """
-    Represents the state of our graph.
-
-    Attributes:
-        keys: A dictionary where each key is a string.
-    """
-
-    keys: Dict[str, any]
-
-workflow = StateGraph(GraphState)
-workflow.add_node("keyword_extraction", keyword_extraction)
-workflow.add_node("entity_retrieval", entity_retrieval)
-workflow.add_node("context_retrieval", context_retrieval)
-workflow.add_node("column_filtering", column_filtering)
-workflow.add_node("table_selection", table_selection)
-workflow.add_node("column_selection", column_selection)
-workflow.add_node("candidate_generation", candidate_generation)
-workflow.add_node("revision", revision)
-workflow.add_node("evaluation", evaluation)
-
-workflow.set_entry_point("keyword_extraction")
-workflow.add_edge("keyword_extraction", "entity_retrieval")
-workflow.add_edge("entity_retrieval", "context_retrieval")
-workflow.add_edge("context_retrieval", "column_filtering")
-workflow.add_edge("column_filtering", "table_selection")
-workflow.add_edge("table_selection", "column_selection")
-workflow.add_edge("column_selection", "candidate_generation")
-workflow.add_edge("candidate_generation", "revision")
-workflow.add_edge("revision", "evaluation")
-workflow.add_edge("evaluation", END)
-
-app = workflow.compile()
 
 
 @register_opt_program_entry
@@ -84,7 +50,7 @@ def worker(input):
     run_manager.initialize_tasks(dataset)
     task = run_manager.tasks[0]
     
-    result = run_manager._app_worker(task, app)
+    result = run_manager.worker(task)
     run_manager.task_done(result, show_progress=False) 
 
     return run_manager.statistics_manager.statistics.to_dict()

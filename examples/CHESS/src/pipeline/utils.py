@@ -29,7 +29,7 @@ def node_decorator(check_schema_status: bool = False) -> Callable:
                 start_time = time.time()    
                 output = func(task, tentative_schema, execution_history)
                 end_time = time.time()
-                Logger().log(f"{node_name} execution time: {end_time - start_time:.2f} seconds", "warning")
+                Logger().log(f"{node_name} execution time: {end_time - start_time:.2f} seconds", "info")
                 result["exec_time"] = end_time - start_time
                 
                 if "tentative_schema" in output:

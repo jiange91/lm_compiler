@@ -188,8 +188,8 @@ class LMSemantic(ABC):
 
 _thread_local_chain = threading.local()
 
-def _local_forward(lm: 'LLMPredictor', _local_lm: 'LLMPredictor', **kwargs):
-    _local_lm.input_cache = kwargs
+def _local_forward(_local_lm: 'LLMPredictor', **kwargs):
+    _local_lm.input_cache = copy.deepcopy(kwargs)
     if _local_lm.lm is None:
         # if lm is reset or not set, initialize it and the kernel
         _local_lm.set_lm()
@@ -202,7 +202,7 @@ def _local_forward(lm: 'LLMPredictor', _local_lm: 'LLMPredictor', **kwargs):
     
     lm_hist = _local_lm.get_lm_history()
     _local_lm.step_info.append({
-        'inputs': copy.deepcopy(_local_lm.input_cache),
+        'inputs': _local_lm.input_cache,
         'rationale': _local_lm.rationale,
         'output': lm_hist[-1]['response'],
     })
@@ -220,6 +220,7 @@ class LLMPredictor(Module):
         self.input_cache = {}
         self.step_info = []
         self.rationale: str = None
+        self._lock = threading.Lock()
         
         self.semantic = semantic
         # NOTE: lm and kernel will be set at first execution
@@ -227,6 +228,17 @@ class LLMPredictor(Module):
         super().__init__(name=name, kernel=None, **kwargs)
         self.input_fields = self.semantic.get_agent_inputs()
         setattr(_thread_local_chain, name, self)
+        
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        for k, v in self.__dict__.items():
+            if k != '_lock':
+                setattr(result, k, copy.deepcopy(v, memo))
+            else:
+                setattr(result, k, threading.Lock())
+        return result
         
     @property
     def lm(self):
@@ -317,6 +329,7 @@ class LLMPredictor(Module):
         #NOTE: a LLMPredictor might have multiple LLMs in its history
         # if the config is dynamically changing
         usage = TokenUsage()
+        logger.info(f"{self.name} meta len: {len(self.lm_history)}, {len(self.step_info)}")
         for meta in self.lm_history:
             # log tokens
             prompt_tokens = meta['prompt_tokens']
@@ -333,18 +346,18 @@ class LLMPredictor(Module):
     def get_total_cost(self) -> float:
         usage = self.get_token_usage()
         price = self.lm_config.get_price(usage)
-        logger.debug(f"Token usage {self.name}: {usage}, price: {price}")
+        logger.info(f"Token usage {self.name}: {usage}, price: {price}")
         return price
         
     def forward(self, **kwargs):
         _self = self.get_thread_local_chain()
-        result = _local_forward(self, _self, **kwargs)
+        result = _local_forward(_self, **kwargs)
         self.aggregate_thread_local_meta(_self)
         return result
 
     def aggregate_thread_local_meta(self, _local_self):
         if self is _local_self:
             return
-        
-        self.step_info.extend(_local_self.step_info)
-        self.lm_history.extend(_local_self.lm_history)
+        with self._lock:
+            self.step_info.extend(_local_self.step_info)
+            self.lm_history.extend(_local_self.lm_history)

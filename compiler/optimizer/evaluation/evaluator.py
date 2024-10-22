@@ -184,6 +184,9 @@ class EvalTask:
                 m.invoke = new_module.invoke
                 m.reset()
         
+        # clear execution state
+        for m in module_pool.values():
+            m.reset()
         start_time = time.time()
         result = schema.program(input)
         end_time = time.time()

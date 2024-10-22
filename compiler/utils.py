@@ -47,7 +47,7 @@ def compare_two_answer(gold: dict, pred: dict):
         scores[k] = compute_rouge_scores(gold[k], pred[k])
     return scores
 
-# NOTE: the total prince is always the accurate price regardless of the passed in hyperthetical_model_options
+# NOTE: the total prince is always the accurate price regardless of the passed in hypothetical_model_options
 #       per_gpt_use shows the token consumed for each GPT, hypertheical if provided
 #       h_price is the total price based on per_gpt_usage
 def get_bill(token_usage, hyperthetical_model_options = None):

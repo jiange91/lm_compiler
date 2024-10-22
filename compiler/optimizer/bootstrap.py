@@ -13,7 +13,7 @@ from collections import defaultdict
 
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.modules import LMConfig, LLMPredictor
-from compiler.optimizer.utils import convert_to_comparable_repr, StateManager, StateManager_v2, OptionProfiler, PropagationEvaluator, ScorePath, DecisionNode
+from compiler.optimizer.utils import convert_to_comparable_repr, StateManager, OptionProfiler, PropagationEvaluator, ScorePath, DecisionNode
 
 logger = logging.getLogger(__name__)
 
@@ -137,7 +137,7 @@ class BootStrapLMSelection(BootStrap):
                 module_bootstrap_profile = json.load(f)
             return module_bootstrap_profile
 
-        state_manager = StateManager_v2(self.trainset_input)
+        state_manager = StateManager(self.trainset_input)
         module_bootstrap_profile = {}
         for module_idx, lm in enumerate(self.sorted_target_modules):
             logger.info(f"Bootstraping Module: {lm.name}")
@@ -147,7 +147,7 @@ class BootStrapLMSelection(BootStrap):
             
             # Get batch of input state for each task
             state_score_for_module = state_manager.prepare_state(lm.input_fields, self.max_sample_to_keep)
-            new_state_scores: list[list[StateManager_v2.StateScoreType]] = [
+            new_state_scores: list[list[StateManager.StateScoreType]] = [
                 [] for _ in state_score_for_module
             ]
             new_profile_record = [
@@ -159,7 +159,7 @@ class BootStrapLMSelection(BootStrap):
                 logger.info(f"Performing Task: {task_idx} ...")
                 gold = labels[task_idx][lm.name]
                 # State only contains input fields
-                state_score_list: list[list[StateManager_v2.StateScoreType]] = task
+                state_score_list: list[list[StateManager.StateScoreType]] = task
                 for option_idx, option in enumerate(self.module_2_options[lm.name]):
                     def option_runner(state: StatePool):
                         # run workflow

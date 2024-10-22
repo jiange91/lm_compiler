@@ -5,9 +5,13 @@ import copy
 import logging
 import numpy as np
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
 
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.llm import LMConfig, LLMPredictor
+from compiler.optimizer.params.common import ParamBase, OptionBase
+from compiler.langchain_bridge.interface import LangChainLM
+from compiler.optimizer.evaluation.metric import MetricBase
 
 logger = logging.getLogger(__name__)
 
@@ -17,49 +21,70 @@ class LMImportanceEvaluator:
     Try all models at each LM while keep the other LMs fixed.
     Estimate the max diff in final output metric.
     
-    Args:
-        workflow: Workflow
-        
-        models: list[str]
-            list of models with different capabilities
-        
-        base_model: str
-            the base model to be used for other steps other than the current LM
-            
-        final_output_metric: Callable[[Any, Any], Any]
-            always only return one numerical value
-            
-        trainset_input: Iterable[StatePool]
-            since user might pass in a generator, we currently do not check length
-        
-        trainset_label: Iterable[Any]
+    When testing the importance of a LM, we will keep the other LMs fixed at the first option.
     """
     def __init__(
         self,
         workflow: Workflow,
-        models: list[str],
-        base_model: str,
-        final_output_metric: Callable[[Any, StatePool], Any],
-        trainset_input: Iterable[StatePool],
-        trainset_label: Iterable[Any],
+        options: Union[dict[str, list[OptionBase]], list[OptionBase]],
+        target_modules: Iterable[str] = None,
     ):
         self.workflow = workflow
-        self.models = models
-        self.base_model = base_model
-        self.final_output_metric = final_output_metric
-        self.trainset_input = trainset_input
-        self.trainset_label = trainset_label
         
-        self.lm_modules: list[LLMPredictor] = workflow.get_all_modules(lambda x: isinstance(x, LLMPredictor))
-    
+        def is_target(module: Module):
+            if target_modules is None:
+                return isinstance(module, LangChainLM)
+            else:
+                return module.name in target_modules
+        self.lm_module_names: set[str] = set([lm.name for lm in workflow.get_all_modules(is_target)])
+        
+        if isinstance(options, list):
+            self.options = {}
+            for lm_name in self.lm_module_names:
+                # NOTE: model option is thread safe
+                self.options[lm_name] = options
+        else:
+            self.options = options
+        
     def hash_run(self, rid):
         lms = [str(rid)]
         for lm in self.lm_modules:
             lms.append(lm.lm_config['model'])
         return "#".join(lms)
+
+    def prepare_eval_env(self, target_name: str, option_idx: int):
+        program = copy.deepcopy(self.workflow)
+        name_2_lm = {lm.name: lm 
+                     for lm in program.get_all_modules(lambda x: x.name in self.lm_module_names)}
+        
+        for lm_name in self.lm_module_names:
+            apply_idx = 0
+            if lm_name == target_name:
+                apply_idx = option_idx
+            self.options[lm_name][apply_idx].apply(name_2_lm[lm_name])
+        return program
+        
+
+    def batch_eval(self, evaluator: Evaluator):
+        lm_scores: dict[str, list[float]] = defaultdict(list)
+        lm_prices: dict[str, list[float]] = defaultdict(list)
+        
+        def get_importance_of(lm_name: str):
+            for idx in range(len(self.options[lm_name])):
+                workfow = self.prepare_eval_env(lm_name, idx)
+                workfow.reset()
+                states, score, price = evaluator(workfow)
+                lm_scores[lm_name].append(score)
+                lm_prices[lm_name].append(price)
+
+        with ThreadPoolExecutor() as per_lm_executor:
+            for lm_name in self.lm_module_names:
+                per_lm_executor.submit(get_importance_of, lm_name)
+        return lm_scores, lm_prices
         
     def eval(
         self,
+        evaluator: Evaluator,
         log_dir: str = 'importance_eval_log',
         quantile: float = 0.5,
     ):
@@ -72,36 +97,23 @@ class LMImportanceEvaluator:
                 lm_importance = json.load(f)
         else:
             # sample metrics
-            lm_importance_by_req: dict[str, list[float]] = defaultdict(list)
-            for lm in self.lm_modules:
-                lm.lm_config['model'] = self.base_model
-            memo = {}
-            for lm in self.lm_modules:
-                logger.info(f"Eval module: {lm.name}")
-                for rid, (state, label) in enumerate(zip(self.trainset_input, self.trainset_label)):
-                    min_metric, max_metric = float('inf'), float('-inf')
-                    for model in self.models:
-                        state_cpy = copy.deepcopy(state)
-                        self.workflow.reset()
-                        lm.lm_config['model'] = model
-                        
-                        if (hash := self.hash_run(rid)) in memo:
-                            metric = memo[hash]
-                        else:
-                            self.workflow.pregel_run(state_cpy)
-                            metric = self.final_output_metric(label, state_cpy)
-                            memo[hash] = metric
-                        min_metric = min(min_metric, metric)
-                        max_metric = max(max_metric, metric)
-                        lm.lm_config['model'] = self.base_model
-                    lm_importance_by_req[lm.name].append(max_metric - min_metric)
+            lm_scores, lm_prices = self.batch_eval(evaluator)
             # estiamte importance
-            lm_importance: dict[str, float] = {}
-            for lm, importances in lm_importance_by_req.items():
-                lm_importance[lm] = np.mean(importances)
-            json.dump(lm_importance, open(os.path.join(log_dir, 'lm_importance.json'), 'w+'))
-        # top quantile is important LMs
-        sorted_lm_importance = sorted(lm_importance.items(), key=lambda x: x[1], reverse=True)
+            lm_importance_score: dict[str, float] = {}
+            lm_importance_price: dict[str, float] = {}
+            for lm_name in lm_scores:
+                lm_importance_score[lm_name] = max(lm_scores[lm_name]) - min(lm_scores[lm_name])
+                lm_importance_price[lm_name] = max(lm_prices[lm_name]) - min(lm_prices[lm_name])
+            lm_importance_score = sorted(lm_importance_score.items(), key=lambda x: x[1], reverse=True)
+            lm_importance_price = sorted(lm_importance_price.items(), key=lambda x: x[1], reverse=True)
+            lm_importance = {'score': lm_importance_score, 'price': lm_importance_price}
+            json.dump(lm_importance, 
+                      open(os.path.join(log_dir, 'lm_importance.json'), 'w+'),
+                      indent=4)
+            
+        # top quantile important LMs in scores
+        sorted_lm_importance = sorted(lm_importance['score'], key=lambda x: x[1], reverse=True)
         important_lms = [lm for lm, _ in sorted_lm_importance[:int(len(sorted_lm_importance) * quantile)]]
+        logger.info(f"Important LMs by score: {important_lms}")
         return important_lms
         

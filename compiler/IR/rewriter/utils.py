@@ -42,9 +42,9 @@ class RewriteBranch(ast.NodeTransformer):
                         arg.value = self.new_name
         return self.generic_visit(node)
     
-def replace_branch_destination(multiplexier: Callable, old_dest: str, new_dest: str, source: str = None):
+def replace_branch_destination(multiplexer: Callable, old_dest: str, new_dest: str, source: str = None):
     if source is None:
-        source = inspect.getsource(multiplexier)
+        source = inspect.getsource(multiplexer)
     
     # Parse the source code into an AST
     tree = ast.parse(source, mode='exec')
@@ -55,7 +55,7 @@ def replace_branch_destination(multiplexier: Callable, old_dest: str, new_dest: 
     
     # Compile the modified AST back into a code object
     code = compile(transformed_tree, filename="<ast>", mode="exec")
-    func_globals = multiplexier.__globals__.copy()
+    func_globals = multiplexer.__globals__.copy()
     exec(code, func_globals)
     
-    return func_globals[multiplexier.__name__], astunparse.unparse(transformed_tree).strip()
+    return func_globals[multiplexer.__name__], astunparse.unparse(transformed_tree).strip()

@@ -38,7 +38,7 @@ evaluator = Evaluator(
     num_thread=1,
 )
 
-from compiler.optimizer.importance_eval_new import LMImportanceEvaluator
+from compiler.optimizer.importance_eval import LMImportanceEvaluator
 from compiler.optimizer.params import reasoning, model_selection, common
 from compiler.optimizer.params.utils import dump_params, load_params
 from compiler.optimizer.params.scaffolding import LMScaffolding

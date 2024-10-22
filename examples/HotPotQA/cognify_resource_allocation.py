@@ -1,7 +1,7 @@
 from compiler.optimizer.layered_optimizer_pluggable import InnerLoopBayesianOptimization, OuterLoopOptimization, OuterLoopOptConfig
 from compiler.optimizer.params.fewshot import LMFewShot
 from compiler.optimizer.params.scaffolding import LMScaffolding
-from compiler.optimizer.importance_eval_new import LMImportanceEvaluator
+from compiler.optimizer.importance_eval import LMImportanceEvaluator
 from compiler.optimizer.params import reasoning, model_selection, common
 from compiler.optimizer.evaluation.evaluator import EvaluatorInterface, EvaluationResult, EvaluatorPlugin, EvalTask
 import runpy

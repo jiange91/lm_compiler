@@ -32,7 +32,7 @@ from compiler.optimizer.core.flow import TrialLog, ModuleTransformTrace, TopDown
 from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization 
 from compiler.optimizer.core.upper_layer import UpperLevelOptimization, LayerEvaluator
 
-class layerConfig:
+class LayerConfig:
     def __init__(
         self,
         layer_name: str,
@@ -76,13 +76,13 @@ class layerConfig:
 class MultiLayerOptimizationDriver:
     def __init__(
         self,
-        layer_configs: Sequence[layerConfig],
+        layer_configs: Sequence[LayerConfig],
         quality_constraint: float = None,
     ):
         """Driver for multi-layer optimization
         
         Args:
-            layer_configs (Sequence[layerConfig]): configs for each optimization layer
+            layer_configs (Sequence[LayerConfig]): configs for each optimization layer
             
         NOTE: the order of the layers is from top to bottom, i.e., the last layer will run program evaluation directly while others will run layer evaluation
         """

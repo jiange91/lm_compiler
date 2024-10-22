@@ -211,10 +211,10 @@ class SyncBarrierManager:
                 dests.remove(old_node.name)
                 dests.add(new_node_in.name)
                 # replace return value
-                new_multiplexier, new_code_str = replace_branch_destination(branch.multiplexier, old_node.name, new_node_in.name, branch.multiplexier_str)
-                branch.multiplexier = new_multiplexier
-                branch.multiplexier_str = new_code_str
-                branch.kernel = new_multiplexier
+                new_multiplexer, new_code_str = replace_branch_destination(branch.multiplexer, old_node.name, new_node_in.name, branch.multiplexer_str)
+                branch.multiplexer = new_multiplexer
+                branch.multiplexer_str = new_code_str
+                branch.kernel = new_multiplexer
             if old_node.name in branch.src:
                 branch.src.remove(old_node.name)
                 branch.src.add(new_node_out.name)
@@ -315,8 +315,8 @@ class Workflow(ComposibleModuleInterface):
         self, 
         name: str,
         src: Union[str, list[str]],
-        multiplexier: Callable[..., Union[Hashable, list[Hashable]]],
-        multiplexier_str: Optional[str] = None,
+        multiplexer: Callable[..., Union[Hashable, list[Hashable]]],
+        multiplexer_str: Optional[str] = None,
     ) -> None:
         """add control flow
         
@@ -326,17 +326,17 @@ class Workflow(ComposibleModuleInterface):
             src (Union[str, list[str]]):
                 the module that the control flow need to synchronize with
             
-            multiplexier (callable): 
+            multiplexer (callable): 
                 signature should be (ctx, arg1, arg2, ...) -> Hashable
-                ctx contains some useful information for the multiplexier to make decision
+                ctx contains some useful information for the multiplexer to make decision
                 
         Examples:
-        NOTE: please hint all possible destinations for the multiplexier
+        NOTE: please hint all possible destinations for the multiplexer
             ```python
             from compiler.IR.program import hint_possible_destinations
             
             @hint_possible_destinations(['a', 'b'])
-            def multiplexier(ctx, smth):
+            def multiplexer(ctx, smth):
             ... if f(smth):
             ...    return ['a', 'b]
             ... else:
@@ -344,9 +344,9 @@ class Workflow(ComposibleModuleInterface):
             ```
         """
         src = sorted(list(set([src])))
-        self._edge_validation(src, multiplexier._possible_destinations)
+        self._edge_validation(src, multiplexer._possible_destinations)
         
-        branch = Branch(name, src, multiplexier, multiplexier._possible_destinations, multiplexier_str)
+        branch = Branch(name, src, multiplexer, multiplexer._possible_destinations, multiplexer_str)
         self.add_module(branch)
         self.branches[name] = branch
         self.add_edge(src, branch.name)
@@ -355,8 +355,8 @@ class Workflow(ComposibleModuleInterface):
         self,
         name: str,
         src: Union[str, list[str]],
-        multiplexier: Callable[..., Union[str, list[str]]],
-        multiplexier_str: Optional[str] = None,
+        multiplexer: Callable[..., Union[str, list[str]]],
+        multiplexer_str: Optional[str] = None,
         enhance_existing: bool = False,
     ):
         """add control flow
@@ -365,19 +365,19 @@ class Workflow(ComposibleModuleInterface):
             src (Union[str, list[str]]):
                 the module that the control flow need to synchronize with
             
-            multiplexier (callable): 
+            multiplexer (callable): 
                 signature should be (ctx, arg1, arg2, ...) -> Hashable
-                ctx contains some useful information for the multiplexier to make decision
+                ctx contains some useful information for the multiplexer to make decision
             
             enhance_existing (bool): whether to enhance the existing edge
                 
         Examples:
-        NOTE: please hint all possible destinations for the multiplexier
+        NOTE: please hint all possible destinations for the multiplexer
             ```python
             from compiler.IR.program import hint_possible_destinations
             
             @hint_possible_destinations(['a', 'b'])
-            def multiplexier(ctx, smth):
+            def multiplexer(ctx, smth):
             ... if f(smth):
             ...    return ['a', 'b]
             ... else:
@@ -389,47 +389,17 @@ class Workflow(ComposibleModuleInterface):
         For example, if you have exising edges as:
         - [x, y] -> [a, m]
         
-        then add the above multiplexier with enhance_existing=True will result in:
+        then add the above multiplexer with enhance_existing=True will result in:
         - [x, y, branch_name] -> [a] # only after x, y, and branch gives 'a' as the result will a be activated
         - [x, y] -> [m]
         """
         if isinstance(src, str):
             src = [src]
-        src, dest = set(src), set(multiplexier._possible_destinations)
+        src, dest = set(src), set(multiplexer._possible_destinations)
         self._edge_validation(src, []) # avoid circular dependency or dependency on other unadded branches
-        branch = Branch(name, src, multiplexier, dest, multiplexier_str)
+        branch = Branch(name, src, multiplexer, dest, multiplexer_str)
         self.add_module(branch)
         self.sync_barrier_manager.add_branch_dependency(branch, enhance_existing)
-    
-    @deprecate_func
-    def get_dependency(self):
-        # build hyperthetical reversed graph
-        re_edges: dict[str, list[str]] = defaultdict(list)
-        for srcs, dests in self.static_dependencies.items():
-            for dest in dests:
-                re_edges[dest].extend(srcs)
-        for src, branch in self.branches.items():
-            for dest in branch.destinations:
-                re_edges[dest].append(src)
-        # remove duplication
-        for dest, src in re_edges.items():
-            re_edges[dest] = list(set(src))
-        
-        # get all dependent nodes given destination node
-        def dfs(dest, visited: set[str]):
-            if dest in visited:
-                return visited
-            visited.add(dest)
-            reachable = {dest}
-            for src in re_edges[dest]:
-                reachable.update(dfs(src, visited))
-            visited.remove(dest)
-            return reachable
-        
-        dependency_graph: dict[str, set[str]] = {}
-        for module in self.modules:
-            dependency_graph[module] = dfs(module, set())
-        return dependency_graph
     
     def validate(self):
         # Clear previous compilation

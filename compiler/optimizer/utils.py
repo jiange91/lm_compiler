@@ -59,58 +59,6 @@ class ScorePath:
                     new_node.state_scores.update(output_field_2_score)
                     frontier.put(new_node)
         self.paths = list(frontier.queue)
-            
-    
-class StateManager:
-    def __init__(self, trainset: list[StatePool]):
-        self.initial_states = trainset
-        self.state_by_task = [[task] for task in trainset]
-    
-    def prepare_state(self, num_lm_options: int):
-        # duplicate states for each lm option
-        dup_states = []
-        for i, task in enumerate(self.state_by_task):
-            dup_tasks = [copy.deepcopy(task) for _ in range(num_lm_options)]
-            dup_states.append(dup_tasks)
-        # the result format is:
-        # [state1, state2 | state1, state2 | ...]
-        # [option 1       | option 2       | ...]
-        # [task 1                          | ...]
-        return dup_states
-    
-    # NOTE: will return a list of selected score for each task as the input quality
-    def update_state(self, new_states, metrics, max_sample_to_keep) -> list[list]:
-        flatten_states = [[s for option in task for s in option] for task in new_states]
-        flatten_metrics = [[metric['score'] for option in task for metric in option] for task in metrics]
-        
-        # For each task, keep the top-k states that maximize variance
-        # Return the index right after smaller states
-        def max_var_subset() -> list[int]:
-            k = max_sample_to_keep
-            if len(flatten_metrics[0]) <= k:
-                return [[i for i in range(len(flatten_metrics[0]))] for _ in flatten_metrics]
-            else:
-                indices = []
-                for task in flatten_metrics:
-                    sort_ids = np.argsort(task)
-                    max_var = float('-inf')
-                    choice = None
-                    for k0 in range(1, k):
-                        smaller = [task[i] for i in sort_ids[:k0]]
-                        larger = [task[i] for i in sort_ids[-(k-k0):]]
-                        subset = smaller + larger
-                        variance = np.var(subset)
-                        if variance > max_var:
-                            max_var = variance
-                            choice = k0
-                    indices.append(sort_ids[:choice] + sort_ids[-(k-choice):])
-            return indices
-        
-        selected_indices = max_var_subset()
-        new_states = [[flatten_states[task_id][i] for i in indices] for task_id, indices in enumerate(selected_indices)]
-        self.state_by_task = new_states
-        new_input_quality = [[flatten_metrics[task_id][i] for i in indices] for task_id, indices in enumerate(selected_indices)]
-        return new_input_quality
     
 # For each task, keep the top-k states that maximize variance
 def max_var_subset(k, scores) -> list[int]:
@@ -132,7 +80,7 @@ def max_var_subset(k, scores) -> list[int]:
     return subset_ids
 
 
-class StateManager_v2:
+class StateManager:
     QualityType = dict[str, float]
     StateScoreType = Tuple[StatePool, QualityType]
     
@@ -141,7 +89,7 @@ class StateManager_v2:
         # task: [instance1, instance2, ...]
         #   List of pairs (state, scores)
         # NOTE: state is not in comparable format as this is used as input to workflow
-        self.state_score_by_task: list[list[StateManager_v2.StateScoreType]] = []
+        self.state_score_by_task: list[list[StateManager.StateScoreType]] = []
         for task in trainset:
             self.state_score_by_task.append([(task, {k: 1.0 for k in task.state.keys()})])
                 
@@ -174,7 +122,7 @@ class StateManager_v2:
         self.state_score_by_task = new_state_scores_by_task
         
             
-class OptionProfiler:#
+class OptionProfiler:
     """
     Note: Option profiler will copy the state in case module has inplace state update
     """

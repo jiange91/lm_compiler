@@ -235,7 +235,7 @@ def task_disambiguous():
 # ========================================
 # Importance evaluation
 # ========================================
-from compiler.optimizer.importance_eval_new import LMImportanceEvaluator
+from compiler.optimizer.importance_eval import LMImportanceEvaluator
 from compiler.optimizer.params import reasoning, model_selection, common
 
 def importance_eval():

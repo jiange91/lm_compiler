@@ -53,7 +53,7 @@ def json_schema_to_pydantic_model(json_schema: dict, file_path: str) -> type[Bas
     pydantic_model: type[BaseModel] = module.__dict__[main_model_name]
     return pydantic_model
 
-def pydentic_model_repr(model: type[BaseModel]) -> str:
+def pydantic_model_repr(model: type[BaseModel]) -> str:
     """Get str representation of a Pydantic model
     
     Will return the class definition of the Pydantic model as a string.
@@ -103,7 +103,7 @@ Please provide your answer in the correct json format accordingly. Especially ma
 Pay attention to the enum field in properties, do not generate answer that is not in the enum field if provided.
 """
     return template.format(
-        example_output_schema=pydentic_model_repr(ExampleModel),
+        example_output_schema=pydantic_model_repr(ExampleModel),
         example_output_json=example_output_json,
-        real_output_schema=pydentic_model_repr(schema),
+        real_output_schema=pydantic_model_repr(schema),
     )

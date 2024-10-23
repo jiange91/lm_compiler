@@ -4,6 +4,7 @@ from collections import defaultdict
 from abc import ABC, abstractmethod, ABCMeta
 from enum import Enum, auto
 from typing import List, Optional, Tuple, Iterable, Callable, Union, Any, Literal
+import threading
 import inspect
 import time
 import logging
@@ -17,10 +18,14 @@ from compiler.IR.base import Module
 from langchain_core.messages.base import BaseMessage
 from langchain_core.messages.utils import get_buffer_string
 
+logger = logging.getLogger(__name__)
+
 @dataclass
 class TokenUsage:
     prompt_tokens: int = field(default=0)
     completion_tokens: int = field(default=0)
+    prompt_cached_tokens: int = field(default=0)
+    reasoning_tokens: int = field(default=0)
 
 @dataclass
 class LMConfig:
@@ -67,12 +72,16 @@ class LMConfig:
         prompt, completion = usage.prompt_tokens, usage.completion_tokens
         model = self.model
         if self.provider == 'openai':
+            prompt_cached_tokens = usage.prompt_cached_tokens
+            prompt -= prompt_cached_tokens
             if 'gpt-4o-mini' in model:
-                return (0.15 * prompt +  0.6 * completion) / 1e6
+                return (0.15 * prompt +  0.6 * completion + 0.075 * prompt_cached_tokens) / 1e6
             elif 'gpt-4o-2024-05-13' in model:
-                return (5 * prompt + 15 * completion) / 1e6
-            elif 'gpt-4o-2024-08-06' in model:
-                return (2.5 * prompt + 10 * completion) / 1e6
+                return (5 * prompt + 15 * completion + 5 * prompt_cached_tokens) / 1e6
+            elif 'gpt-4o-audio' in model:
+                return (2.5 * prompt + 10 * completion + 2.5 * prompt_cached_tokens) / 1e6 
+            elif 'gpt-4o' in model:
+                return (2.5 * prompt + 10 * completion + 1.25 * prompt_cached_tokens) / 1e6
         elif self.provider == 'together':
             if 'meta-llama/Llama-3.2-3B-Instruct-Turbo' in model:
                 return 0.06 * (prompt + completion) / 1e6 # change to fireworks price
@@ -176,6 +185,32 @@ class LMSemantic(ABC):
     def set_demos(self, demos: list[Demonstration]):
         ...
  
+
+_thread_local_chain = threading.local()
+
+def _local_forward(_local_lm: 'LLMPredictor', **kwargs):
+    _local_lm.input_cache = copy.deepcopy(kwargs)
+    if _local_lm.lm is None:
+        # if lm is reset or not set, initialize it and the kernel
+        _local_lm.set_lm()
+        _local_lm.initialize_kernel()
+        
+    if _local_lm.kernel is None:
+        _local_lm.initialize_kernel()
+    
+    result = _local_lm.kernel(**kwargs)
+    
+    lm_hist = _local_lm.get_lm_history()
+    _local_lm.step_info.append({
+        'inputs': _local_lm.input_cache,
+        'rationale': _local_lm.rationale,
+        'output': lm_hist[-1]['response'],
+    })
+    _local_lm.rationale = None
+    _local_lm.input_cache = {}
+    _local_lm.lm_history.extend(lm_hist)
+    
+    return result
     
 class LLMPredictor(Module):
     def __init__(self, name, semantic: LMSemantic, lm, **kwargs) -> None:
@@ -185,12 +220,25 @@ class LLMPredictor(Module):
         self.input_cache = {}
         self.step_info = []
         self.rationale: str = None
+        self._lock = threading.Lock()
         
         self.semantic = semantic
         # NOTE: lm and kernel will be set at first execution
         # this is to allow deepcopy of the module
         super().__init__(name=name, kernel=None, **kwargs)
         self.input_fields = self.semantic.get_agent_inputs()
+        setattr(_thread_local_chain, name, self)
+        
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        for k, v in self.__dict__.items():
+            if k != '_lock':
+                setattr(result, k, copy.deepcopy(v, memo))
+            else:
+                setattr(result, k, threading.Lock())
+        return result
         
     @property
     def lm(self):
@@ -199,6 +247,20 @@ class LLMPredictor(Module):
     @lm.setter
     def lm(self, value):
         self._lm = value
+
+    def get_thread_local_chain(self):
+        try:
+            if not hasattr(_thread_local_chain, self.name):
+                # NOTE: no need to set to local storage bc that's mainly used to detect if current context is in a new thread
+                _self = copy.deepcopy(self)
+                _self.reset()
+            else:
+                _self = getattr(_thread_local_chain, self.name)
+            return _self
+        except Exception as e:
+            logger.info(f'Error in get_thread_local_chain: {e}')
+            raise
+    
     
     def initialize_kernel(self):
         self.kernel = self.get_invoke_routine()
@@ -238,10 +300,14 @@ class LLMPredictor(Module):
         """
         Get token usage of each LLM call
         must include: {
-            'prompt_tokens': int, 
+            'prompt_tokens': int,
             'completion_tokens': int,
             'response': str,
             'model': str,
+        }
+        Optional: {
+            'prompt_cached_tokens': int,
+            'reasoning_tokens': int,
         }
         return type must be a list of dict
         """
@@ -263,37 +329,35 @@ class LLMPredictor(Module):
         #NOTE: a LLMPredictor might have multiple LLMs in its history
         # if the config is dynamically changing
         usage = TokenUsage()
+        logger.info(f"{self.name} meta len: {len(self.lm_history)}, {len(self.step_info)}")
         for meta in self.lm_history:
-            usage.prompt_tokens += meta['prompt_tokens']
-            usage.completion_tokens += meta['completion_tokens']
+            # log tokens
+            prompt_tokens = meta['prompt_tokens']
+            completion_tokens = meta['completion_tokens']
+            prompt_cached_tokens = meta.get('prompt_cached_tokens', 0)
+            reasoning_tokens = meta.get('reasoning_tokens', 0)
+            
+            usage.prompt_tokens += prompt_tokens
+            usage.completion_tokens += completion_tokens
+            usage.prompt_cached_tokens += prompt_cached_tokens
+            usage.reasoning_tokens += reasoning_tokens
         return usage
 
     def get_total_cost(self) -> float:
         usage = self.get_token_usage()
-        return self.lm_config.get_price(usage)
-
-    def on_invoke(self, kwargs: dict):
-        self.input_cache = kwargs
-    
+        price = self.lm_config.get_price(usage)
+        logger.info(f"Token usage {self.name}: {usage}, price: {price}")
+        return price
+        
     def forward(self, **kwargs):
-        if self.lm is None:
-            # if lm is reset or not set, initialize it and the kernel
-            self.set_lm()
-            self.initialize_kernel()
-            
-        if self.kernel is None:
-            self.initialize_kernel()
-        
-        result = self.kernel(**kwargs)
-        
-        lm_hist = self.get_lm_history()
-        self.step_info.append({
-            'inputs': copy.deepcopy(self.input_cache),
-            'rationale': self.rationale,
-            'output': lm_hist[-1]['response'],
-        })
-        self.rationale = None
-        self.input_cache = {}
-        self.lm_history.extend(lm_hist)
-        
+        _self = self.get_thread_local_chain()
+        result = _local_forward(_self, **kwargs)
+        self.aggregate_thread_local_meta(_self)
         return result
+
+    def aggregate_thread_local_meta(self, _local_self):
+        if self is _local_self:
+            return
+        with self._lock:
+            self.step_info.extend(_local_self.step_info)
+            self.lm_history.extend(_local_self.lm_history)

@@ -4,12 +4,27 @@ import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Dict, List
+import logging
 
 from langchain_core.exceptions import OutputParserException
 from langchain.output_parsers import OutputFixingParser
 
 from llm.engine_configs import ENGINE_CONFIGS
 from runner.logger import Logger
+
+def get_llm_params(engine: str, temperature: float = 0, base_uri: str = None) -> Dict[str, Any]:
+    if engine not in ENGINE_CONFIGS:
+        raise ValueError(f"Engine {engine} not supported")
+    
+    config = ENGINE_CONFIGS[engine]
+    params = config["params"]
+    if temperature:
+        params["temperature"] = temperature
+    
+    # Adjust base_uri if provided
+    if base_uri and "openai_api_base" in params:
+        params["openai_api_base"] = f"{base_uri}/v1"
+    return params
 
 def get_llm_chain(engine: str, temperature: float = 0, base_uri: str = None) -> Any:
     """
@@ -26,19 +41,9 @@ def get_llm_chain(engine: str, temperature: float = 0, base_uri: str = None) -> 
     Raises:
         ValueError: If the engine is not supported.
     """
-    if engine not in ENGINE_CONFIGS:
-        raise ValueError(f"Engine {engine} not supported")
-    
     config = ENGINE_CONFIGS[engine]
+    params = get_llm_params(engine, temperature, base_uri)
     constructor = config["constructor"]
-    params = config["params"]
-    if temperature:
-        params["temperature"] = temperature
-    
-    # Adjust base_uri if provided
-    if base_uri and "openai_api_base" in params:
-        params["openai_api_base"] = f"{base_uri}/v1"
-    
     model = constructor(**params)
     if "preprocess" in config:
         llm_chain = config["preprocess"] | model
@@ -87,7 +92,7 @@ def call_llm_chain(prompt: Any, engine: Any, parser: Any, chain: Any, request_kw
             chain = prompt | engine | new_parser
             if attempt == max_attempts - 1:
                 logger.log(f"call_chain: {e}", "error")
-                raise e
+                raise 
         except Exception as e:
             if attempt < max_attempts - 1:
                 logger.log(f"Failed to invoke the chain {attempt + 1} times.\n{type(e)}\n{e}", "warning")
@@ -95,7 +100,7 @@ def call_llm_chain(prompt: Any, engine: Any, parser: Any, chain: Any, request_kw
                 time.sleep(sleep_time)
             else:
                 logger.log(f"Failed to invoke the chain {attempt + 1} times.\n{type(e)} <{e}>\n", "error")
-                raise e
+                raise 
 
 def threaded_llm_call(request_id: int, prompt: Any, engine: Any, parser: Any, chain: Any, request_kwargs: Dict[str, Any], step: int, result_queue: queue.Queue, log_file_lock: threading.Lock) -> None:
     """
@@ -140,7 +145,7 @@ def async_llm_chain_call(prompt: Any, engine: Any, parser: Any, chain: Any, requ
         for request_id, request_kwargs in enumerate(request_list):
             for _ in range(sampling_count):
                 executor.submit(threaded_llm_call, request_id, prompt, engine, parser, chain, request_kwargs, step, result_queue, log_file_lock)
-                time.sleep(0.2)  # Sleep for a short time to avoid rate limiting
+                time.sleep(0.7)  # Sleep for a short time to avoid rate limiting
 
     results = []
     while not result_queue.empty():

@@ -10,15 +10,24 @@ from runner.database_manager import DatabaseManager
 from runner.statistics_manager import StatisticsManager
 from pipeline.workflow_builder import build_pipeline
 from pipeline.pipeline_manager import PipelineManager
+import traceback
 
-NUM_WORKERS = 1
+
+NUM_WORKERS = 10
 
 class RunManager:
     RESULT_ROOT_PATH = "results"
 
-    def __init__(self, args: Any):
+    def __init__(self, args: Any, result_directory: str = None):
+        """
+        allow master to set result directory to avoid conflict
+        """
         self.args = args
-        self.result_directory = self.get_result_directory()
+        if result_directory:
+            self.result_directory = result_directory
+        else:
+            self.result_directory = self.get_result_directory()
+        print(f"Result directory: {self.result_directory}")
         self.statistics_manager = StatisticsManager(self.result_directory)
         self.tasks: List[Task] = []
         self.total_number_of_tasks = 0
@@ -91,14 +100,16 @@ class RunManager:
             initial_state = {"keys": {"task": task, 
                                       "tentative_schema": tentative_schema, "execution_history": execution_history}}
             self.app = build_pipeline(self.args.pipeline_nodes)
-            for state in self.app.stream(initial_state):
-                continue
-            return state['__end__'], task.db_id, task.question_id
+            # for state in self.app.stream(initial_state):
+            #     continue
+            state = self.app.invoke(initial_state)
+            return state, task.db_id, task.question_id
         except Exception as e:
             logger.log(f"Error processing task: {task.db_id} {task.question_id}\n{e}", "error")
+            traceback.print_exc()
             return None, task.db_id, task.question_id
 
-    def task_done(self, log: Tuple[Any, str, int]):
+    def task_done(self, log: Tuple[Any, str, int], show_progress: bool = True):
         """
         Callback function when a task is done.
         
@@ -111,12 +122,13 @@ class RunManager:
         evaluation_result = state["keys"]['execution_history'][-1]
         if evaluation_result.get("node_type") == "evaluation":
             for evaluation_for, result in evaluation_result.items():
-                if evaluation_for in ['node_type', 'status']:
+                if evaluation_for in ['node_type', 'status', 'exec_time']:
                     continue
                 self.statistics_manager.update_stats(db_id, question_id, evaluation_for, result)
             self.statistics_manager.dump_statistics_to_file()
         self.processed_tasks += 1
-        self.plot_progress()
+        if show_progress:
+            self.plot_progress()
 
     def plot_progress(self, bar_length: int = 100):
         """

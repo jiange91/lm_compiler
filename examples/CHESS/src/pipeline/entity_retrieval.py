@@ -170,7 +170,37 @@ def get_similar_entities(keywords: List[str]) -> Dict[str, Dict[str, List[str]]]
         unique_similar_values = DatabaseManager().query_lsh(keyword=target_string, signature_size=100, top_n=10)
         return target_string, _get_similar_entities_to_keyword(target_string, unique_similar_values)
 
-    for keyword in keywords:
+    # for keyword in keywords:
+    #     keyword = keyword.strip()
+    #     to_search_values = [keyword]
+    #     if (" " in keyword) and ("=" not in keyword):
+    #         for i in range(len(keyword)):
+    #             if keyword[i] == " ":
+    #                 first_part = keyword[:i]
+    #                 second_part = keyword[i+1:]
+    #                 if first_part not in to_search_values:
+    #                     to_search_values.append(first_part)
+    #                 if second_part not in to_search_values:
+    #                     to_search_values.append(second_part)
+
+    #     to_search_values.sort(key=len, reverse=True)
+    #     hint_column, hint_value = _column_value(keyword)
+    #     if hint_value:
+    #         to_search_values = [hint_value, *to_search_values]
+        
+    #     with concurrent.futures.ThreadPoolExecutor() as executor:
+    #         futures = {executor.submit(get_similar_values_target_string, ts): ts for ts in to_search_values}
+    #         for future in concurrent.futures.as_completed(futures):
+    #             target_string, similar_values = future.result()
+    #             for table_name, column_values in similar_values.items():
+    #                 for column_name, entities in column_values.items():
+    #                     if entities:
+    #                         selected_values.setdefault(table_name, {}).setdefault(column_name, []).extend(
+    #                             [(ts, value, edit_distance, embedding) for ts, value, edit_distance, embedding in entities]
+    #                         )
+    
+    # more parallelism
+    def search_for_one_keyword(keyword: str):
         keyword = keyword.strip()
         to_search_values = [keyword]
         if (" " in keyword) and ("=" not in keyword):
@@ -188,6 +218,7 @@ def get_similar_entities(keywords: List[str]) -> Dict[str, Dict[str, List[str]]]
         if hint_value:
             to_search_values = [hint_value, *to_search_values]
         
+        _local_selected_values = {}
         with concurrent.futures.ThreadPoolExecutor() as executor:
             futures = {executor.submit(get_similar_values_target_string, ts): ts for ts in to_search_values}
             for future in concurrent.futures.as_completed(futures):
@@ -195,10 +226,20 @@ def get_similar_entities(keywords: List[str]) -> Dict[str, Dict[str, List[str]]]
                 for table_name, column_values in similar_values.items():
                     for column_name, entities in column_values.items():
                         if entities:
-                            selected_values.setdefault(table_name, {}).setdefault(column_name, []).extend(
+                            _local_selected_values.setdefault(table_name, {}).setdefault(column_name, []).extend(
                                 [(ts, value, edit_distance, embedding) for ts, value, edit_distance, embedding in entities]
                             )
+        return _local_selected_values
 
+    with concurrent.futures.ThreadPoolExecutor(max_workers=len(keywords)) as keyword_exec:
+        futures = [keyword_exec.submit(search_for_one_keyword, kw) for kw in keywords]
+        # NOTE: keyword order seems not important
+        for future in concurrent.futures.as_completed(futures):
+            for table_name, column_values in future.result().items():
+                for column_name, entities in column_values.items():
+                    if entities:
+                        selected_values.setdefault(table_name, {}).setdefault(column_name, []).extend(entities)
+    
     for table_name, column_values in selected_values.items():
         for column_name, values in column_values.items():
             max_edit_distance = max(values, key=lambda x: x[2])[2]

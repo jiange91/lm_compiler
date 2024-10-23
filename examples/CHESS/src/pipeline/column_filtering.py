@@ -1,5 +1,6 @@
 import logging
 from typing import Any, Dict, List
+import traceback
 
 from llm.models import async_llm_chain_call
 from runner.logger import Logger
@@ -40,12 +41,13 @@ def column_filtering(task: Any, tentative_schema: Dict[str, Any], execution_hist
                 "COLUMN_PROFILE": column_profile,
             }
             list_of_kwargs.append(kwargs)
+    list_of_kwargs = list_of_kwargs
 
     logging.info("Fetching prompt, engine, and parser from PipelineManager")
     prompt, engine, parser, chain = PipelineManager().get_prompt_engine_parser()
     chain = runnable_exec
     
-    logging.info("Initiating asynchronous LLM chain call for column filtering")
+    logging.info(f"Initiating asynchronous LLM chain call for column filtering: {len(list_of_kwargs)} columns")
     response = async_llm_chain_call(
         prompt=prompt, 
         engine=engine, 
@@ -62,12 +64,13 @@ def column_filtering(task: Any, tentative_schema: Dict[str, Any], execution_hist
         tentative_schema[table_name] = []
         for column_name, column_profile in columns.items():
             try:
-                chosen = (response[index][0].dict()["is_column_information_relevant"].lower() == "yes")
+                chosen = (response[index][0]["is_column_information_relevant"].lower() == "yes")
                 if chosen:
                     tentative_schema[table_name].append(column_name)
             except Exception as e:
                 Logger().log(f"({task.db_id}, {task.question_id}) Error in column filtering: {e}", "error")
                 logging.error(f"Error in column filtering for table '{table_name}', column '{column_name}': {e}")
+                raise
             index += 1
             
     similar_columns = get_last_node_result(execution_history, "entity_retrieval")["similar_columns"]

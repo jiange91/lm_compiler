@@ -14,6 +14,9 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.messages import HumanMessage, BaseMessage, merge_message_runs, AIMessage
 from langchain_aws import BedrockLLM
+import threading
+
+import traceback
 from .utils import var_2_str
 
 import logging
@@ -49,9 +52,11 @@ def get_inspect_runnable(msg: str = ""):
     return RunnableLambda(inspect_with_msg(msg))
 
 class LLMTracker(BaseCallbackHandler):
-    def __init__(self, cmodule: 'LangChainLM'):
+    def __init__(self):
         super().__init__()
-        self.cmodule = cmodule
+        # NOTE: tracker will not reset the cache
+        # remember to clear this if needed
+        self.llm_gen_meta_cache = []
     
     def on_chat_model_start(
         self, serialized: Dict[str, Any], messages: List[List[BaseMessage]], **kwargs: Any
@@ -59,10 +64,20 @@ class LLMTracker(BaseCallbackHandler):
         pass
     
     def on_llm_end(self, response: LLMResult, **kwargs):
-        meta = response.llm_output['token_usage']
+        meta = {}
+        
+        usage = response.llm_output['token_usage']
+        # print(usage)
+        meta['completion_tokens'] = usage['completion_tokens']
+        meta['prompt_tokens'] = usage['prompt_tokens']
+        if 'completion_tokens_details' in usage:
+            meta['reasoning_tokens'] = usage['completion_tokens_details']['reasoning_tokens']
+        if 'prompt_tokens_details' in usage:
+            meta['prompt_cached_tokens'] = usage['prompt_tokens_details']['cached_tokens']
+            
         meta['model'] = response.llm_output['model_name']
         meta['response'] = response.generations[0][0].text
-        self.cmodule.llm_gen_meta.append(deepcopy(meta))
+        self.llm_gen_meta_cache.append(deepcopy(meta))
 
 class LangChainSemantic(LMSemantic):
     """Please do not set your format instructioins in the prompt
@@ -145,7 +160,7 @@ class LangChainSemantic(LMSemantic):
                 input_fields.append(f"{input}:\n${{{input}}}")
         
         example_format = "\n\n".join(input_fields) + \
-                        "\n\nreasoning:\nOptional(${reasoning})" + \
+                        "\n\nrationale:\nOptional(${reasoning})" + \
                         f"\n\n{self.outputs[0]}:\n${{{self.outputs[0]}}}"
         
         demo_strs = [
@@ -175,9 +190,9 @@ class LangChainSemantic(LMSemantic):
                         )
                     )
             if demo.reasoning:
-                demo_strs.append(f"\n\nreasoning:\n{demo.reasoning}")
+                demo_strs.append(f"\n\nrationale:\n{demo.reasoning}")
             else:
-                demo_strs.append("\n\nreasoning:\nN/A")
+                demo_strs.append("\n\nrationale:\nnot available")
                 
             # add output, only consider text now
             demo_strs.append(
@@ -307,12 +322,12 @@ class LangChainLM(LLMPredictor):
     def __init__(self, name, semantic: LangChainSemantic, **kwargs) -> None:
         """
         """
-        self.llm_gen_meta = []
         self.chat_history = ChatMessageHistory()
         self.semantic: LangChainSemantic = semantic # mainly for type hint
         # default model can be overwritten by set_lm
         self.lm = None
         self.reasoning = None
+        self._tracker = LLMTracker()
         super().__init__(name, semantic, self.lm, **kwargs)
     
     def get_invoke_routine(self):
@@ -340,14 +355,13 @@ def langchain_lm_kernel({inputs_str}):
     try:
         # print("langchain lm output parse")
         result = routine.invoke({invoke_arg_dict_str})
+        result = output_format.parse_obj(result)
+        # print(result)
+        return {result_str}
     except Exception as e:
         print(e)
         print("ERR IN langchain_lm output parse")
-        print(chat_template)
-        print(routine)
-    result = output_format.parse_obj(result)
-    # print(result)
-    return {result_str}
+        raise
 """
         else:
             result_str = f'{{"{self.semantic.outputs[0]}": result.content}}'
@@ -356,12 +370,11 @@ def langchain_lm_kernel({inputs_str}):
     try:
         # print("langchain lm no output parse")
         result = routine.invoke({invoke_arg_dict_str})
+        return {result_str}
     except Exception as e:
         print(e)
         print("ERR IN langchain_lm no output parse")
-        print(chat_template)
-        print(routine)
-    return {result_str}
+        raise
 """
         self.kernel_str = langchain_kernel_template
         func_obj = compile(langchain_kernel_template, '<string>', 'exec')
@@ -374,55 +387,6 @@ def langchain_lm_kernel({inputs_str}):
             }, local_name_space)
         return local_name_space['langchain_lm_kernel']
     
-    # def invoke_routine_runnable(self, invoke_arg_dict_str):
-    #     if self.reasoning is not None:
-    #         return self.reasoning.get_invoke_routine(self)
-    #     self.semantic.build_prompt_template() # will rebuild the prompt template for each re-compile
-    #     #NOTE: use imperative merge at runtime bc message placeholder cannot be merged statically
-        
-    #     routine = self.semantic.chat_prompt_template | self.lm
-    #     if self.semantic.enable_memory:
-    #         routine = RunnableWithMessageHistory(
-    #             runnable=routine,
-    #             get_session_history=lambda: self.chat_history,
-    #             input_messages_key=self.semantic.input_key_in_mem,
-    #             history_messages_key="compiler_chat_history",
-    #         )
-    #     if self.semantic.output_format:
-    #         routine = routine | self.semantic.parser
-    #         try:
-    #             result = routine.invoke(invoke_arg_dict_str)
-    #         except:
-    #             print(self.semantic.chat_prompt_template)
-    #             exit(0)
-    #         result = self.semantic.output_format.model_validate(result)
-    #     else:
-    #         try:
-    #             result = routine.invoke(invoke_arg_dict_str)
-    #         except:
-    #             print(self.semantic.chat_prompt_template)
-    #             exit(0)
-    #     returnable = {f'{self.semantic.outputs[0]}': result}
-    #     return returnable
-
-    # def forward(self, **kwargs):
-    #     if self.lm is None:
-    #         # if lm is reset or not set, initialize it and the kernel
-    #         self.set_lm()
-            
-    #     result = self.invoke_routine_runnable(kwargs)
-        
-    #     lm_hist = self.get_lm_history()
-    #     self.step_info.append({
-    #         'inputs': copy.deepcopy(self.input_cache),
-    #         'rationale': self.rationale,
-    #         'output': lm_hist[-1]['response'],
-    #     })
-    #     self.rationale = None
-    #     self.input_cache = {}
-    #     self.lm_history.extend(lm_hist)
-        
-    #     return result
 
     def set_lm(self):
         logger.debug(f'Setting LM for {self.name}: {self.lm_config}')
@@ -438,21 +402,21 @@ def langchain_lm_kernel({inputs_str}):
                 model=self.lm_config.model,
                 **self.lm_config.kwargs,
                 api_key=os.environ['OPENAI_API_KEY'],
-                callbacks=[LLMTracker(self)]
+                callbacks=[self._tracker]
             )
         elif self.lm_config.provider == 'together':
             self.lm = ChatTogether(
                 model=self.lm_config.model,
                 **self.lm_config.kwargs,
                 api_key=os.environ['TOGETHER_API_KEY'],
-                callbacks=[LLMTracker(self)]
+                callbacks=[self._tracker]
             )
         elif self.lm_config.provider == 'fireworks':
             self.lm = ChatFireworks(
                 model=self.lm_config.model,
                 **self.lm_config.kwargs,
                 api_key=os.environ['FIREWORKS_API_KEY'],
-                callbacks=[LLMTracker(self)],
+                callbacks=[self._tracker],
             )
         elif self.lm_config.provider == 'local':
             base_url = self.lm_config.kwargs.get('openai_api_base', None)
@@ -462,7 +426,7 @@ def langchain_lm_kernel({inputs_str}):
                 model=self.lm_config.model,
                 **self.lm_config.kwargs,
                 api_key="DUMMY",
-                callbacks=[LLMTracker(self)]
+                callbacks=[self._tracker]
             )
         else:
             raise ValueError(f"Provider {self.lm_config.provider} not supported")
@@ -473,8 +437,8 @@ def langchain_lm_kernel({inputs_str}):
         
         remember to clear the history after getting it
         """
-        hist_cpy = deepcopy(self.llm_gen_meta)
-        self.llm_gen_meta = []
+        hist_cpy = deepcopy(self._tracker.llm_gen_meta_cache)
+        self._tracker.llm_gen_meta_cache.clear()
         return hist_cpy
 
     def get_step_as_example(self) -> Demonstration:
@@ -497,17 +461,23 @@ def langchain_lm_kernel({inputs_str}):
         return demo
 
     def custom_reset(self):
-        self.llm_gen_meta = []
+        self._tracker.llm_gen_meta_cache.clear()
         self.chat_history.clear()
+    
     
     def as_runnable(self):
         def invoke(input: dict):
-            statep = StatePool()
-            statep.init(input)
-            self.invoke(statep)
-            result = statep.news(self.semantic.outputs[0])
-            if self.semantic.output_format:
-                return result
-            else:
-                return AIMessage(result)
+            try:
+                statep = StatePool()
+                statep.init(input)
+                self.invoke(statep)
+                result = statep.news(self.semantic.outputs[0])
+                if self.semantic.output_format:
+                    return result
+                else:
+                    return AIMessage(result)
+            except Exception as e:
+                logger.error(f"Error in {self.name}: {e}")
+                traceback.print_exc()
+                raise
         return RunnableLambda(invoke)

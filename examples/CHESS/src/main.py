@@ -55,7 +55,7 @@ def load_dataset(data_path: str) -> List[Dict[str, Any]]:
     """
     with open(data_path, 'r') as file:
         dataset = json.load(file)
-    return dataset
+    return dataset[:10]
 
 def main():
     """

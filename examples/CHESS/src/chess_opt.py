@@ -1,10 +1,3 @@
-from compiler.optimizer.params.fewshot import LMFewShot
-from compiler.optimizer.params.scaffolding import LMScaffolding
-from compiler.optimizer.params import reasoning, model_selection, common
-from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
-from compiler.optimizer.analysis.param_sensitivity import SensitivityAnalyzer
-from compiler.langchain_bridge.interface import LangChainLM
-from compiler.optimizer.params import ensemble
 import runpy
 import uuid
 import multiprocess as mp
@@ -12,7 +5,19 @@ import json
 import os
 import random
 import optuna
+import argparse
+from datetime import datetime
+from typing import Any, Dict, List, TypedDict, Callable
 
+from runner.task import Task
+
+from compiler.optimizer.params.fewshot import LMFewShot
+from compiler.optimizer.params.scaffolding import LMScaffolding
+from compiler.optimizer.params import reasoning, model_selection, common
+from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
+from compiler.optimizer.analysis.param_sensitivity import SensitivityAnalyzer
+from compiler.langchain_bridge.interface import LangChainLM
+from compiler.optimizer.params import ensemble
 from compiler.IR.llm import LMConfig
 from compiler.optimizer.params.common import IdentityOption
 from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
@@ -21,41 +26,101 @@ from compiler.optimizer.core import driver, flow
 import dspy
 from dspy.datasets.hotpotqa import HotPotQA
 
-def load_data_minor():
-    trainset = [
-        ("""Are Walt Disney and Sacro GRA both documentry films?""", """yes"""),
-        ("""What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?""", """design their own interdisciplinary program"""),
-        ("""Which is published more frequently, The People's Friend or Bust?""", """The People's Friend"""),
-        ("""How much is spent on the type of whiskey that 1792 Whiskey is in the United States?""", """about $2.7 billion"""),
-        ("""The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?""", """1856"""),
-        ("""What year did the mountain known in Italian as "Monte Vesuvio", erupt?""", """79 AD"""),
-        ("""What was the full name of the author that memorialized Susan Bertie through her single volume of poems?""", """Emilia Lanier"""),
-        ("""How many seasons did, the Guard with a FG%% around .420, play in the NBA ?""", """14 seasons"""),
-        ("""Estonian Philharmonic Chamber Choir won the grammy Award for Best Choral Performance for two songs by a composer born in what year ?""", """1935"""),
-        ("""Which of the sport analyst of The Experts Network is nicknamed  "The Iron Man"?""", """Calvin Edwin Ripken Jr."""),
-        ("""What are both National Bird and America's Heart and Soul?""", """What are both National Bird and America's Heart and Soul?"""),
-        ("""What was the 2010 population of the birthplace of Gerard Piel?""", """17,121"""),
-        ("""On what streets is the hospital that cared for Molly Meldrum located?""", """the corner of Commercial and Punt Roads"""),
-    ]
-    return trainset[:3], trainset[3:5], trainset[0:1]
+def parse_arguments() -> argparse.Namespace:
+    """
+    Parses command-line arguments.
 
-def load_data():
-    dataset = HotPotQA(train_seed=1, train_size=150, eval_seed=2023, dev_size=200, test_size=0)
-    def get_input_label(x):
-        return x.question, x.answer
-    trainset = [get_input_label(x) for x in dataset.train[0:100]]
-    valset = [get_input_label(x) for x in dataset.train[100:150]]
-    devset = [get_input_label(x) for x in dataset.dev]
-    print(len(trainset), len(valset), len(devset))
-    return trainset, valset, devset
+    Returns:
+        argparse.Namespace: The parsed command-line arguments.
+    """
+    parser = argparse.ArgumentParser(
+        description="Run the pipeline with the specified configuration."
+    )
+    parser.add_argument(
+        "--data_mode", type=str, required=True, help="Mode of the data to be processed."
+    )
+    parser.add_argument(
+        "--data_path", type=str, required=True, help="Path to the data file."
+    )
+    parser.add_argument(
+        "--pipeline_nodes",
+        type=str,
+        required=True,
+        help="Pipeline nodes configuration.",
+    )
+    parser.add_argument(
+        "--pipeline_setup",
+        type=str,
+        required=True,
+        help="Pipeline setup in JSON format.",
+    )
+    parser.add_argument(
+        "--use_checkpoint", action="store_true", help="Flag to use checkpointing."
+    )
+    parser.add_argument(
+        "--checkpoint_nodes",
+        type=str,
+        required=False,
+        help="Checkpoint nodes configuration.",
+    )
+    parser.add_argument(
+        "--checkpoint_dir", type=str, required=False, help="Directory for checkpoints."
+    )
+    parser.add_argument(
+        "--log_level", type=str, default="warning", help="Logging level."
+    )
+    args = parser.parse_args()
+
+    args.run_start_time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+
+    if args.use_checkpoint:
+        print("Using checkpoint")
+        if not args.checkpoint_nodes:
+            raise ValueError("Please provide the checkpoint nodes to use checkpoint")
+        if not args.checkpoint_dir:
+            raise ValueError("Please provide the checkpoint path to use checkpoint")
+
+    return args
+
+def load_dataset(data_path: str) -> List[Dict[str, Any]]:
+    """
+    Loads the dataset from the specified path.
+
+    Args:
+        data_path (str): Path to the data file.
+
+    Returns:
+        List[Dict[str, Any]]: The loaded dataset.
+    """
+    with open(data_path, "r") as file:
+        dataset = json.load(file)
+    return dataset[:]
+
+def load_data(args):
+    dataset = load_dataset(args.data_path)
+    inputs = []
+    for data in dataset:
+        task = Task(data)
+        result_dir = f"cognify_results/all_dev_manual_cot_demo/{task.db_id}/{task.question_id}/{args.run_start_time}"
+        if not os.path.exists(result_dir):
+            os.makedirs(result_dir, exist_ok=True)
+        inputs.append(
+            {
+                'args': args,
+                'dataset': [data],
+                'result_directory': result_dir,
+            }
+        )
+    eval_data = [(input, None) for input in inputs]
+    return eval_data[:5], eval_data[5:7], eval_data[7:10]
 
 def opt(train, val, dev):
     evaluator = EvaluatorPlugin(
         trainset=train,
-        evalset=val,
-        # evalset=None,
+        # evalset=val,
+        evalset=None,
         testset=dev,
-        n_parallel=50,
+        n_parallel=20,
     )
     # ================= LM Selection =================
     lm_options = [
@@ -165,7 +230,7 @@ def opt(train, val, dev):
         evolve_interval=4,
         frugal_eval_cost=True,
     )
-    inner_loop_config = driver.LayerConfig(
+    inner_loop_config = driver.layerConfig(
         layer_name='inner_loop',
         universal_params=[few_shot_params, reasoning_param, model_param],
         opt_config=inner_opt_config,
@@ -179,7 +244,7 @@ def opt(train, val, dev):
         frugal_eval_cost=False,
     )
     
-    outer_loop_config = driver.LayerConfig(
+    outer_loop_config = driver.layerConfig(
         layer_name='outer_loop',
         universal_params=[general_ensemble_params], # will overwrite module name
         # dedicate_params=[refine_ensemble_params, gen_answer_ensemble_params],
@@ -211,7 +276,7 @@ def raw_test(data):
         trainset=None,
         evalset=None,
         testset=data,
-        n_parallel=20,
+        n_parallel=100,
     )
     eval_task = EvalTask(
         script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
@@ -228,8 +293,7 @@ if __name__ == '__main__':
     # mp.set_start_method('spawn')
     mp.context._force_start_method('spawn')
     
-    # train, val, dev = load_data()
-    train, val, dev = load_data_minor()
+    train, val, dev = load_data()
     opt_driver = opt(train, val, dev)
     # eval(opt_driver)
     # raw_test(dev)

@@ -174,6 +174,8 @@ def trial(question: str):
 
 from dsp.utils.metrics import HotPotF1, F1
 dspy.evaluate.answer_exact_match
+
+
 @register_opt_score_fn
 def answer_f1(label: str, pred: str):
     if isinstance(label, str):

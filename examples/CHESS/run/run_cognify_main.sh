@@ -1,10 +1,12 @@
 data_mode='dev' # Options: 'dev', 'train' 
 
 data_path="/mnt/ssd4/lm_compiler/examples/CHESS/data/dev/sub_sampled_bird_dev_set.json" # UPDATE THIS WITH THE PATH TO THE TARGET DATASET
+# data_path="/mnt/ssd4/lm_compiler/examples/CHESS/data/dev/other_sub_sampled.json" # UPDATE THIS WITH THE PATH TO THE TARGET DATASET
 
 pipeline_nodes='keyword_extraction+entity_retrieval+context_retrieval+column_filtering+table_selection+column_selection+candidate_generation+revision+evaluation'
-checkpoint_nodes=''
-checkpoint_dir=""
+# pipeline_nodes='evaluation'
+checkpoint_nodes='candidate_generation+revision'
+checkpoint_dir="/mnt/ssd4/lm_compiler/examples/CHESS/cognify_results/all_dev_manual_cot_demo/financial/93/2024-10-21-06-59-37"
 
 # Nodes:
     # keyword_extraction
@@ -87,7 +89,7 @@ pipeline_setup='{
 }'
 
 echo -e "${run_name}"
-python3 -u -Xfrozen_modules=off ./src/main_cognify.py --data_mode ${data_mode} --data_path ${data_path}\
+python3 -u -Xfrozen_modules=off ./src/cognify_master.py --data_mode ${data_mode} --data_path ${data_path}\
         --pipeline_nodes ${pipeline_nodes} --pipeline_setup "$pipeline_setup"\
         # --use_checkpoint --checkpoint_nodes ${checkpoint_nodes} --checkpoint_dir ${checkpoint_dir}
   

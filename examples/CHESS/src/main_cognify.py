@@ -12,6 +12,7 @@ import debugpy
 import argparse
 import json
 from datetime import datetime
+import logging
 
 from runner.run_manager import RunManager
 from runner.database_manager import DatabaseManager
@@ -29,7 +30,9 @@ from pipeline.column_selection import column_selection
 from pipeline.candidate_generation import candidate_generation
 from pipeline.revision import revision
 from pipeline.evaluation import evaluation
-
+from pipeline.annotated import cognify_registry
+from compiler.IR.llm import LMConfig
+from llm.models import get_llm_params
 
 def parse_arguments() -> argparse.Namespace:
     """
@@ -100,7 +103,7 @@ def load_dataset(data_path: str) -> List[Dict[str, Any]]:
     """
     with open(data_path, "r") as file:
         dataset = json.load(file)
-    return dataset
+    return dataset[:10]
 
 
 ### Graph State ###
@@ -139,7 +142,6 @@ workflow.add_edge("evaluation", END)
 
 app = workflow.compile()
 
-
 def main():
     """
     Main function to run the pipeline with the specified configuration.
@@ -149,10 +151,12 @@ def main():
 
     run_manager = RunManager(args)
     run_manager.initialize_tasks(dataset)
+    
     for task in run_manager.tasks:
         logger = Logger(db_id=task.db_id, question_id=task.question_id, result_directory=run_manager.result_directory)
         logger._set_log_level(args.log_level)
         logger.log(f"Processing task: {task.db_id} {task.question_id}", "info")
+        
         database_manager = DatabaseManager(db_mode=args.data_mode, db_id=task.db_id)
         tentative_schema = database_manager.get_db_schema()
         pipeline_manager = PipelineManager(json.loads(args.pipeline_setup))

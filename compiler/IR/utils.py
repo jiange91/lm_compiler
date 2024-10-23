@@ -17,7 +17,7 @@ def get_function_kwargs(func: Callable):
     return input_fields, defaults
 
 
-
+# From https://github.com/qpwo/python-simple-cycles/blob/master/johnson.py ---
 # A dependency-free version of networkx's implementation of Johnson's cycle finding algorithm
 # Original implementation: https://github.com/networkx/networkx/blob/master/networkx/algorithms/cycles.py#L109
 # Original paper: Donald B Johnson. "Finding all the elementary circuits of a directed graph." SIAM Journal on Computing. 1975.

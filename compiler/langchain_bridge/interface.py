@@ -8,7 +8,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import HumanMessagePromptTemplate
 from pydantic import BaseModel, Field
-from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_core.chat_history import InMemoryChatMessageHistory as ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.output_parsers import JsonOutputParser

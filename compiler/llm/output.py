@@ -1,57 +1,22 @@
-import importlib.util
 import json
-import re
-import sys
-from contextlib import contextmanager
-from pathlib import Path
-from tempfile import NamedTemporaryFile
-from types import ModuleType
 from pydantic import BaseModel, Field
-from typing import Union
-
 from datamodel_code_generator.parser.jsonschema import JsonSchemaParser
+from compiler.llm.prompt import CompletionMessage, TextContent
+from dataclasses import dataclass
 
+@dataclass
+class OutputFormat:
+    schema: BaseModel
+    should_hint_format_in_prompt: bool = True
+    custom_output_format_instructions: str = None
 
-NON_ALPHANUMERIC = re.compile(r"[^a-zA-Z0-9]+")
-UPPER_CAMEL_CASE = re.compile(r"[A-Z][a-zA-Z0-9]+")
-LOWER_CAMEL_CASE = re.compile(r"[a-z][a-zA-Z0-9]+")
-
-class BadJsonSchema(Exception):
-    pass
-
-
-def _to_camel_case(name: str) -> str:
-    if any(NON_ALPHANUMERIC.finditer(name)):
-        return "".join(term.lower().title() for term in NON_ALPHANUMERIC.split(name))
-    if UPPER_CAMEL_CASE.match(name):
-        return name
-    if LOWER_CAMEL_CASE.match(name):
-        return name[0].upper() + name[1:]
-    raise BadJsonSchema(f"Unknown case used for {name}")
-
-
-def _load_module_from_file(file_path: Path) -> ModuleType:
-    spec = importlib.util.spec_from_file_location(
-        name=file_path.stem, location=str(file_path)
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[file_path.stem] = module
-    spec.loader.exec_module(module)
-    return module
-
-def json_schema_to_pydantic_model(json_schema: dict, file_path: str) -> type[BaseModel]:
-    json_schema_as_str = json.dumps(json_schema)
-    pydantic_models_as_str: str = JsonSchemaParser(json_schema_as_str).parse()
-    
-    module_file_path = Path(file_path).resolve()
-    with open(module_file_path, "wb+") as f:
-        f.write(pydantic_models_as_str.encode())
-
-    module = _load_module_from_file(file_path=module_file_path)
-
-    main_model_name = _to_camel_case(name=json_schema["title"])
-    pydantic_model: type[BaseModel] = module.__dict__[main_model_name]
-    return pydantic_model
+    def get_output_instruction_message(self) -> CompletionMessage:
+        content = ""
+        if self.should_hint_format_in_prompt:
+            content += '\n' + get_format_hint()
+        if self.custom_output_format_instructions:
+            content += '\n' + self.custom_output_format_instructions
+        return CompletionMessage(role="user", content=[TextContent(text=content)])
 
 def pydantic_model_repr(model: type[BaseModel]) -> str:
     """Get str representation of a Pydantic model
@@ -85,7 +50,7 @@ example_output_json = """
 ```
 """
 
-def get_pydantic_format_instruction(schema: type[BaseModel]):
+def get_format_hint(schema: type[BaseModel]) -> str:
     
     template = """\
 Your answer should be formatted as a JSON instance that conforms to the output schema. The json instance will be used directly to instantiate the Pydantic model.

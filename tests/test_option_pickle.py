@@ -15,7 +15,7 @@ from compiler.langchain_bridge.interface import LangChainLM, LangChainSemantic
 from compiler.optimizer.params import reasoning, model_selection, common, ensemble
 from compiler.optimizer.params.utils import load_params
 from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
-from compiler.IR.schema_parser import json_schema_to_pydantic_model, get_pydantic_format_instruction
+from compiler.llm.schema_parser import json_schema_to_pydantic_model, get_pydantic_format_instruction
 
 from compiler.utils import load_api_key, get_bill
 load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')

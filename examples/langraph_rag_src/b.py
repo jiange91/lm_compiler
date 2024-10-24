@@ -391,7 +391,7 @@ def refine_kernel():
 
 # refine_kernel()
 
-from compiler.IR.schema_parser import json_schema_to_pydantic_model
+from compiler.llm.schema_parser import json_schema_to_pydantic_model
 with open('test_write.json', 'r') as f:
     json_agents = json.load(f)
     

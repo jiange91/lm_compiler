@@ -19,7 +19,7 @@ from langchain_openai import ChatOpenAI
 from compiler.IR.program import Workflow, Module, StatePool, Branch, Input, Output, hint_possible_destinations
 from compiler.IR.llm import LMConfig, LLMPredictor, LMSemantic
 from compiler.IR.rewriter.utils import add_argument_to_position, RewriteBranchReturn
-from compiler.IR.schema_parser import json_schema_to_pydantic_model
+from compiler.llm.schema_parser import json_schema_to_pydantic_model
 from compiler.IR.modules import CodeBox
 from compiler.optimizer.prompts import *
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM

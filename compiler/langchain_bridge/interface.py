@@ -27,8 +27,8 @@ import json
 
 from compiler.IR.base import StatePool
 from compiler.IR.llm import LLMPredictor, LMConfig, LMSemantic, Demonstration
-from compiler.IR.schema_parser import get_pydantic_format_instruction as get_format_instruction
-from compiler.IR.schema_parser import pydantic_model_repr
+from compiler.llm.schema_parser import get_pydantic_format_instruction as get_format_instruction
+from compiler.llm.schema_parser import pydantic_model_repr
 from compiler.langchain_bridge.utils import var_2_str
 import copy
 import os

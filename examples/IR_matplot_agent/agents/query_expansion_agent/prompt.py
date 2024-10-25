@@ -1,5 +1,11 @@
 
-SYSTEM_PROMPT = '''According to the user query, expand and solidify the query into a step by step detailed instruction (or comment) on how to write python code to fulfill the user query's requirements. Import the appropriate libraries. Pinpoint the correct library functions to call and set each parameter in every function call accordingly.'''
+SYSTEM_PROMPT = """
+Your role is to carefully understand the user’s data visualization requests and provide expended, detailed instructions for a coding agent. Ensure that the instructions contain all necessary informations, including but not limited to data synthesis, processing, transformation, and visualization requirements, layout arrangements, and formatting expectations. 
+
+Please be very explicit in setting parameter values and in how to prepare the data for the plot.
+
+Do not directly provide complete plotting code but instead give guidance on how to meet the user’s expectations.
+"""
 
 EXPERT_USER_PROMPT = '''Here is the user query: [User Query]:
 """

@@ -1,0 +1,4277 @@
+{
+    "03b1548f1dc84833816ca6dcb800d6e0": {
+        "id": "03b1548f1dc84833816ca6dcb800d6e0",
+        "bo_trial_id": 0,
+        "params": {
+            "query expansion_reasoning": "ZeroShotCoT",
+            "query expansion_lm_model": "openai_gpt-4o-mini",
+            "plot debugger_reasoning": "Identity",
+            "plot debugger_lm_model": "openai_gpt-4o-mini",
+            "initial code generation_reasoning": "PlanBefore",
+            "initial code generation_lm_model": "openai_gpt-4o",
+            "visual_refinement_reasoning": "Identity",
+            "visual_refinement_lm_model": "openai_gpt-4o"
+        },
+        "score": 0.6571428571428571,
+        "price": 0.02014529285714286,
+        "eval_cost": 0.14101705,
+        "eval_task": {
+            "script_path": "/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py",
+            "args": [],
+            "other_python_paths": [],
+            "module_name_paths": {},
+            "aggregated_proposals": {
+                "inner_loop": {
+                    "query expansion": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "plot debugger": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "initial code generation": [
+                        [
+                            "reasoning",
+                            "PlanBefore"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ],
+                    "visual_refinement": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ]
+                }
+            },
+            "all_params_ser": {
+                "query expansion_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "query expansion",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "query expansion_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "query expansion",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "plot debugger_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "plot debugger_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "initial code generation_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "initial code generation_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "visual_refinement_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "visual_refinement_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                }
+            }
+        }
+    },
+    "c53ebc59a76b4a70af9633bc4c99c70d": {
+        "id": "c53ebc59a76b4a70af9633bc4c99c70d",
+        "bo_trial_id": 1,
+        "params": {
+            "query expansion_reasoning": "Identity",
+            "query expansion_lm_model": "openai_gpt-4o",
+            "plot debugger_reasoning": "Identity",
+            "plot debugger_lm_model": "openai_gpt-4o-mini",
+            "initial code generation_reasoning": "ZeroShotCoT",
+            "initial code generation_lm_model": "openai_gpt-4o",
+            "visual_refinement_reasoning": "Identity",
+            "visual_refinement_lm_model": "openai_gpt-4o"
+        },
+        "score": 0.4928571428571428,
+        "price": 0.02974158571428571,
+        "eval_cost": 0.2081911,
+        "eval_task": {
+            "script_path": "/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py",
+            "args": [],
+            "other_python_paths": [],
+            "module_name_paths": {},
+            "aggregated_proposals": {
+                "inner_loop": {
+                    "query expansion": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ],
+                    "plot debugger": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "initial code generation": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ],
+                    "visual_refinement": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ]
+                }
+            },
+            "all_params_ser": {
+                "query expansion_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "query expansion",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "query expansion_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "query expansion",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "plot debugger_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "plot debugger_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "initial code generation_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "initial code generation_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "visual_refinement_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "visual_refinement_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                }
+            }
+        }
+    },
+    "203e05785c214a399772602f0afc373f": {
+        "id": "203e05785c214a399772602f0afc373f",
+        "bo_trial_id": 2,
+        "params": {
+            "query expansion_reasoning": "Identity",
+            "query expansion_lm_model": "openai_gpt-4o",
+            "plot debugger_reasoning": "PlanBefore",
+            "plot debugger_lm_model": "openai_gpt-4o",
+            "initial code generation_reasoning": "ZeroShotCoT",
+            "initial code generation_lm_model": "openai_gpt-4o",
+            "visual_refinement_reasoning": "PlanBefore",
+            "visual_refinement_lm_model": "openai_gpt-4o-mini"
+        },
+        "score": 0.65,
+        "price": 0.04976997857142857,
+        "eval_cost": 0.34838985,
+        "eval_task": {
+            "script_path": "/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py",
+            "args": [],
+            "other_python_paths": [],
+            "module_name_paths": {},
+            "aggregated_proposals": {
+                "inner_loop": {
+                    "query expansion": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ],
+                    "plot debugger": [
+                        [
+                            "reasoning",
+                            "PlanBefore"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ],
+                    "initial code generation": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ],
+                    "visual_refinement": [
+                        [
+                            "reasoning",
+                            "PlanBefore"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ]
+                }
+            },
+            "all_params_ser": {
+                "query expansion_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "query expansion",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "query expansion_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "query expansion",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "plot debugger_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "plot debugger_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "initial code generation_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "initial code generation_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "visual_refinement_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "visual_refinement_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                }
+            }
+        }
+    },
+    "54b7d1985e7a42e38404b691832b820c": {
+        "id": "54b7d1985e7a42e38404b691832b820c",
+        "bo_trial_id": 3,
+        "params": {
+            "query expansion_reasoning": "PlanBefore",
+            "query expansion_lm_model": "openai_gpt-4o-mini",
+            "plot debugger_reasoning": "Identity",
+            "plot debugger_lm_model": "openai_gpt-4o-mini",
+            "initial code generation_reasoning": "Identity",
+            "initial code generation_lm_model": "openai_gpt-4o-mini",
+            "visual_refinement_reasoning": "ZeroShotCoT",
+            "visual_refinement_lm_model": "openai_gpt-4o-mini"
+        },
+        "score": 0.39999999999999997,
+        "price": 0.00787035,
+        "eval_cost": 0.05509245,
+        "eval_task": {
+            "script_path": "/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py",
+            "args": [],
+            "other_python_paths": [],
+            "module_name_paths": {},
+            "aggregated_proposals": {
+                "inner_loop": {
+                    "query expansion": [
+                        [
+                            "reasoning",
+                            "PlanBefore"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "plot debugger": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "initial code generation": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "visual_refinement": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ]
+                }
+            },
+            "all_params_ser": {
+                "query expansion_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "query expansion",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "query expansion_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "query expansion",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "plot debugger_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "plot debugger_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "initial code generation_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "initial code generation_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "visual_refinement_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "visual_refinement_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                }
+            }
+        }
+    },
+    "81f00bad298349ec8d63ac4d3cb3ac41": {
+        "id": "81f00bad298349ec8d63ac4d3cb3ac41",
+        "bo_trial_id": 4,
+        "params": {
+            "query expansion_reasoning": "ZeroShotCoT",
+            "query expansion_lm_model": "openai_gpt-4o-mini",
+            "plot debugger_reasoning": "Identity",
+            "plot debugger_lm_model": "openai_gpt-4o",
+            "initial code generation_reasoning": "PlanBefore",
+            "initial code generation_lm_model": "openai_gpt-4o-mini",
+            "visual_refinement_reasoning": "ZeroShotCoT",
+            "visual_refinement_lm_model": "openai_gpt-4o"
+        },
+        "score": 0.5928571428571427,
+        "price": 0.0212997,
+        "eval_cost": 0.1490979,
+        "eval_task": {
+            "script_path": "/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py",
+            "args": [],
+            "other_python_paths": [],
+            "module_name_paths": {},
+            "aggregated_proposals": {
+                "inner_loop": {
+                    "query expansion": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "plot debugger": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ],
+                    "initial code generation": [
+                        [
+                            "reasoning",
+                            "PlanBefore"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "visual_refinement": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ]
+                }
+            },
+            "all_params_ser": {
+                "query expansion_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "query expansion",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "query expansion_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "query expansion",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "plot debugger_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "plot debugger_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "initial code generation_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "initial code generation_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "visual_refinement_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "visual_refinement_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                }
+            }
+        }
+    },
+    "e63e80c8c53a4b4884e8ef250f70bb17": {
+        "id": "e63e80c8c53a4b4884e8ef250f70bb17",
+        "bo_trial_id": 5,
+        "params": {
+            "query expansion_reasoning": "Identity",
+            "query expansion_lm_model": "openai_gpt-4o-mini",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "plot debugger_lm_model": "openai_gpt-4o-mini",
+            "initial code generation_reasoning": "Identity",
+            "initial code generation_lm_model": "openai_gpt-4o-mini",
+            "visual_refinement_reasoning": "Identity",
+            "visual_refinement_lm_model": "openai_gpt-4o"
+        },
+        "score": 0.5571428571428572,
+        "price": 0.007727307142857143,
+        "eval_cost": 0.05409115,
+        "eval_task": {
+            "script_path": "/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py",
+            "args": [],
+            "other_python_paths": [],
+            "module_name_paths": {},
+            "aggregated_proposals": {
+                "inner_loop": {
+                    "query expansion": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "plot debugger": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "initial code generation": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "visual_refinement": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ]
+                }
+            },
+            "all_params_ser": {
+                "query expansion_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "query expansion",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "query expansion_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "query expansion",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "plot debugger_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "plot debugger_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "initial code generation_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "initial code generation_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "visual_refinement_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "visual_refinement_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                }
+            }
+        }
+    },
+    "cf08fe9318cc437585bac24797f6355b": {
+        "id": "cf08fe9318cc437585bac24797f6355b",
+        "bo_trial_id": 6,
+        "params": {
+            "query expansion_reasoning": "ZeroShotCoT",
+            "query expansion_lm_model": "openai_gpt-4o-mini",
+            "plot debugger_reasoning": "PlanBefore",
+            "plot debugger_lm_model": "openai_gpt-4o-mini",
+            "initial code generation_reasoning": "PlanBefore",
+            "initial code generation_lm_model": "openai_gpt-4o",
+            "visual_refinement_reasoning": "Identity",
+            "visual_refinement_lm_model": "openai_gpt-4o"
+        },
+        "score": 0.5714285714285714,
+        "price": 0.020410607142857144,
+        "eval_cost": 0.14287425,
+        "eval_task": {
+            "script_path": "/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py",
+            "args": [],
+            "other_python_paths": [],
+            "module_name_paths": {},
+            "aggregated_proposals": {
+                "inner_loop": {
+                    "query expansion": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "plot debugger": [
+                        [
+                            "reasoning",
+                            "PlanBefore"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "initial code generation": [
+                        [
+                            "reasoning",
+                            "PlanBefore"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ],
+                    "visual_refinement": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ]
+                }
+            },
+            "all_params_ser": {
+                "query expansion_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "query expansion",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "query expansion_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "query expansion",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "plot debugger_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "plot debugger_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "initial code generation_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "initial code generation_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "visual_refinement_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "visual_refinement_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                }
+            }
+        }
+    },
+    "3126605838364633a31531d3515779e4": {
+        "id": "3126605838364633a31531d3515779e4",
+        "bo_trial_id": 7,
+        "params": {
+            "query expansion_reasoning": "Identity",
+            "query expansion_lm_model": "openai_gpt-4o-mini",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "plot debugger_lm_model": "openai_gpt-4o",
+            "initial code generation_reasoning": "Identity",
+            "initial code generation_lm_model": "openai_gpt-4o-mini",
+            "visual_refinement_reasoning": "Identity",
+            "visual_refinement_lm_model": "openai_gpt-4o-mini"
+        },
+        "score": 0.5857142857142856,
+        "price": 0.02363662857142857,
+        "eval_cost": 0.1654564,
+        "eval_task": {
+            "script_path": "/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py",
+            "args": [],
+            "other_python_paths": [],
+            "module_name_paths": {},
+            "aggregated_proposals": {
+                "inner_loop": {
+                    "query expansion": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "plot debugger": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ],
+                    "initial code generation": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "visual_refinement": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ]
+                }
+            },
+            "all_params_ser": {
+                "query expansion_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "query expansion",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "query expansion_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "query expansion",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "plot debugger_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "plot debugger_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "initial code generation_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "initial code generation_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "visual_refinement_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "visual_refinement_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                }
+            }
+        }
+    },
+    "82636d3af1ce4760a1fb1607f399d5bd": {
+        "id": "82636d3af1ce4760a1fb1607f399d5bd",
+        "bo_trial_id": 8,
+        "params": {
+            "query expansion_reasoning": "Identity",
+            "query expansion_lm_model": "openai_gpt-4o-mini",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "plot debugger_lm_model": "openai_gpt-4o-mini",
+            "initial code generation_reasoning": "Identity",
+            "initial code generation_lm_model": "openai_gpt-4o-mini",
+            "visual_refinement_reasoning": "Identity",
+            "visual_refinement_lm_model": "openai_gpt-4o"
+        },
+        "score": 0.5285714285714286,
+        "price": 0.006561642857142857,
+        "eval_cost": 0.0459315,
+        "eval_task": {
+            "script_path": "/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py",
+            "args": [],
+            "other_python_paths": [],
+            "module_name_paths": {},
+            "aggregated_proposals": {
+                "inner_loop": {
+                    "query expansion": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "plot debugger": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "initial code generation": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "visual_refinement": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ]
+                }
+            },
+            "all_params_ser": {
+                "query expansion_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "query expansion",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "query expansion_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "query expansion",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "plot debugger_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "plot debugger_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "initial code generation_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "initial code generation_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "visual_refinement_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "visual_refinement_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                }
+            }
+        }
+    },
+    "af82e7428a574cd1a370a93ab4e905fd": {
+        "id": "af82e7428a574cd1a370a93ab4e905fd",
+        "bo_trial_id": 9,
+        "params": {
+            "query expansion_reasoning": "Identity",
+            "query expansion_lm_model": "openai_gpt-4o-mini",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "plot debugger_lm_model": "openai_gpt-4o-mini",
+            "initial code generation_reasoning": "Identity",
+            "initial code generation_lm_model": "openai_gpt-4o-mini",
+            "visual_refinement_reasoning": "Identity",
+            "visual_refinement_lm_model": "openai_gpt-4o"
+        },
+        "score": 0.4785714285714286,
+        "price": 0.007076600000000001,
+        "eval_cost": 0.0495362,
+        "eval_task": {
+            "script_path": "/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py",
+            "args": [],
+            "other_python_paths": [],
+            "module_name_paths": {},
+            "aggregated_proposals": {
+                "inner_loop": {
+                    "query expansion": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "plot debugger": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "initial code generation": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "visual_refinement": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ]
+                }
+            },
+            "all_params_ser": {
+                "query expansion_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "query expansion",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "query expansion_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "query expansion",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "plot debugger_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "plot debugger_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "initial code generation_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "initial code generation_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "visual_refinement_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "visual_refinement_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                }
+            }
+        }
+    },
+    "b20e1cf28eb34a60928402abd1c33bfc": {
+        "id": "b20e1cf28eb34a60928402abd1c33bfc",
+        "bo_trial_id": 10,
+        "params": {
+            "query expansion_reasoning": "ZeroShotCoT",
+            "query expansion_lm_model": "openai_gpt-4o",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "plot debugger_lm_model": "openai_gpt-4o-mini",
+            "initial code generation_reasoning": "Identity",
+            "initial code generation_lm_model": "openai_gpt-4o-mini",
+            "visual_refinement_reasoning": "Identity",
+            "visual_refinement_lm_model": "openai_gpt-4o"
+        },
+        "score": 0.4928571428571428,
+        "price": 0.017602700000000002,
+        "eval_cost": 0.1232189,
+        "eval_task": {
+            "script_path": "/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py",
+            "args": [],
+            "other_python_paths": [],
+            "module_name_paths": {},
+            "aggregated_proposals": {
+                "inner_loop": {
+                    "query expansion": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ],
+                    "plot debugger": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "initial code generation": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "visual_refinement": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ]
+                }
+            },
+            "all_params_ser": {
+                "query expansion_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "query expansion",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "query expansion_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "query expansion",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "plot debugger_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "plot debugger_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "initial code generation_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "initial code generation_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "visual_refinement_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "visual_refinement_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                }
+            }
+        }
+    },
+    "ecb3cfe569114b51991c5f7e22b69c42": {
+        "id": "ecb3cfe569114b51991c5f7e22b69c42",
+        "bo_trial_id": 11,
+        "params": {
+            "query expansion_reasoning": "PlanBefore",
+            "query expansion_lm_model": "openai_gpt-4o-mini",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "plot debugger_lm_model": "openai_gpt-4o-mini",
+            "initial code generation_reasoning": "ZeroShotCoT",
+            "initial code generation_lm_model": "openai_gpt-4o",
+            "visual_refinement_reasoning": "Identity",
+            "visual_refinement_lm_model": "openai_gpt-4o-mini"
+        },
+        "score": 0.6571428571428571,
+        "price": 0.018548150000000003,
+        "eval_cost": 0.12983705,
+        "eval_task": {
+            "script_path": "/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py",
+            "args": [],
+            "other_python_paths": [],
+            "module_name_paths": {},
+            "aggregated_proposals": {
+                "inner_loop": {
+                    "query expansion": [
+                        [
+                            "reasoning",
+                            "PlanBefore"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "plot debugger": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "initial code generation": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ],
+                    "visual_refinement": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ]
+                }
+            },
+            "all_params_ser": {
+                "query expansion_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "query expansion",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "query expansion_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "query expansion",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "plot debugger_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "plot debugger_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "initial code generation_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "initial code generation_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "visual_refinement_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "visual_refinement_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                }
+            }
+        }
+    },
+    "3359edd5434a48b9b4f482624c4859cf": {
+        "id": "3359edd5434a48b9b4f482624c4859cf",
+        "bo_trial_id": 12,
+        "params": {
+            "query expansion_reasoning": "PlanBefore",
+            "query expansion_lm_model": "openai_gpt-4o-mini",
+            "plot debugger_reasoning": "Identity",
+            "plot debugger_lm_model": "openai_gpt-4o-mini",
+            "initial code generation_reasoning": "PlanBefore",
+            "initial code generation_lm_model": "openai_gpt-4o",
+            "visual_refinement_reasoning": "ZeroShotCoT",
+            "visual_refinement_lm_model": "openai_gpt-4o"
+        },
+        "score": 0.32142857142857145,
+        "price": 0.02186752142857143,
+        "eval_cost": 0.15307265,
+        "eval_task": {
+            "script_path": "/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py",
+            "args": [],
+            "other_python_paths": [],
+            "module_name_paths": {},
+            "aggregated_proposals": {
+                "inner_loop": {
+                    "query expansion": [
+                        [
+                            "reasoning",
+                            "PlanBefore"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "plot debugger": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "initial code generation": [
+                        [
+                            "reasoning",
+                            "PlanBefore"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ],
+                    "visual_refinement": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ]
+                }
+            },
+            "all_params_ser": {
+                "query expansion_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "query expansion",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "query expansion_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "query expansion",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "plot debugger_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "plot debugger_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "initial code generation_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "initial code generation_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "visual_refinement_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "visual_refinement_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                }
+            }
+        }
+    },
+    "9148a4b581da477f9baab5c3bc0c54f9": {
+        "id": "9148a4b581da477f9baab5c3bc0c54f9",
+        "bo_trial_id": 13,
+        "params": {
+            "query expansion_reasoning": "PlanBefore",
+            "query expansion_lm_model": "openai_gpt-4o",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "plot debugger_lm_model": "openai_gpt-4o-mini",
+            "initial code generation_reasoning": "ZeroShotCoT",
+            "initial code generation_lm_model": "openai_gpt-4o",
+            "visual_refinement_reasoning": "Identity",
+            "visual_refinement_lm_model": "openai_gpt-4o-mini"
+        },
+        "score": 0.5857142857142856,
+        "price": 0.031514914285714284,
+        "eval_cost": 0.22060439999999998,
+        "eval_task": {
+            "script_path": "/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py",
+            "args": [],
+            "other_python_paths": [],
+            "module_name_paths": {},
+            "aggregated_proposals": {
+                "inner_loop": {
+                    "query expansion": [
+                        [
+                            "reasoning",
+                            "PlanBefore"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ],
+                    "plot debugger": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "initial code generation": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ],
+                    "visual_refinement": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ]
+                }
+            },
+            "all_params_ser": {
+                "query expansion_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "query expansion",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "query expansion_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "query expansion",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "plot debugger_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "plot debugger_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "initial code generation_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "initial code generation_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "visual_refinement_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "visual_refinement_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                }
+            }
+        }
+    },
+    "5b4576a34bea4dffa68dabe9adc42b5e": {
+        "id": "5b4576a34bea4dffa68dabe9adc42b5e",
+        "bo_trial_id": 14,
+        "params": {
+            "query expansion_reasoning": "PlanBefore",
+            "query expansion_lm_model": "openai_gpt-4o-mini",
+            "plot debugger_reasoning": "ZeroShotCoT",
+            "plot debugger_lm_model": "openai_gpt-4o-mini",
+            "initial code generation_reasoning": "ZeroShotCoT",
+            "initial code generation_lm_model": "openai_gpt-4o",
+            "visual_refinement_reasoning": "Identity",
+            "visual_refinement_lm_model": "openai_gpt-4o-mini"
+        },
+        "score": 0,
+        "price": 0,
+        "eval_cost": 0,
+        "eval_task": {
+            "script_path": "/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/workflow.py",
+            "args": [],
+            "other_python_paths": [],
+            "module_name_paths": {},
+            "aggregated_proposals": {
+                "inner_loop": {
+                    "query expansion": [
+                        [
+                            "reasoning",
+                            "PlanBefore"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "plot debugger": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ],
+                    "initial code generation": [
+                        [
+                            "reasoning",
+                            "ZeroShotCoT"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o"
+                        ]
+                    ],
+                    "visual_refinement": [
+                        [
+                            "reasoning",
+                            "Identity"
+                        ],
+                        [
+                            "lm_model",
+                            "openai_gpt-4o-mini"
+                        ]
+                    ]
+                }
+            },
+            "all_params_ser": {
+                "query expansion_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "query expansion",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "query expansion_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "query expansion",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "plot debugger_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "plot debugger_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "plot debugger",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "initial code generation_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "initial code generation_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "initial code generation",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                },
+                "visual_refinement_reasoning": {
+                    "name": "reasoning",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "Identity": {
+                            "name": "Identity",
+                            "type": "IdentityOption"
+                        },
+                        "ZeroShotCoT": {
+                            "name": "ZeroShotCoT",
+                            "type": "ZeroShotCoT"
+                        },
+                        "PlanBefore": {
+                            "name": "PlanBefore",
+                            "type": "PlanBefore"
+                        }
+                    },
+                    "default_option": "Identity",
+                    "type": "LMReasoning"
+                },
+                "visual_refinement_lm_model": {
+                    "name": "lm_model",
+                    "module_name": "visual_refinement",
+                    "options": {
+                        "openai_gpt-4o-mini": {
+                            "name": "openai_gpt-4o-mini",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o-mini",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        },
+                        "openai_gpt-4o": {
+                            "name": "openai_gpt-4o",
+                            "type": "ModelOption",
+                            "model_config": {
+                                "provider": "openai",
+                                "model": "gpt-4o",
+                                "cost_indicator": 1.0,
+                                "kwargs": {
+                                    "temperature": 0.0
+                                },
+                                "price_table": {}
+                            }
+                        }
+                    },
+                    "default_option": "openai_gpt-4o-mini",
+                    "type": "LMSelection"
+                }
+            }
+        }
+    }
+}

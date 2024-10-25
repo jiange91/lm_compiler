@@ -6,7 +6,9 @@ from .prompt import ERROR_PROMPT, INITIAL_SYSTEM_PROMPT, INITIAL_USER_PROMPT, VI
 from agents.openai_chatComplete import completion_with_backoff
 from agents.utils import fill_in_placeholders, get_error_message, is_run_code_success, run_code
 from agents.utils import print_filesys_struture
-from agents.utils import change_directory
+from agents.utils import change_directory, common_lm_config
+from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsage
+import logging
 
 
 class PlotAgent():
@@ -194,39 +196,41 @@ class PlotAgent():
         log = run_code(self.workspace, file_name)
         return log, code
 
-    
+"""
+Cognify Implementation
+"""  
 
 from pydantic import BaseModel, Field
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 
 #==============================================================================
-# Initial Coder
+# Coder
 #==============================================================================
 
 INITIAL_SYSTEM_PROMPT_IR = '''
-You are a cutting-edge super capable code generation LLM. You will be given a natural language query, generate a runnable python code to satisfy all the requirements in the query. You can use any python library you want. 
+You are an expert Python coder specialized in data visualization. Your task is to generate Python code that fulfills the user’s data visualization request. You will receive the user query and a detailed plan outlining how to create the plot.
 
-If the query requires data manipulation from a csv file, process the data from the csv file and draw the plot in one piece of code.
+If the instruction requires data manipulation from a csv file, write code to process the data from the csv file and then draw the plot. Please place all your code in a single code block.
 
-In your code, when you complete a plot, remember to save it to a png file with given the 'plot_file_name'.
+Your code should save the final plot to a png file with the give filename rather than displaying it.
 '''
-
-class PlottingCode(BaseModel):
-    """Python code for plotting"""
-    code: str = Field(description="Python code")
 
 initial_coder_semantic = LangChainSemantic(
     system_prompt=INITIAL_SYSTEM_PROMPT_IR,
-    inputs=['expanded_query', 'plot_file_name'],
+    inputs=['query', 'expanded_query', 'plot_file_name'],
     output_format="code",
-    output_format_instructions="Please only return the python code. Wrap it with ```python and ``` to format it properly.",
+    output_format_instructions="Please only give the code as your answer and format it in markdown code block, i.e. wrap it with ```python and ```.",
 )
 
 initial_coder_lm = LangChainLM('initial code generation', initial_coder_semantic, opt_register=True)
-initial_coder_lm.lm_config = {
-    'model': 'gpt-4o-mini',
-    'temperature': 0.0,
-}
+initial_coder_lm_config = LMConfig(
+    provider='openai',
+    model='gpt-4o-mini',
+    kwargs= {
+        'temperature': 0.0,
+    }
+)
+initial_coder_lm.lm_config = common_lm_config
 initial_coder_agent = initial_coder_lm.as_runnable()
 
 #==============================================================================
@@ -234,23 +238,32 @@ initial_coder_agent = initial_coder_lm.as_runnable()
 #==============================================================================
 
 DEBUG_SYSTEM_PROMPT_IR = """
-You are a cutting-edge super capable code debugger LLM. You will be given a user query about data visualization, a piece of existing python code for completing the task and an error message associate with this code. 
+You are an expert in debugging Python code, particularly for data visualization tasks. You will be given an user request, a piece of python code for completing the task and an error message associate with this code. 
 
-Your task is to fix the error. You can use any python library you want. The code should be executable and can at least generate a plot without any error.
+Your task is to:
+- Analyze the error messages and understand the issue in the context of the user’s request.
+- Fix the code completely: Modify the code so that it runs without errors and correctly fulfills the user’s original requirements,
+
+Always output the complete, updated Python code with all necessary corrections applied, ensuring it is ready to be executed successfully.
+Your code should save the final plot to a png file with the give filename rather than displaying it.
 """
 
 plot_debugger_semantic = LangChainSemantic(
     system_prompt=DEBUG_SYSTEM_PROMPT_IR,
     inputs=['query', 'code', 'error_message'],
     output_format="code",
-    output_format_instructions="Please only return the python code. Wrap it with ```python and ``` to format it properly.",
+    output_format_instructions="Please only give the code as your answer and format it in markdown code block, i.e. wrap it with ```python and ```.",
 )
 
 plot_debugger_lm = LangChainLM('plot debugger', plot_debugger_semantic, opt_register=True)
-plot_debugger_lm.lm_config = {
-    'model': 'gpt-4o-mini',
-    'temperature': 0.0,
-}
+debugger_lm_config = LMConfig(
+    provider='openai',
+    model='gpt-4o-mini',
+    kwargs= {
+        'temperature': 0.0,
+    }
+)
+plot_debugger_lm.lm_config = common_lm_config
 plot_debugger_agent = plot_debugger_lm.as_runnable()
 
 #==============================================================================
@@ -258,23 +271,33 @@ plot_debugger_agent = plot_debugger_lm.as_runnable()
 #==============================================================================
 
 VIS_SYSTEM_PROMPT_IR = """
-You are a cutting-edge super capable code generation LLM. You will be given a piece of code and natural language instruction on how to improve it. Base on the given code, generate a runnable python code to satisfy all the requirements in the instruction while retaining the original code's functionality. You can use any python library you want. 
+You are an expert Python coder specialized in data visualization. Your task is to refine the existing Python code based on the feedback to ensure the plot fully meets the user's requirements.
 
-In your code, when you complete a plot, remember to save it to a png file with the given 'plot_file_name'.
+You will receive:
+- The user's query to understand the intended goal.
+- The existing Python code used to generate the current plot.
+- The feedback that contains specific instructions for improving the visualization.
+
+Please analyze the feedback and apply the recommended changes to the Python code while ensuring the adjustments align with the user's original request. 
+Your code should save the final plot to a png file with the give filename rather than displaying it.
 """
 
 refine_semantic = LangChainSemantic(
     system_prompt=VIS_SYSTEM_PROMPT_IR,
-    inputs=['visual_refinement', 'plot_file_name'],
+    inputs=['query', 'code', 'visual_refinement', 'plot_file_name'],
     output_format="code",
     output_format_instructions="Please only return the python code. Wrap it with ```python and ``` to format it properly.",
 )
 
-refine_plot_lm = LangChainLM('visual refine coder', refine_semantic)
-refine_plot_lm.lm_config = {
-    'model': 'gpt-4o-mini',
-    'temperature': 0.0,
-}
+refine_plot_lm = LangChainLM('visual refine coder', refine_semantic, opt_register=True)
+refine_lm_config = LMConfig(
+    provider='openai',
+    model='gpt-4o-mini',
+    kwargs= {
+        'temperature': 0.0,
+    }
+)
+refine_plot_lm.lm_config = common_lm_config
 refine_plot_agent = refine_plot_lm.as_runnable()
 
 class PlotAgentModule:
@@ -292,17 +315,15 @@ class PlotAgentModule:
         
     def forward(
         self,
-        query,
-        expanded_query: str,
         query_type: str,
-        file_name: str,
         workspace: str,
+        **kwargs,
     ):
         try_count = 0
         if query_type == 'initial':
-            result = initial_coder_agent.invoke({'expanded_query': expanded_query, 'plot_file_name': file_name}).content
+            result = initial_coder_agent.invoke(kwargs).content
         else:
-            result = refine_plot_agent.invoke({'visual_refinement': expanded_query, 'plot_file_name': file_name}).content
+            result = refine_plot_agent.invoke(kwargs).content
         
         while try_count < 4:
             code = self.get_code(result)
@@ -321,22 +342,20 @@ class PlotAgentModule:
                     
                     # debug and retry
                     try_count += 1
-                    result = plot_debugger_agent.invoke({'query': query, 'code': code, 'error_message': error_message}).content
+                    result = plot_debugger_agent.invoke({'query': kwargs['query'], 'code': code, 'error_message': error_message}).content
                 else:
                     return log, code
             else:
                 error = get_error_message(log) if error is None else error
                 try_count += 1
-                result = plot_debugger_agent.invoke({'query': query, 'code': code, 'error_message': error}).content
+                result = plot_debugger_agent.invoke({'query': kwargs['query'], 'code': code, 'error_message': error}).content
         return log, ''
     
-    def run(self, query, expanded_query, query_type, file_name, workspace):
-        print(f'========Dspy Plot AGENT {query_type} RUN========')
+    def run(self, query_type, workspace, **kwargs):
+        logging.debug(f'========Plot AGENT {query_type} RUN========')
         log, code = self.forward(
-            query=query,
-            expanded_query=expanded_query,
             query_type=query_type,
-            file_name=file_name,
             workspace=workspace,
+            **kwargs,
         )
         return log, code

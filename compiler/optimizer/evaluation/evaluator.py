@@ -11,7 +11,7 @@ import numpy as np
 from concurrent.futures import ThreadPoolExecutor
 import uuid
 from abc import ABC, abstractmethod
-import multiprocessing as mp
+import multiprocess as mp
 from tqdm import tqdm
 
 import logging
@@ -71,6 +71,7 @@ class EvaluationResult:
             f"eval cost: {self.total_eval_cost}, "
             f"avg exec time: {sum(self.exec_times) / len(self.exec_times)} s"
         )
+    
 
 @dataclass
 class EvalTask:
@@ -197,7 +198,9 @@ class EvalTask:
         lm_2_demo = {}
         for lm in Module.all_of_type(module_pool.values(), LLMPredictor):
             price += lm.get_total_cost()
-            lm_2_demo[lm.name] = lm.get_step_as_example()
+            demo = lm.get_step_as_example()
+            if demo is not None:
+                lm_2_demo[lm.name] = demo
         
         return result, score, price, lm_2_demo, end_time - start_time
     
@@ -372,6 +375,6 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
                 # sample according to the prob
                 indices = np.random.choice(full_indices, size=sample_size, replace=False, p=probs).tolist()
                 
-        json.dump(indices, open(log_path, 'w'), indent=4)
+        json.dump(sorted(indices), open(log_path, 'w'), indent=4)
         self.dataset[mode][1] = indices
     

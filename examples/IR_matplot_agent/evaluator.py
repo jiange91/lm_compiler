@@ -38,7 +38,7 @@ def gpt_4v_evaluate(ground_truth, image, rollback):
         base64_image2 = encode_image(f"{image}")
 
     response = client.chat.completions.create(
-      model="gpt-4o-2024-08-06",
+      model="gpt-4o",
       temperature=0.0,
       messages=[
         {

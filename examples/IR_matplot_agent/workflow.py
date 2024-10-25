@@ -19,6 +19,9 @@ from agents.config.openai import openai_kwargs
 from compiler.utils import load_api_key, get_bill
 from compiler.optimizer import register_opt_program_entry, register_opt_score_fn
 
+# set to info level logging
+logging.basicConfig(level=logging.INFO)
+
 load_api_key('secrets.toml')
 
 parser = argparse.ArgumentParser()
@@ -37,48 +40,49 @@ def mainworkflow(input: dict):
         if os.path.exists(input_path):
             os.system(f'cp -r {input_path}/* {workspace}')
     else:
-        logging.info(f"Directory '{workspace}' already exists.")
+        logging.debug(f"Directory '{workspace}' already exists.")
         
     # Query expanding
-    logging.info('=========Query Expansion AGENT=========')
+    logging.debug('=========Query Expansion AGENT=========')
     config = {'workspace': workspace}
     expanded_simple_instruction = query_expansion_agent.invoke({'query': query}).content
     # logging.info('=========Expanded Simple Instruction=========')
     # logging.info(expanded_simple_instruction)
-    logging.info('=========Plotting=========')
+    logging.debug('=========Plotting=========')
 
     # GPT-4 Plot Agent
     # Initial plotting
     action_agent = PlotAgentModule()
-    logging.info('=========Novice 4 Plotting=========')
+    logging.debug('=========Novice 4 Plotting=========')
     novice_log, novice_code = action_agent.run(
+        query_type='initial',
+        workspace=workspace,
         query=query,
         expanded_query=expanded_simple_instruction,
-        query_type='initial',
-        file_name='novice.png',
-        workspace=workspace,
+        plot_file_name='novice.png',
     )
-    logging.info(novice_log)
+    # logging.info(novice_log)
     # logging.info('=========Original Code=========')
     # logging.info(novice_code)
 
     # Visual refinement
     if os.path.exists(f'{workspace}/novice.png'):
-        print('Use original code for visual feedback')
-        visual_refine_agent = VisualRefineAgent('novice.png', config, '', query)
+        logging.debug('========= Get visual feedback =======')
+        visual_refine_agent = VisualRefineAgent('novice.png', config, novice_code, query)
         visual_feedback = visual_refine_agent.run('gpt-4o-mini', 'novice', 'novice_final.png')
-        logging.info('=========Visual Feedback=========')
-        logging.info(visual_feedback)
+        # logging.info('=========Visual Feedback=========')
+        # logging.info(visual_feedback)
         final_instruction = '' + '\n\n' + visual_feedback
         
         novice_log, novice_code = action_agent.run(
-            query=query,
-            expanded_query=final_instruction,
             query_type='refinement',
-            file_name='novice_final.png',
             workspace=workspace,
+            query=query,
+            code=novice_code,
+            visual_refinement=final_instruction,
+            plot_file_name='novice_final.png',
         )
-        logging.info(novice_log)
+        # logging.info(novice_code)
     return {
         "img_path": f"{workspace}/novice_final.png",
         "rollback": f"{workspace}/novice.png",
@@ -95,13 +99,13 @@ if __name__ == "__main__":
     data_path = 'examples/IR_matplot_agent/benchmark_data'
     
     # open the json file 
-    data = json.load(open(f'{data_path}/82.json'))
+    data = json.load(open(f'{data_path}/19.json'))
     
     for item in tqdm(data):
         novice_instruction = item['simple_instruction']
         expert_instruction = item['expert_instruction']
         example_id = item['id']
-        directory_path = "examples/IR_matplot_agent/sample_runs_direct"
+        directory_path = "examples/IR_matplot_agent/sample_runs_direct_expend_cot"
 
         # Check if the directory already exists
         if not os.path.exists(directory_path):

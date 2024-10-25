@@ -355,7 +355,7 @@ def langchain_lm_kernel({inputs_str}):
     try:
         # print("langchain lm output parse")
         result = routine.invoke({invoke_arg_dict_str})
-        result = output_format.parse_obj(result)
+        result = output_format.model_validate(result)
         # print(result)
         return {result_str}
     except Exception as e:

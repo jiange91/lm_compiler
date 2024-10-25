@@ -19,13 +19,10 @@ from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
 from compiler.utils import load_api_key, get_bill
 
-from compiler.IR.program import Workflow, Module, StatePool, Branch, Input, Output, hint_possible_destinations
-from compiler.IR.llm import LMConfig, LLMPredictor, LMSemantic
-from compiler.IR.rewriter.utils import add_argument_to_position, RewriteBranchReturn
-from compiler.IR.schema_parser import json_schema_to_pydantic_model
 from compiler.IR.modules import CodeBox
 from compiler.optimizer.prompts import *
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
+from compiler.IR.llm import LMConfig
 
 logger = logging.getLogger(__name__)
 
@@ -35,38 +32,35 @@ def load_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
-base64_image = load_image("/mnt/ssd4/lm_compiler/examples/matplot_agent/test.png")
+base64_image = load_image("/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/sample_runs_direct_expend_cot/6_546b7c2e7bce485da4e17a02c36ec75c/novice.png")
 
-class ImgUnderstanding(BaseModel):
-    """Response from the image understanding task"""
-    answer: str = Field(
-        description="The answer to the question about the image"
-    )
+dummy_prmopt = """
+You will be given a data visualization from user. Please describe in detail what you see in the plot and what you think the user wants to see in the plot.
+"""
 
-img_understanding_semantic = LangChainSemantic(
-    "Given an image, please answer the question about it",
-    ['image_b64', 'question'],
-    ImgUnderstanding,
-    [0],
+visual_refinement_semantic = LangChainSemantic(
+    dummy_prmopt,
+    # ['query', 'code', 'plot_image'],
+    ['plot_image'],
+    # "visual_refinement",
+    "answer",
+    img_input_idices=[0],
 )
+visual_refinement_lm = LangChainLM('visual_refinement', visual_refinement_semantic, opt_register=True)
+visual_refine_lm_config = LMConfig(
+    provider='openai',
+    model='gpt-4o-mini',
+    kwargs= {
+        'temperature': 0.0,
+    }
+)
+visual_refinement_lm.lm_config = visual_refine_lm_config
+visual_refinement_agent = visual_refinement_lm.as_runnable()
 
-img_lm = LangChainLM('img understanding', img_understanding_semantic)
-img_lm.lm_config = {'model': "gpt-4o-mini", 'temperature': 0.0}
 
-flow = Workflow('img understanding')
-flow.add_module(Input('start'))
-flow.add_module(Output('end'))
-flow.add_module(img_lm)
+answer = visual_refinement_agent.invoke({'plot_image': base64_image})
 
-flow.add_edge('start', 'img understanding')
-flow.add_edge('img understanding', 'end')
-flow.compile()
-
-state = StatePool()
-state.init({'image_b64': base64_image, 'question': 'What is the animal in this image?'})
-
-flow.pregel_run(state)
-print(state.news('answer'))
+print(answer)
 exit()
 
 

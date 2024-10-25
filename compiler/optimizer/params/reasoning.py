@@ -127,8 +127,8 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
                             print("ERR IN new_invocation_routine if old_semantic.output_format")
                             print(chat_messages)
                             print(post_reasoning_routine)
-                        result = old_semantic.output_format.model_validate(result) 
-                        return {key: getattr(result, key) for key in old_semantic.get_agent_outputs()}
+                        result = old_semantic.output_format.model_validate(result)
+                        return {old_semantic.get_agent_outputs()[0]: result}
                     else:
                         try:
                             # print("else old_semantic.output_format")

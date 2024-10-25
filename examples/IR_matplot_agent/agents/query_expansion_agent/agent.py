@@ -1,6 +1,8 @@
 from .prompt import SYSTEM_PROMPT, EXPERT_USER_PROMPT
 from agents.openai_chatComplete import completion_with_backoff, completion_with_log
-from agents.utils import fill_in_placeholders, get_error_message, is_run_code_success, print_chat_message
+from agents.utils import fill_in_placeholders, get_error_message, is_run_code_success, print_chat_message, common_lm_config
+from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsage
+from compiler.optimizer.params.reasoning import ZeroShotCoT
 
 
 class QueryExpansionAgent():
@@ -27,11 +29,6 @@ class QueryExpansionAgent():
 
         return expanded_query_instruction
 
-SYSTEM_PROMPT = '''
-According to the user query, expand and solidify the query into a step by step detailed instruction (or comment) on how to write python code to fulfill the user query's requirements. List all the appropriate libraries and pinpoint the correct library functions to call and set each parameter in every function call accordingly.
-
-You should understand what the query's requirements are, and output step by step, detailed instructions on how to use python code to fulfill these requirements. Include what libraries to import, what library functions to call, how to set the parameters in each function correctly, how to prepare the data, how to manipulate the data so that it becomes appropriate for later functions to call etc,. Make sure the code to be executable and correctly generate the desired output in the user query. 
-'''
 
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 from pydantic import BaseModel, Field
@@ -43,8 +40,13 @@ query_expansion_semantic = LangChainSemantic(
 )
 
 query_expansion_lm = LangChainLM('query expansion', query_expansion_semantic, opt_register=True)
-query_expansion_lm.lm_config = {
-    'model': 'gpt-4o-mini',
-    'temperature': 0.0,
-}
+qgen_lm_config = LMConfig(
+    provider='openai',
+    model='gpt-4o-mini',
+    kwargs= {
+        'temperature': 0.0,
+    }
+)
+query_expansion_lm.lm_config = common_lm_config
 query_expansion_agent = query_expansion_lm.as_runnable()
+ZeroShotCoT.direct_apply(query_expansion_lm)

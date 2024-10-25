@@ -1,0 +1,86 @@
+[
+    {
+        "name": "lm_model",
+        "module_name": "query expansion",
+        "options": {
+            "openai_gpt-4o": {
+                "name": "openai_gpt-4o",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o",
+        "type": "LMSelection"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "visual_refinement",
+        "options": {
+            "openai_gpt-4o": {
+                "name": "openai_gpt-4o",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o",
+        "type": "LMSelection"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "plot debugger",
+        "options": {
+            "openai_gpt-4o": {
+                "name": "openai_gpt-4o",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o",
+        "type": "LMSelection"
+    },
+    {
+        "name": "lm_model",
+        "module_name": "initial code generation",
+        "options": {
+            "openai_gpt-4o": {
+                "name": "openai_gpt-4o",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o",
+        "type": "LMSelection"
+    }
+]

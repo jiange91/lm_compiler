@@ -43,7 +43,7 @@ class LMFewShot(DynamicParamBase):
         self.task_id_set = set()
         
         self.max_num = max_num
-        self.current_best_score_sum = float('-inf')
+        self.current_best_score_sum = float(-1e6)
         self.allow_duplicate = allow_duplicate
         if eval_result is not None:
             t = self.evole(eval_result)
@@ -64,12 +64,13 @@ class LMFewShot(DynamicParamBase):
         updated = set()
         demo_pool: dict[int, Demonstration] = {}
         for task_id, demo, score in zip(eval_result.ids, eval_result.demos, eval_result.scores):
-            demo_pool[task_id] = demo[self.module_name]
-            # NOTE: use < to prevent too frequent update of same task demo
-            # also this check requires demo to surpass itself even for allow_duplicate
-            if task_id not in self.best_score_by_task or self.best_score_by_task[task_id] < score: 
-                updated.add(task_id)
-                self.best_score_by_task[task_id] = score
+            if self.module_name in demo:
+                demo_pool[task_id] = demo[self.module_name]
+                # NOTE: use < to prevent too frequent update of same task demo
+                # also this check requires demo to surpass itself even for allow_duplicate
+                if task_id not in self.best_score_by_task or self.best_score_by_task[task_id] < score: 
+                    updated.add(task_id)
+                    self.best_score_by_task[task_id] = score
         
         # update priority queue
         new_option = False

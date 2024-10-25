@@ -4,50 +4,29 @@ import multiprocessing as mp
 import os
 
 from compiler.optimizer.plugin import OptimizerSchema
+from compiler.optimizer.cognify import init_cognify_args, OptimizationArgs, EvaluationArgs
 
-def _worker(script, args, q: mp.Queue):
-    script_dir = os.path.dirname(script)
-    # Add the script's directory and the root directory (if needed) to sys.path
-    if script_dir not in sys.path:
-        sys.path.insert(0, script_dir)
-        
-    sys.argv = [script] + args
-    schema = OptimizerSchema.capture(script)
-    print(schema.opt_target_modules)
-    pass
-    # result = schema.program()
-    # q.put(result)
-    
-
-def main():
-    parser = argparse.ArgumentParser(description="Optimizer args")
-    parser.add_argument("--opt-arg", help="test")
-    
-    # Use `parse_known_args` to stop at `--` and keep script arguments separate
-    args, remaining = parser.parse_known_args()
-
-    if "--" in remaining:
-        # Split the remaining arguments into script and script-args
-        split_index = remaining.index("--")
-        script = remaining[split_index + 1]  # Script name
-        script_args = remaining[split_index + 2:]  # Arguments for the script
+def from_cognify_args(args):
+    if args.mode == 'optimize':
+        return OptimizationArgs.from_cli_args(args)
+    elif args.mode == 'evaluate':
+        return EvaluationArgs.from_cli_args(args)
     else:
-        print("Error: No script provided.")
-        sys.exit(1)
+        raise ValueError(f"Unknown mode: {args.mode}")
 
-    print("Module arguments:", args)
-    print("Script: ", script, ", arguments:", script_args)
+def optimize_routine(opt_args: OptimizationArgs):
+    ...
     
-    try:
-        q = mp.Queue()
-        proces = mp.Process(target=_worker, args=(script, script_args, q))
-        proces.start()
-        proces.join()
-        result = q.get()
-        print(f"Result: {result}")
-    except Exception as e:
-        print(f"Error: {e}")
-        sys.exit(1)
+def evaluate_routine(eval_args: EvaluationArgs):
+    ...
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    init_cognify_args(parser)
+    raw_args = parser.parse_args()
+    cognify_args = from_cognify_args(raw_args)
+    if raw_args.mode == 'optimize':
+        optimize_routine(cognify_args)
+    else:
+        evaluate_routine(cognify_args)
+    

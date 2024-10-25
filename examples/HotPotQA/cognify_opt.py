@@ -98,28 +98,28 @@ def opt(train, val, dev):
     )
     
     # ================= Down Sample =================
-    plain_task = EvalTask(
-        script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
-        args=[],
-        other_python_paths=[],
-        all_params={},
-        module_name_paths={},
-        aggregated_proposals={},
-    )
-    evaluator.down_sample(
-        sample_size=50,
-        mode='train',
-        task=plain_task, 
-        sample_mode='difficulty',
-        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/down_sample_logs',
-    )
-    evaluator.down_sample(
-        sample_size=25,
-        mode='eval',
-        task=plain_task, 
-        sample_mode='difficulty',
-        log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/down_sample_logs',
-    )
+    # plain_task = EvalTask(
+    #     script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',
+    #     args=[],
+    #     other_python_paths=[],
+    #     all_params={},
+    #     module_name_paths={},
+    #     aggregated_proposals={},
+    # )
+    # evaluator.down_sample(
+    #     sample_size=50,
+    #     mode='train',
+    #     task=plain_task, 
+    #     sample_mode='difficulty',
+    #     log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/down_sample_logs',
+    # )
+    # evaluator.down_sample(
+    #     sample_size=25,
+    #     mode='eval',
+    #     task=plain_task, 
+    #     sample_mode='difficulty',
+    #     log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/down_sample_logs',
+    # )
     # ================= Sensitivity Analysis =================
     # model_sensitivity = SensitivityAnalyzer(
     #     target_param_type=model_selection.LMSelection,
@@ -159,21 +159,21 @@ def opt(train, val, dev):
     
     # ================= Inner Loop Config =================
     inner_opt_config = flow.OptConfig(
-        n_trials=10,
-        throughput=2,
-        log_dir="/mnt/ssd4/lm_compiler/examples/HotPotQA/with_50_25_no_outer_fix_prompt_no_frugal/",
-        evolve_interval=4,
+        n_trials=0,
+        throughput=1,
+        log_dir="/mnt/ssd4/lm_compiler/examples/HotPotQA/debug_fs_options/",
+        evolve_interval=1,
         frugal_eval_cost=True,
     )
     inner_loop_config = driver.layerConfig(
         layer_name='inner_loop',
-        universal_params=[few_shot_params, reasoning_param, model_param],
+        universal_params=[few_shot_params, model_param, reasoning_param],
         opt_config=inner_opt_config,
         save_ckpt_interval=1,
     )
     
     outer_opt_config = flow.OptConfig(
-        n_trials=0,
+        n_trials=16,
         throughput=4,
         log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/with_50_25_full_opt',
         frugal_eval_cost=False,
@@ -181,18 +181,19 @@ def opt(train, val, dev):
     
     outer_loop_config = driver.layerConfig(
         layer_name='outer_loop',
-        universal_params=[general_ensemble_params], # will overwrite module name
-        # dedicate_params=[refine_ensemble_params, gen_answer_ensemble_params],
+        # universal_params=[general_ensemble_params], # will overwrite module name
+        dedicate_params=[refine_ensemble_params, gen_answer_ensemble_params],
         opt_config=outer_opt_config,
         save_ckpt_interval=1,
         use_SH_allocation=True,
     )
     
     opt_driver = driver.MultiLayerOptimizationDriver(
-        layer_configs=[inner_loop_config],
-        # layer_configs=[outer_loop_config, inner_loop_config],
+        # layer_configs=[inner_loop_config],
+        layer_configs=[outer_loop_config, inner_loop_config],
         quality_constraint=0.52,
     )
+    return
     cost, pareto_frontier, opt_logs = opt_driver.run(
         evaluator=evaluator,
         script_path='/mnt/ssd4/lm_compiler/examples/HotPotQA/cognify_anno.py',

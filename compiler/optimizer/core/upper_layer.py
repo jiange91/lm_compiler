@@ -172,6 +172,7 @@ class UpperLevelTrialLog(TrialLog):
 class UpperLevelOptimization(OptimizationLayer):
     opt_logs: dict[int, UpperLevelTrialLog]
     evaluator: LayerEvaluator
+    trial_log_cls = UpperLevelTrialLog
     
     def __init__(
         self, 
@@ -189,21 +190,6 @@ class UpperLevelOptimization(OptimizationLayer):
             params=trial.params, bo_trial_id=trial.number
         )
         
-    def load_opt_ckpt(self, opt_log_path: str):
-        with open(opt_log_path, 'r') as f:
-            opt_trace = json.load(f)
-            
-        for trial_log_id, trial_meta in opt_trace.items():
-            trial_log = UpperLevelTrialLog.from_dict(trial_meta)
-            self.opt_logs[trial_log_id] = trial_log
-            self.opt_cost += trial_log.eval_cost
-            
-            trial = optuna.trial.create_trial(
-                params=trial_log.params,
-                values=[trial_log.score, trial_log.price],
-                distributions=self.param_categorical_dist,
-            )
-            self.study.add_trial(trial)
     
     def prepare_next_level_tdi(self, new_program, new_trace):
         next_level_info = super().prepare_next_level_tdi(new_program, new_trace)

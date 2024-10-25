@@ -8,6 +8,15 @@ from typing import Dict
 import os
 from contextlib import contextmanager
 import subprocess
+from compiler.IR.llm import LMConfig
+
+common_lm_config = LMConfig(
+    provider='openai',
+    model='gpt-4o-mini',
+    kwargs= {
+        'temperature': 0.0,
+    }
+)
 
 @contextmanager
 def change_directory(directory):

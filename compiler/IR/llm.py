@@ -261,7 +261,6 @@ class LLMPredictor(Module):
             logger.info(f'Error in get_thread_local_chain: {e}')
             raise
     
-    
     def initialize_kernel(self):
         self.kernel = self.get_invoke_routine()
         self.prepare_input_env()
@@ -329,7 +328,7 @@ class LLMPredictor(Module):
         #NOTE: a LLMPredictor might have multiple LLMs in its history
         # if the config is dynamically changing
         usage = TokenUsage()
-        logger.info(f"{self.name} meta len: {len(self.lm_history)}, {len(self.step_info)}")
+        logger.debug(f"{self.name} meta len: {len(self.lm_history)}, {len(self.step_info)}")
         for meta in self.lm_history:
             # log tokens
             prompt_tokens = meta['prompt_tokens']
@@ -346,7 +345,7 @@ class LLMPredictor(Module):
     def get_total_cost(self) -> float:
         usage = self.get_token_usage()
         price = self.lm_config.get_price(usage)
-        logger.info(f"Token usage {self.name}: {usage}, price: {price}")
+        logger.debug(f"Token usage {self.name}: {usage}, price: {price}")
         return price
         
     def forward(self, **kwargs):

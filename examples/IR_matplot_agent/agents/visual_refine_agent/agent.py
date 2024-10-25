@@ -5,7 +5,10 @@ import re
 
 from .prompt import SYSTEM_PROMPT, USER_PROMPT, ERROR_PROMPT
 from agents.openai_chatComplete import  completion_for_4v
-from agents.utils import fill_in_placeholders
+from agents.utils import fill_in_placeholders, common_lm_config
+from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
+from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsage
+from compiler.optimizer.params.reasoning import ZeroShotCoT
 
 
 
@@ -15,14 +18,37 @@ def encode_image(image_path):
 
 
 def get_code(response):
-
     all_python_code_blocks_pattern = re.compile(r'```python\s*([\s\S]+?)\s*```', re.MULTILINE)
-
-
     all_code_blocks = all_python_code_blocks_pattern.findall(response)
     all_code_blocks_combined = '\n'.join(all_code_blocks)
     return all_code_blocks_combined
 
+VISUAL_FEEDBACK_SYSTEM_PROMPT = """
+You are an expert in data visualization. Given a user query, a piece of code and an image of the current plot, please determine whether the plot has faithfully followed the user query. Your task is to provide instruction to refine the plot so that it can strictly completed the requirements of the query. Please output a detailed step by step instruction on how to enhance the plot.
+
+Carefully read and analyze the user query to understand the specific requirements. Examine the provided Python code to understand how the current plot is generated. Check if the code aligns with the user query in terms of data selection, plot type, and any specific customization. Look at the provided image of the plot. Assess the plot type, the data it represents, labels, titles, colors, and any other visual elements. Compare these elements with the requirements specified in the user query. Note any differences between the user query requirements and the current plot. Based on the identified discrepancies, provide step-by-step instructions on how to modify the Python code to meet the user query requirements. Suggest improvements for better visualization practices, such as clarity, readability, and aesthetics, while ensuring the primary focus is on meeting the user's specified requirements.
+
+You don't need to provide the complete code, just be very explicit in what changes are needed and how to make them.
+"""
+
+visual_refinement_semantic = LangChainSemantic(
+    VISUAL_FEEDBACK_SYSTEM_PROMPT,
+    ['query', 'code', 'plot_image'],
+    "refinement",
+    img_input_idices=[2],
+)
+visual_refinement_lm = LangChainLM('visual_refinement', visual_refinement_semantic, opt_register=True)
+visual_refine_lm_config = LMConfig(
+    provider='openai',
+    model='gpt-4o-mini',
+    kwargs= {
+        'temperature': 0.0,
+    }
+)
+visual_refinement_lm.lm_config = common_lm_config
+visual_refinement_agent = visual_refinement_lm.as_runnable()
+
+ZeroShotCoT.direct_apply(visual_refinement_lm)
 
 class VisualRefineAgent:
     def __init__(self, plot_file, config, code, query):
@@ -38,22 +64,9 @@ class VisualRefineAgent:
 
         information = {
             'query': self.query,
-            'file_name': file_name,
-            'code': self.code
+            'code': self.code,
+            'plot_image': base64_image1,
         }
 
-        messages = []
-        messages.append({"role": "system", "content": fill_in_placeholders(SYSTEM_PROMPT, information)})
-        messages.append({"role": "user",
-                        "content": [fill_in_placeholders(USER_PROMPT, information),
-                                    {
-                                    "type": "image_url",
-                                    "image_url": {
-                                        "url": f"data:image/jpeg;base64,{base64_image1}"
-                                    }
-                                    },
-                                    ]
-                        })
-        visual_feedback = completion_for_4v(messages, model_type)
-        print(visual_feedback)
+        visual_feedback = visual_refinement_agent.invoke(information).content
         return visual_feedback

@@ -108,7 +108,7 @@ answer_lm_config = LMConfig(
 )
 answer_agent.lm_config = answer_lm_config
 
-cot_fixed = False
+cot_fixed = True
 if cot_fixed:
     ZeroShotCoT.direct_apply(first_query_agent)
     ZeroShotCoT.direct_apply(following_query_agent)

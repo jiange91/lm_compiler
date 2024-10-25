@@ -13,7 +13,7 @@ from concurrent.futures import ThreadPoolExecutor, Future, wait, FIRST_COMPLETED
 import math
 import threading
 import uuid
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 import multiprocessing as mp
 
 from compiler.IR.program import Workflow, Module, StatePool
@@ -71,6 +71,17 @@ class layerConfig:
         
         if len(self.dedicate_params) + len(self.universal_params) == 0:
             raise ValueError(f'No params provided for optimization layer {layer_name}')
+    
+    def to_dict(self):
+        return {
+            'layer_name': self.layer_name,
+            'dedicate_params': [p.to_dict() for p in self.dedicate_params],
+            'universal_params': [p.to_dict() for p in self.universal_params],
+            'target_modules': self.target_modules,
+            'save_ckpt_interval': self.save_ckpt_interval,
+            'opt_config': asdict(self.opt_config),
+            'use_SH_allocation': self.use_SH_allocation,
+        }
         
 
 class MultiLayerOptimizationDriver:
@@ -91,6 +102,10 @@ class MultiLayerOptimizationDriver:
         
         # initialize optimization layers
         self.opt_layers: list[OptimizationLayer] = [None] * len(layer_configs)
+        
+        layer_configs_dict = [lc.to_dict() for lc in layer_configs]
+        with open('layer_configs.json', 'w') as f:
+            json.dump(layer_configs_dict, f, indent=4)
     
     def build_tiered_optimization(
         self, evaluator: EvaluatorPlugin

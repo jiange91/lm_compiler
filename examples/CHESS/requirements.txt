@@ -40,3 +40,4 @@ tqdm==4.66.2
 transformers==4.40.2
 typing_extensions==4.11.0
 datasketch==1.6.4
+cartopy

@@ -5,8 +5,10 @@ sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '
 
 from typing import Any
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
-from compiler.IR.llm import Demonstration
+from compiler.IR.llm import Demonstration, LMConfig
+from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
 from llm.parsers import SQLGenerationOutput, RawSqlOutputParser
+from compiler.optimizer.params import ensemble
 from langchain_core.runnables import chain
 
 
@@ -56,8 +58,25 @@ semantic = LangChainSemantic(
     output_format=output_format,
     output_format_instructions=output_format_instructions,
 )
-exec = LangChainLM('candidate_selection', semantic, opt_register=True)
+exec = LangChainLM('candidate_generation', semantic, opt_register=True)
 raw_runnable_exec = exec.as_runnable() | RawSqlOutputParser()
+exec.lm_config = LMConfig(
+    provider='openai',
+    model='gpt-4o-mini',
+    cost_indicator=1.0,
+    kwargs= {
+        'temperature': 0.0,
+    }
+)
+
+use_ensemble = ensemble.UniversalSelfConsistency(3, temperature=0.7)
+new_exec = use_ensemble.apply(exec)
+
+ZeroShotCoT.direct_apply(new_exec.modules['candidate_generation_sampler_0'])
+ZeroShotCoT.direct_apply(new_exec.modules['candidate_generation_sampler_1'])
+PlanBefore.direct_apply(new_exec.modules['candidate_generation_sampler_2'])
+
+exec.invoke = new_exec.invoke
 
 @chain
 def runnable_exec(input: dict):

@@ -64,7 +64,7 @@ semantic = LangChainSemantic(
     inputs=inputs,
     output_format=output_format,
     output_format_instructions=output_format_instructions,
-    demos=demos
+    # demos=demos
 )
 
 exec = LangChainLM('keyword_extraction', semantic, opt_register=True)

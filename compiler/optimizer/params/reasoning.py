@@ -114,7 +114,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
                 output_vars = ', '.join([f'{{{ovar}}}' for ovar in old_semantic.get_agent_outputs()])
                 if old_semantic.output_type_hint or old_semantic.output_format_instructions:
                     chat_messages.extend([
-                        HumanMessage(f"Now please only give `{old_semantic.outputs[0]}` according to the following instructions:\n"),
+                        HumanMessage(f"Based on the reasoning, now please form `{old_semantic.outputs[0]}` as your final response, according to the following instructions:\n"),
                         old_semantic.get_output_format_spec(),
                     ])
                     if old_semantic.output_format:
@@ -142,7 +142,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
                 else:
                     assert len(old_semantic.get_agent_outputs()) == 1, "No formatted agent only has one output"
                     chat_messages.append(
-                        HumanMessage(f"Based on these informations, please only provide `{old_semantic.outputs[0]}`.")
+                        HumanMessage(f"Based on the reasoning, now please form `{old_semantic.outputs[0]}` as your final response.")
                     )
                     try:
                         # print("not old_semantic.output_type_hint")
@@ -189,7 +189,7 @@ class ZeroShotCoT(ReasonThenFormat):
         super().__init__("ZeroShotCoT")
     
     def _get_cost_indicator(self):
-        return 4.0
+        return 2.0
         
     def reasoning_step(
         self, 
@@ -202,12 +202,12 @@ class ZeroShotCoT(ReasonThenFormat):
             # print("zero shot reasoning step")
             result = lm.invoke(chat_messages)
             logger.debug(f"Zero-shot CoT in module {lm.name}, reasoning: {result.content}")
+            return [h, result]
         except Exception as e:
             print(f"ERR IN zero-shot reasoning step {e}")
             print(e)
             traceback.print_exc()
             raise
-        return [h, result]
         
 
 class PlanBefore(ReasonThenFormat):
@@ -215,15 +215,22 @@ class PlanBefore(ReasonThenFormat):
         super().__init__("PlanBefore")
     
     def _get_cost_indicator(self):
-        return 2.5
+        return 2.0
     
     def reasoning_step(
         self, 
         chat_messages: list[BaseMessage], 
         lm: ChatOpenAI, 
     ) -> list[BaseMessage]:
-        h = HumanMessage("Let's first plan necessary steps to approach this problem before giving the final response\n")
+        # TODO: make this a workflow and parallelize the reasoning steps
+        h = HumanMessage("Let's first break down the task into several simpler sub-tasks that each covers different aspect of the original task. Clearly state each sub-question and provide your response to each one of them.")
         chat_messages.append(h)
-        result = lm.invoke(chat_messages)
-        logger.debug(f"PlanBefore in module {lm.name}, reasoning: {result.content}")
-        return [h, result]
+        try:
+            sub_solutions = lm.invoke(chat_messages)
+            logger.debug(f"PlanBefore in module {lm.name}, reasoning: {sub_solutions.content}")
+            return [h, sub_solutions]
+        except Exception as e:
+            print(f"ERR IN zero-shot reasoning step {e}")
+            print(e)
+            traceback.print_exc()
+            raise

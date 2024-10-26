@@ -125,7 +125,7 @@ def opt(data):
         throughput=1,
         log_dir=None,
     )
-    inner_loop_config = driver.layerConfig(
+    inner_loop_config = driver.LayerConfig(
         layer_name='inner_loop',
         dedicate_params=[
             query_gen_model_param,
@@ -145,7 +145,7 @@ def opt(data):
         throughput=1,
         log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/heuristic',
     )
-    outer_loop_config = driver.layerConfig(
+    outer_loop_config = driver.LayerConfig(
         layer_name='outer_loop',
         dedicate_params=[
             refine_ensemble_param,

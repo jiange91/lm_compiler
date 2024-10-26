@@ -1,0 +1,58 @@
+{
+    "74dd88d484894df6a9198531e0fe9180": {
+        "id": "74dd88d484894df6a9198531e0fe9180",
+        "bo_trial_id": 0,
+        "params": {
+            "generate_answer_ensemble": "Identity",
+            "generate_query_ensemble": "universal_self_consistency",
+            "refine_query_ensemble": "universal_self_consistency"
+        },
+        "score": 0.7777777777777778,
+        "price": 0.0031501,
+        "eval_cost": 0.0421353,
+        "next_level_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/test_cmd_outer/inner_loop/b0e7a139944d439b934d5aa22050bb0e",
+        "num_next_level_trials": 4
+    },
+    "ab1686a03f344587a7d303f2ed0fbd7a": {
+        "id": "ab1686a03f344587a7d303f2ed0fbd7a",
+        "bo_trial_id": 1,
+        "params": {
+            "generate_answer_ensemble": "universal_self_consistency",
+            "generate_query_ensemble": "Identity",
+            "refine_query_ensemble": "Identity"
+        },
+        "score": 0.787878787878788,
+        "price": 0.0022078499999999995,
+        "eval_cost": 0.06321555,
+        "next_level_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/test_cmd_outer/inner_loop/80fda280104c4445bebd392b46388947",
+        "num_next_level_trials": 8
+    },
+    "bd26d12905a84475be48473e84d8512a": {
+        "id": "bd26d12905a84475be48473e84d8512a",
+        "bo_trial_id": 2,
+        "params": {
+            "generate_answer_ensemble": "Identity",
+            "generate_query_ensemble": "universal_self_consistency",
+            "refine_query_ensemble": "universal_self_consistency"
+        },
+        "score": 0.8333333333333334,
+        "price": 0.0036246,
+        "eval_cost": 0.0474087,
+        "next_level_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/test_cmd_outer/inner_loop/3e2f0a0875bb4ff9a533c316962dd5d9",
+        "num_next_level_trials": 4
+    },
+    "35e2329936b94c48b0b72fb7b785b8db": {
+        "id": "35e2329936b94c48b0b72fb7b785b8db",
+        "bo_trial_id": 3,
+        "params": {
+            "generate_answer_ensemble": "universal_self_consistency",
+            "generate_query_ensemble": "universal_self_consistency",
+            "refine_query_ensemble": "Identity"
+        },
+        "score": 0.8333333333333334,
+        "price": 0.0032818,
+        "eval_cost": 0.09609870000000001,
+        "next_level_log_dir": "/mnt/ssd4/lm_compiler/examples/HotPotQA/test_cmd_outer/inner_loop/b9c1d459c61e49e88eb5a36ca1c6bb82",
+        "num_next_level_trials": 8
+    }
+}

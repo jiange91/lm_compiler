@@ -1,0 +1,711 @@
+[
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_sampler_0_demos_38090a5d-d40b-4425-8a41-8691eaee56f3": {
+                "name": "generate_query_sampler_0_demos_38090a5d-d40b-4425-8a41-8691eaee56f3",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "5c811b77-e818-43c0-a160-fcef57a70d2a",
+                    "db4c0f84-4986-42ba-b677-f859bd991c38"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "\"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year institution founded\"",
+                "id": "5c811b77-e818-43c0-a160-fcef57a70d2a",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To create an effective search query, we need to identify the key elements of the question. Here are the components we should focus on:\n\n1. **Subject:** John Laub, an American criminologist.\n2. **Position:** Distinguished University Professor.\n3. **Department:** Criminology and Criminal Justice.\n4. **Institution:** The specific university or institution where he works.\n5. **Founding Year:** The year the institution was founded.\n\nNow, we need to construct a query that targets these elements, specifically the founding year of the institution where John Laub is a professor. \n\nWe should include:\n- His full name for specificity.\n- The terms \"American criminologist\" and \"Distinguished University Professor\" to ensure we are retrieving relevant documents about him.\n- The department name \"Department of Criminology and Criminal Justice\" to narrow down the search to the correct academic focus.\n- Keywords related to the founding year of the institution.\n\nCombining these elements, we can formulate the search query. \n\nHere\u2019s how the search query can be structured:\n\n**search_query:** \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year institution founded\""
+            },
+            {
+                "inputs": {
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "\"1792 Whiskey bourbon spending statistics United States 2023 market analysis sales trends consumer expenditure\"",
+                "id": "db4c0f84-4986-42ba-b677-f859bd991c38",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Certainly! To craft an effective search query, we need to break down the question and identify its key components.\n\n1. **Type of Whiskey**: The question specifies \"1792 Whiskey,\" which is a brand of bourbon. Therefore, we need to focus on the category of bourbon whiskey.\n\n2. **Spending Information**: The question is asking about the amount of money spent, which implies we need to look for statistics or reports on bourbon whiskey sales, pricing, or overall spending trends.\n\n3. **Geographic Focus**: The search needs to be specific to the United States, so we should include that in our query.\n\n4. **Potential Nuances**: We may want to consider factors such as consumer spending, market analysis, and industry reports that provide insights into the bourbon whiskey market.\n\nBased on these components, we can construct a search query that will help retrieve relevant information on spending related to 1792 Whiskey and bourbon in general in the United States. \n\nNow, let\u2019s put this all together into a detailed search query. \n\n**Search Query:**\n\"1792 Whiskey bourbon spending statistics United States 2023 market analysis sales trends consumer expenditure\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "5c811b77-e818-43c0-a160-fcef57a70d2a"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "db4c0f84-4986-42ba-b677-f859bd991c38"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.6666666666666666,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_aggregator_demos_9fdcb804-d99b-4154-b929-469fa593017b": {
+                "name": "generate_query_aggregator_demos_9fdcb804-d99b-4154-b929-469fa593017b",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "f93b6788-ff7d-48b6-a070-afa9196822cb",
+                    "238283b5-d8f2-4bfd-b117-9dcaf347625e"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.\n\nYou should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.\n",
+                    "inputs": "{'question': 'The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To create an effective search query, we need to identify the key elements of the question. Here are the components we should focus on:\n\n1. **Subject:** John Laub, an American criminologist.\n2. **Position:** Distinguished University Professor.\n3. **Department:** Criminology and Criminal Justice.\n4. **Institution:** The specific university or institution where he works.\n5. **Founding Year:** The year the institution was founded.\n\nNow, we need to construct a query that targets these elements, specifically the founding year of the institution where John Laub is a professor. \n\nWe should include:\n- His full name for specificity.\n- The terms \"American criminologist\" and \"Distinguished University Professor\" to ensure we are retrieving relevant documents about him.\n- The department name \"Department of Criminology and Criminal Justice\" to narrow down the search to the correct academic focus.\n- Keywords related to the founding year of the institution.\n\nCombining these elements, we can formulate the search query. \n\nHere\u2019s how the search query can be structured:\n\n**search_query:** \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year institution founded\"\n\nAnswer: \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year institution founded\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to identify the key components of the question provided. \n\n1. **Subject of Interest**: John Laub, an American criminologist.\n2. **Position and Affiliation**: Distinguished University Professor in the Department of Criminology and Criminal Justice.\n3. **Key Information Sought**: The founding year of the institution where he works.\n\nNext, we need to determine the specific institution associated with John Laub. This will help us narrow down our search. We can look for his affiliation in the Department of Criminology and Criminal Justice to find the exact institution and then seek information regarding its founding year.\n\nNow, let\u2019s formulate the search query based on these elements:\n\n- Include John Laub's name to specify the individual.\n- Add terms related to his position as a Distinguished University Professor and his department.\n- Request information specifically about the founding year of the institution.\n\nTaking all of this into account, the search query could be structured as follows:\n\n**search_query**: \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year\"\n\nAnswer: \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct a search query that effectively retrieves information about the founding year of the institution where John Laub is a Distinguished University Professor, we need to break down the components of the question:\n\n1. Identify John Laub as an American criminologist and his role as a Distinguished University Professor.\n2. Determine the specific institution (Department of Criminology and Criminal Justice) associated with him.\n3. Find the founding year of that institution.\n\nNext, we should consider the relevant keywords and phrases that will help us in our search:\n\n- \"John Laub\"\n- \"American criminologist\"\n- \"Distinguished University Professor\"\n- \"Department of Criminology and Criminal Justice\"\n- \"founding year\" or \"established\" or \"founded\"\n\nNow we can formulate a search query that includes all these elements while ensuring it is structured to yield specific information about the founding year of the appropriate department or university.\n\nHere\u2019s the detailed search query:\n\n**search_query:** \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year established founded\"\n\nAnswer: \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year established founded\"\n        "
+                },
+                "output": "\"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year established founded\"",
+                "id": "f93b6788-ff7d-48b6-a070-afa9196822cb",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.\n\nYou should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.\n",
+                    "inputs": "{'question': 'How much is spent on the type of whiskey that 1792 Whiskey is in the United States?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Certainly! To craft an effective search query, we need to break down the question and identify its key components.\n\n1. **Type of Whiskey**: The question specifies \"1792 Whiskey,\" which is a brand of bourbon. Therefore, we need to focus on the category of bourbon whiskey.\n\n2. **Spending Information**: The question is asking about the amount of money spent, which implies we need to look for statistics or reports on bourbon whiskey sales, pricing, or overall spending trends.\n\n3. **Geographic Focus**: The search needs to be specific to the United States, so we should include that in our query.\n\n4. **Potential Nuances**: We may want to consider factors such as consumer spending, market analysis, and industry reports that provide insights into the bourbon whiskey market.\n\nBased on these components, we can construct a search query that will help retrieve relevant information on spending related to 1792 Whiskey and bourbon in general in the United States. \n\nNow, let\u2019s put this all together into a detailed search query. \n\n**Search Query:**\n\"1792 Whiskey bourbon spending statistics United States 2023 market analysis sales trends consumer expenditure\"\n\nAnswer: \"1792 Whiskey bourbon spending statistics United States 2023 market analysis sales trends consumer expenditure\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query for the given question, we need to break down the key components of the inquiry:\n\n1. **Type of Whiskey**: The question specifically mentions \"1792 Whiskey,\" which is a brand of bourbon. This indicates that we need to focus on the bourbon whiskey category in the United States.\n\n2. **Spending**: The query should seek information about spending or expenditure related to bourbon whiskey, which could include sales figures, consumer spending, or market trends.\n\n3. **Geographic Focus**: The query must specify that we are looking for data pertaining to the United States.\n\n4. **Data Type**: We should consider looking for statistics, reports, or studies that provide quantitative data on spending, as well as articles or analyses that discuss trends in the bourbon whiskey market.\n\nWith these components in mind, we can formulate a search query that encompasses these elements. \n\nNow, let\u2019s construct the search query.\n\nAnswer: \"1792 Whiskey bourbon spending market report United States 2023\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure, let's break down the question into its key components to understand what information is needed for the search query:\n\n1. **Type of Whiskey**: The question refers specifically to \"1792 Whiskey,\" which is a brand of bourbon. This implies we need information specifically about bourbon whiskey, as well as its market position.\n\n2. **Spending**: The question is interested in understanding how much money is spent on this type of whiskey. This could include various aspects such as sales figures, market value, consumer spending, or industry revenue related to bourbon whiskey.\n\n3. **Geographical Context**: The focus is on the United States. Therefore, the search should be limited to data and statistics relevant to the U.S. market for bourbon whiskey.\n\n4. **Temporal Aspect**: While the question does not specify a timeframe, it would be helpful to include recent data to ensure relevance, possibly looking for the latest reports or statistics.\n\nNow, let's combine these elements into a comprehensive search query. \n\n**Search Query**: \n\"1792 Whiskey bourbon spending statistics United States 2023 market value consumer expenditure sales data trends\" \n\nThis query aims to retrieve relevant information regarding spending on 1792 Whiskey and the bourbon category in the U.S., focusing on recent data and market analysis.\n\nAnswer: \"1792 Whiskey bourbon spending statistics United States market value consumer expenditure sales data trends 2023\"\n        "
+                },
+                "output": "\"1792 Whiskey bourbon spending statistics United States 2023 market analysis sales trends consumer expenditure\"",
+                "id": "238283b5-d8f2-4bfd-b117-9dcaf347625e",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "f93b6788-ff7d-48b6-a070-afa9196822cb"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "238283b5-d8f2-4bfd-b117-9dcaf347625e"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.6666666666666666,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_sampler_2_demos_3dcdb662-189d-434a-aaae-4a2257853116": {
+                "name": "generate_query_sampler_2_demos_3dcdb662-189d-434a-aaae-4a2257853116",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "9b4c1819-df10-4b8d-8174-a9616c34d02f",
+                    "1cb9bd8b-fea4-4872-8f12-9cffffb55654"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "\"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year established founded\"",
+                "id": "9b4c1819-df10-4b8d-8174-a9616c34d02f",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct a search query that effectively retrieves information about the founding year of the institution where John Laub is a Distinguished University Professor, we need to break down the components of the question:\n\n1. Identify John Laub as an American criminologist and his role as a Distinguished University Professor.\n2. Determine the specific institution (Department of Criminology and Criminal Justice) associated with him.\n3. Find the founding year of that institution.\n\nNext, we should consider the relevant keywords and phrases that will help us in our search:\n\n- \"John Laub\"\n- \"American criminologist\"\n- \"Distinguished University Professor\"\n- \"Department of Criminology and Criminal Justice\"\n- \"founding year\" or \"established\" or \"founded\"\n\nNow we can formulate a search query that includes all these elements while ensuring it is structured to yield specific information about the founding year of the appropriate department or university.\n\nHere\u2019s the detailed search query:\n\n**search_query:** \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year established founded\""
+            },
+            {
+                "inputs": {
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "\"1792 Whiskey bourbon spending statistics United States market value consumer expenditure sales data trends 2023\"",
+                "id": "1cb9bd8b-fea4-4872-8f12-9cffffb55654",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure, let's break down the question into its key components to understand what information is needed for the search query:\n\n1. **Type of Whiskey**: The question refers specifically to \"1792 Whiskey,\" which is a brand of bourbon. This implies we need information specifically about bourbon whiskey, as well as its market position.\n\n2. **Spending**: The question is interested in understanding how much money is spent on this type of whiskey. This could include various aspects such as sales figures, market value, consumer spending, or industry revenue related to bourbon whiskey.\n\n3. **Geographical Context**: The focus is on the United States. Therefore, the search should be limited to data and statistics relevant to the U.S. market for bourbon whiskey.\n\n4. **Temporal Aspect**: While the question does not specify a timeframe, it would be helpful to include recent data to ensure relevance, possibly looking for the latest reports or statistics.\n\nNow, let's combine these elements into a comprehensive search query. \n\n**Search Query**: \n\"1792 Whiskey bourbon spending statistics United States 2023 market value consumer expenditure sales data trends\" \n\nThis query aims to retrieve relevant information regarding spending on 1792 Whiskey and the bourbon category in the U.S., focusing on recent data and market analysis."
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "9b4c1819-df10-4b8d-8174-a9616c34d02f"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "1cb9bd8b-fea4-4872-8f12-9cffffb55654"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.6666666666666666,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_sampler_0_demos_ed0f1396-61df-47d6-9f3c-e33b058980fb": {
+                "name": "refine_query_sampler_0_demos_ed0f1396-61df-47d6-9f3c-e33b058980fb",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "2c7bb52b-ae2c-4215-a05a-3ebeac3b1d06",
+                    "2f6a4710-d7be-447a-8a6d-f0477e1d9e1b"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year's Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"",
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "University of Maryland College Park founding year",
+                "id": "2c7bb52b-ae2c-4215-a05a-3ebeac3b1d06",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To determine the founding year of the University of Maryland, College Park, where John Laub is a Distinguished University Professor, we need to formulate a search query that will effectively retrieve this specific information. \n\nThe context provided gives us relevant details about John Laub's position but does not include the founding year of the university. Therefore, the search query should focus on obtaining historical information about the University of Maryland, particularly its establishment date.\n\nConsidering these aspects, an effective search query would be:\n\n\"University of Maryland College Park founding year\" \n\nThis query is targeted and should help retrieve the necessary historical information about the university's founding year without redundancy."
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\n[2]: \"1792 Bourbon\" | \"Knob Creek or Woodford Reserve. This reflects a trend in bourbon production, resulting from competition with single malt whisky, which makes small batch bourbons a big business. When originally introduced, the bourbon carried a \"\"Small Batch Aged 8 years\"\" statement on the back label and \"\"8-year-old\"\" in the text printed on the back of the bottle. In December 2013, the age statement was dropped from the label and replaced with the wording \"\"small batch bourbon whiskey\"\" and the term \"\"8-year-old\"\" was removed from the text. 1792 Bourbon was originally introduced into the market by Barton as \"\"Ridgewood Reserve 1792\"\". The\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "\"Bourbon whiskey market spending United States 2023\"",
+                "id": "2f6a4710-d7be-447a-8a6d-f0477e1d9e1b",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To effectively formulate a search query, we need to identify the key components from the context and the question. \n\n1. **Context Analysis**: The context provides information about 1792 Bourbon, its production, ownership, and historical labeling. It mentions that it is a premium bourbon whiskey and part of a trend in bourbon production aimed at competing with other types of whiskey, particularly single malt whisky.\n\n2. **Question Analysis**: The question is asking about the spending on the type of whiskey that 1792 Whiskey represents, specifically in the United States. This implies we need information on the overall market value, sales figures, or consumer spending related to bourbon whiskey.\n\n3. **Identifying Relevant Keywords**: \n   - \"Bourbon whiskey\"\n   - \"spending\" or \"consumer expenditure\"\n   - \"United States\"\n   - \"market value\" or \"sales data\"\n\n4. **Combining Keywords for a Query**: We want to retrieve information that specifically addresses the market dynamics or financial metrics surrounding bourbon whiskey in the U.S. \n\nBased on this reasoning, the proposed search query would be:\n\n**search_query**: \"Bourbon whiskey market spending United States 2023\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "2c7bb52b-ae2c-4215-a05a-3ebeac3b1d06"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "2f6a4710-d7be-447a-8a6d-f0477e1d9e1b"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.6666666666666666,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_sampler_1_demos_8b6fe8d1-0c95-4daf-baa3-d01ed612a536": {
+                "name": "generate_query_sampler_1_demos_8b6fe8d1-0c95-4daf-baa3-d01ed612a536",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "4660151b-992e-407d-86cc-924dec4df934",
+                    "7b1b8d34-610b-481f-b1b2-a8d40b435d0e"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "\"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year\"",
+                "id": "4660151b-992e-407d-86cc-924dec4df934",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to identify the key components of the question provided. \n\n1. **Subject of Interest**: John Laub, an American criminologist.\n2. **Position and Affiliation**: Distinguished University Professor in the Department of Criminology and Criminal Justice.\n3. **Key Information Sought**: The founding year of the institution where he works.\n\nNext, we need to determine the specific institution associated with John Laub. This will help us narrow down our search. We can look for his affiliation in the Department of Criminology and Criminal Justice to find the exact institution and then seek information regarding its founding year.\n\nNow, let\u2019s formulate the search query based on these elements:\n\n- Include John Laub's name to specify the individual.\n- Add terms related to his position as a Distinguished University Professor and his department.\n- Request information specifically about the founding year of the institution.\n\nTaking all of this into account, the search query could be structured as follows:\n\n**search_query**: \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year\""
+            },
+            {
+                "inputs": {
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "\"1792 Whiskey bourbon spending market report United States 2023\"",
+                "id": "7b1b8d34-610b-481f-b1b2-a8d40b435d0e",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query for the given question, we need to break down the key components of the inquiry:\n\n1. **Type of Whiskey**: The question specifically mentions \"1792 Whiskey,\" which is a brand of bourbon. This indicates that we need to focus on the bourbon whiskey category in the United States.\n\n2. **Spending**: The query should seek information about spending or expenditure related to bourbon whiskey, which could include sales figures, consumer spending, or market trends.\n\n3. **Geographic Focus**: The query must specify that we are looking for data pertaining to the United States.\n\n4. **Data Type**: We should consider looking for statistics, reports, or studies that provide quantitative data on spending, as well as articles or analyses that discuss trends in the bourbon whiskey market.\n\nWith these components in mind, we can formulate a search query that encompasses these elements. \n\nNow, let\u2019s construct the search query."
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "4660151b-992e-407d-86cc-924dec4df934"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "7b1b8d34-610b-481f-b1b2-a8d40b435d0e"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.6666666666666666,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_aggregator_demos_e57fdee5-dcdc-4c88-a0c1-9ba36c2fec53": {
+                "name": "refine_query_aggregator_demos_e57fdee5-dcdc-4c88-a0c1-9ba36c2fec53",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "a426e833-2720-4985-9971-fd6da7b63932",
+                    "9b226332-14fc-4299-946b-d4ec377b1aec"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "worker_task": "\nYou are in a critical situation where accurate information is essential for making informed decisions.\n\nYou are good at extract relevant details from the provided context and question. Your task is to propose an effective search query that will help retrieve additional information to answer the question. Think carefully about the implications of your search. The search query should target the missing information while avoiding redundancy. \n\nYou should not answer the question directly, nor assume any prior knowledge. You must generate an accurate search query that considers the context and question to retrieve the most relevant information.\n",
+                    "inputs": "{'context': '[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year\\'s Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"', 'question': 'The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To determine the founding year of the University of Maryland, College Park, where John Laub is a Distinguished University Professor, we need to formulate a search query that will effectively retrieve this specific information. \n\nThe context provided gives us relevant details about John Laub's position but does not include the founding year of the university. Therefore, the search query should focus on obtaining historical information about the University of Maryland, particularly its establishment date.\n\nConsidering these aspects, an effective search query would be:\n\n\"University of Maryland College Park founding year\" \n\nThis query is targeted and should help retrieve the necessary historical information about the university's founding year without redundancy.\n\nAnswer: University of Maryland College Park founding year\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Absolutely, let's break it down step by step.\n\n1. **Identify the Key Information Needed**: The question asks for the year in which the University of Maryland, College Park (where John Laub works) was founded.\n\n2. **Context Review**: The context provided mentions John Laub's affiliation with the University of Maryland but does not provide details about the university's founding year.\n\n3. **Targeting the Search**: To answer the question, we need to focus on the founding year of the University of Maryland, College Park. This means we should formulate a search query that directly seeks that information.\n\n4. **Construct the Search Query**: The search query should be specific enough to retrieve information about the founding year of the University of Maryland, College Park, without extraneous details.\n\nBased on this reasoning, the effective search query would be:\n\n**search_query**: \"University of Maryland College Park founding year\"\n\nAnswer: University of Maryland College Park founding year\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Certainly! To find the answer to your question, we need to clarify a few elements:\n\n1. **Identify the Institution**: The context mentions that John Laub is a Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Therefore, our focus should be on this university.\n\n2. **Determine the Founding Year**: The question specifically asks for the founding year of the University of Maryland, College Park. To answer this, we need to find credible sources that provide historical information about the university.\n\n3. **Constructing the Search Query**: The search query should aim to retrieve information specifically about the founding year of the University of Maryland, College Park, without being too broad or redundant.\n\nBased on this reasoning, the search query could be formulated as follows:\n\n**search_query**: \"University of Maryland College Park founding year\"\n\nAnswer: University of Maryland College Park founding year\n        "
+                },
+                "output": "\"University of Maryland College Park founding year\"",
+                "id": "a426e833-2720-4985-9971-fd6da7b63932",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are in a critical situation where accurate information is essential for making informed decisions.\n\nYou are good at extract relevant details from the provided context and question. Your task is to propose an effective search query that will help retrieve additional information to answer the question. Think carefully about the implications of your search. The search query should target the missing information while avoiding redundancy. \n\nYou should not answer the question directly, nor assume any prior knowledge. You must generate an accurate search query that considers the context and question to retrieve the most relevant information.\n",
+                    "inputs": "{'context': '[1]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\\n[2]: \"1792 Bourbon\" | \"Knob Creek or Woodford Reserve. This reflects a trend in bourbon production, resulting from competition with single malt whisky, which makes small batch bourbons a big business. When originally introduced, the bourbon carried a \"\"Small Batch Aged 8 years\"\" statement on the back label and \"\"8-year-old\"\" in the text printed on the back of the bottle. In December 2013, the age statement was dropped from the label and replaced with the wording \"\"small batch bourbon whiskey\"\" and the term \"\"8-year-old\"\" was removed from the text. 1792 Bourbon was originally introduced into the market by Barton as \"\"Ridgewood Reserve 1792\"\". The\"', 'question': 'How much is spent on the type of whiskey that 1792 Whiskey is in the United States?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To effectively formulate a search query, we need to identify the key components from the context and the question. \n\n1. **Context Analysis**: The context provides information about 1792 Bourbon, its production, ownership, and historical labeling. It mentions that it is a premium bourbon whiskey and part of a trend in bourbon production aimed at competing with other types of whiskey, particularly single malt whisky.\n\n2. **Question Analysis**: The question is asking about the spending on the type of whiskey that 1792 Whiskey represents, specifically in the United States. This implies we need information on the overall market value, sales figures, or consumer spending related to bourbon whiskey.\n\n3. **Identifying Relevant Keywords**: \n   - \"Bourbon whiskey\"\n   - \"spending\" or \"consumer expenditure\"\n   - \"United States\"\n   - \"market value\" or \"sales data\"\n\n4. **Combining Keywords for a Query**: We want to retrieve information that specifically addresses the market dynamics or financial metrics surrounding bourbon whiskey in the U.S. \n\nBased on this reasoning, the proposed search query would be:\n\n**search_query**: \"Bourbon whiskey market spending United States 2023\"\n\nAnswer: \"Bourbon whiskey market spending United States 2023\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the task step by step to formulate an effective search query.\n\n1. **Identify the Key Points**: \n   - The question is about the spending on a specific type of whiskey, which is bourbon, similar to 1792 Bourbon.\n   - The context mentions that 1792 Bourbon is a premium small-batch bourbon whiskey.\n\n2. **Determine the Focus of the Search**:\n   - We need to find information on the market spending or sales figures related to bourbon whiskey in the United States.\n   - It would be beneficial to look for recent statistics or reports that cover the financial aspects of the bourbon industry.\n\n3. **Consider Keywords**: \n   - Keywords to include might be \"bourbon whiskey spending,\" \"bourbon market sales,\" \"bourbon industry financials,\" or \"U.S. bourbon whiskey sales statistics.\"\n\n4. **Formulate the Query**: \n   - The search query should be specific enough to retrieve relevant statistics or reports about bourbon spending in the U.S. without being overly broad.\n\nBased on this reasoning, the search query could be structured as follows:\n\n**search_query**: \"U.S. bourbon whiskey market spending statistics 2023\"\n\nAnswer: U.S. bourbon whiskey market spending statistics 2023\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! To tackle this question, we need to focus on understanding the market and spending associated with the type of whiskey that 1792 Bourbon falls under, which is a premium small-batch bourbon. \n\nWe are interested in:\n\n1. The overall market size and spending on bourbon whiskey in the United States.\n2. Specific information regarding small-batch bourbons and their sales figures.\n3. Comparative pricing of premium bourbons like 1792 Bourbon.\n\nWith this in mind, we can create a search query that will help us gather relevant information about the spending on bourbon whiskey in the U.S., particularly focusing on the premium and small-batch segments.\n\nNow, let's formulate an effective search query. \n\n**Search Query:**\n\"U.S. market spending on bourbon whiskey 2023 small batch premium segment\"\n\nAnswer: \"U.S. market spending on bourbon whiskey 2023 small batch premium segment\"\n        "
+                },
+                "output": "\"Bourbon whiskey market spending United States 2023\"",
+                "id": "9b226332-14fc-4299-946b-d4ec377b1aec",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "a426e833-2720-4985-9971-fd6da7b63932"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "9b226332-14fc-4299-946b-d4ec377b1aec"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.6666666666666666,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_demos_7fce9dce-93ca-420f-8534-79eff75ec673": {
+                "name": "generate_answer_demos_7fce9dce-93ca-420f-8534-79eff75ec673",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "8e59e0e7-cdd0-4e49-a070-8a08db1d8a50",
+                    "b26d7ef9-5f47-4ac3-8310-dfa9fc56dec7"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year's Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"\n[3]: \"University of Maryland, College Park\" | \"the first Lord Baltimores, colonial proprietors of the Province of Maryland in 1634, purchased of the Riversdale Mansion estate nearby today's College Park, Maryland. Later that year, Calvert founded the school and was the acting president from 1859 to 1860. On October 5, 1859, the first 34 students entered the Maryland Agricultural College. The school became a land grant college in February 1864. During the Civil War, Confederate soldiers under Brigadier General Bradley Tyler Johnson moved past the college on July 12, 1864 as part of Jubal Early's raid on Washington, D.C. By the end of the war, financial problems\"\n[4]: \"History of the University of Maryland, College Park\" | \"Two years later, Charles Benedict Calvert, a descendant of the Barons Baltimore, fervent believer in agricultural education, and a future U.S. Congressman, purchased of the Riverdale Plantation in College Park for $21,000. Calvert founded the school later that year with money earned by the sale of stock certificates. On October 5, 1859, the first 34 students entered the Maryland Agricultural College, including four of Charles Calvert's sons, George, Charles, William, and Eugene. The keynote speaker on opening day was Joseph Henry, the first Secretary of the Smithsonian Institution. In July 1862, the same month that the Maryland Agricultural College awarded\"",
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "1859",
+                "id": "8e59e0e7-cdd0-4e49-a070-8a08db1d8a50",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have.\n\n1. **Identify John Laub's affiliation**: The context states that John Laub is a Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park.\n\n2. **Find the founding year of the University of Maryland, College Park**: The context provides historical information about the university. It mentions that the school was founded in 1859 when the first 34 students entered the Maryland Agricultural College.\n\n3. **Confirm the founding year**: The specific date given in the context is October 5, 1859, which is when the first students began their education at the institution.\n\nNow that we have established the necessary details, we can formulate the final response. \n\nThe University of Maryland, College Park, where John Laub is a professor, was founded in 1859."
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\n[2]: \"1792 Bourbon\" | \"Knob Creek or Woodford Reserve. This reflects a trend in bourbon production, resulting from competition with single malt whisky, which makes small batch bourbons a big business. When originally introduced, the bourbon carried a \"\"Small Batch Aged 8 years\"\" statement on the back label and \"\"8-year-old\"\" in the text printed on the back of the bottle. In December 2013, the age statement was dropped from the label and replaced with the wording \"\"small batch bourbon whiskey\"\" and the term \"\"8-year-old\"\" was removed from the text. 1792 Bourbon was originally introduced into the market by Barton as \"\"Ridgewood Reserve 1792\"\". The\"\n[3]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\n[4]: \"Bourbon whiskey\" | \"is strongly associated with the American South and with Kentucky in particular. As of 2014, distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion, and bourbon made up about two-thirds of the $1.6 billion of U.S. exports of distilled spirits. Distilling was most likely brought to present-day Kentucky in the late 18th century by Scots, Scots-Irish, and other settlers (including English, Irish, Welsh, German, and French) who began to farm the area in earnest. The origin of bourbon as a distinct form of whiskey is not well documented. There are many conflicting legends and claims,\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "Approximately $2.7 billion.",
+                "id": "b26d7ef9-5f47-4ac3-8310-dfa9fc56dec7",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have in the context regarding 1792 Bourbon and its category, which is bourbon whiskey.\n\n1. **Identify the Category**: 1792 Bourbon is a type of Kentucky straight Bourbon whiskey. \n\n2. **Revenue Information**: The context mentions that as of 2014, distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion.\n\n3. **Understanding the Market**: This revenue figure indicates the total amount spent on bourbon whiskey in the United States, which includes various brands, not just 1792 Bourbon.\n\n4. **Conclusion**: Since 1792 Bourbon is part of the bourbon category, the amount spent on bourbon whiskey in the U.S. is relevant to the question.\n\nNow, we can formulate a clear answer based on this reasoning. \n\nThe total amount spent on bourbon whiskey in the United States is approximately $2.7 billion."
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "8e59e0e7-cdd0-4e49-a070-8a08db1d8a50"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "b26d7ef9-5f47-4ac3-8310-dfa9fc56dec7"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.6666666666666666,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_sampler_1_demos_e99c0df7-4266-48da-8691-a7a8caf2c9b0": {
+                "name": "refine_query_sampler_1_demos_e99c0df7-4266-48da-8691-a7a8caf2c9b0",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "cdf7d91e-34c1-4e5f-99a0-eadb699a8bfd",
+                    "50c276e2-1824-426f-a124-6109ae1b82b3"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year's Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"",
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "University of Maryland College Park founding year",
+                "id": "cdf7d91e-34c1-4e5f-99a0-eadb699a8bfd",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Absolutely, let's break it down step by step.\n\n1. **Identify the Key Information Needed**: The question asks for the year in which the University of Maryland, College Park (where John Laub works) was founded.\n\n2. **Context Review**: The context provided mentions John Laub's affiliation with the University of Maryland but does not provide details about the university's founding year.\n\n3. **Targeting the Search**: To answer the question, we need to focus on the founding year of the University of Maryland, College Park. This means we should formulate a search query that directly seeks that information.\n\n4. **Construct the Search Query**: The search query should be specific enough to retrieve information about the founding year of the University of Maryland, College Park, without extraneous details.\n\nBased on this reasoning, the effective search query would be:\n\n**search_query**: \"University of Maryland College Park founding year\""
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\n[2]: \"1792 Bourbon\" | \"Knob Creek or Woodford Reserve. This reflects a trend in bourbon production, resulting from competition with single malt whisky, which makes small batch bourbons a big business. When originally introduced, the bourbon carried a \"\"Small Batch Aged 8 years\"\" statement on the back label and \"\"8-year-old\"\" in the text printed on the back of the bottle. In December 2013, the age statement was dropped from the label and replaced with the wording \"\"small batch bourbon whiskey\"\" and the term \"\"8-year-old\"\" was removed from the text. 1792 Bourbon was originally introduced into the market by Barton as \"\"Ridgewood Reserve 1792\"\". The\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "U.S. bourbon whiskey market spending statistics 2023",
+                "id": "50c276e2-1824-426f-a124-6109ae1b82b3",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the task step by step to formulate an effective search query.\n\n1. **Identify the Key Points**: \n   - The question is about the spending on a specific type of whiskey, which is bourbon, similar to 1792 Bourbon.\n   - The context mentions that 1792 Bourbon is a premium small-batch bourbon whiskey.\n\n2. **Determine the Focus of the Search**:\n   - We need to find information on the market spending or sales figures related to bourbon whiskey in the United States.\n   - It would be beneficial to look for recent statistics or reports that cover the financial aspects of the bourbon industry.\n\n3. **Consider Keywords**: \n   - Keywords to include might be \"bourbon whiskey spending,\" \"bourbon market sales,\" \"bourbon industry financials,\" or \"U.S. bourbon whiskey sales statistics.\"\n\n4. **Formulate the Query**: \n   - The search query should be specific enough to retrieve relevant statistics or reports about bourbon spending in the U.S. without being overly broad.\n\nBased on this reasoning, the search query could be structured as follows:\n\n**search_query**: \"U.S. bourbon whiskey market spending statistics 2023\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "cdf7d91e-34c1-4e5f-99a0-eadb699a8bfd"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "50c276e2-1824-426f-a124-6109ae1b82b3"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.6666666666666666,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_sampler_2_demos_f15b2b68-2570-45dd-9aac-0c6a5f195df3": {
+                "name": "refine_query_sampler_2_demos_f15b2b68-2570-45dd-9aac-0c6a5f195df3",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "b8d5ec5f-3089-4bb2-b901-cca56bbec36e",
+                    "43675c66-52f9-4570-b803-62189665be0c"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year's Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"",
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "University of Maryland College Park founding year",
+                "id": "b8d5ec5f-3089-4bb2-b901-cca56bbec36e",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Certainly! To find the answer to your question, we need to clarify a few elements:\n\n1. **Identify the Institution**: The context mentions that John Laub is a Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Therefore, our focus should be on this university.\n\n2. **Determine the Founding Year**: The question specifically asks for the founding year of the University of Maryland, College Park. To answer this, we need to find credible sources that provide historical information about the university.\n\n3. **Constructing the Search Query**: The search query should aim to retrieve information specifically about the founding year of the University of Maryland, College Park, without being too broad or redundant.\n\nBased on this reasoning, the search query could be formulated as follows:\n\n**search_query**: \"University of Maryland College Park founding year\""
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\n[2]: \"1792 Bourbon\" | \"Knob Creek or Woodford Reserve. This reflects a trend in bourbon production, resulting from competition with single malt whisky, which makes small batch bourbons a big business. When originally introduced, the bourbon carried a \"\"Small Batch Aged 8 years\"\" statement on the back label and \"\"8-year-old\"\" in the text printed on the back of the bottle. In December 2013, the age statement was dropped from the label and replaced with the wording \"\"small batch bourbon whiskey\"\" and the term \"\"8-year-old\"\" was removed from the text. 1792 Bourbon was originally introduced into the market by Barton as \"\"Ridgewood Reserve 1792\"\". The\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "\"U.S. market spending on bourbon whiskey 2023 small batch premium segment\"",
+                "id": "43675c66-52f9-4570-b803-62189665be0c",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! To tackle this question, we need to focus on understanding the market and spending associated with the type of whiskey that 1792 Bourbon falls under, which is a premium small-batch bourbon. \n\nWe are interested in:\n\n1. The overall market size and spending on bourbon whiskey in the United States.\n2. Specific information regarding small-batch bourbons and their sales figures.\n3. Comparative pricing of premium bourbons like 1792 Bourbon.\n\nWith this in mind, we can create a search query that will help us gather relevant information about the spending on bourbon whiskey in the U.S., particularly focusing on the premium and small-batch segments.\n\nNow, let's formulate an effective search query. \n\n**Search Query:**\n\"U.S. market spending on bourbon whiskey 2023 small batch premium segment\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "b8d5ec5f-3089-4bb2-b901-cca56bbec36e"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "43675c66-52f9-4570-b803-62189665be0c"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.6666666666666666,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    }
+]

@@ -2,46 +2,26 @@ import os
 import sys
 import json
 from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal, Sequence
-import copy
-import logging
-import optunahub
-import optuna
-import numpy as np
-from collections import defaultdict
-from abc import ABC, abstractmethod
-from concurrent.futures import ThreadPoolExecutor, Future, wait, FIRST_COMPLETED
-import math
-import threading
-import uuid
 from dataclasses import dataclass, field, asdict
-import multiprocessing as mp
+import logging
 
-from compiler.IR.program import Workflow, Module, StatePool
-from compiler.IR.llm import LMConfig, LLMPredictor
-from compiler.utils import get_bill
-from compiler.optimizer.tracer import batch_run_and_eval, OfflineBatchTracer
-from compiler.optimizer.params.common import ParamBase, OptionBase, DynamicParamBase, EvolveType, AddNewModuleImportInterface
-from compiler.optimizer.params.utils import dump_params, load_params
-from compiler.optimizer.params.model_selection import LMSelection
-from compiler.langchain_bridge.interface import LangChainLM
+from compiler.optimizer.params.common import ParamBase
+from compiler.optimizer.params.utils import build_param
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask, GeneralEvaluatorInterface
-from compiler.optimizer.evaluation.metric import MetricBase, MInput
-from compiler.optimizer.plugin import OptimizerSchema
-from optuna.samplers import TPESampler
-from compiler.optimizer.core.flow import TrialLog, ModuleTransformTrace, TopDownInformation, OptConfig
-from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization 
+from compiler.optimizer.core.flow import TrialLog, OptConfig
+from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization, BottomLevelTrialLog
 from compiler.optimizer.core.upper_layer import UpperLevelOptimization, LayerEvaluator
 
-class layerConfig:
+class LayerConfig:
     def __init__(
         self,
         layer_name: str,
         dedicate_params: list[ParamBase] = [],
         universal_params: list[ParamBase] = [],
         target_modules: Iterable[str] = None,
-        save_ckpt_interval: int = 0,
+        save_ckpt_interval: int = 1,
         opt_config: OptConfig = None,
-        use_SH_allocation: bool = False,
+        use_SH_allocation: bool = True,
     ):
         """Config for each optimization layer
         
@@ -82,12 +62,25 @@ class layerConfig:
             'opt_config': asdict(self.opt_config),
             'use_SH_allocation': self.use_SH_allocation,
         }
+    
+    @classmethod
+    def from_dict(cls, d):
+        return cls(
+            layer_name=d['layer_name'],
+            dedicate_params=[build_param(p) for p in d['dedicate_params']],
+            universal_params=[build_param(p) for p in d['universal_params']],
+            target_modules=d['target_modules'],
+            save_ckpt_interval=d['save_ckpt_interval'],
+            opt_config=OptConfig(**d['opt_config']),
+            use_SH_allocation=d['use_SH_allocation'],
+        )
         
 
 class MultiLayerOptimizationDriver:
     def __init__(
         self,
-        layer_configs: Sequence[layerConfig],
+        layer_configs: Sequence[LayerConfig],
+        opt_log_dir: str,
         quality_constraint: float = None,
     ):
         """Driver for multi-layer optimization
@@ -103,9 +96,17 @@ class MultiLayerOptimizationDriver:
         # initialize optimization layers
         self.opt_layers: list[OptimizationLayer] = [None] * len(layer_configs)
         
+        # dump control params
+        if not os.path.exists(opt_log_dir):
+            os.makedirs(opt_log_dir, exist_ok=True)
+        param_log_path = os.path.join(opt_log_dir, 'opt_control_params.json')
         layer_configs_dict = [lc.to_dict() for lc in layer_configs]
-        with open('layer_configs.json', 'w') as f:
+        with open(param_log_path, 'w') as f:
             json.dump(layer_configs_dict, f, indent=4)
+        
+        # config log dir for layer opts
+        # NOTE: only the top layer will be set, others are randomly generated at runtime
+        self.layer_configs[0].opt_config.log_dir = opt_log_dir
     
     def build_tiered_optimization(
         self, evaluator: EvaluatorPlugin
@@ -157,16 +158,4 @@ class MultiLayerOptimizationDriver:
             script_args=script_args,
             other_python_paths=other_python_paths,
         )
-    
-    def evaluate(
-        self,
-        bot_trial_log_id: str,
-        opt_log_path: str,
-    ):
-        bot_layer: BottomLevelOptimization = self.opt_layers[-1]
-        result = bot_layer.easy_eval(
-            trial_log_id=bot_trial_log_id,
-            opt_log_path=opt_log_path,
-        )
-        return result
-        
+ 

@@ -20,6 +20,7 @@ from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsage
 from compiler.optimizer.evaluation.metric import MetricBase
 from compiler.optimizer.params.common import ParamBase
+from compiler.optimizer.params.utils import build_param
 from compiler.optimizer.plugin import OptimizerSchema
 from compiler.utils import get_bill
 from compiler.optimizer.core.flow import TopDownInformation, ModuleTransformTrace
@@ -72,6 +73,39 @@ class EvaluationResult:
             f"avg exec time: {sum(self.exec_times) / len(self.exec_times)} s"
         )
     
+    def to_dict(self):
+        """return result stats
+        
+        meta and demos are not included
+        """
+        stats = {}
+        stats['summary'] = {
+            'reduced_score': self.reduced_score,
+            'reduced_price': self.reduced_price,
+            'total_eval_cost': self.total_eval_cost,
+        }
+        stats['detailed'] = []
+        for id, score, price, exec_time in zip(self.ids, self.scores, self.prices, self.exec_times):
+            stats['detailed'].append({
+                'id': id,
+                'score': score,
+                'price': price,
+                'exec_time': exec_time,
+            })
+        return stats
+
+    @classmethod
+    def from_dict(cls, data: dict):
+        return cls(
+            ids=[d['id'] for d in data['detailed']],
+            scores=[d['score'] for d in data['detailed']],
+            prices=[d['price'] for d in data['detailed']],
+            exec_times=[d['exec_time'] for d in data['detailed']],
+            total_eval_cost=data['summary']['total_eval_cost'],
+            reduced_score=data['summary']['reduced_score'],
+            reduced_price=data['summary']['reduced_price'],
+        )
+    
 
 @dataclass
 class EvalTask:
@@ -102,8 +136,7 @@ class EvalTask:
         self.all_params = {}
         # restore params
         for hash, param_dict in param_pool.items():
-            t = ParamBase.registry[param_dict['type']]
-            self.all_params[hash] = t.from_dict(param_dict)
+            self.all_params[hash] = build_param(param_dict)
     
     def to_dict(self) -> dict:
         return self.__getstate__()
@@ -359,7 +392,14 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
             indices = np.random.choice(full_indices, size=sample_size, replace=False).tolist()
         else:
             logger.info('Down sampling with difficulty, start profiling...')
-            eval_result = self.get_score(mode, task, show_process=True)
+            dry_run_path = os.path.join(log_dir, f'dry_run_{mode}.json')
+            if os.path.exists(dry_run_path):
+                logger.info(f'Loading dry run results from {dry_run_path}')
+                eval_result = EvaluationResult.from_dict(json.load(open(dry_run_path, 'r')))
+            else:
+                eval_result = self.get_score(mode, task, show_process=True)
+                with open(dry_run_path, 'w+') as f:
+                    json.dump(eval_result.to_dict(), f, indent=4)
             # if user provide a custom prob convertor
             if prob_convertor is not None:
                 probs = prob_convertor(eval_result)

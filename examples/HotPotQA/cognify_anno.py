@@ -115,7 +115,7 @@ if cot_fixed:
     ZeroShotCoT.direct_apply(answer_agent)
 
     
-detail_log_level = 1
+detail_log_level = 0
 if detail_log_level == 0:
     _print_internal = lambda *args, **kwargs: None
     _print_expo = lambda *args, **kwargs: None

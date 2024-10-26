@@ -1,0 +1,476 @@
+[
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_sampler_0_demos_3b6691d8-115d-43bd-9f29-0ff9b7e13cb7": {
+                "name": "generate_answer_sampler_0_demos_3b6691d8-115d-43bd-9f29-0ff9b7e13cb7",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "86d7bc90-a018-4fcd-b82f-4dd3247779ad",
+                    "ac40b963-bf2c-4908-a1c8-79e7e50d84bc"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year's Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"\n[3]: \"University of Maryland, College Park\" | \"the first Lord Baltimores, colonial proprietors of the Province of Maryland in 1634, purchased of the Riversdale Mansion estate nearby today's College Park, Maryland. Later that year, Calvert founded the school and was the acting president from 1859 to 1860. On October 5, 1859, the first 34 students entered the Maryland Agricultural College. The school became a land grant college in February 1864. During the Civil War, Confederate soldiers under Brigadier General Bradley Tyler Johnson moved past the college on July 12, 1864 as part of Jubal Early's raid on Washington, D.C. By the end of the war, financial problems\"\n[4]: \"History of the University of Maryland, College Park\" | \"Two years later, Charles Benedict Calvert, a descendant of the Barons Baltimore, fervent believer in agricultural education, and a future U.S. Congressman, purchased of the Riverdale Plantation in College Park for $21,000. Calvert founded the school later that year with money earned by the sale of stock certificates. On October 5, 1859, the first 34 students entered the Maryland Agricultural College, including four of Charles Calvert's sons, George, Charles, William, and Eugene. The keynote speaker on opening day was Joseph Henry, the first Secretary of the Smithsonian Institution. In July 1862, the same month that the Maryland Agricultural College awarded\"",
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "1859",
+                "id": "86d7bc90-a018-4fcd-b82f-4dd3247779ad",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have:\n\n1. **John Laub's Position**: We know that John Laub is a Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park.\n\n2. **Founding Year of the University**: The context mentions that the Maryland Agricultural College (which is the precursor to today's University of Maryland, College Park) was founded in the year 1859, specifically on October 5, 1859.\n\nNow that we have identified the founding year of the institution where John Laub works, we can formulate a concise answer to the question. \n\nShall I provide the final response now?"
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\n[2]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\n[3]: \"Bourbon whiskey\" | \"is strongly associated with the American South and with Kentucky in particular. As of 2014, distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion, and bourbon made up about two-thirds of the $1.6 billion of U.S. exports of distilled spirits. Distilling was most likely brought to present-day Kentucky in the late 18th century by Scots, Scots-Irish, and other settlers (including English, Irish, Welsh, German, and French) who began to farm the area in earnest. The origin of bourbon as a distinct form of whiskey is not well documented. There are many conflicting legends and claims,\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "$2.7 billion",
+                "id": "ac40b963-bf2c-4908-a1c8-79e7e50d84bc",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break this down step by step.\n\n1. **Identify the Type of Whiskey**: The document specifies that \"1792 Bourbon\" is a type of Kentucky straight Bourbon whiskey. Therefore, we are interested in the revenue generated from bourbon whiskey in the United States.\n\n2. **Gathering Relevant Information**: From the context provided, we see that:\n   - In 2014, the wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion.\n   - Bourbon made up a significant portion of the U.S. exports of distilled spirits, with exports surpassing $1 billion for the first time in 2013.\n\n3. **Summary of Findings**: The key piece of data we have is that approximately $2.7 billion is spent on bourbon whiskey in the U.S. This figure reflects wholesale market revenue and indicates the financial scale of bourbon sales.\n\nNow, we can formulate the final answer based on this reasoning. \n\n**Final Answer**: Approximately $2.7 billion is spent on bourbon whiskey in the United States."
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.8,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "86d7bc90-a018-4fcd-b82f-4dd3247779ad"
+            },
+            {
+                "score": 0.8,
+                "task_id": "eval_0",
+                "demo_id": "ac40b963-bf2c-4908-a1c8-79e7e50d84bc"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.8,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_sampler_1_demos_67483c12-ad81-42ec-b349-d2597f9318d2": {
+                "name": "generate_answer_sampler_1_demos_67483c12-ad81-42ec-b349-d2597f9318d2",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "768c0ba3-7151-4edf-bc0e-eb399ede3988",
+                    "df1c5318-95b1-4371-afe7-f374d92e99ef"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year's Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"\n[3]: \"University of Maryland, College Park\" | \"the first Lord Baltimores, colonial proprietors of the Province of Maryland in 1634, purchased of the Riversdale Mansion estate nearby today's College Park, Maryland. Later that year, Calvert founded the school and was the acting president from 1859 to 1860. On October 5, 1859, the first 34 students entered the Maryland Agricultural College. The school became a land grant college in February 1864. During the Civil War, Confederate soldiers under Brigadier General Bradley Tyler Johnson moved past the college on July 12, 1864 as part of Jubal Early's raid on Washington, D.C. By the end of the war, financial problems\"\n[4]: \"History of the University of Maryland, College Park\" | \"Two years later, Charles Benedict Calvert, a descendant of the Barons Baltimore, fervent believer in agricultural education, and a future U.S. Congressman, purchased of the Riverdale Plantation in College Park for $21,000. Calvert founded the school later that year with money earned by the sale of stock certificates. On October 5, 1859, the first 34 students entered the Maryland Agricultural College, including four of Charles Calvert's sons, George, Charles, William, and Eugene. The keynote speaker on opening day was Joseph Henry, the first Secretary of the Smithsonian Institution. In July 1862, the same month that the Maryland Agricultural College awarded\"",
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "1859",
+                "id": "768c0ba3-7151-4edf-bc0e-eb399ede3988",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information provided:\n\n1. We know that John Laub is a Distinguished University Professor at the Department of Criminology and Criminal Justice at the University of Maryland, College Park.\n\n2. To find out when this institution was founded, we can look at the context related to the history of the University of Maryland. \n\n3. According to the provided context, the University of Maryland, College Park, was originally established as the Maryland Agricultural College, which began operation on October 5, 1859.\n\nNow that we've gathered the relevant information, we can formulate the final answer. Would you like me to provide it?"
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\n[2]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\n[3]: \"Bourbon whiskey\" | \"is strongly associated with the American South and with Kentucky in particular. As of 2014, distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion, and bourbon made up about two-thirds of the $1.6 billion of U.S. exports of distilled spirits. Distilling was most likely brought to present-day Kentucky in the late 18th century by Scots, Scots-Irish, and other settlers (including English, Irish, Welsh, German, and French) who began to farm the area in earnest. The origin of bourbon as a distinct form of whiskey is not well documented. There are many conflicting legends and claims,\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "Approximately $2.7 billion.",
+                "id": "df1c5318-95b1-4371-afe7-f374d92e99ef",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information step by step.\n\n1. **Identify the Type of Whiskey**: The 1792 Bourbon is a type of bourbon whiskey. \n\n2. **Contextual Information**: We need to find data related to the spending or revenue for bourbon whiskey in the U.S. from the provided context. \n\n3. **Relevant Data Points**:\n   - In context [2], it mentions that more than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue.\n   - Additionally, context [3] corroborates that the distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion.\n\n4. **Conclusion**: Based on the context, we can determine that the amount spent on bourbon whiskey in the United States is approximately $2.7 billion.\n\nNow, I can formulate the final response. Would you like me to do that?"
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.8,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "768c0ba3-7151-4edf-bc0e-eb399ede3988"
+            },
+            {
+                "score": 0.8,
+                "task_id": "eval_0",
+                "demo_id": "df1c5318-95b1-4371-afe7-f374d92e99ef"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.8,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_demos_e2ff817d-a7cf-4938-a57c-ec45e1e638e6": {
+                "name": "generate_query_demos_e2ff817d-a7cf-4938-a57c-ec45e1e638e6",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "374b59e4-bfbd-402b-93d6-179b9bfa178c",
+                    "596b4871-2efe-4ceb-be60-b4ae62c2ab41"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "\"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year\"",
+                "id": "374b59e4-bfbd-402b-93d6-179b9bfa178c",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to identify the key components of the question. The question asks for two main pieces of information:\n\n1. The name of the institution where John Laub is a Distinguished University Professor.\n2. The year that this institution was founded.\n\nNow, let's break down the search query:\n\n- We need to find information about John Laub, specifically his role as a criminologist and his position at a university.\n- We should include keywords related to his title and field (criminologist, Distinguished University Professor).\n- We also need to specify that we are looking for the founding year of the institution he is associated with.\n\nConsidering these elements, the search query should focus on retrieving documents that mention John Laub, his position, and the founding year of the relevant department or university.\n\nNow, let's formulate the search query:\n\n**search_query:** \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year\""
+            },
+            {
+                "inputs": {
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "\"1792 Whiskey spending United States market analysis bourbon sales statistics 2023\"",
+                "id": "596b4871-2efe-4ceb-be60-b4ae62c2ab41",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to break down the question into its key components. The question is asking about the spending on a specific type of whiskey, namely 1792 Whiskey, in the United States. \n\n1. **Identify the Product**: The specific whiskey in question is 1792 Whiskey. We need to ensure that our search query includes this term to focus on the right product.\n\n2. **Financial Aspect**: The question is concerned with how much is spent, which implies we need to look for financial data, statistics, or market analysis related to 1792 Whiskey.\n\n3. **Geographical Context**: The question specifies the United States, so we need to include this in our search to ensure that the results are relevant to the U.S. market.\n\n4. **Type of Whiskey**: 1792 Whiskey is categorized as a bourbon. Including this classification may help refine the search to focus on bourbon spending.\n\n5. **Market Trends**: It may also be useful to look for broader trends in whiskey or bourbon spending in the U.S. to provide context for the specific spending on 1792 Whiskey.\n\nBased on these considerations, the search query should encapsulate all these elements to retrieve the most relevant information.\n\n**Search Query**: \"1792 Whiskey spending United States market analysis bourbon sales statistics 2023\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.8,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "374b59e4-bfbd-402b-93d6-179b9bfa178c"
+            },
+            {
+                "score": 0.8,
+                "task_id": "eval_0",
+                "demo_id": "596b4871-2efe-4ceb-be60-b4ae62c2ab41"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.8,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_demos_a172447d-231b-4770-8a51-76d7d526cac3": {
+                "name": "refine_query_demos_a172447d-231b-4770-8a51-76d7d526cac3",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "a10be555-4662-4ddd-94f2-d888177ea1fb",
+                    "11f22b7a-dd84-46d2-9635-f2d10c90243a"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year's Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"",
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "University of Maryland College Park founding year",
+                "id": "a10be555-4662-4ddd-94f2-d888177ea1fb",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To find the year when the University of Maryland, College Park, where John Laub is a Distinguished University Professor, was founded, we need to focus on the institution itself rather than on Laub's biography or achievements. \n\nThe search query should specifically target the founding year of the University of Maryland, College Park, to retrieve the most relevant information without redundancy. \n\nNow, let's formulate the search query based on this reasoning. \n\n**Search Query:** \"University of Maryland College Park founding year\""
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\n[2]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "total spending on bourbon whiskey in the United States 2023",
+                "id": "11f22b7a-dd84-46d2-9635-f2d10c90243a",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To effectively address the question regarding the spending on the type of whiskey that 1792 Whiskey falls under, we need to focus on the broader category of bourbon whiskey, as 1792 Bourbon is a specific brand within that category. \n\nThe context provided mentions sales figures and revenue related to bourbon whiskey in the U.S., which is relevant to understanding the overall spending on this type of whiskey. However, it does not provide specific figures for the total spending on bourbon whiskey.\n\nTo gather the necessary information, we should formulate a search query that targets the total spending or revenue generated from bourbon whiskey sales in the United States. This will help us find comprehensive data that includes both domestic sales and possibly export figures, which can give a clearer picture of the market size and spending.\n\nNow, let's create a search query that will help retrieve this information. \n\n**Search Query:** \"total spending on bourbon whiskey in the United States 2023\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.8,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "a10be555-4662-4ddd-94f2-d888177ea1fb"
+            },
+            {
+                "score": 0.8,
+                "task_id": "eval_0",
+                "demo_id": "11f22b7a-dd84-46d2-9635-f2d10c90243a"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.8,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_sampler_2_demos_74f336de-b85a-45f9-86ef-9faa8aee1fbb": {
+                "name": "generate_answer_sampler_2_demos_74f336de-b85a-45f9-86ef-9faa8aee1fbb",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "a148c689-8e72-4561-a00f-dd67de1702e1",
+                    "496994aa-02fb-44d0-988e-4c8225ce9d15"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year's Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"\n[3]: \"University of Maryland, College Park\" | \"the first Lord Baltimores, colonial proprietors of the Province of Maryland in 1634, purchased of the Riversdale Mansion estate nearby today's College Park, Maryland. Later that year, Calvert founded the school and was the acting president from 1859 to 1860. On October 5, 1859, the first 34 students entered the Maryland Agricultural College. The school became a land grant college in February 1864. During the Civil War, Confederate soldiers under Brigadier General Bradley Tyler Johnson moved past the college on July 12, 1864 as part of Jubal Early's raid on Washington, D.C. By the end of the war, financial problems\"\n[4]: \"History of the University of Maryland, College Park\" | \"Two years later, Charles Benedict Calvert, a descendant of the Barons Baltimore, fervent believer in agricultural education, and a future U.S. Congressman, purchased of the Riverdale Plantation in College Park for $21,000. Calvert founded the school later that year with money earned by the sale of stock certificates. On October 5, 1859, the first 34 students entered the Maryland Agricultural College, including four of Charles Calvert's sons, George, Charles, William, and Eugene. The keynote speaker on opening day was Joseph Henry, the first Secretary of the Smithsonian Institution. In July 1862, the same month that the Maryland Agricultural College awarded\"",
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "1859",
+                "id": "a148c689-8e72-4561-a00f-dd67de1702e1",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break this down step by step.\n\n1. **Identify John Laub's affiliation**: The context mentions that John Laub is a Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park.\n\n2. **Find the founding year of the University of Maryland, College Park**: The context provides information about the history of the university, specifically mentioning that it was founded when Charles Benedict Calvert purchased the Riverdale Plantation and established the school.\n\n3. **Extract the founding year**: The relevant context indicates the school was founded in 1859, as the first 34 students entered the Maryland Agricultural College on October 5, 1859.\n\nNow that we have gathered all the necessary information, we can formulate a precise answer. \n\nWould you like me to provide the final response?"
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\n[2]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\n[3]: \"Bourbon whiskey\" | \"is strongly associated with the American South and with Kentucky in particular. As of 2014, distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion, and bourbon made up about two-thirds of the $1.6 billion of U.S. exports of distilled spirits. Distilling was most likely brought to present-day Kentucky in the late 18th century by Scots, Scots-Irish, and other settlers (including English, Irish, Welsh, German, and French) who began to farm the area in earnest. The origin of bourbon as a distinct form of whiskey is not well documented. There are many conflicting legends and claims,\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "$2.7 billion",
+                "id": "496994aa-02fb-44d0-988e-4c8225ce9d15",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have:\n\n1. **Understanding 1792 Bourbon**: The context tells us that 1792 Bourbon is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery. This indicates that it falls under the category of bourbon whiskey.\n\n2. **Market Revenue**: From the provided context, particularly in the second and third entries, we find that in 2014, distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion. This figure is crucial as it represents the overall spending on bourbon whiskey in the United States.\n\n3. **Bourbon Exports**: The context mentions that bourbon exports surpassed $1 billion in 2014, but this is separate from the domestic revenue, which we are focusing on.\n\n4. **Conclusion**: Since the question specifically asks about the spending on the type of whiskey that 1792 Whiskey is (which is bourbon), we can directly use the revenue figure mentioned.\n\nNow, putting all this together, we can formulate the final response. \n\nShall I proceed with the final answer?"
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.8,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "a148c689-8e72-4561-a00f-dd67de1702e1"
+            },
+            {
+                "score": 0.8,
+                "task_id": "eval_0",
+                "demo_id": "496994aa-02fb-44d0-988e-4c8225ce9d15"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.8,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_aggregator_demos_ca9fd2e9-16ee-4233-861c-372e65744425": {
+                "name": "generate_answer_aggregator_demos_ca9fd2e9-16ee-4233-861c-372e65744425",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "129fa0c7-e2cb-4f33-b31a-634573805c03",
+                    "5032c208-1868-43d1-b8d4-b56fc35fbd65"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at answering questions based on provided documents. Your task is to formulate a clear, accurate, and concise answer to the given question by using the retrieved context (documents) as your source of information. Please ensure that your answer is well-grounded in the context and directly addresses the question.\n",
+                    "inputs": "{'context': '[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year\\'s Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"\\n[3]: \"University of Maryland, College Park\" | \"the first Lord Baltimores, colonial proprietors of the Province of Maryland in 1634, purchased of the Riversdale Mansion estate nearby today\\'s College Park, Maryland. Later that year, Calvert founded the school and was the acting president from 1859 to 1860. On October 5, 1859, the first 34 students entered the Maryland Agricultural College. The school became a land grant college in February 1864. During the Civil War, Confederate soldiers under Brigadier General Bradley Tyler Johnson moved past the college on July 12, 1864 as part of Jubal Early\\'s raid on Washington, D.C. By the end of the war, financial problems\"\\n[4]: \"History of the University of Maryland, College Park\" | \"Two years later, Charles Benedict Calvert, a descendant of the Barons Baltimore, fervent believer in agricultural education, and a future U.S. Congressman, purchased of the Riverdale Plantation in College Park for $21,000. Calvert founded the school later that year with money earned by the sale of stock certificates. On October 5, 1859, the first 34 students entered the Maryland Agricultural College, including four of Charles Calvert\\'s sons, George, Charles, William, and Eugene. The keynote speaker on opening day was Joseph Henry, the first Secretary of the Smithsonian Institution. In July 1862, the same month that the Maryland Agricultural College awarded\"', 'question': 'The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have:\n\n1. **John Laub's Position**: We know that John Laub is a Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park.\n\n2. **Founding Year of the University**: The context mentions that the Maryland Agricultural College (which is the precursor to today's University of Maryland, College Park) was founded in the year 1859, specifically on October 5, 1859.\n\nNow that we have identified the founding year of the institution where John Laub works, we can formulate a concise answer to the question. \n\nShall I provide the final response now?\n\nAnswer: 1859\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information provided:\n\n1. We know that John Laub is a Distinguished University Professor at the Department of Criminology and Criminal Justice at the University of Maryland, College Park.\n\n2. To find out when this institution was founded, we can look at the context related to the history of the University of Maryland. \n\n3. According to the provided context, the University of Maryland, College Park, was originally established as the Maryland Agricultural College, which began operation on October 5, 1859.\n\nNow that we've gathered the relevant information, we can formulate the final answer. Would you like me to provide it?\n\nAnswer: 1859\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break this down step by step.\n\n1. **Identify John Laub's affiliation**: The context mentions that John Laub is a Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park.\n\n2. **Find the founding year of the University of Maryland, College Park**: The context provides information about the history of the university, specifically mentioning that it was founded when Charles Benedict Calvert purchased the Riverdale Plantation and established the school.\n\n3. **Extract the founding year**: The relevant context indicates the school was founded in 1859, as the first 34 students entered the Maryland Agricultural College on October 5, 1859.\n\nNow that we have gathered all the necessary information, we can formulate a precise answer. \n\nWould you like me to provide the final response?\n\nAnswer: 1859\n        "
+                },
+                "output": "1859",
+                "id": "129fa0c7-e2cb-4f33-b31a-634573805c03",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at answering questions based on provided documents. Your task is to formulate a clear, accurate, and concise answer to the given question by using the retrieved context (documents) as your source of information. Please ensure that your answer is well-grounded in the context and directly addresses the question.\n",
+                    "inputs": "{'context': '[1]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\\n[2]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\\n[3]: \"Bourbon whiskey\" | \"is strongly associated with the American South and with Kentucky in particular. As of 2014, distillers\\' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion, and bourbon made up about two-thirds of the $1.6 billion of U.S. exports of distilled spirits. Distilling was most likely brought to present-day Kentucky in the late 18th century by Scots, Scots-Irish, and other settlers (including English, Irish, Welsh, German, and French) who began to farm the area in earnest. The origin of bourbon as a distinct form of whiskey is not well documented. There are many conflicting legends and claims,\"', 'question': 'How much is spent on the type of whiskey that 1792 Whiskey is in the United States?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break this down step by step.\n\n1. **Identify the Type of Whiskey**: The document specifies that \"1792 Bourbon\" is a type of Kentucky straight Bourbon whiskey. Therefore, we are interested in the revenue generated from bourbon whiskey in the United States.\n\n2. **Gathering Relevant Information**: From the context provided, we see that:\n   - In 2014, the wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion.\n   - Bourbon made up a significant portion of the U.S. exports of distilled spirits, with exports surpassing $1 billion for the first time in 2013.\n\n3. **Summary of Findings**: The key piece of data we have is that approximately $2.7 billion is spent on bourbon whiskey in the U.S. This figure reflects wholesale market revenue and indicates the financial scale of bourbon sales.\n\nNow, we can formulate the final answer based on this reasoning. \n\n**Final Answer**: Approximately $2.7 billion is spent on bourbon whiskey in the United States.\n\nAnswer: $2.7 billion\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information step by step.\n\n1. **Identify the Type of Whiskey**: The 1792 Bourbon is a type of bourbon whiskey. \n\n2. **Contextual Information**: We need to find data related to the spending or revenue for bourbon whiskey in the U.S. from the provided context. \n\n3. **Relevant Data Points**:\n   - In context [2], it mentions that more than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue.\n   - Additionally, context [3] corroborates that the distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion.\n\n4. **Conclusion**: Based on the context, we can determine that the amount spent on bourbon whiskey in the United States is approximately $2.7 billion.\n\nNow, I can formulate the final response. Would you like me to do that?\n\nAnswer: Approximately $2.7 billion.\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have:\n\n1. **Understanding 1792 Bourbon**: The context tells us that 1792 Bourbon is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery. This indicates that it falls under the category of bourbon whiskey.\n\n2. **Market Revenue**: From the provided context, particularly in the second and third entries, we find that in 2014, distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion. This figure is crucial as it represents the overall spending on bourbon whiskey in the United States.\n\n3. **Bourbon Exports**: The context mentions that bourbon exports surpassed $1 billion in 2014, but this is separate from the domestic revenue, which we are focusing on.\n\n4. **Conclusion**: Since the question specifically asks about the spending on the type of whiskey that 1792 Whiskey is (which is bourbon), we can directly use the revenue figure mentioned.\n\nNow, putting all this together, we can formulate the final response. \n\nShall I proceed with the final answer?\n\nAnswer: $2.7 billion\n        "
+                },
+                "output": "$2.7 billion",
+                "id": "5032c208-1868-43d1-b8d4-b56fc35fbd65",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.8,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "129fa0c7-e2cb-4f33-b31a-634573805c03"
+            },
+            {
+                "score": 0.8,
+                "task_id": "eval_0",
+                "demo_id": "5032c208-1868-43d1-b8d4-b56fc35fbd65"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.8,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    }
+]

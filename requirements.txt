@@ -2,7 +2,7 @@ numpy
 scikit-learn
 dspy-ai
 joblib
-langchain==0.2.11
+langchain==0.3.4
 toml
 trafilatura
 sentence-transformers==2.2.2

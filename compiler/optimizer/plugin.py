@@ -37,3 +37,9 @@ class OptimizerSchema:
             opt_target_modules=get_registered_opt_modules(),
         )
         return schema
+
+def capture_data_loader(fn_path: str):
+    logger.debug(f"obtain data loader at: {fn_path}")
+    runpy.run_path(fn_path)
+    data_loader = registry.get_registered_data_loader()
+    return data_loader

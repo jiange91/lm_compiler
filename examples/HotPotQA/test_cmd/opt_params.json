@@ -1,0 +1,339 @@
+[
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_demos_796a724b-88b4-49a5-8430-81c41706e4ee": {
+                "name": "generate_answer_demos_796a724b-88b4-49a5-8430-81c41706e4ee",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "f499f9cb-f703-44b8-9b14-0a0783dbabbc",
+                    "35b0fd21-087a-49f0-8c6f-862850a543f0"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year's Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"\n[3]: \"University of Maryland, College Park\" | \"the first Lord Baltimores, colonial proprietors of the Province of Maryland in 1634, purchased of the Riversdale Mansion estate nearby today's College Park, Maryland. Later that year, Calvert founded the school and was the acting president from 1859 to 1860. On October 5, 1859, the first 34 students entered the Maryland Agricultural College. The school became a land grant college in February 1864. During the Civil War, Confederate soldiers under Brigadier General Bradley Tyler Johnson moved past the college on July 12, 1864 as part of Jubal Early's raid on Washington, D.C. By the end of the war, financial problems\"\n[4]: \"History of the University of Maryland, College Park\" | \"Two years later, Charles Benedict Calvert, a descendant of the Barons Baltimore, fervent believer in agricultural education, and a future U.S. Congressman, purchased of the Riverdale Plantation in College Park for $21,000. Calvert founded the school later that year with money earned by the sale of stock certificates. On October 5, 1859, the first 34 students entered the Maryland Agricultural College, including four of Charles Calvert's sons, George, Charles, William, and Eugene. The keynote speaker on opening day was Joseph Henry, the first Secretary of the Smithsonian Institution. In July 1862, the same month that the Maryland Agricultural College awarded\"",
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "1859",
+                "id": "f499f9cb-f703-44b8-9b14-0a0783dbabbc",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have.\n\n1. **Identify John Laub's affiliation**: The context states that John Laub is a Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park.\n\n2. **Find the founding year of the University of Maryland**: The context provides historical information about the University of Maryland, indicating that it was founded in 1859 when the first 34 students entered the Maryland Agricultural College.\n\n3. **Confirm the founding year**: The specific mention of the year 1859 in the context confirms that this is the year the institution was established.\n\nNow that we have gathered and analyzed the relevant information, we can formulate the final response. \n\nThe University of Maryland, College Park, where John Laub is a professor, was founded in 1859."
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\n[2]: \"Bourbon whiskey\" | \"bourbon and Tennessee whiskey together. According to the Distilled Spirits Council, during 2009\u20132014, the volume of 9-liter cases of whiskey increased by 28.5% overall. Higher-end bourbon and whiskeys experienced the greatest growth. During 2009\u201314, the volume of the value segment increased by 12.1%, premium by 25.8%, high-end premium by 27.8%, and super-premium by 123.8%. Gross supplier revenues (including federal excise tax) for U.S. bourbon and Tennessee whiskey increased by 46.7% over the 2009\u201314 period, with the greatest growth coming from high-end products (18.7% growth for value, 33.6% for premium, 44.5% for high-end premium, and 137.2% for super-premium). In 2014, more\"\n[3]: \"Maker's Mark\" | \"Mark competitive as a premium bourbon at mid-range bars, and a well drink among high-end bars. On February 17, the company said that it had reconsidered its decision after receiving a strong negative reaction from customers, and that it would continue to bottle at the original strength. Some overseas markets like Australia will continue to sell the whiskey at 40%. In January 2014, Beam Inc announced its sale to Suntory Holdings, creating the third largest distilled spirits maker in the world. News of the proposed sale included bourbon executives vowing \"\"the product taste won't change \u2013 and neither will the\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "Approximately $2.7 billion.",
+                "id": "35b0fd21-087a-49f0-8c6f-862850a543f0",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have and analyze it step by step.\n\n1. **Identify the Type of Whiskey**: 1792 Whiskey is a brand of bourbon whiskey. \n\n2. **Contextual Information**: The provided context mentions sales figures and growth trends for bourbon and Tennessee whiskey in the U.S. It states that in 2014, more than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold, generating almost $2.7 billion in wholesale distillery revenue.\n\n3. **Understanding the Market**: The context also highlights that the bourbon market has been experiencing significant growth, particularly in higher-end segments. This indicates that there is a robust market for premium bourbons, which would include brands like 1792.\n\n4. **Revenue Insights**: The total revenue generated from bourbon and Tennessee whiskey sales gives us a broad understanding of the financial landscape for this category of whiskey.\n\nNow, let's summarize the key figures related to bourbon whiskey sales in the U.S. to answer the question about how much is spent on the type of whiskey that 1792 Whiskey is in. \n\nThe total revenue for bourbon and Tennessee whiskey in the U.S. is approximately $2.7 billion. \n\nNow, I can provide the final response based on this analysis. Would you like me to do that?"
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "f499f9cb-f703-44b8-9b14-0a0783dbabbc"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "35b0fd21-087a-49f0-8c6f-862850a543f0"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.6666666666666666,
+        "allow_duplicate": false
+    },
+    {
+        "name": "lm_model",
+        "module_name": "generate_answer",
+        "options": {
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            },
+            "openai_gpt-4o": {
+                "name": "openai_gpt-4o",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o",
+                    "cost_indicator": 10.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o-mini",
+        "type": "LMSelection"
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_demos_5fdc1629-c7f1-4799-965c-08efbd99160c": {
+                "name": "refine_query_demos_5fdc1629-c7f1-4799-965c-08efbd99160c",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "d24c9685-fef0-4eeb-bab4-90b325012cad",
+                    "f1a5b411-1232-4b73-9d28-f62a2e731aa7"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year's Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"",
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "University of Maryland College Park founding year",
+                "id": "d24c9685-fef0-4eeb-bab4-90b325012cad",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To find the year when the University of Maryland, College Park, where John Laub is a Distinguished University Professor, was founded, we need to focus on the institution itself rather than on Laub's biography or achievements. \n\nThe search query should specifically target the founding year of the University of Maryland, College Park, to retrieve the most relevant information without redundancy. \n\nNow, let's formulate the search query based on this reasoning. \n\n**Search Query:** \"University of Maryland College Park founding year\""
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\n[2]: \"Bourbon whiskey\" | \"bourbon and Tennessee whiskey together. According to the Distilled Spirits Council, during 2009\u20132014, the volume of 9-liter cases of whiskey increased by 28.5% overall. Higher-end bourbon and whiskeys experienced the greatest growth. During 2009\u201314, the volume of the value segment increased by 12.1%, premium by 25.8%, high-end premium by 27.8%, and super-premium by 123.8%. Gross supplier revenues (including federal excise tax) for U.S. bourbon and Tennessee whiskey increased by 46.7% over the 2009\u201314 period, with the greatest growth coming from high-end products (18.7% growth for value, 33.6% for premium, 44.5% for high-end premium, and 137.2% for super-premium). In 2014, more\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "\"U.S. bourbon whiskey market spending 2023 premium high-end segment\"",
+                "id": "f1a5b411-1232-4b73-9d28-f62a2e731aa7",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure, let's break down the information we have and what we need to find.\n\n1. **Context Analysis**: The provided context discusses the sales and export figures for bourbon and Tennessee whiskey in the U.S. It highlights the growth in sales, particularly for higher-end and premium products, but does not specify figures for individual brands like 1792 Whiskey.\n\n2. **Question Understanding**: The question asks for the amount spent on the type of whiskey that 1792 Whiskey falls under. Since 1792 Whiskey is a bourbon, we need to find information specifically related to the spending on bourbon whiskey in the U.S.\n\n3. **Identifying Missing Information**: The context does not provide specific spending figures for bourbon whiskey as a category or for 1792 Whiskey itself. We need to find data that details the overall spending on bourbon whiskey in the U.S., particularly focusing on the segment that includes high-end or premium bourbons, as 1792 is considered a premium brand.\n\n4. **Search Query Construction**: To retrieve the necessary information, we should formulate a search query that targets the overall spending on bourbon whiskey in the U.S., with an emphasis on premium and high-end segments.\n\nNow, let's create the search query based on this reasoning. \n\n**Search Query**: \"U.S. bourbon whiskey market spending 2023 premium high-end segment\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "d24c9685-fef0-4eeb-bab4-90b325012cad"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "f1a5b411-1232-4b73-9d28-f62a2e731aa7"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.6666666666666666,
+        "allow_duplicate": false
+    },
+    {
+        "name": "lm_model",
+        "module_name": "refine_query",
+        "options": {
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            },
+            "openai_gpt-4o": {
+                "name": "openai_gpt-4o",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o",
+                    "cost_indicator": 10.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o-mini",
+        "type": "LMSelection"
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_demos_41f463e4-09dc-40a8-a42f-eb51cfba117b": {
+                "name": "generate_query_demos_41f463e4-09dc-40a8-a42f-eb51cfba117b",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "205ee5f8-8c52-43dc-8109-95d085bcb22a",
+                    "b0b5b18e-d1c5-4bd0-84ac-f5f32bf008b9"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "\"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year\"",
+                "id": "205ee5f8-8c52-43dc-8109-95d085bcb22a",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to identify the key components of the question. The question asks for the founding year of the institution where John Laub is a Distinguished University Professor. \n\n1. **Identify the Subject**: The main subject is John Laub, an American criminologist.\n2. **Identify the Institution**: The question specifies that he is a professor in the Department of Criminology and Criminal Justice, but it does not name the institution directly. We need to find out which university he is associated with.\n3. **Focus on the Founding Year**: The ultimate goal is to find out the year the institution was founded.\n\nNow, we can formulate a search query that encompasses these elements:\n\n- Include John Laub's name to find relevant information about him.\n- Specify his role as a Distinguished University Professor in Criminology and Criminal Justice.\n- Look for the name of the institution he is affiliated with.\n- Finally, search for the founding year of that institution.\n\nWith these considerations in mind, the search query can be structured as follows:\n\n**search_query**: \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year\""
+            },
+            {
+                "inputs": {
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "\"1792 Whiskey spending statistics United States market report bourbon whiskey consumer spending 2023\"",
+                "id": "b0b5b18e-d1c5-4bd0-84ac-f5f32bf008b9",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to break down the question into its key components. The question is asking about the spending on a specific type of whiskey, namely 1792 Whiskey, within the United States. \n\n1. **Identify the type of whiskey**: The question specifically mentions \"1792 Whiskey,\" which is a brand of bourbon whiskey. This is important because it narrows down the search to a specific category of whiskey.\n\n2. **Focus on spending**: The question is concerned with the amount of money spent on this type of whiskey. This could involve looking for statistics, market reports, or consumer spending data related to bourbon whiskey in general or 1792 Whiskey specifically.\n\n3. **Geographical context**: The question specifies \"in the United States,\" which means the search should focus on data relevant to the U.S. market.\n\n4. **Possible nuances**: The search might also consider variations in spending, such as retail sales, consumer preferences, or comparisons with other whiskey brands.\n\nBased on this breakdown, the search query should encompass these elements to retrieve relevant information. \n\nNow, let's formulate the search query. \n\n**Search Query**: \n\"1792 Whiskey spending statistics United States market report bourbon whiskey consumer spending 2023\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "205ee5f8-8c52-43dc-8109-95d085bcb22a"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "b0b5b18e-d1c5-4bd0-84ac-f5f32bf008b9"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.6666666666666666,
+        "allow_duplicate": false
+    },
+    {
+        "name": "lm_model",
+        "module_name": "generate_query",
+        "options": {
+            "openai_gpt-4o-mini": {
+                "name": "openai_gpt-4o-mini",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o-mini",
+                    "cost_indicator": 1.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            },
+            "openai_gpt-4o": {
+                "name": "openai_gpt-4o",
+                "type": "ModelOption",
+                "model_config": {
+                    "provider": "openai",
+                    "model": "gpt-4o",
+                    "cost_indicator": 10.0,
+                    "kwargs": {
+                        "temperature": 0.0
+                    },
+                    "price_table": {}
+                }
+            }
+        },
+        "default_option": "openai_gpt-4o-mini",
+        "type": "LMSelection"
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    }
+]

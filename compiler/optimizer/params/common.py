@@ -236,12 +236,14 @@ class ParamBase(metaclass=ParamMeta):
             'module_name': self.module_name,
             'options': {name: option.to_dict() for name, option in self.options.items()},
             'default_option': self.default_option,
-            'type': self.__class__.__name__,
+            '__class__': self.__class__.__name__,
+            '__module__': self.__class__.__module__,
         }
     
     @classmethod
     def from_dict(cls, data: dict):
         return cls(**data)
+    
 
 class EvolveType(Enum):
     ID = auto() # no change

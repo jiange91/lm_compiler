@@ -113,7 +113,7 @@ def opt(data):
         throughput=2,
         log_dir=None,
     )
-    inner_loop_config = driver.layerConfig(
+    inner_loop_config = driver.LayerConfig(
         layer_name='inner_loop',
         universal_params=[model_param, few_shot_params, reasoning_param],
         opt_config=inner_opt_config,
@@ -125,7 +125,7 @@ def opt(data):
         throughput=2,
         log_dir='/mnt/ssd4/lm_compiler/examples/HotPotQA/whole_opt_test',
     )
-    outer_loop_config = driver.layerConfig(
+    outer_loop_config = driver.LayerConfig(
         layer_name='outer_loop',
         universal_params=[ensemble_params],
         opt_config=outer_opt_config,

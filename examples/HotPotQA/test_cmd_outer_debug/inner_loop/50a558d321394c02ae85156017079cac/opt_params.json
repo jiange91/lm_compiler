@@ -1,0 +1,917 @@
+[
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_aggregator_demos_8b770452-2882-40d3-9b82-81a87d15d28c": {
+                "name": "generate_answer_aggregator_demos_8b770452-2882-40d3-9b82-81a87d15d28c",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "f70d099d-2e49-4ffa-b61d-ef26bbee89c0",
+                    "9f077934-6c79-4c0b-8698-70cf7efac984"
+                ]
+            },
+            "generate_answer_aggregator_demos_b1f1f874-6efe-42d4-b6be-4e85252ebf6a": {
+                "name": "generate_answer_aggregator_demos_b1f1f874-6efe-42d4-b6be-4e85252ebf6a",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "f70d099d-2e49-4ffa-b61d-ef26bbee89c0",
+                    "9f077934-6c79-4c0b-8698-70cf7efac984",
+                    "2cf8f999-1218-4674-96f4-77fdafb26f45"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at answering questions based on provided documents. Your task is to formulate a clear, accurate, and concise answer to the given question by using the retrieved context (documents) as your source of information. Please ensure that your answer is well-grounded in the context and directly addresses the question.\n",
+                    "inputs": "{'context': '[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year\\'s Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"\\n[3]: \"University of Maryland, College Park\" | \"the first Lord Baltimores, colonial proprietors of the Province of Maryland in 1634, purchased of the Riversdale Mansion estate nearby today\\'s College Park, Maryland. Later that year, Calvert founded the school and was the acting president from 1859 to 1860. On October 5, 1859, the first 34 students entered the Maryland Agricultural College. The school became a land grant college in February 1864. During the Civil War, Confederate soldiers under Brigadier General Bradley Tyler Johnson moved past the college on July 12, 1864 as part of Jubal Early\\'s raid on Washington, D.C. By the end of the war, financial problems\"\\n[4]: \"History of the University of Maryland, College Park\" | \"Two years later, Charles Benedict Calvert, a descendant of the Barons Baltimore, fervent believer in agricultural education, and a future U.S. Congressman, purchased of the Riverdale Plantation in College Park for $21,000. Calvert founded the school later that year with money earned by the sale of stock certificates. On October 5, 1859, the first 34 students entered the Maryland Agricultural College, including four of Charles Calvert\\'s sons, George, Charles, William, and Eugene. The keynote speaker on opening day was Joseph Henry, the first Secretary of the Smithsonian Institution. In July 1862, the same month that the Maryland Agricultural College awarded\"', 'question': 'The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure, let's break it down step by step.\n\n1. **Identify the Institution**: We need to determine the institution where John Laub works. According to the context, he is a Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park.\n\n2. **Look for the Founding Year**: Next, we need to find out when the University of Maryland, College Park was founded. The relevant context mentions that Charles Benedict Calvert founded the school in 1859.\n\n3. **Confirm the Date**: The context states that the first 34 students entered the Maryland Agricultural College (which is now the University of Maryland, College Park) on October 5, 1859. This indicates that the founding year is indeed 1859.\n\nNow that we have identified the institution and its founding year, we can formulate the answer. \n\nWould you like to proceed with the answer formulation?\n\nAnswer: 1859\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure, let's break it down step by step.\n\n1. **Identify the Institution**: The context mentions that John Laub is a Distinguished University Professor at the University of Maryland, College Park.\n\n2. **Find the Founding Year**: We need to locate the founding year of the University of Maryland, College Park. The relevant context indicates that the school was founded in 1859.\n\n3. **Confirm the Details**: The context specifies that on October 5, 1859, the first 34 students entered the Maryland Agricultural College, which is the precursor to what is now known as the University of Maryland, College Park.\n\nWith this reasoning, we can conclude that the University of Maryland, College Park was founded in 1859. \n\nNow, let's provide the final answer.\n\nAnswer: 1859\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information step by step.\n\n1. **Identify John Laub's Position**: We know that John Laub is a Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park.\n\n2. **Find the Founding Year of the University**: Next, we need to determine when the University of Maryland, College Park was founded. \n\n3. **Context about the University**: From the context provided, we see that the university's history mentions that it began with the establishment of the Maryland Agricultural College. The specific date mentioned when the first students entered was October 5, 1859.\n\n4. **Conclusion**: Based on this information, we can conclude that the University of Maryland, College Park was founded in 1859.\n\nNow that we've reasoned through the information, we can formulate the final response. \n\nThe University of Maryland, College Park, where John Laub is a Distinguished University Professor, was founded in 1859.\n\nAnswer: 1859\n        "
+                },
+                "output": "1859",
+                "id": "f70d099d-2e49-4ffa-b61d-ef26bbee89c0",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at answering questions based on provided documents. Your task is to formulate a clear, accurate, and concise answer to the given question by using the retrieved context (documents) as your source of information. Please ensure that your answer is well-grounded in the context and directly addresses the question.\n",
+                    "inputs": "{'context': '[1]: \"1792 Bourbon\" | \"Knob Creek or Woodford Reserve. This reflects a trend in bourbon production, resulting from competition with single malt whisky, which makes small batch bourbons a big business. When originally introduced, the bourbon carried a \"\"Small Batch Aged 8 years\"\" statement on the back label and \"\"8-year-old\"\" in the text printed on the back of the bottle. In December 2013, the age statement was dropped from the label and replaced with the wording \"\"small batch bourbon whiskey\"\" and the term \"\"8-year-old\"\" was removed from the text. 1792 Bourbon was originally introduced into the market by Barton as \"\"Ridgewood Reserve 1792\"\". The\"\\n[2]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\\n[3]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\\n[4]: \"Bourbon whiskey\" | \"bourbon and Tennessee whiskey together. According to the Distilled Spirits Council, during 2009\u20132014, the volume of 9-liter cases of whiskey increased by 28.5% overall. Higher-end bourbon and whiskeys experienced the greatest growth. During 2009\u201314, the volume of the value segment increased by 12.1%, premium by 25.8%, high-end premium by 27.8%, and super-premium by 123.8%. Gross supplier revenues (including federal excise tax) for U.S. bourbon and Tennessee whiskey increased by 46.7% over the 2009\u201314 period, with the greatest growth coming from high-end products (18.7% growth for value, 33.6% for premium, 44.5% for high-end premium, and 137.2% for super-premium). In 2014, more\"', 'question': 'How much is spent on the type of whiskey that 1792 Whiskey is in the United States?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure, let's break down the information step by step.\n\n1. **Identify the Type of Whiskey**: 1792 Bourbon is categorized as a Kentucky straight Bourbon whiskey. \n\n2. **Market Context**: The context mentions that there has been a significant increase in the sales and revenue of bourbon whiskey in the U.S. between 2009 and 2014. Specifically, the volume of whiskey, particularly higher-end bourbons, has seen considerable growth.\n\n3. **Revenue Generation**: In 2013, it was noted that U.S. exports of bourbon whiskey surpassed $1 billion. Additionally, in 2014, the total for U.S. bourbon whiskey exports was also around $1 billion, indicating a strong market presence for bourbon.\n\n4. **Growth Trends**: The context outlines growth percentages across various segments of whiskey. High-end bourbons and super-premium products experienced substantial growth during the 2009\u20132014 period, with super-premium bourbon seeing a growth of 137.2%.\n\n5. **Overall Revenue**: The gross supplier revenues for U.S. bourbon and Tennessee whiskey increased by 46.7% over the same period.\n\nNow, based on this information, we can deduce that the spending on bourbon whiskey, especially high-end varieties like 1792 Bourbon, is considerable, contributing significantly to the overall liquor market in the U.S.\n\nWith this reasoning in mind, let's formulate a clear answer to the question about how much is spent on the type of whiskey that 1792 Whiskey is in the United States. \n\nWould you like to proceed with the final response now?\n\nAnswer: Over $2.7 billion in wholesale revenue for bourbon and Tennessee whiskey in the U.S.\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Certainly! Let\u2019s break down the information step by step to determine how much is spent on the type of whiskey that 1792 Bourbon belongs to.\n\n1. **Identify the Type of Whiskey**: \n   - 1792 Bourbon is categorized as a Kentucky straight bourbon whiskey. It's part of the small-batch bourbon segment aimed at the high-end liquor market.\n\n2. **Examine the Context for Financial Data**:\n   - The context mentions that bourbon and Tennessee whiskey generated almost $2.7 billion in wholesale distillery revenue in the U.S. for the year 2013. \n   - Additionally, it notes that U.S. bourbon whiskey exports surpassed $1 billion for the first time in 2013, indicating a strong market presence.\n\n3. **Growth of the Bourbon Market**:\n   - Between 2009 and 2014, the gross supplier revenues for U.S. bourbon and Tennessee whiskey increased significantly (by 46.7%). This suggests a growing consumer interest and financial investment in bourbons, particularly in higher-end products.\n\n4. **High-End Segment Growth**:\n   - The context specifies that super-premium bourbons (which would likely include brands like 1792 Bourbon) experienced the most substantial growth, with a reported increase of 137.2% during that period.\n\n5. **Conclusion**:\n   - While specific figures for 1792 Bourbon alone are not provided, we can infer that the overall spending on high-end bourbons is a significant portion of the $2.7 billion generated from bourbon and Tennessee whiskey sales in the U.S.\n\nNow that we've analyzed the context, we can formulate a response to the question. Would you like to proceed with that?\n\nAnswer: Approximately $2.7 billion on bourbon and Tennessee whiskey in the U.S.\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Certainly! Let's break down the information we have regarding 1792 Bourbon and the whiskey market.\n\n1. **Understanding 1792 Bourbon**: \n   - 1792 Bourbon is a Kentucky straight bourbon whiskey produced by the Barton 1792 Distillery and is part of a line of small-batch bourbons aimed at the high-end liquor market. \n   - It is positioned as a premium brand and competes with other high-end bourbons.\n\n2. **Market Trends for Bourbon**: \n   - The context mentions that during the years 2009 to 2014, there was significant growth in the overall bourbon and Tennessee whiskey market, particularly in higher-end segments.\n   - Specifically, it states that \"gross supplier revenues for U.S. bourbon and Tennessee whiskey increased by 46.7% over the 2009\u201314 period,\" indicating a robust market for premium whiskey.\n\n3. **Financial Figures**: \n   - In 2013, U.S. exports of bourbon whiskey surpassed $1 billion for the first time, which reflects a strong international demand.\n   - The context also notes that in 2014, the volume of premium and high-end bourbon experienced substantial growth, with super-premium products seeing a dramatic increase of 137.2%.\n\n4. **Conclusion from Data**: \n   - While the context does not provide a specific dollar amount for the total spending on the type of whiskey that 1792 Bourbon falls into, it highlights the growth and increasing revenue in the premium and high-end bourbon segments.\n\nNow, with this reasoning, we can formulate a precise answer. Would you like to proceed with that?\n\nAnswer: The U.S. bourbon market generated almost $2.7 billion in wholesale revenue in 2013, with significant growth in high-end segments.\n        "
+                },
+                "output": "Approximately $2.7 billion on bourbon and Tennessee whiskey in the U.S.",
+                "id": "9f077934-6c79-4c0b-8698-70cf7efac984",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at answering questions based on provided documents. Your task is to formulate a clear, accurate, and concise answer to the given question by using the retrieved context (documents) as your source of information. Please ensure that your answer is well-grounded in the context and directly addresses the question.\n",
+                    "inputs": "{'context': '[1]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\\n[2]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\\n[3]: \"Bourbon whiskey\" | \"is strongly associated with the American South and with Kentucky in particular. As of 2014, distillers\\' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion, and bourbon made up about two-thirds of the $1.6 billion of U.S. exports of distilled spirits. Distilling was most likely brought to present-day Kentucky in the late 18th century by Scots, Scots-Irish, and other settlers (including English, Irish, Welsh, German, and French) who began to farm the area in earnest. The origin of bourbon as a distinct form of whiskey is not well documented. There are many conflicting legends and claims,\"', 'question': 'How much is spent on the type of whiskey that 1792 Whiskey is in the United States?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have in the context and analyze it step by step.\n\n1. **Identify the type of whiskey**: The question refers to \"1792 Whiskey,\" which is categorized as a Kentucky straight Bourbon whiskey. Therefore, we need to focus on the market for bourbon whiskey in the United States.\n\n2. **Market Revenue for Bourbon**: According to the provided context, in 2014, distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion. This figure indicates the total revenue generated from sales of bourbon whiskey in the U.S.\n\n3. **Conclusion**: Since 1792 Whiskey is a type of bourbon, we can conclude that the amount spent on bourbon whiskey in the United States aligns with the $2.7 billion figure mentioned in the context.\n\nNow that we've reasoned through the information, we can formulate a concise answer to the question. \n\n**Final Response**: In the United States, approximately $2.7 billion is spent on bourbon whiskey, which includes 1792 Whiskey.\n\nAnswer: Approximately $2.7 billion.\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information step by step to find the answer.\n\n1. **Identify the Type of Whiskey**: The context mentions that 1792 Bourbon is a Kentucky straight Bourbon whiskey. Therefore, we are looking for information specifically about bourbon whiskey sales in the United States.\n\n2. **Look for Relevant Data on Bourbon Whiskey Sales**: We can find relevant financial figures regarding bourbon whiskey in the provided context. \n\n3. **Extract Information on Spending or Revenue**: The context states that as of 2014, the distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion. \n\n4. **Conclusion**: Based on the extracted information, we can conclude that the amount spent on bourbon whiskey, including 1792 Bourbon, in the United States is approximately $2.7 billion as of 2014.\n\nNow, I can formulate the final answer based on this reasoning. Would you like to proceed with the answer?\n\nAnswer: Approximately $2.7 billion.\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have and analyze it step by step.\n\n1. **Identifying 1792 Whiskey**: We know from the context that 1792 Bourbon is a type of Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery. It is positioned as a premium brand in the high-end liquor market.\n\n2. **Understanding Bourbon Whiskey Market**: From the provided contexts, particularly [1] and [3], we can gather that bourbon whiskey is strongly associated with Kentucky and has significant sales figures:\n   - In 2014, the wholesale market revenue for bourbon sold within the U.S. was about **$2.7 billion**.\n   - Bourbon accounted for about two-thirds of the total U.S. exports of distilled spirits, which amounted to **$1.6 billion**.\n\n3. **Calculating the Market Size**: Given that the revenue from bourbon whiskey in the U.S. is stated as **$2.7 billion**, this figure represents the total amount spent on bourbon whiskey in the United States.\n\nNow that we have analyzed the information, we can formulate a clear and concise answer to the question. \n\nShall I proceed to provide the final answer?\n\nAnswer: $2.7 billion\n        "
+                },
+                "output": "Approximately $2.7 billion.",
+                "id": "2cf8f999-1218-4674-96f4-77fdafb26f45",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "f70d099d-2e49-4ffa-b61d-ef26bbee89c0"
+            },
+            {
+                "score": 0.30769230769230765,
+                "task_id": "eval_0",
+                "demo_id": "9f077934-6c79-4c0b-8698-70cf7efac984"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "2cf8f999-1218-4674-96f4-77fdafb26f45"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.9743589743589742,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_sampler_0_demos_4a03cec1-af28-4cab-8e41-11ad9045482b": {
+                "name": "generate_query_sampler_0_demos_4a03cec1-af28-4cab-8e41-11ad9045482b",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "6110d482-f6fc-413c-b589-572eefd2fe5c",
+                    "79e8016c-3249-4058-bd2f-9aacc345d937"
+                ]
+            },
+            "generate_query_sampler_0_demos_a8c16918-1800-4874-ba6d-8b563930a0d2": {
+                "name": "generate_query_sampler_0_demos_a8c16918-1800-4874-ba6d-8b563930a0d2",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "6110d482-f6fc-413c-b589-572eefd2fe5c",
+                    "79e8016c-3249-4058-bd2f-9aacc345d937",
+                    "98bea037-bb3b-44c2-aec8-57eea88abcbd"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "\"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founded year\"",
+                "id": "6110d482-f6fc-413c-b589-572eefd2fe5c",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query for the question regarding John Laub's affiliation, we need to break down the key components of the question:\n\n1. **Subject of Interest**: John Laub, an American criminologist and Distinguished University Professor.\n2. **Affiliation**: The institution where he is a professor, specifically the Department of Criminology and Criminal Justice.\n3. **Founding Year**: We need to find out when this department (or university) was founded.\n\nNow let's consider how to phrase the search query to encompass these elements. We want information about John Laub, his academic position, and the founding year of the department or university he is associated with.\n\nHere\u2019s how we can structure the search query:\n\n1. **Keywords**: We will include his name, title, and the specific department along with a focus on the founding year.\n2. **Context**: We will ensure to include terms that relate to the institution's history.\n\nBased on this reasoning, a well-structured search query could look like this:\n\n**search_query**: \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founded year\" \n\nThis query is designed to pull up relevant documents, articles, or official pages that mention John Laub's professional details and the founding year of the department or university he is affiliated with."
+            },
+            {
+                "inputs": {
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "\"1792 Whiskey expenditure in the United States 2023 OR sales statistics OR market value OR spending on whiskey industry\"",
+                "id": "79e8016c-3249-4058-bd2f-9aacc345d937",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to break down the question into its key components and context. Here\u2019s how we can approach it:\n\n1. **Identify the Subject**: The question is focused on \"1792 Whiskey,\" which is a specific brand of whiskey. We need to ensure that our search queries include references to this brand.\n\n2. **Determine the Type of Information Needed**: The question asks about the expenditure on this type of whiskey in the United States. This suggests we need data on:\n   - The total sales amount or expenditure associated with 1792 Whiskey.\n   - Comparisons or context regarding whiskey spending in general in the U.S.\n\n3. **Consider Relevant Terms**: The terms we could use in our search include:\n   - \"1792 Whiskey\"\n   - \"spending on whiskey in the United States\"\n   - \"market value of 1792 Whiskey\"\n   - \"U.S. whiskey sales statistics\"\n   - \"whiskey industry spending\"\n\n4. **Formulate the Search Query**: We want to construct a search query that encompasses these aspects clearly and effectively.\n\nNow, let\u2019s combine these elements into a structured search query.\n\n**Search Query**: \n\"1792 Whiskey expenditure in the United States 2023 OR sales statistics OR market value OR spending on whiskey industry\"\n\nThis search query is designed to retrieve documents that provide information on how much is spent on 1792 Whiskey specifically, as well as broader context on whiskey spending in the U.S."
+            },
+            {
+                "inputs": {
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "\"1792 Whiskey spending United States 2023 OR sales figures OR market expenditure OR whiskey industry spending statistics\"",
+                "id": "98bea037-bb3b-44c2-aec8-57eea88abcbd",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query for the question about the spending on 1792 Whiskey in the United States, we need to break down the key components of the question:\n\n1. **Subject of Interest**: The question focuses on \"1792 Whiskey,\" which is a specific brand of whiskey. We need to ensure that our search query includes this brand prominently.\n\n2. **Type of Information Needed**: The question asks about the amount spent on this type of whiskey in the United States. This indicates that we are looking for:\n   - Total expenditure or sales figures for 1792 Whiskey.\n   - Contextual information regarding whiskey spending in the U.S. market.\n\n3. **Relevant Keywords and Phrases**: The terms that could be useful in our search include:\n   - \"1792 Whiskey\"\n   - \"spending on whiskey in the U.S.\"\n   - \"sales data for 1792 Whiskey\"\n   - \"whiskey market expenditure\"\n   - \"whiskey sales statistics in the United States\"\n\n4. **Formulate the Search Query**: We need to create a search query that integrates these key elements and searches for documents that are likely to provide the required information.\n\nNow, let's create a structured search query based on these considerations.\n\nsearch_query:\n\"1792 Whiskey spending United States 2023 OR sales figures OR market expenditure OR whiskey industry spending statistics\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "6110d482-f6fc-413c-b589-572eefd2fe5c"
+            },
+            {
+                "score": 0.30769230769230765,
+                "task_id": "eval_0",
+                "demo_id": "79e8016c-3249-4058-bd2f-9aacc345d937"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "98bea037-bb3b-44c2-aec8-57eea88abcbd"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.9743589743589742,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_sampler_0_demos_9dfb2a09-70ea-493e-81cc-606c33168f06": {
+                "name": "generate_answer_sampler_0_demos_9dfb2a09-70ea-493e-81cc-606c33168f06",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "94e207d4-581b-4b25-b8d4-52aa7799fe42",
+                    "03e24562-b860-4a76-a32b-b733340639a3"
+                ]
+            },
+            "generate_answer_sampler_0_demos_3b4147a3-d263-4d6d-ac8f-b8798e310660": {
+                "name": "generate_answer_sampler_0_demos_3b4147a3-d263-4d6d-ac8f-b8798e310660",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "94e207d4-581b-4b25-b8d4-52aa7799fe42",
+                    "03e24562-b860-4a76-a32b-b733340639a3",
+                    "f1c6c1af-747c-49a4-a99f-7569e12e32d1"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year's Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"\n[3]: \"University of Maryland, College Park\" | \"the first Lord Baltimores, colonial proprietors of the Province of Maryland in 1634, purchased of the Riversdale Mansion estate nearby today's College Park, Maryland. Later that year, Calvert founded the school and was the acting president from 1859 to 1860. On October 5, 1859, the first 34 students entered the Maryland Agricultural College. The school became a land grant college in February 1864. During the Civil War, Confederate soldiers under Brigadier General Bradley Tyler Johnson moved past the college on July 12, 1864 as part of Jubal Early's raid on Washington, D.C. By the end of the war, financial problems\"\n[4]: \"History of the University of Maryland, College Park\" | \"Two years later, Charles Benedict Calvert, a descendant of the Barons Baltimore, fervent believer in agricultural education, and a future U.S. Congressman, purchased of the Riverdale Plantation in College Park for $21,000. Calvert founded the school later that year with money earned by the sale of stock certificates. On October 5, 1859, the first 34 students entered the Maryland Agricultural College, including four of Charles Calvert's sons, George, Charles, William, and Eugene. The keynote speaker on opening day was Joseph Henry, the first Secretary of the Smithsonian Institution. In July 1862, the same month that the Maryland Agricultural College awarded\"",
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "1859",
+                "id": "94e207d4-581b-4b25-b8d4-52aa7799fe42",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure, let's break it down step by step.\n\n1. **Identify the Institution**: We need to determine the institution where John Laub works. According to the context, he is a Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park.\n\n2. **Look for the Founding Year**: Next, we need to find out when the University of Maryland, College Park was founded. The relevant context mentions that Charles Benedict Calvert founded the school in 1859.\n\n3. **Confirm the Date**: The context states that the first 34 students entered the Maryland Agricultural College (which is now the University of Maryland, College Park) on October 5, 1859. This indicates that the founding year is indeed 1859.\n\nNow that we have identified the institution and its founding year, we can formulate the answer. \n\nWould you like to proceed with the answer formulation?"
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"1792 Bourbon\" | \"Knob Creek or Woodford Reserve. This reflects a trend in bourbon production, resulting from competition with single malt whisky, which makes small batch bourbons a big business. When originally introduced, the bourbon carried a \"\"Small Batch Aged 8 years\"\" statement on the back label and \"\"8-year-old\"\" in the text printed on the back of the bottle. In December 2013, the age statement was dropped from the label and replaced with the wording \"\"small batch bourbon whiskey\"\" and the term \"\"8-year-old\"\" was removed from the text. 1792 Bourbon was originally introduced into the market by Barton as \"\"Ridgewood Reserve 1792\"\". The\"\n[2]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\n[3]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\n[4]: \"Bourbon whiskey\" | \"bourbon and Tennessee whiskey together. According to the Distilled Spirits Council, during 2009\u20132014, the volume of 9-liter cases of whiskey increased by 28.5% overall. Higher-end bourbon and whiskeys experienced the greatest growth. During 2009\u201314, the volume of the value segment increased by 12.1%, premium by 25.8%, high-end premium by 27.8%, and super-premium by 123.8%. Gross supplier revenues (including federal excise tax) for U.S. bourbon and Tennessee whiskey increased by 46.7% over the 2009\u201314 period, with the greatest growth coming from high-end products (18.7% growth for value, 33.6% for premium, 44.5% for high-end premium, and 137.2% for super-premium). In 2014, more\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "Over $2.7 billion in wholesale revenue for bourbon and Tennessee whiskey in the U.S.",
+                "id": "03e24562-b860-4a76-a32b-b733340639a3",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure, let's break down the information step by step.\n\n1. **Identify the Type of Whiskey**: 1792 Bourbon is categorized as a Kentucky straight Bourbon whiskey. \n\n2. **Market Context**: The context mentions that there has been a significant increase in the sales and revenue of bourbon whiskey in the U.S. between 2009 and 2014. Specifically, the volume of whiskey, particularly higher-end bourbons, has seen considerable growth.\n\n3. **Revenue Generation**: In 2013, it was noted that U.S. exports of bourbon whiskey surpassed $1 billion. Additionally, in 2014, the total for U.S. bourbon whiskey exports was also around $1 billion, indicating a strong market presence for bourbon.\n\n4. **Growth Trends**: The context outlines growth percentages across various segments of whiskey. High-end bourbons and super-premium products experienced substantial growth during the 2009\u20132014 period, with super-premium bourbon seeing a growth of 137.2%.\n\n5. **Overall Revenue**: The gross supplier revenues for U.S. bourbon and Tennessee whiskey increased by 46.7% over the same period.\n\nNow, based on this information, we can deduce that the spending on bourbon whiskey, especially high-end varieties like 1792 Bourbon, is considerable, contributing significantly to the overall liquor market in the U.S.\n\nWith this reasoning in mind, let's formulate a clear answer to the question about how much is spent on the type of whiskey that 1792 Whiskey is in the United States. \n\nWould you like to proceed with the final response now?"
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\n[2]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\n[3]: \"Bourbon whiskey\" | \"is strongly associated with the American South and with Kentucky in particular. As of 2014, distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion, and bourbon made up about two-thirds of the $1.6 billion of U.S. exports of distilled spirits. Distilling was most likely brought to present-day Kentucky in the late 18th century by Scots, Scots-Irish, and other settlers (including English, Irish, Welsh, German, and French) who began to farm the area in earnest. The origin of bourbon as a distinct form of whiskey is not well documented. There are many conflicting legends and claims,\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "Approximately $2.7 billion.",
+                "id": "f1c6c1af-747c-49a4-a99f-7569e12e32d1",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have in the context and analyze it step by step.\n\n1. **Identify the type of whiskey**: The question refers to \"1792 Whiskey,\" which is categorized as a Kentucky straight Bourbon whiskey. Therefore, we need to focus on the market for bourbon whiskey in the United States.\n\n2. **Market Revenue for Bourbon**: According to the provided context, in 2014, distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion. This figure indicates the total revenue generated from sales of bourbon whiskey in the U.S.\n\n3. **Conclusion**: Since 1792 Whiskey is a type of bourbon, we can conclude that the amount spent on bourbon whiskey in the United States aligns with the $2.7 billion figure mentioned in the context.\n\nNow that we've reasoned through the information, we can formulate a concise answer to the question. \n\n**Final Response**: In the United States, approximately $2.7 billion is spent on bourbon whiskey, which includes 1792 Whiskey."
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "94e207d4-581b-4b25-b8d4-52aa7799fe42"
+            },
+            {
+                "score": 0.30769230769230765,
+                "task_id": "eval_0",
+                "demo_id": "03e24562-b860-4a76-a32b-b733340639a3"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "f1c6c1af-747c-49a4-a99f-7569e12e32d1"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.9743589743589742,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_aggregator_demos_f55c54ff-5e3f-46b3-bcac-96318ca92ef8": {
+                "name": "generate_query_aggregator_demos_f55c54ff-5e3f-46b3-bcac-96318ca92ef8",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "72365230-2865-4b3f-9d5c-6e2f263ecdfe",
+                    "9b2a73cd-728b-4875-9699-0a3befa81f4b"
+                ]
+            },
+            "generate_query_aggregator_demos_2b66ec4e-85af-435e-8d9b-d3f7686e5ad7": {
+                "name": "generate_query_aggregator_demos_2b66ec4e-85af-435e-8d9b-d3f7686e5ad7",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "72365230-2865-4b3f-9d5c-6e2f263ecdfe",
+                    "9b2a73cd-728b-4875-9699-0a3befa81f4b",
+                    "6cd9c7d4-a791-4a96-b7cc-096232bb81f0"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.\n\nYou should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.\n",
+                    "inputs": "{'question': 'The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query for the question regarding John Laub's affiliation, we need to break down the key components of the question:\n\n1. **Subject of Interest**: John Laub, an American criminologist and Distinguished University Professor.\n2. **Affiliation**: The institution where he is a professor, specifically the Department of Criminology and Criminal Justice.\n3. **Founding Year**: We need to find out when this department (or university) was founded.\n\nNow let's consider how to phrase the search query to encompass these elements. We want information about John Laub, his academic position, and the founding year of the department or university he is associated with.\n\nHere\u2019s how we can structure the search query:\n\n1. **Keywords**: We will include his name, title, and the specific department along with a focus on the founding year.\n2. **Context**: We will ensure to include terms that relate to the institution's history.\n\nBased on this reasoning, a well-structured search query could look like this:\n\n**search_query**: \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founded year\" \n\nThis query is designed to pull up relevant documents, articles, or official pages that mention John Laub's professional details and the founding year of the department or university he is affiliated with.\n\nAnswer: \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founded year\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to identify the key components of the question. Here's a breakdown of the elements involved:\n\n1. **Subject**: John Laub, an American criminologist.\n2. **Position**: Distinguished University Professor.\n3. **Department**: Department of Criminology and Criminal Justice.\n4. **Institution**: The specific institution where he works (we need to identify this).\n5. **Historical Aspect**: The year the institution was founded.\n\nNow, we want to create a search query that focuses on finding information about John Laub, his role in the Department of Criminology and Criminal Justice, and the founding year of the institution he is associated with.\n\n### Potential Keywords and Phrases:\n- \"John Laub\"\n- \"American criminologist\"\n- \"Distinguished University Professor\"\n- \"Department of Criminology and Criminal Justice\"\n- \"founded in year\"\n- \"university founded year\"\n\n### Search Query Construction:\nTo ensure we gather relevant documents, we can formulate our search query by combining these elements. We should also consider using phrases that are likely to yield information about both John Laub and the history of the institution.\n\n### Drafting the Search Query:\nTaking all of this into account, a well-structured search query could be:\n\n**search_query**: \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year university\" \n\nThis query is designed to retrieve information about John Laub's position, the department he belongs to, and the founding year of the relevant university or institution.\n\nAnswer: \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year university\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query for the question regarding John Laub and his affiliation with a university, we need to identify the key components of the question. The key elements include:\n\n1. **John Laub**: A specific individual who is an American criminologist.\n2. **Distinguished University Professor**: This title indicates his level and recognition within the academic community.\n3. **Department of Criminology and Criminal Justice**: This specifies the department where he works.\n4. **Year founded**: We are looking for the year that the university or institution where he works was established.\n\nNext, we need to consider the type of information we are looking for. We want to find credible sources that provide details about John Laub's current position, the university he is affiliated with, and the founding year of that institution. \n\nGiven this breakdown, our search query should include these elements, and we should aim to retrieve information about both John Laub and the university's history.\n\nNow, let's formulate the search query:\n\n**Search Query:**\n\"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice university founded year\"\n\nAnswer: \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice university founded year\"\n        "
+                },
+                "output": "\"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year university\"",
+                "id": "72365230-2865-4b3f-9d5c-6e2f263ecdfe",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.\n\nYou should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.\n",
+                    "inputs": "{'question': 'How much is spent on the type of whiskey that 1792 Whiskey is in the United States?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to break down the question into its key components and context. Here\u2019s how we can approach it:\n\n1. **Identify the Subject**: The question is focused on \"1792 Whiskey,\" which is a specific brand of whiskey. We need to ensure that our search queries include references to this brand.\n\n2. **Determine the Type of Information Needed**: The question asks about the expenditure on this type of whiskey in the United States. This suggests we need data on:\n   - The total sales amount or expenditure associated with 1792 Whiskey.\n   - Comparisons or context regarding whiskey spending in general in the U.S.\n\n3. **Consider Relevant Terms**: The terms we could use in our search include:\n   - \"1792 Whiskey\"\n   - \"spending on whiskey in the United States\"\n   - \"market value of 1792 Whiskey\"\n   - \"U.S. whiskey sales statistics\"\n   - \"whiskey industry spending\"\n\n4. **Formulate the Search Query**: We want to construct a search query that encompasses these aspects clearly and effectively.\n\nNow, let\u2019s combine these elements into a structured search query.\n\n**Search Query**: \n\"1792 Whiskey expenditure in the United States 2023 OR sales statistics OR market value OR spending on whiskey industry\"\n\nThis search query is designed to retrieve documents that provide information on how much is spent on 1792 Whiskey specifically, as well as broader context on whiskey spending in the U.S.\n\nAnswer: \"1792 Whiskey expenditure in the United States 2023 OR sales statistics OR market value OR spending on whiskey industry\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct a search query that effectively retrieves the necessary information about the spending on the type of whiskey that 1792 Whiskey falls under, we need to consider several key elements:\n\n1. **Type of Whiskey**: 1792 Whiskey is categorized as a bourbon. Therefore, we need to focus our search on bourbon whiskey.\n\n2. **Spending/Market Information**: We are interested in financial data, specifically how much is spent on bourbon whiskey in the United States. This could include retail sales, market value, and industry reports.\n\n3. **Geographic Focus**: The search should specifically target the United States to ensure the information is relevant to the question.\n\n4. **Time Frame**: It might be relevant to specify if we want recent data or historical trends, but since the question does not specify, we can keep it broad initially.\n\n5. **Sources**: We should consider looking for sources like market research reports, industry publications, and financial analysis that focus on bourbon whiskey sales in the U.S.\n\nConsidering these points, the search query can be structured to encapsulate all relevant aspects. \n\nNow, I will formulate the search query based on this analysis. \n\n**Search Query**:\n\"spending on bourbon whiskey in the United States 2023 market report sales data financial analysis\"\n\nAnswer: \"spending on bourbon whiskey in the United States 2023 market report sales data financial analysis\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To create an effective search query, we need to break down the components of the question. The question asks about expenditures related to a specific type of whiskey, namely 1792 Whiskey, within the United States. \n\nKey components to consider include:\n\n1. **Type of Whiskey**: 1792 Whiskey is a bourbon, so we need to include that in the search to focus on the correct category.\n2. **Geographic Focus**: The question specifies the United States, which means we need to limit our search to this region.\n3. **Expenditure**: The inquiry is about spending, so we should seek information on sales figures, market analysis, or industry reports related to bourbon whiskey.\n4. **Temporal Aspect**: Since the question does not specify a time frame, it might be useful to look for both recent statistics and historical trends in spending.\n\nWith these elements in mind, the search query needs to incorporate keywords related to bourbon whiskey expenditures, market trends, and specifics about 1792 Whiskey.\n\nNow, I will formulate the search query. \n\n**Search Query:**\n\"1792 Whiskey spending statistics United States bourbon market analysis expenditures trends 2023\"\n\nAnswer: \"1792 Whiskey spending statistics United States bourbon market analysis expenditures trends 2023\"\n        "
+                },
+                "output": "\"1792 Whiskey spending statistics United States bourbon market analysis expenditures trends 2023\"",
+                "id": "9b2a73cd-728b-4875-9699-0a3befa81f4b",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.\n\nYou should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.\n",
+                    "inputs": "{'question': 'How much is spent on the type of whiskey that 1792 Whiskey is in the United States?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query for the question about the spending on 1792 Whiskey in the United States, we need to break down the key components of the question:\n\n1. **Subject of Interest**: The question focuses on \"1792 Whiskey,\" which is a specific brand of whiskey. We need to ensure that our search query includes this brand prominently.\n\n2. **Type of Information Needed**: The question asks about the amount spent on this type of whiskey in the United States. This indicates that we are looking for:\n   - Total expenditure or sales figures for 1792 Whiskey.\n   - Contextual information regarding whiskey spending in the U.S. market.\n\n3. **Relevant Keywords and Phrases**: The terms that could be useful in our search include:\n   - \"1792 Whiskey\"\n   - \"spending on whiskey in the U.S.\"\n   - \"sales data for 1792 Whiskey\"\n   - \"whiskey market expenditure\"\n   - \"whiskey sales statistics in the United States\"\n\n4. **Formulate the Search Query**: We need to create a search query that integrates these key elements and searches for documents that are likely to provide the required information.\n\nNow, let's create a structured search query based on these considerations.\n\nsearch_query:\n\"1792 Whiskey spending United States 2023 OR sales figures OR market expenditure OR whiskey industry spending statistics\"\n\nAnswer: \"1792 Whiskey spending United States 2023 OR sales figures OR market expenditure OR whiskey industry spending statistics\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: rationale:\n\n: To construct an effective search query, it's important to identify the main components of the question. Here\u2019s a breakdown of the elements involved:\n\n1. **Type of Whiskey**: 1792 Whiskey is classified as bourbon. This is a crucial detail since the question pertains to a specific category of whiskey.\n\n2. **Financial Aspect**: The question focuses on the amount of money spent, implying we need to find data related to sales, expenditures, or market value regarding bourbon whiskey.\n\n3. **Geographic Focus**: The spending must pertain specifically to the United States, which narrows our information sources.\n\n4. **Time Frame**: While the question does not specify a time frame, focusing on recent data (e.g., 2023) could yield the most relevant and accurate information.\n\n5. **Sources**: The search should look for market research reports, industry analyses, and retail sales data that focus on the bourbon whiskey market in the U.S.\n\nTaking these components into account, we can create a comprehensive search query that targets the necessary information.\n\nsearch_query:\n\"spending on bourbon whiskey in the United States 2023 market sales data financial analysis\"\n\nAnswer: \"spending on bourbon whiskey in the United States 2023 market sales data financial analysis\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to identify the key components of the question and what specific information is being sought. \n\n1. **Identify the Subject**: The question focuses on \"1792 Whiskey,\" which is a specific brand of whiskey. It falls under the category of bourbon, as 1792 is known for producing bourbon whiskey.\n\n2. **Determine the Geographic Focus**: The question specifically mentions the \"United States,\" indicating a need for data relevant to this location.\n\n3. **Financial Aspect**: The inquiry is about the spending or expenditure on a certain type of whiskey, which suggests a need for data on sales, market trends, or consumer spending specifically related to 1792 Whiskey or bourbon in general.\n\n4. **Contextual Keywords**: To enrich the search, we should consider including relevant terms such as \"market analysis,\" \"sales figures,\" \"consumer spending,\" \"whiskey industry,\" \"bourbon whiskey,\" and \"1792 Bourbon.\"\n\n5. **Types of Sources**: It may be useful to look for sources such as industry reports, financial analyses, market research studies, or articles from reputable publications that cover the whiskey market.\n\nBased on this reasoning, we can now construct a comprehensive search query to retrieve the necessary information.\n\n**Search Query**: \n\"1792 Whiskey spending United States market analysis sales figures consumer spending bourbon whiskey industry report\"\n\nAnswer: \"1792 Whiskey spending United States market analysis sales figures consumer spending bourbon whiskey industry report\"\n        "
+                },
+                "output": "\"1792 Whiskey spending United States market analysis sales figures consumer spending bourbon whiskey industry report\"",
+                "id": "6cd9c7d4-a791-4a96-b7cc-096232bb81f0",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "72365230-2865-4b3f-9d5c-6e2f263ecdfe"
+            },
+            {
+                "score": 0.30769230769230765,
+                "task_id": "eval_0",
+                "demo_id": "9b2a73cd-728b-4875-9699-0a3befa81f4b"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "6cd9c7d4-a791-4a96-b7cc-096232bb81f0"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.9743589743589742,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_demos_42f367c6-a036-434d-9b68-6d7717a2e569": {
+                "name": "refine_query_demos_42f367c6-a036-434d-9b68-6d7717a2e569",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "196f8dd3-955c-4479-bae1-764d703039a9",
+                    "aa6a59f6-6b42-4f99-af1c-3720d44056d6"
+                ]
+            },
+            "refine_query_demos_0dd42abe-d07a-4d2a-bf13-a33558de1739": {
+                "name": "refine_query_demos_0dd42abe-d07a-4d2a-bf13-a33558de1739",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "196f8dd3-955c-4479-bae1-764d703039a9",
+                    "aa6a59f6-6b42-4f99-af1c-3720d44056d6",
+                    "ac6759d2-cce4-40c6-b414-1a5029818861"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year's Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"",
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "University of Maryland College Park founding year",
+                "id": "196f8dd3-955c-4479-bae1-764d703039a9",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To find the year when the University of Maryland, College Park, where John Laub is a Distinguished University Professor, was founded, we need to focus on the institution itself rather than on Laub's biography. \n\nThe search query should specifically target the founding year of the University of Maryland, College Park, to retrieve the most relevant information. \n\nNow, let's formulate the search query based on this reasoning. \n\nThe effective search query would be: \n\n\"University of Maryland College Park founding year\""
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"1792 Bourbon\" | \"Knob Creek or Woodford Reserve. This reflects a trend in bourbon production, resulting from competition with single malt whisky, which makes small batch bourbons a big business. When originally introduced, the bourbon carried a \"\"Small Batch Aged 8 years\"\" statement on the back label and \"\"8-year-old\"\" in the text printed on the back of the bottle. In December 2013, the age statement was dropped from the label and replaced with the wording \"\"small batch bourbon whiskey\"\" and the term \"\"8-year-old\"\" was removed from the text. 1792 Bourbon was originally introduced into the market by Barton as \"\"Ridgewood Reserve 1792\"\". The\"\n[2]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "\"U.S. bourbon whiskey market spending statistics 2023\"",
+                "id": "aa6a59f6-6b42-4f99-af1c-3720d44056d6",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure, let's break down the task step by step.\n\n1. **Identify the Key Elements**: The question is asking about the spending on a specific type of whiskey, which in this case is bourbon, as 1792 Bourbon is a type of Kentucky straight bourbon whiskey.\n\n2. **Determine the Focus of the Search**: We need to find information related to the market size, sales figures, or overall spending on bourbon whiskey in the United States. This includes looking for statistics, reports, or studies that provide insights into consumer spending or market trends for bourbon.\n\n3. **Avoid Redundancy**: The search query should not include information already provided in the context, such as details about 1792 Bourbon itself, but rather focus on the broader category of bourbon whiskey.\n\n4. **Formulate the Search Query**: The search query should be specific enough to yield relevant results but broad enough to encompass various sources of information.\n\nBased on this reasoning, the search query could be:\n\n**Search Query**: \"U.S. bourbon whiskey market spending statistics 2023\""
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\n[2]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "total spending on bourbon whiskey in the United States 2023",
+                "id": "ac6759d2-cce4-40c6-b414-1a5029818861",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have and what we need to find out.\n\n1. **Context Analysis**: \n   - The context provides information about bourbon whiskey sales in the U.S., including total sales figures and export values. It also mentions specific brands like 1792 Bourbon and its market positioning.\n   - The question specifically asks about the spending on the type of whiskey that 1792 Whiskey represents, which is bourbon.\n\n2. **Identifying Missing Information**:\n   - The question seeks to know the total amount spent on bourbon whiskey in the U.S. This information is not directly provided in the context.\n\n3. **Formulating the Search Query**:\n   - To find the total spending on bourbon whiskey in the U.S., we need to look for statistics or reports that detail the overall market value or sales figures for bourbon whiskey specifically.\n\nNow, let's create a search query that targets this missing information effectively. \n\n**Search Query**: \"total spending on bourbon whiskey in the United States 2023\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "196f8dd3-955c-4479-bae1-764d703039a9"
+            },
+            {
+                "score": 0.30769230769230765,
+                "task_id": "eval_0",
+                "demo_id": "aa6a59f6-6b42-4f99-af1c-3720d44056d6"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "ac6759d2-cce4-40c6-b414-1a5029818861"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.9743589743589742,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_sampler_1_demos_9d0f07df-b834-40aa-a8cf-a9d35e7436ab": {
+                "name": "generate_query_sampler_1_demos_9d0f07df-b834-40aa-a8cf-a9d35e7436ab",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "b9310740-9ed6-463b-b325-e3b344cdde69",
+                    "2aaa019b-c30b-44ce-8090-a49395f25157"
+                ]
+            },
+            "generate_query_sampler_1_demos_8f662215-daaf-41ee-ae90-203e38447899": {
+                "name": "generate_query_sampler_1_demos_8f662215-daaf-41ee-ae90-203e38447899",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "b9310740-9ed6-463b-b325-e3b344cdde69",
+                    "2aaa019b-c30b-44ce-8090-a49395f25157",
+                    "5aba03c3-d0c2-4500-ade1-eabf3b24250a"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "\"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year university\"",
+                "id": "b9310740-9ed6-463b-b325-e3b344cdde69",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to identify the key components of the question. Here's a breakdown of the elements involved:\n\n1. **Subject**: John Laub, an American criminologist.\n2. **Position**: Distinguished University Professor.\n3. **Department**: Department of Criminology and Criminal Justice.\n4. **Institution**: The specific institution where he works (we need to identify this).\n5. **Historical Aspect**: The year the institution was founded.\n\nNow, we want to create a search query that focuses on finding information about John Laub, his role in the Department of Criminology and Criminal Justice, and the founding year of the institution he is associated with.\n\n### Potential Keywords and Phrases:\n- \"John Laub\"\n- \"American criminologist\"\n- \"Distinguished University Professor\"\n- \"Department of Criminology and Criminal Justice\"\n- \"founded in year\"\n- \"university founded year\"\n\n### Search Query Construction:\nTo ensure we gather relevant documents, we can formulate our search query by combining these elements. We should also consider using phrases that are likely to yield information about both John Laub and the history of the institution.\n\n### Drafting the Search Query:\nTaking all of this into account, a well-structured search query could be:\n\n**search_query**: \"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice founding year university\" \n\nThis query is designed to retrieve information about John Laub's position, the department he belongs to, and the founding year of the relevant university or institution."
+            },
+            {
+                "inputs": {
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "\"spending on bourbon whiskey in the United States 2023 market report sales data financial analysis\"",
+                "id": "2aaa019b-c30b-44ce-8090-a49395f25157",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct a search query that effectively retrieves the necessary information about the spending on the type of whiskey that 1792 Whiskey falls under, we need to consider several key elements:\n\n1. **Type of Whiskey**: 1792 Whiskey is categorized as a bourbon. Therefore, we need to focus our search on bourbon whiskey.\n\n2. **Spending/Market Information**: We are interested in financial data, specifically how much is spent on bourbon whiskey in the United States. This could include retail sales, market value, and industry reports.\n\n3. **Geographic Focus**: The search should specifically target the United States to ensure the information is relevant to the question.\n\n4. **Time Frame**: It might be relevant to specify if we want recent data or historical trends, but since the question does not specify, we can keep it broad initially.\n\n5. **Sources**: We should consider looking for sources like market research reports, industry publications, and financial analysis that focus on bourbon whiskey sales in the U.S.\n\nConsidering these points, the search query can be structured to encapsulate all relevant aspects. \n\nNow, I will formulate the search query based on this analysis. \n\n**Search Query**:\n\"spending on bourbon whiskey in the United States 2023 market report sales data financial analysis\""
+            },
+            {
+                "inputs": {
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "\"spending on bourbon whiskey in the United States 2023 market sales data financial analysis\"",
+                "id": "5aba03c3-d0c2-4500-ade1-eabf3b24250a",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: rationale:\n\n: To construct an effective search query, it's important to identify the main components of the question. Here\u2019s a breakdown of the elements involved:\n\n1. **Type of Whiskey**: 1792 Whiskey is classified as bourbon. This is a crucial detail since the question pertains to a specific category of whiskey.\n\n2. **Financial Aspect**: The question focuses on the amount of money spent, implying we need to find data related to sales, expenditures, or market value regarding bourbon whiskey.\n\n3. **Geographic Focus**: The spending must pertain specifically to the United States, which narrows our information sources.\n\n4. **Time Frame**: While the question does not specify a time frame, focusing on recent data (e.g., 2023) could yield the most relevant and accurate information.\n\n5. **Sources**: The search should look for market research reports, industry analyses, and retail sales data that focus on the bourbon whiskey market in the U.S.\n\nTaking these components into account, we can create a comprehensive search query that targets the necessary information.\n\nsearch_query:\n\"spending on bourbon whiskey in the United States 2023 market sales data financial analysis\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "b9310740-9ed6-463b-b325-e3b344cdde69"
+            },
+            {
+                "score": 0.30769230769230765,
+                "task_id": "eval_0",
+                "demo_id": "2aaa019b-c30b-44ce-8090-a49395f25157"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "5aba03c3-d0c2-4500-ade1-eabf3b24250a"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.9743589743589742,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_sampler_1_demos_357eabef-39c7-4729-b7f1-6699ce6684c9": {
+                "name": "generate_answer_sampler_1_demos_357eabef-39c7-4729-b7f1-6699ce6684c9",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "48210ad9-8d74-4c5f-9706-8cf78b9c3982",
+                    "8a8e0674-5e4d-40b4-a31e-de3d54873927"
+                ]
+            },
+            "generate_answer_sampler_1_demos_8f725681-c258-4d2b-b579-a25899578a89": {
+                "name": "generate_answer_sampler_1_demos_8f725681-c258-4d2b-b579-a25899578a89",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "48210ad9-8d74-4c5f-9706-8cf78b9c3982",
+                    "8a8e0674-5e4d-40b4-a31e-de3d54873927",
+                    "7772481d-4a53-45ff-88b9-10a713134cb5"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year's Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"\n[3]: \"University of Maryland, College Park\" | \"the first Lord Baltimores, colonial proprietors of the Province of Maryland in 1634, purchased of the Riversdale Mansion estate nearby today's College Park, Maryland. Later that year, Calvert founded the school and was the acting president from 1859 to 1860. On October 5, 1859, the first 34 students entered the Maryland Agricultural College. The school became a land grant college in February 1864. During the Civil War, Confederate soldiers under Brigadier General Bradley Tyler Johnson moved past the college on July 12, 1864 as part of Jubal Early's raid on Washington, D.C. By the end of the war, financial problems\"\n[4]: \"History of the University of Maryland, College Park\" | \"Two years later, Charles Benedict Calvert, a descendant of the Barons Baltimore, fervent believer in agricultural education, and a future U.S. Congressman, purchased of the Riverdale Plantation in College Park for $21,000. Calvert founded the school later that year with money earned by the sale of stock certificates. On October 5, 1859, the first 34 students entered the Maryland Agricultural College, including four of Charles Calvert's sons, George, Charles, William, and Eugene. The keynote speaker on opening day was Joseph Henry, the first Secretary of the Smithsonian Institution. In July 1862, the same month that the Maryland Agricultural College awarded\"",
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "1859",
+                "id": "48210ad9-8d74-4c5f-9706-8cf78b9c3982",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure, let's break it down step by step.\n\n1. **Identify the Institution**: The context mentions that John Laub is a Distinguished University Professor at the University of Maryland, College Park.\n\n2. **Find the Founding Year**: We need to locate the founding year of the University of Maryland, College Park. The relevant context indicates that the school was founded in 1859.\n\n3. **Confirm the Details**: The context specifies that on October 5, 1859, the first 34 students entered the Maryland Agricultural College, which is the precursor to what is now known as the University of Maryland, College Park.\n\nWith this reasoning, we can conclude that the University of Maryland, College Park was founded in 1859. \n\nNow, let's provide the final answer."
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"1792 Bourbon\" | \"Knob Creek or Woodford Reserve. This reflects a trend in bourbon production, resulting from competition with single malt whisky, which makes small batch bourbons a big business. When originally introduced, the bourbon carried a \"\"Small Batch Aged 8 years\"\" statement on the back label and \"\"8-year-old\"\" in the text printed on the back of the bottle. In December 2013, the age statement was dropped from the label and replaced with the wording \"\"small batch bourbon whiskey\"\" and the term \"\"8-year-old\"\" was removed from the text. 1792 Bourbon was originally introduced into the market by Barton as \"\"Ridgewood Reserve 1792\"\". The\"\n[2]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\n[3]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\n[4]: \"Bourbon whiskey\" | \"bourbon and Tennessee whiskey together. According to the Distilled Spirits Council, during 2009\u20132014, the volume of 9-liter cases of whiskey increased by 28.5% overall. Higher-end bourbon and whiskeys experienced the greatest growth. During 2009\u201314, the volume of the value segment increased by 12.1%, premium by 25.8%, high-end premium by 27.8%, and super-premium by 123.8%. Gross supplier revenues (including federal excise tax) for U.S. bourbon and Tennessee whiskey increased by 46.7% over the 2009\u201314 period, with the greatest growth coming from high-end products (18.7% growth for value, 33.6% for premium, 44.5% for high-end premium, and 137.2% for super-premium). In 2014, more\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "Approximately $2.7 billion on bourbon and Tennessee whiskey in the U.S.",
+                "id": "8a8e0674-5e4d-40b4-a31e-de3d54873927",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Certainly! Let\u2019s break down the information step by step to determine how much is spent on the type of whiskey that 1792 Bourbon belongs to.\n\n1. **Identify the Type of Whiskey**: \n   - 1792 Bourbon is categorized as a Kentucky straight bourbon whiskey. It's part of the small-batch bourbon segment aimed at the high-end liquor market.\n\n2. **Examine the Context for Financial Data**:\n   - The context mentions that bourbon and Tennessee whiskey generated almost $2.7 billion in wholesale distillery revenue in the U.S. for the year 2013. \n   - Additionally, it notes that U.S. bourbon whiskey exports surpassed $1 billion for the first time in 2013, indicating a strong market presence.\n\n3. **Growth of the Bourbon Market**:\n   - Between 2009 and 2014, the gross supplier revenues for U.S. bourbon and Tennessee whiskey increased significantly (by 46.7%). This suggests a growing consumer interest and financial investment in bourbons, particularly in higher-end products.\n\n4. **High-End Segment Growth**:\n   - The context specifies that super-premium bourbons (which would likely include brands like 1792 Bourbon) experienced the most substantial growth, with a reported increase of 137.2% during that period.\n\n5. **Conclusion**:\n   - While specific figures for 1792 Bourbon alone are not provided, we can infer that the overall spending on high-end bourbons is a significant portion of the $2.7 billion generated from bourbon and Tennessee whiskey sales in the U.S.\n\nNow that we've analyzed the context, we can formulate a response to the question. Would you like to proceed with that?"
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\n[2]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\n[3]: \"Bourbon whiskey\" | \"is strongly associated with the American South and with Kentucky in particular. As of 2014, distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion, and bourbon made up about two-thirds of the $1.6 billion of U.S. exports of distilled spirits. Distilling was most likely brought to present-day Kentucky in the late 18th century by Scots, Scots-Irish, and other settlers (including English, Irish, Welsh, German, and French) who began to farm the area in earnest. The origin of bourbon as a distinct form of whiskey is not well documented. There are many conflicting legends and claims,\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "Approximately $2.7 billion.",
+                "id": "7772481d-4a53-45ff-88b9-10a713134cb5",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information step by step to find the answer.\n\n1. **Identify the Type of Whiskey**: The context mentions that 1792 Bourbon is a Kentucky straight Bourbon whiskey. Therefore, we are looking for information specifically about bourbon whiskey sales in the United States.\n\n2. **Look for Relevant Data on Bourbon Whiskey Sales**: We can find relevant financial figures regarding bourbon whiskey in the provided context. \n\n3. **Extract Information on Spending or Revenue**: The context states that as of 2014, the distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion. \n\n4. **Conclusion**: Based on the extracted information, we can conclude that the amount spent on bourbon whiskey, including 1792 Bourbon, in the United States is approximately $2.7 billion as of 2014.\n\nNow, I can formulate the final answer based on this reasoning. Would you like to proceed with the answer?"
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "48210ad9-8d74-4c5f-9706-8cf78b9c3982"
+            },
+            {
+                "score": 0.30769230769230765,
+                "task_id": "eval_0",
+                "demo_id": "8a8e0674-5e4d-40b4-a31e-de3d54873927"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "7772481d-4a53-45ff-88b9-10a713134cb5"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.9743589743589742,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_sampler_2_demos_fb74ecec-6dc3-479a-aa13-744023700eff": {
+                "name": "generate_answer_sampler_2_demos_fb74ecec-6dc3-479a-aa13-744023700eff",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "1dc22360-f7b8-445c-89ae-3700d8302133",
+                    "ff118488-ccc0-4c34-ba51-2b79ee0fc69d"
+                ]
+            },
+            "generate_answer_sampler_2_demos_9062f18c-9af9-42e8-9f7b-1177360068f2": {
+                "name": "generate_answer_sampler_2_demos_9062f18c-9af9-42e8-9f7b-1177360068f2",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "1dc22360-f7b8-445c-89ae-3700d8302133",
+                    "ff118488-ccc0-4c34-ba51-2b79ee0fc69d",
+                    "27e809b0-842a-4130-8d5a-061aefe93bbb"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"John Laub\" | \"John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park. Laub received his B.A. from University of Illinois at Chicago Circle in 1975, where he majored in criminal justice and minored in history. He went on to receive his M.A. and Ph.D. from the State University of New York at Albany in 1976 and 1980, respectively. Laub joined the University of Maryland as a professor in 1998, and became a distinguished professor there in 2008. From July 22, 2010 to\"\n[2]: \"John Laub\" | \"January 4, 2013, he was the director of the National Institute of Justice, a position to which he was appointed by President Barack Obama on July 16, 2010. In 2011, Laub and Robert J. Sampson, with whom he frequently collaborates on research, jointly received that year's Stockholm Prize in Criminology. Since 1996, he has been a fellow of the American Society of Criminology, and in 2002-2003 he served as its president. In 2005 he received the Edwin H. Sutherland Award from the Society. John Laub John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the\"\n[3]: \"University of Maryland, College Park\" | \"the first Lord Baltimores, colonial proprietors of the Province of Maryland in 1634, purchased of the Riversdale Mansion estate nearby today's College Park, Maryland. Later that year, Calvert founded the school and was the acting president from 1859 to 1860. On October 5, 1859, the first 34 students entered the Maryland Agricultural College. The school became a land grant college in February 1864. During the Civil War, Confederate soldiers under Brigadier General Bradley Tyler Johnson moved past the college on July 12, 1864 as part of Jubal Early's raid on Washington, D.C. By the end of the war, financial problems\"\n[4]: \"History of the University of Maryland, College Park\" | \"Two years later, Charles Benedict Calvert, a descendant of the Barons Baltimore, fervent believer in agricultural education, and a future U.S. Congressman, purchased of the Riverdale Plantation in College Park for $21,000. Calvert founded the school later that year with money earned by the sale of stock certificates. On October 5, 1859, the first 34 students entered the Maryland Agricultural College, including four of Charles Calvert's sons, George, Charles, William, and Eugene. The keynote speaker on opening day was Joseph Henry, the first Secretary of the Smithsonian Institution. In July 1862, the same month that the Maryland Agricultural College awarded\"",
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "1859",
+                "id": "1dc22360-f7b8-445c-89ae-3700d8302133",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information step by step.\n\n1. **Identify John Laub's Position**: We know that John Laub is a Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park.\n\n2. **Find the Founding Year of the University**: Next, we need to determine when the University of Maryland, College Park was founded. \n\n3. **Context about the University**: From the context provided, we see that the university's history mentions that it began with the establishment of the Maryland Agricultural College. The specific date mentioned when the first students entered was October 5, 1859.\n\n4. **Conclusion**: Based on this information, we can conclude that the University of Maryland, College Park was founded in 1859.\n\nNow that we've reasoned through the information, we can formulate the final response. \n\nThe University of Maryland, College Park, where John Laub is a Distinguished University Professor, was founded in 1859."
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"1792 Bourbon\" | \"Knob Creek or Woodford Reserve. This reflects a trend in bourbon production, resulting from competition with single malt whisky, which makes small batch bourbons a big business. When originally introduced, the bourbon carried a \"\"Small Batch Aged 8 years\"\" statement on the back label and \"\"8-year-old\"\" in the text printed on the back of the bottle. In December 2013, the age statement was dropped from the label and replaced with the wording \"\"small batch bourbon whiskey\"\" and the term \"\"8-year-old\"\" was removed from the text. 1792 Bourbon was originally introduced into the market by Barton as \"\"Ridgewood Reserve 1792\"\". The\"\n[2]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\n[3]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\n[4]: \"Bourbon whiskey\" | \"bourbon and Tennessee whiskey together. According to the Distilled Spirits Council, during 2009\u20132014, the volume of 9-liter cases of whiskey increased by 28.5% overall. Higher-end bourbon and whiskeys experienced the greatest growth. During 2009\u201314, the volume of the value segment increased by 12.1%, premium by 25.8%, high-end premium by 27.8%, and super-premium by 123.8%. Gross supplier revenues (including federal excise tax) for U.S. bourbon and Tennessee whiskey increased by 46.7% over the 2009\u201314 period, with the greatest growth coming from high-end products (18.7% growth for value, 33.6% for premium, 44.5% for high-end premium, and 137.2% for super-premium). In 2014, more\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "The U.S. bourbon market generated almost $2.7 billion in wholesale revenue in 2013, with significant growth in high-end segments.",
+                "id": "ff118488-ccc0-4c34-ba51-2b79ee0fc69d",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Certainly! Let's break down the information we have regarding 1792 Bourbon and the whiskey market.\n\n1. **Understanding 1792 Bourbon**: \n   - 1792 Bourbon is a Kentucky straight bourbon whiskey produced by the Barton 1792 Distillery and is part of a line of small-batch bourbons aimed at the high-end liquor market. \n   - It is positioned as a premium brand and competes with other high-end bourbons.\n\n2. **Market Trends for Bourbon**: \n   - The context mentions that during the years 2009 to 2014, there was significant growth in the overall bourbon and Tennessee whiskey market, particularly in higher-end segments.\n   - Specifically, it states that \"gross supplier revenues for U.S. bourbon and Tennessee whiskey increased by 46.7% over the 2009\u201314 period,\" indicating a robust market for premium whiskey.\n\n3. **Financial Figures**: \n   - In 2013, U.S. exports of bourbon whiskey surpassed $1 billion for the first time, which reflects a strong international demand.\n   - The context also notes that in 2014, the volume of premium and high-end bourbon experienced substantial growth, with super-premium products seeing a dramatic increase of 137.2%.\n\n4. **Conclusion from Data**: \n   - While the context does not provide a specific dollar amount for the total spending on the type of whiskey that 1792 Bourbon falls into, it highlights the growth and increasing revenue in the premium and high-end bourbon segments.\n\nNow, with this reasoning, we can formulate a precise answer. Would you like to proceed with that?"
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Bourbon whiskey\" | \"than 19 million nine-liter cases of bourbon and Tennessee whiskey were sold in the U.S., generating almost $2.7 billion in wholesale distillery revenue. U.S. exports of bourbon whiskey surpassed $1 billion for the first time in 2013; distillers hailed the rise of a \"\"golden age of Kentucky bourbon\"\" and predicted further growth. In 2014, it was estimated that U.S. bourbon whiskey exports surpassed $1 billion, making up the majority of the U.S. total of $1.6 billion in spirits exports. Major export markets for U.S. spirits are, in descending order: Canada, the United Kingdom, Germany, Australia, and France. The largest percentage\"\n[2]: \"1792 Bourbon\" | \"1792 Bourbon 1792 Bourbon, formerly known as Ridgewood Reserve 1792 and 1792 Ridgemont Reserve, is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery have been owned by the Sazerac Company since 2009. It is part of a line of small-batch bourbons aimed at the high-end liquor market. It is sold at 93.7 U.S. proof (46.85% alcohol by volume). The name of the bourbon is a reference to the year Kentucky became a state. The bourbon is positioned as a premium brand, and the pricing policy makes it a competitor to\"\n[3]: \"Bourbon whiskey\" | \"is strongly associated with the American South and with Kentucky in particular. As of 2014, distillers' wholesale market revenue for bourbon sold within the U.S. was about $2.7 billion, and bourbon made up about two-thirds of the $1.6 billion of U.S. exports of distilled spirits. Distilling was most likely brought to present-day Kentucky in the late 18th century by Scots, Scots-Irish, and other settlers (including English, Irish, Welsh, German, and French) who began to farm the area in earnest. The origin of bourbon as a distinct form of whiskey is not well documented. There are many conflicting legends and claims,\"",
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "$2.7 billion",
+                "id": "27e809b0-842a-4130-8d5a-061aefe93bbb",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have and analyze it step by step.\n\n1. **Identifying 1792 Whiskey**: We know from the context that 1792 Bourbon is a type of Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery. It is positioned as a premium brand in the high-end liquor market.\n\n2. **Understanding Bourbon Whiskey Market**: From the provided contexts, particularly [1] and [3], we can gather that bourbon whiskey is strongly associated with Kentucky and has significant sales figures:\n   - In 2014, the wholesale market revenue for bourbon sold within the U.S. was about **$2.7 billion**.\n   - Bourbon accounted for about two-thirds of the total U.S. exports of distilled spirits, which amounted to **$1.6 billion**.\n\n3. **Calculating the Market Size**: Given that the revenue from bourbon whiskey in the U.S. is stated as **$2.7 billion**, this figure represents the total amount spent on bourbon whiskey in the United States.\n\nNow that we have analyzed the information, we can formulate a clear and concise answer to the question. \n\nShall I proceed to provide the final answer?"
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "1dc22360-f7b8-445c-89ae-3700d8302133"
+            },
+            {
+                "score": 0.30769230769230765,
+                "task_id": "eval_0",
+                "demo_id": "ff118488-ccc0-4c34-ba51-2b79ee0fc69d"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "27e809b0-842a-4130-8d5a-061aefe93bbb"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.9743589743589742,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_sampler_2_demos_5b0580b3-33ff-40ab-9896-c5d81226e3c6": {
+                "name": "generate_query_sampler_2_demos_5b0580b3-33ff-40ab-9896-c5d81226e3c6",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "80b1207b-b666-448c-af80-95eeb9fd9ff8",
+                    "84af9df7-b7d3-46cc-90ab-f863d1430e71"
+                ]
+            },
+            "generate_query_sampler_2_demos_8b32f417-34e7-437f-b826-91550470819a": {
+                "name": "generate_query_sampler_2_demos_8b32f417-34e7-437f-b826-91550470819a",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "80b1207b-b666-448c-af80-95eeb9fd9ff8",
+                    "84af9df7-b7d3-46cc-90ab-f863d1430e71",
+                    "d205741a-d3c7-4ec1-b3c4-a5edc62b7c08"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMFewShot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+                },
+                "output": "\"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice university founded year\"",
+                "id": "80b1207b-b666-448c-af80-95eeb9fd9ff8",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query for the question regarding John Laub and his affiliation with a university, we need to identify the key components of the question. The key elements include:\n\n1. **John Laub**: A specific individual who is an American criminologist.\n2. **Distinguished University Professor**: This title indicates his level and recognition within the academic community.\n3. **Department of Criminology and Criminal Justice**: This specifies the department where he works.\n4. **Year founded**: We are looking for the year that the university or institution where he works was established.\n\nNext, we need to consider the type of information we are looking for. We want to find credible sources that provide details about John Laub's current position, the university he is affiliated with, and the founding year of that institution. \n\nGiven this breakdown, our search query should include these elements, and we should aim to retrieve information about both John Laub and the university's history.\n\nNow, let's formulate the search query:\n\n**Search Query:**\n\"John Laub American criminologist Distinguished University Professor Department of Criminology and Criminal Justice university founded year\""
+            },
+            {
+                "inputs": {
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "\"1792 Whiskey spending statistics United States bourbon market analysis expenditures trends 2023\"",
+                "id": "84af9df7-b7d3-46cc-90ab-f863d1430e71",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To create an effective search query, we need to break down the components of the question. The question asks about expenditures related to a specific type of whiskey, namely 1792 Whiskey, within the United States. \n\nKey components to consider include:\n\n1. **Type of Whiskey**: 1792 Whiskey is a bourbon, so we need to include that in the search to focus on the correct category.\n2. **Geographic Focus**: The question specifies the United States, which means we need to limit our search to this region.\n3. **Expenditure**: The inquiry is about spending, so we should seek information on sales figures, market analysis, or industry reports related to bourbon whiskey.\n4. **Temporal Aspect**: Since the question does not specify a time frame, it might be useful to look for both recent statistics and historical trends in spending.\n\nWith these elements in mind, the search query needs to incorporate keywords related to bourbon whiskey expenditures, market trends, and specifics about 1792 Whiskey.\n\nNow, I will formulate the search query. \n\n**Search Query:**\n\"1792 Whiskey spending statistics United States bourbon market analysis expenditures trends 2023\""
+            },
+            {
+                "inputs": {
+                    "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+                },
+                "output": "\"1792 Whiskey spending United States market analysis sales figures consumer spending bourbon whiskey industry report\"",
+                "id": "d205741a-d3c7-4ec1-b3c4-a5edc62b7c08",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: To construct an effective search query, we need to identify the key components of the question and what specific information is being sought. \n\n1. **Identify the Subject**: The question focuses on \"1792 Whiskey,\" which is a specific brand of whiskey. It falls under the category of bourbon, as 1792 is known for producing bourbon whiskey.\n\n2. **Determine the Geographic Focus**: The question specifically mentions the \"United States,\" indicating a need for data relevant to this location.\n\n3. **Financial Aspect**: The inquiry is about the spending or expenditure on a certain type of whiskey, which suggests a need for data on sales, market trends, or consumer spending specifically related to 1792 Whiskey or bourbon in general.\n\n4. **Contextual Keywords**: To enrich the search, we should consider including relevant terms such as \"market analysis,\" \"sales figures,\" \"consumer spending,\" \"whiskey industry,\" \"bourbon whiskey,\" and \"1792 Bourbon.\"\n\n5. **Types of Sources**: It may be useful to look for sources such as industry reports, financial analyses, market research studies, or articles from reputable publications that cover the whiskey market.\n\nBased on this reasoning, we can now construct a comprehensive search query to retrieve the necessary information.\n\n**Search Query**: \n\"1792 Whiskey spending United States market analysis sales figures consumer spending bourbon whiskey industry report\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.6666666666666666,
+            "eval_1": 0
+        },
+        "demo_pq": [
+            {
+                "score": 0,
+                "task_id": "eval_1",
+                "demo_id": "80b1207b-b666-448c-af80-95eeb9fd9ff8"
+            },
+            {
+                "score": 0.30769230769230765,
+                "task_id": "eval_0",
+                "demo_id": "84af9df7-b7d3-46cc-90ab-f863d1430e71"
+            },
+            {
+                "score": 0.6666666666666666,
+                "task_id": "eval_0",
+                "demo_id": "d205741a-d3c7-4ec1-b3c4-a5edc62b7c08"
+            }
+        ],
+        "task_id_set": [
+            "eval_1",
+            "eval_0"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 0.9743589743589742,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "type": "LMReasoning"
+    }
+]

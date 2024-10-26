@@ -86,6 +86,7 @@ if __name__ == "__main__":
     print("Waiting for debugger attach")
     debugpy.wait_for_client()
     debugpy.breakpoint()
+    
     args = parse_arguments()
     dataset = load_dataset(args.data_path)
     

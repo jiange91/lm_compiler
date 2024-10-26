@@ -156,7 +156,7 @@ def opt(train, val, test):
         evolve_interval=2,
         frugal_eval_cost=False,
     )
-    inner_loop_config = driver.layerConfig(
+    inner_loop_config = driver.LayerConfig(
         layer_name='inner_loop',
         universal_params=[reasoning_param],
         opt_config=inner_opt_config,

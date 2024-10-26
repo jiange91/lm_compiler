@@ -29,7 +29,7 @@ from compiler.optimizer.evaluation.metric import MetricBase, MInput
 from compiler.optimizer.plugin import OptimizerSchema
 from optuna.samplers import TPESampler
 from compiler.optimizer.core.flow import TrialLog, ModuleTransformTrace, TopDownInformation, OptConfig
-from compiler.optimizer.core.unified_layer_opt import OptimizationLayer
+from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelTrialLog
 
 logger = logging.getLogger(__name__)
 
@@ -51,11 +51,12 @@ class LayerEvaluator(GeneralEvaluatorInterface):
         #NOTE: optimization will change layer meta, make a copy
         target_layer_cpy = copy.deepcopy(self.target_layer)
         eval_cost, pareto_frontier, opt_logs = target_layer_cpy.optimize(layer_task)
-        inner_log_ids, scores, prices = [], [], []
+        inner_log_ids, scores, prices, exec_times = [], [], [], []
         for trial_log in opt_logs.values():
             inner_log_ids.append(trial_log.id)
             scores.append(trial_log.score)
             prices.append(trial_log.price)
+            exec_times.append(trial_log.eval_cost)
         reduced_score = max(scores)
         if self.quality_constraint is not None:
             """
@@ -74,10 +75,11 @@ class LayerEvaluator(GeneralEvaluatorInterface):
             ids=inner_log_ids,
             scores=scores,
             prices=prices,
+            exec_times=exec_times,
             total_eval_cost=eval_cost,
             reduced_score=reduced_score,
             reduced_price=reduced_price,
-            demos=None,
+            demos={'config_log_path': layer_task.opt_config.opt_log_path},
         )
         return result
 
@@ -170,7 +172,7 @@ class UpperLevelTrialLog(TrialLog):
         }
     
 class UpperLevelOptimization(OptimizationLayer):
-    opt_logs: dict[int, UpperLevelTrialLog]
+    opt_logs: dict[str, UpperLevelTrialLog]
     evaluator: LayerEvaluator
     trial_log_cls = UpperLevelTrialLog
     
@@ -212,7 +214,7 @@ class UpperLevelOptimization(OptimizationLayer):
         next_level_info.opt_config.opt_log_path = None
         next_level_info.opt_config.param_save_path = None
         return next_level_info
-    
+
     def _optimize_iteration(self, base_program):
         next_trial, program, new_trace, log_id = self.propose(base_program, 1)[0]
         next_level_info = self.prepare_next_level_tdi(program, new_trace)
@@ -255,3 +257,15 @@ class UpperLevelOptimization(OptimizationLayer):
             self._optimize_SH(base_program)
             if self.save_ckpt_interval > 0 and i % self.save_ckpt_interval == 0:
                 self.save_ckpt(opt_config.opt_log_path, opt_config.param_save_path)
+    
+    def get_all_candidates(self) -> list[TrialLog, str]:
+        candidates = []
+        for log_id, trial_log in self.opt_logs.items():
+            bot_opt_log_path = os.path.join(trial_log.next_level_log_dir, 'opt_logs.json') 
+            with open(bot_opt_log_path, 'r') as f:
+                opt_trace = json.load(f)
+                
+            for trial_log_id, trial_meta in opt_trace.items():
+                trial_log = BottomLevelTrialLog.from_dict(trial_meta)
+                candidates.append((trial_log, bot_opt_log_path))
+        return candidates

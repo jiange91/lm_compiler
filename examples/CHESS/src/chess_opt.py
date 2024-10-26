@@ -230,7 +230,7 @@ def opt(train, val, dev):
         evolve_interval=4,
         frugal_eval_cost=True,
     )
-    inner_loop_config = driver.layerConfig(
+    inner_loop_config = driver.LayerConfig(
         layer_name='inner_loop',
         universal_params=[few_shot_params, reasoning_param, model_param],
         opt_config=inner_opt_config,
@@ -244,7 +244,7 @@ def opt(train, val, dev):
         frugal_eval_cost=False,
     )
     
-    outer_loop_config = driver.layerConfig(
+    outer_loop_config = driver.LayerConfig(
         layer_name='outer_loop',
         universal_params=[general_ensemble_params], # will overwrite module name
         # dedicate_params=[refine_ensemble_params, gen_answer_ensemble_params],

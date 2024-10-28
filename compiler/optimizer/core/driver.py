@@ -82,6 +82,7 @@ class MultiLayerOptimizationDriver:
         layer_configs: Sequence[LayerConfig],
         opt_log_dir: str,
         quality_constraint: float = None,
+        save_config_to_file: bool = True,
     ):
         """Driver for multi-layer optimization
         
@@ -101,8 +102,9 @@ class MultiLayerOptimizationDriver:
             os.makedirs(opt_log_dir, exist_ok=True)
         param_log_path = os.path.join(opt_log_dir, 'opt_control_params.json')
         layer_configs_dict = [lc.to_dict() for lc in layer_configs]
-        with open(param_log_path, 'w') as f:
-            json.dump(layer_configs_dict, f, indent=4)
+        if save_config_to_file:
+            with open(param_log_path, 'w') as f:
+                json.dump(layer_configs_dict, f, indent=4)
         
         # config log dir for layer opts
         # NOTE: only the top layer will be set, others are randomly generated at runtime
@@ -158,4 +160,11 @@ class MultiLayerOptimizationDriver:
             script_args=script_args,
             other_python_paths=other_python_paths,
         )
- 
+    
+    def inspect(self) -> tuple[float, list[TrialLog], dict[int, TrialLog]]:
+        self.build_tiered_optimization(None)
+        opt_config = self.layer_configs[0].opt_config
+        opt_config.finalize()
+        result = self.opt_layers[0].inspect(opt_config.opt_log_path)
+        return result
+        

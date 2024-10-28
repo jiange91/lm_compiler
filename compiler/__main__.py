@@ -10,7 +10,7 @@ from typing import Optional
 import debugpy
 
 from compiler.optimizer.plugin import OptimizerSchema
-from compiler.cognify_args import init_cognify_args, OptimizationArgs, EvaluationArgs
+from compiler.cognify_args import init_cognify_args, OptimizationArgs, EvaluationArgs, InspectionArgs
 from compiler.optimizer.plugin import capture_data_loader
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from compiler.optimizer.core.driver import LayerConfig
@@ -75,6 +75,8 @@ def from_cognify_args(args):
         return OptimizationArgs.from_cli_args(args)
     elif args.mode == 'evaluate':
         return EvaluationArgs.from_cli_args(args)
+    elif args.mode == 'inspect':
+        return InspectionArgs.from_cli_args(args)
     else:
         raise ValueError(f"Unknown mode: {args.mode}")
     
@@ -206,6 +208,29 @@ def evaluate_routine(eval_args: EvaluationArgs):
         with open(eval_args.log_path, 'w') as f:
             json.dump(result.to_dict(), f, indent=4)
     return result
+
+def inspect_routine(inspect_args: InspectionArgs):
+    control_param = ControlParameter.build_control_param(inspect_args.control_param_path)
+    
+    # get dry run result on train set
+    if control_param.quality_constraint is not None:
+        dry_run_log_path = os.path.join(control_param.opt_history_log_dir, 'dry_run_train.json')
+        if os.path.exists(dry_run_log_path):
+            with open(dry_run_log_path, 'r') as f:
+                dry_run_result = EvaluationResult.from_dict(json.load(f))
+            logger.info(f"Loading existing dry run result at {dry_run_log_path}")
+            quality_constraint = control_param.quality_constraint * dry_run_result.reduced_score
+        else:
+            logger.warning(f"Quality constraint is set but no dry run result found at {dry_run_log_path}, will ignore constraint")
+            quality_constraint = None
+    
+    opt_driver = driver.MultiLayerOptimizationDriver(
+        layer_configs=control_param.opt_layer_configs,
+        opt_log_dir=control_param.opt_history_log_dir,
+        quality_constraint=quality_constraint,
+        save_config_to_file=False,
+    )
+    return opt_driver.inspect()
     
     
 def main():
@@ -219,8 +244,11 @@ def main():
     cognify_args = from_cognify_args(raw_args)
     if raw_args.mode == 'optimize':
         optimize_routine(cognify_args)
-    else:
+    elif raw_args.mode == 'evaluate':
         evaluate_routine(cognify_args)
+    else:
+        inspect_routine(cognify_args)
+    return
 
 if __name__ == "__main__":
     main()

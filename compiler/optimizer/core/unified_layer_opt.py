@@ -43,6 +43,7 @@ def get_quality_constraint(trial: optuna.trial.FrozenTrial):
 
 class OptimizationLayer:
     trial_log_cls = TrialLog
+    opt_logs: dict[int, TrialLog]
     
     def __init__(
         self,
@@ -90,7 +91,7 @@ class OptimizationLayer:
         self.params: dict[str, list[ParamBase]] = None
         self.param_categorical_dist: dict[str, optuna.distributions.CategoricalDistribution] = None
         
-        self.opt_logs: dict[int, TrialLog] = None
+        self.opt_logs: dict[int, TrialLog] = {}
         self.study: optuna.study.Study = None
         self._study_lock: threading.Lock = None
         self.opt_target_lm_names: set[str] = None
@@ -150,7 +151,6 @@ class OptimizationLayer:
             for _, params in self.params.items() for param in params
         }
         self.opt_target_lm_names = allowed_lm_names
-        self.opt_logs = {}
         self.study = self.init_study()
         self._study_lock = threading.Lock()
     
@@ -504,6 +504,16 @@ class OptimizationLayer:
         logger.info("Opt Cost: {}".format(self.opt_cost))
         logger.info(f"#Pareto Frontier: {len(pareto_frontier)}")
         logger.info("-------------------------------------------------")
+        return pareto_frontier
+
+    def inspect(self, opt_log_path):
+        with open(opt_log_path, 'r') as f:
+            opt_trace = json.load(f)
+        for trial_log_id, trial_meta in opt_trace.items():
+            trial_log = self.trial_log_cls.from_dict(trial_meta)
+            self.opt_logs[trial_log_id] = trial_log
+            self.opt_cost += trial_log.eval_cost
+        pareto_frontier = self.post_optimize()
         return pareto_frontier
     
     def optimize(

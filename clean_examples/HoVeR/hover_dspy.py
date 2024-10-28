@@ -8,6 +8,7 @@ from dspy.evaluate import Evaluate
 from dsp.utils.utils import deduplicate
 from dspy.teleprompt import BootstrapFewShotWithRandomSearch
 from compiler.utils import load_api_key
+from compiler.IR.llm import TokenUsage, LMConfig
 
 load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')
 
@@ -79,3 +80,15 @@ if __name__ == "__main__":
     print(pids)
     print(doc_f1(dev_set[1], pred))
 
+    dummy_config = LMConfig(
+        provider='openai',
+        model='gpt-4o-mini',
+    )
+    usage = TokenUsage()
+    for hist in gpt4o_mini.history:
+        usage.prompt_tokens += hist['usage']['prompt_tokens']
+        usage.completion_tokens += hist['usage']['completion_tokens']
+        usage.prompt_cached_tokens += hist['usage']['prompt_tokens_details']['cached_tokens']
+    
+    print(f'tokens: {usage}')
+    print(f'cost@1: {dummy_config.get_price(usage)}')

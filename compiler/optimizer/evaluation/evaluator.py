@@ -247,8 +247,8 @@ class EvalTask:
             if show_process:
                 plot_progress(progress.value, num_total_task, total_score.value / progress.value)
             
-        sema.release()
         q.put((task_index, result, score, price, lm_2_demo, end_time - start_time))
+        sema.release()
     
     @classmethod
     def from_top_down_info(cls, tdi: TopDownInformation):
@@ -341,29 +341,13 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
             all_workers.append(worker)
             
         results = []
+        for i in range(len(indices)):
+            results.append(result_q.get())
+            
         for worker in all_workers:
             worker.join()
-            results.append(result_q.get())
         # re-order the results according to the task index
         results = sorted(results, key=lambda x: x[0])
-        
-        # with mp.Pool(processes=n_parallel) as pool:
-        #     tasks = []
-        #     for pair_idx in indices:
-        #         input, label = data[pair_idx]
-        #         tasks.append(
-        #             pool.apply_async(task.evaluate_program, args=(input, label))
-        #         )
-        #     if show_process:
-        #         results = []
-        #         total_score = 0.0
-        #         for i, task in enumerate(tasks):
-        #             result = task.get()
-        #             results.append(result)
-        #             total_score += result[1]
-        #             plot_progress(i+1, len(indices), total_score/(i+1))
-        #     else:
-        #         results = [task.get() for task in tasks]
             
         prices = []
         scores = []

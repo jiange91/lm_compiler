@@ -46,7 +46,19 @@ class EvaluationArgs(CommonArgs):
         parser.add_argument('--config_log_path', type=str, required=True)
         parser.add_argument('--n_parallel', type=int, default=EvaluationArgs.n_parallel)
         parser.add_argument('--log_path', type=str, required=False)
+        
+@dataclasses.dataclass
+class InspectionArgs:
+    control_param_path: str
     
+    @staticmethod
+    def add_cli_args(parser):
+        parser.add_argument('--control_param_path', type=str, required=True)
+    
+    @classmethod
+    def from_cli_args(cls, args: argparse.Namespace):
+        attrs = [attr.name for attr in dataclasses.fields(cls)]
+        return cls(**{attr: getattr(args, attr) for attr in attrs})
         
 def init_cognify_args(parser):
     subparsers = parser.add_subparsers(dest='mode')
@@ -57,4 +69,7 @@ def init_cognify_args(parser):
     
     eval_parser = subparsers.add_parser('evaluate')
     EvaluationArgs.add_cli_args(eval_parser)
+    
+    inspect_parser = subparsers.add_parser('inspect')
+    InspectionArgs.add_cli_args(inspect_parser)
 

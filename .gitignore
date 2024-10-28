@@ -171,6 +171,7 @@ compiler_logs/
 **/sample_runs/
 **sample_runs_4o/
 
+local_testing/
 
 # secrets
 secrets.toml

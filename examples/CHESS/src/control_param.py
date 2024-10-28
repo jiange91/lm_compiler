@@ -1,4 +1,4 @@
-quality_constraint: float = 0.95
+quality_constraint: float = 0.98
 train_down_sample: int = 50
 val_down_sample: int = 25
 opt_history_log_dir: str = '/mnt/ssd4/lm_compiler/examples/CHESS/opt_results'
@@ -15,20 +15,29 @@ from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
 
 # ================= Reasoning Options =================
 reasoning_param = reasoning.LMReasoning(
-    "reasoning", [IdentityOption(), ZeroShotCoT(), PlanBefore] 
+    "reasoning", [IdentityOption(), ZeroShotCoT(), PlanBefore()] 
 )
 # ================= Few Shot Options =================
 few_shot_params = LMFewShot("few_shot", 4)
 
 # ================= Ensemble Options =================
-general_usc_ensemble = ensemble.UniversalSelfConsistency(3, temperature=0.7)
-general_ensemble_params = ensemble.ModuleEnsemble(
-    "ensemble", [IdentityOption(), general_usc_ensemble]
-)
+def add_ensemble_option(lm_name):
+    usc_ensemble = ensemble.UniversalSelfConsistency(3, temperature=0.9)
+    ensemble_param = ensemble.ModuleEnsemble(
+        f"ensemble_{lm_name}", [usc_ensemble]
+    )
+    ensemble_param.module_name = lm_name
+    return ensemble_param
+
+ensemble_params = [
+    add_ensemble_option('table_selection'),
+    add_ensemble_option('candidate_generation'),
+    add_ensemble_option('revision'),
+]
 
 # ================= Inner Loop Config =================
 inner_opt_config = flow.OptConfig(
-    n_trials=6,
+    n_trials=5,
     throughput=2,
 )
 inner_loop_config = driver.LayerConfig(
@@ -39,13 +48,13 @@ inner_loop_config = driver.LayerConfig(
 
 # ================= Outer Loop Config =================
 outer_opt_config = flow.OptConfig(
-    n_trials=8,
+    n_trials=4,
     throughput=4,
 )
 
 outer_loop_config = driver.LayerConfig(
     layer_name='outer_loop',
-    universal_params=[general_ensemble_params],
+    dedicate_params=ensemble_params,
     opt_config=outer_opt_config,
 )
 

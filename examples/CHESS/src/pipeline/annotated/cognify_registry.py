@@ -4,19 +4,8 @@ from . import column_selection
 from . import keyword_extraction
 from . import revision
 from . import table_selection
-from compiler.optimizer.params.reasoning import ZeroShotCoT
 from llm.models import get_llm_params
 from compiler.IR.llm import LMConfig
-
-add_cot = True
-
-if add_cot:
-    ZeroShotCoT.direct_apply(column_filtering.exec)
-    ZeroShotCoT.direct_apply(table_selection.exec)
-    ZeroShotCoT.direct_apply(column_selection.exec)
-    # ZeroShotCoT.direct_apply(candidate_generation.exec)
-    ZeroShotCoT.direct_apply(revision.exec)
-    
 
 _cognify_lm_registry = {
     'keyword_extraction': keyword_extraction.exec,
@@ -72,12 +61,12 @@ _pipeline_cfg = {
         "base_uri": "",
         "sampling_count": 1
     },
-    # "candidate_generation": {
-    #     "engine": "gpt-4o-mini",
-    #     "temperature": 0.0,
-    #     "base_uri": "",
-    #     "sampling_count": 1
-    # },
+    "candidate_generation": {
+        "engine": "gpt-4o-mini",
+        "temperature": 0.0,
+        "base_uri": "",
+        "sampling_count": 1
+    },
     "revision": {
         "engine": "gpt-4o-mini",
         "temperature": 0.0,

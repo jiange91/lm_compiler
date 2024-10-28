@@ -7,7 +7,7 @@ import time
 
 load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')
 
-colbert = dspy.ColBERTv2(url='http://192.168.1.18:8893/api/search')
+colbert = dspy.ColBERTv2(url='http://192.168.1.16:8893/api/search')
 dspy.configure(rm=colbert)
 
 import copy
@@ -40,8 +40,6 @@ first_query_agent = LangChainLM('generate_query', first_query_semantic, opt_regi
 first_query_agent.lm_config = qgen_lm_config
 
 following_query_prompt = """
-You are in a critical situation where accurate information is essential for making informed decisions.
-
 You are good at extract relevant details from the provided context and question. Your task is to propose an effective search query that will help retrieve additional information to answer the question. Think carefully about the implications of your search. The search query should target the missing information while avoiding redundancy. 
 
 You should not answer the question directly, nor assume any prior knowledge. You must generate an accurate search query that considers the context and question to retrieve the most relevant information.

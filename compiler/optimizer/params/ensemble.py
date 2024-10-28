@@ -99,11 +99,12 @@ Rationale: {rationale}
 Answer: {response}
         """
         for i, expert in enumerate(self.experts):
-            step = expert.step_info[-1]
-            rationale = step.get('rationale', None)
-            output = step['output']
-            proposal = proposal_template.format(i=i, rationale=rationale, response=output)
-            paths.append(proposal)
+            if expert.step_info:
+                step = expert.step_info[-1]
+                rationale = step.get('rationale', None)
+                output = step['output']
+                proposal = proposal_template.format(i=i, rationale=rationale, response=output)
+                paths.append(proposal)
         paths_str = '\n---\n'.join(paths)
         question_context = {
             f"worker_task": agent_task,

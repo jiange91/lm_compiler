@@ -82,26 +82,21 @@ def load_dataset(data_path: str) -> List[Dict[str, Any]]:
 
 
 if __name__ == "__main__":
-    # debugpy.listen(5678)
-    # print("Waiting for debugger attach")
-    # debugpy.wait_for_client()
-    # debugpy.breakpoint()
+    debugpy.listen(5678)
+    print("Waiting for debugger attach")
+    debugpy.wait_for_client()
+    debugpy.breakpoint()
     
     args = parse_arguments()
     dataset = load_dataset(args.data_path)
     
     inputs = []
-    dir_prefix = 'cognify_results/raw_test_all_cot_no_demos_generation_DC'
+    dir_prefix = 'cognify_results/try_output_retionale'
     for data in dataset:
-        task = Task(data)
-        result_dir = f"{dir_prefix}/{task.db_id}/{task.question_id}/{args.run_start_time}"
-        if not os.path.exists(result_dir):
-            os.makedirs(result_dir, exist_ok=True)
         inputs.append(
             {
                 'args': args,
                 'dataset': [data],
-                'result_directory': result_dir,
             }
         )
     eval_data = [(input, None) for input in inputs]

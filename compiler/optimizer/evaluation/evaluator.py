@@ -11,7 +11,7 @@ import numpy as np
 from concurrent.futures import ThreadPoolExecutor
 import uuid
 from abc import ABC, abstractmethod
-import multiprocess as mp
+import multiprocessing as mp
 from tqdm import tqdm
 
 import logging
@@ -202,7 +202,13 @@ class EvalTask:
         assert schema.opt_target_modules, "No module to optimize"
         return schema
                     
-    def evaluate_program(self, input, label):
+    def evaluate_program(
+        self, 
+        input, 
+        label, 
+        show_process, 
+        task_index, sema, progress, total_score, lock, num_total_task, q
+    ):
         schema = self.get_program_schema()
         module_pool = {m.name: m for m in schema.opt_target_modules}
         
@@ -235,7 +241,14 @@ class EvalTask:
             if demo is not None:
                 lm_2_demo[lm.name] = demo
         
-        return result, score, price, lm_2_demo, end_time - start_time
+        with lock:
+            progress.value += 1
+            total_score.value += score
+            if show_process:
+                plot_progress(progress.value, num_total_task, total_score.value / progress.value)
+            
+        sema.release()
+        q.put((task_index, result, score, price, lm_2_demo, end_time - start_time))
     
     @classmethod
     def from_top_down_info(cls, tdi: TopDownInformation):
@@ -256,6 +269,18 @@ class GeneralEvaluatorInterface(ABC):
         show_process: bool = False,
     ) -> EvaluationResult:
         ...
+
+def plot_progress(done, total, avg_score, bar_length: int = 100):
+    """
+    Plots the progress of task processing.
+    
+    Args:
+        bar_length (int, optional): The length of the progress bar. Defaults to 100.
+    """
+    processed_ratio = done / total 
+    progress_length = int(processed_ratio * bar_length)
+    print('\x1b[1A' + '\x1b[2K' + '\x1b[1A')  # Clear previous line
+    print(f"[{'=' * progress_length}>{' ' * (bar_length - progress_length)}] {done}/{total} | avg_score: {avg_score}")
 
 class EvaluatorPlugin(GeneralEvaluatorInterface):
     def __init__(
@@ -284,17 +309,6 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
     ):
         return self.get_score(mode='train', task=task, show_process=show_process)
 
-    def plot_progress(self, done, total, avg_score, bar_length: int = 100):
-        """
-        Plots the progress of task processing.
-        
-        Args:
-            bar_length (int, optional): The length of the progress bar. Defaults to 100.
-        """
-        processed_ratio = done / total 
-        progress_length = int(processed_ratio * bar_length)
-        print('\x1b[1A' + '\x1b[2K' + '\x1b[1A')  # Clear previous line
-        print(f"[{'=' * progress_length}>{' ' * (bar_length - progress_length)}] {done}/{total} | avg_score: {avg_score}")
         
     def get_score(
         self,
@@ -306,30 +320,56 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         logger.debug(f'sys_path = {sys.path}')
         
         data, indices = self.dataset[mode]
-        n_parallel = min(self.n_parallel, len(indices)) 
-        with mp.Pool(processes=n_parallel) as pool:
-            tasks = []
-            for pair_idx in indices:
-                input, label = data[pair_idx]
-                tasks.append(
-                    pool.apply_async(task.evaluate_program, args=(input, label))
-                )
-            if show_process:
-                results = []
-                total_score = 0.0
-                for i, task in enumerate(tasks):
-                    result = task.get()
-                    results.append(result)
-                    total_score += result[1]
-                    self.plot_progress(i+1, len(indices), total_score/(i+1))
-            else:
-                results = [task.get() for task in tasks]
+        n_parallel = min(self.n_parallel, len(indices))
+        
+        # Task queue to limit the number of parallel tasks
+        # avoid worker pool to avoid reusing the same process
+        sema = mp.Semaphore(n_parallel)
+        plock = mp.Lock()
+        all_workers = []
+        result_q = mp.Queue()
+        
+        progress = mp.Value('i', 0)
+        total_score = mp.Value('d', 0.0)
+        for task_index, pair_idx in enumerate(indices):
+            input, label = data[pair_idx]
+            sema.acquire()
+            worker = mp.Process(target=task.evaluate_program, 
+                                args=(input, label, show_process, task_index, 
+                                        sema, progress, total_score, plock, len(indices), result_q))
+            worker.start()
+            all_workers.append(worker)
+            
+        results = []
+        for worker in all_workers:
+            worker.join()
+            results.append(result_q.get())
+        # re-order the results according to the task index
+        results = sorted(results, key=lambda x: x[0])
+        
+        # with mp.Pool(processes=n_parallel) as pool:
+        #     tasks = []
+        #     for pair_idx in indices:
+        #         input, label = data[pair_idx]
+        #         tasks.append(
+        #             pool.apply_async(task.evaluate_program, args=(input, label))
+        #         )
+        #     if show_process:
+        #         results = []
+        #         total_score = 0.0
+        #         for i, task in enumerate(tasks):
+        #             result = task.get()
+        #             results.append(result)
+        #             total_score += result[1]
+        #             plot_progress(i+1, len(indices), total_score/(i+1))
+        #     else:
+        #         results = [task.get() for task in tasks]
             
         prices = []
         scores = []
         demos = []
         exec_times = []
-        for result, score, price, demo, exec_time in results:
+        for tid, result, score, price, demo, exec_time in results:
             prices.append(price)
             scores.append(score)
             demos.append(demo)

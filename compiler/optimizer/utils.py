@@ -1,3 +1,7 @@
+import logging
+from functools import wraps
+from compiler.llm import CogLM, StructuredCogLM
+import inspect
 import importlib.util
 import json
 import re
@@ -5,9 +9,29 @@ import sys
 from pathlib import Path
 from types import ModuleType
 from pydantic import BaseModel
-
 from datamodel_code_generator.parser.jsonschema import JsonSchemaParser
 
+logger = logging.getLogger(__name__)
+
+def aggregator_factory(lm: CogLM, code: str):
+    agg_func_obj = compile(code, '<string>', 'exec')
+    local_name_space = {}
+    exec(agg_func_obj, {}, local_name_space)
+    func_name = agg_func_obj.co_names[0]
+    aggregator = local_name_space[func_name]
+    
+    if isinstance(lm, StructuredCogLM):
+        @wraps(aggregator)
+        def wrapper_kernel(**kwargs):
+            result = aggregator(**kwargs)
+            mresult = lm.output_format.schema.model_validate(result)
+            field = lm.output_format.schema.__name__
+            return {field: getattr(mresult, field)}
+    else:
+        wrapper_kernel = aggregator       
+    sig = inspect.signature(wrapper_kernel)
+    logger.debug(f'Aggregator signature: {sig}')
+    return wrapper_kernel
 
 NON_ALPHANUMERIC = re.compile(r"[^a-zA-Z0-9]+")
 UPPER_CAMEL_CASE = re.compile(r"[A-Z][a-zA-Z0-9]+")

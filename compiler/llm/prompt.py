@@ -1,17 +1,20 @@
 from dataclasses import dataclass, field
-from typing import List, Dict, Literal
+from typing import List, Dict, Literal, Optional
 import uuid
 
 @dataclass
-class InputVariable:
-  name: str
-  is_image: bool = False
+class ImageParams:
   is_image_upload: bool = False
-  file_type: Literal['jpeg', 'png'] = None
+  file_type: Literal['jpeg', 'png']
 
 @dataclass
-class FilledInputVariable:
-  input_variable: InputVariable
+class InputVar:
+  name: str
+  image_params: Optional[ImageParams] = None
+
+@dataclass
+class FilledInputVar:
+  input_variable: InputVar
   value: str
 
 @dataclass
@@ -34,10 +37,16 @@ Content = TextContent | ImageContent
 
 @dataclass
 class Demonstration:
-  id: str = field(default_factory=lambda: str(uuid.uuid4()))
-  filled_input_variables: List[FilledInputVariable]
+  filled_input_variables: List[FilledInputVar]
   output: str
+  id: str
   reasoning: str = None
+
+  def __init__(self, inputs: Dict[str, str], output: str, id: str = None, reasoning: str = None):
+    self.filled_input_variables = [FilledInputVar(input_variable=InputVar(name=key), value=value) for key, value in inputs.items()]
+    self.output = output
+    self.id = id or str(uuid.uuid4())
+    self.reasoning = reasoning
 
   def to_content(self) -> List[Content]:
     demo_content: List[Content] = []

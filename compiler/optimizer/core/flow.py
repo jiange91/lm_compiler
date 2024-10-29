@@ -8,7 +8,7 @@ from collections import defaultdict
 import uuid
 from dataclasses import dataclass, field
 
-from compiler.IR.program import Workflow, Module, StatePool
+from compiler.IR.program import Module
 from compiler.optimizer.params.common import ParamBase
 from compiler.optimizer.plugin import OptimizerSchema
 

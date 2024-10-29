@@ -5,6 +5,11 @@ from compiler.llm.prompt import CompletionMessage, TextContent
 from dataclasses import dataclass
 
 @dataclass
+class OutputLabel:
+    name: str
+    custom_output_format_instructions: str = None
+
+@dataclass
 class OutputFormat:
     schema: BaseModel
     should_hint_format_in_prompt: bool = True

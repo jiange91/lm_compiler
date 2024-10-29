@@ -306,7 +306,7 @@ class LangChainSemantic(LMSemantic):
             output_schemas = self.outputs[0]
         dict = {
             "agent_prompt": self.system_prompt,
-            "input_varaibles": self.inputs,
+            "input_variables": self.inputs,
             "output_schema": output_schemas
         }
         return json.dumps(dict, indent=4)

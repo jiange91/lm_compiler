@@ -12,21 +12,11 @@ from abc import ABC, abstractmethod
 from concurrent.futures import ThreadPoolExecutor, Future, wait, FIRST_COMPLETED
 import math
 import threading
-import uuid
-from dataclasses import dataclass, field
-import multiprocessing as mp
 
-from compiler.IR.program import Workflow, Module, StatePool
-from compiler.IR.llm import LMConfig, LLMPredictor
-from compiler.utils import get_bill
-from compiler.optimizer.tracer import batch_run_and_eval, OfflineBatchTracer
-from compiler.optimizer.params.common import ParamBase, OptionBase, DynamicParamBase, EvolveType, AddNewModuleImportInterface
+from compiler.IR.program import Module
+from compiler.optimizer.params.common import ParamBase, DynamicParamBase, EvolveType, AddNewModuleImportInterface
 from compiler.optimizer.params.utils import dump_params, load_params
-from compiler.optimizer.params.model_selection import LMSelection
-from compiler.langchain_bridge.interface import LangChainLM
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask, GeneralEvaluatorInterface
-from compiler.optimizer.evaluation.metric import MetricBase, MInput
-from compiler.optimizer.plugin import OptimizerSchema
 from optuna.samplers import TPESampler
 from optuna.trial import TrialState, FrozenTrial
 from compiler.optimizer.bo.tpe import FrugalTPESampler
@@ -310,7 +300,7 @@ class OptimizationLayer:
             for params in self.params.values():
                 for param in params:
                     if isinstance(param, DynamicParamBase):
-                        evolve_type = param.evole(eval_result)
+                        evolve_type = param.evolve(eval_result)
                         if evolve_type != EvolveType.ID:
                             is_evolved = True
             if is_evolved:
@@ -599,7 +589,7 @@ class BottomLevelOptimization(OptimizationLayer):
                 for params in self.params.values():
                     for param in params:
                         if isinstance(param, DynamicParamBase):
-                            evolve_type = param.evole(evolve_result)
+                            evolve_type = param.evolve(evolve_result)
                             if evolve_type != EvolveType.ID:
                                 is_evolved = True
                 if is_evolved:
@@ -647,7 +637,7 @@ class BottomLevelOptimization(OptimizationLayer):
             for params in self.params.values():
                 for param in params:
                     if isinstance(param, DynamicParamBase):
-                        evolve_type = param.evole(eval_result)
+                        evolve_type = param.evolve(eval_result)
                         if evolve_type != EvolveType.ID:
                             is_evolved = True
             if is_evolved:

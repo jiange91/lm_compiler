@@ -12,23 +12,28 @@ from abc import ABC, abstractmethod
 from concurrent.futures import ThreadPoolExecutor, Future, wait, FIRST_COMPLETED
 import math
 import threading
+import traceback
 
 from compiler.IR.program import Module
 from compiler.optimizer.params.common import ParamBase, DynamicParamBase, EvolveType, AddNewModuleImportInterface
 from compiler.optimizer.params.utils import dump_params, load_params
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask, GeneralEvaluatorInterface
-from optuna.samplers import TPESampler
+from optuna.samplers import TPESampler, _base
 from optuna.trial import TrialState, FrozenTrial
 from compiler.optimizer.bo.tpe import FrugalTPESampler
 from compiler.optimizer.core.flow import TrialLog, ModuleTransformTrace, TopDownInformation, OptConfig
+from optuna.samplers._base import _process_constraints_after_trial
 
 logger = logging.getLogger(__name__)
 
 qc_identifier = '_#cognify_quality_constraint'
 def get_quality_constraint(trial: optuna.trial.FrozenTrial):
-    return trial.user_attrs[qc_identifier]
+    return trial.user_attrs.get(qc_identifier, (1, ))
 
 class OptimizationLayer:
+    trial_log_cls = TrialLog
+    opt_logs: dict[int, TrialLog]
+    
     def __init__(
         self,
         name: str,
@@ -75,7 +80,7 @@ class OptimizationLayer:
         self.params: dict[str, list[ParamBase]] = None
         self.param_categorical_dist: dict[str, optuna.distributions.CategoricalDistribution] = None
         
-        self.opt_logs: dict[int, TrialLog] = None
+        self.opt_logs: dict[int, TrialLog] = dict()
         self.study: optuna.study.Study = None
         self._study_lock: threading.Lock = None
         self.opt_target_lm_names: set[str] = None
@@ -135,7 +140,6 @@ class OptimizationLayer:
             for _, params in self.params.items() for param in params
         }
         self.opt_target_lm_names = allowed_lm_names
-        self.opt_logs = {}
         self.study = self.init_study()
         self._study_lock = threading.Lock()
     
@@ -167,7 +171,7 @@ class OptimizationLayer:
     def init_study(
         self,
         old_study: optuna.Study = None,
-        old_trials: list[optuna.trial.Trial] = None,
+        old_trials: list[optuna.trial.FrozenTrial] = None,
     ):
         """Create a new study and migrate old trials if provided
         
@@ -193,7 +197,7 @@ class OptimizationLayer:
             sampler=sampler,
         )
         
-        f_trials = []
+        f_trials: list[optuna.trial.FrozenTrial] = []
         if old_study:
             f_trials.extend(old_study.trials)
         if old_trials:
@@ -201,10 +205,9 @@ class OptimizationLayer:
         
         for trial in f_trials:
             # Modify previous trials. 
-            params = trial.params
+            # user and system attr will be copied
+            # no need to deal with them here
             dists = self.param_categorical_dist
-            # These changes are not persisted to the storage.
-            trial.params = params
             trial.distributions = dists
             # Persist the changes to the storage (in a new study).
             new_study.add_trial(trial)
@@ -269,13 +272,16 @@ class OptimizationLayer:
         new_top_down_info: TopDownInformation,
     ) -> EvaluationResult:
         eval_task = EvalTask.from_top_down_info(new_top_down_info)
-        eval_result: EvaluationResult = self.evaluator.evaluate(eval_task)
+        eval_result: EvaluationResult = self.evaluator.evaluate(eval_task, show_process=False)
         return eval_result
     
     def add_constraint(self, score, trial: optuna.trial.Trial):
         # Soft constraint, if score is lower than the quality constraint, reject it
         if self.quality_constraint is not None:
-            trial.set_user_attr(qc_identifier, (self.quality_constraint - score, ))
+            constraint_result = (self.quality_constraint - score, )
+            trial.set_user_attr(qc_identifier, constraint_result)
+            # NOTE: add system attr at loading time
+            # trial.set_system_attr(_base._CONSTRAINTS_KEY, constraint_result)
     
     def update(
         self,
@@ -332,7 +338,7 @@ class OptimizationLayer:
             opt_trace = json.load(f)
             
         for trial_log_id, trial_meta in opt_trace.items():
-            trial_log = TrialLog.from_dict(trial_meta)
+            trial_log = self.trial_log_cls.from_dict(trial_meta)
             self.opt_logs[trial_log_id] = trial_log
             self.opt_cost += trial_log.eval_cost
             
@@ -341,6 +347,9 @@ class OptimizationLayer:
                 values=[trial_log.score, trial_log.price],
                 distributions=self.param_categorical_dist,
             )
+            if self.quality_constraint is not None:
+                self.add_constraint(trial_log.score, trial)
+                trial.set_system_attr(_base._CONSTRAINTS_KEY, get_quality_constraint(trial))
             self.study.add_trial(trial)
     
     def prepare_next_level_tdi(
@@ -388,7 +397,8 @@ class OptimizationLayer:
             eval_result = self.evaluate(log_id, next_level_info)
             self.update(next_trial, eval_result, log_id)
         except Exception as e:
-            logger.error(f'Error in evaluating task: {e}')
+            logger.error(f'Error in opt iteration: {e}')
+            logger.error(traceback.format_exc())
             raise
         
     def _optimize(self, base_program: list[Module]):
@@ -421,15 +431,16 @@ class OptimizationLayer:
         states_of_interest = (TrialState.COMPLETE,)
         return self.study.get_trials(deepcopy=need_copy, states=states_of_interest)
         
-                
-    def get_pareto_front(self) -> list[TrialLog]:
+    @staticmethod
+    def get_pareto_front(candidates: list[TrialLog, str]) -> list[TrialLog, str]:
+        """Find the pareto-efficient points
+        
+        Each with their config log path. This is for upper level to show correct bottom level config since the path is generated randomly for each innerloop.
+        
+        This function will not filter with constraints
         """
-        Find the pareto-efficient points
-        """
-        trial_logs = []
         score_cost_list = []
-        for log_id, trial_log in self.opt_logs.items():
-            trial_logs.append(trial_log)
+        for trial_log, log_path in candidates:
             score_cost_list.append((trial_log.score, trial_log.price))
         
         vectors = np.array([
@@ -443,11 +454,56 @@ class OptimizationLayer:
                 is_efficient[i] = True  # And keep self
         
         # return filtered [T_ParetoProgram]
-        pareto_frontier = [log for log, eff in zip(trial_logs, is_efficient) if eff]
+        pareto_frontier = [
+            (log, path) 
+            for (log, path), eff in zip(candidates, is_efficient) 
+            if eff
+        ]
         return pareto_frontier
     
     def pre_optimize(self):
         ...
+    
+    def get_all_candidates(self):
+        cancidates = [
+            (log, self.top_down_info.opt_config.opt_log_path) 
+            for log_id, log in self.opt_logs.items()
+        ]
+        return cancidates
+        
+    def post_optimize(self):
+        # Analysis optimization result
+        candidates = self.get_all_candidates()
+        pareto_frontier = self.get_pareto_front(candidates=candidates)
+        if self.quality_constraint is not None:
+            pareto_frontier = [
+                (log, path) 
+                for log, path in pareto_frontier 
+                if log.score >= self.quality_constraint
+            ]
+            
+        logger.info(f"--------- {self.name} Optimization Results ---------")
+        for i, (trial_log, log_path) in enumerate(pareto_frontier):
+            logger.info("# {}-th Pareto solution".format(i))
+            logger.info("  Config id: {}".format(trial_log.id))
+            logger.info("  Params: {}".format(trial_log.params))
+            logger.info("  Values: score= {}, price@1= {}".format(trial_log.score, trial_log.price))
+            logger.info("  config saved at: {}".format(log_path))
+            
+        logger.info("Opt Cost: {}".format(self.opt_cost))
+        logger.info(f"#Pareto Frontier: {len(pareto_frontier)}")
+        logger.info("-------------------------------------------------")
+        return pareto_frontier
+
+    def inspect(self, opt_log_path):
+        with open(opt_log_path, 'r') as f:
+            opt_trace = json.load(f)
+        for trial_log_id, trial_meta in opt_trace.items():
+            trial_log = self.trial_log_cls.from_dict(trial_meta)
+            self.opt_logs[trial_log_id] = trial_log
+            self.opt_cost += trial_log.eval_cost
+        pareto_frontier = self.post_optimize()
+        return pareto_frontier
     
     def optimize(
         self,
@@ -475,17 +531,7 @@ class OptimizationLayer:
             self.save_ckpt(self.top_down_info.opt_config.opt_log_path,
                            self.top_down_info.opt_config.param_save_path)
         
-        # Analysis optimization result
-        pareto_frontier = self.get_pareto_front() 
-        logger.info(f"--------- {self.name} Optimization Results ---------")
-        for i, trial_log in enumerate(pareto_frontier):
-            logger.info("The {}-th Pareto solution was found at Trial#{}.".format(i, trial_log.bo_trial_id))
-            logger.info("  Params: {}".format(trial_log.params))
-            logger.info("  Values: score= {}, price@1= {}".format(trial_log.score, trial_log.price))
-            
-        logger.info("Opt Cost: {}".format(self.opt_cost))
-        logger.info(f"#Pareto Frontier: {len(pareto_frontier)}")
-        logger.info("-------------------------------------------------")
+        pareto_frontier = self.post_optimize()
         return self.opt_cost, pareto_frontier, self.opt_logs
 
     def easy_optimize(
@@ -530,10 +576,10 @@ class BottomLevelTrialLog(TrialLog):
 class BottomLevelOptimization(OptimizationLayer):
     opt_logs: dict[str, BottomLevelTrialLog]
     evaluator: EvaluatorPlugin
+    trial_log_cls = BottomLevelTrialLog
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.opt_logs: dict[int, BottomLevelTrialLog] = None
         
     def create_log_at_proposal(self, trial: optuna.trial.Trial) -> BottomLevelTrialLog:
         return BottomLevelTrialLog(
@@ -543,7 +589,7 @@ class BottomLevelOptimization(OptimizationLayer):
     def evaluate(self, log_id, new_top_down_info):
         eval_task = EvalTask.from_top_down_info(new_top_down_info)
         self.opt_logs[log_id].eval_task = eval_task.to_dict()
-        eval_result: EvaluationResult = self.evaluator.evaluate(eval_task)
+        eval_result: EvaluationResult = self.evaluator.evaluate(eval_task, False)
         return eval_result
 
     def best_score_config(self) -> BottomLevelTrialLog:
@@ -567,10 +613,9 @@ class BottomLevelOptimization(OptimizationLayer):
         logger.info(f"- {self.name} - Trial {trial.number} result: score: {score}, price@1: {price}, eval_cost: {eval_result.total_eval_cost}")
         self.opt_cost += eval_result.total_eval_cost
         
-        self.add_constraint(score, trial)
-         
         # update study if any dynamic params can evolve
         with self._study_lock:
+            self.add_constraint(score, trial)
             frozen_trial = self.study.tell(trial, [score, price])
             existing_trials = self.get_finished_bo_trials(False)
             if len(existing_trials) > 0 and len(existing_trials) % self.top_down_info.opt_config.evolve_interval == 0:
@@ -580,7 +625,7 @@ class BottomLevelOptimization(OptimizationLayer):
                     logger.info("Use best score config to get evolving results")
                     # use best score config to get evolving results
                     best_score_log = self.best_score_config()
-                    evolve_eval_task = EvalTask.from_dict(best_score_log.eval_task.copy())
+                    evolve_eval_task = EvalTask.from_dict(copy.deepcopy(best_score_log.eval_task))
                     evolve_result = self.evaluator.get_score(
                         mode='eval', task=evolve_eval_task, show_process=False)
                     logger.info(f"Evolve eval result: {evolve_result}")
@@ -602,22 +647,6 @@ class BottomLevelOptimization(OptimizationLayer):
                     new_study = self.init_study(self.study)
                     self.study = new_study
     
-    def load_opt_ckpt(self, opt_log_path: str):
-        with open(opt_log_path, 'r') as f:
-            opt_trace = json.load(f)
-            
-        for trial_log_id, trial_meta in opt_trace.items():
-            trial_log = BottomLevelTrialLog.from_dict(trial_meta)
-            self.opt_logs[trial_log_id] = trial_log
-            self.opt_cost += trial_log.eval_cost
-            
-            trial = optuna.trial.create_trial(
-                params=trial_log.params,
-                values=[trial_log.score, trial_log.price],
-                distributions=self.param_categorical_dist,
-            )
-            self.study.add_trial(trial)
-    
     def pre_optimize(self):
         """Bootstrap the initial evolving params with given config
         
@@ -626,6 +655,15 @@ class BottomLevelOptimization(OptimizationLayer):
         if len(self.get_finished_bo_trials(False)) > 0:
             return
         
+        has_evolve = False
+        for params in self.params.values():
+            for param in params:
+                if isinstance(param, DynamicParamBase):
+                    has_evolve = True
+                    break
+        if not has_evolve:
+            return
+                    
         logger.info(f"Start pre-optimization for {self.name}")
         eval_task = EvalTask.from_top_down_info(self.top_down_info)
         if self.evaluator.dataset['eval'][0] is None:
@@ -647,12 +685,13 @@ class BottomLevelOptimization(OptimizationLayer):
                     for _, params in self.params.items() for param in params
                 }
                 # create new study and migrate all trials
-                new_study = self.init_study()
+                new_study = self.init_study(self.study)
                 self.study = new_study
     
+    @staticmethod
     def easy_eval(
-        self,
-        trial_log_id: str,
+        evaluator: EvaluatorPlugin,
+        config_id: str,
         opt_log_path: str,
     ) -> EvaluationResult:
         if not os.path.exists(opt_log_path):
@@ -660,16 +699,16 @@ class BottomLevelOptimization(OptimizationLayer):
         
         with open(opt_log_path, 'r') as f:
             opt_trace = json.load(f)
-        trial_log = BottomLevelTrialLog.from_dict(opt_trace[trial_log_id])
+        trial_log = BottomLevelTrialLog.from_dict(opt_trace[config_id])
         
         # apply selected trial
-        logger.info(f"----- Testing select trial {trial_log_id} -----")
+        logger.info(f"----- Testing select trial {config_id} -----")
         logger.info("  Params: {}".format(trial_log.params))
         logger.info("  Values: score= {}, price@1= {}".format(trial_log.score, trial_log.price))
         
         eval_task = EvalTask.from_dict(trial_log.eval_task)
         # run evaluation
-        eval_result = self.evaluator.get_score(mode='test', task=eval_task, show_process=True)
+        eval_result = evaluator.get_score(mode='test', task=eval_task, show_process=True)
         return eval_result
     
     

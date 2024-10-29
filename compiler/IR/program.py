@@ -3,6 +3,7 @@ from collections import defaultdict, deque
 from graphviz import Digraph
 from functools import partial
 import functools
+import traceback
 
 from compiler.IR.llm import LLMPredictor
 from compiler.IR.modules import Input, Output, Branch, Identity
@@ -502,6 +503,7 @@ class Workflow(ComposibleModuleInterface):
         except Exception as e:
             logger.error(f"Error in {module.name}: {e}")
             module.status = ModuleStatus.FAILED
+            traceback.print_exc()
             raise e
             
         if module.status == ModuleStatus.SUCCESS:

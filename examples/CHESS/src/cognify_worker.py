@@ -8,6 +8,7 @@ import sys
 
 sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 
+import os
 import debugpy
 import argparse
 import json
@@ -17,6 +18,7 @@ from runner.run_manager import RunManager
 from runner.database_manager import DatabaseManager
 from runner.logger import Logger
 from pipeline.pipeline_manager import PipelineManager
+from runner.task import Task
 from typing import Any, Dict, List, TypedDict, Callable
 from langgraph.graph import END, StateGraph
 
@@ -36,6 +38,8 @@ from compiler.IR.llm import LMConfig
 from compiler.optimizer import register_opt_program_entry, register_opt_score_fn
 
 
+dir_prefix = 'cognify_results/debug_ensemble'
+    
 @register_opt_program_entry
 def worker(input):
     """
@@ -43,10 +47,15 @@ def worker(input):
     """
     args = input['args']
     dataset = input['dataset']
-    result_directory = input['result_directory']
     assert len(dataset) == 1, "Worker process perform one task at a time"
+    
+    run_start_time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    task = Task(dataset[0])
+    result_dir = f"{dir_prefix}/{task.db_id}/{task.question_id}/{run_start_time}"
+    if not os.path.exists(result_dir):
+        os.makedirs(result_dir, exist_ok=True)
 
-    run_manager = RunManager(args, result_directory)
+    run_manager = RunManager(args, result_dir)
     run_manager.initialize_tasks(dataset)
     task = run_manager.tasks[0]
     

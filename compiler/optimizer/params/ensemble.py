@@ -1,3 +1,4 @@
+from typing import Union
 import logging
 from pathlib import Path
 import copy
@@ -14,6 +15,16 @@ from abc import ABC, ABCMeta
 
 class ModuleEnsemble(ParamBase):
     level = ParamLevel.GRAPH
+    
+    def __init__(
+        self, 
+        options: list[OptionBase],
+        name: str = 'ensemble',
+        default_option: Union[int, str] = 0,
+        module_name: str = None,
+        inherit: bool = False,
+    ):
+        super().__init__(name, options, default_option, module_name, inherit)
     
     @classmethod
     def from_dict(cls, data: dict):
@@ -86,11 +97,12 @@ Rationale: {rationale}
 Answer: {response}
         """
         for i, expert in enumerate(self.experts):
-            step: StepInfo = expert.steps[-1]
-            rationale = step.get('rationale', None)
-            output = step['output']
-            proposal = proposal_template.format(i=i, rationale=rationale, response=output)
-            paths.append(proposal)
+            if expert.steps:
+                step: StepInfo = expert.steps[-1]
+                rationale = step.get('rationale', None)
+                output = step['output']
+                proposal = proposal_template.format(i=i, rationale=rationale, response=output)
+                paths.append(proposal)
         paths_str = '\n---\n'.join(paths)
         question_context = {
             f"worker_task": agent_task,

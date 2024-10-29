@@ -113,9 +113,9 @@ class ModuleTransformTrace:
 @dataclass
 class OptConfig:
     n_trials: int
-    throughput: int
-    log_dir: str
-    evolve_interval: int = field(default=4)
+    throughput: int = field(default=2)
+    log_dir: str = field(default=None)
+    evolve_interval: int = field(default=2)
     opt_log_path: str = field(default=None)
     param_save_path: str = field(default=None)
     frugal_eval_cost: bool = field(default=True)

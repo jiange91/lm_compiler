@@ -19,6 +19,7 @@ import logging
 from compiler.IR.program import Workflow, Module
 from compiler.llm import CogLM, Demonstration
 from compiler.optimizer.params.common import ParamBase
+from compiler.optimizer.params.utils import build_param
 from compiler.optimizer.plugin import OptimizerSchema
 from compiler.optimizer.core.flow import TopDownInformation, ModuleTransformTrace
 
@@ -69,6 +70,40 @@ class EvaluationResult:
             f"eval cost: {self.total_eval_cost}, "
             f"avg exec time: {sum(self.exec_times) / len(self.exec_times)} s"
         )
+    
+    def to_dict(self):
+        """return result stats
+        
+        meta and demos are not included
+        """
+        stats = {}
+        stats['summary'] = {
+            'reduced_score': self.reduced_score,
+            'reduced_price': self.reduced_price,
+            'total_eval_cost': self.total_eval_cost,
+        }
+        stats['detailed'] = []
+        for id, score, price, exec_time in zip(self.ids, self.scores, self.prices, self.exec_times):
+            stats['detailed'].append({
+                'id': id,
+                'score': score,
+                'price': price,
+                'exec_time': exec_time,
+            })
+        return stats
+
+    @classmethod
+    def from_dict(cls, data: dict):
+        return cls(
+            ids=[d['id'] for d in data['detailed']],
+            scores=[d['score'] for d in data['detailed']],
+            prices=[d['price'] for d in data['detailed']],
+            exec_times=[d['exec_time'] for d in data['detailed']],
+            total_eval_cost=data['summary']['total_eval_cost'],
+            reduced_score=data['summary']['reduced_score'],
+            reduced_price=data['summary']['reduced_price'],
+        )
+    
 
 @dataclass
 class EvalTask:
@@ -99,8 +134,7 @@ class EvalTask:
         self.all_params = {}
         # restore params
         for hash, param_dict in param_pool.items():
-            t = ParamBase.registry[param_dict['type']]
-            self.all_params[hash] = t.from_dict(param_dict)
+            self.all_params[hash] = build_param(param_dict)
     
     def to_dict(self) -> dict:
         return self.__getstate__()
@@ -166,7 +200,13 @@ class EvalTask:
         assert schema.opt_target_modules, "No module to optimize"
         return schema
                     
-    def evaluate_program(self, input, label):
+    def evaluate_program(
+        self, 
+        input, 
+        label, 
+        show_process, 
+        task_index, sema, progress, total_score, lock, num_total_task, q
+    ):
         schema = self.get_program_schema()
         module_pool = {m.name: m for m in schema.opt_target_modules}
         
@@ -195,9 +235,18 @@ class EvalTask:
         lm_to_demo = {}
         for lm in Module.all_of_type(module_pool.values(), CogLM):
             price += lm.get_total_cost()
-            lm_to_demo[lm.name] = lm.get_last_step_as_demo()
+            demo = lm.get_last_step_as_demo()
+            if demo is not None:
+                lm_to_demo[lm.name] = demo
         
-        return result, score, price, lm_to_demo, end_time - start_time
+        with lock:
+            progress.value += 1
+            total_score.value += score
+            if show_process:
+                plot_progress(progress.value, num_total_task, total_score.value / progress.value)
+            
+        q.put((task_index, result, score, price, lm_to_demo, end_time - start_time))
+        sema.release()
     
     @classmethod
     def from_top_down_info(cls, tdi: TopDownInformation):
@@ -218,6 +267,18 @@ class GeneralEvaluatorInterface(ABC):
         show_process: bool = False,
     ) -> EvaluationResult:
         ...
+
+def plot_progress(done, total, avg_score, bar_length: int = 100):
+    """
+    Plots the progress of task processing.
+    
+    Args:
+        bar_length (int, optional): The length of the progress bar. Defaults to 100.
+    """
+    processed_ratio = done / total 
+    progress_length = int(processed_ratio * bar_length)
+    print('\x1b[1A' + '\x1b[2K' + '\x1b[1A')  # Clear previous line
+    print(f"[{'=' * progress_length}>{' ' * (bar_length - progress_length)}] {done}/{total} | avg_score: {avg_score}")
 
 class EvaluatorPlugin(GeneralEvaluatorInterface):
     def __init__(
@@ -246,17 +307,6 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
     ):
         return self.get_score(mode='train', task=task, show_process=show_process)
 
-    def plot_progress(self, done, total, avg_score, bar_length: int = 100):
-        """
-        Plots the progress of task processing.
-        
-        Args:
-            bar_length (int, optional): The length of the progress bar. Defaults to 100.
-        """
-        processed_ratio = done / total 
-        progress_length = int(processed_ratio * bar_length)
-        print('\x1b[1A' + '\x1b[2K' + '\x1b[1A')  # Clear previous line
-        print(f"[{'=' * progress_length}>{' ' * (bar_length - progress_length)}] {done}/{total} | avg_score: {avg_score}")
         
     def get_score(
         self,
@@ -268,30 +318,40 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         logger.debug(f'sys_path = {sys.path}')
         
         data, indices = self.dataset[mode]
-        n_parallel = min(self.n_parallel, len(indices)) 
-        with mp.Pool(processes=n_parallel) as pool:
-            tasks = []
-            for pair_idx in indices:
-                input, label = data[pair_idx]
-                tasks.append(
-                    pool.apply_async(task.evaluate_program, args=(input, label))
-                )
-            if show_process:
-                results = []
-                total_score = 0.0
-                for i, task in enumerate(tasks):
-                    result = task.get()
-                    results.append(result)
-                    total_score += result[1]
-                    self.plot_progress(i+1, len(indices), total_score/(i+1))
-            else:
-                results = [task.get() for task in tasks]
+        n_parallel = min(self.n_parallel, len(indices))
+        
+        # Task queue to limit the number of parallel tasks
+        # avoid worker pool to avoid reusing the same process
+        sema = mp.Semaphore(n_parallel)
+        plock = mp.Lock()
+        all_workers = []
+        result_q = mp.Queue()
+        
+        progress = mp.Value('i', 0)
+        total_score = mp.Value('d', 0.0)
+        for task_index, pair_idx in enumerate(indices):
+            input, label = data[pair_idx]
+            sema.acquire()
+            worker = mp.Process(target=task.evaluate_program, 
+                                args=(input, label, show_process, task_index, 
+                                        sema, progress, total_score, plock, len(indices), result_q))
+            worker.start()
+            all_workers.append(worker)
+            
+        results = []
+        for i in range(len(indices)):
+            results.append(result_q.get())
+            
+        for worker in all_workers:
+            worker.join()
+        # re-order the results according to the task index
+        results = sorted(results, key=lambda x: x[0])
             
         prices = []
         scores = []
         demos = []
         exec_times = []
-        for result, score, price, demo, exec_time in results:
+        for tid, result, score, price, demo, exec_time in results:
             prices.append(price)
             scores.append(score)
             demos.append(demo)
@@ -354,7 +414,14 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
             indices = np.random.choice(full_indices, size=sample_size, replace=False).tolist()
         else:
             logger.info('Down sampling with difficulty, start profiling...')
-            eval_result = self.get_score(mode, task, show_process=True)
+            dry_run_path = os.path.join(log_dir, f'dry_run_{mode}.json')
+            if os.path.exists(dry_run_path):
+                logger.info(f'Loading dry run results from {dry_run_path}')
+                eval_result = EvaluationResult.from_dict(json.load(open(dry_run_path, 'r')))
+            else:
+                eval_result = self.get_score(mode, task, show_process=True)
+                with open(dry_run_path, 'w+') as f:
+                    json.dump(eval_result.to_dict(), f, indent=4)
             # if user provide a custom prob convertor
             if prob_convertor is not None:
                 probs = prob_convertor(eval_result)
@@ -370,6 +437,6 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
                 # sample according to the prob
                 indices = np.random.choice(full_indices, size=sample_size, replace=False, p=probs).tolist()
                 
-        json.dump(indices, open(log_path, 'w'), indent=4)
+        json.dump(sorted(indices), open(log_path, 'w'), indent=4)
         self.dataset[mode][1] = indices
     

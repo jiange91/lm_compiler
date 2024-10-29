@@ -14,6 +14,18 @@ logger = logging.getLogger(__name__)
 class LMReasoning(ParamBase):
     level = ParamLevel.NODE
     
+    def __init__(
+        self, 
+        options: list[OptionBase],
+        name: str = 'reasoning', 
+        default_option: Union[int, str] = 0,
+        module_name: str = None,
+        inherit: bool = False,
+    ):
+        return super().__init__(
+            name, options, default_option, module_name, inherit
+        )
+    
     @classmethod
     def from_dict(cls, data: dict):
         name, module_name, default_option, options = data['name'], data['module_name'], data['default_option'], data['options']
@@ -82,9 +94,9 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
 
         messages.append({"role": "assistant", "content": rationale})
         if lm_module.contains_custom_format_instructions():
-            messages.append({"role": "user", "content": f"Now please only give {lm_module.get_output_label_name()} according to the following instructions:\n{lm_module.get_custom_format_instructions_if_any()}"})
+            messages.append({"role": "user", "content": f"Based on the reasoning, now please only give {lm_module.get_output_label_name()} as your final response, according to the following instructions:\n{lm_module.get_custom_format_instructions_if_any()}"})
         else:
-            messages.append({"role": "user", "content": f"Based on all this information, please only provide {lm_module.get_output_label_name()}."})
+            messages.append({"role": "user", "content": f"Based on the reasoning, now please form {lm_module.get_output_label_name()} as your final response."})
               
         full_messages = [lm_module.system_message.to_api()] + messages
         if isinstance(lm_module, StructuredCogLM):
@@ -113,8 +125,8 @@ class ZeroShotCoT(ReasonThenFormat):
         super().__init__("ZeroShotCoT")
     
     def _get_cost_indicator(self):
-        return 4.0
-
+        return 2.0
+        
     def reasoning_step(
         self, 
         model: str,
@@ -131,7 +143,7 @@ class PlanBefore(ReasonThenFormat):
         super().__init__("PlanBefore")
     
     def _get_cost_indicator(self):
-        return 2.5
+        return 2.0
     
     def reasoning_step(
         self, 
@@ -139,6 +151,7 @@ class PlanBefore(ReasonThenFormat):
         chat_messages: List[APICompatibleMessage],
         model_kwargs: dict
     ) -> List[ModelResponse]:
-        chat_messages.append({"role": "user", "content": "Let's first plan necessary steps to approach this problem before giving the final response\n"})
+        # TODO: make this a workflow and parallelize the reasoning steps
+        chat_messages.append({"role": "user", "content": "Let's first break down the task into several simpler sub-tasks that each covers different aspect of the original task. Clearly state each sub-question and provide your response to each one of them."})
         response = completion(model, chat_messages, **model_kwargs)
         return [response]

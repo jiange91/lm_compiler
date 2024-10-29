@@ -1,0 +1,1100 @@
+[
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_sampler_0_demos_30ad9ec9-9df5-43d9-8bae-40c30ecb17e8": {
+                "name": "generate_answer_sampler_0_demos_30ad9ec9-9df5-43d9-8bae-40c30ecb17e8",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "a511d133-be0e-41b4-89d1-76e48acf43b1",
+                    "97cb2cc3-5f45-40fe-9045-4bd5462a58a0",
+                    "8c25aa5c-0202-4c2e-9d08-8e5e357e824e",
+                    "beb1e623-1051-4b19-a7fd-9a9fc81bcb35"
+                ]
+            },
+            "generate_answer_sampler_0_demos_21175ff7-6c14-4f62-9225-06aba6a73c51": {
+                "name": "generate_answer_sampler_0_demos_21175ff7-6c14-4f62-9225-06aba6a73c51",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "a3ed16eb-e58c-453b-a94b-0296f81f0296",
+                    "67703557-97e9-4e7e-bfd1-705e41767388",
+                    "8c25aa5c-0202-4c2e-9d08-8e5e357e824e",
+                    "beb1e623-1051-4b19-a7fd-9a9fc81bcb35"
+                ]
+            },
+            "generate_answer_sampler_0_demos_d0dcb72b-a26b-423e-a4c1-88000a5a291f": {
+                "name": "generate_answer_sampler_0_demos_d0dcb72b-a26b-423e-a4c1-88000a5a291f",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "8a3e2c50-b4f8-4067-9824-32cfb214b27f",
+                    "67703557-97e9-4e7e-bfd1-705e41767388",
+                    "8c25aa5c-0202-4c2e-9d08-8e5e357e824e",
+                    "beb1e623-1051-4b19-a7fd-9a9fc81bcb35"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "__class__": "LMFewShot",
+        "__module__": "compiler.optimizer.params.fewshot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"Mickey Arthur\" | \"all-boys' school in Perth, Western Australia. He was appointed as the head coach of Karachi Kings in the debut season of Pakistan Super League which was held from 4 February 2016 to 23 February 2016 in the United Arab Emirates. They came fourth in a five-team group table due to which they had to play third-placed Islamabad United in the elimination round, where they lost by 9 wickets and were knocked-out of the tournament. He was appointed as the head coach of Dhaka Dynamites for 2015 BPL season. He was appointed as head coach of the Pakistan Cricket Team on\"\n[2]: \"Mickey Arthur\" | \"Mickey Arthur John Michael \"\"Mickey\"\" Arthur (born 17 May 1968) is a former South African cricketer who played South African domestic cricket from 1986 to 2001. He is the current coach of the Pakistan national cricket team. He coached the South African national team from 2005 to 2010, and was the coach of the Australia national cricket team until his sacking on 23 June 2013. He is also the coach of the Karachi Kings, a Twenty20 team in the Pakistan Super League. Arthur was born in Johannesburg, Transvaal, South Africa. He is an old boy of Westville Boys' High School.\"\n[3]: \"Mickey Arthur\" | \"interim selection process with former South African fast bowler Corrie van Zyl and former South African captain Kepler Wessels for the two-Test and three-ODI tour of India. Arthur was the coach of the Western Warriors and later coached the Australian cricket team, until Champions Trophy-2013 in England. Australia crashed out of Champions Trophy 2013 in the group stages. As a pre-emptive measure ahead of the upcoming Ashes series in England, Mickey Arthur was sacked and replaced by Darren Lehmann. In August 2013, Arthur was appointed as the head coach and director of cricket at Christ Church Grammar School, an Anglican\"",
+                    "question": "When did the coach of the Karachi Kings finish his time as coach of the Australia national cricket team ?"
+                },
+                "output": "23 June 2013",
+                "id": "a511d133-be0e-41b4-89d1-76e48acf43b1",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Merl Reagle\" | \"Merl Reagle Merl Harry Reagle (January 5, 1950 \u2013 August 22, 2015) was an American crossword constructor. For 30 years, he constructed a puzzle every Sunday for the \"\"San Francisco Chronicle\"\" (originally the \"\"San Francisco Examiner\"\"), which he syndicated to more than 50 Sunday newspapers, including the \"\"Washington Post\"\", the \"\"Los Angeles Times\"\", the \"\"Philadelphia Inquirer\"\", the \"\"Seattle Times\"\", \"\"The Plain Dealer\"\" (Cleveland, Ohio), the \"\"Hartford Courant\"\", the \"\"New York Observer\"\", and the \"\"Arizona Daily Star\"\". Reagle also produced a bimonthly crossword puzzle for \"\"AARP The Magazine\"\" magazine, a monthly crossword puzzle for the Society of Former Special Agents of\"\n[2]: \"San Francisco Chronicle Magazine\" | \"6, 2008, the \"\"Chronicle\"\" announced that the issue of the magazine in that newspaper would be the last weekly issue, and that starting August 3, the magazine would be published the first Sunday of each month. Each issue of the new magazine would focus on a single subject such as home design, travel, food or weddings. Many weekly magazine features migrated to other sections of the newspaper. Merle Reagle's crossword puzzle moved the Datebook, On the Couch and Michael Bauer's restaurant reviews moved to \"\"Styl\"\"e, and Zahid Sardar's Take Two moved to \"\"Home & Garden\"\". Unlike the 2003 redesign, the\"\n[3]: \"Merl Reagle\" | \"new type of crossword puzzle: \"\"less stodgy and more hip.\"\" This trend was encouraged by \"\"The New York Times\"\" crossword puzzle editor Will Shortz, who sought to appeal to a wider and younger readership with \"\"pop culture references ... humorous word play, and ... unique and clever themes\"\". In 2011 Reagle donated his expertise to produce an awareness-building campaign for the Alzheimer's Foundation of America. Reagle created the National Brain Game Challenge, an online contest featuring a Sunday crossword that contains a clued secret message. Cash prizes, including a first prize of $25,000, are awarded in two categories, \"\"casual solver\"\"\"",
+                    "question": "Merle Reagle did crosswords for what magazine that has a focus on aging issues?"
+                },
+                "output": "AARP The Magazine",
+                "id": "97cb2cc3-5f45-40fe-9045-4bd5462a58a0",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Te Deum (Bruckner)\" | \"by Richard von Perger at the suggestion of Johannes Brahms. On his copy of the score, Gustav Mahler crossed out \"\"\"\" (for choir, solos and orchestra, organ ad libitum) and wrote \"\"\"\" (for the tongues of angels, heaven-blest, chastened hearts, and souls purified in the fire!). The composer himself called the work \"\"the pride of his life\"\". The first performance in the United States occurred at the Cincinnati May Festival on 26 May 1892. Theodore Thomas conducted the Chicago Symphony Orchestra, the Cincinnati May Festival Chorus and the soloists Corinne Moore-Lawson, Marie Ritter-Goetze, Edward Lloyd and George Ellsworth Holmes. The\"\n[2]: \"Symphony No. 8 (Mahler)\" | \"Symphony No. 8 (Mahler) The Symphony No. 8 in E-flat major by Gustav Mahler is one of the largest-scale choral works in the classical concert repertoire. Because it requires huge instrumental and vocal forces it is frequently called the \"\"Symphony of a Thousand\"\", although the work is normally presented with far fewer than a thousand performers and the composer did not sanction that name. The work was composed in a single inspired burst, at Maiernigg in southern Austria in the summer of 1906. The last of Mahler's works that was premiered in his lifetime, the symphony was a critical and\"\n[3]: \"Dorothea Ro\u0308schmann\" | \"House (director: David McVicar; conductor: Antonio Pappano) and Salzburg (again with Harnoncourt conducting, and staged by ). As a concert singer she took part in the project of Ton Koopman and the Amsterdam Baroque Orchestra & Choir to record the complete vocal works of Johann Sebastian Bach. On September 10, 2011, she took part in the performance of Gustav Mahler's \"\"Symphony No. 2\"\", in a New York Philharmonic concert at Avery Fisher Hall in Lincoln Center. The free concert, presented to commemorate the tenth anniversary of the 9/11 terrorist attack on New York City, was conducted by Alan Gilbert and\"",
+                    "question": "Gustav Mahler composed a beautiful piece performed by the Bach-Elgar Choir. What is the name of that piece??"
+                },
+                "output": "Symphony No. 2",
+                "id": "8c25aa5c-0202-4c2e-9d08-8e5e357e824e",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Prefontaine (film)\" | \"Prefontaine (film) Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"\"Prefontaine\"\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death. Steve Prefontaine, a Coos Bay, Oregon student, is too small to play\"\n[2]: \"Prefontaine (film)\" | \"program. Prefontaine (film) Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"\"Prefontaine\"\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death. Steve Prefontaine, a Coos Bay, Oregon student, is too small to\"",
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "Bill Bowerman",
+                "id": "beb1e623-1051-4b19-a7fd-9a9fc81bcb35",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Port of Reggio\" | \"Port of Reggio The Port of Reggio is a seaport in the Mediterranean Sea serving the city of Reggio di Calabria. The position of the ancient Ausonian-Italic and Greek port is unknown: at that time the port was located in the southern part of Reggio coast. During Roman times the port, called \"\"Columna Rhegina\"\" was located in northern part of Reggio coast, nearby the strait between Sicily and Calabria. The present-day port, enlarged after 1908 earthquake, just takes up the western part of Santa Caterina neighbourhood, near the city centre. The port connects Reggio and its surroundings to Messina, Catania,\"\n[2]: \"Port of Reggio\" | \"\u00c6olian Islands, Taormina and Malta. Port of Reggio The Port of Reggio is a seaport in the Mediterranean Sea serving the city of Reggio di Calabria. The position of the ancient Ausonian-Italic and Greek port is unknown: at that time the port was located in the southern part of Reggio coast. During Roman times the port, called \"\"Columna Rhegina\"\" was located in northern part of Reggio coast, nearby the strait between Sicily and Calabria. The present-day port, enlarged after 1908 earthquake, just takes up the western part of Santa Caterina neighbourhood, near the city centre. The port connects Reggio and\"\n[3]: \"Mediterranean Sea\" | \"Mediterranean Sea The Mediterranean Sea is a sea connected to the Atlantic Ocean, surrounded by the Mediterranean Basin and almost completely enclosed by land: on the north by Southern Europe and Anatolia, on the south by North Africa and on the east by the Levant. Although the sea is sometimes considered a part of the Atlantic Ocean, it is usually identified as a separate body of water. Geological evidence indicates that around 5.9 million years ago, the Mediterranean was cut off from the Atlantic and was partly or completely desiccated over a period of some 600,000 years, the Messinian salinity\"\n[4]: \"Mediterranean Sea\" | \"2015, more than one million migrants crossed the Mediterranean Sea into Europe. Italy was particularly affected by the European migrant crisis. Since 2013, over 700,000 migrants have landed in Italy, mainly sub-Saharan Africans. The Mediterranean Sea is connected to the Atlantic Ocean by the Strait of Gibraltar (known in Homer's writings as the \"\"Pillars of Hercules\"\") in the west and to the Sea of Marmara and the Black Sea, by the Dardanelles and the Bosporus respectively, in the east. The Sea of Marmara (Dardanelles) is often considered a part of the Mediterranean Sea, whereas the Black Sea is generally not.\"",
+                    "question": "The sea whose port is The Port of Reggio is sometimes considered as a part of which ocean?"
+                },
+                "output": "Atlantic Ocean",
+                "id": "a3ed16eb-e58c-453b-a94b-0296f81f0296",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Talk About a Stranger\" | \"Talk About a Stranger Talk About a Stranger is a 1952 American film noir directed by David Bradley and starring George Murphy, Nancy Davis and Billy Gray. The motion picture was shot by noted cinematographer John Alton, A.S.C. The picture tells the story of Bud Fontaine Jr. (Billy Gray) who takes an instant dislike of Matlock, a strange new neighbor in town (Kurt Kasznar). After his new-found dog turns up dead by poison, Bud blames the stranger and sets off a campaign to smear his name and spread vicious rumors about him. His parents (George Murphy and Nancy Davis) can't\"\n[2]: \"Rachel and the Stranger\" | \"Rachel and the Stranger Rachel and the Stranger is a black-and-white 1948 western film starring Loretta Young, William Holden, and Robert Mitchum. The Norman Foster-directed film was one of the few to address the role of women in the pioneer west, as well as portray early America's indentured servant trade. It was based on the Howard Fast short story \"\"Rachel\"\". While the film had a low budget, it was RKO's most successful film that year, making $395,000. In colonial America, David Harvey (William Holden), a recent widower living in the wilderness, decides that his young boy Davey (Gary Gray) needs\"\n[3]: \"Nancy Reagan\" | \"actress in 1962. During her career, Davis served for nearly ten years on the board of directors of the Screen Actors Guild. Decades later, Albert Brooks attempted to coax her out of acting retirement by offering her the title role opposite himself in his 1996 film \"\"Mother\"\". She declined in order to care for her husband, and Debbie Reynolds played the part. During her Hollywood career, Davis dated many actors, including Clark Gable, Robert Stack, and Peter Lawford; she later called Gable the nicest of the stars she had met. On November 15, 1949, she met Ronald Reagan, who was\"\n[4]: \"Nancy Reagan\" | \"Davis appeared in eleven feature films, usually typecast as a \"\"loyal housewife\"\", \"\"responsible young mother\"\", or \"\"the steady woman\"\". Jane Powell, Debbie Reynolds, Leslie Caron, and Janet Leigh were among the actresses with whom she competed for roles at MGM. Davis' film career began with small supporting roles in two films that were released in 1949, \"\"The Doctor and the Girl\"\" with Glenn Ford and \"\"East Side, West Side\"\" starring Barbara Stanwyck. She played a child psychiatrist in the film noir \"\"Shadow on the Wall\"\" (1950) with Ann Sothern and Zachary Scott; her performance was called \"\"beautiful and convincing\"\" by\"",
+                    "question": "What important political role did the female star of the film Talk About a Stranger hold ?"
+                },
+                "output": "First Lady of the United States.",
+                "id": "67703557-97e9-4e7e-bfd1-705e41767388",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Edwin Howard Armstrong\" | \"Edwin Howard Armstrong Edwin Howard Armstrong (December 18, 1890 \u2013 February 1, 1954) was an American electrical engineer and inventor, best known for developing FM (frequency modulation) radio and the superheterodyne receiver system. He held 42 patents and received numerous awards, including the first Medal of Honor awarded by the Institute of Radio Engineers (now IEEE), the French Legion of Honor, the 1941 Franklin Medal and the 1942 Edison Medal. He was inducted into the National Inventors Hall of Fame and included in the International Telecommunication Union's roster of great inventors. Armstrong was born in the Chelsea district of New\"\n[2]: \"Institute of Radio Engineers\" | \"(1942), William R. Hewlett (1954), Ernst Weber (1959; also first president of IEEE, 1963) and Patrick E. Haggerty (1962). The IRE issued the IRE Medal of Honor each year which is now the IEEE Medal of Honor. Institute of Radio Engineers The Institute of Radio Engineers (IRE) was a professional organization which existed from 1912 until December 31, 1962. On January 1, 1963 it merged with the American Institute of Electrical Engineers (AIEE) to form the Institute of Electrical and Electronics Engineers (IEEE). Following several attempts to form a technical organization of wireless practitioners in 1908\u20131912, the Institute of Radio\"\n[3]: \"Edwin Howard Armstrong\" | \"81. She was survived by two nephews and a niece. In 1917, Armstrong was the first recipient of the IRE's (now IEEE) Medal of Honor. For his wartime work on radio, the French government gave him the Legion of Honor in 1919. He was awarded the 1941 Franklin Medal, and in 1942 received the AIEEs Edison Medal \"\"for distinguished contributions to the art of electric communication, notably the regenerative circuit, the superheterodyne, and frequency modulation.\"\" The ITU added him to its roster of great inventors of electricity in 1955. He later received two honorary doctorates, from Columbia in 1929, and\"",
+                    "question": "FM broadcasting began at the station of which inventor, who won the first Medal of Honor by what is now the IEEE?"
+                },
+                "output": "Edwin Howard Armstrong",
+                "id": "8a3e2c50-b4f8-4067-9824-32cfb214b27f",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the question step by step.\n\n1. **Identify the Key Elements of the Question**:\n   - The question asks about the inventor associated with FM broadcasting.\n   - It also mentions that this inventor won the first Medal of Honor awarded by what is now the IEEE.\n\n2. **Extract Relevant Information from the Context**:\n   - From the first context snippet, we learn that Edwin Howard Armstrong is known for developing FM radio.\n   - It also states that he was the first recipient of the Medal of Honor awarded by the Institute of Radio Engineers (now IEEE).\n\n3. **Connecting the Dots**:\n   - Since Edwin Howard Armstrong is credited with FM broadcasting and is noted as the first recipient of the IRE's Medal of Honor, we can conclude he is the person we are looking for.\n\n4. **Finalizing the Answer**:\n   - Based on the context, we can confidently state that Edwin Howard Armstrong is the inventor associated with FM broadcasting and the first recipient of the Medal of Honor by the IRE (now IEEE).\n\nNow that we've reasoned through this, we can provide a clear answer. \n\n**Final Answer**: Edwin Howard Armstrong"
+            }
+        ],
+        "best_score_by_task": {
+            "eval_49": 1.0,
+            "eval_6": 0,
+            "eval_17": 0,
+            "eval_34": 0.20000000000000004,
+            "eval_32": 1.0,
+            "eval_23": 1.0,
+            "eval_13": 0.5,
+            "eval_29": 0,
+            "eval_46": 1.0,
+            "eval_22": 0.8,
+            "eval_2": 0.5,
+            "eval_26": 1.0,
+            "eval_24": 1.0,
+            "eval_31": 0,
+            "eval_21": 0.6666666666666666,
+            "eval_10": 0.5,
+            "eval_44": 0,
+            "eval_19": 1.0,
+            "eval_9": 0.4,
+            "eval_30": 0,
+            "eval_8": 1.0,
+            "eval_25": 0,
+            "eval_42": 0,
+            "eval_1": 1.0,
+            "eval_47": 0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_23",
+                "demo_id": "8a3e2c50-b4f8-4067-9824-32cfb214b27f"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_49",
+                "demo_id": "67703557-97e9-4e7e-bfd1-705e41767388"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_46",
+                "demo_id": "8c25aa5c-0202-4c2e-9d08-8e5e357e824e"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "beb1e623-1051-4b19-a7fd-9a9fc81bcb35"
+            }
+        ],
+        "task_id_set": [
+            "eval_46",
+            "eval_23",
+            "eval_8",
+            "eval_49"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_sampler_0",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "__class__": "LMReasoning",
+        "__module__": "compiler.optimizer.params.reasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "refine_query_demos_d2bf3c02-1d62-4d6e-8b30-3a5cc2890ab5": {
+                "name": "refine_query_demos_d2bf3c02-1d62-4d6e-8b30-3a5cc2890ab5",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "f095d2c2-77cb-42e7-a3ff-012ba821b7d9",
+                    "417d42f5-528c-40a6-9515-a96b4c19fc2d",
+                    "e04eee29-5a12-49e2-9f7c-5f364f41c27a",
+                    "a3df2cfd-5f03-4cd9-9c72-59ae1e912e74"
+                ]
+            },
+            "refine_query_demos_06613383-83c3-40bd-8d25-256436f3e05f": {
+                "name": "refine_query_demos_06613383-83c3-40bd-8d25-256436f3e05f",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "c320ad9a-38e5-4ea8-8a8e-58f08efbe9b3",
+                    "586296ea-2de8-429f-ade2-ed34c80ec815",
+                    "e04eee29-5a12-49e2-9f7c-5f364f41c27a",
+                    "a3df2cfd-5f03-4cd9-9c72-59ae1e912e74"
+                ]
+            },
+            "refine_query_demos_0333481e-a841-4708-962b-cb4ea54276c5": {
+                "name": "refine_query_demos_0333481e-a841-4708-962b-cb4ea54276c5",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "7973be86-c971-44a4-9f3e-643e553943e0",
+                    "586296ea-2de8-429f-ade2-ed34c80ec815",
+                    "e04eee29-5a12-49e2-9f7c-5f364f41c27a",
+                    "a3df2cfd-5f03-4cd9-9c72-59ae1e912e74"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "__class__": "LMFewShot",
+        "__module__": "compiler.optimizer.params.fewshot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"Mickey Arthur\" | \"all-boys' school in Perth, Western Australia. He was appointed as the head coach of Karachi Kings in the debut season of Pakistan Super League which was held from 4 February 2016 to 23 February 2016 in the United Arab Emirates. They came fourth in a five-team group table due to which they had to play third-placed Islamabad United in the elimination round, where they lost by 9 wickets and were knocked-out of the tournament. He was appointed as the head coach of Dhaka Dynamites for 2015 BPL season. He was appointed as head coach of the Pakistan Cricket Team on\"\n[2]: \"Mickey Arthur\" | \"Mickey Arthur John Michael \"\"Mickey\"\" Arthur (born 17 May 1968) is a former South African cricketer who played South African domestic cricket from 1986 to 2001. He is the current coach of the Pakistan national cricket team. He coached the South African national team from 2005 to 2010, and was the coach of the Australia national cricket team until his sacking on 23 June 2013. He is also the coach of the Karachi Kings, a Twenty20 team in the Pakistan Super League. Arthur was born in Johannesburg, Transvaal, South Africa. He is an old boy of Westville Boys' High School.\"",
+                    "question": "When did the coach of the Karachi Kings finish his time as coach of the Australia national cricket team ?"
+                },
+                "output": "Mickey Arthur Australia national cricket team coaching tenure end date",
+                "id": "f095d2c2-77cb-42e7-a3ff-012ba821b7d9",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Merl Reagle\" | \"Merl Reagle Merl Harry Reagle (January 5, 1950 \u2013 August 22, 2015) was an American crossword constructor. For 30 years, he constructed a puzzle every Sunday for the \"\"San Francisco Chronicle\"\" (originally the \"\"San Francisco Examiner\"\"), which he syndicated to more than 50 Sunday newspapers, including the \"\"Washington Post\"\", the \"\"Los Angeles Times\"\", the \"\"Philadelphia Inquirer\"\", the \"\"Seattle Times\"\", \"\"The Plain Dealer\"\" (Cleveland, Ohio), the \"\"Hartford Courant\"\", the \"\"New York Observer\"\", and the \"\"Arizona Daily Star\"\". Reagle also produced a bimonthly crossword puzzle for \"\"AARP The Magazine\"\" magazine, a monthly crossword puzzle for the Society of Former Special Agents of\"\n[2]: \"San Francisco Chronicle Magazine\" | \"6, 2008, the \"\"Chronicle\"\" announced that the issue of the magazine in that newspaper would be the last weekly issue, and that starting August 3, the magazine would be published the first Sunday of each month. Each issue of the new magazine would focus on a single subject such as home design, travel, food or weddings. Many weekly magazine features migrated to other sections of the newspaper. Merle Reagle's crossword puzzle moved the Datebook, On the Couch and Michael Bauer's restaurant reviews moved to \"\"Styl\"\"e, and Zahid Sardar's Take Two moved to \"\"Home & Garden\"\". Unlike the 2003 redesign, the\"",
+                    "question": "Merle Reagle did crosswords for what magazine that has a focus on aging issues?"
+                },
+                "output": "Merle Reagle crossword puzzle AARP The Magazine aging issues",
+                "id": "417d42f5-528c-40a6-9515-a96b4c19fc2d",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Te Deum (Bruckner)\" | \"by Richard von Perger at the suggestion of Johannes Brahms. On his copy of the score, Gustav Mahler crossed out \"\"\"\" (for choir, solos and orchestra, organ ad libitum) and wrote \"\"\"\" (for the tongues of angels, heaven-blest, chastened hearts, and souls purified in the fire!). The composer himself called the work \"\"the pride of his life\"\". The first performance in the United States occurred at the Cincinnati May Festival on 26 May 1892. Theodore Thomas conducted the Chicago Symphony Orchestra, the Cincinnati May Festival Chorus and the soloists Corinne Moore-Lawson, Marie Ritter-Goetze, Edward Lloyd and George Ellsworth Holmes. The\"\n[2]: \"Symphony No. 8 (Mahler)\" | \"Symphony No. 8 (Mahler) The Symphony No. 8 in E-flat major by Gustav Mahler is one of the largest-scale choral works in the classical concert repertoire. Because it requires huge instrumental and vocal forces it is frequently called the \"\"Symphony of a Thousand\"\", although the work is normally presented with far fewer than a thousand performers and the composer did not sanction that name. The work was composed in a single inspired burst, at Maiernigg in southern Austria in the summer of 1906. The last of Mahler's works that was premiered in his lifetime, the symphony was a critical and\"",
+                    "question": "Gustav Mahler composed a beautiful piece performed by the Bach-Elgar Choir. What is the name of that piece??"
+                },
+                "output": "Gustav Mahler piece performed by Bach-Elgar Choir",
+                "id": "e04eee29-5a12-49e2-9f7c-5f364f41c27a",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Prefontaine (film)\" | \"Prefontaine (film) Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"\"Prefontaine\"\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death. Steve Prefontaine, a Coos Bay, Oregon student, is too small to play\"\n[2]: \"Prefontaine (film)\" | \"program. Prefontaine (film) Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"\"Prefontaine\"\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death. Steve Prefontaine, a Coos Bay, Oregon student, is too small to\"",
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "R. Lee Ermey character name in Prefontaine film American track and field coach co-founder of Nike Inc",
+                "id": "a3df2cfd-5f03-4cd9-9c72-59ae1e912e74",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Port of Reggio\" | \"Port of Reggio The Port of Reggio is a seaport in the Mediterranean Sea serving the city of Reggio di Calabria. The position of the ancient Ausonian-Italic and Greek port is unknown: at that time the port was located in the southern part of Reggio coast. During Roman times the port, called \"\"Columna Rhegina\"\" was located in northern part of Reggio coast, nearby the strait between Sicily and Calabria. The present-day port, enlarged after 1908 earthquake, just takes up the western part of Santa Caterina neighbourhood, near the city centre. The port connects Reggio and its surroundings to Messina, Catania,\"\n[2]: \"Port of Reggio\" | \"\u00c6olian Islands, Taormina and Malta. Port of Reggio The Port of Reggio is a seaport in the Mediterranean Sea serving the city of Reggio di Calabria. The position of the ancient Ausonian-Italic and Greek port is unknown: at that time the port was located in the southern part of Reggio coast. During Roman times the port, called \"\"Columna Rhegina\"\" was located in northern part of Reggio coast, nearby the strait between Sicily and Calabria. The present-day port, enlarged after 1908 earthquake, just takes up the western part of Santa Caterina neighbourhood, near the city centre. The port connects Reggio and\"",
+                    "question": "The sea whose port is The Port of Reggio is sometimes considered as a part of which ocean?"
+                },
+                "output": "\"Mediterranean Sea considered part of which ocean\"",
+                "id": "c320ad9a-38e5-4ea8-8a8e-58f08efbe9b3",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure, let's break down the information we have and what we need to find out.\n\n1. **Context Analysis**: The context provides details about the Port of Reggio, including its geographical location, historical significance, and connections to other places. It mentions that the port is in the Mediterranean Sea, which is crucial for our search.\n\n2. **Question Breakdown**: The question asks about the ocean that the Mediterranean Sea is sometimes considered a part of. This implies that we need to look for information regarding the relationship between the Mediterranean Sea and any larger oceanic bodies.\n\n3. **Search Query Development**: To find the relevant information, we need to focus on the Mediterranean Sea and its classification in relation to oceans. \n\nBased on this reasoning, the search query should target the relationship between the Mediterranean Sea and any associated oceans. \n\n**Proposed Search Query**: \"Mediterranean Sea classification ocean relationship\""
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Talk About a Stranger\" | \"Talk About a Stranger Talk About a Stranger is a 1952 American film noir directed by David Bradley and starring George Murphy, Nancy Davis and Billy Gray. The motion picture was shot by noted cinematographer John Alton, A.S.C. The picture tells the story of Bud Fontaine Jr. (Billy Gray) who takes an instant dislike of Matlock, a strange new neighbor in town (Kurt Kasznar). After his new-found dog turns up dead by poison, Bud blames the stranger and sets off a campaign to smear his name and spread vicious rumors about him. His parents (George Murphy and Nancy Davis) can't\"\n[2]: \"Rachel and the Stranger\" | \"Rachel and the Stranger Rachel and the Stranger is a black-and-white 1948 western film starring Loretta Young, William Holden, and Robert Mitchum. The Norman Foster-directed film was one of the few to address the role of women in the pioneer west, as well as portray early America's indentured servant trade. It was based on the Howard Fast short story \"\"Rachel\"\". While the film had a low budget, it was RKO's most successful film that year, making $395,000. In colonial America, David Harvey (William Holden), a recent widower living in the wilderness, decides that his young boy Davey (Gary Gray) needs\"",
+                    "question": "What important political role did the female star of the film Talk About a Stranger hold ?"
+                },
+                "output": "\"Nancy Davis political career roles\"",
+                "id": "586296ea-2de8-429f-ade2-ed34c80ec815",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure, let's break it down step by step.\n\n1. **Identify Key Elements**: The question is asking about the political role of the female star of the film \"Talk About a Stranger.\" From the context, we know that the female star is Nancy Davis.\n\n2. **Determine Missing Information**: The context does not provide any information about Nancy Davis's political career or roles. Therefore, we need to find out what political positions or roles she held.\n\n3. **Formulate a Search Query**: To retrieve the necessary information, we need to create a search query that specifically targets Nancy Davis's political career. \n\n4. **Consider Relevant Keywords**: The search query should include her name and terms related to her political involvement.\n\nBased on this reasoning, the search query could be:\n\n**search_query**: \"Nancy Davis political career roles\""
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Edwin Howard Armstrong\" | \"Edwin Howard Armstrong Edwin Howard Armstrong (December 18, 1890 \u2013 February 1, 1954) was an American electrical engineer and inventor, best known for developing FM (frequency modulation) radio and the superheterodyne receiver system. He held 42 patents and received numerous awards, including the first Medal of Honor awarded by the Institute of Radio Engineers (now IEEE), the French Legion of Honor, the 1941 Franklin Medal and the 1942 Edison Medal. He was inducted into the National Inventors Hall of Fame and included in the International Telecommunication Union's roster of great inventors. Armstrong was born in the Chelsea district of New\"\n[2]: \"Institute of Radio Engineers\" | \"(1942), William R. Hewlett (1954), Ernst Weber (1959; also first president of IEEE, 1963) and Patrick E. Haggerty (1962). The IRE issued the IRE Medal of Honor each year which is now the IEEE Medal of Honor. Institute of Radio Engineers The Institute of Radio Engineers (IRE) was a professional organization which existed from 1912 until December 31, 1962. On January 1, 1963 it merged with the American Institute of Electrical Engineers (AIEE) to form the Institute of Electrical and Electronics Engineers (IEEE). Following several attempts to form a technical organization of wireless practitioners in 1908\u20131912, the Institute of Radio\"",
+                    "question": "FM broadcasting began at the station of which inventor, who won the first Medal of Honor by what is now the IEEE?"
+                },
+                "output": "Edwin Howard Armstrong FM broadcasting first Medal of Honor IEEE",
+                "id": "7973be86-c971-44a4-9f3e-643e553943e0",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_49": 1.0,
+            "eval_6": 0,
+            "eval_17": 0,
+            "eval_34": 0.20000000000000004,
+            "eval_32": 1.0,
+            "eval_23": 1.0,
+            "eval_13": 0.5,
+            "eval_29": 0,
+            "eval_46": 1.0,
+            "eval_22": 0.8,
+            "eval_2": 0.5,
+            "eval_26": 1.0,
+            "eval_24": 1.0,
+            "eval_31": 0,
+            "eval_21": 0.6666666666666666,
+            "eval_10": 0.5,
+            "eval_44": 0,
+            "eval_19": 1.0,
+            "eval_9": 0.4,
+            "eval_30": 0,
+            "eval_8": 1.0,
+            "eval_25": 0,
+            "eval_42": 0,
+            "eval_1": 1.0,
+            "eval_47": 0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_23",
+                "demo_id": "7973be86-c971-44a4-9f3e-643e553943e0"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_49",
+                "demo_id": "586296ea-2de8-429f-ade2-ed34c80ec815"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_46",
+                "demo_id": "e04eee29-5a12-49e2-9f7c-5f364f41c27a"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "a3df2cfd-5f03-4cd9-9c72-59ae1e912e74"
+            }
+        ],
+        "task_id_set": [
+            "eval_46",
+            "eval_23",
+            "eval_8",
+            "eval_49"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "__class__": "LMReasoning",
+        "__module__": "compiler.optimizer.params.reasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_sampler_1_demos_1fa76ed2-bdf3-4de3-af20-1d94cefbbd62": {
+                "name": "generate_answer_sampler_1_demos_1fa76ed2-bdf3-4de3-af20-1d94cefbbd62",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "5911f9c7-bdd3-4148-ab50-de7e375a22c3",
+                    "118c7124-a15c-4f8f-b701-6c8f3c1ed984",
+                    "865fa935-058d-4ea0-b165-6900c8151e8f",
+                    "3d503da6-9ae6-428a-925d-abe31a72ca62"
+                ]
+            },
+            "generate_answer_sampler_1_demos_37957be2-106e-453b-bd82-ce3de635bc47": {
+                "name": "generate_answer_sampler_1_demos_37957be2-106e-453b-bd82-ce3de635bc47",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "2e77ac49-e39e-4a5c-906a-4cde6d919f95",
+                    "78125cd1-03b1-44fc-ba04-ece765ccf8c8",
+                    "865fa935-058d-4ea0-b165-6900c8151e8f",
+                    "3d503da6-9ae6-428a-925d-abe31a72ca62"
+                ]
+            },
+            "generate_answer_sampler_1_demos_2a42b3df-d8d6-41b3-bc0c-bab83a0bfd0f": {
+                "name": "generate_answer_sampler_1_demos_2a42b3df-d8d6-41b3-bc0c-bab83a0bfd0f",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "af68da98-df17-4dba-91cf-d26fac612cf9",
+                    "78125cd1-03b1-44fc-ba04-ece765ccf8c8",
+                    "865fa935-058d-4ea0-b165-6900c8151e8f",
+                    "3d503da6-9ae6-428a-925d-abe31a72ca62"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "__class__": "LMFewShot",
+        "__module__": "compiler.optimizer.params.fewshot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"Mickey Arthur\" | \"all-boys' school in Perth, Western Australia. He was appointed as the head coach of Karachi Kings in the debut season of Pakistan Super League which was held from 4 February 2016 to 23 February 2016 in the United Arab Emirates. They came fourth in a five-team group table due to which they had to play third-placed Islamabad United in the elimination round, where they lost by 9 wickets and were knocked-out of the tournament. He was appointed as the head coach of Dhaka Dynamites for 2015 BPL season. He was appointed as head coach of the Pakistan Cricket Team on\"\n[2]: \"Mickey Arthur\" | \"Mickey Arthur John Michael \"\"Mickey\"\" Arthur (born 17 May 1968) is a former South African cricketer who played South African domestic cricket from 1986 to 2001. He is the current coach of the Pakistan national cricket team. He coached the South African national team from 2005 to 2010, and was the coach of the Australia national cricket team until his sacking on 23 June 2013. He is also the coach of the Karachi Kings, a Twenty20 team in the Pakistan Super League. Arthur was born in Johannesburg, Transvaal, South Africa. He is an old boy of Westville Boys' High School.\"\n[3]: \"Mickey Arthur\" | \"interim selection process with former South African fast bowler Corrie van Zyl and former South African captain Kepler Wessels for the two-Test and three-ODI tour of India. Arthur was the coach of the Western Warriors and later coached the Australian cricket team, until Champions Trophy-2013 in England. Australia crashed out of Champions Trophy 2013 in the group stages. As a pre-emptive measure ahead of the upcoming Ashes series in England, Mickey Arthur was sacked and replaced by Darren Lehmann. In August 2013, Arthur was appointed as the head coach and director of cricket at Christ Church Grammar School, an Anglican\"",
+                    "question": "When did the coach of the Karachi Kings finish his time as coach of the Australia national cricket team ?"
+                },
+                "output": "23 June 2013",
+                "id": "5911f9c7-bdd3-4148-ab50-de7e375a22c3",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Merl Reagle\" | \"Merl Reagle Merl Harry Reagle (January 5, 1950 \u2013 August 22, 2015) was an American crossword constructor. For 30 years, he constructed a puzzle every Sunday for the \"\"San Francisco Chronicle\"\" (originally the \"\"San Francisco Examiner\"\"), which he syndicated to more than 50 Sunday newspapers, including the \"\"Washington Post\"\", the \"\"Los Angeles Times\"\", the \"\"Philadelphia Inquirer\"\", the \"\"Seattle Times\"\", \"\"The Plain Dealer\"\" (Cleveland, Ohio), the \"\"Hartford Courant\"\", the \"\"New York Observer\"\", and the \"\"Arizona Daily Star\"\". Reagle also produced a bimonthly crossword puzzle for \"\"AARP The Magazine\"\" magazine, a monthly crossword puzzle for the Society of Former Special Agents of\"\n[2]: \"San Francisco Chronicle Magazine\" | \"6, 2008, the \"\"Chronicle\"\" announced that the issue of the magazine in that newspaper would be the last weekly issue, and that starting August 3, the magazine would be published the first Sunday of each month. Each issue of the new magazine would focus on a single subject such as home design, travel, food or weddings. Many weekly magazine features migrated to other sections of the newspaper. Merle Reagle's crossword puzzle moved the Datebook, On the Couch and Michael Bauer's restaurant reviews moved to \"\"Styl\"\"e, and Zahid Sardar's Take Two moved to \"\"Home & Garden\"\". Unlike the 2003 redesign, the\"\n[3]: \"Merl Reagle\" | \"new type of crossword puzzle: \"\"less stodgy and more hip.\"\" This trend was encouraged by \"\"The New York Times\"\" crossword puzzle editor Will Shortz, who sought to appeal to a wider and younger readership with \"\"pop culture references ... humorous word play, and ... unique and clever themes\"\". In 2011 Reagle donated his expertise to produce an awareness-building campaign for the Alzheimer's Foundation of America. Reagle created the National Brain Game Challenge, an online contest featuring a Sunday crossword that contains a clued secret message. Cash prizes, including a first prize of $25,000, are awarded in two categories, \"\"casual solver\"\"\"",
+                    "question": "Merle Reagle did crosswords for what magazine that has a focus on aging issues?"
+                },
+                "output": "AARP The Magazine",
+                "id": "118c7124-a15c-4f8f-b701-6c8f3c1ed984",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Te Deum (Bruckner)\" | \"by Richard von Perger at the suggestion of Johannes Brahms. On his copy of the score, Gustav Mahler crossed out \"\"\"\" (for choir, solos and orchestra, organ ad libitum) and wrote \"\"\"\" (for the tongues of angels, heaven-blest, chastened hearts, and souls purified in the fire!). The composer himself called the work \"\"the pride of his life\"\". The first performance in the United States occurred at the Cincinnati May Festival on 26 May 1892. Theodore Thomas conducted the Chicago Symphony Orchestra, the Cincinnati May Festival Chorus and the soloists Corinne Moore-Lawson, Marie Ritter-Goetze, Edward Lloyd and George Ellsworth Holmes. The\"\n[2]: \"Symphony No. 8 (Mahler)\" | \"Symphony No. 8 (Mahler) The Symphony No. 8 in E-flat major by Gustav Mahler is one of the largest-scale choral works in the classical concert repertoire. Because it requires huge instrumental and vocal forces it is frequently called the \"\"Symphony of a Thousand\"\", although the work is normally presented with far fewer than a thousand performers and the composer did not sanction that name. The work was composed in a single inspired burst, at Maiernigg in southern Austria in the summer of 1906. The last of Mahler's works that was premiered in his lifetime, the symphony was a critical and\"\n[3]: \"Dorothea Ro\u0308schmann\" | \"House (director: David McVicar; conductor: Antonio Pappano) and Salzburg (again with Harnoncourt conducting, and staged by ). As a concert singer she took part in the project of Ton Koopman and the Amsterdam Baroque Orchestra & Choir to record the complete vocal works of Johann Sebastian Bach. On September 10, 2011, she took part in the performance of Gustav Mahler's \"\"Symphony No. 2\"\", in a New York Philharmonic concert at Avery Fisher Hall in Lincoln Center. The free concert, presented to commemorate the tenth anniversary of the 9/11 terrorist attack on New York City, was conducted by Alan Gilbert and\"",
+                    "question": "Gustav Mahler composed a beautiful piece performed by the Bach-Elgar Choir. What is the name of that piece??"
+                },
+                "output": "Symphony No. 2",
+                "id": "865fa935-058d-4ea0-b165-6900c8151e8f",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Prefontaine (film)\" | \"Prefontaine (film) Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"\"Prefontaine\"\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death. Steve Prefontaine, a Coos Bay, Oregon student, is too small to play\"\n[2]: \"Prefontaine (film)\" | \"program. Prefontaine (film) Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"\"Prefontaine\"\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death. Steve Prefontaine, a Coos Bay, Oregon student, is too small to\"",
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "Bill Bowerman",
+                "id": "3d503da6-9ae6-428a-925d-abe31a72ca62",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Port of Reggio\" | \"Port of Reggio The Port of Reggio is a seaport in the Mediterranean Sea serving the city of Reggio di Calabria. The position of the ancient Ausonian-Italic and Greek port is unknown: at that time the port was located in the southern part of Reggio coast. During Roman times the port, called \"\"Columna Rhegina\"\" was located in northern part of Reggio coast, nearby the strait between Sicily and Calabria. The present-day port, enlarged after 1908 earthquake, just takes up the western part of Santa Caterina neighbourhood, near the city centre. The port connects Reggio and its surroundings to Messina, Catania,\"\n[2]: \"Port of Reggio\" | \"\u00c6olian Islands, Taormina and Malta. Port of Reggio The Port of Reggio is a seaport in the Mediterranean Sea serving the city of Reggio di Calabria. The position of the ancient Ausonian-Italic and Greek port is unknown: at that time the port was located in the southern part of Reggio coast. During Roman times the port, called \"\"Columna Rhegina\"\" was located in northern part of Reggio coast, nearby the strait between Sicily and Calabria. The present-day port, enlarged after 1908 earthquake, just takes up the western part of Santa Caterina neighbourhood, near the city centre. The port connects Reggio and\"\n[3]: \"Mediterranean Sea\" | \"Mediterranean Sea The Mediterranean Sea is a sea connected to the Atlantic Ocean, surrounded by the Mediterranean Basin and almost completely enclosed by land: on the north by Southern Europe and Anatolia, on the south by North Africa and on the east by the Levant. Although the sea is sometimes considered a part of the Atlantic Ocean, it is usually identified as a separate body of water. Geological evidence indicates that around 5.9 million years ago, the Mediterranean was cut off from the Atlantic and was partly or completely desiccated over a period of some 600,000 years, the Messinian salinity\"\n[4]: \"Mediterranean Sea\" | \"2015, more than one million migrants crossed the Mediterranean Sea into Europe. Italy was particularly affected by the European migrant crisis. Since 2013, over 700,000 migrants have landed in Italy, mainly sub-Saharan Africans. The Mediterranean Sea is connected to the Atlantic Ocean by the Strait of Gibraltar (known in Homer's writings as the \"\"Pillars of Hercules\"\") in the west and to the Sea of Marmara and the Black Sea, by the Dardanelles and the Bosporus respectively, in the east. The Sea of Marmara (Dardanelles) is often considered a part of the Mediterranean Sea, whereas the Black Sea is generally not.\"",
+                    "question": "The sea whose port is The Port of Reggio is sometimes considered as a part of which ocean?"
+                },
+                "output": "Atlantic Ocean",
+                "id": "2e77ac49-e39e-4a5c-906a-4cde6d919f95",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Talk About a Stranger\" | \"Talk About a Stranger Talk About a Stranger is a 1952 American film noir directed by David Bradley and starring George Murphy, Nancy Davis and Billy Gray. The motion picture was shot by noted cinematographer John Alton, A.S.C. The picture tells the story of Bud Fontaine Jr. (Billy Gray) who takes an instant dislike of Matlock, a strange new neighbor in town (Kurt Kasznar). After his new-found dog turns up dead by poison, Bud blames the stranger and sets off a campaign to smear his name and spread vicious rumors about him. His parents (George Murphy and Nancy Davis) can't\"\n[2]: \"Rachel and the Stranger\" | \"Rachel and the Stranger Rachel and the Stranger is a black-and-white 1948 western film starring Loretta Young, William Holden, and Robert Mitchum. The Norman Foster-directed film was one of the few to address the role of women in the pioneer west, as well as portray early America's indentured servant trade. It was based on the Howard Fast short story \"\"Rachel\"\". While the film had a low budget, it was RKO's most successful film that year, making $395,000. In colonial America, David Harvey (William Holden), a recent widower living in the wilderness, decides that his young boy Davey (Gary Gray) needs\"\n[3]: \"Nancy Reagan\" | \"actress in 1962. During her career, Davis served for nearly ten years on the board of directors of the Screen Actors Guild. Decades later, Albert Brooks attempted to coax her out of acting retirement by offering her the title role opposite himself in his 1996 film \"\"Mother\"\". She declined in order to care for her husband, and Debbie Reynolds played the part. During her Hollywood career, Davis dated many actors, including Clark Gable, Robert Stack, and Peter Lawford; she later called Gable the nicest of the stars she had met. On November 15, 1949, she met Ronald Reagan, who was\"\n[4]: \"Nancy Reagan\" | \"Davis appeared in eleven feature films, usually typecast as a \"\"loyal housewife\"\", \"\"responsible young mother\"\", or \"\"the steady woman\"\". Jane Powell, Debbie Reynolds, Leslie Caron, and Janet Leigh were among the actresses with whom she competed for roles at MGM. Davis' film career began with small supporting roles in two films that were released in 1949, \"\"The Doctor and the Girl\"\" with Glenn Ford and \"\"East Side, West Side\"\" starring Barbara Stanwyck. She played a child psychiatrist in the film noir \"\"Shadow on the Wall\"\" (1950) with Ann Sothern and Zachary Scott; her performance was called \"\"beautiful and convincing\"\" by\"",
+                    "question": "What important political role did the female star of the film Talk About a Stranger hold ?"
+                },
+                "output": "First Lady of the United States",
+                "id": "78125cd1-03b1-44fc-ba04-ece765ccf8c8",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Edwin Howard Armstrong\" | \"Edwin Howard Armstrong Edwin Howard Armstrong (December 18, 1890 \u2013 February 1, 1954) was an American electrical engineer and inventor, best known for developing FM (frequency modulation) radio and the superheterodyne receiver system. He held 42 patents and received numerous awards, including the first Medal of Honor awarded by the Institute of Radio Engineers (now IEEE), the French Legion of Honor, the 1941 Franklin Medal and the 1942 Edison Medal. He was inducted into the National Inventors Hall of Fame and included in the International Telecommunication Union's roster of great inventors. Armstrong was born in the Chelsea district of New\"\n[2]: \"Institute of Radio Engineers\" | \"(1942), William R. Hewlett (1954), Ernst Weber (1959; also first president of IEEE, 1963) and Patrick E. Haggerty (1962). The IRE issued the IRE Medal of Honor each year which is now the IEEE Medal of Honor. Institute of Radio Engineers The Institute of Radio Engineers (IRE) was a professional organization which existed from 1912 until December 31, 1962. On January 1, 1963 it merged with the American Institute of Electrical Engineers (AIEE) to form the Institute of Electrical and Electronics Engineers (IEEE). Following several attempts to form a technical organization of wireless practitioners in 1908\u20131912, the Institute of Radio\"\n[3]: \"Edwin Howard Armstrong\" | \"81. She was survived by two nephews and a niece. In 1917, Armstrong was the first recipient of the IRE's (now IEEE) Medal of Honor. For his wartime work on radio, the French government gave him the Legion of Honor in 1919. He was awarded the 1941 Franklin Medal, and in 1942 received the AIEEs Edison Medal \"\"for distinguished contributions to the art of electric communication, notably the regenerative circuit, the superheterodyne, and frequency modulation.\"\" The ITU added him to its roster of great inventors of electricity in 1955. He later received two honorary doctorates, from Columbia in 1929, and\"",
+                    "question": "FM broadcasting began at the station of which inventor, who won the first Medal of Honor by what is now the IEEE?"
+                },
+                "output": "Edwin Howard Armstrong",
+                "id": "af68da98-df17-4dba-91cf-d26fac612cf9",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_49": 1.0,
+            "eval_6": 0,
+            "eval_17": 0,
+            "eval_34": 0.20000000000000004,
+            "eval_32": 1.0,
+            "eval_23": 1.0,
+            "eval_13": 0.5,
+            "eval_29": 0,
+            "eval_46": 1.0,
+            "eval_22": 0.8,
+            "eval_2": 0.5,
+            "eval_26": 1.0,
+            "eval_24": 1.0,
+            "eval_31": 0,
+            "eval_21": 0.6666666666666666,
+            "eval_10": 0.5,
+            "eval_44": 0,
+            "eval_19": 1.0,
+            "eval_9": 0.4,
+            "eval_30": 0,
+            "eval_8": 1.0,
+            "eval_25": 0,
+            "eval_42": 0,
+            "eval_1": 1.0,
+            "eval_47": 0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_23",
+                "demo_id": "af68da98-df17-4dba-91cf-d26fac612cf9"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_49",
+                "demo_id": "78125cd1-03b1-44fc-ba04-ece765ccf8c8"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_46",
+                "demo_id": "865fa935-058d-4ea0-b165-6900c8151e8f"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "3d503da6-9ae6-428a-925d-abe31a72ca62"
+            }
+        ],
+        "task_id_set": [
+            "eval_46",
+            "eval_23",
+            "eval_8",
+            "eval_49"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_sampler_1",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "__class__": "LMReasoning",
+        "__module__": "compiler.optimizer.params.reasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_sampler_2_demos_96823d23-acae-48e1-963d-ba894f42dd48": {
+                "name": "generate_answer_sampler_2_demos_96823d23-acae-48e1-963d-ba894f42dd48",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "022cb2d0-f2ed-402a-80ec-6898c9cdc09d",
+                    "2ea0ad82-6d35-4be4-86a8-4c4a1e3ff080",
+                    "b6d82aac-acdc-4263-bdd1-5513c69915fe",
+                    "b2e17773-ec85-48d8-88d9-c1a7c8a84249"
+                ]
+            },
+            "generate_answer_sampler_2_demos_dd58272d-5f09-4470-917c-c083ac8e8797": {
+                "name": "generate_answer_sampler_2_demos_dd58272d-5f09-4470-917c-c083ac8e8797",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "85751275-4183-4fe2-baa9-db46f14ec92b",
+                    "c31fa893-2317-4c39-b68f-893b69bded24",
+                    "b6d82aac-acdc-4263-bdd1-5513c69915fe",
+                    "b2e17773-ec85-48d8-88d9-c1a7c8a84249"
+                ]
+            },
+            "generate_answer_sampler_2_demos_23a00873-345d-43a8-a652-84251984f353": {
+                "name": "generate_answer_sampler_2_demos_23a00873-345d-43a8-a652-84251984f353",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "45e2ddd3-8b37-4bbf-b670-7245ef717ba2",
+                    "c31fa893-2317-4c39-b68f-893b69bded24",
+                    "b6d82aac-acdc-4263-bdd1-5513c69915fe",
+                    "b2e17773-ec85-48d8-88d9-c1a7c8a84249"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "__class__": "LMFewShot",
+        "__module__": "compiler.optimizer.params.fewshot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: \"Mickey Arthur\" | \"all-boys' school in Perth, Western Australia. He was appointed as the head coach of Karachi Kings in the debut season of Pakistan Super League which was held from 4 February 2016 to 23 February 2016 in the United Arab Emirates. They came fourth in a five-team group table due to which they had to play third-placed Islamabad United in the elimination round, where they lost by 9 wickets and were knocked-out of the tournament. He was appointed as the head coach of Dhaka Dynamites for 2015 BPL season. He was appointed as head coach of the Pakistan Cricket Team on\"\n[2]: \"Mickey Arthur\" | \"Mickey Arthur John Michael \"\"Mickey\"\" Arthur (born 17 May 1968) is a former South African cricketer who played South African domestic cricket from 1986 to 2001. He is the current coach of the Pakistan national cricket team. He coached the South African national team from 2005 to 2010, and was the coach of the Australia national cricket team until his sacking on 23 June 2013. He is also the coach of the Karachi Kings, a Twenty20 team in the Pakistan Super League. Arthur was born in Johannesburg, Transvaal, South Africa. He is an old boy of Westville Boys' High School.\"\n[3]: \"Mickey Arthur\" | \"interim selection process with former South African fast bowler Corrie van Zyl and former South African captain Kepler Wessels for the two-Test and three-ODI tour of India. Arthur was the coach of the Western Warriors and later coached the Australian cricket team, until Champions Trophy-2013 in England. Australia crashed out of Champions Trophy 2013 in the group stages. As a pre-emptive measure ahead of the upcoming Ashes series in England, Mickey Arthur was sacked and replaced by Darren Lehmann. In August 2013, Arthur was appointed as the head coach and director of cricket at Christ Church Grammar School, an Anglican\"",
+                    "question": "When did the coach of the Karachi Kings finish his time as coach of the Australia national cricket team ?"
+                },
+                "output": "23 June 2013",
+                "id": "022cb2d0-f2ed-402a-80ec-6898c9cdc09d",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Merl Reagle\" | \"Merl Reagle Merl Harry Reagle (January 5, 1950 \u2013 August 22, 2015) was an American crossword constructor. For 30 years, he constructed a puzzle every Sunday for the \"\"San Francisco Chronicle\"\" (originally the \"\"San Francisco Examiner\"\"), which he syndicated to more than 50 Sunday newspapers, including the \"\"Washington Post\"\", the \"\"Los Angeles Times\"\", the \"\"Philadelphia Inquirer\"\", the \"\"Seattle Times\"\", \"\"The Plain Dealer\"\" (Cleveland, Ohio), the \"\"Hartford Courant\"\", the \"\"New York Observer\"\", and the \"\"Arizona Daily Star\"\". Reagle also produced a bimonthly crossword puzzle for \"\"AARP The Magazine\"\" magazine, a monthly crossword puzzle for the Society of Former Special Agents of\"\n[2]: \"San Francisco Chronicle Magazine\" | \"6, 2008, the \"\"Chronicle\"\" announced that the issue of the magazine in that newspaper would be the last weekly issue, and that starting August 3, the magazine would be published the first Sunday of each month. Each issue of the new magazine would focus on a single subject such as home design, travel, food or weddings. Many weekly magazine features migrated to other sections of the newspaper. Merle Reagle's crossword puzzle moved the Datebook, On the Couch and Michael Bauer's restaurant reviews moved to \"\"Styl\"\"e, and Zahid Sardar's Take Two moved to \"\"Home & Garden\"\". Unlike the 2003 redesign, the\"\n[3]: \"Merl Reagle\" | \"new type of crossword puzzle: \"\"less stodgy and more hip.\"\" This trend was encouraged by \"\"The New York Times\"\" crossword puzzle editor Will Shortz, who sought to appeal to a wider and younger readership with \"\"pop culture references ... humorous word play, and ... unique and clever themes\"\". In 2011 Reagle donated his expertise to produce an awareness-building campaign for the Alzheimer's Foundation of America. Reagle created the National Brain Game Challenge, an online contest featuring a Sunday crossword that contains a clued secret message. Cash prizes, including a first prize of $25,000, are awarded in two categories, \"\"casual solver\"\"\"",
+                    "question": "Merle Reagle did crosswords for what magazine that has a focus on aging issues?"
+                },
+                "output": "AARP The Magazine",
+                "id": "2ea0ad82-6d35-4be4-86a8-4c4a1e3ff080",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Te Deum (Bruckner)\" | \"by Richard von Perger at the suggestion of Johannes Brahms. On his copy of the score, Gustav Mahler crossed out \"\"\"\" (for choir, solos and orchestra, organ ad libitum) and wrote \"\"\"\" (for the tongues of angels, heaven-blest, chastened hearts, and souls purified in the fire!). The composer himself called the work \"\"the pride of his life\"\". The first performance in the United States occurred at the Cincinnati May Festival on 26 May 1892. Theodore Thomas conducted the Chicago Symphony Orchestra, the Cincinnati May Festival Chorus and the soloists Corinne Moore-Lawson, Marie Ritter-Goetze, Edward Lloyd and George Ellsworth Holmes. The\"\n[2]: \"Symphony No. 8 (Mahler)\" | \"Symphony No. 8 (Mahler) The Symphony No. 8 in E-flat major by Gustav Mahler is one of the largest-scale choral works in the classical concert repertoire. Because it requires huge instrumental and vocal forces it is frequently called the \"\"Symphony of a Thousand\"\", although the work is normally presented with far fewer than a thousand performers and the composer did not sanction that name. The work was composed in a single inspired burst, at Maiernigg in southern Austria in the summer of 1906. The last of Mahler's works that was premiered in his lifetime, the symphony was a critical and\"\n[3]: \"Dorothea Ro\u0308schmann\" | \"House (director: David McVicar; conductor: Antonio Pappano) and Salzburg (again with Harnoncourt conducting, and staged by ). As a concert singer she took part in the project of Ton Koopman and the Amsterdam Baroque Orchestra & Choir to record the complete vocal works of Johann Sebastian Bach. On September 10, 2011, she took part in the performance of Gustav Mahler's \"\"Symphony No. 2\"\", in a New York Philharmonic concert at Avery Fisher Hall in Lincoln Center. The free concert, presented to commemorate the tenth anniversary of the 9/11 terrorist attack on New York City, was conducted by Alan Gilbert and\"",
+                    "question": "Gustav Mahler composed a beautiful piece performed by the Bach-Elgar Choir. What is the name of that piece??"
+                },
+                "output": "Symphony No. 2",
+                "id": "b6d82aac-acdc-4263-bdd1-5513c69915fe",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Prefontaine (film)\" | \"Prefontaine (film) Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"\"Prefontaine\"\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death. Steve Prefontaine, a Coos Bay, Oregon student, is too small to play\"\n[2]: \"Prefontaine (film)\" | \"program. Prefontaine (film) Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"\"Prefontaine\"\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death. Steve Prefontaine, a Coos Bay, Oregon student, is too small to\"",
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "Bill Bowerman",
+                "id": "b2e17773-ec85-48d8-88d9-c1a7c8a84249",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Port of Reggio\" | \"Port of Reggio The Port of Reggio is a seaport in the Mediterranean Sea serving the city of Reggio di Calabria. The position of the ancient Ausonian-Italic and Greek port is unknown: at that time the port was located in the southern part of Reggio coast. During Roman times the port, called \"\"Columna Rhegina\"\" was located in northern part of Reggio coast, nearby the strait between Sicily and Calabria. The present-day port, enlarged after 1908 earthquake, just takes up the western part of Santa Caterina neighbourhood, near the city centre. The port connects Reggio and its surroundings to Messina, Catania,\"\n[2]: \"Port of Reggio\" | \"\u00c6olian Islands, Taormina and Malta. Port of Reggio The Port of Reggio is a seaport in the Mediterranean Sea serving the city of Reggio di Calabria. The position of the ancient Ausonian-Italic and Greek port is unknown: at that time the port was located in the southern part of Reggio coast. During Roman times the port, called \"\"Columna Rhegina\"\" was located in northern part of Reggio coast, nearby the strait between Sicily and Calabria. The present-day port, enlarged after 1908 earthquake, just takes up the western part of Santa Caterina neighbourhood, near the city centre. The port connects Reggio and\"\n[3]: \"Mediterranean Sea\" | \"Mediterranean Sea The Mediterranean Sea is a sea connected to the Atlantic Ocean, surrounded by the Mediterranean Basin and almost completely enclosed by land: on the north by Southern Europe and Anatolia, on the south by North Africa and on the east by the Levant. Although the sea is sometimes considered a part of the Atlantic Ocean, it is usually identified as a separate body of water. Geological evidence indicates that around 5.9 million years ago, the Mediterranean was cut off from the Atlantic and was partly or completely desiccated over a period of some 600,000 years, the Messinian salinity\"\n[4]: \"Mediterranean Sea\" | \"2015, more than one million migrants crossed the Mediterranean Sea into Europe. Italy was particularly affected by the European migrant crisis. Since 2013, over 700,000 migrants have landed in Italy, mainly sub-Saharan Africans. The Mediterranean Sea is connected to the Atlantic Ocean by the Strait of Gibraltar (known in Homer's writings as the \"\"Pillars of Hercules\"\") in the west and to the Sea of Marmara and the Black Sea, by the Dardanelles and the Bosporus respectively, in the east. The Sea of Marmara (Dardanelles) is often considered a part of the Mediterranean Sea, whereas the Black Sea is generally not.\"",
+                    "question": "The sea whose port is The Port of Reggio is sometimes considered as a part of which ocean?"
+                },
+                "output": "Atlantic Ocean",
+                "id": "85751275-4183-4fe2-baa9-db46f14ec92b",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have:\n\n1. The Port of Reggio is located in the Mediterranean Sea, which serves the city of Reggio di Calabria.\n2. The Mediterranean Sea is sometimes considered a part of the Atlantic Ocean, as indicated in the context provided.\n3. The Mediterranean Sea is surrounded by Southern Europe, North Africa, and the Levant, and it connects to the Atlantic Ocean through the Strait of Gibraltar.\n\nBased on this reasoning, the Mediterranean Sea is recognized as an independent body of water, but it has historical and geographical connections to the Atlantic Ocean.\n\nNow, we can formulate a concise answer to the question. Would you like to proceed with that?"
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Talk About a Stranger\" | \"Talk About a Stranger Talk About a Stranger is a 1952 American film noir directed by David Bradley and starring George Murphy, Nancy Davis and Billy Gray. The motion picture was shot by noted cinematographer John Alton, A.S.C. The picture tells the story of Bud Fontaine Jr. (Billy Gray) who takes an instant dislike of Matlock, a strange new neighbor in town (Kurt Kasznar). After his new-found dog turns up dead by poison, Bud blames the stranger and sets off a campaign to smear his name and spread vicious rumors about him. His parents (George Murphy and Nancy Davis) can't\"\n[2]: \"Rachel and the Stranger\" | \"Rachel and the Stranger Rachel and the Stranger is a black-and-white 1948 western film starring Loretta Young, William Holden, and Robert Mitchum. The Norman Foster-directed film was one of the few to address the role of women in the pioneer west, as well as portray early America's indentured servant trade. It was based on the Howard Fast short story \"\"Rachel\"\". While the film had a low budget, it was RKO's most successful film that year, making $395,000. In colonial America, David Harvey (William Holden), a recent widower living in the wilderness, decides that his young boy Davey (Gary Gray) needs\"\n[3]: \"Nancy Reagan\" | \"actress in 1962. During her career, Davis served for nearly ten years on the board of directors of the Screen Actors Guild. Decades later, Albert Brooks attempted to coax her out of acting retirement by offering her the title role opposite himself in his 1996 film \"\"Mother\"\". She declined in order to care for her husband, and Debbie Reynolds played the part. During her Hollywood career, Davis dated many actors, including Clark Gable, Robert Stack, and Peter Lawford; she later called Gable the nicest of the stars she had met. On November 15, 1949, she met Ronald Reagan, who was\"\n[4]: \"Nancy Reagan\" | \"Davis appeared in eleven feature films, usually typecast as a \"\"loyal housewife\"\", \"\"responsible young mother\"\", or \"\"the steady woman\"\". Jane Powell, Debbie Reynolds, Leslie Caron, and Janet Leigh were among the actresses with whom she competed for roles at MGM. Davis' film career began with small supporting roles in two films that were released in 1949, \"\"The Doctor and the Girl\"\" with Glenn Ford and \"\"East Side, West Side\"\" starring Barbara Stanwyck. She played a child psychiatrist in the film noir \"\"Shadow on the Wall\"\" (1950) with Ann Sothern and Zachary Scott; her performance was called \"\"beautiful and convincing\"\" by\"",
+                    "question": "What important political role did the female star of the film Talk About a Stranger hold ?"
+                },
+                "output": "First Lady of the United States.",
+                "id": "c31fa893-2317-4c39-b68f-893b69bded24",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break it down step by step.\n\n1. **Identify the female star of \"Talk About a Stranger\"**: From the context, the film stars Nancy Davis, who is mentioned along with George Murphy and Billy Gray.\n\n2. **Research Nancy Davis's later life**: Looking at the context provided, there are two entries about Nancy Reagan (formerly Nancy Davis), which indicate her significant political role.\n\n3. **Determine her political role**: The context does not explicitly state her political role, but it is widely known outside of the provided documents that Nancy Reagan became the First Lady of the United States when her husband, Ronald Reagan, was president from 1981 to 1989.\n\n4. **Conclude the key points**: Nancy Davis, the female star of \"Talk About a Stranger,\" later became known as Nancy Reagan and held the important political role of First Lady of the United States.\n\nNow, based on this reasoning, we can formulate a clear and concise answer to the question. Shall I provide that now?"
+            },
+            {
+                "inputs": {
+                    "context": "[1]: \"Edwin Howard Armstrong\" | \"Edwin Howard Armstrong Edwin Howard Armstrong (December 18, 1890 \u2013 February 1, 1954) was an American electrical engineer and inventor, best known for developing FM (frequency modulation) radio and the superheterodyne receiver system. He held 42 patents and received numerous awards, including the first Medal of Honor awarded by the Institute of Radio Engineers (now IEEE), the French Legion of Honor, the 1941 Franklin Medal and the 1942 Edison Medal. He was inducted into the National Inventors Hall of Fame and included in the International Telecommunication Union's roster of great inventors. Armstrong was born in the Chelsea district of New\"\n[2]: \"Institute of Radio Engineers\" | \"(1942), William R. Hewlett (1954), Ernst Weber (1959; also first president of IEEE, 1963) and Patrick E. Haggerty (1962). The IRE issued the IRE Medal of Honor each year which is now the IEEE Medal of Honor. Institute of Radio Engineers The Institute of Radio Engineers (IRE) was a professional organization which existed from 1912 until December 31, 1962. On January 1, 1963 it merged with the American Institute of Electrical Engineers (AIEE) to form the Institute of Electrical and Electronics Engineers (IEEE). Following several attempts to form a technical organization of wireless practitioners in 1908\u20131912, the Institute of Radio\"\n[3]: \"Edwin Howard Armstrong\" | \"81. She was survived by two nephews and a niece. In 1917, Armstrong was the first recipient of the IRE's (now IEEE) Medal of Honor. For his wartime work on radio, the French government gave him the Legion of Honor in 1919. He was awarded the 1941 Franklin Medal, and in 1942 received the AIEEs Edison Medal \"\"for distinguished contributions to the art of electric communication, notably the regenerative circuit, the superheterodyne, and frequency modulation.\"\" The ITU added him to its roster of great inventors of electricity in 1955. He later received two honorary doctorates, from Columbia in 1929, and\"",
+                    "question": "FM broadcasting began at the station of which inventor, who won the first Medal of Honor by what is now the IEEE?"
+                },
+                "output": "Edwin Howard Armstrong; first Medal of Honor by IEEE.",
+                "id": "45e2ddd3-8b37-4bbf-b670-7245ef717ba2",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the question and the context provided to find the answer step by step.\n\n1. **Identify the key details in the question**:\n   - The question asks about FM broadcasting and specifically mentions the inventor who was awarded the first Medal of Honor by what is now the IEEE.\n\n2. **Extract relevant information from the context**:\n   - From context [1], we learn that Edwin Howard Armstrong is the inventor best known for developing FM (frequency modulation) radio.\n   - Context [3] states that Armstrong was the first recipient of the IRE's (now IEEE) Medal of Honor in 1917.\n\n3. **Combine the information**:\n   - Since Edwin Howard Armstrong is known for FM broadcasting and he received the first Medal of Honor from the IRE, which is now the IEEE, we can conclude that he is the person mentioned in the question.\n\n4. **Determine the station associated with him**:\n   - The context does not explicitly mention the station where FM broadcasting began; however, it is widely known that FM broadcasting was developed by Armstrong himself.\n\nNow that we have all the relevant information, we can formulate a clear and concise answer. Would you like to proceed to the final response?"
+            }
+        ],
+        "best_score_by_task": {
+            "eval_49": 1.0,
+            "eval_6": 0,
+            "eval_17": 0,
+            "eval_34": 0.20000000000000004,
+            "eval_32": 1.0,
+            "eval_23": 1.0,
+            "eval_13": 0.5,
+            "eval_29": 0,
+            "eval_46": 1.0,
+            "eval_22": 0.8,
+            "eval_2": 0.5,
+            "eval_26": 1.0,
+            "eval_24": 1.0,
+            "eval_31": 0,
+            "eval_21": 0.6666666666666666,
+            "eval_10": 0.5,
+            "eval_44": 0,
+            "eval_19": 1.0,
+            "eval_9": 0.4,
+            "eval_30": 0,
+            "eval_8": 1.0,
+            "eval_25": 0,
+            "eval_42": 0,
+            "eval_1": 1.0,
+            "eval_47": 0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_23",
+                "demo_id": "45e2ddd3-8b37-4bbf-b670-7245ef717ba2"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_49",
+                "demo_id": "c31fa893-2317-4c39-b68f-893b69bded24"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_46",
+                "demo_id": "b6d82aac-acdc-4263-bdd1-5513c69915fe"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "b2e17773-ec85-48d8-88d9-c1a7c8a84249"
+            }
+        ],
+        "task_id_set": [
+            "eval_46",
+            "eval_23",
+            "eval_8",
+            "eval_49"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_sampler_2",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "__class__": "LMReasoning",
+        "__module__": "compiler.optimizer.params.reasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_answer_aggregator_demos_2baf26e9-93bd-4d8b-8501-52c842103a1c": {
+                "name": "generate_answer_aggregator_demos_2baf26e9-93bd-4d8b-8501-52c842103a1c",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "a9902878-30cf-4e96-8f58-2d8f894c8900",
+                    "8a942188-21ef-46d0-a87c-1c74912e7b96",
+                    "ef5bd376-9cf8-46f2-8d0c-a6360b08d6b6",
+                    "c206ec04-6a01-4fa6-8651-757ecb37fefa"
+                ]
+            },
+            "generate_answer_aggregator_demos_7225afaa-bfcb-4f93-8fed-63dd36f36dfd": {
+                "name": "generate_answer_aggregator_demos_7225afaa-bfcb-4f93-8fed-63dd36f36dfd",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "3b5b2f09-9ebb-43d0-b433-4553ba7c02ef",
+                    "afb98277-1251-4dc5-a466-9cc37c42c316",
+                    "ef5bd376-9cf8-46f2-8d0c-a6360b08d6b6",
+                    "c206ec04-6a01-4fa6-8651-757ecb37fefa"
+                ]
+            },
+            "generate_answer_aggregator_demos_6a455965-cd3d-4904-9097-df9f098b8676": {
+                "name": "generate_answer_aggregator_demos_6a455965-cd3d-4904-9097-df9f098b8676",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "b25aa68d-6ab3-437e-a609-86fa353b7fd2",
+                    "afb98277-1251-4dc5-a466-9cc37c42c316",
+                    "ef5bd376-9cf8-46f2-8d0c-a6360b08d6b6",
+                    "c206ec04-6a01-4fa6-8651-757ecb37fefa"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "__class__": "LMFewShot",
+        "__module__": "compiler.optimizer.params.fewshot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at answering questions based on provided documents. Your task is to formulate a clear, accurate, and concise answer to the given question by using the retrieved context (documents) as your source of information. Please ensure that your answer is well-grounded in the context and directly addresses the question.\n",
+                    "inputs": "{'context': '[1]: \"Mickey Arthur\" | \"all-boys\\' school in Perth, Western Australia. He was appointed as the head coach of Karachi Kings in the debut season of Pakistan Super League which was held from 4 February 2016 to 23 February 2016 in the United Arab Emirates. They came fourth in a five-team group table due to which they had to play third-placed Islamabad United in the elimination round, where they lost by 9 wickets and were knocked-out of the tournament. He was appointed as the head coach of Dhaka Dynamites for 2015 BPL season. He was appointed as head coach of the Pakistan Cricket Team on\"\\n[2]: \"Mickey Arthur\" | \"Mickey Arthur John Michael \"\"Mickey\"\" Arthur (born 17 May 1968) is a former South African cricketer who played South African domestic cricket from 1986 to 2001. He is the current coach of the Pakistan national cricket team. He coached the South African national team from 2005 to 2010, and was the coach of the Australia national cricket team until his sacking on 23 June 2013. He is also the coach of the Karachi Kings, a Twenty20 team in the Pakistan Super League. Arthur was born in Johannesburg, Transvaal, South Africa. He is an old boy of Westville Boys\\' High School.\"\\n[3]: \"Mickey Arthur\" | \"interim selection process with former South African fast bowler Corrie van Zyl and former South African captain Kepler Wessels for the two-Test and three-ODI tour of India. Arthur was the coach of the Western Warriors and later coached the Australian cricket team, until Champions Trophy-2013 in England. Australia crashed out of Champions Trophy 2013 in the group stages. As a pre-emptive measure ahead of the upcoming Ashes series in England, Mickey Arthur was sacked and replaced by Darren Lehmann. In August 2013, Arthur was appointed as the head coach and director of cricket at Christ Church Grammar School, an Anglican\"', 'question': 'When did the coach of the Karachi Kings finish his time as coach of the Australia national cricket team ?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: 23 June 2013\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: 23 June 2013\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: 23 June 2013\n        "
+                },
+                "output": "23 June 2013",
+                "id": "a9902878-30cf-4e96-8f58-2d8f894c8900",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at answering questions based on provided documents. Your task is to formulate a clear, accurate, and concise answer to the given question by using the retrieved context (documents) as your source of information. Please ensure that your answer is well-grounded in the context and directly addresses the question.\n",
+                    "inputs": "{'context': '[1]: \"Merl Reagle\" | \"Merl Reagle Merl Harry Reagle (January 5, 1950 \u2013 August 22, 2015) was an American crossword constructor. For 30 years, he constructed a puzzle every Sunday for the \"\"San Francisco Chronicle\"\" (originally the \"\"San Francisco Examiner\"\"), which he syndicated to more than 50 Sunday newspapers, including the \"\"Washington Post\"\", the \"\"Los Angeles Times\"\", the \"\"Philadelphia Inquirer\"\", the \"\"Seattle Times\"\", \"\"The Plain Dealer\"\" (Cleveland, Ohio), the \"\"Hartford Courant\"\", the \"\"New York Observer\"\", and the \"\"Arizona Daily Star\"\". Reagle also produced a bimonthly crossword puzzle for \"\"AARP The Magazine\"\" magazine, a monthly crossword puzzle for the Society of Former Special Agents of\"\\n[2]: \"San Francisco Chronicle Magazine\" | \"6, 2008, the \"\"Chronicle\"\" announced that the issue of the magazine in that newspaper would be the last weekly issue, and that starting August 3, the magazine would be published the first Sunday of each month. Each issue of the new magazine would focus on a single subject such as home design, travel, food or weddings. Many weekly magazine features migrated to other sections of the newspaper. Merle Reagle\\'s crossword puzzle moved the Datebook, On the Couch and Michael Bauer\\'s restaurant reviews moved to \"\"Styl\"\"e, and Zahid Sardar\\'s Take Two moved to \"\"Home & Garden\"\". Unlike the 2003 redesign, the\"\\n[3]: \"Merl Reagle\" | \"new type of crossword puzzle: \"\"less stodgy and more hip.\"\" This trend was encouraged by \"\"The New York Times\"\" crossword puzzle editor Will Shortz, who sought to appeal to a wider and younger readership with \"\"pop culture references ... humorous word play, and ... unique and clever themes\"\". In 2011 Reagle donated his expertise to produce an awareness-building campaign for the Alzheimer\\'s Foundation of America. Reagle created the National Brain Game Challenge, an online contest featuring a Sunday crossword that contains a clued secret message. Cash prizes, including a first prize of $25,000, are awarded in two categories, \"\"casual solver\"\"\"', 'question': 'Merle Reagle did crosswords for what magazine that has a focus on aging issues?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: AARP The Magazine\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: AARP The Magazine\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: AARP The Magazine\n        "
+                },
+                "output": "AARP The Magazine",
+                "id": "8a942188-21ef-46d0-a87c-1c74912e7b96",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at answering questions based on provided documents. Your task is to formulate a clear, accurate, and concise answer to the given question by using the retrieved context (documents) as your source of information. Please ensure that your answer is well-grounded in the context and directly addresses the question.\n",
+                    "inputs": "{'context': '[1]: \"Te Deum (Bruckner)\" | \"by Richard von Perger at the suggestion of Johannes Brahms. On his copy of the score, Gustav Mahler crossed out \"\"\"\" (for choir, solos and orchestra, organ ad libitum) and wrote \"\"\"\" (for the tongues of angels, heaven-blest, chastened hearts, and souls purified in the fire!). The composer himself called the work \"\"the pride of his life\"\". The first performance in the United States occurred at the Cincinnati May Festival on 26 May 1892. Theodore Thomas conducted the Chicago Symphony Orchestra, the Cincinnati May Festival Chorus and the soloists Corinne Moore-Lawson, Marie Ritter-Goetze, Edward Lloyd and George Ellsworth Holmes. The\"\\n[2]: \"Symphony No. 8 (Mahler)\" | \"Symphony No. 8 (Mahler) The Symphony No. 8 in E-flat major by Gustav Mahler is one of the largest-scale choral works in the classical concert repertoire. Because it requires huge instrumental and vocal forces it is frequently called the \"\"Symphony of a Thousand\"\", although the work is normally presented with far fewer than a thousand performers and the composer did not sanction that name. The work was composed in a single inspired burst, at Maiernigg in southern Austria in the summer of 1906. The last of Mahler\\'s works that was premiered in his lifetime, the symphony was a critical and\"\\n[3]: \"Dorothea Ro\u0308schmann\" | \"House (director: David McVicar; conductor: Antonio Pappano) and Salzburg (again with Harnoncourt conducting, and staged by ). As a concert singer she took part in the project of Ton Koopman and the Amsterdam Baroque Orchestra & Choir to record the complete vocal works of Johann Sebastian Bach. On September 10, 2011, she took part in the performance of Gustav Mahler\\'s \"\"Symphony No. 2\"\", in a New York Philharmonic concert at Avery Fisher Hall in Lincoln Center. The free concert, presented to commemorate the tenth anniversary of the 9/11 terrorist attack on New York City, was conducted by Alan Gilbert and\"', 'question': 'Gustav Mahler composed a beautiful piece performed by the Bach-Elgar Choir. What is the name of that piece??'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: Symphony No. 2\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: Symphony No. 2\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: Symphony No. 2\n        "
+                },
+                "output": "Symphony No. 2",
+                "id": "ef5bd376-9cf8-46f2-8d0c-a6360b08d6b6",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at answering questions based on provided documents. Your task is to formulate a clear, accurate, and concise answer to the given question by using the retrieved context (documents) as your source of information. Please ensure that your answer is well-grounded in the context and directly addresses the question.\n",
+                    "inputs": "{'context': '[1]: \"Prefontaine (film)\" | \"Prefontaine (film) Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"\"Prefontaine\"\" tells the story from the point of view of Bill Dellinger, played by Ed O\\'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner\\'s girlfriend at the time of his death. Steve Prefontaine, a Coos Bay, Oregon student, is too small to play\"\\n[2]: \"Prefontaine (film)\" | \"program. Prefontaine (film) Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"\"Prefontaine\"\" tells the story from the point of view of Bill Dellinger, played by Ed O\\'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner\\'s girlfriend at the time of his death. Steve Prefontaine, a Coos Bay, Oregon student, is too small to\"', 'question': 'What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: Bill Bowerman\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: Bill Bowerman\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: Bill Bowerman\n        "
+                },
+                "output": "Bill Bowerman",
+                "id": "c206ec04-6a01-4fa6-8651-757ecb37fefa",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at answering questions based on provided documents. Your task is to formulate a clear, accurate, and concise answer to the given question by using the retrieved context (documents) as your source of information. Please ensure that your answer is well-grounded in the context and directly addresses the question.\n",
+                    "inputs": "{'context': '[1]: \"Port of Reggio\" | \"Port of Reggio The Port of Reggio is a seaport in the Mediterranean Sea serving the city of Reggio di Calabria. The position of the ancient Ausonian-Italic and Greek port is unknown: at that time the port was located in the southern part of Reggio coast. During Roman times the port, called \"\"Columna Rhegina\"\" was located in northern part of Reggio coast, nearby the strait between Sicily and Calabria. The present-day port, enlarged after 1908 earthquake, just takes up the western part of Santa Caterina neighbourhood, near the city centre. The port connects Reggio and its surroundings to Messina, Catania,\"\\n[2]: \"Port of Reggio\" | \"\u00c6olian Islands, Taormina and Malta. Port of Reggio The Port of Reggio is a seaport in the Mediterranean Sea serving the city of Reggio di Calabria. The position of the ancient Ausonian-Italic and Greek port is unknown: at that time the port was located in the southern part of Reggio coast. During Roman times the port, called \"\"Columna Rhegina\"\" was located in northern part of Reggio coast, nearby the strait between Sicily and Calabria. The present-day port, enlarged after 1908 earthquake, just takes up the western part of Santa Caterina neighbourhood, near the city centre. The port connects Reggio and\"\\n[3]: \"Mediterranean Sea\" | \"Mediterranean Sea The Mediterranean Sea is a sea connected to the Atlantic Ocean, surrounded by the Mediterranean Basin and almost completely enclosed by land: on the north by Southern Europe and Anatolia, on the south by North Africa and on the east by the Levant. Although the sea is sometimes considered a part of the Atlantic Ocean, it is usually identified as a separate body of water. Geological evidence indicates that around 5.9 million years ago, the Mediterranean was cut off from the Atlantic and was partly or completely desiccated over a period of some 600,000 years, the Messinian salinity\"\\n[4]: \"Mediterranean Sea\" | \"2015, more than one million migrants crossed the Mediterranean Sea into Europe. Italy was particularly affected by the European migrant crisis. Since 2013, over 700,000 migrants have landed in Italy, mainly sub-Saharan Africans. The Mediterranean Sea is connected to the Atlantic Ocean by the Strait of Gibraltar (known in Homer\\'s writings as the \"\"Pillars of Hercules\"\") in the west and to the Sea of Marmara and the Black Sea, by the Dardanelles and the Bosporus respectively, in the east. The Sea of Marmara (Dardanelles) is often considered a part of the Mediterranean Sea, whereas the Black Sea is generally not.\"', 'question': 'The sea whose port is The Port of Reggio is sometimes considered as a part of which ocean?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: Atlantic Ocean\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: Atlantic Ocean\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have:\n\n1. The Port of Reggio is located in the Mediterranean Sea, which serves the city of Reggio di Calabria.\n2. The Mediterranean Sea is sometimes considered a part of the Atlantic Ocean, as indicated in the context provided.\n3. The Mediterranean Sea is surrounded by Southern Europe, North Africa, and the Levant, and it connects to the Atlantic Ocean through the Strait of Gibraltar.\n\nBased on this reasoning, the Mediterranean Sea is recognized as an independent body of water, but it has historical and geographical connections to the Atlantic Ocean.\n\nNow, we can formulate a concise answer to the question. Would you like to proceed with that?\n\nAnswer: Atlantic Ocean\n        "
+                },
+                "output": "Atlantic Ocean",
+                "id": "3b5b2f09-9ebb-43d0-b433-4553ba7c02ef",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the information we have:\n\n1. The context mentions that the Port of Reggio is located in the Mediterranean Sea, which serves the city of Reggio di Calabria.\n2. It is noted that the Mediterranean Sea is sometimes considered a part of the Atlantic Ocean.\n3. The Mediterranean Sea is surrounded by Southern Europe, North Africa, and the Levant, and it connects to the Atlantic Ocean through the Strait of Gibraltar.\n\nFrom this information, we can conclude that while the Mediterranean Sea is primarily recognized as a separate body of water, it has significant geographical and historical connections to the Atlantic Ocean.\n\nNow, we can formulate a concise answer to the question based on this reasoning. Would you like to proceed with that?"
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at answering questions based on provided documents. Your task is to formulate a clear, accurate, and concise answer to the given question by using the retrieved context (documents) as your source of information. Please ensure that your answer is well-grounded in the context and directly addresses the question.\n",
+                    "inputs": "{'context': '[1]: \"Talk About a Stranger\" | \"Talk About a Stranger Talk About a Stranger is a 1952 American film noir directed by David Bradley and starring George Murphy, Nancy Davis and Billy Gray. The motion picture was shot by noted cinematographer John Alton, A.S.C. The picture tells the story of Bud Fontaine Jr. (Billy Gray) who takes an instant dislike of Matlock, a strange new neighbor in town (Kurt Kasznar). After his new-found dog turns up dead by poison, Bud blames the stranger and sets off a campaign to smear his name and spread vicious rumors about him. His parents (George Murphy and Nancy Davis) can\\'t\"\\n[2]: \"Rachel and the Stranger\" | \"Rachel and the Stranger Rachel and the Stranger is a black-and-white 1948 western film starring Loretta Young, William Holden, and Robert Mitchum. The Norman Foster-directed film was one of the few to address the role of women in the pioneer west, as well as portray early America\\'s indentured servant trade. It was based on the Howard Fast short story \"\"Rachel\"\". While the film had a low budget, it was RKO\\'s most successful film that year, making $395,000. In colonial America, David Harvey (William Holden), a recent widower living in the wilderness, decides that his young boy Davey (Gary Gray) needs\"\\n[3]: \"Nancy Reagan\" | \"actress in 1962. During her career, Davis served for nearly ten years on the board of directors of the Screen Actors Guild. Decades later, Albert Brooks attempted to coax her out of acting retirement by offering her the title role opposite himself in his 1996 film \"\"Mother\"\". She declined in order to care for her husband, and Debbie Reynolds played the part. During her Hollywood career, Davis dated many actors, including Clark Gable, Robert Stack, and Peter Lawford; she later called Gable the nicest of the stars she had met. On November 15, 1949, she met Ronald Reagan, who was\"\\n[4]: \"Nancy Reagan\" | \"Davis appeared in eleven feature films, usually typecast as a \"\"loyal housewife\"\", \"\"responsible young mother\"\", or \"\"the steady woman\"\". Jane Powell, Debbie Reynolds, Leslie Caron, and Janet Leigh were among the actresses with whom she competed for roles at MGM. Davis\\' film career began with small supporting roles in two films that were released in 1949, \"\"The Doctor and the Girl\"\" with Glenn Ford and \"\"East Side, West Side\"\" starring Barbara Stanwyck. She played a child psychiatrist in the film noir \"\"Shadow on the Wall\"\" (1950) with Ann Sothern and Zachary Scott; her performance was called \"\"beautiful and convincing\"\" by\"', 'question': 'What important political role did the female star of the film Talk About a Stranger hold ?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: First Lady of the United States.\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: First Lady of the United States\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break it down step by step.\n\n1. **Identify the female star of \"Talk About a Stranger\"**: From the context, the film stars Nancy Davis, who is mentioned along with George Murphy and Billy Gray.\n\n2. **Research Nancy Davis's later life**: Looking at the context provided, there are two entries about Nancy Reagan (formerly Nancy Davis), which indicate her significant political role.\n\n3. **Determine her political role**: The context does not explicitly state her political role, but it is widely known outside of the provided documents that Nancy Reagan became the First Lady of the United States when her husband, Ronald Reagan, was president from 1981 to 1989.\n\n4. **Conclude the key points**: Nancy Davis, the female star of \"Talk About a Stranger,\" later became known as Nancy Reagan and held the important political role of First Lady of the United States.\n\nNow, based on this reasoning, we can formulate a clear and concise answer to the question. Shall I provide that now?\n\nAnswer: First Lady of the United States.\n        "
+                },
+                "output": "First Lady of the United States",
+                "id": "afb98277-1251-4dc5-a466-9cc37c42c316",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break it down step by step.\n\n1. **Identify the female star of \"Talk About a Stranger\"**: From the context provided, the film stars Nancy Davis, who is mentioned alongside George Murphy and Billy Gray.\n\n2. **Research Nancy Davis's later life**: The context includes information about Nancy Reagan (formerly Nancy Davis), indicating her significant political role.\n\n3. **Determine her political role**: While the context does not explicitly state her political role, it is widely known that Nancy Reagan became the First Lady of the United States when her husband, Ronald Reagan, was president from 1981 to 1989.\n\n4. **Conclude the key points**: Nancy Davis, the female star of \"Talk About a Stranger,\" later became known as Nancy Reagan and held the important political role of First Lady of the United States.\n\nNow that we have reasoned through the information, we can formulate a clear and concise answer to the question. Would you like me to provide that now?"
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at answering questions based on provided documents. Your task is to formulate a clear, accurate, and concise answer to the given question by using the retrieved context (documents) as your source of information. Please ensure that your answer is well-grounded in the context and directly addresses the question.\n",
+                    "inputs": "{'context': '[1]: \"Edwin Howard Armstrong\" | \"Edwin Howard Armstrong Edwin Howard Armstrong (December 18, 1890 \u2013 February 1, 1954) was an American electrical engineer and inventor, best known for developing FM (frequency modulation) radio and the superheterodyne receiver system. He held 42 patents and received numerous awards, including the first Medal of Honor awarded by the Institute of Radio Engineers (now IEEE), the French Legion of Honor, the 1941 Franklin Medal and the 1942 Edison Medal. He was inducted into the National Inventors Hall of Fame and included in the International Telecommunication Union\\'s roster of great inventors. Armstrong was born in the Chelsea district of New\"\\n[2]: \"Institute of Radio Engineers\" | \"(1942), William R. Hewlett (1954), Ernst Weber (1959; also first president of IEEE, 1963) and Patrick E. Haggerty (1962). The IRE issued the IRE Medal of Honor each year which is now the IEEE Medal of Honor. Institute of Radio Engineers The Institute of Radio Engineers (IRE) was a professional organization which existed from 1912 until December 31, 1962. On January 1, 1963 it merged with the American Institute of Electrical Engineers (AIEE) to form the Institute of Electrical and Electronics Engineers (IEEE). Following several attempts to form a technical organization of wireless practitioners in 1908\u20131912, the Institute of Radio\"\\n[3]: \"Edwin Howard Armstrong\" | \"81. She was survived by two nephews and a niece. In 1917, Armstrong was the first recipient of the IRE\\'s (now IEEE) Medal of Honor. For his wartime work on radio, the French government gave him the Legion of Honor in 1919. He was awarded the 1941 Franklin Medal, and in 1942 received the AIEEs Edison Medal \"\"for distinguished contributions to the art of electric communication, notably the regenerative circuit, the superheterodyne, and frequency modulation.\"\" The ITU added him to its roster of great inventors of electricity in 1955. He later received two honorary doctorates, from Columbia in 1929, and\"', 'question': 'FM broadcasting began at the station of which inventor, who won the first Medal of Honor by what is now the IEEE?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the question step by step.\n\n1. **Identify the Key Elements of the Question**:\n   - The question asks about the inventor associated with FM broadcasting.\n   - It also mentions that this inventor won the first Medal of Honor awarded by what is now the IEEE.\n\n2. **Extract Relevant Information from the Context**:\n   - From the first context snippet, we learn that Edwin Howard Armstrong is known for developing FM radio.\n   - It also states that he was the first recipient of the Medal of Honor awarded by the Institute of Radio Engineers (now IEEE).\n\n3. **Connecting the Dots**:\n   - Since Edwin Howard Armstrong is credited with FM broadcasting and is noted as the first recipient of the IRE's Medal of Honor, we can conclude he is the person we are looking for.\n\n4. **Finalizing the Answer**:\n   - Based on the context, we can confidently state that Edwin Howard Armstrong is the inventor associated with FM broadcasting and the first recipient of the Medal of Honor by the IRE (now IEEE).\n\nNow that we've reasoned through this, we can provide a clear answer. \n\n**Final Answer**: Edwin Howard Armstrong\n\nAnswer: Edwin Howard Armstrong\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: Edwin Howard Armstrong\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: \n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the question and the context provided to find the answer step by step.\n\n1. **Identify the key details in the question**:\n   - The question asks about FM broadcasting and specifically mentions the inventor who was awarded the first Medal of Honor by what is now the IEEE.\n\n2. **Extract relevant information from the context**:\n   - From context [1], we learn that Edwin Howard Armstrong is the inventor best known for developing FM (frequency modulation) radio.\n   - Context [3] states that Armstrong was the first recipient of the IRE's (now IEEE) Medal of Honor in 1917.\n\n3. **Combine the information**:\n   - Since Edwin Howard Armstrong is known for FM broadcasting and he received the first Medal of Honor from the IRE, which is now the IEEE, we can conclude that he is the person mentioned in the question.\n\n4. **Determine the station associated with him**:\n   - The context does not explicitly mention the station where FM broadcasting began; however, it is widely known that FM broadcasting was developed by Armstrong himself.\n\nNow that we have all the relevant information, we can formulate a clear and concise answer. Would you like to proceed to the final response?\n\nAnswer: Edwin Howard Armstrong; first Medal of Honor by IEEE.\n        "
+                },
+                "output": "Edwin Howard Armstrong",
+                "id": "b25aa68d-6ab3-437e-a609-86fa353b7fd2",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_49": 1.0,
+            "eval_6": 0,
+            "eval_17": 0,
+            "eval_34": 0.20000000000000004,
+            "eval_32": 1.0,
+            "eval_23": 1.0,
+            "eval_13": 0.5,
+            "eval_29": 0,
+            "eval_46": 1.0,
+            "eval_22": 0.8,
+            "eval_2": 0.5,
+            "eval_26": 1.0,
+            "eval_24": 1.0,
+            "eval_31": 0,
+            "eval_21": 0.6666666666666666,
+            "eval_10": 0.5,
+            "eval_44": 0,
+            "eval_19": 1.0,
+            "eval_9": 0.4,
+            "eval_30": 0,
+            "eval_8": 1.0,
+            "eval_25": 0,
+            "eval_42": 0,
+            "eval_1": 1.0,
+            "eval_47": 0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_23",
+                "demo_id": "b25aa68d-6ab3-437e-a609-86fa353b7fd2"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_49",
+                "demo_id": "afb98277-1251-4dc5-a466-9cc37c42c316"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_46",
+                "demo_id": "ef5bd376-9cf8-46f2-8d0c-a6360b08d6b6"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "c206ec04-6a01-4fa6-8651-757ecb37fefa"
+            }
+        ],
+        "task_id_set": [
+            "eval_46",
+            "eval_23",
+            "eval_8",
+            "eval_49"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer_aggregator",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "__class__": "LMReasoning",
+        "__module__": "compiler.optimizer.params.reasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "generate_query_demos_dc194d7b-c173-4471-a49c-c4041a15e41d": {
+                "name": "generate_query_demos_dc194d7b-c173-4471-a49c-c4041a15e41d",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "fb3d218a-7157-43ee-8a16-c5df729cd033",
+                    "d6d95ae9-9a0a-4ab6-b80f-b8689d75793b",
+                    "068f096e-f824-42c4-9d06-6d4bf8467d32",
+                    "a19d3daa-533e-4819-b112-15c98bf99745"
+                ]
+            },
+            "generate_query_demos_e368654d-02a9-409c-a734-194f14cfadb1": {
+                "name": "generate_query_demos_e368654d-02a9-409c-a734-194f14cfadb1",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "6ce4b2f8-0e09-4585-9360-c919f85cb15a",
+                    "ca490cb1-5045-43ba-b488-e3198a98cf87",
+                    "068f096e-f824-42c4-9d06-6d4bf8467d32",
+                    "a19d3daa-533e-4819-b112-15c98bf99745"
+                ]
+            },
+            "generate_query_demos_24e5c215-1a1c-4761-a9c9-6135298662e5": {
+                "name": "generate_query_demos_24e5c215-1a1c-4761-a9c9-6135298662e5",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "dc3b1cdc-5402-4904-b846-7641fddd69dd",
+                    "ca490cb1-5045-43ba-b488-e3198a98cf87",
+                    "068f096e-f824-42c4-9d06-6d4bf8467d32",
+                    "a19d3daa-533e-4819-b112-15c98bf99745"
+                ]
+            }
+        },
+        "default_option": "Identity",
+        "__class__": "LMFewShot",
+        "__module__": "compiler.optimizer.params.fewshot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "When did the coach of the Karachi Kings finish his time as coach of the Australia national cricket team ?"
+                },
+                "output": "\"Karachi Kings coach Australia national cricket team tenure end date\"",
+                "id": "fb3d218a-7157-43ee-8a16-c5df729cd033",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Merle Reagle did crosswords for what magazine that has a focus on aging issues?"
+                },
+                "output": "\"Merle Reagle crosswords magazine aging issues\"",
+                "id": "d6d95ae9-9a0a-4ab6-b80f-b8689d75793b",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Gustav Mahler composed a beautiful piece performed by the Bach-Elgar Choir. What is the name of that piece??"
+                },
+                "output": "\"Gustav Mahler piece performed by Bach-Elgar Choir name\"",
+                "id": "068f096e-f824-42c4-9d06-6d4bf8467d32",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "\"R Lee Ermy character name Prefontaine film American track and field coach co-founder Nike Inc\"",
+                "id": "a19d3daa-533e-4819-b112-15c98bf99745",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "The sea whose port is The Port of Reggio is sometimes considered as a part of which ocean?"
+                },
+                "output": "\"Port of Reggio sea ocean classification\" OR \"Port of Reggio location ocean\" OR \"Reggio Calabria port sea ocean connection\" OR \"Mediterranean Sea Atlantic Ocean relationship\"",
+                "id": "6ce4b2f8-0e09-4585-9360-c919f85cb15a",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "What important political role did the female star of the film Talk About a Stranger hold ?"
+                },
+                "output": "\"Talk About a Stranger film female star political role\"",
+                "id": "ca490cb1-5045-43ba-b488-e3198a98cf87",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "FM broadcasting began at the station of which inventor, who won the first Medal of Honor by what is now the IEEE?"
+                },
+                "output": "\"FM broadcasting inventor first Medal of Honor IEEE\"",
+                "id": "dc3b1cdc-5402-4904-b846-7641fddd69dd",
+                "reasoning": "\n: Let's solve this problem step by step before giving the final response\n\n\n: Sure! Let's break down the question to identify the key elements that need to be included in the search query.\n\n1. **FM Broadcasting**: This is the main subject of the question, so we need to include it.\n2. **Inventor**: The question asks for the name of the inventor associated with the beginning of FM broadcasting.\n3. **Medal of Honor**: The question mentions that this inventor won the first Medal of Honor from what is now the IEEE, which is an important detail to include.\n4. **IEEE**: This acronym stands for the Institute of Electrical and Electronics Engineers, which is relevant to the context of the question.\n\nNow, we can formulate a search query that encapsulates all these elements. \n\nThe search query should aim to find information about the inventor of FM broadcasting, their connection to the IEEE, and the Medal of Honor they received.\n\nNow, let's construct the search query. \n\nsearch_query:\n\"FM broadcasting inventor first Medal of Honor IEEE\""
+            }
+        ],
+        "best_score_by_task": {
+            "eval_49": 1.0,
+            "eval_6": 0,
+            "eval_17": 0,
+            "eval_34": 0.20000000000000004,
+            "eval_32": 1.0,
+            "eval_23": 1.0,
+            "eval_13": 0.5,
+            "eval_29": 0,
+            "eval_46": 1.0,
+            "eval_22": 0.8,
+            "eval_2": 0.5,
+            "eval_26": 1.0,
+            "eval_24": 1.0,
+            "eval_31": 0,
+            "eval_21": 0.6666666666666666,
+            "eval_10": 0.5,
+            "eval_44": 0,
+            "eval_19": 1.0,
+            "eval_9": 0.4,
+            "eval_30": 0,
+            "eval_8": 1.0,
+            "eval_25": 0,
+            "eval_42": 0,
+            "eval_1": 1.0,
+            "eval_47": 0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_23",
+                "demo_id": "dc3b1cdc-5402-4904-b846-7641fddd69dd"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_49",
+                "demo_id": "ca490cb1-5045-43ba-b488-e3198a98cf87"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_46",
+                "demo_id": "068f096e-f824-42c4-9d06-6d4bf8467d32"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "a19d3daa-533e-4819-b112-15c98bf99745"
+            }
+        ],
+        "task_id_set": [
+            "eval_46",
+            "eval_23",
+            "eval_8",
+            "eval_49"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query",
+        "options": {
+            "Identity": {
+                "name": "Identity",
+                "type": "IdentityOption"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "Identity",
+        "__class__": "LMReasoning",
+        "__module__": "compiler.optimizer.params.reasoning"
+    }
+]

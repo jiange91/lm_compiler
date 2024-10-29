@@ -37,8 +37,6 @@ class ModelOption(OptionBase):
             lm_module.lm_config.update(self.model_config)
         else:
             lm_module.lm_config = self.model_config
-        # This is incase reset is not called, to trigger rebuild the kernel
-        lm_module.lm = None
         return lm_module
     
     def to_dict(self):

@@ -20,7 +20,7 @@ _thread_local_chain = threading.local()
 
 def _local_forward(_local_lm: 'CogLM', messages: List[APICompatibleMessage], inputs: Dict[InputVar, str], model_kwargs: Optional[dict] = None):
   if _local_lm.reasoning:
-    responses: List[ModelResponse] = _local_lm.reasoning.forward(messages, model_kwargs)
+    responses: List[ModelResponse] = _local_lm.reasoning.forward(_local_lm, messages, model_kwargs)
     _local_lm.response_metadata_history.extend([ResponseMetadata(model=response.model, 
                                                                  cost=response._hidden_params["response_cost"], 
                                                                  usage=response.usage) for response in responses])
@@ -82,6 +82,7 @@ class CogLM(Module):
     self.response_metadata_history: List[ResponseMetadata] = []
     self.steps: List[StepInfo] = []
     self.reasoning = None
+    self.rationale = None
     self.lm_config = lm_config
 
     setattr(_thread_local_chain, agent_name, self)
@@ -102,6 +103,7 @@ class CogLM(Module):
     super().reset()
     self.response_metadata_history = []
     self.steps = []
+    self.lm_config = None
 
   def get_thread_local_chain(self):
     try:
@@ -120,7 +122,7 @@ class CogLM(Module):
     dict = {
       "agent_prompt": self._get_system_prompt(),
       "input_names": self._get_input_names(),
-      "output_name": self._get_output_label(),
+      "output_name": self.get_output_label_name(),
     }
     return json.dumps(dict, indent=4)
   
@@ -128,7 +130,7 @@ class CogLM(Module):
     dict = {
       "agent_prompt": self._get_system_prompt(),
       "input_variables": self._get_input_names(),
-      "output_schema": self._get_output_label(),
+      "output_schema": self.get_output_label_name(),
     }
     return json.dumps(dict, indent=4)
   
@@ -182,7 +184,7 @@ class CogLM(Module):
 
     return "\n\n".join(input_fields) + \
       "\n\nrationale:\nOptional(${reasoning})" + \
-      f"\n\n{self._get_output_label()}:\n${{{self._get_output_label()}}}"
+      f"\n\n{self.get_output_label_name()}:\n${{{self.get_output_label_name()}}}"
   
   def get_output_label_name(self) -> str:
     return self.output_label.name or "response"
@@ -206,7 +208,7 @@ class CogLM(Module):
     if messages[0]["role"] == "system":
       messages = messages[1:]
     
-    api_compatible_messages = self.system_message.to_api() + messages
+    api_compatible_messages = [self.system_message.to_api()] + messages
     api_compatible_messages.extend([demo_message.to_api() for demo_message in self.demo_messages])
     if self.contains_custom_format_instructions():
       api_compatible_messages.append({"role": "user", "content": self.output.custom_output_format_instructions})
@@ -230,7 +232,8 @@ class CogLM(Module):
       assert self.lm_config, "Model kwargs must be provided if LM config is not set at initialization"
     
     full_kwargs = model_kwargs or self.lm_config.get_model_kwargs()
-    response: ModelResponse = completion(self.model_config.model, 
+    model = full_kwargs.pop("model")
+    response: ModelResponse = completion(model, 
                       self._get_api_compatible_messages(messages),
                       **full_kwargs)
     return response
@@ -246,7 +249,7 @@ class StructuredCogLM(CogLM):
     super(CogLM, self).__init__(agent_name, system_prompt, input_variables, self._get_output_label(), lm_config)
 
   @override
-  def _get_output_label(self):
+  def get_output_label_name(self):
     return self.output_format.schema.__name__
   
   @override
@@ -285,9 +288,10 @@ class StructuredCogLM(CogLM):
     if "response_format" not in params:
       raise ValueError(f"Model {full_kwargs["model"]} on provider {full_kwargs["custom_llm_provider"]} does not support structured output") 
     else:
+      model = full_kwargs.pop('model')
       messages.append(self.output_format.get_output_instruction_message())
-      response: ModelResponse = completion(self.model_config.model, 
+      response: ModelResponse = completion(model, 
                         self._get_api_compatible_messages(messages),
-                        response_format=self.output_format,
+                        response_format=self.output_format.schema,
                         **full_kwargs)
       return response

@@ -12,7 +12,7 @@ reasoning_param = reasoning.LMReasoning(
     [IdentityOption(), ZeroShotCoT()] 
 )
 # Few Shot Parameter
-few_shot_params = LMFewShot("few_shot", 4)
+few_shot_params = LMFewShot(4)
 
 # Layer Config
 inner_opt_config = flow.OptConfig(
@@ -33,6 +33,7 @@ general_ensemble_params = ensemble.ModuleEnsemble(
 # Layer Config
 outer_opt_config = flow.OptConfig(
     n_trials=4,
+    throughput=4,
 )
 outer_loop_config = driver.LayerConfig(
     layer_name='outer_loop',
@@ -43,4 +44,5 @@ outer_loop_config = driver.LayerConfig(
 # ================= Overall Control Parameter =================
 optimize_control_param = ControlParameter(
     opt_layer_configs=[outer_loop_config, inner_loop_config],
+    evaluator_parallel=40,
 )

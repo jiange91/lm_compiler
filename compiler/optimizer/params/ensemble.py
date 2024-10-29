@@ -1,4 +1,4 @@
-from typing import Literal, Optional, Tuple
+from typing import Literal, Optional, Tuple, Union
 import uuid
 import dataclasses
 import heapq
@@ -25,6 +25,16 @@ from abc import ABC, ABCMeta
 
 class ModuleEnsemble(ParamBase):
     level = ParamLevel.GRAPH
+    
+    def __init__(
+        self, 
+        options: list[OptionBase],
+        name: str = 'ensemble',
+        default_option: Union[int, str] = 0,
+        module_name: str = None,
+        inherit: bool = False,
+    ):
+        super().__init__(name, options, default_option, module_name, inherit)
     
     @classmethod
     def from_dict(cls, data: dict):

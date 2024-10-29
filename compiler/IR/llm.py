@@ -213,9 +213,9 @@ def _local_forward(_local_lm: 'LLMPredictor', **kwargs):
     return result
     
 class LLMPredictor(Module):
-    def __init__(self, name, semantic: LMSemantic, lm, **kwargs) -> None:
+    def __init__(self, name, semantic: LMSemantic, lm, lm_config, **kwargs) -> None:
         self.lm_history = []
-        self.lm_config: LMConfig = None
+        self.lm_config: LMConfig = lm_config
         self.lm = lm
         self.input_cache = {}
         self.step_info = []

@@ -17,6 +17,11 @@ class OptionBase(ABC):
     def _get_cost_indicator(self):
         return 1.0
     
+    def __description__(self):
+        """Add description output to show the option in the optimizer
+        """
+        return self.name
+    
     @property
     def cost_indicator(self):
         return self._get_cost_indicator()
@@ -26,7 +31,7 @@ class OptionBase(ABC):
         """Apply the option to the module
         
         Please do not seek information from the enclosing module
-        as the provided module might just be a dangling module and will be integrated into the workflow later
+        as the provided module might just be a dangling module and will be integrated into the workflow later or they are also under optimization
         """
         ...
     
@@ -260,6 +265,7 @@ class DynamicParamBase(ParamBase, ABC):
         module_name: str = None, 
         inherit: bool = False,
         inherit_options: bool = False,
+        disable_evolve: bool = False,
     ):
         """
         
@@ -269,6 +275,7 @@ class DynamicParamBase(ParamBase, ABC):
         """
         super().__init__(name, options, default_option, module_name, inherit)
         self.inherit_options = inherit_options
+        self.disable_evolve = disable_evolve
     
     def add_option(self, option: OptionBase):
         if option.name in self.options:
@@ -287,8 +294,12 @@ class DynamicParamBase(ParamBase, ABC):
     @abstractmethod
     def custom_clean(self):
         ...
-    
+        
     @abstractmethod
-    def evole(self, eval_result) -> EvolveType:
+    def _evolve(self, eval_result) -> EvolveType:
         ...
         
+    def evolve(self, eval_result) -> EvolveType:
+        if self.disable_evolve:
+            return EvolveType.ID
+        return self._evolve(eval_result)

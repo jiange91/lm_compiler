@@ -23,15 +23,17 @@ class LMFewShot(DynamicParamBase):
     
     def __init__(
         self, 
-        name: str,
         max_num: int = 5,
+        name: str = "few_shot",
         module_name: str = None,
         eval_result: EvaluationResult = None,
         inherit: bool = False,
         allow_duplicate: bool = False,
+        user_demos: list[Demonstration] = None,
+        disable_evolve: bool = False,
     ):
         # NOTE: identity option is added to escape from bad demos
-        super().__init__(name, [IdentityOption()], 0, module_name, inherit=inherit, inherit_options=False)
+        super().__init__(name, [IdentityOption()], 0, module_name, inherit=inherit, inherit_options=False, disable_evolve=disable_evolve)
         # cached good demos in all options
         # demo_id -> Demonstration
         self.demo_cache: dict[str, Demonstration] = {}
@@ -46,19 +48,21 @@ class LMFewShot(DynamicParamBase):
         self.current_best_score_sum = float(-1e6)
         self.allow_duplicate = allow_duplicate
         if eval_result is not None:
-            t = self.evole(eval_result)
+            t = self.evolve(eval_result)
             # Some agent might not have a single demo so this assert is not valid
             # assert t != EvolveType.ID, 'Should evolve'
             if t == EvolveType.ID:
                 Warning(f'Given evaluation result does not contain good demos for {module_name}')
+                
+        # add user demos
+        if user_demos is not None:
+            self.add_option(DemoOption('user_demos', user_demos))
     
 
-    def evole(self, eval_result: EvaluationResult) -> EvolveType:
-        """Update demo range given current evaluation result
+    def _evolve(self, eval_result: EvaluationResult) -> EvolveType:
+        """Update demo options given current evaluation result
         
         always select top k demos as new option candidate 
-        only accept this candidate if sum of their score is higher than current best option
-        
         """
         # update demo pool
         updated = set()

@@ -14,6 +14,7 @@ from langchain_core.messages import BaseMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages.utils import get_buffer_string
 from langchain_core.runnables import chain
+from typing import Type, Union
 
 import logging
 
@@ -22,6 +23,18 @@ logger = logging.getLogger(__name__)
 
 class LMReasoning(ParamBase):
     level = ParamLevel.NODE
+    
+    def __init__(
+        self, 
+        options: list[OptionBase],
+        name: str = 'reasoning', 
+        default_option: Union[int, str] = 0,
+        module_name: str = None,
+        inherit: bool = False,
+    ):
+        return super().__init__(
+            name, options, default_option, module_name, inherit
+        )
     
     @classmethod
     def from_dict(cls, data: dict):

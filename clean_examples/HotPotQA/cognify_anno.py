@@ -67,7 +67,7 @@ answer_semantic = LangChainSemantic(
     system_prompt=answer_prompt,
     inputs=['context', 'question'],
     output_format='answer',
-    output_format_instructions="Output the answer directly without unnecessary details, explanations, or repetition. Focus on delivering the key information in the most concise way possible (don't have to be a complete sentence)."
+    output_format_instructions="Output the answer directly without unnecessary details, explanations, or repetition."
 )
 answer_agent = LangChainLM('generate_answer', answer_semantic, opt_register=True)
 answer_lm_config = LMConfig(
@@ -103,24 +103,23 @@ class BasicMH(dspy.Module):
         passages = self.retrieve(search_query).passages
         context = deduplicate(context + passages)
         
-        for _ in range(2-1):
-            search_query = self.follwing_generate_query.invoke({'context': self.doc_str(context), 'question': question}).content
-            # avoid only searching the first line
-            search_query = search_query.replace("\n", ". ")
-            passages = self.retrieve(search_query).passages
-            context = deduplicate(context + passages)
+        search_query = self.follwing_generate_query.invoke({'context': self.doc_str(context), 'question': question}).content
+        # avoid only searching the first line
+        search_query = search_query.replace("\n", ". ")
+        passages = self.retrieve(search_query).passages
+        context = deduplicate(context + passages)
+        
         answer = self.generate_answer.invoke({'context': self.doc_str(context), 'question': question}).content
         return answer
 
-qa_agent = BasicMH(passages_per_hop=2)
+pipeline = BasicMH(passages_per_hop=2)
 
 @register_opt_program_entry
 def do_qa(question: str):
-    answer = qa_agent(question=question)
+    answer = pipeline(question=question)
     return answer
 
 from dsp.utils.metrics import HotPotF1, F1
-dspy.evaluate.answer_exact_match
 
 @register_opt_score_fn
 def answer_f1(label: str, pred: str):

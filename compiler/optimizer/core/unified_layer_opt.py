@@ -91,7 +91,7 @@ class OptimizationLayer:
         self.params: dict[str, list[ParamBase]] = None
         self.param_categorical_dist: dict[str, optuna.distributions.CategoricalDistribution] = None
         
-        self.opt_logs: dict[int, TrialLog] = {}
+        self.opt_logs: dict[int, TrialLog] = dict()
         self.study: optuna.study.Study = None
         self._study_lock: threading.Lock = None
         self.opt_target_lm_names: set[str] = None
@@ -317,7 +317,7 @@ class OptimizationLayer:
             for params in self.params.values():
                 for param in params:
                     if isinstance(param, DynamicParamBase):
-                        evolve_type = param.evole(eval_result)
+                        evolve_type = param.evolve(eval_result)
                         if evolve_type != EvolveType.ID:
                             is_evolved = True
             if is_evolved:
@@ -591,7 +591,6 @@ class BottomLevelOptimization(OptimizationLayer):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.opt_logs: dict[int, BottomLevelTrialLog] = None
         
     def create_log_at_proposal(self, trial: optuna.trial.Trial) -> BottomLevelTrialLog:
         return BottomLevelTrialLog(
@@ -637,7 +636,7 @@ class BottomLevelOptimization(OptimizationLayer):
                     logger.info("Use best score config to get evolving results")
                     # use best score config to get evolving results
                     best_score_log = self.best_score_config()
-                    evolve_eval_task = EvalTask.from_dict(best_score_log.eval_task.copy())
+                    evolve_eval_task = EvalTask.from_dict(copy.deepcopy(best_score_log.eval_task))
                     evolve_result = self.evaluator.get_score(
                         mode='eval', task=evolve_eval_task, show_process=False)
                     logger.info(f"Evolve eval result: {evolve_result}")
@@ -646,7 +645,7 @@ class BottomLevelOptimization(OptimizationLayer):
                 for params in self.params.values():
                     for param in params:
                         if isinstance(param, DynamicParamBase):
-                            evolve_type = param.evole(evolve_result)
+                            evolve_type = param.evolve(evolve_result)
                             if evolve_type != EvolveType.ID:
                                 is_evolved = True
                 if is_evolved:
@@ -687,7 +686,7 @@ class BottomLevelOptimization(OptimizationLayer):
             for params in self.params.values():
                 for param in params:
                     if isinstance(param, DynamicParamBase):
-                        evolve_type = param.evole(eval_result)
+                        evolve_type = param.evolve(eval_result)
                         if evolve_type != EvolveType.ID:
                             is_evolved = True
             if is_evolved:

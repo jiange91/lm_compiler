@@ -310,7 +310,7 @@ class InnerLoopBayesianOptimization:
             for params in self.params.values():
                 for param in params:
                     if isinstance(param, DynamicParamBase):
-                        evolve_type = param.evole(eval_result)
+                        evolve_type = param.evolve(eval_result)
                         if evolve_type != EvolveType.ID:
                             is_evolved = True
             if is_evolved:
@@ -930,7 +930,7 @@ class OuterLoopOptimization:
             for params in self.params.values():
                 for param in params:
                     if isinstance(param, DynamicParamBase):
-                        evolve_type = param.evole(eval_result)
+                        evolve_type = param.evolve(eval_result)
                         if evolve_type != EvolveType.ID:
                             is_evolved = True
             if is_evolved:

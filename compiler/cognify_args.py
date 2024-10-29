@@ -5,7 +5,6 @@ import os
 import importlib.util
 import json
 
-
 logger = logging.getLogger(__name__)
 
 @dataclasses.dataclass(kw_only=True)

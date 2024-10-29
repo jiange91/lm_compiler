@@ -319,16 +319,17 @@ class LangChainSemantic(LMSemantic):
 
 
 class LangChainLM(LLMPredictor):
-    def __init__(self, name, semantic: LangChainSemantic, **kwargs) -> None:
+    def __init__(self, name, semantic: LangChainSemantic, lm=None, lm_config=None, **kwargs) -> None:
         """
         """
         self.chat_history = ChatMessageHistory()
         self.semantic: LangChainSemantic = semantic # mainly for type hint
         # default model can be overwritten by set_lm
-        self.lm = None
+        self.lm = lm
+        self.lm_config = lm_config
         self.reasoning = None
         self._tracker = LLMTracker()
-        super().__init__(name, semantic, self.lm, **kwargs)
+        super().__init__(name, semantic, self.lm, self.lm_config, **kwargs)
     
     def get_invoke_routine(self):
         if self.reasoning is not None:

@@ -1,2 +1,0 @@
-topic,url,predicted_class,predicted_scores
-Taylor Hawkins,https://en.wikipedia.org/wiki/Taylor_Hawkins,GA,"{'B': 0.11539608191927074, 'C': 0.04102266122999921, 'FA': 0.15540747668986662, 'GA': 0.673227842079754, 'Start': 0.010971018160521115, 'Stub': 0.003974919920588248}"

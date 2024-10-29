@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 from compiler.IR.base import Module
 from compiler.IR.program import Workflow
 from compiler.IR.llm import LLMPredictor, Demonstration
-from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, IdentityOption
+from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, NoChange
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from compiler.optimizer.params.utils import dump_params, load_params
 
@@ -33,7 +33,7 @@ class LMFewShot(DynamicParamBase):
         disable_evolve: bool = False,
     ):
         # NOTE: identity option is added to escape from bad demos
-        super().__init__(name, [IdentityOption()], 0, module_name, inherit=inherit, inherit_options=False, disable_evolve=disable_evolve)
+        super().__init__(name, [NoChange()], 0, module_name, inherit=inherit, inherit_options=False, disable_evolve=disable_evolve)
         # cached good demos in all options
         # demo_id -> Demonstration
         self.demo_cache: dict[str, Demonstration] = {}

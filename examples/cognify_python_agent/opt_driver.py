@@ -12,7 +12,7 @@ import os
 import random
 import optuna
 
-from compiler.optimizer.params.common import IdentityOption
+from compiler.optimizer.params.common import NoChange
 from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
 from compiler.optimizer.plugin import OptimizerSchema
 from humaneval.humaneval import HumanEvalDataset
@@ -23,7 +23,7 @@ def opt(train):
   ]
 
   model_param = model_selection.LMSelection('lm_model', model_selection.model_option_factory(lm_options))
-  reasoning_param = reasoning.LMReasoning("reasoning", [IdentityOption(), ZeroShotCoT(), PlanBefore()])
+  reasoning_param = reasoning.LMReasoning("reasoning", [NoChange(), ZeroShotCoT(), PlanBefore()])
   few_shot_params = LMFewShot("few_shot", None, 8)
 
   inner_loop = InnerLoopBayesianOptimization(

@@ -153,6 +153,10 @@ class TopDownInformation:
     script_args: Optional[list[str]]
     other_python_paths: Optional[list[str]]
     
+    # some optimization history
+    trace_back: str # series of [layer_name_trial_id]
+    
+    
     def initialize(self):
         self.opt_config.finalize()
         self.all_params = self.all_params or {}

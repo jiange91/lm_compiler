@@ -5,7 +5,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "code completion_demos_e2ffcc42-80f9-4036-82d7-ae84cd0005c9": {
                 "name": "code completion_demos_e2ffcc42-80f9-4036-82d7-ae84cd0005c9",
@@ -613,7 +613,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",
@@ -633,7 +633,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "completion transit node_demos_ab6e2696-0031-4df9-8d57-65ce320155f8": {
                 "name": "completion transit node_demos_ab6e2696-0031-4df9-8d57-65ce320155f8",
@@ -1241,7 +1241,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",
@@ -1261,7 +1261,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "finalize transit node_demos_31415e54-0ce5-444e-8e7d-6fe9bcf1871c": {
                 "name": "finalize transit node_demos_31415e54-0ce5-444e-8e7d-6fe9bcf1871c",
@@ -1869,7 +1869,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",
@@ -1889,7 +1889,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "code finalize_demos_0f48c97e-ce20-46b1-942a-7dcf6db7ae09": {
                 "name": "code finalize_demos_0f48c97e-ce20-46b1-942a-7dcf6db7ae09",
@@ -2497,7 +2497,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",

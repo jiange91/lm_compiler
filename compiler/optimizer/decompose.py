@@ -42,7 +42,6 @@ class ComplexityList(BaseModel):
     es: List[ComplexityEstimation] = Field(
         description="list of complexity descriptions"
     )
-    
 
 def estimate_complexity_kernel(agents: list[str]):
     complexity_prompt = ChatPromptTemplate.from_messages(

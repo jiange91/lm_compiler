@@ -5,7 +5,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",
@@ -59,7 +59,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",
@@ -113,7 +113,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",
@@ -167,7 +167,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",

@@ -9,7 +9,7 @@ from compiler.optimizer.core import driver, flow
 
 from compiler.optimizer.params import reasoning, model_selection
 from compiler.optimizer.params import ensemble
-from compiler.optimizer.params.common import IdentityOption
+from compiler.optimizer.params.common import NoChange
 from compiler.optimizer.params.fewshot import LMFewShot
 from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
 
@@ -21,7 +21,7 @@ In this example we limit the ensemble parameter to be applied only on three modu
 
 # ================= Reasoning Options =================
 reasoning_param = reasoning.LMReasoning(
-    "reasoning", [IdentityOption(), ZeroShotCoT(), PlanBefore()] 
+    "reasoning", [NoChange(), ZeroShotCoT(), PlanBefore()] 
 )
 # ================= Few Shot Options =================
 few_shot_params = LMFewShot("few_shot", 4)

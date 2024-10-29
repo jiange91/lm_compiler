@@ -5,7 +5,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "qa_agent_demos_9bab6be9-38d6-49bd-9602-b82927264626": {
                 "name": "qa_agent_demos_9bab6be9-38d6-49bd-9602-b82927264626",

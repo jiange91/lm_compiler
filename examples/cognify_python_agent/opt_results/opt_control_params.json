@@ -9,7 +9,7 @@
                 "options": {
                     "Identity": {
                         "name": "Identity",
-                        "type": "IdentityOption"
+                        "type": "NoChange"
                     },
                     "universal_self_consistency": {
                         "name": "universal_self_consistency",
@@ -46,7 +46,7 @@
                 "options": {
                     "Identity": {
                         "name": "Identity",
-                        "type": "IdentityOption"
+                        "type": "NoChange"
                     }
                 },
                 "default_option": "Identity",
@@ -66,7 +66,7 @@
                 "options": {
                     "Identity": {
                         "name": "Identity",
-                        "type": "IdentityOption"
+                        "type": "NoChange"
                     },
                     "ZeroShotCoT": {
                         "name": "ZeroShotCoT",

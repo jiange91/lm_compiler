@@ -154,7 +154,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -173,7 +173,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -192,7 +192,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -211,7 +211,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8": {
                             "name": "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8",
@@ -330,7 +330,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -347,7 +347,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151": {
                             "name": "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151",
@@ -466,7 +466,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -483,7 +483,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f": {
                             "name": "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f",
@@ -602,7 +602,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -619,7 +619,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64": {
                             "name": "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64",
@@ -738,7 +738,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -755,7 +755,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395": {
                             "name": "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395",
@@ -874,7 +874,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -891,7 +891,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a": {
                             "name": "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a",
@@ -1010,7 +1010,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -1027,7 +1027,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca": {
                             "name": "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca",
@@ -1150,7 +1150,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -1167,7 +1167,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0": {
                             "name": "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0",
@@ -1290,7 +1290,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -1307,7 +1307,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1": {
                             "name": "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1",
@@ -1422,7 +1422,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -1591,7 +1591,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -1610,7 +1610,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -1629,7 +1629,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -1648,7 +1648,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8": {
                             "name": "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8",
@@ -1767,7 +1767,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -1784,7 +1784,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151": {
                             "name": "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151",
@@ -1903,7 +1903,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -1920,7 +1920,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f": {
                             "name": "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f",
@@ -2039,7 +2039,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -2056,7 +2056,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64": {
                             "name": "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64",
@@ -2175,7 +2175,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -2192,7 +2192,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395": {
                             "name": "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395",
@@ -2311,7 +2311,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -2328,7 +2328,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a": {
                             "name": "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a",
@@ -2447,7 +2447,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -2464,7 +2464,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca": {
                             "name": "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca",
@@ -2587,7 +2587,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -2604,7 +2604,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0": {
                             "name": "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0",
@@ -2727,7 +2727,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -2744,7 +2744,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1": {
                             "name": "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1",
@@ -2859,7 +2859,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -3028,7 +3028,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -3047,7 +3047,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -3066,7 +3066,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -3085,7 +3085,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8": {
                             "name": "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8",
@@ -3204,7 +3204,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -3221,7 +3221,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151": {
                             "name": "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151",
@@ -3340,7 +3340,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -3357,7 +3357,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f": {
                             "name": "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f",
@@ -3476,7 +3476,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -3493,7 +3493,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64": {
                             "name": "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64",
@@ -3612,7 +3612,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -3629,7 +3629,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395": {
                             "name": "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395",
@@ -3748,7 +3748,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -3765,7 +3765,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a": {
                             "name": "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a",
@@ -3884,7 +3884,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -3901,7 +3901,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca": {
                             "name": "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca",
@@ -4024,7 +4024,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -4041,7 +4041,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0": {
                             "name": "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0",
@@ -4164,7 +4164,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -4181,7 +4181,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1": {
                             "name": "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1",
@@ -4296,7 +4296,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -4465,7 +4465,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -4484,7 +4484,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -4503,7 +4503,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -4522,7 +4522,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8": {
                             "name": "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8",
@@ -4660,7 +4660,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -4677,7 +4677,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151": {
                             "name": "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151",
@@ -4815,7 +4815,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -4832,7 +4832,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f": {
                             "name": "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f",
@@ -4970,7 +4970,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -4987,7 +4987,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64": {
                             "name": "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64",
@@ -5125,7 +5125,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -5142,7 +5142,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395": {
                             "name": "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395",
@@ -5280,7 +5280,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -5297,7 +5297,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a": {
                             "name": "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a",
@@ -5435,7 +5435,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -5452,7 +5452,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca": {
                             "name": "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca",
@@ -5595,7 +5595,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -5612,7 +5612,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0": {
                             "name": "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0",
@@ -5755,7 +5755,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -5772,7 +5772,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1": {
                             "name": "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1",
@@ -5905,7 +5905,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -6074,7 +6074,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -6093,7 +6093,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -6112,7 +6112,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -6131,7 +6131,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8": {
                             "name": "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8",
@@ -6269,7 +6269,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -6286,7 +6286,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151": {
                             "name": "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151",
@@ -6424,7 +6424,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -6441,7 +6441,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f": {
                             "name": "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f",
@@ -6579,7 +6579,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -6596,7 +6596,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64": {
                             "name": "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64",
@@ -6734,7 +6734,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -6751,7 +6751,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395": {
                             "name": "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395",
@@ -6889,7 +6889,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -6906,7 +6906,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a": {
                             "name": "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a",
@@ -7044,7 +7044,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -7061,7 +7061,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca": {
                             "name": "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca",
@@ -7204,7 +7204,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -7221,7 +7221,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0": {
                             "name": "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0",
@@ -7364,7 +7364,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -7381,7 +7381,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1": {
                             "name": "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1",
@@ -7514,7 +7514,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -7683,7 +7683,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -7702,7 +7702,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -7721,7 +7721,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -7740,7 +7740,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8": {
                             "name": "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8",
@@ -7878,7 +7878,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -7895,7 +7895,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151": {
                             "name": "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151",
@@ -8033,7 +8033,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -8050,7 +8050,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f": {
                             "name": "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f",
@@ -8188,7 +8188,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -8205,7 +8205,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64": {
                             "name": "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64",
@@ -8343,7 +8343,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -8360,7 +8360,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395": {
                             "name": "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395",
@@ -8498,7 +8498,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -8515,7 +8515,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a": {
                             "name": "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a",
@@ -8653,7 +8653,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -8670,7 +8670,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca": {
                             "name": "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca",
@@ -8813,7 +8813,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -8830,7 +8830,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0": {
                             "name": "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0",
@@ -8973,7 +8973,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -8990,7 +8990,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1": {
                             "name": "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1",
@@ -9123,7 +9123,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -9292,7 +9292,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -9311,7 +9311,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -9330,7 +9330,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -9349,7 +9349,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8": {
                             "name": "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8",
@@ -9506,7 +9506,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -9523,7 +9523,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151": {
                             "name": "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151",
@@ -9680,7 +9680,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -9697,7 +9697,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f": {
                             "name": "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f",
@@ -9854,7 +9854,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -9871,7 +9871,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64": {
                             "name": "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64",
@@ -10028,7 +10028,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -10045,7 +10045,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395": {
                             "name": "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395",
@@ -10202,7 +10202,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -10219,7 +10219,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a": {
                             "name": "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a",
@@ -10376,7 +10376,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -10393,7 +10393,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca": {
                             "name": "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca",
@@ -10556,7 +10556,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -10573,7 +10573,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0": {
                             "name": "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0",
@@ -10736,7 +10736,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -10753,7 +10753,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1": {
                             "name": "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1",
@@ -10904,7 +10904,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -11073,7 +11073,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -11092,7 +11092,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -11111,7 +11111,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -11130,7 +11130,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8": {
                             "name": "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8",
@@ -11287,7 +11287,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -11304,7 +11304,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151": {
                             "name": "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151",
@@ -11461,7 +11461,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -11478,7 +11478,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f": {
                             "name": "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f",
@@ -11635,7 +11635,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -11652,7 +11652,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64": {
                             "name": "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64",
@@ -11809,7 +11809,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -11826,7 +11826,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395": {
                             "name": "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395",
@@ -11983,7 +11983,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -12000,7 +12000,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a": {
                             "name": "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a",
@@ -12157,7 +12157,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -12174,7 +12174,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca": {
                             "name": "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca",
@@ -12337,7 +12337,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -12354,7 +12354,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0": {
                             "name": "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0",
@@ -12517,7 +12517,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -12534,7 +12534,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1": {
                             "name": "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1",
@@ -12685,7 +12685,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -12854,7 +12854,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -12873,7 +12873,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -12892,7 +12892,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -12911,7 +12911,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8": {
                             "name": "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8",
@@ -13068,7 +13068,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -13085,7 +13085,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151": {
                             "name": "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151",
@@ -13242,7 +13242,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -13259,7 +13259,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f": {
                             "name": "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f",
@@ -13416,7 +13416,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -13433,7 +13433,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64": {
                             "name": "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64",
@@ -13590,7 +13590,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -13607,7 +13607,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395": {
                             "name": "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395",
@@ -13764,7 +13764,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -13781,7 +13781,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a": {
                             "name": "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a",
@@ -13938,7 +13938,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -13955,7 +13955,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca": {
                             "name": "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca",
@@ -14118,7 +14118,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -14135,7 +14135,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0": {
                             "name": "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0",
@@ -14298,7 +14298,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -14315,7 +14315,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1": {
                             "name": "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1",
@@ -14466,7 +14466,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -14635,7 +14635,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -14654,7 +14654,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -14673,7 +14673,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -14692,7 +14692,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8": {
                             "name": "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8",
@@ -14849,7 +14849,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -14866,7 +14866,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151": {
                             "name": "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151",
@@ -15023,7 +15023,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -15040,7 +15040,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f": {
                             "name": "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f",
@@ -15197,7 +15197,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -15214,7 +15214,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64": {
                             "name": "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64",
@@ -15371,7 +15371,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -15388,7 +15388,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395": {
                             "name": "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395",
@@ -15545,7 +15545,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -15562,7 +15562,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a": {
                             "name": "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a",
@@ -15719,7 +15719,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -15736,7 +15736,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca": {
                             "name": "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca",
@@ -15899,7 +15899,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -15916,7 +15916,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0": {
                             "name": "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0",
@@ -16079,7 +16079,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -16096,7 +16096,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1": {
                             "name": "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1",
@@ -16247,7 +16247,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -16416,7 +16416,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -16435,7 +16435,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -16454,7 +16454,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -16473,7 +16473,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8": {
                             "name": "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8",
@@ -16630,7 +16630,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -16647,7 +16647,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151": {
                             "name": "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151",
@@ -16804,7 +16804,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -16821,7 +16821,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f": {
                             "name": "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f",
@@ -16978,7 +16978,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -16995,7 +16995,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64": {
                             "name": "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64",
@@ -17152,7 +17152,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -17169,7 +17169,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395": {
                             "name": "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395",
@@ -17326,7 +17326,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -17343,7 +17343,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a": {
                             "name": "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a",
@@ -17500,7 +17500,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -17517,7 +17517,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca": {
                             "name": "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca",
@@ -17680,7 +17680,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -17697,7 +17697,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0": {
                             "name": "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0",
@@ -17860,7 +17860,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -17877,7 +17877,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1": {
                             "name": "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1",
@@ -18028,7 +18028,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -18197,7 +18197,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -18216,7 +18216,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -18235,7 +18235,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "universal_self_consistency": {
                             "name": "universal_self_consistency",
@@ -18254,7 +18254,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8": {
                             "name": "refine_query_sampler_0_demos_c23ea778-0990-42e7-a1dd-9abdccf635f8",
@@ -18430,7 +18430,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -18447,7 +18447,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151": {
                             "name": "generate_answer_sampler_0_demos_ee722082-e7c6-4d51-b822-36f260829151",
@@ -18623,7 +18623,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -18640,7 +18640,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f": {
                             "name": "generate_answer_sampler_1_demos_b0196475-e71b-46e4-b09e-b57be3eaf00f",
@@ -18816,7 +18816,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -18833,7 +18833,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64": {
                             "name": "generate_answer_sampler_2_demos_958d5d6f-9799-4391-8e6c-0f1475e4ca64",
@@ -19009,7 +19009,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -19026,7 +19026,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395": {
                             "name": "refine_query_sampler_1_demos_41d676d4-f706-48f2-9327-17cf4fb2c395",
@@ -19202,7 +19202,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -19219,7 +19219,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a": {
                             "name": "refine_query_sampler_2_demos_864d9ef0-983d-4482-84dd-c81bc0f3714a",
@@ -19395,7 +19395,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -19412,7 +19412,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca": {
                             "name": "generate_answer_aggregator_demos_0eb96814-fcc3-48af-ab7c-e9a0223ae0ca",
@@ -19595,7 +19595,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -19612,7 +19612,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0": {
                             "name": "refine_query_aggregator_demos_fc082c7b-194d-4f00-bbde-0741f1b07fa0",
@@ -19795,7 +19795,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",
@@ -19812,7 +19812,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1": {
                             "name": "generate_query_demos_3be91ff6-7e2c-471e-aafc-289ba989b6f1",
@@ -19981,7 +19981,7 @@
                     "options": {
                         "Identity": {
                             "name": "Identity",
-                            "type": "IdentityOption"
+                            "type": "NoChange"
                         },
                         "ZeroShotCoT": {
                             "name": "ZeroShotCoT",

@@ -251,9 +251,8 @@ class OptimizationLayer:
                 new_modules.append(new_module)
         return new_modules, trace_for_next_level
 
-    def create_log_at_proposal(self, trial: optuna.trial.Trial) -> TrialLog:
-        trial_log = TrialLog(params=trial.params, bo_trial_id=trial.number)
-        return trial_log
+    def generate_trial_id(self, trial_number: int) -> str:
+        return self.top_down_info.trace_back + f'_{self.name}_{trial_number}'
 
     def propose(
         self,
@@ -270,7 +269,9 @@ class OptimizationLayer:
                 trial = self.study.ask(self.param_categorical_dist)
             
             logger.info(f"- {self.name} - apply param - Trial {trial.number} params: {trial.params}")
-            trial_log = self.create_log_at_proposal(trial)
+            trial_id_str = self.generate_trial_id(trial.number)
+            trial_log = self.trial_log_cls(params=trial.params, bo_trial_id=trial.number, id=trial_id_str)
+
             self.opt_logs[trial_log.id] = trial_log
             program_copy = copy.deepcopy(ms)
             new_modules, new_trace = self._apply_params(trial.params, program_copy)
@@ -592,11 +593,6 @@ class BottomLevelOptimization(OptimizationLayer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-    def create_log_at_proposal(self, trial: optuna.trial.Trial) -> BottomLevelTrialLog:
-        return BottomLevelTrialLog(
-            params=trial.params, bo_trial_id=trial.number
-        )
-    
     def evaluate(self, log_id, new_top_down_info):
         eval_task = EvalTask.from_top_down_info(new_top_down_info)
         self.opt_logs[log_id].eval_task = eval_task.to_dict()

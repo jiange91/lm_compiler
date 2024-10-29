@@ -5,7 +5,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "code finalize_aggregator_demos_40b1afbc-4224-4d3e-a322-5ab0ad19a4bc": {
                 "name": "code finalize_aggregator_demos_40b1afbc-4224-4d3e-a322-5ab0ad19a4bc",
@@ -163,7 +163,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",
@@ -180,7 +180,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "code completion_sampler_2_demos_013f6038-5caa-4f5e-8c13-d36ebfa4d09b": {
                 "name": "code completion_sampler_2_demos_013f6038-5caa-4f5e-8c13-d36ebfa4d09b",
@@ -326,7 +326,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",
@@ -343,7 +343,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "code finalize_sampler_0_demos_a243891a-bfb3-4cfd-aa7e-6206f577ad94": {
                 "name": "code finalize_sampler_0_demos_a243891a-bfb3-4cfd-aa7e-6206f577ad94",
@@ -495,7 +495,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",
@@ -512,7 +512,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "code completion_sampler_0_demos_6d544184-cabd-40d7-9e08-e0af8b67dc84": {
                 "name": "code completion_sampler_0_demos_6d544184-cabd-40d7-9e08-e0af8b67dc84",
@@ -658,7 +658,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",
@@ -675,7 +675,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "code finalize_sampler_1_demos_1ab9a7a2-a01c-4b1e-9be3-5f4d27a38279": {
                 "name": "code finalize_sampler_1_demos_1ab9a7a2-a01c-4b1e-9be3-5f4d27a38279",
@@ -827,7 +827,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",
@@ -844,7 +844,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "code completion_aggregator_demos_7a7f5a8d-7b0f-416a-bb09-854fe5374879": {
                 "name": "code completion_aggregator_demos_7a7f5a8d-7b0f-416a-bb09-854fe5374879",
@@ -1002,7 +1002,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",
@@ -1019,7 +1019,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "code completion_sampler_1_demos_6741d005-ab66-4003-bd00-91aa88dd2125": {
                 "name": "code completion_sampler_1_demos_6741d005-ab66-4003-bd00-91aa88dd2125",
@@ -1165,7 +1165,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",
@@ -1182,7 +1182,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "code finalize_sampler_2_demos_f224ebda-8044-4f2b-8d1e-e121c7d13858": {
                 "name": "code finalize_sampler_2_demos_f224ebda-8044-4f2b-8d1e-e121c7d13858",
@@ -1334,7 +1334,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",

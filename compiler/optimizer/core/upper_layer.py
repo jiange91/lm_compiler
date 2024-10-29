@@ -187,12 +187,6 @@ class UpperLevelOptimization(OptimizationLayer):
         self.next_level_opt_config = next_level_opt_config
         self.use_SH_allocation = use_SH_allocation
     
-    def create_log_at_proposal(self, trial: optuna.trial.Trial) -> UpperLevelTrialLog:
-        return UpperLevelTrialLog(
-            params=trial.params, bo_trial_id=trial.number
-        )
-        
-    
     def prepare_next_level_tdi(self, new_program, new_trace):
         next_level_info = super().prepare_next_level_tdi(new_program, new_trace)
         # reset opt_config for next level
@@ -245,7 +239,6 @@ class UpperLevelOptimization(OptimizationLayer):
             self.update(trial, eval_results[i], log_id)
             self.opt_logs[log_id].num_next_level_trials = num_inner_trials[i]
             
-    
     def _optimize(self, base_program):
         if not self.use_SH_allocation:
             return super()._optimize(base_program)

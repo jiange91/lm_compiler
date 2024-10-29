@@ -247,7 +247,7 @@ def opt():
         'gpt-4o',
     ]
     reasoning_param = reasoning.LMReasoning(
-        "reasoning", [common.IdentityOption(), ZeroShotCoT(), PlanBefore()]
+        "reasoning", [common.NoChange(), ZeroShotCoT(), PlanBefore()]
     )
 
     model_param = model_selection.LMSelection(

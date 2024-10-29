@@ -5,7 +5,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "Decompose_doc_filter_option_0": {
                 "name": "Decompose_doc_filter_option_0",

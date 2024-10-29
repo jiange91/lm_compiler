@@ -1,6 +1,6 @@
 from abc import ABC, ABCMeta
 import traceback
-from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase, IdentityOption
+from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase, NoChange
 from compiler.IR.llm import LLMPredictor
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, get_inspect_runnable 
 from compiler.IR.program import Workflow
@@ -48,7 +48,7 @@ class LMReasoning(ParamBase):
         )
 
 class ReasoningOptionMeta(ABCMeta):
-    registry: dict[str, type] = {'IdentityOption': IdentityOption}
+    registry: dict[str, type] = {'NoChange': NoChange}
     
     def __new__(cls, name, bases, attrs):
         new_cls = super().__new__(cls, name, bases, attrs)

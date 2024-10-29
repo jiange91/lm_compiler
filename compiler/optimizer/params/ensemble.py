@@ -16,7 +16,7 @@ from compiler.IR.base import Module, StatePool, ModuleStatus
 from compiler.IR.program import Workflow, Input, Output
 from compiler.IR.modules import CodeBox
 from compiler.IR.llm import LLMPredictor, Demonstration
-from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, IdentityOption, AddNewModuleImportInterface
+from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, NoChange, AddNewModuleImportInterface
 from compiler.optimizer.decompose import LMTaskDecompose, StructuredAgentSystem
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, get_inspect_runnable, var_2_str
 from compiler.optimizer.params.utils import dump_params, load_params
@@ -48,7 +48,7 @@ class ModuleEnsemble(ParamBase):
         )
  
 class EnsembleOptionMeta(ABCMeta):
-    registry: dict[str, type] = {'IdentityOption': IdentityOption}
+    registry: dict[str, type] = {'NoChange': NoChange}
     
     def __new__(cls, name, bases, attrs):
         new_cls = super().__new__(cls, name, bases, attrs)

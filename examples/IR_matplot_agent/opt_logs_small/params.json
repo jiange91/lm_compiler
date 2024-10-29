@@ -5,7 +5,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "initial code generation_demos_1a71d374-5e80-4fa1-bb31-972d80666545": {
                 "name": "initial code generation_demos_1a71d374-5e80-4fa1-bb31-972d80666545",
@@ -135,7 +135,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",
@@ -155,7 +155,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "query expansion_demos_016d771b-5c75-4c2f-a33b-7cde9be3cca7": {
                 "name": "query expansion_demos_016d771b-5c75-4c2f-a33b-7cde9be3cca7",
@@ -277,7 +277,7 @@
         "options": {
             "Identity": {
                 "name": "Identity",
-                "type": "IdentityOption"
+                "type": "NoChange"
             },
             "ZeroShotCoT": {
                 "name": "ZeroShotCoT",

@@ -58,9 +58,9 @@ class OptionBase(ABC):
     def obtain_cost_indicator(self) -> float:
         return self.cost_indicator
 
-class IdentityOption(OptionBase):
+class NoChange(OptionBase):
     def __init__(self):
-        super().__init__('Identity')
+        super().__init__('NoChange')
     
     def apply(self, module: Module) -> Module:
         return module

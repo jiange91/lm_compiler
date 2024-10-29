@@ -12,7 +12,7 @@ dspy.configure(rm=colbert)
 
 import copy
 from compiler.optimizer.params.reasoning import ZeroShotCoT
-from compiler.optimizer.params.common import IdentityOption
+from compiler.optimizer.params.common import NoChange
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsage
 from compiler.optimizer import register_opt_program_entry, register_opt_score_fn

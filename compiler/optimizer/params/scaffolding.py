@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 from compiler.IR.base import Module
 from compiler.IR.program import Workflow
 from compiler.IR.llm import LLMPredictor, Demonstration
-from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, IdentityOption, AddNewModuleImportInterface
+from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, NoChange, AddNewModuleImportInterface
 from compiler.optimizer.decompose import LMTaskDecompose, StructuredAgentSystem
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, get_inspect_runnable
 from compiler.optimizer.params.utils import dump_params, load_params
@@ -35,7 +35,7 @@ class LMScaffolding(ParamBase, AddNewModuleImportInterface):
     ):
         self.log_dir = log_dir
         if default_identity:
-            options = [IdentityOption()]
+            options = [NoChange()]
         else:
             options = []
         for i, new_sys in enumerate(new_agent_systems):

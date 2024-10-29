@@ -31,16 +31,17 @@ Much like other frameworks, we endorse the separation of the LLM's signature fro
 
 With Cognify, the above code looks like this:
 ```python
-from cognify.llm.model import CogLM
-from cognify.llm.prompt import Input
+from cognify.llm import InputVar, CogLM
 
 system_prompt = "You are a helpful AI assistant built to answer questions."
 model_kwargs = {'model': 'gpt-4o-mini', 'temperature': 0.0, 'max_tokens': 100}
 
 # define cognify agent
-qa_question = Input(name="question")
-cog_agent = CogLM(system_prompt=system_prompt,
-                  input_variables=[qa_question])
+qa_question = InputVar(name="question")
+cog_agent = CogLM(agent_name="qa_agent",
+  system_prompt=system_prompt,
+  input_variables=[qa_question]
+)
 
 def call_qa_llm(question):
     messages = [
@@ -53,7 +54,7 @@ def call_qa_llm(question):
         "content": f"{question}",
       }
     ]
-    return cog_agent(
+    return cog_agent.forward(
       messages, 
       model_kwargs, 
       inputs={qa_question: question}
@@ -62,10 +63,12 @@ def call_qa_llm(question):
 
 As you can see, most of the original code is untouched. Our optimization techniques function over a lightweight wrapper on top of the endpoint. Under the hood, we use `litellm` to invoke the user's request. 
 
+
+
 ## Structured Output
 
 We also support structured output. Original code:
-```diff
+```python
 import openai
 from pydantic import BaseModel
 
@@ -74,12 +77,7 @@ system_prompt = "You are a helpful AI assistant built to answer questions."
 class Response(BaseModel):
   answer: str
 
-+qa_question = Input(name="question")
-+struct_cog_agent = StructuredCogLM(
-+  system_prompt=system_prompt,
-+  input_variables=[qa_question],
-+  output_format=OutputFormat(schema=Response)
-+)
+model_kwargs = {'model': 'gpt-4o-mini', 'temperature': 0.0, 'max_tokens': 100}
 
 def call_qa_llm(question):
   messages = [
@@ -94,19 +92,16 @@ def call_qa_llm(question):
   ]
 
 - return openai.chat.completions.parse(
-+ return struct_cog_agent(
     messages=messages,
-    model="gpt-4o-mini",
--   response_format=Response
-+   inputs={qa_question: question}
+    response_format=Response,
+    **model_kwargs
   )
 ```
 
 Ours:
 ```python
-from cognify.llm.model import StructuredCogLM
-from cognify.llm.prompt import Input
-from cognify.llm.output import OutputFormat
+from cognify.llm import InputVar, StructuredCogLM, OutputFormat
+from pydantic import BaseModel
 
 system_prompt = "You are a helpful AI assistant built to answer questions."
 
@@ -114,8 +109,9 @@ class Response(BaseModel):
   answer: str
 
 # define structured cognify agent
-qa_question = Input(name="question")
+qa_question = InputVar(name="question")
 struct_cog_agent = StructuredCogLM(
+  agent_name="qa_agent",
   system_prompt=system_prompt,
   input_variables=[qa_question],
   output_format=OutputFormat(schema=Response)
@@ -133,9 +129,9 @@ def call_qa_llm(question):
     }
   ]
 
-  return struct_cog_agent(
+  return struct_cog_agent.forward(
     messages, 
-    {"model": "gpt-4o-mini"}, 
     inputs={qa_question: question}
+    model_kwargs, 
   )
 ```

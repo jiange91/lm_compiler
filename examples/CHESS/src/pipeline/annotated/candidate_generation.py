@@ -6,6 +6,8 @@ sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '
 from typing import Any
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 from compiler.IR.llm import Demonstration, LMConfig
+
+from compiler.llm import *
 from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
 from llm.parsers import SQLGenerationOutput, RawSqlOutputParser
 from compiler.optimizer.params import ensemble

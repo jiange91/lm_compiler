@@ -24,8 +24,8 @@ class RunnableCogLM(Runnable):
   
   """
   Connector currently supports the following units to construct a `CogLM`:
-  - BasePromptTemplate | BaseChatOpenAI
-  - BasePromptTemplate | BaseChatOpenAI | BaseOutputParser
+  - BaseChatPromptTemplate | BaseChatOpenAI
+  - BaseChatPromptTemplate | BaseChatOpenAI | BaseOutputParser
   These indepedent units should be split out of more complex chains.
   """
   def cognify_runnable(self, runnable: Runnable, name: str = None) -> CogLM:

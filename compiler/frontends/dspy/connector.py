@@ -6,6 +6,7 @@ import uuid
 from pydantic import BaseModel, create_model
 from typing import Any, Dict, Type
 from litellm import ModelResponse
+import warnings
 
 APICompatibleMessage = Dict[str, str] # {"role": "...", "content": "..."}
 
@@ -18,22 +19,34 @@ Connector currently supports `Predict` with any signature and strips away all re
 This is done because we handle reasoning via cogs for the optimizer instead of in a templated format. 
 """
 class PredictCogLM(dspy.Module):
-    def __init__(self, dspy_predictor: dspy.Predict, name: str = None):
+    def __init__(self, dspy_predictor: dspy.Module, name: str = None):
         super().__init__()
         self.chat_adapter: ChatAdapter = ChatAdapter()
-        self.predictor: dspy.Predict = dspy_predictor
+        self.predictor: dspy.Module = dspy_predictor
+        self.ignore_module = False
         self.cog_lm: StructuredCogLM = self.cognify_predictor(dspy_predictor)
         self.output_schema = None
 
-    def cognify_predictor(self, dspy_predictor: dspy.Predict, name: str = None) -> StructuredCogLM:
+    def cognify_predictor(self, dspy_predictor: dspy.Module, name: str = None) -> StructuredCogLM:
+        if not isinstance(dspy_predictor, dspy.Predict):
+            warnings.warn("Original module is not a `Predict`. This may result in lossy translation", UserWarning)
+        
+        if isinstance(dspy_predictor, dspy.Retrieve):
+            self.ignore_module = True
+            return None
+            
         # initialize cog lm
         agent_name = name or str(uuid.uuid4())
         system_prompt = prepare_instructions(dspy_predictor.extended_signature)
         input_names = list(dspy_predictor.extended_signature.input_fields.keys())
         input_variables = [InputVar(name=name) for name in input_names]
 
-        output_fields = {k: v.annotation for k, v in dspy_predictor.extended_signature.output_fields.items()}
-        self.output_schema = generate_pydantic_model("OutputData", output_fields)
+        output_fields = dspy_predictor.extended_signature.output_fields
+        if "reasoning" in output_fields:
+            del output_fields["reasoning"]
+            warnings.warn("Original module contained reasoning. This will be stripped. Add reasoning to the optimizer instead", UserWarning)
+        output_fields_for_schema = {k: v.annotation for k, v in output_fields.items()}
+        self.output_schema = generate_pydantic_model("OutputData", output_fields_for_schema)
 
         # lm config
         print(dspy.settings)
@@ -49,9 +62,13 @@ class PredictCogLM(dspy.Module):
                                 lm_config=lm_config)
 
     def forward(self, **kwargs):
-        inputs: Dict[InputVar, str] = {k: kwargs[k.name] for k in self.cog_lm.input_variables}
-        messages: APICompatibleMessage = self.chat_adapter.format(self.predictor.extended_signature,
-                                                                self.predictor.demos,
-                                                                inputs)
-        response: ModelResponse = self.cog_lm.forward(messages, inputs) # model kwargs already set
-        return self.cog_lm.output_format.schema.model_validate_json(response)
+        if self.ignore_module:
+            return self.predictor(**kwargs)
+        else:
+            inputs: Dict[InputVar, str] = {k: kwargs[k.name] for k in self.cog_lm.input_variables}
+            messages: APICompatibleMessage = self.chat_adapter.format(self.predictor.extended_signature,
+                                                                    self.predictor.demos,
+                                                                    inputs)
+            response: ModelResponse = self.cog_lm.forward(messages, inputs) # model kwargs already set
+            kwargs: dict = self.cog_lm.output_format.schema.model_validate_json(response).model_dump()
+            return dspy.Prediction(**kwargs)

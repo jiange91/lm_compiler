@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Dict, Optional, override
-from compiler.llm.prompt import InputVar, CompletionMessage, Demonstration, Content, TextContent, FilledInputVar
+from compiler.llm.prompt import InputVar, CompletionMessage, Demonstration, Content, TextContent, ImageContent, FilledInputVar, get_image_content_from_upload
 from compiler.llm.output import OutputLabel, OutputFormat
 import litellm
 from litellm import completion, get_supported_openai_params, ModelResponse
@@ -25,7 +25,7 @@ def _local_forward(_local_lm: 'CogLM', messages: List[APICompatibleMessage], inp
                                                                  cost=response._hidden_params["response_cost"], 
                                                                  usage=response.usage) for response in responses])
   else:
-    response: ModelResponse = _local_lm._forward(messages, model_kwargs)
+    response: ModelResponse = _local_lm._forward(messages, inputs, model_kwargs)
     _local_lm.response_metadata_history.append(ResponseMetadata(model=response.model, 
                                                                 cost=response._hidden_params["response_cost"], 
                                                                 usage=response.usage))
@@ -84,7 +84,9 @@ class CogLM(Module):
     self.steps: List[StepInfo] = []
     self.reasoning = None
     self.rationale = None
-    self.lm_config = lm_config
+
+    # TODO: improve lm configuration handling between agents. currently just unique config for each agent
+    self.lm_config = copy.deepcopy(lm_config)
 
     setattr(_thread_local_chain, agent_name, self)
 
@@ -222,16 +224,42 @@ class CogLM(Module):
       self.steps.extend(_local_self.steps)
       self.response_metadata_history.extend(_local_self.response_metadata_history)
 
-  def __call__(self, messages: List[APICompatibleMessage], inputs: Dict[InputVar, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
+  def __call__(self, messages: List[APICompatibleMessage] = [], inputs: Dict[InputVar, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
     return self.forward(messages, inputs, model_kwargs)
 
-  def forward(self, messages: List[APICompatibleMessage], inputs: Dict[InputVar, str], model_kwargs: Optional[dict] = None) -> ModelResponse:
+  def forward(self, messages: List[APICompatibleMessage] = [], inputs: Dict[InputVar, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
     _self = self.get_thread_local_chain()
     result = _local_forward(_self, messages, inputs, model_kwargs)
     self.aggregate_thread_local_meta(_self)
     return result
 
-  def _forward(self, messages: List[APICompatibleMessage], model_kwargs: Optional[dict] = None) -> ModelResponse:
+  def _get_input_messages(self, inputs: Dict[InputVar, str]) -> List[APICompatibleMessage]:
+    assert set(inputs.keys()) == set(self.input_variables), "Input variables do not match"
+
+    input_names = ", ".join(f"`{input_var.name}`" for input_var in inputs)
+    messages = [CompletionMessage(role="user", 
+                                  content=[TextContent(text=f"Given {input_names}, please strictly provide `{self.get_output_label_name()}`")])]
+    
+    input_fields = []
+    for input_var in self.input_variables:
+      if input_var.image_params:
+        if input_var.image_params.is_image_upload:
+          image_content = get_image_content_from_upload(inputs[input_var], input_var.image_params.file_type)
+        else:
+          image_content = ImageContent(image_url=inputs[input_var])
+        messages.append(CompletionMessage(role="user", 
+                                          content=[image_content]))
+      else:
+        input_fields.append(f"{input_var.name}: {inputs[input_var]}")
+    messages.append(CompletionMessage(role="user", 
+                                      content=[TextContent(text="\n".join(input_fields))]))
+
+
+  def _forward(self, messages: List[APICompatibleMessage] = [], inputs: Dict[InputVar, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
+    assert messages or inputs, "Either messages or inputs must be provided"
+    if not messages:
+      messages = self._get_input_messages(inputs)
+    
     if not model_kwargs:
       assert self.lm_config, "Model kwargs must be provided if LM config is not set at initialization"
     

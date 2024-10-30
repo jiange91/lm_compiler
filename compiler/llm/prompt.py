@@ -5,8 +5,8 @@ import json
 
 @dataclass
 class ImageParams:
-  is_image_upload: bool
-  file_type: Literal['jpeg', 'png']
+  file_type: Literal['jpeg', 'png'] = 'png'
+  is_image_upload: bool = True
 
 @dataclass
 class InputVar:
@@ -27,12 +27,9 @@ class TextContent:
 class ImageContent:
   image_url: dict
   type: Literal["image_url"] = "image_url"
-  
-  def __init__(self, image_link: str):
-    self.image_url = {"url": image_link}
 
-  def __init__(self, image_upload: str, file_type: Literal['jpeg', 'png']):
-    self.image_url = {"url": f"data:image/{file_type};base64,{image_upload}"}
+def get_image_content_from_upload(image_upload: str, file_type: Literal['jpeg', 'png']) -> ImageContent:
+  return ImageContent({"url": f"data:image/{file_type};base64,{image_upload}"})
 
 Content = TextContent | ImageContent
 
@@ -60,9 +57,9 @@ class Demonstration:
         demo_content.append(TextContent(text=demo_string))
         demo_string = ""
         if input_variable.image_params.is_image_upload:
-          demo_content.append(ImageContent(image_upload=filled.value, file_type=input_variable.image_params.file_type))
+          demo_content.append(get_image_content_from_upload(image_upload=filled.value, file_type=input_variable.image_params.file_type))
         else:
-          demo_content.append(ImageContent(image_link=filled.value))
+          demo_content.append(ImageContent(image_url=filled.value))
     if self.reasoning is not None:
       demo_string += f'**Reasoning:**\n{self.reasoning}\n'
     else:
@@ -98,8 +95,10 @@ class CompletionMessage:
   name: str = None
 
   def to_api(self) -> Dict[str, str]:
-    return {
+    msg = {
       'role': self.role,
-      'name': self.name,
       'content': [content.__dict__ for content in self.content]
     }
+    if self.name:
+      msg['name'] = self.name
+    return msg

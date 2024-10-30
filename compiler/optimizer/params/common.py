@@ -288,7 +288,7 @@ class DynamicParamBase(ParamBase, ABC):
         self.custom_clean()
         self.options = {
             name: option for name, option in self.options.items() 
-            if option.name == 'Identity'
+            if option.name == 'NoChange'
         }
     
     @abstractmethod

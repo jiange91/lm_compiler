@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List, Dict, Literal, Optional
 import uuid
+import json
 
 @dataclass
 class ImageParams:
@@ -69,6 +70,26 @@ class Demonstration:
     demo_string += f'**Answer:**\n{self.output}'
     demo_content.append(TextContent(text=demo_string))
     return demo_content
+  
+  def __repr__(self):
+    """Naive string representation of the demonstration
+      
+    NOTE: This is not used for adding demo to the actual user message. check `add_demos_to_prompt` instead.
+    
+    Demonstration designer can have their own way to present the demonstration 
+    especially when the input contains other modalities
+    """
+
+    def truncate(text, max_length=200):
+      """Truncate text if it exceeds max_length, appending '...' at the end."""
+      return text if len(text) <= max_length else text[:max_length] + "..."
+      
+    inputs_truncated = {filled_input_var.input_variable.name: truncate(filled_input_var.value) for filled_input_var in self.inputs}
+    input_str = '**Input**\n' + json.dumps(inputs_truncated, indent=4)
+    if self.reasoning:
+      input_str += f"\n\n**Reasoning**\n{truncate(self.reasoning)}"
+    demo_str = f"{input_str}\n\n**Response**\n{truncate(self.output)}"
+    return demo_str
 
 @dataclass
 class CompletionMessage:

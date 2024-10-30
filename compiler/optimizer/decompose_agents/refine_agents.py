@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Dict, List
-from compiler.llm import Input, CogLM, StructuredCogLM, OutputFormat
+from compiler.llm import CogLM, StructuredCogLM, OutputFormat
 from .prompts import decompose_refine_system, mid_level_system_format_instructions
 
 # ================== Refine New Agent Workflow ==================

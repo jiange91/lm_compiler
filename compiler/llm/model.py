@@ -222,6 +222,9 @@ class CogLM(Module):
       self.steps.extend(_local_self.steps)
       self.response_metadata_history.extend(_local_self.response_metadata_history)
 
+  def __call__(self, messages: List[APICompatibleMessage], inputs: Dict[InputVar, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
+    return self.forward(messages, inputs, model_kwargs)
+
   def forward(self, messages: List[APICompatibleMessage], inputs: Dict[InputVar, str], model_kwargs: Optional[dict] = None) -> ModelResponse:
     _self = self.get_thread_local_chain()
     result = _local_forward(_self, messages, inputs, model_kwargs)

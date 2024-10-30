@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import List, Dict, Union
-from compiler.llm import Input, CogLM, StructuredCogLM, OutputFormat
+from compiler.llm import CogLM, StructuredCogLM, OutputFormat
 from compiler.optimizer.decompose_agents import NewAgentSystem
 from .prompts import finalize_new_agents_system
 
@@ -34,7 +34,7 @@ class StructuredAgentSystem(BaseModel):
     )
 
 def finalize_new_agents_kernel(old_info: str, mid_level_desc: NewAgentSystem):
-    finalize_new_agents_system = CogLM("finalize", finalize_new_agents_system, input_variables=[])
+    finalize_new_agents = CogLM("finalize", finalize_new_agents_system, input_variables=[])
     messages = [{"role": "user", "content": f"""
 Now, this is the real task for you.
 
@@ -47,7 +47,7 @@ Now, this is the real task for you.
 ## Your answer:
 """}]
     model_kwargs = {"model": "gpt-4o", "temperature": 0.0}
-    new_interaction: str = finalize_new_agents_system(messages, model_kwargs, inputs={})
+    new_interaction: str = finalize_new_agents(messages, model_kwargs, inputs={})
 
     reformatter = StructuredCogLM("finalize_struct", finalize_new_agents_system, input_variables=[], 
                                   output_format=OutputFormat(schema=StructuredAgentSystem,

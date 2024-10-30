@@ -1,25 +1,15 @@
 from abc import ABC, ABCMeta
+from typing import List, Optional, Union
 import traceback
 from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase, NoChange
-from compiler.IR.llm import LLMPredictor
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, get_inspect_runnable 
-from compiler.IR.program import Workflow
-from langchain_core.messages import HumanMessage, AIMessage
-from langchain_core.runnables.history import RunnableWithMessageHistory
+from compiler.llm import CogLM, StructuredCogLM, StepInfo, InputVar, OutputFormat, OutputLabel
+from compiler.llm.model import APICompatibleMessage
+from litellm import ModelResponse, completion
 import copy
-import types
-from langchain_openai import ChatOpenAI
-from langchain_together import ChatTogether
-from langchain_core.messages import BaseMessage
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.messages.utils import get_buffer_string
-from langchain_core.runnables import chain
-from typing import Type, Union
 
 import logging
 
 logger = logging.getLogger(__name__)
-
 
 class LMReasoning(ParamBase):
     level = ParamLevel.NODE
@@ -55,141 +45,75 @@ class ReasoningOptionMeta(ABCMeta):
         cls.registry[name] = new_cls
         return new_cls
 
-def format_rationale(rationale: list[BaseMessage]) -> list[BaseMessage]:
-    base = HumanMessage("Here is the reasoning steps:\n")
-    return [base] + rationale
-
-@chain
-def pass_msgs(msgs: list[BaseMessage]):
-    return msgs
-
 class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
     
     @classmethod
-    def direct_apply(cls, lm_module: LangChainLM):
+    def direct_apply(cls, lm_module: CogLM):
         reasoning = cls()
         reasoning.apply(lm_module)
         return reasoning
 
     def reasoning_step(
         self, 
-        chat_messages: list[BaseMessage], 
-        lm: ChatOpenAI, 
-    ) -> list[BaseMessage]:
+        model: str,
+        chat_messages: List[APICompatibleMessage],
+        model_kwargs: dict
+    ) -> List[ModelResponse]:
         """Produce reasoning steps for the given chat prompt messages
         """
         raise NotImplementedError
 
-    def get_invoke_routine(self, lm_module: LangChainLM):
+    def get_all_model_responses(self):
+        return self.model_responses
+
+    def aggregate_reasoning_steps(self, responses: List[ModelResponse]) -> str:
+        agg_messages = []
+        for response in responses:
+            agg_messages.append(f"\n: {response.choices[0].message.content}")
+        return "\n".join(agg_messages)
+
+    def forward(self, lm_module: CogLM, messages: List[APICompatibleMessage], model_kwargs: Optional[dict] = None) -> List[ModelResponse]:
         """
         If the orignal output has certain format, applying additional reasoning steps will break down
         it into two phases, first one allows free generation along with reasoning steps, and the second
         one will the formatting step
-        
-        this is the helper functor to facilitate this process
         """
-        old_semantic = lm_module.semantic
-        # remove format instruction
-        following_messages = old_semantic.following_messages.copy() if old_semantic.message_template_predefined else []
-        new_semantic = LangChainSemantic(
-            system_prompt=old_semantic.system_prompt,
-            inputs=old_semantic.inputs,
-            output_format=old_semantic.outputs[0],
-            need_output_type_hint=False,
-            output_format_instructions=None,
-            img_input_idices=old_semantic.img_input_idices,
-            enable_memory=old_semantic.enable_memory,
-            input_key_in_mem=old_semantic.input_key_in_mem,
-            following_messages=following_messages,
-            demos=old_semantic.demos,
-        )
-        new_semantic.build_prompt_template(strict_output=False)
-        
-        def new_invocation_routine(lm_module: LangChainLM):
-            def get_answer(inputs: dict):
-                chat_messages = new_semantic.chat_prompt_template.format_messages(**inputs)
-                chat_messages += [
-                    HumanMessage("Don't give your final response to the instruction directly. We can start with some reasoning first.\n")
-                ]
-                
-                # get reasoning steps, avoid directly modifying the original chat_messages
-                rationale = self.reasoning_step(chat_messages.copy(), lm_module.lm)
-                
-                # NOTE: this will be cleared after current invocation in compiler/IR/llm.py
-                #       incase a module is reused
-                rationale_str = get_buffer_string(rationale, human_prefix="\n", ai_prefix="\n")
-                lm_module.rationale = rationale_str
-                
-                # prepare output propmt
-                chat_messages.extend(rationale)
-                post_reasoning_routine = pass_msgs | get_inspect_runnable(f'-- {lm_module.name} reasoning steps --') | lm_module.lm | get_inspect_runnable(f'-- {lm_module.name} organize output --')
-                
-                output_vars = ', '.join([f'{{{ovar}}}' for ovar in old_semantic.get_agent_outputs()])
-                if old_semantic.output_type_hint or old_semantic.output_format_instructions:
-                    chat_messages.extend([
-                        HumanMessage(f"Based on the reasoning, now please form `{old_semantic.outputs[0]}` as your final response, according to the following instructions:\n"),
-                        old_semantic.get_output_format_spec(),
-                    ])
-                    if old_semantic.output_format:
-                        post_reasoning_routine = post_reasoning_routine | old_semantic.parser
-                        try:
-                            # print("if old_semantic.output_format")
-                            result = post_reasoning_routine.invoke(chat_messages)
-                        except Exception as e:
-                            print(e)
-                            print("ERR IN new_invocation_routine if old_semantic.output_format")
-                            print(chat_messages)
-                            print(post_reasoning_routine)
-                        result = old_semantic.output_format.model_validate(result)
-                        return {old_semantic.get_agent_outputs()[0]: result}
-                    else:
-                        try:
-                            # print("else old_semantic.output_format")
-                            result = post_reasoning_routine.invoke(chat_messages).content
-                        except Exception as e:
-                            print(e)
-                            print("ERR IN new_invocation_routine else not old_semantic.output_format")
-                            print(chat_messages)
-                            print(post_reasoning_routine)
-                        return {old_semantic.get_agent_outputs()[0]: result}
-                else:
-                    assert len(old_semantic.get_agent_outputs()) == 1, "No formatted agent only has one output"
-                    chat_messages.append(
-                        HumanMessage(f"Based on the reasoning, now please form `{old_semantic.outputs[0]}` as your final response.")
-                    )
-                    try:
-                        # print("not old_semantic.output_type_hint")
-                        result = post_reasoning_routine.invoke(chat_messages).content
-                    except Exception as e:
-                        print(e)
-                        print("ERR IN new_invocation_routine else not old_semantic.output_type_hint")
-                        print(chat_messages)
-                        print(post_reasoning_routine)
-                    return {old_semantic.get_agent_outputs()[0]: result}
-            
-            inputs_str = ', '.join(new_semantic.inputs)
-            invoke_arg_dict_str = '{' + ', '.join(
-                    [f'"{input}": {input}' for input in new_semantic.inputs] 
-                ) + '}'
-            new_kernel_str = f"""
-def langchain_lm_kernel({inputs_str}):
-    answer = get_answer({invoke_arg_dict_str})
-    return answer
-            """
-            lm_module.kernel_str = new_kernel_str
-            func_obj = compile(new_kernel_str, '<string>', 'exec')
-            local_name_space = {}
-            exec(func_obj, 
-                {
-                    'get_answer': get_answer, 
-                }, local_name_space)
-            return local_name_space['langchain_lm_kernel']
-        return new_invocation_routine(lm_module)
+        self.model_responses = []
+
+        if not model_kwargs:
+            assert lm_module.lm_config, "Model kwargs must be provided if LM config is not set at initialization"
+        full_kwargs = model_kwargs or lm_module.lm_config.get_model_kwargs()
+        model: str = full_kwargs.pop("model")
+        responses: List[ModelResponse] = []
+
+        messages.append({"role": "user", "content": "Don't give your final response to the instruction directly. We can start with some reasoning first.\n"})
+        reasoning_step_responses: List[ModelResponse] = self.reasoning_step(copy.deepcopy(messages))
+        responses.extend(self.get_all_model_responses())
+        rationale = self.aggregate_reasoning_steps(reasoning_step_responses)
+        lm_module.rationale = rationale
+
+        messages.append({"role": "assistant", "content": rationale})
+        if lm_module.contains_custom_format_instructions():
+            messages.append({"role": "user", "content": f"Based on the reasoning, now please only give {lm_module.get_output_label_name()} as your final response, according to the following instructions:\n{lm_module.get_custom_format_instructions_if_any()}"})
+        else:
+            messages.append({"role": "user", "content": f"Based on the reasoning, now please form {lm_module.get_output_label_name()} as your final response."})
+              
+        full_messages = [lm_module.system_message.to_api()] + messages
+        if isinstance(lm_module, StructuredCogLM):
+            response = completion(model, 
+                                full_messages, 
+                                response_format=lm_module.output_format.schema, 
+                                **full_kwargs)
+            responses.append(response)
+        else:
+            response = completion(model, 
+                                full_messages,
+                                **full_kwargs)
+            responses.append(response)
+        return responses
     
-    def apply(self, lm_module: LangChainLM):
-        # lm_module.get_invoke_routine = types.MethodType(new_invocation_routine, lm_module)
+    def apply(self, lm_module: CogLM):
         lm_module.reasoning = self
-        lm_module.lm = None # to trigger reset() incase you forget
         return lm_module
 
     @classmethod
@@ -215,21 +139,13 @@ class ZeroShotCoT(ReasonThenFormat):
         
     def reasoning_step(
         self, 
-        chat_messages: list[BaseMessage], 
-        lm: ChatOpenAI | ChatTogether, 
-    ) -> list[BaseMessage]:
-        h = HumanMessage("Let's solve this problem step by step before giving the final response.\n")
-        chat_messages.append(h)
-        try:
-            # print("zero shot reasoning step")
-            result = lm.invoke(chat_messages)
-            logger.debug(f"Zero-shot CoT in module {lm.name}, reasoning: {result.content}")
-            return [h, result]
-        except Exception as e:
-            print(f"ERR IN zero-shot reasoning step {e}")
-            print(e)
-            traceback.print_exc()
-            raise
+        model: str,
+        chat_messages: List[APICompatibleMessage],
+        model_kwargs: dict
+    ) -> List[ModelResponse]:
+        chat_messages.append({"role": "user", "content": "Let's solve this problem step by step before giving the final response\n"})
+        response = completion(model, chat_messages, **model_kwargs)
+        return [response]
         
 
 class PlanBefore(ReasonThenFormat):
@@ -251,18 +167,11 @@ class PlanBefore(ReasonThenFormat):
     
     def reasoning_step(
         self, 
-        chat_messages: list[BaseMessage], 
-        lm: ChatOpenAI, 
-    ) -> list[BaseMessage]:
+        model: str,
+        chat_messages: List[APICompatibleMessage],
+        model_kwargs: dict
+    ) -> List[ModelResponse]:
         # TODO: make this a workflow and parallelize the reasoning steps
-        h = HumanMessage("Let's first break down the task into several simpler sub-tasks that each covers different aspect of the original task. Clearly state each sub-question and provide your response to each one of them.")
-        chat_messages.append(h)
-        try:
-            sub_solutions = lm.invoke(chat_messages)
-            logger.debug(f"PlanBefore in module {lm.name}, reasoning: {sub_solutions.content}")
-            return [h, sub_solutions]
-        except Exception as e:
-            print(f"ERR IN zero-shot reasoning step {e}")
-            print(e)
-            traceback.print_exc()
-            raise
+        chat_messages.append({"role": "user", "content": "Let's first break down the task into several simpler sub-tasks that each covers different aspect of the original task. Clearly state each sub-question and provide your response to each one of them."})
+        response = completion(model, chat_messages, **model_kwargs)
+        return [response]

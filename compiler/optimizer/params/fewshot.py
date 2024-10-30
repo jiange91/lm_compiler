@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 from compiler.IR.base import Module
 from compiler.IR.program import Workflow
-from compiler.IR.llm import LLMPredictor, Demonstration
+from compiler.llm import CogLM, Demonstration
 from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, NoChange
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from compiler.optimizer.params.utils import dump_params, load_params
@@ -274,9 +274,9 @@ class DemoOption(OptionBase):
     def _get_cost_indicator(self):
         return len(self.demos) + 1
     
-    def apply(self, lm_module: LLMPredictor):
-        lm_module.semantic.set_demos(self.demos)
-        lm_module.reset() # to trigger prompt reconstruction
+    def apply(self, lm_module: CogLM):
+        lm_module.add_demos(self.demos)
+        lm_module.reset()
         return lm_module
     
     def to_dict(self):

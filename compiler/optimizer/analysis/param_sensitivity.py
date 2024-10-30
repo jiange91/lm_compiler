@@ -1,19 +1,13 @@
 import os
-import sys
 import json
-from typing import Union, Optional, Any, Tuple, Iterable, Callable, Type
+from typing import Optional, Type
 import copy
 import logging
-import numpy as np
-import itertools
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, Future
 
-from compiler.IR.program import Workflow, Module, StatePool
-from compiler.IR.llm import LMConfig, LLMPredictor
-from compiler.optimizer.params.common import ParamBase, OptionBase
-from compiler.langchain_bridge.interface import LangChainLM
-from compiler.optimizer.evaluation.metric import MetricBase
+from compiler.IR.program import Module
+from compiler.optimizer.params.common import ParamBase
 from compiler.optimizer.evaluation.evaluator import EvaluatorPlugin, EvalTask, EvaluationResult
 
 logger = logging.getLogger(__name__)
@@ -110,12 +104,12 @@ class SensitivityAnalyzer:
             json.dump(overall_sensitive, open(log_path, 'w+'), indent=4)
         
         # module_name -> (score_sensitivity, price_sensitivity)
-        m_2_sensitivity: dict[str, tuple[float, float]] = {}
+        m_to_sensitivity: dict[str, tuple[float, float]] = {}
         for m_name, score in s_m_score:
-            m_2_sensitivity[m_name] = (score, m_price_sensitivity[m_name])
+            m_to_sensitivity[m_name] = (score, m_price_sensitivity[m_name])
         logger.info(f"Most Sensitive modules by score: {s_m_score[0]}")
         logger.info(f"Most Sensitive modules by price: {s_m_price[0]}")
-        return m_2_sensitivity
+        return m_to_sensitivity
     
     def spawn_tasks(self) -> list[tuple[str, EvalTask]]:
         """generate tasks for sensitivity analysis
@@ -128,19 +122,19 @@ class SensitivityAnalyzer:
         
         # create base proposal with all target param set to default option
         if not self.eval_task.aggregated_proposals:
-            module_2_params = {}
-            base_aggregated_proposals = {f'{self.target_param_type.__name__}_sensitivity_layer': module_2_params}
+            module_to_params = {}
+            base_aggregated_proposals = {f'{self.target_param_type.__name__}_sensitivity_layer': module_to_params}
             schema = self.eval_task.get_program_schema()
             target_modules = Module.all_of_type(schema.opt_target_modules, self.module_type)
             for m in target_modules:
-                module_2_params[m.name] = [(self.try_options.name, self.try_options.get_default_option().name)]
+                module_to_params[m.name] = [(self.try_options.name, self.try_options.get_default_option().name)]
                 sen_param = copy.deepcopy(self.try_options)
                 sen_param.module_name = m.name
                 param_pool[sen_param.hash] = sen_param
         else:
             base_aggregated_proposals = copy.deepcopy(self.eval_task.aggregated_proposals)
-            for layer_name, m_2_proposals in base_aggregated_proposals.items():
-                for module_name, proposals in m_2_proposals.items():
+            for layer_name, m_to_proposals in base_aggregated_proposals.items():
+                for module_name, proposals in m_to_proposals.items():
                     for i, (param_name, option_name) in enumerate(proposals):
                         param_hash = ParamBase.chash(module_name, param_name)
                         param = param_pool[param_hash]
@@ -161,8 +155,8 @@ class SensitivityAnalyzer:
         )
         
         # create sensitivity tasks
-        for layer_name, m_2_proposals in base_aggregated_proposals.items():
-            for module_name, proposals in m_2_proposals.items():
+        for layer_name, m_to_proposals in base_aggregated_proposals.items():
+            for module_name, proposals in m_to_proposals.items():
                 for i, (param_name, option_name) in enumerate(proposals):
                     param_hash = ParamBase.chash(module_name, param_name)
                     param = param_pool[param_hash]

@@ -2,8 +2,8 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', '..', '..', '..'))
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
-from compiler.IR.llm import Demonstration
+from compiler.llm import CogLM, InputVar, OutputLabel
+from compiler.frontends.langchain.connector import as_runnable
 from llm.parsers import SQLRevisionOutput, RawSqlOutputParser
 from langchain_core.runnables import chain
 
@@ -59,14 +59,11 @@ Please only provide a valid SQL query as your answer. Do not include any additio
 
 
 
-semantic = LangChainSemantic(
-    system_prompt=system_prompt,
-    inputs=inputs,
-    output_format=output_format,
-    output_format_instructions=output_format_instructions,
-)
-exec = LangChainLM('revision', semantic, opt_register=True)
-raw_runnable_exec = exec.as_runnable() | RawSqlOutputParser()
+exec = CogLM(agent_name="revision",
+            system_prompt=system_prompt, 
+            inputs=[InputVar(name=input) for input in inputs], 
+            output=OutputLabel(name=output_format, custom_output_format_instructions=output_format_instructions))
+raw_runnable_exec = as_runnable(exec) | RawSqlOutputParser()
 
 @chain
 def runnable_exec(input: dict):

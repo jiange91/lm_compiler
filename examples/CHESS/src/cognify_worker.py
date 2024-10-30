@@ -34,12 +34,10 @@ from pipeline.evaluation import evaluation
 from pipeline.annotated import cognify_registry
 from pipeline.workflow_builder import build_pipeline
 
-from compiler.IR.llm import LMConfig
+from compiler.llm.model import LMConfig
 from compiler.optimizer import register_opt_program_entry, register_opt_score_fn
 
 
-dir_prefix = 'cognify_results/debug_ensemble'
-    
 @register_opt_program_entry
 def worker(input):
     """
@@ -51,7 +49,7 @@ def worker(input):
     
     run_start_time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     task = Task(dataset[0])
-    result_dir = f"{dir_prefix}/{task.db_id}/{task.question_id}/{run_start_time}"
+    result_dir = f"results/{task.db_id}/{task.question_id}/{run_start_time}"
     if not os.path.exists(result_dir):
         os.makedirs(result_dir, exist_ok=True)
 

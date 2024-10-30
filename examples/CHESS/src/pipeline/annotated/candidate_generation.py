@@ -4,8 +4,10 @@ import sys
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', '..', '..', '..'))
 
 from typing import Any
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
-from compiler.IR.llm import Demonstration, LMConfig
+from compiler.frontends.langchain.connector import as_runnable
+from compiler.llm import CogLM, InputVar, OutputFormat, OutputLabel
+
+from compiler.llm import *
 from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
 from llm.parsers import SQLGenerationOutput, RawSqlOutputParser
 from compiler.optimizer.params import ensemble
@@ -52,14 +54,11 @@ output_format_instructions = \
 Please only provide a valid SQL query in a single string. Do not include any additional information or explanations.
 """
 
-semantic = LangChainSemantic(
-    system_prompt=system_prompt,
-    inputs=inputs,
-    output_format=output_format,
-    output_format_instructions=output_format_instructions,
-)
-exec = LangChainLM('candidate_generation', semantic, opt_register=True)
-raw_runnable_exec = exec.as_runnable() | RawSqlOutputParser()
+exec = CogLM(agent_name="candidate_generation",
+            system_prompt=system_prompt, 
+             inputs=[InputVar(name=input) for input in inputs], 
+             output=OutputLabel(name=output_format, custom_output_format_instructions=output_format_instructions))
+raw_runnable_exec = as_runnable(exec) | RawSqlOutputParser()
 
 @chain
 def runnable_exec(input: dict):

@@ -138,20 +138,20 @@ class Branch(Module):
         self,
         name: str,
         src: set[str],
-        multiplexier: Callable[..., Union[Hashable, list[Hashable]]],
+        multiplexer: Callable[..., Union[Hashable, list[Hashable]]],
         destinations: set[str],
-        multiplexier_str: Optional[str] = None,
+        multiplexer_str: Optional[str] = None,
     ) -> None:
-        super().__init__(name=name, kernel=multiplexier)
+        super().__init__(name=name, kernel=multiplexer)
         self.src = src
-        self.multiplexier = multiplexier
+        self.multiplexer = multiplexer
         self.destinations = destinations
         self.invoke_times = 0
         
-        if multiplexier_str is not None:
-            self.multiplexier_str = multiplexier_str
+        if multiplexer_str is not None:
+            self.multiplexer_str = multiplexer_str
         else:
-            self.multiplexier_str = inspect.getsource(multiplexier)
+            self.multiplexer_str = inspect.getsource(multiplexer)
         
     def on_signature_generation(self):
         try:

@@ -1,18 +1,12 @@
-# ⚠️ USE AT YOUR OWN RISK
-# first: pip install pysqlite3-binary
-# then in settings.py:
-
-# these three lines swap the stdlib sqlite3 lib with the pysqlite3 package
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
-
 import argparse
 import json
 from datetime import datetime
-from typing import Any, Dict, List
+import os
+import debugpy
+import multiprocessing as mp
 
-from runner.run_manager import RunManager
+from runner.task import Task
+from typing import Any, Dict, List, TypedDict, Callable
 
 def parse_arguments() -> argparse.Namespace:
     """
@@ -21,27 +15,56 @@ def parse_arguments() -> argparse.Namespace:
     Returns:
         argparse.Namespace: The parsed command-line arguments.
     """
-    parser = argparse.ArgumentParser(description="Run the pipeline with the specified configuration.")
-    parser.add_argument('--data_mode', type=str, required=True, help="Mode of the data to be processed.")
-    parser.add_argument('--data_path', type=str, required=True, help="Path to the data file.")
-    parser.add_argument('--pipeline_nodes', type=str, required=True, help="Pipeline nodes configuration.")
-    parser.add_argument('--pipeline_setup', type=str, required=True, help="Pipeline setup in JSON format.")
-    parser.add_argument('--use_checkpoint', action='store_true', help="Flag to use checkpointing.")
-    parser.add_argument('--checkpoint_nodes', type=str, required=False, help="Checkpoint nodes configuration.")
-    parser.add_argument('--checkpoint_dir', type=str, required=False, help="Directory for checkpoints.")
-    parser.add_argument('--log_level', type=str, default='warning', help="Logging level.")
+    parser = argparse.ArgumentParser(
+        description="Run the pipeline with the specified configuration."
+    )
+    parser.add_argument(
+        "--data_mode", type=str, required=True, help="Mode of the data to be processed."
+    )
+    parser.add_argument(
+        "--data_path", type=str, required=True, help="Path to the data file."
+    )
+    parser.add_argument(
+        "--pipeline_nodes",
+        type=str,
+        required=True,
+        help="Pipeline nodes configuration.",
+    )
+    parser.add_argument(
+        "--pipeline_setup",
+        type=str,
+        required=True,
+        help="Pipeline setup in JSON format.",
+    )
+    parser.add_argument(
+        "--use_checkpoint", action="store_true", help="Flag to use checkpointing."
+    )
+    parser.add_argument(
+        "--checkpoint_nodes",
+        type=str,
+        required=False,
+        help="Checkpoint nodes configuration.",
+    )
+    parser.add_argument(
+        "--checkpoint_dir", type=str, required=False, help="Directory for checkpoints."
+    )
+    parser.add_argument(
+        "--log_level", type=str, default="warning", help="Logging level."
+    )
     args = parser.parse_args()
 
     args.run_start_time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-    
+
     if args.use_checkpoint:
-        print('Using checkpoint')
+        print("Using checkpoint")
         if not args.checkpoint_nodes:
-            raise ValueError('Please provide the checkpoint nodes to use checkpoint')
+            raise ValueError("Please provide the checkpoint nodes to use checkpoint")
+        args.checkpoint_nodes = args.checkpoint_nodes.split("+")
         if not args.checkpoint_dir:
-            raise ValueError('Please provide the checkpoint path to use checkpoint')
+            raise ValueError("Please provide the checkpoint path to use checkpoint")
 
     return args
+
 
 def load_dataset(data_path: str) -> List[Dict[str, Any]]:
     """
@@ -53,21 +76,41 @@ def load_dataset(data_path: str) -> List[Dict[str, Any]]:
     Returns:
         List[Dict[str, Any]]: The loaded dataset.
     """
-    with open(data_path, 'r') as file:
+    with open(data_path, "r") as file:
         dataset = json.load(file)
-    return dataset[:10]
+    return dataset
 
-def main():
-    """
-    Main function to run the pipeline with the specified configuration.
-    """
+
+if __name__ == "__main__":
     args = parse_arguments()
     dataset = load_dataset(args.data_path)
-
-    run_manager = RunManager(args)
-    run_manager.initialize_tasks(dataset)
-    run_manager.run_tasks()
-    run_manager.generate_sql_files()
-
-if __name__ == '__main__':
-    main()
+    
+    inputs = []
+    for data in dataset:
+        inputs.append(
+            {
+                'args': args,
+                'dataset': [data],
+            }
+        )
+    eval_data = [(input, None) for input in inputs]
+    
+    from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask 
+    plain_task = EvalTask(
+        script_path='src/cognify_worker.py',
+        args=[],
+        other_python_paths=[],
+        all_params={},
+        module_name_paths={},
+        aggregated_proposals={},
+    )
+    evaluator = EvaluatorPlugin(
+        trainset=None,
+        evalset=None,
+        testset=eval_data,
+        n_parallel=2,
+    )
+    eval_result = evaluator.get_score('test', plain_task, show_process=True)
+    print(eval_result)
+    with open(f'eval_result.json', 'w') as f:
+        json.dump(eval_result.to_dict(), f, indent=4)

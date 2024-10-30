@@ -1,15 +1,8 @@
-import os
-import sys
-import json
 from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal, Sequence
-from dataclasses import dataclass, field, asdict
-import logging
-
 from compiler.optimizer.params.common import ParamBase
-from compiler.optimizer.params.utils import build_param
-from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask, GeneralEvaluatorInterface
+from compiler.optimizer.evaluation.evaluator import EvaluatorPlugin
 from compiler.optimizer.core.flow import TrialLog, OptConfig
-from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization, BottomLevelTrialLog
+from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization 
 from compiler.optimizer.core.upper_layer import UpperLevelOptimization, LayerEvaluator
 
 class LayerConfig:
@@ -87,7 +80,7 @@ class MultiLayerOptimizationDriver:
         """Driver for multi-layer optimization
         
         Args:
-            layer_configs (Sequence[layerConfig]): configs for each optimization layer
+            layer_configs (Sequence[LayerConfig]): configs for each optimization layer
             
         NOTE: the order of the layers is from top to bottom, i.e., the last layer will run program evaluation directly while others will run layer evaluation
         """

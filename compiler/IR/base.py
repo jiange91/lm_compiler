@@ -114,7 +114,7 @@ class ModuleStatus(Enum):
     FAILED = auto()
     SKIPPED = auto()
 
-class ModuleIterface(ABC):
+class ModuleInterface(ABC):
     @abstractmethod
     def invoke(self, statep: StatePool):
         ...
@@ -127,7 +127,7 @@ class ModuleIterface(ABC):
 
 MT = TypeVar('MT', bound='Module')   
 
-class Module(ModuleIterface):
+class Module(ModuleInterface):
     def __init__(self, name, kernel, opt_register: bool = False) -> None:
         self.name = name
         self.kernel = kernel

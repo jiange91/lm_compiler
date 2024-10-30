@@ -6,7 +6,7 @@ import logging
 import json
 
 from compiler.IR.base import Module
-from compiler.patterns.blocker import Protection
+from compiler.optimizer.params.utils import Protection
 
 logger = logging.getLogger(__name__)
 
@@ -79,7 +79,7 @@ class ParamLevel(Enum):
 class ParamMeta(ABCMeta):
     required_fields = []
     registry = {}
-    level_2_params = defaultdict(list)
+    level_to_params = defaultdict(list)
     base_class = {'ParamBase', 'DynamicParamBase'}
     
     def __new__(cls, name, bases, attrs):
@@ -92,7 +92,7 @@ class ParamMeta(ABCMeta):
         new_cls = super().__new__(cls, name, bases, attrs)
         cls.registry[name] = new_cls
         if name not in cls.base_class:
-            cls.level_2_params[level].append(new_cls)
+            cls.level_to_params[level].append(new_cls)
         return new_cls
 
 T_ModuleMapping = dict[str, str] 
@@ -288,7 +288,7 @@ class DynamicParamBase(ParamBase, ABC):
         self.custom_clean()
         self.options = {
             name: option for name, option in self.options.items() 
-            if option.name == 'Identity'
+            if option.name == 'NoChange'
         }
     
     @abstractmethod

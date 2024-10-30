@@ -17,13 +17,11 @@ from tqdm import tqdm
 
 import logging
 
-from compiler.IR.program import Workflow, Module, StatePool
-from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsage
-from compiler.optimizer.evaluation.metric import MetricBase
+from compiler.IR.program import Workflow, Module
+from compiler.llm import CogLM, Demonstration
 from compiler.optimizer.params.common import ParamBase
 from compiler.optimizer.params.utils import build_param
 from compiler.optimizer.plugin import OptimizerSchema
-from compiler.utils import get_bill
 from compiler.optimizer.core.flow import TopDownInformation, ModuleTransformTrace
 
 logger = logging.getLogger(__name__)
@@ -239,12 +237,12 @@ class EvalTask:
         
         # get price and demo of running the program
         price = 0.0
-        lm_2_demo = {}
-        for lm in Module.all_of_type(module_pool.values(), LLMPredictor):
+        lm_to_demo = {}
+        for lm in Module.all_of_type(module_pool.values(), CogLM):
             price += lm.get_total_cost()
-            demo = lm.get_step_as_example()
+            demo = lm.get_last_step_as_demo()
             if demo is not None:
-                lm_2_demo[lm.name] = demo
+                lm_to_demo[lm.name] = demo
         
         with lock:
             progress.value += 1
@@ -252,7 +250,7 @@ class EvalTask:
             if show_process:
                 plot_progress(progress.value, num_total_task, total_score.value / progress.value)
             
-        q.put((task_index, result, score, price, lm_2_demo, end_time - start_time))
+        q.put((task_index, result, score, price, lm_to_demo, end_time - start_time))
         sema.release()
     
     def show_opt_trace(self) -> str:

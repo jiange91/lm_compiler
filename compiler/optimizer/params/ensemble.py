@@ -1,10 +1,4 @@
-from typing import Literal, Optional, Tuple, Union
-import uuid
-import dataclasses
-import heapq
-import os
-import sys
-import json
+from typing import Union
 import logging
 from pathlib import Path
 import copy
@@ -15,12 +9,8 @@ logger = logging.getLogger(__name__)
 from compiler.IR.base import Module, StatePool, ModuleStatus
 from compiler.IR.program import Workflow, Input, Output
 from compiler.IR.modules import CodeBox
-from compiler.IR.llm import LLMPredictor, Demonstration
-from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, NoChange, AddNewModuleImportInterface
-from compiler.optimizer.decompose import LMTaskDecompose, StructuredAgentSystem
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, get_inspect_runnable, var_2_str
-from compiler.optimizer.params.utils import dump_params, load_params
-from compiler.optimizer.plugin import OptimizerSchema
+from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase, NoChange
+from compiler.llm import CogLM, StructuredCogLM, StepInfo, InputVar, OutputFormat, OutputLabel
 from abc import ABC, ABCMeta
 
 class ModuleEnsemble(ParamBase):
@@ -79,8 +69,8 @@ class SamplerPostProcess(CodeBox):
     def __init__(
         self,
         name: str,
-        origin_expert: LangChainLM,
-        experts: list[LangChainLM],
+        origin_expert: CogLM,
+        experts: list[CogLM],
     ):
         super().__init__(name=name, kernel=None)
         # Added this incase we will apply prompt rewriting for experts
@@ -93,12 +83,10 @@ class SamplerPostProcess(CodeBox):
     
     def invoke(self, statep: StatePool):
         # get all context of the problem
-        agent_task = self.origin_expert.semantic.get_agent_role()
+        agent_task = self.origin_expert.get_agent_role()
         
         inputs_dict = {}
-        inputs = self.experts[0].step_info[-1]['inputs']
-        for key, value in inputs.items():
-            inputs_dict[key] = var_2_str(value)
+        inputs_dict = self.experts[0].steps[-1].filled_inputs_dict
             
         paths = []
         proposal_template = """
@@ -109,8 +97,8 @@ Rationale: {rationale}
 Answer: {response}
         """
         for i, expert in enumerate(self.experts):
-            if expert.step_info:
-                step = expert.step_info[-1]
+            if expert.steps:
+                step: StepInfo = expert.steps[-1]
                 rationale = step.get('rationale', None)
                 output = step['output']
                 proposal = proposal_template.format(i=i, rationale=rationale, response=output)
@@ -155,52 +143,48 @@ Please read through all the responses carefully and provide a clear, consistent 
         """
         return desc
     
-    def sample_then_aggregate(self, lm: LangChainLM) -> Module:
+    def sample_then_aggregate(self, lm: CogLM) -> Module:
         sub_graph = Workflow(f'{lm.name}_ensemble_{self.name}')
         input_name, output_name = f'{lm.name}_sub_graph_input', f'{lm.name}_sub_graph_output'
         sub_graph.add_module(Input(input_name))
         sub_graph.add_module(Output(output_name))
         
         # Sampler
-        lm_cpys = [copy.deepcopy(lm) for _ in range(self.num_path)]
-        for i, lm_cpy in enumerate(lm_cpys):
-            lm_cpy.name = f'{lm.name}_sampler_{i}'
-            lm_cpy.lm_config.kwargs['temperature'] = self.temperature
-            lm_cpy.reset()
-            sub_graph.add_module(lm_cpy)
-            sub_graph.add_edge(input_name, lm_cpy.name)
+        lm_copies = [copy.deepcopy(lm) for _ in range(self.num_path)]
+        for i, lm_copy in enumerate(lm_copies):
+            lm_copy.name = f'{lm.name}_sampler_{i}'
+            lm_copy.reset()
+            sub_graph.add_module(lm_copy)
+            sub_graph.add_edge(input_name, lm_copy.name)
         
         sampler_post_process = SamplerPostProcess(
             name=f'{lm.name}_sampler_post_process',
             origin_expert=lm,
-            experts=lm_cpys,
+            experts=lm_copies,
         )
         sub_graph.add_module(sampler_post_process)
-        sub_graph.add_edge([lm_cpy.name for lm_cpy in lm_cpys], sampler_post_process.name)
+        sub_graph.add_edge([lm_copies.name for lm_copies in lm_copies], sampler_post_process.name)
+
+        custom_format_instruction = "Please only give the final answer"
+        if lm.contains_custom_format_instructions():
+            custom_format_instruction = f"\nAnswer format instructions given to the worker: {lm.get_custom_format_instructions_if_any()}\n Please strictly follow this as if you are generating the answer on worker's behalf."
         
-        # Aggregator
-        if lm.semantic.output_format:
-            output_format = lm.semantic.output_format
+        if isinstance(lm, StructuredCogLM):
+            new_output_format = OutputFormat(lm.output_format.schema, lm.output_format.should_hint_format_in_prompt, custom_format_instruction)
+            agg_agent = StructuredCogLM(f"{lm.name}_aggregator",
+                                        UniversalSelfConsistency.aggregator_system_prompt,
+                                        input_variables=[InputVar("worker_task"), InputVar("inputs"), InputVar("proposals")],
+                                        output_format=new_output_format,
+                                        lm_config=copy.deepcopy(lm.lm_config))
         else:
-            output_format = lm.semantic.get_agent_outputs()[0]
-        output_format_instruction = "Please only give the final answer"
-        if lm.semantic.output_format_instructions:
-            output_format_instruction += f"\nAnswer format instructions given to the worker: {lm.semantic.output_format_instructions}\n Please strictly follow this as if you are generating the answer on worker's behalf."
-        agg_semantic = LangChainSemantic(
-            system_prompt=UniversalSelfConsistency.aggregator_system_prompt,
-            inputs=[
-                "worker_task",
-                "inputs",
-                "proposals",
-            ],
-            output_format=output_format,
-            need_output_type_hint=lm.semantic.need_output_type_hint,
-            output_format_instructions=output_format_instruction,
-        )
-        agg_lm = LangChainLM(f"{lm.name}_aggregator", agg_semantic)
-        agg_lm.lm_config = copy.deepcopy(lm.lm_config)
-        sub_graph.add_module(agg_lm)
-        sub_graph.add_edge(sampler_post_process.name, agg_lm.name)
+            new_output_label = OutputLabel(lm.get_output_label_name(), custom_format_instruction)
+            agg_agent = CogLM(f"{lm.name}_aggregator",
+                              UniversalSelfConsistency.aggregator_system_prompt,
+                              input_variables=[InputVar("worker_task"), InputVar("inputs"), InputVar("proposals")],
+                              output_label=new_output_label,
+                              lm_config=copy.deepcopy(lm.lm_config))  
+        sub_graph.add_module(agg_agent)
+        sub_graph.add_edge(sampler_post_process.name, agg_agent.name)
         
         sub_graph.compile()
         return sub_graph

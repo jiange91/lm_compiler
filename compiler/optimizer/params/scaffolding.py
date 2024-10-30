@@ -14,11 +14,9 @@ logger = logging.getLogger(__name__)
 
 from compiler.IR.base import Module
 from compiler.IR.program import Workflow
-from compiler.IR.llm import LLMPredictor, Demonstration
+from compiler.llm.model import CogLM
 from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, NoChange, AddNewModuleImportInterface
 from compiler.optimizer.decompose import LMTaskDecompose, StructuredAgentSystem
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, get_inspect_runnable
-from compiler.optimizer.params.utils import dump_params, load_params
 from compiler.optimizer.plugin import OptimizerSchema
 from compiler.optimizer import clear_registry
 
@@ -48,7 +46,7 @@ class LMScaffolding(ParamBase, AddNewModuleImportInterface):
     def bootstrap(
         cls,
         workflow: Optional[Workflow] = None,
-        lm_modules: Optional[list[LLMPredictor]] = None,
+        lm_modules: Optional[list[CogLM]] = None,
         decompose_threshold: int = 4,
         default_identity: bool = True,
         target_modules: Optional[list[str]] = None,
@@ -140,7 +138,7 @@ class DecomposeOption(OptionBase):
     def _get_cost_indicator(self):
         return len(self.new_system.agents)
     
-    def apply(self, module: LLMPredictor) -> Module:
+    def apply(self, module: CogLM) -> Module:
         new_agent = LMTaskDecompose.materialize_decomposition(
             lm=module,
             new_agents=self.new_system,

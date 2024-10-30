@@ -42,10 +42,3 @@ class ExactMatch(MetricBase):
     
     def score(self, label, answer):
         return 1.0 if label == answer else 0.0
-
-if __name__ == '__main__':
-    state = StatePool()
-    state.init({'answer_1': 'dog'})
-    
-    metric = ExactMatch()
-    print(metric('dog', state))

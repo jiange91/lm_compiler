@@ -1,6 +1,5 @@
 from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase
-from compiler.IR.llm import LLMPredictor 
-from compiler.IR.llm import LMConfig
+from compiler.llm.model import CogLM, LMConfig
 import uuid
 import copy
 
@@ -33,10 +32,11 @@ class ModelOption(OptionBase):
     def _get_cost_indicator(self):
         return self.model_config.cost_indicator
        
-    def apply(self, lm_module: LLMPredictor):
-        lm_module.lm_config.update(self.model_config)
-        # This is incase reset is not called, to trigger rebuild the kernel
-        lm_module.lm = None
+    def apply(self, lm_module: CogLM):
+        if lm_module.lm_config:
+            lm_module.lm_config.update(self.model_config)
+        else:
+            lm_module.lm_config = self.model_config
         return lm_module
     
     def to_dict(self):

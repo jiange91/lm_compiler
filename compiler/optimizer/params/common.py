@@ -17,8 +17,8 @@ class OptionBase(ABC):
     def _get_cost_indicator(self):
         return 1.0
     
-    def __description__(self):
-        """Add description output to show the option in the optimizer
+    def describe(self):
+        """Add descriptive string to show user what the option does
         """
         return self.name
     
@@ -58,9 +58,9 @@ class OptionBase(ABC):
     def obtain_cost_indicator(self) -> float:
         return self.cost_indicator
 
-class IdentityOption(OptionBase):
+class NoChange(OptionBase):
     def __init__(self):
-        super().__init__('Identity')
+        super().__init__('NoChange')
     
     def apply(self, module: Module) -> Module:
         return module

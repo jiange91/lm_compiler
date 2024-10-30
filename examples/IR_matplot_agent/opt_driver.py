@@ -12,7 +12,7 @@ import random
 import optuna
 import numpy as np
 
-from compiler.optimizer.params.common import IdentityOption
+from compiler.optimizer.params.common import NoChange
 from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
 from compiler.optimizer.plugin import OptimizerSchema
 from compiler.optimizer.analysis.param_sensitivity import SensitivityAnalyzer
@@ -144,7 +144,7 @@ def opt(train, val, test):
         'lm_model', model_selection.model_option_factory(lm_options)
     )
     reasoning_param = reasoning.LMReasoning(
-        "reasoning", [IdentityOption(), ZeroShotCoT()]
+        "reasoning", [NoChange(), ZeroShotCoT()]
     )
     
     few_shot_params = LMFewShot("few_shot", 2)

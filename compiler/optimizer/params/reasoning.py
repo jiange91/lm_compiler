@@ -1,7 +1,7 @@
 from abc import ABC, ABCMeta
-from typing import List, Optional
+from typing import List, Optional, Union
 import traceback
-from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase, IdentityOption
+from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase, NoChange
 from compiler.llm import CogLM, StructuredCogLM, StepInfo, InputVar, OutputFormat, OutputLabel
 from compiler.llm.model import APICompatibleMessage
 from litellm import ModelResponse, completion
@@ -38,7 +38,7 @@ class LMReasoning(ParamBase):
         )
 
 class ReasoningOptionMeta(ABCMeta):
-    registry: dict[str, type] = {'IdentityOption': IdentityOption}
+    registry: dict[str, type] = {'NoChange': NoChange}
     
     def __new__(cls, name, bases, attrs):
         new_cls = super().__new__(cls, name, bases, attrs)
@@ -126,6 +126,16 @@ class ZeroShotCoT(ReasonThenFormat):
     
     def _get_cost_indicator(self):
         return 2.0
+    
+    def describe(self):
+        desc = """
+        - ZeroShotCoT -
+        Return step-by-step reasoning for the given chat prompt messages.
+        
+        Reasoning Prompt: 
+            Let's solve this problem step by step before giving the final response.
+        """
+        return desc
         
     def reasoning_step(
         self, 
@@ -144,6 +154,16 @@ class PlanBefore(ReasonThenFormat):
     
     def _get_cost_indicator(self):
         return 2.0
+    
+    def describe(self):
+        desc = """
+        - PlanBefore -
+        Similar to the planner in the LLMCompiler paper. Plan sub-tasks and synthesize a response for each sub-task as the rationale. Focus more on the runtime query complexity.
+        
+        Reasoning Prompt: 
+            Let's first break down the task into several simpler sub-tasks that each covers different aspect of the original task. Clearly state each sub-question and provide your response to each one of them.
+        """
+        return desc
     
     def reasoning_step(
         self, 

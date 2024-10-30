@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 from compiler.IR.base import Module
 from compiler.IR.program import Workflow
 from compiler.llm.model import CogLM
-from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, IdentityOption, AddNewModuleImportInterface
+from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, NoChange, AddNewModuleImportInterface
 from compiler.optimizer.decompose import LMTaskDecompose, StructuredAgentSystem
 from compiler.optimizer.plugin import OptimizerSchema
 from compiler.optimizer import clear_registry
@@ -33,7 +33,7 @@ class LMScaffolding(ParamBase, AddNewModuleImportInterface):
     ):
         self.log_dir = log_dir
         if default_identity:
-            options = [IdentityOption()]
+            options = [NoChange()]
         else:
             options = []
         for i, new_sys in enumerate(new_agent_systems):
@@ -125,6 +125,15 @@ class DecomposeOption(OptionBase):
         super().__init__(name)
         self.new_system = new_system
         self.log_dir = log_dir
+    
+    def describe(self):
+        new_agents_prmopt = {name: meta.agent_prompt for name, meta in self.new_system.agents.items()}
+        new_agents_prmopt = json.dumps(new_agents_prmopt, indent=4)
+        desc = f"""
+        - Agent Scaffolding -
+        Decomposed agents:
+        {new_agents_prmopt}
+        """
     
     def _get_cost_indicator(self):
         return len(self.new_system.agents)

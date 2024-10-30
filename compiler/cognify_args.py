@@ -49,10 +49,12 @@ class EvaluationArgs(CommonArgs):
 @dataclasses.dataclass
 class InspectionArgs:
     control_param_path: str
+    dump_frontier_details: bool = False
     
     @staticmethod
     def add_cli_args(parser):
         parser.add_argument('--control_param_path', type=str, required=True)
+        parser.add_argument('--dump_frontier_details', action='store_true')
     
     @classmethod
     def from_cli_args(cls, args: argparse.Namespace):

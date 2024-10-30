@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 from compiler.IR.base import Module, StatePool, ModuleStatus
 from compiler.IR.program import Workflow, Input, Output
 from compiler.IR.modules import CodeBox
-from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase, IdentityOption
+from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase, NoChange
 from compiler.llm import CogLM, StructuredCogLM, StepInfo, InputVar, OutputFormat, OutputLabel
 from abc import ABC, ABCMeta
 
@@ -38,7 +38,7 @@ class ModuleEnsemble(ParamBase):
         )
  
 class EnsembleOptionMeta(ABCMeta):
-    registry: dict[str, type] = {'IdentityOption': IdentityOption}
+    registry: dict[str, type] = {'NoChange': NoChange}
     
     def __new__(cls, name, bases, attrs):
         new_cls = super().__new__(cls, name, bases, attrs)
@@ -129,9 +129,19 @@ Please read through all the responses carefully and provide a clear, consistent 
         self,
         num_path: int,
         temperature: float = 0.7,
+        change_temperature: bool = True,
     ):
         super().__init__('universal_self_consistency', num_path)
         self.temperature = temperature
+        self.change_temperature = change_temperature
+    
+    def describe(self):
+        temp_desc = f"Temperature: {self.temperature}" if self.change_temperature else "No temperature change"
+        desc = f"""
+        - Universal Self-Consistency Ensemble -
+        Spawn <{self.num_path}> samplers ({temp_desc}) and aggregate the results. Aggregator is LLM-based and answers the question based on the majority consensus.
+        """
+        return desc
     
     def sample_then_aggregate(self, lm: CogLM) -> Module:
         sub_graph = Workflow(f'{lm.name}_ensemble_{self.name}')
@@ -183,11 +193,13 @@ Please read through all the responses carefully and provide a clear, consistent 
     def from_dict(cls, meta):
         num_path = meta['num_path']
         temperature = meta['temperature']
-        return cls(num_path, temperature)
+        change_temperature = meta.get('change_temperature')
+        return cls(num_path, temperature, change_temperature)
     
     def to_dict(self):
         base = super().to_dict()
         base['num_path'] = self.num_path
         base['temperature'] = self.temperature
+        base['change_temperature'] = self.change_temperature
         return base
         

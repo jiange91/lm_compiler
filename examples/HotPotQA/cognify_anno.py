@@ -12,7 +12,7 @@ dspy.configure(rm=colbert)
 
 import copy
 from compiler.optimizer.params.reasoning import ZeroShotCoT
-from compiler.optimizer.params.common import IdentityOption
+from compiler.optimizer.params.common import NoChange
 from compiler.llm.model import LMConfig, CogLM
 from compiler.llm import InputVar, OutputLabel
 from compiler.frontends.dspy.connector import as_predict

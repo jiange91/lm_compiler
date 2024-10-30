@@ -42,7 +42,7 @@ lm.lm_config = {'model': "gpt-4o-mini", 'temperature': 0.0}
 is_picklable(lm)
 
 # reasoning_param = reasoning.LMReasoning(
-#     "reasoning", [common.IdentityOption(), ZeroShotCoT(), PlanBefore()]
+#     "reasoning", [common.NoChange(), ZeroShotCoT(), PlanBefore()]
 # )
 
 # reasoning_param.apply_option('ZeroShotCoT', lm)

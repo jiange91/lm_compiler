@@ -173,13 +173,7 @@ class UpperLevelOptimization(OptimizationLayer):
         self.next_level_opt_config = next_level_opt_config
         self.use_SH_allocation = use_SH_allocation
     
-    def create_log_at_proposal(self, trial: optuna.trial.Trial) -> UpperLevelTrialLog:
-        return UpperLevelTrialLog(
-            params=trial.params, bo_trial_id=trial.number
-        )
-        
-    
-    def prepare_next_level_tdi(self, new_program, new_trace):
+    def prepare_next_level_tdi(self, new_program, new_trace, trial_number):
         next_level_info = super().prepare_next_level_tdi(new_program, new_trace)
         # reset opt_config for next level
         if self.next_level_opt_config:
@@ -189,14 +183,10 @@ class UpperLevelOptimization(OptimizationLayer):
             current_level_log_dir = self.top_down_info.opt_config.log_dir
             next_level_info.opt_config.log_dir = os.path.join(
                 current_level_log_dir, 
-                self.evaluator.target_layer.name,
+                f"{self.name}_trial_{trial_number}_{self.evaluator.target_layer.name}"
             )
-        # each outer-loop config will spawn a new inner-loop, avoid conflict
-        next_level_info.opt_config.log_dir = os.path.join(
-            next_level_info.opt_config.log_dir,
-            uuid.uuid4().hex 
-        )
-        # set these path to None to let the next level to decide
+        next_level_info.trace_back.append(self.generate_trial_id(trial_number))
+        # set these path to None to let the next level to populate
         next_level_info.opt_config.opt_log_path = None
         next_level_info.opt_config.param_save_path = None
         return next_level_info
@@ -222,7 +212,7 @@ class UpperLevelOptimization(OptimizationLayer):
         proposals_at_this_level = self.propose(base_program, opt_config.throughput)
         selected_runs = []
         for new_trial, new_program, new_trace, new_log_id in proposals_at_this_level:
-            next_level_info = self.prepare_next_level_tdi(new_program, new_trace)
+            next_level_info = self.prepare_next_level_tdi(new_program, new_trace, new_trial.number)
             selected_runs.append((self.evaluator, next_level_info))
             self.opt_logs[new_log_id].next_level_log_dir = next_level_info.opt_config.log_dir
         sh = SuccessiveHalving(selected_runs)
@@ -231,7 +221,6 @@ class UpperLevelOptimization(OptimizationLayer):
             self.update(trial, eval_results[i], log_id)
             self.opt_logs[log_id].num_next_level_trials = num_inner_trials[i]
             
-    
     def _optimize(self, base_program):
         if not self.use_SH_allocation:
             return super()._optimize(base_program)

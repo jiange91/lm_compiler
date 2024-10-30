@@ -181,7 +181,7 @@ def inspect_routine(inspect_args: InspectionArgs):
         quality_constraint=quality_constraint,
         save_config_to_file=False,
     )
-    return opt_driver.inspect()
+    return opt_driver.inspect(inspect_args.dump_frontier_details)
     
     
 def main():

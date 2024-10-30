@@ -2,8 +2,9 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', '..', '..', '..'))
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
-from compiler.IR.llm import Demonstration
+from compiler.llm import CogLM, InputVar, OutputLabel
+from compiler.llm.prompt import Demonstration
+from compiler.frontends.langchain.connector import as_runnable
 from llm.parsers import PythonListOutputParser
 
 system_prompt = \
@@ -59,13 +60,8 @@ demos = [
     )
 ]
 
-semantic = LangChainSemantic(
-    system_prompt=system_prompt,
-    inputs=inputs,
-    output_format=output_format,
-    output_format_instructions=output_format_instructions,
-    # demos=demos
-)
-
-exec = LangChainLM('keyword_extraction', semantic, opt_register=True)
-runnable_exec = exec.as_runnable() | PythonListOutputParser()
+exec = CogLM(agent_name="keyword_extraction",
+             system_prompt=system_prompt, 
+             inputs=[InputVar(name=input) for input in inputs], 
+             output=OutputLabel(name=output_format, custom_output_format_instructions=output_format_instructions))
+runnable_exec = as_runnable(exec) | PythonListOutputParser()

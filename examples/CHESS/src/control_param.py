@@ -4,7 +4,7 @@ val_down_sample: int = 25
 opt_history_log_dir: str = 'cognify_opt_results'
 evaluator_parallel: int = 20
 
-from compiler.IR.llm import LMConfig
+from compiler.llm.model import LMConfig
 from compiler.optimizer.core import driver, flow
 
 from compiler.optimizer.params import reasoning, model_selection

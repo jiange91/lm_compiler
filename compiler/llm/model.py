@@ -71,9 +71,10 @@ class CogLM(Module):
                system_prompt: str, 
                input_variables: List[InputVar], 
                output: Optional[OutputLabel] = None,
-               lm_config: Optional[LMConfig] = None):
+               lm_config: Optional[LMConfig] = None,
+               opt_register: bool = True):
     self._lock = threading.Lock()
-    super().__init__(name=agent_name, kernel=None)
+    super().__init__(name=agent_name, kernel=None, opt_register=opt_register)
 
     self.system_message: CompletionMessage = CompletionMessage(role="system", content=[TextContent(text=system_prompt)])
     self.input_variables: List[InputVar] = input_variables
@@ -244,9 +245,10 @@ class StructuredCogLM(CogLM):
                system_prompt: str, 
                input_variables: List[InputVar],
                output_format: OutputFormat,
-               lm_config: Optional[LMConfig] = None):
+               lm_config: Optional[LMConfig] = None,
+               opt_register: bool = True):
     self.output_format: OutputFormat = output_format
-    super().__init__(agent_name, system_prompt, input_variables, lm_config=lm_config)
+    super().__init__(agent_name, system_prompt, input_variables, lm_config=lm_config, opt_register=opt_register)
 
   @override
   def get_output_label_name(self):

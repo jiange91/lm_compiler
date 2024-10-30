@@ -2,8 +2,9 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', '..', '..', '..'))
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
-from compiler.IR.llm import Demonstration
+from compiler.llm.model import CogLM, InputVar, OutputLabel
+from compiler.llm.prompt import Demonstration
+from compiler.frontends.langchain.connector import as_runnable
 from llm.parsers import ColumnFilteringOutput
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import chain
@@ -276,16 +277,13 @@ Example of values in the column: `Dagfinn Sverre Aarskog`
     )
 ]
 
-
-semantic = LangChainSemantic(
-    system_prompt=system_prompt,
-    inputs=inputs,
-    output_format="is_column_information_relevant",
-    output_format_instructions="Please response with Yes or No (no other text should be included).",
-    # demos=demos
-)
-exec = LangChainLM('column_filtering', semantic, opt_register=True)
-raw_runnable_exec = exec.as_runnable() | StrOutputParser()
+exec = CogLM(agent_name='column_filtering',
+             system_prompt=system_prompt,
+             input_variables=[InputVar(name=input) for input in inputs],
+             output=OutputLabel(name='is_column_information_relevant', 
+                                custom_output_format_instructions="Please response with Yes or No (no other text should be included)."))
+# exec.add_demos(demos)
+raw_runnable_exec = as_runnable(exec) | StrOutputParser()
 
 @chain
 def runnable_exec(inputs):

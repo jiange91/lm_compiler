@@ -29,6 +29,9 @@ class RunnableCogLM(Runnable):
   These indepedent units should be split out of more complex chains.
   """
   def cognify_runnable(self, runnable: Runnable, name: str = None) -> CogLM:
+    if not runnable:
+      return None
+
     # parse runnable
     assert isinstance(runnable, RunnableSequence), "Runnable must be a `RunnableSequence`"
     assert isinstance(runnable.first, ChatPromptTemplate), "First runnable in a sequence must be a `ChatPromptTemplate`"
@@ -80,6 +83,8 @@ class RunnableCogLM(Runnable):
                   lm_config=lm_config)
 
   def invoke(self, input: Dict) -> Any:
+    assert self.cog_lm, "CogLM must be initialized before invoking"
+
     chat_prompt_value: ChatPromptValue = self.chat_prompt_template.invoke(input)
     messages = self._get_api_compatible_messages(chat_prompt_value)
     inputs: Dict[InputVar, str] = {InputVar(name=k): v for k,v in input.items()}
@@ -97,3 +102,9 @@ class RunnableCogLM(Runnable):
       else:
         raise NotImplementedError(f"Message type {type(message)} is not supported, must be one of `SystemMessage`, `HumanMessage`, or `AIMessage`")
     return api_comptaible_messages
+  
+
+def as_runnable(cog_lm: CogLM) -> RunnableCogLM:
+  runnable_cog_lm = RunnableCogLM(runnable=None, name=cog_lm.agent_name)
+  runnable_cog_lm.cog_lm = cog_lm
+  return runnable_cog_lm

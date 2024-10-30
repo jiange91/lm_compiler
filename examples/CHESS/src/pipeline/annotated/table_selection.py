@@ -2,9 +2,9 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', '..', '..', '..'))
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
+from compiler.llm import CogLM, InputVar, OutputLabel
+from compiler.frontends.langchain.connector import as_runnable
 from langchain_core.output_parsers import JsonOutputParser
-from compiler.IR.llm import Demonstration
 from pydantic import BaseModel, Field
 from llm.parsers import TableSelectionOutputParser
 
@@ -46,13 +46,8 @@ Only output a json as your response.
 """   
 
 
-
-semantic = LangChainSemantic(
-    system_prompt=system_prompt,
-    inputs=inputs,
-    output_format=output_format,
-    output_format_instructions=output_format_instructions,
-)
-
-exec = LangChainLM('table_selection', semantic, opt_register=True)
-runnable_exec = exec.as_runnable() | TableSelectionOutputParser()
+exec = CogLM(agent_name="table_selection",
+             system_prompt=system_prompt, 
+             inputs=[InputVar(name=input) for input in inputs], 
+             output=OutputLabel(name=output_format, custom_output_format_instructions=output_format_instructions))
+runnable_exec = as_runnable(exec) | TableSelectionOutputParser()

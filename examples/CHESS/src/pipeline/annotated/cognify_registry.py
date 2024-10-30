@@ -6,7 +6,7 @@ from . import revision
 from . import table_selection
 from compiler.optimizer.params.reasoning import ZeroShotCoT
 from llm.models import get_llm_params
-from compiler.IR.llm import LMConfig
+from compiler.llm.model import LMConfig, CogLM
 
 add_cot = False
 
@@ -33,7 +33,7 @@ def set_lm_config_statically(pipeline_cfg):
     # Set up the language model configurations
     for node_name, cfg in pipeline_cfg.items():
         if node_name in _cognify_lm_registry:
-            lm = _cognify_lm_registry[node_name]
+            lm: CogLM = _cognify_lm_registry[node_name]
             engine_name = cfg["engine"]
             temperature = cfg.get("temperature", 0)
             base_uri = cfg.get("base_uri", None)
@@ -41,7 +41,7 @@ def set_lm_config_statically(pipeline_cfg):
             lm_params_cpy = get_llm_params(engine=engine_name, temperature=temperature, base_uri=base_uri).copy()
             model = lm_params_cpy.pop("model")
             lm.lm_config = LMConfig(
-                provider='openai',
+                custom_llm_provider='openai',
                 model=model,
                 kwargs=lm_params_cpy,
             )

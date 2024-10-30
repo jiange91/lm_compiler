@@ -107,8 +107,8 @@ class MultiLayerOptimizationDriver:
                 json.dump(layer_configs_dict, f, indent=4)
         
         # config log dir for layer opts
-        # NOTE: only the top layer will be set, others are randomly generated at runtime
-        self.layer_configs[0].opt_config.log_dir = opt_log_dir
+        # NOTE: only the top layer will be set, others are decided at runtime
+        self.layer_configs[0].opt_config.log_dir = os.path.join(opt_log_dir, self.layer_configs[0].layer_name)
     
     def build_tiered_optimization(
         self, evaluator: EvaluatorPlugin

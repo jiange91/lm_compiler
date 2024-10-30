@@ -154,8 +154,7 @@ class TopDownInformation:
     other_python_paths: Optional[list[str]]
     
     # some optimization history
-    trace_back: str # series of [layer_name_trial_id]
-    
+    trace_back: list[str]= field(default_factory=list) # series of [layer_name_trial_id]
     
     def initialize(self):
         self.opt_config.finalize()

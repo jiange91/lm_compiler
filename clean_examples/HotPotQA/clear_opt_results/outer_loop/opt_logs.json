@@ -1,0 +1,58 @@
+{
+    "outer_loop_0": {
+        "id": "outer_loop_0",
+        "bo_trial_id": 0,
+        "params": {
+            "generate_answer_ensemble": "universal_self_consistency",
+            "refine_query_ensemble": "universal_self_consistency",
+            "generate_query_ensemble": "universal_self_consistency"
+        },
+        "score": 0.7357142857142857,
+        "price": 3735928559.0,
+        "eval_cost": 0.12956055,
+        "next_level_log_dir": "clear_opt_results/outer_loop/outer_loop_trial_0_inner_loop",
+        "num_next_level_trials": 4
+    },
+    "outer_loop_1": {
+        "id": "outer_loop_1",
+        "bo_trial_id": 1,
+        "params": {
+            "generate_answer_ensemble": "NoChange",
+            "refine_query_ensemble": "NoChange",
+            "generate_query_ensemble": "NoChange"
+        },
+        "score": 0.5892857142857142,
+        "price": 3735928559.0,
+        "eval_cost": 0.01626495,
+        "next_level_log_dir": "clear_opt_results/outer_loop/outer_loop_trial_1_inner_loop",
+        "num_next_level_trials": 2
+    },
+    "outer_loop_2": {
+        "id": "outer_loop_2",
+        "bo_trial_id": 2,
+        "params": {
+            "generate_answer_ensemble": "universal_self_consistency",
+            "refine_query_ensemble": "universal_self_consistency",
+            "generate_query_ensemble": "universal_self_consistency"
+        },
+        "score": 0.6004395604395605,
+        "price": 3735928559.0,
+        "eval_cost": 0.0840963,
+        "next_level_log_dir": "clear_opt_results/outer_loop/outer_loop_trial_2_inner_loop",
+        "num_next_level_trials": 2
+    },
+    "outer_loop_3": {
+        "id": "outer_loop_3",
+        "bo_trial_id": 3,
+        "params": {
+            "generate_answer_ensemble": "NoChange",
+            "refine_query_ensemble": "universal_self_consistency",
+            "generate_query_ensemble": "universal_self_consistency"
+        },
+        "score": 0.8357142857142857,
+        "price": 0.0022293449999999998,
+        "eval_cost": 0.1641393,
+        "next_level_log_dir": "clear_opt_results/outer_loop/outer_loop_trial_3_inner_loop",
+        "num_next_level_trials": 6
+    }
+}

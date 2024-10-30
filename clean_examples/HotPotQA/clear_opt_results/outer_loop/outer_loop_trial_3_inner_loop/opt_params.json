@@ -1,0 +1,1132 @@
+[
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_aggregator",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "generate_query_aggregator_demos_a4d3dca9-13c2-48f6-81f1-d15d6e1b1bd8": {
+                "name": "generate_query_aggregator_demos_a4d3dca9-13c2-48f6-81f1-d15d6e1b1bd8",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "6d878e2c-873a-47e6-a7cb-07bbb498d1b3",
+                    "c58f4376-70d9-48f0-8fc3-6e667cf8bc18",
+                    "146b05f2-26d4-4efa-9284-61e9ab8095b0",
+                    "6b8b0712-c400-41de-adc2-0ba83f93701d"
+                ]
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMFewShot",
+        "__module__": "compiler.optimizer.params.fewshot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.\n\nYou should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.\n",
+                    "inputs": "{'question': 'Imperfect Circles is an episode of the drama that was developed by whom?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: \"Imperfect Circles episode drama developed by\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: \"Imperfect Circles episode drama developed by whom\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: \"Imperfect Circles episode drama developed by whom\"\n        "
+                },
+                "output": "\"Imperfect Circles episode drama developed by whom\"",
+                "id": "6d878e2c-873a-47e6-a7cb-07bbb498d1b3",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.\n\nYou should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.\n",
+                    "inputs": "{'question': 'Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: \"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: \"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: \"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"\n        "
+                },
+                "output": "\"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"",
+                "id": "c58f4376-70d9-48f0-8fc3-6e667cf8bc18",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.\n\nYou should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.\n",
+                    "inputs": "{'question': \"For which college team did this American professional basketball player for the Miami Heat of the National Basketball Association (NBA) who earned praise for being the NBA's leading rebounder during the 2016\u201317 Miami Heat season play?\"}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: \"Miami Heat player college team 2016-17 season leading rebounder\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: \"Miami Heat NBA player leading rebounder 2016-17 season college team\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: \"Miami Heat NBA player leading rebounder 2016-17 college team\"\n        "
+                },
+                "output": "\"Miami Heat NBA player leading rebounder 2016-17 season college team\"",
+                "id": "146b05f2-26d4-4efa-9284-61e9ab8095b0",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.\n\nYou should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.\n",
+                    "inputs": "{'question': 'What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: \"R Lee Ermy character Prefontaine film American track and field coach co-founder Nike Inc name\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: \"R Lee Ermy character name Prefontaine film American track and field coach co-founder Nike Inc\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: \"R Lee Ermy Prefontaine film character name American track and field coach co-founder of Nike Inc\"\n        "
+                },
+                "output": "\"R Lee Ermy Prefontaine film character name American track and field coach co-founder of Nike Inc\"",
+                "id": "6b8b0712-c400-41de-adc2-0ba83f93701d",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.5,
+            "eval_1": 1.0,
+            "eval_2": 0.5,
+            "eval_3": 1.0,
+            "eval_4": 0.19999999999999998,
+            "eval_5": 0,
+            "eval_6": 0,
+            "eval_7": 1.0,
+            "eval_8": 1.0,
+            "eval_9": 0.4,
+            "eval_10": 0.5,
+            "eval_11": 0,
+            "eval_12": 0.8,
+            "eval_13": 0.5,
+            "eval_14": 0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_1",
+                "demo_id": "6d878e2c-873a-47e6-a7cb-07bbb498d1b3"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "c58f4376-70d9-48f0-8fc3-6e667cf8bc18"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_3",
+                "demo_id": "146b05f2-26d4-4efa-9284-61e9ab8095b0"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "6b8b0712-c400-41de-adc2-0ba83f93701d"
+            }
+        ],
+        "task_id_set": [
+            "eval_7",
+            "eval_3",
+            "eval_1",
+            "eval_8"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_aggregator",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMReasoning",
+        "__module__": "compiler.optimizer.params.reasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_sampler_1",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "generate_query_sampler_1_demos_9c8052e9-8089-4e47-bb6d-5ec9aa0594ce": {
+                "name": "generate_query_sampler_1_demos_9c8052e9-8089-4e47-bb6d-5ec9aa0594ce",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "0ed315ef-d8b7-4bdf-9f10-06589a99dbcd",
+                    "e64bb908-6ea1-4ca0-af82-d8b4c74cb703",
+                    "00573a76-3c0e-45fe-9b31-d13b3911cdef",
+                    "0e435b58-7f93-4e2d-9be1-0f36cad7ec34"
+                ]
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMFewShot",
+        "__module__": "compiler.optimizer.params.fewshot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "Imperfect Circles is an episode of the drama that was developed by whom?"
+                },
+                "output": "\"Imperfect Circles episode drama developed by whom\"",
+                "id": "0ed315ef-d8b7-4bdf-9f10-06589a99dbcd",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "\"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"",
+                "id": "e64bb908-6ea1-4ca0-af82-d8b4c74cb703",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "For which college team did this American professional basketball player for the Miami Heat of the National Basketball Association (NBA) who earned praise for being the NBA's leading rebounder during the 2016\u201317 Miami Heat season play?"
+                },
+                "output": "\"Miami Heat NBA player leading rebounder 2016-17 season college team\"",
+                "id": "00573a76-3c0e-45fe-9b31-d13b3911cdef",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "\"R Lee Ermy character name Prefontaine film American track and field coach co-founder Nike Inc\"",
+                "id": "0e435b58-7f93-4e2d-9be1-0f36cad7ec34",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.5,
+            "eval_1": 1.0,
+            "eval_2": 0.5,
+            "eval_3": 1.0,
+            "eval_4": 0.19999999999999998,
+            "eval_5": 0,
+            "eval_6": 0,
+            "eval_7": 1.0,
+            "eval_8": 1.0,
+            "eval_9": 0.4,
+            "eval_10": 0.5,
+            "eval_11": 0,
+            "eval_12": 0.8,
+            "eval_13": 0.5,
+            "eval_14": 0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_1",
+                "demo_id": "0ed315ef-d8b7-4bdf-9f10-06589a99dbcd"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "e64bb908-6ea1-4ca0-af82-d8b4c74cb703"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_3",
+                "demo_id": "00573a76-3c0e-45fe-9b31-d13b3911cdef"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "0e435b58-7f93-4e2d-9be1-0f36cad7ec34"
+            }
+        ],
+        "task_id_set": [
+            "eval_7",
+            "eval_3",
+            "eval_1",
+            "eval_8"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_sampler_1",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMReasoning",
+        "__module__": "compiler.optimizer.params.reasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query_sampler_0",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "refine_query_sampler_0_demos_a603df1f-3025-4620-996b-364f644f00be": {
+                "name": "refine_query_sampler_0_demos_a603df1f-3025-4620-996b-364f644f00be",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "95dda0a9-2c11-4a37-aaed-5a4c8f7becc5",
+                    "a11fefd1-dab4-4aeb-8cb4-3940c191116e",
+                    "3c00e7b4-c758-4ebd-8f1b-bba3af208dd4",
+                    "f7405e36-f9df-4ca1-a7dc-e89d01cf579c"
+                ]
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMFewShot",
+        "__module__": "compiler.optimizer.params.fewshot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: Imperfect Circles | \"Imperfect Circles\" is the seventh episode of the first season of the CBS drama \"Under the Dome.\" The episode aired on August 5, 2013.\n[2]: The Imperfect Sculpture | The Imperfect Sculpture (\u5929\u7f3a\u4e00\u89d2; literally meaning \"A Day Missing A Corner\") is a 2003 Chinese television drama series made in China, directed by Yang Xinlei (\u6768\u65b0\u78ca), and is based on the 1997 Lu Xun Literary Prize-winning novel of the same name by Li Guantong (\u674e\u8d2f\u901a). The series first aired in September 2003 on [Guangxi Television].",
+                    "question": "Imperfect Circles is an episode of the drama that was developed by whom?"
+                },
+                "output": "\"Under the Dome\" CBS drama series creator or developer",
+                "id": "95dda0a9-2c11-4a37-aaed-5a4c8f7becc5",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: Leslie Skinner | Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the Bazooka.\n[2]: Ray Wheeler | Raymond Leslie Wheeler RDI FRAeS FRINA (born 25 October 1927) is a British engineer who was instrumental in Britain's successful development of rocket launchers and hovercraft.",
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "\"Colonel Leslie Alfred Skinner Stovepipe rocket propelled weapon development\"",
+                "id": "a11fefd1-dab4-4aeb-8cb4-3940c191116e",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: 2016\u201317 Miami Heat season | The 2016\u201317 Miami Heat season was the 29th season of the franchise in the National Basketball Association (NBA). After a tumultuous negotiation process, Dwyane Wade decided to leave the Heat and sign with the Chicago Bulls in the offseason. This was the first season without Wade since the 2003. Furthermore, Chris Bosh missed the entire season and had thought about potentially retiring altogether due to his continuous blood clots. The team got off to an 11\u201330 start. However the Heat rallied to an 30\u201311 finish, only to be eliminated all the same on their last game of the season. They entered game 82 needing a loss from either the Pacers or the Bulls and a victory over the Wizards. However, despite a 110\u2013102 win over the Washington Wizards, both the Pacers and the Bulls won their games. The Heat finished tied with the Chicago Bulls with identical 41\u201341 records but the Bulls won the head-to-head tie breaker against the Heat 2\u20131. As a result, the Heat missed the playoffs for the second time in three years. Hassan Whiteside earned praise for being the NBA's leading rebounder after ending his previous season as the leading shot blocker of the NBA.\n[2]: Derrick Walton | Derrick Walton Jr. (born April 3, 1995) is an American basketball player for the Miami Heat of the National Basketball Association (NBA), on a two-way contract with the Heat's NBA G League affiliate, the Sioux Falls Skyforce. Walton played college basketball for the Michigan Wolverines. In high school, he was a 2013 \"Parade\" All-American, the 2013 Michigan Boys Basketball Gatorade Player of the Year and the runner up in the 2013 Mr. Basketball of Michigan as a senior at Chandler Park Academy. He was a 2013\u201314 Big Ten Conference men's basketball season All-Freshman selection in the Big Ten for the 2013\u201314 team, which won the 2013\u201314 Big Ten Conference regular-season championship outright. He was a 2015\u201316 Big Ten Conference men's basketball season All-Big Ten third team selection by the coaches and honorable mention selection by the media as a junior. He was a 2016\u201317 Big Ten Conference men's basketball season All-Big Ten second team selection by the coaches and the media as a senior. Walton is the only Wolverine with 1,000-points, 500-rebounds and 400-assists and holds the school single-game assist record (16). He was the Most Outstanding Player of the 2017 Big Ten Conference Men's Basketball Tournament for the tournament champion 2016\u201317 Wolverines.",
+                    "question": "For which college team did this American professional basketball player for the Miami Heat of the National Basketball Association (NBA) who earned praise for being the NBA's leading rebounder during the 2016\u201317 Miami Heat season play?"
+                },
+                "output": "Hassan Whiteside college basketball team",
+                "id": "3c00e7b4-c758-4ebd-8f1b-bba3af208dd4",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: Prefontaine (film) | Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"Prefontaine\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death.\n[2]: Without Limits | Without Limits is a 1998 biographical sports film. It is written and directed by Robert Towne and follows the relationship between record-breaking distance runner Steve Prefontaine and his coach Bill Bowerman, who later co-founded Nike, Inc. Billy Crudup plays Prefontaine and Donald Sutherland plays Bowerman. It also stars Monica Potter, Jeremy Sisto, Judith Ivey, Matthew Lillard and William Mapother.",
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "R Lee Ermey character Prefontaine film American track and field coach co-founder Nike Inc",
+                "id": "f7405e36-f9df-4ca1-a7dc-e89d01cf579c",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.5,
+            "eval_1": 1.0,
+            "eval_2": 0.5,
+            "eval_3": 1.0,
+            "eval_4": 0.19999999999999998,
+            "eval_5": 0,
+            "eval_6": 0,
+            "eval_7": 1.0,
+            "eval_8": 1.0,
+            "eval_9": 0.4,
+            "eval_10": 0.5,
+            "eval_11": 0,
+            "eval_12": 0.8,
+            "eval_13": 0.5,
+            "eval_14": 0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_1",
+                "demo_id": "95dda0a9-2c11-4a37-aaed-5a4c8f7becc5"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "a11fefd1-dab4-4aeb-8cb4-3940c191116e"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_3",
+                "demo_id": "3c00e7b4-c758-4ebd-8f1b-bba3af208dd4"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "f7405e36-f9df-4ca1-a7dc-e89d01cf579c"
+            }
+        ],
+        "task_id_set": [
+            "eval_7",
+            "eval_3",
+            "eval_1",
+            "eval_8"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_sampler_0",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMReasoning",
+        "__module__": "compiler.optimizer.params.reasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query_sampler_2",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "refine_query_sampler_2_demos_af4e5d63-7824-481d-8cd1-15f53c1fc773": {
+                "name": "refine_query_sampler_2_demos_af4e5d63-7824-481d-8cd1-15f53c1fc773",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "e12b3052-bcaa-44dd-b4f0-903006442726",
+                    "99a8b65d-725b-436f-a2fa-99accda11157",
+                    "7b5da48b-a629-498a-9079-1f284a161b06",
+                    "c75e3ba2-a632-48d4-a9b1-7ac9d266b3b2"
+                ]
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMFewShot",
+        "__module__": "compiler.optimizer.params.fewshot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: Imperfect Circles | \"Imperfect Circles\" is the seventh episode of the first season of the CBS drama \"Under the Dome.\" The episode aired on August 5, 2013.\n[2]: The Imperfect Sculpture | The Imperfect Sculpture (\u5929\u7f3a\u4e00\u89d2; literally meaning \"A Day Missing A Corner\") is a 2003 Chinese television drama series made in China, directed by Yang Xinlei (\u6768\u65b0\u78ca), and is based on the 1997 Lu Xun Literary Prize-winning novel of the same name by Li Guantong (\u674e\u8d2f\u901a). The series first aired in September 2003 on [Guangxi Television].",
+                    "question": "Imperfect Circles is an episode of the drama that was developed by whom?"
+                },
+                "output": "Under the Dome CBS drama series developer",
+                "id": "e12b3052-bcaa-44dd-b4f0-903006442726",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: Leslie Skinner | Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the Bazooka.\n[2]: Ray Wheeler | Raymond Leslie Wheeler RDI FRAeS FRINA (born 25 October 1927) is a British engineer who was instrumental in Britain's successful development of rocket launchers and hovercraft.",
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "\"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"",
+                "id": "99a8b65d-725b-436f-a2fa-99accda11157",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: 2016\u201317 Miami Heat season | The 2016\u201317 Miami Heat season was the 29th season of the franchise in the National Basketball Association (NBA). After a tumultuous negotiation process, Dwyane Wade decided to leave the Heat and sign with the Chicago Bulls in the offseason. This was the first season without Wade since the 2003. Furthermore, Chris Bosh missed the entire season and had thought about potentially retiring altogether due to his continuous blood clots. The team got off to an 11\u201330 start. However the Heat rallied to an 30\u201311 finish, only to be eliminated all the same on their last game of the season. They entered game 82 needing a loss from either the Pacers or the Bulls and a victory over the Wizards. However, despite a 110\u2013102 win over the Washington Wizards, both the Pacers and the Bulls won their games. The Heat finished tied with the Chicago Bulls with identical 41\u201341 records but the Bulls won the head-to-head tie breaker against the Heat 2\u20131. As a result, the Heat missed the playoffs for the second time in three years. Hassan Whiteside earned praise for being the NBA's leading rebounder after ending his previous season as the leading shot blocker of the NBA.\n[2]: Derrick Walton | Derrick Walton Jr. (born April 3, 1995) is an American basketball player for the Miami Heat of the National Basketball Association (NBA), on a two-way contract with the Heat's NBA G League affiliate, the Sioux Falls Skyforce. Walton played college basketball for the Michigan Wolverines. In high school, he was a 2013 \"Parade\" All-American, the 2013 Michigan Boys Basketball Gatorade Player of the Year and the runner up in the 2013 Mr. Basketball of Michigan as a senior at Chandler Park Academy. He was a 2013\u201314 Big Ten Conference men's basketball season All-Freshman selection in the Big Ten for the 2013\u201314 team, which won the 2013\u201314 Big Ten Conference regular-season championship outright. He was a 2015\u201316 Big Ten Conference men's basketball season All-Big Ten third team selection by the coaches and honorable mention selection by the media as a junior. He was a 2016\u201317 Big Ten Conference men's basketball season All-Big Ten second team selection by the coaches and the media as a senior. Walton is the only Wolverine with 1,000-points, 500-rebounds and 400-assists and holds the school single-game assist record (16). He was the Most Outstanding Player of the 2017 Big Ten Conference Men's Basketball Tournament for the tournament champion 2016\u201317 Wolverines.",
+                    "question": "For which college team did this American professional basketball player for the Miami Heat of the National Basketball Association (NBA) who earned praise for being the NBA's leading rebounder during the 2016\u201317 Miami Heat season play?"
+                },
+                "output": "Miami Heat leading rebounder 2016-17 season college team",
+                "id": "7b5da48b-a629-498a-9079-1f284a161b06",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: Prefontaine (film) | Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"Prefontaine\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death.\n[2]: Without Limits | Without Limits is a 1998 biographical sports film. It is written and directed by Robert Towne and follows the relationship between record-breaking distance runner Steve Prefontaine and his coach Bill Bowerman, who later co-founded Nike, Inc. Billy Crudup plays Prefontaine and Donald Sutherland plays Bowerman. It also stars Monica Potter, Jeremy Sisto, Judith Ivey, Matthew Lillard and William Mapother.",
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "R. Lee Ermey character Prefontaine film American track and field coach co-founder Nike Inc",
+                "id": "c75e3ba2-a632-48d4-a9b1-7ac9d266b3b2",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.5,
+            "eval_1": 1.0,
+            "eval_2": 0.5,
+            "eval_3": 1.0,
+            "eval_4": 0.19999999999999998,
+            "eval_5": 0,
+            "eval_6": 0,
+            "eval_7": 1.0,
+            "eval_8": 1.0,
+            "eval_9": 0.4,
+            "eval_10": 0.5,
+            "eval_11": 0,
+            "eval_12": 0.8,
+            "eval_13": 0.5,
+            "eval_14": 0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_1",
+                "demo_id": "e12b3052-bcaa-44dd-b4f0-903006442726"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "99a8b65d-725b-436f-a2fa-99accda11157"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_3",
+                "demo_id": "7b5da48b-a629-498a-9079-1f284a161b06"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "c75e3ba2-a632-48d4-a9b1-7ac9d266b3b2"
+            }
+        ],
+        "task_id_set": [
+            "eval_7",
+            "eval_3",
+            "eval_1",
+            "eval_8"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_sampler_2",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMReasoning",
+        "__module__": "compiler.optimizer.params.reasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_sampler_0",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "generate_query_sampler_0_demos_f35cf2a8-e08d-4783-bc5c-c6daa780f790": {
+                "name": "generate_query_sampler_0_demos_f35cf2a8-e08d-4783-bc5c-c6daa780f790",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "5a925437-21c0-42d3-8e53-874189d66e2a",
+                    "f3ced6cb-33e5-488e-a2f3-0e30a119e97e",
+                    "54b2e459-b900-487a-8092-48cdfe61d7f3",
+                    "8037960c-96d4-4f5b-8120-2b480563e338"
+                ]
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMFewShot",
+        "__module__": "compiler.optimizer.params.fewshot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "Imperfect Circles is an episode of the drama that was developed by whom?"
+                },
+                "output": "\"Imperfect Circles episode drama developed by\"",
+                "id": "5a925437-21c0-42d3-8e53-874189d66e2a",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "\"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"",
+                "id": "f3ced6cb-33e5-488e-a2f3-0e30a119e97e",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "For which college team did this American professional basketball player for the Miami Heat of the National Basketball Association (NBA) who earned praise for being the NBA's leading rebounder during the 2016\u201317 Miami Heat season play?"
+                },
+                "output": "\"Miami Heat player college team 2016-17 season leading rebounder\"",
+                "id": "54b2e459-b900-487a-8092-48cdfe61d7f3",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "\"R Lee Ermy character Prefontaine film American track and field coach co-founder Nike Inc name\"",
+                "id": "8037960c-96d4-4f5b-8120-2b480563e338",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.5,
+            "eval_1": 1.0,
+            "eval_2": 0.5,
+            "eval_3": 1.0,
+            "eval_4": 0.19999999999999998,
+            "eval_5": 0,
+            "eval_6": 0,
+            "eval_7": 1.0,
+            "eval_8": 1.0,
+            "eval_9": 0.4,
+            "eval_10": 0.5,
+            "eval_11": 0,
+            "eval_12": 0.8,
+            "eval_13": 0.5,
+            "eval_14": 0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_1",
+                "demo_id": "5a925437-21c0-42d3-8e53-874189d66e2a"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "f3ced6cb-33e5-488e-a2f3-0e30a119e97e"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_3",
+                "demo_id": "54b2e459-b900-487a-8092-48cdfe61d7f3"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "8037960c-96d4-4f5b-8120-2b480563e338"
+            }
+        ],
+        "task_id_set": [
+            "eval_7",
+            "eval_3",
+            "eval_1",
+            "eval_8"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_sampler_0",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMReasoning",
+        "__module__": "compiler.optimizer.params.reasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query_sampler_1",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "refine_query_sampler_1_demos_c5833097-c8dc-4f3a-8a3c-6b13f241ecce": {
+                "name": "refine_query_sampler_1_demos_c5833097-c8dc-4f3a-8a3c-6b13f241ecce",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "a4b04ce2-45c0-4f6f-a8d5-08419b9b23d1",
+                    "91f994cc-1e6f-48bf-983e-c5a19f8c7547",
+                    "8632e88d-6a14-4f55-ac16-8fb761f4d2f4",
+                    "1414c45d-e79e-411b-994e-0ad07fd9bc5e"
+                ]
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMFewShot",
+        "__module__": "compiler.optimizer.params.fewshot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: Imperfect Circles | \"Imperfect Circles\" is the seventh episode of the first season of the CBS drama \"Under the Dome.\" The episode aired on August 5, 2013.\n[2]: The Imperfect Sculpture | The Imperfect Sculpture (\u5929\u7f3a\u4e00\u89d2; literally meaning \"A Day Missing A Corner\") is a 2003 Chinese television drama series made in China, directed by Yang Xinlei (\u6768\u65b0\u78ca), and is based on the 1997 Lu Xun Literary Prize-winning novel of the same name by Li Guantong (\u674e\u8d2f\u901a). The series first aired in September 2003 on [Guangxi Television].",
+                    "question": "Imperfect Circles is an episode of the drama that was developed by whom?"
+                },
+                "output": "\"Under the Dome\" CBS drama development creators or producers",
+                "id": "a4b04ce2-45c0-4f6f-a8d5-08419b9b23d1",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: Leslie Skinner | Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the Bazooka.\n[2]: Ray Wheeler | Raymond Leslie Wheeler RDI FRAeS FRINA (born 25 October 1927) is a British engineer who was instrumental in Britain's successful development of rocket launchers and hovercraft.",
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "\"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"",
+                "id": "91f994cc-1e6f-48bf-983e-c5a19f8c7547",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: 2016\u201317 Miami Heat season | The 2016\u201317 Miami Heat season was the 29th season of the franchise in the National Basketball Association (NBA). After a tumultuous negotiation process, Dwyane Wade decided to leave the Heat and sign with the Chicago Bulls in the offseason. This was the first season without Wade since the 2003. Furthermore, Chris Bosh missed the entire season and had thought about potentially retiring altogether due to his continuous blood clots. The team got off to an 11\u201330 start. However the Heat rallied to an 30\u201311 finish, only to be eliminated all the same on their last game of the season. They entered game 82 needing a loss from either the Pacers or the Bulls and a victory over the Wizards. However, despite a 110\u2013102 win over the Washington Wizards, both the Pacers and the Bulls won their games. The Heat finished tied with the Chicago Bulls with identical 41\u201341 records but the Bulls won the head-to-head tie breaker against the Heat 2\u20131. As a result, the Heat missed the playoffs for the second time in three years. Hassan Whiteside earned praise for being the NBA's leading rebounder after ending his previous season as the leading shot blocker of the NBA.\n[2]: Derrick Walton | Derrick Walton Jr. (born April 3, 1995) is an American basketball player for the Miami Heat of the National Basketball Association (NBA), on a two-way contract with the Heat's NBA G League affiliate, the Sioux Falls Skyforce. Walton played college basketball for the Michigan Wolverines. In high school, he was a 2013 \"Parade\" All-American, the 2013 Michigan Boys Basketball Gatorade Player of the Year and the runner up in the 2013 Mr. Basketball of Michigan as a senior at Chandler Park Academy. He was a 2013\u201314 Big Ten Conference men's basketball season All-Freshman selection in the Big Ten for the 2013\u201314 team, which won the 2013\u201314 Big Ten Conference regular-season championship outright. He was a 2015\u201316 Big Ten Conference men's basketball season All-Big Ten third team selection by the coaches and honorable mention selection by the media as a junior. He was a 2016\u201317 Big Ten Conference men's basketball season All-Big Ten second team selection by the coaches and the media as a senior. Walton is the only Wolverine with 1,000-points, 500-rebounds and 400-assists and holds the school single-game assist record (16). He was the Most Outstanding Player of the 2017 Big Ten Conference Men's Basketball Tournament for the tournament champion 2016\u201317 Wolverines.",
+                    "question": "For which college team did this American professional basketball player for the Miami Heat of the National Basketball Association (NBA) who earned praise for being the NBA's leading rebounder during the 2016\u201317 Miami Heat season play?"
+                },
+                "output": "Hassan Whiteside college basketball team\n\n",
+                "id": "8632e88d-6a14-4f55-ac16-8fb761f4d2f4",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: Prefontaine (film) | Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"Prefontaine\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death.\n[2]: Without Limits | Without Limits is a 1998 biographical sports film. It is written and directed by Robert Towne and follows the relationship between record-breaking distance runner Steve Prefontaine and his coach Bill Bowerman, who later co-founded Nike, Inc. Billy Crudup plays Prefontaine and Donald Sutherland plays Bowerman. It also stars Monica Potter, Jeremy Sisto, Judith Ivey, Matthew Lillard and William Mapother.",
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "R. Lee Ermey character Prefontaine film American track and field coach co-founder Nike Inc",
+                "id": "1414c45d-e79e-411b-994e-0ad07fd9bc5e",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.5,
+            "eval_1": 1.0,
+            "eval_2": 0.5,
+            "eval_3": 1.0,
+            "eval_4": 0.19999999999999998,
+            "eval_5": 0,
+            "eval_6": 0,
+            "eval_7": 1.0,
+            "eval_8": 1.0,
+            "eval_9": 0.4,
+            "eval_10": 0.5,
+            "eval_11": 0,
+            "eval_12": 0.8,
+            "eval_13": 0.5,
+            "eval_14": 0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_1",
+                "demo_id": "a4b04ce2-45c0-4f6f-a8d5-08419b9b23d1"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "91f994cc-1e6f-48bf-983e-c5a19f8c7547"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_3",
+                "demo_id": "8632e88d-6a14-4f55-ac16-8fb761f4d2f4"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "1414c45d-e79e-411b-994e-0ad07fd9bc5e"
+            }
+        ],
+        "task_id_set": [
+            "eval_7",
+            "eval_3",
+            "eval_1",
+            "eval_8"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_sampler_1",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMReasoning",
+        "__module__": "compiler.optimizer.params.reasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_answer",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "generate_answer_demos_c03d7f1c-850d-474c-975c-e9883a3c7527": {
+                "name": "generate_answer_demos_c03d7f1c-850d-474c-975c-e9883a3c7527",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "f1fa7323-2a33-4166-88fc-68bed423aeb9",
+                    "4baa83b6-602c-4864-8c3f-71a5b426db66",
+                    "6841ca40-8606-4735-9386-ebb84f14e5ca",
+                    "e572fc1e-cd68-47c7-92a7-e0ccb5b293a5"
+                ]
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMFewShot",
+        "__module__": "compiler.optimizer.params.fewshot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "context": "[1]: Imperfect Circles | \"Imperfect Circles\" is the seventh episode of the first season of the CBS drama \"Under the Dome.\" The episode aired on August 5, 2013.\n[2]: The Imperfect Sculpture | The Imperfect Sculpture (\u5929\u7f3a\u4e00\u89d2; literally meaning \"A Day Missing A Corner\") is a 2003 Chinese television drama series made in China, directed by Yang Xinlei (\u6768\u65b0\u78ca), and is based on the 1997 Lu Xun Literary Prize-winning novel of the same name by Li Guantong (\u674e\u8d2f\u901a). The series first aired in September 2003 on [Guangxi Television].\n[3]: Under the Dome (TV series) | Under the Dome is an American science-fiction mystery drama television series. It premiered on CBS on June 24, 2013, and concluded on September 10, 2015. The series was developed by Brian K. Vaughan and based on the novel of the same name by Stephen King.\n[4]: List of Under the Dome episodes | \"Under the Dome\" is an American science fiction mystery drama television series developed by Brian K. Vaughan and based on the novel of the same name by Stephen King. \"Under the Dome\" premiered on CBS on June 24, 2013, and concluded on September 10, 2015. 39 episodes were produced over the show's three-season run.",
+                    "question": "Imperfect Circles is an episode of the drama that was developed by whom?"
+                },
+                "output": "Brian K. Vaughan",
+                "id": "f1fa7323-2a33-4166-88fc-68bed423aeb9",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: Leslie Skinner | Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the Bazooka.\n[2]: Ray Wheeler | Raymond Leslie Wheeler RDI FRAeS FRINA (born 25 October 1927) is a British engineer who was instrumental in Britain's successful development of rocket launchers and hovercraft.",
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "Bazooka",
+                "id": "4baa83b6-602c-4864-8c3f-71a5b426db66",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: 2016\u201317 Miami Heat season | The 2016\u201317 Miami Heat season was the 29th season of the franchise in the National Basketball Association (NBA). After a tumultuous negotiation process, Dwyane Wade decided to leave the Heat and sign with the Chicago Bulls in the offseason. This was the first season without Wade since the 2003. Furthermore, Chris Bosh missed the entire season and had thought about potentially retiring altogether due to his continuous blood clots. The team got off to an 11\u201330 start. However the Heat rallied to an 30\u201311 finish, only to be eliminated all the same on their last game of the season. They entered game 82 needing a loss from either the Pacers or the Bulls and a victory over the Wizards. However, despite a 110\u2013102 win over the Washington Wizards, both the Pacers and the Bulls won their games. The Heat finished tied with the Chicago Bulls with identical 41\u201341 records but the Bulls won the head-to-head tie breaker against the Heat 2\u20131. As a result, the Heat missed the playoffs for the second time in three years. Hassan Whiteside earned praise for being the NBA's leading rebounder after ending his previous season as the leading shot blocker of the NBA.\n[2]: Derrick Walton | Derrick Walton Jr. (born April 3, 1995) is an American basketball player for the Miami Heat of the National Basketball Association (NBA), on a two-way contract with the Heat's NBA G League affiliate, the Sioux Falls Skyforce. Walton played college basketball for the Michigan Wolverines. In high school, he was a 2013 \"Parade\" All-American, the 2013 Michigan Boys Basketball Gatorade Player of the Year and the runner up in the 2013 Mr. Basketball of Michigan as a senior at Chandler Park Academy. He was a 2013\u201314 Big Ten Conference men's basketball season All-Freshman selection in the Big Ten for the 2013\u201314 team, which won the 2013\u201314 Big Ten Conference regular-season championship outright. He was a 2015\u201316 Big Ten Conference men's basketball season All-Big Ten third team selection by the coaches and honorable mention selection by the media as a junior. He was a 2016\u201317 Big Ten Conference men's basketball season All-Big Ten second team selection by the coaches and the media as a senior. Walton is the only Wolverine with 1,000-points, 500-rebounds and 400-assists and holds the school single-game assist record (16). He was the Most Outstanding Player of the 2017 Big Ten Conference Men's Basketball Tournament for the tournament champion 2016\u201317 Wolverines.\n[3]: Hassan Whiteside | Hassan Niam Whiteside (born June 13, 1989) is an American professional basketball player for the Miami Heat of the National Basketball Association (NBA). He played college basketball for the Marshall Thundering Herd before being drafted 33rd overall by the Sacramento Kings in the 2010 NBA draft.",
+                    "question": "For which college team did this American professional basketball player for the Miami Heat of the National Basketball Association (NBA) who earned praise for being the NBA's leading rebounder during the 2016\u201317 Miami Heat season play?"
+                },
+                "output": "Marshall Thundering Herd",
+                "id": "6841ca40-8606-4735-9386-ebb84f14e5ca",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "context": "[1]: Prefontaine (film) | Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"Prefontaine\" tells the story from the point of view of Bill Dellinger, played by Ed O'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner's girlfriend at the time of his death.\n[2]: Without Limits | Without Limits is a 1998 biographical sports film. It is written and directed by Robert Towne and follows the relationship between record-breaking distance runner Steve Prefontaine and his coach Bill Bowerman, who later co-founded Nike, Inc. Billy Crudup plays Prefontaine and Donald Sutherland plays Bowerman. It also stars Monica Potter, Jeremy Sisto, Judith Ivey, Matthew Lillard and William Mapother.",
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "Bill Bowerman",
+                "id": "e572fc1e-cd68-47c7-92a7-e0ccb5b293a5",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.5,
+            "eval_1": 1.0,
+            "eval_2": 0.5,
+            "eval_3": 1.0,
+            "eval_4": 0.19999999999999998,
+            "eval_5": 0,
+            "eval_6": 0,
+            "eval_7": 1.0,
+            "eval_8": 1.0,
+            "eval_9": 0.4,
+            "eval_10": 0.5,
+            "eval_11": 0,
+            "eval_12": 0.8,
+            "eval_13": 0.5,
+            "eval_14": 0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_1",
+                "demo_id": "f1fa7323-2a33-4166-88fc-68bed423aeb9"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "4baa83b6-602c-4864-8c3f-71a5b426db66"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_3",
+                "demo_id": "6841ca40-8606-4735-9386-ebb84f14e5ca"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "e572fc1e-cd68-47c7-92a7-e0ccb5b293a5"
+            }
+        ],
+        "task_id_set": [
+            "eval_7",
+            "eval_3",
+            "eval_1",
+            "eval_8"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_answer",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMReasoning",
+        "__module__": "compiler.optimizer.params.reasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "generate_query_sampler_2",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "generate_query_sampler_2_demos_d1124283-256e-4e4b-8232-425d774eccb4": {
+                "name": "generate_query_sampler_2_demos_d1124283-256e-4e4b-8232-425d774eccb4",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "470627d9-ac7f-402d-b44e-6765c452f278",
+                    "20f7e10a-bbd6-44f4-a3d4-01fe66b45aaa",
+                    "312bd46d-21c2-49e1-85bc-61a8278823e3",
+                    "fb7cbbd0-9c4b-45f6-bad9-e1b0dde61ec6"
+                ]
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMFewShot",
+        "__module__": "compiler.optimizer.params.fewshot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "question": "Imperfect Circles is an episode of the drama that was developed by whom?"
+                },
+                "output": "\"Imperfect Circles episode drama developed by whom\"",
+                "id": "470627d9-ac7f-402d-b44e-6765c452f278",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+                },
+                "output": "\"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"",
+                "id": "20f7e10a-bbd6-44f4-a3d4-01fe66b45aaa",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "For which college team did this American professional basketball player for the Miami Heat of the National Basketball Association (NBA) who earned praise for being the NBA's leading rebounder during the 2016\u201317 Miami Heat season play?"
+                },
+                "output": "\"Miami Heat NBA player leading rebounder 2016-17 college team\"",
+                "id": "312bd46d-21c2-49e1-85bc-61a8278823e3",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+                },
+                "output": "\"R Lee Ermy Prefontaine film character name American track and field coach co-founder of Nike Inc\"",
+                "id": "fb7cbbd0-9c4b-45f6-bad9-e1b0dde61ec6",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.5,
+            "eval_1": 1.0,
+            "eval_2": 0.5,
+            "eval_3": 1.0,
+            "eval_4": 0.19999999999999998,
+            "eval_5": 0,
+            "eval_6": 0,
+            "eval_7": 1.0,
+            "eval_8": 1.0,
+            "eval_9": 0.4,
+            "eval_10": 0.5,
+            "eval_11": 0,
+            "eval_12": 0.8,
+            "eval_13": 0.5,
+            "eval_14": 0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_1",
+                "demo_id": "470627d9-ac7f-402d-b44e-6765c452f278"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "20f7e10a-bbd6-44f4-a3d4-01fe66b45aaa"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_3",
+                "demo_id": "312bd46d-21c2-49e1-85bc-61a8278823e3"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "fb7cbbd0-9c4b-45f6-bad9-e1b0dde61ec6"
+            }
+        ],
+        "task_id_set": [
+            "eval_7",
+            "eval_3",
+            "eval_1",
+            "eval_8"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "generate_query_sampler_2",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMReasoning",
+        "__module__": "compiler.optimizer.params.reasoning"
+    },
+    {
+        "name": "few_shot",
+        "module_name": "refine_query_aggregator",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "refine_query_aggregator_demos_0a120cf9-19a5-4ce9-9523-e9bdcd61a5eb": {
+                "name": "refine_query_aggregator_demos_0a120cf9-19a5-4ce9-9523-e9bdcd61a5eb",
+                "type": "DemoOption",
+                "demo_ref": [
+                    "cb1be6ba-bfd0-44d1-9fea-56dd9078a7ae",
+                    "64a158bb-7b51-4a8c-bc8d-15d01ec8e979",
+                    "54eaea2f-dc59-46eb-98e8-6d13e54136dc",
+                    "d65c90de-7117-43b7-8bac-864a7e48d689"
+                ]
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMFewShot",
+        "__module__": "compiler.optimizer.params.fewshot",
+        "demo_cache": [
+            {
+                "inputs": {
+                    "worker_task": "\nYou are good at extract relevant details from the provided context and question. Your task is to propose an effective search query that will help retrieve additional information to answer the question. Think carefully about the implications of your search. The search query should target the missing information while avoiding redundancy. \n\nYou should not answer the question directly, nor assume any prior knowledge. You must generate an accurate search query that considers the context and question to retrieve the most relevant information.\n",
+                    "inputs": "{'context': '[1]: Imperfect Circles | \"Imperfect Circles\" is the seventh episode of the first season of the CBS drama \"Under the Dome.\" The episode aired on August 5, 2013.\\n[2]: The Imperfect Sculpture | The Imperfect Sculpture (\u5929\u7f3a\u4e00\u89d2; literally meaning \"A Day Missing A Corner\") is a 2003 Chinese television drama series made in China, directed by Yang Xinlei (\u6768\u65b0\u78ca), and is based on the 1997 Lu Xun Literary Prize-winning novel of the same name by Li Guantong (\u674e\u8d2f\u901a). The series first aired in September 2003 on [Guangxi Television].', 'question': 'Imperfect Circles is an episode of the drama that was developed by whom?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: \"Under the Dome\" CBS drama series creator or developer\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: \"Under the Dome\" CBS drama development creators or producers\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: Under the Dome CBS drama series developer\n        "
+                },
+                "output": "\"Under the Dome CBS drama series creator or developer\"",
+                "id": "cb1be6ba-bfd0-44d1-9fea-56dd9078a7ae",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are good at extract relevant details from the provided context and question. Your task is to propose an effective search query that will help retrieve additional information to answer the question. Think carefully about the implications of your search. The search query should target the missing information while avoiding redundancy. \n\nYou should not answer the question directly, nor assume any prior knowledge. You must generate an accurate search query that considers the context and question to retrieve the most relevant information.\n",
+                    "inputs": "{'context': \"[1]: Leslie Skinner | Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled weapons during World War II, notably the first shoulder-fired missile system, the Bazooka.\\n[2]: Ray Wheeler | Raymond Leslie Wheeler RDI FRAeS FRINA (born 25 October 1927) is a British engineer who was instrumental in Britain's successful development of rocket launchers and hovercraft.\", 'question': 'Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: \"Colonel Leslie Alfred Skinner Stovepipe rocket propelled weapon development\"\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: \"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: \"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"\n        "
+                },
+                "output": "\"Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development\"",
+                "id": "64a158bb-7b51-4a8c-bc8d-15d01ec8e979",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are good at extract relevant details from the provided context and question. Your task is to propose an effective search query that will help retrieve additional information to answer the question. Think carefully about the implications of your search. The search query should target the missing information while avoiding redundancy. \n\nYou should not answer the question directly, nor assume any prior knowledge. You must generate an accurate search query that considers the context and question to retrieve the most relevant information.\n",
+                    "inputs": "{'context': '[1]: 2016\u201317 Miami Heat season | The 2016\u201317 Miami Heat season was the 29th season of the franchise in the National Basketball Association (NBA). After a tumultuous negotiation process, Dwyane Wade decided to leave the Heat and sign with the Chicago Bulls in the offseason. This was the first season without Wade since the 2003. Furthermore, Chris Bosh missed the entire season and had thought about potentially retiring altogether due to his continuous blood clots. The team got off to an 11\u201330 start. However the Heat rallied to an 30\u201311 finish, only to be eliminated all the same on their last game of the season. They entered game 82 needing a loss from either the Pacers or the Bulls and a victory over the Wizards. However, despite a 110\u2013102 win over the Washington Wizards, both the Pacers and the Bulls won their games. The Heat finished tied with the Chicago Bulls with identical 41\u201341 records but the Bulls won the head-to-head tie breaker against the Heat 2\u20131. As a result, the Heat missed the playoffs for the second time in three years. Hassan Whiteside earned praise for being the NBA\\'s leading rebounder after ending his previous season as the leading shot blocker of the NBA.\\n[2]: Derrick Walton | Derrick Walton Jr. (born April 3, 1995) is an American basketball player for the Miami Heat of the National Basketball Association (NBA), on a two-way contract with the Heat\\'s NBA G League affiliate, the Sioux Falls Skyforce. Walton played college basketball for the Michigan Wolverines. In high school, he was a 2013 \"Parade\" All-American, the 2013 Michigan Boys Basketball Gatorade Player of the Year and the runner up in the 2013 Mr. Basketball of Michigan as a senior at Chandler Park Academy. He was a 2013\u201314 Big Ten Conference men\\'s basketball season All-Freshman selection in the Big Ten for the 2013\u201314 team, which won the 2013\u201314 Big Ten Conference regular-season championship outright. He was a 2015\u201316 Big Ten Conference men\\'s basketball season All-Big Ten third team selection by the coaches and honorable mention selection by the media as a junior. He was a 2016\u201317 Big Ten Conference men\\'s basketball season All-Big Ten second team selection by the coaches and the media as a senior. Walton is the only Wolverine with 1,000-points, 500-rebounds and 400-assists and holds the school single-game assist record (16). He was the Most Outstanding Player of the 2017 Big Ten Conference Men\\'s Basketball Tournament for the tournament champion 2016\u201317 Wolverines.', 'question': \"For which college team did this American professional basketball player for the Miami Heat of the National Basketball Association (NBA) who earned praise for being the NBA's leading rebounder during the 2016\u201317 Miami Heat season play?\"}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: Hassan Whiteside college basketball team\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: Hassan Whiteside college basketball team\n\n\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: Miami Heat leading rebounder 2016-17 season college team\n        "
+                },
+                "output": "Hassan Whiteside college basketball team",
+                "id": "54eaea2f-dc59-46eb-98e8-6d13e54136dc",
+                "reasoning": null
+            },
+            {
+                "inputs": {
+                    "worker_task": "\nYou are good at extract relevant details from the provided context and question. Your task is to propose an effective search query that will help retrieve additional information to answer the question. Think carefully about the implications of your search. The search query should target the missing information while avoiding redundancy. \n\nYou should not answer the question directly, nor assume any prior knowledge. You must generate an accurate search query that considers the context and question to retrieve the most relevant information.\n",
+                    "inputs": "{'context': '[1]: Prefontaine (film) | Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the title character and R. Lee Ermey plays Bill Bowerman. The film was written by Steve James and Eugene Corr, and directed by James. \"Prefontaine\" tells the story from the point of view of Bill Dellinger, played by Ed O\\'Neill, the assistant coach who was with him day-to-day, and Nancy Alleman, the runner\\'s girlfriend at the time of his death.\\n[2]: Without Limits | Without Limits is a 1998 biographical sports film. It is written and directed by Robert Towne and follows the relationship between record-breaking distance runner Steve Prefontaine and his coach Bill Bowerman, who later co-founded Nike, Inc. Billy Crudup plays Prefontaine and Donald Sutherland plays Bowerman. It also stars Monica Potter, Jeremy Sisto, Judith Ivey, Matthew Lillard and William Mapother.', 'question': 'What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?'}",
+                    "proposals": "\n** Worker Proposal 0 **\n\nRationale: None\n\nAnswer: R Lee Ermey character Prefontaine film American track and field coach co-founder Nike Inc\n        \n---\n\n** Worker Proposal 1 **\n\nRationale: None\n\nAnswer: R. Lee Ermey character Prefontaine film American track and field coach co-founder Nike Inc\n        \n---\n\n** Worker Proposal 2 **\n\nRationale: None\n\nAnswer: R. Lee Ermey character Prefontaine film American track and field coach co-founder Nike Inc\n        "
+                },
+                "output": "\"R. Lee Ermey character in Prefontaine film and American track and field coach co-founder of Nike Inc\"",
+                "id": "d65c90de-7117-43b7-8bac-864a7e48d689",
+                "reasoning": null
+            }
+        ],
+        "best_score_by_task": {
+            "eval_0": 0.5,
+            "eval_1": 1.0,
+            "eval_2": 0.5,
+            "eval_3": 1.0,
+            "eval_4": 0.19999999999999998,
+            "eval_5": 0,
+            "eval_6": 0,
+            "eval_7": 1.0,
+            "eval_8": 1.0,
+            "eval_9": 0.4,
+            "eval_10": 0.5,
+            "eval_11": 0,
+            "eval_12": 0.8,
+            "eval_13": 0.5,
+            "eval_14": 0
+        },
+        "demo_pq": [
+            {
+                "score": 1.0,
+                "task_id": "eval_1",
+                "demo_id": "cb1be6ba-bfd0-44d1-9fea-56dd9078a7ae"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_7",
+                "demo_id": "64a158bb-7b51-4a8c-bc8d-15d01ec8e979"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_3",
+                "demo_id": "54eaea2f-dc59-46eb-98e8-6d13e54136dc"
+            },
+            {
+                "score": 1.0,
+                "task_id": "eval_8",
+                "demo_id": "d65c90de-7117-43b7-8bac-864a7e48d689"
+            }
+        ],
+        "task_id_set": [
+            "eval_7",
+            "eval_3",
+            "eval_1",
+            "eval_8"
+        ],
+        "max_num": 4,
+        "current_best_score_sum": 4.0,
+        "allow_duplicate": false
+    },
+    {
+        "name": "reasoning",
+        "module_name": "refine_query_aggregator",
+        "options": {
+            "NoChange": {
+                "name": "NoChange",
+                "type": "NoChange"
+            },
+            "ZeroShotCoT": {
+                "name": "ZeroShotCoT",
+                "type": "ZeroShotCoT"
+            }
+        },
+        "default_option": "NoChange",
+        "__class__": "LMReasoning",
+        "__module__": "compiler.optimizer.params.reasoning"
+    }
+]

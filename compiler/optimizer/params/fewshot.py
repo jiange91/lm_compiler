@@ -6,6 +6,7 @@ import os
 import json
 import logging
 from pathlib import Path
+from itertools import permutations, combinations
 
 
 logger = logging.getLogger(__name__)
@@ -53,11 +54,17 @@ class LMFewShot(DynamicParamBase):
             # assert t != EvolveType.ID, 'Should evolve'
             if t == EvolveType.ID:
                 Warning(f'Given evaluation result does not contain good demos for {module_name}')
-                
+        
         # add user demos
-        if user_demos is not None:
-            self.add_option(DemoOption('user_demos', user_demos))
-    
+        if user_demos:
+            for demo in user_demos:
+                self.demo_cache[demo.id] = demo
+            demo_refs = [demo.id for demo in user_demos]
+            # add all combinations of user demos
+            option_combos = list(combinations(demo_refs, max_num)) if len(demo_refs) > max_num else [demo_refs]
+            for i, user_option in enumerate(option_combos):
+                option_name = f'{self.module_name}_demos_user_combo_{i}'
+                self.add_option(DemoOption(option_name, list(user_option)))
 
     def _evolve(self, eval_result: EvaluationResult) -> EvolveType:
         """Update demo options given current evaluation result
@@ -155,9 +162,13 @@ class LMFewShot(DynamicParamBase):
         task_id_set = set(data['task_id_set'])
         param.task_id_set = task_id_set
         
-        loaded_options = data['options']
-        loaded_options.pop('Identity', None)
-        loaded_options = {name: DemoOption.from_dict(option, demo_cache) for name, option in loaded_options.items()}
+        raw_loaded_options = data['options']
+        loaded_options = {}
+        for name, option in raw_loaded_options.items():
+            if option['name'] == 'NoChange':
+                loaded_options[name] = NoChange()
+            else:
+                loaded_options[name] = DemoOption.from_dict(option, demo_cache)
         
         param.current_best_score_sum = current_best_score_sum
         param.options.update(loaded_options)

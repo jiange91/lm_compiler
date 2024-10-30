@@ -252,7 +252,7 @@ class OptimizationLayer:
         return new_modules, trace_for_next_level
 
     def generate_trial_id(self, trial_number: int) -> str:
-        return self.top_down_info.trace_back + f'_{self.name}_{trial_number}'
+        return '|'.join(self.top_down_info.trace_back + [f'{self.name}_{trial_number}'])
 
     def propose(
         self,

@@ -60,8 +60,18 @@ meta_model = MetaPromptingScaffolding(
 )
 
 class MetaPrompting(ReasonThenFormat):
+    """
+    Implementation adopted from https://github.com/suzgunmirac/meta-prompting
+    """
     def __init__(self):
         super().__init__("MetaPrompting")
+    
+    def describe(self):
+        desc = """
+        - Meta Prompting -
+        Dynamically spwan expert persona to tackle sub-problems. The original agent orchestrates the information flow and execution of the expert personas. The history of orchestrations is kept as rationale.
+        """
+        return desc
     
     def _get_cost_indicator(self):
         return 8.0

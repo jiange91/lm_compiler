@@ -191,7 +191,6 @@ def langchain_lm_kernel({inputs_str}):
         lm_module.reasoning = self
         lm_module.lm = None # to trigger reset() incase you forget
         return lm_module
-        
 
     @classmethod
     def from_dict(cls, data: dict):
@@ -203,13 +202,23 @@ class ZeroShotCoT(ReasonThenFormat):
     
     def _get_cost_indicator(self):
         return 2.0
+    
+    def describe(self):
+        desc = """
+        - ZeroShotCoT -
+        Return step-by-step reasoning for the given chat prompt messages.
+        
+        Reasoning Prompt: 
+            Let's solve this problem step by step before giving the final response.
+        """
+        return desc
         
     def reasoning_step(
         self, 
         chat_messages: list[BaseMessage], 
         lm: ChatOpenAI | ChatTogether, 
     ) -> list[BaseMessage]:
-        h = HumanMessage("Let's solve this problem step by step before giving the final response\n")
+        h = HumanMessage("Let's solve this problem step by step before giving the final response.\n")
         chat_messages.append(h)
         try:
             # print("zero shot reasoning step")
@@ -229,6 +238,16 @@ class PlanBefore(ReasonThenFormat):
     
     def _get_cost_indicator(self):
         return 2.0
+    
+    def describe(self):
+        desc = """
+        - PlanBefore -
+        Similar to the planner in the LLMCompiler paper. Plan sub-tasks and synthesize a response for each sub-task as the rationale. Focus more on the runtime query complexity.
+        
+        Reasoning Prompt: 
+            Let's first break down the task into several simpler sub-tasks that each covers different aspect of the original task. Clearly state each sub-question and provide your response to each one of them.
+        """
+        return desc
     
     def reasoning_step(
         self, 

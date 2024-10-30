@@ -27,10 +27,20 @@ standard_prompt = '''
 Write a coherent passage of 4 short paragraphs. The end sentence of each paragraph must be: {input}
 '''
 class TreeOfThought(ReasonThenFormat):
+    """
+    Implementation adopted from https://github.com/princeton-nlp/tree-of-thought-llm
+    """
     def __init__(self, max_depth=3, beam_width=2):
         super().__init__("TreeOfThought")
         self.max_depth = max_depth
         self.beam_width = beam_width
+        
+    def describe(self):
+        desc = """
+        - Tree-of-Thoughts -
+        The agent explores a tree of possible continuations and use the most promising path as the final rationale.
+        """
+        return desc
 
     def reasoning_step(
         self, 

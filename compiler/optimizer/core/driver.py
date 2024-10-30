@@ -98,6 +98,7 @@ class MultiLayerOptimizationDriver:
         self.opt_layers: list[OptimizationLayer] = [None] * len(layer_configs)
         
         # dump control params
+        self.opt_log_dir = opt_log_dir
         if not os.path.exists(opt_log_dir):
             os.makedirs(opt_log_dir, exist_ok=True)
         param_log_path = os.path.join(opt_log_dir, 'opt_control_params.json')
@@ -151,20 +152,39 @@ class MultiLayerOptimizationDriver:
         script_path: str,
         script_args: Optional[list[str]] = None,
         other_python_paths: Optional[list[str]] = None,
-    ) -> tuple[float, list[TrialLog], dict[int, TrialLog]]:
+    ) -> tuple[float, list[tuple[TrialLog, str]], dict[str, TrialLog]]:
         self.build_tiered_optimization(evaluator)
         first_layer_opt_config = self.layer_configs[0].opt_config
-        return self.opt_layers[0].easy_optimize(
+        opt_cost, frontier, all_opt_logs = self.opt_layers[0].easy_optimize(
             opt_config=first_layer_opt_config,
             script_path=script_path,
             script_args=script_args,
             other_python_paths=other_python_paths,
         )
+        self.dump_frontier_details(frontier)
+        return opt_cost, frontier, all_opt_logs
     
-    def inspect(self) -> tuple[float, list[TrialLog], dict[int, TrialLog]]:
+    def inspect(self, dump_details: bool = False) -> tuple[float, list[tuple[TrialLog, str]], dict[str, TrialLog]]:
         self.build_tiered_optimization(None)
         opt_config = self.layer_configs[0].opt_config
         opt_config.finalize()
-        result = self.opt_layers[0].inspect(opt_config.opt_log_path)
-        return result
+        opt_cost, frontier, all_opt_logs = self.opt_layers[0].inspect(opt_config.opt_log_path)
         
+        # dump frontier details to file
+        if dump_details:
+            self.dump_frontier_details(frontier)
+        return opt_cost, frontier, all_opt_logs
+    
+    def dump_frontier_details(self, frontier):
+        param_log_dir = os.path.join(self.opt_log_dir, 'pareto_frontier_details')
+        if not os.path.exists(param_log_dir):
+            os.makedirs(param_log_dir, exist_ok=True)
+        for trial_log, opt_path in frontier:
+            trial_log: BottomLevelTrialLog
+            dump_path = os.path.join(param_log_dir, f'{trial_log.id}.cog')
+            trans = trial_log.show_transformation()
+            details = f"Trial - {trial_log.id}\n"
+            details += f"Log at: {opt_path}\n"
+            details += trans
+            with open(dump_path, 'w') as f:
+                f.write(details)

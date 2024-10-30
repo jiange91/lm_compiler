@@ -17,7 +17,6 @@ class OptionBase(ABC):
     def _get_cost_indicator(self):
         return 1.0
     
-    @property
     def describe(self):
         """Add descriptive string to show user what the option does
         """

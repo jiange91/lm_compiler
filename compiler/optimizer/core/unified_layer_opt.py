@@ -444,7 +444,7 @@ class OptimizationLayer:
         return self.study.get_trials(deepcopy=need_copy, states=states_of_interest)
         
     @staticmethod
-    def get_pareto_front(candidates: list[TrialLog, str]) -> list[TrialLog, str]:
+    def get_pareto_front(candidates: list[TrialLog, str]) -> list[tuple[TrialLog, str]]:
         """Find the pareto-efficient points
         
         Each with their config log path. This is for upper level to show correct bottom level config since the path is generated randomly for each innerloop.
@@ -507,7 +507,7 @@ class OptimizationLayer:
         logger.info("-------------------------------------------------")
         return pareto_frontier
 
-    def inspect(self, opt_log_path):
+    def inspect(self, opt_log_path) -> tuple[float, list[tuple[TrialLog, str]], dict[str, TrialLog]]:
         with open(opt_log_path, 'r') as f:
             opt_trace = json.load(f)
         for trial_log_id, trial_meta in opt_trace.items():
@@ -515,12 +515,13 @@ class OptimizationLayer:
             self.opt_logs[trial_log_id] = trial_log
             self.opt_cost += trial_log.eval_cost
         pareto_frontier = self.post_optimize()
-        return pareto_frontier
+        
+        return self.opt_cost, pareto_frontier, self.opt_logs
     
     def optimize(
         self,
         current_tdi: TopDownInformation,
-    ) -> tuple[float, list[TrialLog], dict[int, TrialLog]]:
+    ) -> tuple[float, list[TrialLog], dict[str, TrialLog]]:
         self.opt_cost = 0
         
         # prepare optimization environment
@@ -584,6 +585,10 @@ class BottomLevelTrialLog(TrialLog):
             **super().to_dict(),
             'eval_task': self.eval_task,
         }
+    
+    def show_transformation(self) -> str:
+        eval_task = EvalTask.from_dict(self.eval_task)
+        return eval_task.show_opt_trace()
 
 class BottomLevelOptimization(OptimizationLayer):
     opt_logs: dict[str, BottomLevelTrialLog]

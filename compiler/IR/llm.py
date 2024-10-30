@@ -10,6 +10,7 @@ import time
 import logging
 import copy
 import concurrent.futures
+import json
 import uuid
 
 from pydantic import BaseModel, Field
@@ -118,21 +119,25 @@ class Demonstration:
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     reasoning: str = field(default=None)
     
-    def to_string(self):
+    def __repr__(self):
         """Naive string representation of the demonstration
         
-        Semantic designner should have their own way to format the demonstration
+        NOTE: This is not used for adding demo to the actual user message. check `add_demos_to_prompt` instead.
+        
+        Semantic designner should have their own way to present the demonstration
         especially when the input contains other modalities
         """
-        input_str = []
-        for key, value in self.inputs.items():
-            input_str.append(f"{key}:\n{value}")
-        input_str = '**Input:**\n' + '\n'.join(input_str)
+        
+        def truncate(text, max_length=200):
+            """Truncate text if it exceeds max_length, appending '...' at the end."""
+            return text if len(text) <= max_length else text[:max_length] + "..."
+        
+        inputs_trunced = {k: truncate(v) for k, v in self.inputs.items()}
+        input_str = '**Input**\n' + json.dumps(inputs_trunced, indent=4)
         if self.reasoning:
-            input_str += f"\n**Reasoning:**\n{self.reasoning}"
-        demo_str = f"{input_str}\n**Answer:**\n{self.output}"
+            input_str += f"\n\n**Reasoning**\n{truncate(self.reasoning)}"
+        demo_str = f"{input_str}\n\n**Response**\n{truncate(self.output)}"
         return demo_str
-    
 
 class LMSemantic(ABC):
     

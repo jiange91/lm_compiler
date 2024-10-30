@@ -1,0 +1,247 @@
+Trial - outer_loop_3|inner_loop_2
+Log at: clear_opt_results/outer_loop/outer_loop_trial_3_inner_loop/opt_logs.json
+********** Detailed Optimization Trace **********
+
+========== Layer: outer_loop ==========
+
+  >>> Module: generate_answer <<<
+
+    - Parameter: <compiler.optimizer.params.ensemble.ModuleEnsemble object at 0x7ff4e42ade20>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+  >>> Module: refine_query <<<
+
+    - Parameter: <compiler.optimizer.params.ensemble.ModuleEnsemble object at 0x7ff4e42addc0>
+      Applied Option: universal_self_consistency
+      Transformation Details:
+        
+        - Universal Self-Consistency Ensemble -
+        Spawn <3> samplers (No temperature change) and aggregate the results. Aggregator is LLM-based and answers the question based on the majority consensus.
+
+  >>> Module: generate_query <<<
+
+    - Parameter: <compiler.optimizer.params.ensemble.ModuleEnsemble object at 0x7ff4e42ae150>
+      Applied Option: universal_self_consistency
+      Transformation Details:
+        
+        - Universal Self-Consistency Ensemble -
+        Spawn <3> samplers (No temperature change) and aggregate the results. Aggregator is LLM-based and answers the question based on the majority consensus.
+
+==================================================
+
+========== Layer: inner_loop ==========
+
+  >>> Module: generate_query_aggregator <<<
+
+    - Parameter: <compiler.optimizer.params.fewshot.LMFewShot object at 0x7ff4e42ae180>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+    - Parameter: <compiler.optimizer.params.reasoning.LMReasoning object at 0x7ff4e42ae0c0>
+      Applied Option: ZeroShotCoT
+      Transformation Details:
+        
+        - ZeroShotCoT -
+        Return step-by-step reasoning for the given chat prompt messages.
+        
+        Reasoning Prompt: 
+            Let's solve this problem step by step before giving the final response.
+
+  >>> Module: generate_query_sampler_1 <<<
+
+    - Parameter: <compiler.optimizer.params.fewshot.LMFewShot object at 0x7ff4e42af710>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+    - Parameter: <compiler.optimizer.params.reasoning.LMReasoning object at 0x7ff4e42ae450>
+      Applied Option: ZeroShotCoT
+      Transformation Details:
+        
+        - ZeroShotCoT -
+        Return step-by-step reasoning for the given chat prompt messages.
+        
+        Reasoning Prompt: 
+            Let's solve this problem step by step before giving the final response.
+
+  >>> Module: refine_query_sampler_0 <<<
+
+    - Parameter: <compiler.optimizer.params.fewshot.LMFewShot object at 0x7ff4e42ae420>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+    - Parameter: <compiler.optimizer.params.reasoning.LMReasoning object at 0x7ff4e42ae060>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+  >>> Module: refine_query_sampler_2 <<<
+
+    - Parameter: <compiler.optimizer.params.fewshot.LMFewShot object at 0x7ff4e42ae240>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+    - Parameter: <compiler.optimizer.params.reasoning.LMReasoning object at 0x7ff4e42af620>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+  >>> Module: generate_query_sampler_0 <<<
+
+    - Parameter: <compiler.optimizer.params.fewshot.LMFewShot object at 0x7ff4e42af4d0>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+    - Parameter: <compiler.optimizer.params.reasoning.LMReasoning object at 0x7ff4e42af350>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+  >>> Module: refine_query_sampler_1 <<<
+
+    - Parameter: <compiler.optimizer.params.fewshot.LMFewShot object at 0x7ff4e42af380>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+    - Parameter: <compiler.optimizer.params.reasoning.LMReasoning object at 0x7ff4e42af230>
+      Applied Option: ZeroShotCoT
+      Transformation Details:
+        
+        - ZeroShotCoT -
+        Return step-by-step reasoning for the given chat prompt messages.
+        
+        Reasoning Prompt: 
+            Let's solve this problem step by step before giving the final response.
+
+  >>> Module: generate_answer <<<
+
+    - Parameter: <compiler.optimizer.params.fewshot.LMFewShot object at 0x7ff4e42af260>
+      Applied Option: generate_answer_demos_c03d7f1c-850d-474c-975c-e9883a3c7527
+      Transformation Details:
+        - FewShot Examples -
+        4 demos:
+        Demonstration 1:
+        **Input**
+        {
+            "context": "[1]: Imperfect Circles | \"Imperfect Circles\" is the seventh episode of the first season of the CBS drama \"Under the Dome.\" The episode aired on August 5, 2013.\n[2]: The Imperfect Sculpture | The Imper...",
+            "question": "Imperfect Circles is an episode of the drama that was developed by whom?"
+        }
+        
+        **Response**
+        Brian K. Vaughan
+        ========================================
+        Demonstration 2:
+        **Input**
+        {
+            "context": "[1]: Leslie Skinner | Colonel Leslie Alfred Skinner LOM (April 21, 1900 \u2013 November 2, 1978) was an American rocket engineer. He played a leading role in the development of several rocket propelled wea...",
+            "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+        }
+        
+        **Response**
+        Bazooka
+        ========================================
+        Demonstration 3:
+        **Input**
+        {
+            "context": "[1]: 2016\u201317 Miami Heat season | The 2016\u201317 Miami Heat season was the 29th season of the franchise in the National Basketball Association (NBA). After a tumultuous negotiation process, Dwyane Wade de...",
+            "question": "For which college team did this American professional basketball player for the Miami Heat of the National Basketball Association (NBA) who earned praise for being the NBA's leading rebounder during t..."
+        }
+        
+        **Response**
+        Marshall Thundering Herd
+        ========================================
+        Demonstration 4:
+        **Input**
+        {
+            "context": "[1]: Prefontaine (film) | Prefontaine is a 1997 American biographical film chronicling the life of the American long-distance runner Steve Prefontaine and his death at age 24. Jared Leto plays the tit...",
+            "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+        }
+        
+        **Response**
+        Bill Bowerman
+        ========================================
+
+    - Parameter: <compiler.optimizer.params.reasoning.LMReasoning object at 0x7ff4e42aef00>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+  >>> Module: generate_query_sampler_2 <<<
+
+    - Parameter: <compiler.optimizer.params.fewshot.LMFewShot object at 0x7ff4e42aef30>
+      Applied Option: generate_query_sampler_2_demos_d1124283-256e-4e4b-8232-425d774eccb4
+      Transformation Details:
+        - FewShot Examples -
+        4 demos:
+        Demonstration 1:
+        **Input**
+        {
+            "question": "Imperfect Circles is an episode of the drama that was developed by whom?"
+        }
+        
+        **Response**
+        "Imperfect Circles episode drama developed by whom"
+        ========================================
+        Demonstration 2:
+        **Input**
+        {
+            "question": "Which rocket propelled weapon, sometimes referred to as the \"Stovepipe,\" did Colonel Leslie Alfred Skinner help develop?"
+        }
+        
+        **Response**
+        "Stovepipe rocket propelled weapon Colonel Leslie Alfred Skinner development"
+        ========================================
+        Demonstration 3:
+        **Input**
+        {
+            "question": "For which college team did this American professional basketball player for the Miami Heat of the National Basketball Association (NBA) who earned praise for being the NBA's leading rebounder during t..."
+        }
+        
+        **Response**
+        "Miami Heat NBA player leading rebounder 2016-17 college team"
+        ========================================
+        Demonstration 4:
+        **Input**
+        {
+            "question": "What is the name of the person who R Lee Ermy played his character in Prefontaine film and who is also an American track and field coach and co-founder of Nike Inc?"
+        }
+        
+        **Response**
+        "R Lee Ermy Prefontaine film character name American track and field coach co-founder of Nike Inc"
+        ========================================
+
+    - Parameter: <compiler.optimizer.params.reasoning.LMReasoning object at 0x7ff4e42aecc0>
+      Applied Option: ZeroShotCoT
+      Transformation Details:
+        
+        - ZeroShotCoT -
+        Return step-by-step reasoning for the given chat prompt messages.
+        
+        Reasoning Prompt: 
+            Let's solve this problem step by step before giving the final response.
+
+  >>> Module: refine_query_aggregator <<<
+
+    - Parameter: <compiler.optimizer.params.fewshot.LMFewShot object at 0x7ff4e42aecf0>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+    - Parameter: <compiler.optimizer.params.reasoning.LMReasoning object at 0x7ff4e42aea80>
+      Applied Option: ZeroShotCoT
+      Transformation Details:
+        
+        - ZeroShotCoT -
+        Return step-by-step reasoning for the given chat prompt messages.
+        
+        Reasoning Prompt: 
+            Let's solve this problem step by step before giving the final response.
+
+==================================================

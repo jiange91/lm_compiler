@@ -12,6 +12,7 @@ from concurrent.futures import ThreadPoolExecutor
 import uuid
 from abc import ABC, abstractmethod
 import multiprocessing as mp
+import textwrap
 from tqdm import tqdm
 
 import logging
@@ -140,6 +141,7 @@ class EvalTask:
     
     def to_dict(self) -> dict:
         return self.__getstate__()
+    
 
     @classmethod
     def from_dict(cls, state: dict) -> 'EvalTask':
@@ -157,6 +159,9 @@ class EvalTask:
                     sys.path.append(path)
                 
     def replay_module_transformations(self, ms: list[Module]) -> dict[str, Module]:
+        """Replay the module transformations
+        """
+                        
         module_pool = {m.name: m for m in ms}
         module_ttrace = ModuleTransformTrace({m.name: type(m) for m in ms})
         # collect all module names that will be transformed
@@ -250,6 +255,36 @@ class EvalTask:
         q.put((task_index, result, score, price, lm_2_demo, end_time - start_time))
         sema.release()
     
+    def show_opt_trace(self) -> str:
+        trace_lines = []
+        trace_lines.append("********** Detailed Optimization Trace **********\n")
+        
+        for layer, proposals in self.aggregated_proposals.items():
+            trace_lines.append(f"========== Layer: {layer} ==========")
+
+            
+            for module_name, param_options in proposals.items():
+                trace_lines.append(f"\n  >>> Module: {module_name} <<<")
+                
+                for param_name, option_name in param_options:
+                    param_hash = ParamBase.chash(module_name, param_name)
+                    param = self.all_params[param_hash]
+                    trace_lines.append(f"\n    - Parameter: {param}")
+                    trace_lines.append(f"      Applied Option: {option_name}")
+                    # Get the description with indentation for each line
+                    option_description = param.options[option_name].describe()
+                    option_description = textwrap.dedent(option_description)
+                    
+                    indented_description = "\n".join([f"        {line}" for line in option_description.splitlines()])
+                    trace_lines.append(f"      Transformation Details:\n{indented_description}")
+            
+            trace_lines.append("\n" + "=" * 50 + "\n")
+
+        
+        # Combine all trace lines into a single string
+        trace_dump = "\n".join(trace_lines)
+        return trace_dump
+        
     @classmethod
     def from_top_down_info(cls, tdi: TopDownInformation):
         return cls(

@@ -261,6 +261,16 @@ class DemoOption(OptionBase):
         super().__init__(tag)
         self.demos = demos
     
+    def describe(self):
+        desc = "- FewShot Examples -\n"
+        desc += f"{len(self.demos)} demos:\n"
+        
+        # Iterate over each demonstration and use repr to represent them
+        for i, demo in enumerate(self.demos, start=1):
+            desc += f"Demonstration {i}:\n{repr(demo)}\n"
+            desc += "=" * 40 + "\n"
+        return desc
+    
     def _get_cost_indicator(self):
         return len(self.demos) + 1
     

@@ -1,6 +1,6 @@
 import dspy
 from dspy.adapters.chat_adapter import ChatAdapter, prepare_instructions
-from compiler.llm import StructuredCogLM, InputVar, OutputFormat
+from compiler.llm import CogLM, StructuredCogLM, InputVar, OutputFormat
 from compiler.llm.model import LMConfig
 import uuid
 from pydantic import BaseModel, create_model
@@ -19,7 +19,7 @@ Connector currently supports `Predict` with any signature and strips away all re
 This is done because we handle reasoning via cogs for the optimizer instead of in a templated format. 
 """
 class PredictCogLM(dspy.Module):
-    def __init__(self, dspy_predictor: dspy.Module, name: str = None):
+    def __init__(self, dspy_predictor: dspy.Module = None, name: str = None):
         super().__init__()
         self.chat_adapter: ChatAdapter = ChatAdapter()
         self.predictor: dspy.Module = dspy_predictor
@@ -27,7 +27,10 @@ class PredictCogLM(dspy.Module):
         self.cog_lm: StructuredCogLM = self.cognify_predictor(dspy_predictor)
         self.output_schema = None
 
-    def cognify_predictor(self, dspy_predictor: dspy.Module, name: str = None) -> StructuredCogLM:
+    def cognify_predictor(self, dspy_predictor: dspy.Module = None, name: str = None) -> StructuredCogLM:
+        if not dspy_predictor:
+            return None
+        
         if not isinstance(dspy_predictor, dspy.Predict):
             warnings.warn("Original module is not a `Predict`. This may result in lossy translation", UserWarning)
         
@@ -62,6 +65,8 @@ class PredictCogLM(dspy.Module):
                                 lm_config=lm_config)
 
     def forward(self, **kwargs):
+        assert self.cog_lm or self.predictor, "CogLM or Predictor must be initialized before invoking"
+
         if self.ignore_module:
             return self.predictor(**kwargs)
         else:
@@ -72,3 +77,19 @@ class PredictCogLM(dspy.Module):
             response: ModelResponse = self.cog_lm.forward(messages, inputs) # model kwargs already set
             kwargs: dict = self.cog_lm.output_format.schema.model_validate_json(response).model_dump()
             return dspy.Prediction(**kwargs)
+        
+def as_predict(cog_lm: CogLM) -> PredictCogLM:
+    predictor = PredictCogLM(name=cog_lm.agent_name)
+    if isinstance(cog_lm, StructuredCogLM):
+        predictor.cog_lm = cog_lm
+        predictor.output_schema = cog_lm.output_format.schema
+    else:
+        output_schema = generate_pydantic_model("OutputData", {cog_lm.get_output_label_name(): str})
+        predictor.cog_lm = StructuredCogLM(agent_name=cog_lm.agent_name,
+                                      system_prompt=cog_lm.system_prompt,
+                                      input_variables=cog_lm.input_variables,
+                                      output_format=OutputFormat(output_schema, 
+                                                                 custom_output_format_instructions=cog_lm.get_custom_format_instructions_if_any()),
+                                      lm_config=cog_lm.lm_config)
+    return predictor
+    

@@ -18,7 +18,7 @@ langchain_message_role_to_api_message_role = {
 }
 
 class RunnableCogLM(Runnable):
-  def __init__(self, runnable: Runnable, name: str = None):
+  def __init__(self, runnable: Runnable = None, name: str = None):
     self.chat_prompt_template: ChatPromptTemplate = None
     self.cog_lm: CogLM = self.cognify_runnable(runnable, name)
   
@@ -28,7 +28,7 @@ class RunnableCogLM(Runnable):
   - BaseChatPromptTemplate | BaseChatOpenAI | BaseOutputParser
   These indepedent units should be split out of more complex chains.
   """
-  def cognify_runnable(self, runnable: Runnable, name: str = None) -> CogLM:
+  def cognify_runnable(self, runnable: Runnable = None, name: str = None) -> CogLM:
     if not runnable:
       return None
 

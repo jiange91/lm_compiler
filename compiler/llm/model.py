@@ -30,8 +30,8 @@ def _local_forward(_local_lm: 'CogLM', messages: List[APICompatibleMessage], inp
                                                                 cost=response._hidden_params["response_cost"], 
                                                                 usage=response.usage))
   step_info = StepInfo(filled_inputs_dict=inputs, 
-                       rationale=_local_lm.rationale, 
-                       output=response.choices[0].message.content)
+                       output=response.choices[0].message.content,
+                       rationale=_local_lm.rationale)
   _local_lm.steps.append(step_info)
   _local_lm.rationale = None
   
@@ -40,8 +40,8 @@ def _local_forward(_local_lm: 'CogLM', messages: List[APICompatibleMessage], inp
 @dataclass
 class LMConfig:
   model: str # see https://docs.litellm.ai/docs/providers 
-  custom_llm_provider: Optional[str]
   kwargs: Optional[dict]
+  custom_llm_provider: Optional[str] = None
   cost_indicator: float = 1.0  # used to rank models during model selection optimization step
 
   def to_dict(self):
@@ -221,13 +221,13 @@ class CogLM(Module):
       self.steps.extend(_local_self.steps)
       self.response_metadata_history.extend(_local_self.response_metadata_history)
 
-  def forward(self, messages: List[APICompatibleMessage], inputs: Dict[InputVar, str], model_kwargs: Optional[dict] = None):
+  def forward(self, messages: List[APICompatibleMessage], inputs: Dict[InputVar, str], model_kwargs: Optional[dict] = None) -> ModelResponse:
     _self = self.get_thread_local_chain()
     result = _local_forward(_self, messages, inputs, model_kwargs)
     self.aggregate_thread_local_meta(_self)
     return result
 
-  def _forward(self, messages: List[APICompatibleMessage], model_kwargs: Optional[dict] = None) -> str:
+  def _forward(self, messages: List[APICompatibleMessage], model_kwargs: Optional[dict] = None) -> ModelResponse:
     if not model_kwargs:
       assert self.lm_config, "Model kwargs must be provided if LM config is not set at initialization"
     
@@ -246,7 +246,7 @@ class StructuredCogLM(CogLM):
                output_format: OutputFormat,
                lm_config: Optional[LMConfig] = None):
     self.output_format: OutputFormat = output_format
-    super(CogLM, self).__init__(agent_name, system_prompt, input_variables, self._get_output_label(), lm_config)
+    super().__init__(agent_name, system_prompt, input_variables, lm_config=lm_config)
 
   @override
   def get_output_label_name(self):
@@ -276,7 +276,7 @@ class StructuredCogLM(CogLM):
     return api_compatible_messages
 
   @override
-  def _forward(self, messages: List[APICompatibleMessage], model_kwargs: Optional[dict] = None) -> BaseModel:
+  def _forward(self, messages: List[APICompatibleMessage], model_kwargs: Optional[dict] = None) -> ModelResponse:
     litellm.enable_json_schema_validation = True
     
     if not model_kwargs:

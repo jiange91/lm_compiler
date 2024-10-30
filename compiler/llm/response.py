@@ -2,7 +2,7 @@ from litellm import ModelResponse, Usage
 from openai.types.completion_usage import CompletionUsage, PromptTokensDetails, CompletionTokensDetails
 from dataclasses import dataclass
 from typing import List, Optional, Dict
-from compiler.llm.prompt import FilledInput
+from compiler.llm.prompt import FilledInputVar
 
 @dataclass
 class ResponseMetadata:
@@ -38,5 +38,5 @@ def aggregate_usages(usages: List[Usage]) -> CompletionUsage:
 @dataclass
 class StepInfo:
   filled_inputs_dict: Dict[str, str] # input name -> input value
-  rationale: Optional[str] = None
   output: str
+  rationale: Optional[str] = None

@@ -4,7 +4,7 @@ import uuid
 
 @dataclass
 class ImageParams:
-  is_image_upload: bool = False
+  is_image_upload: bool
   file_type: Literal['jpeg', 'png']
 
 @dataclass
@@ -19,13 +19,13 @@ class FilledInputVar:
 
 @dataclass
 class TextContent:
-  type: Literal["text"] = "text"
   text: str
+  type: Literal["text"] = "text"
 
 @dataclass
 class ImageContent:
-  type: Literal["image_url"] = "image_url"
   image_url: dict
+  type: Literal["image_url"] = "image_url"
   
   def __init__(self, image_link: str):
     self.image_url = {"url": image_link}
@@ -55,13 +55,13 @@ class Demonstration:
     for filled in self.filled_input_variables:
       demo_string += f'{filled.input_variable.name}:\n'
       input_variable = filled.input_variable
-      if input_variable.is_image:
+      if input_variable.image_params:
         demo_content.append(TextContent(text=demo_string))
         demo_string = ""
-        if input_variable.is_image_upload:
-          demo_content.append(ImageContent(image_upload=input_variable.value, file_type=input_variable.file_type))
+        if input_variable.image_params.is_image_upload:
+          demo_content.append(ImageContent(image_upload=filled.value, file_type=input_variable.image_params.file_type))
         else:
-          demo_content.append(ImageContent(image_link=input_variable.value))
+          demo_content.append(ImageContent(image_link=filled.value))
     if self.reasoning is not None:
       demo_string += f'**Reasoning:**\n{self.reasoning}\n'
     else:
@@ -73,31 +73,9 @@ class Demonstration:
 @dataclass
 class CompletionMessage:
   role: Literal['system', 'user', 'assistant']
-  name: str = None
   content: List[Content]
+  name: str = None
 
-  def __init__(self, message: Dict[str, str]):
-    self.role = message['role']
-    self.name = message.get('name', None)
-    if isinstance(message['content'], str):
-      self.content = [TextContent(text=message['content'])]
-    elif isinstance(message['content'], list):
-      self.content = []
-      for content_entry in message['content']:
-        if isinstance(content_entry, str):
-          self.content.append(TextContent(text=content_entry))
-        elif isinstance(content_entry, dict):
-          if content_entry['type'] == 'text':
-            self.content.append(TextContent(text=content_entry['text']))
-          elif content_entry['type'] == 'image_url':
-            self.content.append(ImageContent(image_url=content_entry['image_url']))
-          else:
-            raise ValueError(f"Invalid content entry type. Must be either 'text' or 'image', got {content_entry['type']}")
-        else:
-          raise ValueError(f"Invalid content entry. Must be either a string or a dictionary, got {type(content_entry)}")
-    else:
-      raise ValueError(f"Invalid content. Must be either a string or a list, got {type(message['content'])}")
-    
   def to_api(self) -> Dict[str, str]:
     return {
       'role': self.role,

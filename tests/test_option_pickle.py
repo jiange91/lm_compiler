@@ -10,12 +10,12 @@ from compiler.IR.program import StatePool, Module
 from compiler.optimizer.params.fewshot import LMFewShot
 from compiler.optimizer.evaluation.evaluator import Evaluator
 from compiler.optimizer.evaluation.metric import MetricBase, MInput
-from compiler.langchain_bridge.interface import LangChainLM, LangChainSemantic
+from compiler.llm import CogLM, InputVar, OutputLabel
+from compiler.llm.model import LMConfig
 
 from compiler.optimizer.params import reasoning, model_selection, common, ensemble
 from compiler.optimizer.params.utils import load_params
 from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
-from compiler.llm.schema_parser import json_schema_to_pydantic_model, get_pydantic_format_instruction
 
 from compiler.utils import load_api_key, get_bill
 load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')
@@ -30,15 +30,9 @@ def is_picklable(obj):
         print(f"Cannot pickle {obj}: {e}")
         return None
 
-semantic = LangChainSemantic(
-    system_prompt="Repeat the input",
-    inputs=["input"],
-    output_format="answer",
-)
-
-lm = LangChainLM('qa_agent', semantic)
-lm.lm_config = {'model': "gpt-4o-mini", 'temperature': 0.0}
-
+lm = CogLM('qa_agent', system_prompt="Repeat the input", input_variables=[InputVar(name='input')], 
+           output=OutputLabel(name='answer'), 
+           lm_config=LMConfig(model="gpt-4o-mini", kwargs={'temperature': 0.0}))
 is_picklable(lm)
 
 # reasoning_param = reasoning.LMReasoning(

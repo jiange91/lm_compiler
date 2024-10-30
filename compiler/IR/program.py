@@ -5,7 +5,7 @@ from functools import partial
 import functools
 import traceback
 
-from compiler.IR.llm import LLMPredictor
+from compiler.llm import CogLM
 from compiler.IR.modules import Input, Output, Branch, Identity
 from compiler.IR.base import *
 from compiler.IR.rewriter.utils import replace_branch_destination
@@ -565,7 +565,7 @@ class Workflow(ComposibleModuleInterface):
     def update_token_usage_summary(self):
         """get token usage summary for all LLM modules recursively
         """
-        for lm in (m for m in self.get_all_modules(lambda x: isinstance(x, LLMPredictor))):
+        for lm in (m for m in self.get_all_modules(lambda x: isinstance(x, CogLM))):
             if lm.name not in self.token_usage_buffer:
                 self.token_usage_buffer[lm.name] = {}
             for meta in lm.lm_history:

@@ -17,7 +17,7 @@ from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
 from compiler.optimizer.plugin import OptimizerSchema
 from compiler.optimizer.analysis.param_sensitivity import SensitivityAnalyzer
 from compiler.optimizer.core import driver, flow
-from compiler.IR.llm import LMConfig
+from compiler.llm.model import LMConfig
 
 def load_data():
     def load_from_file(input_file):

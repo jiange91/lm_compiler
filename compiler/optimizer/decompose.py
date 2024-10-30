@@ -83,7 +83,7 @@ class LMTaskDecompose:
         high_level_result = {}
         def _hd(candidate: DecomposeCandidate):
             if int(candidate.score) >= threshold:
-                new_agents: HighLevelDecompose = high_level_decompose_kernel(candidate.lm.semantic.get_agent_role())
+                new_agents: HighLevelDecompose = high_level_decompose_kernel(candidate.lm.get_agent_role())
                 high_level_result[candidate.lm.name] = new_agents
                 self.decompose_target_lms.append(candidate.lm)
         with concurrent.futures.ThreadPoolExecutor() as executor:

@@ -8,7 +8,7 @@ from typing import Dict
 import os
 from contextlib import contextmanager
 import subprocess
-from compiler.IR.llm import LMConfig
+from compiler.llm.model import LMConfig
 
 common_lm_config = LMConfig(
     provider='openai',

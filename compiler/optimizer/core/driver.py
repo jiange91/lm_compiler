@@ -1,9 +1,13 @@
+import os
+import json
 from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal, Sequence
 from compiler.optimizer.params.common import ParamBase
+from compiler.optimizer.params.utils import build_param
 from compiler.optimizer.evaluation.evaluator import EvaluatorPlugin
 from compiler.optimizer.core.flow import TrialLog, OptConfig
-from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization 
+from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization, BottomLevelTrialLog
 from compiler.optimizer.core.upper_layer import UpperLevelOptimization, LayerEvaluator
+from dataclasses import asdict
 
 class LayerConfig:
     def __init__(

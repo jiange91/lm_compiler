@@ -15,7 +15,7 @@ import threading
 import uuid
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, GeneralEvaluatorInterface
 from compiler.optimizer.core.flow import TrialLog, TopDownInformation, OptConfig
-from compiler.optimizer.core.unified_layer_opt import OptimizationLayer
+from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelTrialLog
 
 logger = logging.getLogger(__name__)
 

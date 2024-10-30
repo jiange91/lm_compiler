@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 APICompatibleMessage = Dict[str, str] # {"role": "...", "content": "..."}
 _thread_local_chain = threading.local()
 
-def _local_forward(_local_lm: 'CogLM', messages: List[APICompatibleMessage], inputs: Dict[InputVar, str], model_kwargs: Optional[dict] = None):
+def _local_forward(_local_lm: 'CogLM', messages: List[APICompatibleMessage], inputs: Dict[str, str], model_kwargs: Optional[dict] = None):
   if _local_lm.reasoning:
     responses: List[ModelResponse] = _local_lm.reasoning.forward(_local_lm, messages, model_kwargs)
     _local_lm.response_metadata_history.extend([ResponseMetadata(model=response.model, 
@@ -224,19 +224,22 @@ class CogLM(Module):
       self.steps.extend(_local_self.steps)
       self.response_metadata_history.extend(_local_self.response_metadata_history)
 
-  def __call__(self, messages: List[APICompatibleMessage] = [], inputs: Dict[InputVar, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
+  def __call__(self, messages: List[APICompatibleMessage] = [], inputs: Dict[InputVar|str, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
+    if inputs and isinstance(list(inputs.keys())[0], InputVar):
+      # strip down the passed input
+      inputs = {input_var.name: value for input_var, value in inputs.items()}
     return self.forward(messages, inputs, model_kwargs)
 
-  def forward(self, messages: List[APICompatibleMessage] = [], inputs: Dict[InputVar, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
+  def forward(self, messages: List[APICompatibleMessage] = [], inputs: Dict[str, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
     _self = self.get_thread_local_chain()
     result = _local_forward(_self, messages, inputs, model_kwargs)
     self.aggregate_thread_local_meta(_self)
     return result
 
-  def _get_input_messages(self, inputs: Dict[InputVar, str]) -> List[APICompatibleMessage]:
-    assert set(inputs.keys()) == set(self.input_variables), "Input variables do not match"
+  def _get_input_messages(self, inputs: Dict[str, str]) -> List[APICompatibleMessage]:
+    assert set(inputs.keys()) == set([input.name for input in self.input_variables]), "Input variables do not match"
 
-    input_names = ", ".join(f"`{input_var.name}`" for input_var in inputs)
+    input_names = ", ".join(f"`{name}`" for name in inputs.keys())
     messages = [CompletionMessage(role="user", 
                                   content=[TextContent(text=f"Given {input_names}, please strictly provide `{self.get_output_label_name()}`")])]
     
@@ -244,18 +247,19 @@ class CogLM(Module):
     for input_var in self.input_variables:
       if input_var.image_params:
         if input_var.image_params.is_image_upload:
-          image_content = get_image_content_from_upload(inputs[input_var], input_var.image_params.file_type)
+          image_content = get_image_content_from_upload(inputs[input_var.name], input_var.image_params.file_type)
         else:
-          image_content = ImageContent(image_url=inputs[input_var])
+          image_content = ImageContent(image_url=inputs[input_var.name])
         messages.append(CompletionMessage(role="user", 
                                           content=[image_content]))
       else:
-        input_fields.append(f"{input_var.name}: {inputs[input_var]}")
+        input_fields.append(f"{input_var.name}: {inputs[input_var.name]}")
     messages.append(CompletionMessage(role="user", 
                                       content=[TextContent(text="\n".join(input_fields))]))
+    return messages
 
 
-  def _forward(self, messages: List[APICompatibleMessage] = [], inputs: Dict[InputVar, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
+  def _forward(self, messages: List[APICompatibleMessage] = [], inputs: Dict[str, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
     assert messages or inputs, "Either messages or inputs must be provided"
     if not messages:
       messages = self._get_input_messages(inputs)
@@ -309,9 +313,13 @@ class StructuredCogLM(CogLM):
     return api_compatible_messages
 
   @override
-  def _forward(self, messages: List[APICompatibleMessage], model_kwargs: Optional[dict] = None) -> ModelResponse:
+  def _forward(self, messages: List[APICompatibleMessage], inputs: Dict[str, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
     litellm.enable_json_schema_validation = True
-    
+
+    assert messages or inputs, "Either messages or inputs must be provided"
+    if not messages:
+      messages = self._get_input_messages(inputs)
+
     if not model_kwargs:
       assert self.lm_config, "Model kwargs must be provided if LM config is not set at initialization"
 

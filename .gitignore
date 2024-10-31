@@ -170,6 +170,7 @@ compiler_logs/
 **/optimizer_logs/
 **/sample_runs/
 **sample_runs_4o/
+**data/
 
 local_testing/
 

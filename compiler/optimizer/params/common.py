@@ -6,7 +6,7 @@ import logging
 import json
 
 from compiler.IR.base import Module
-from compiler.optimizer.params.utils import Protection
+from compiler.optimizer.params.protection import Protection
 
 logger = logging.getLogger(__name__)
 

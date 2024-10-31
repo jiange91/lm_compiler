@@ -35,7 +35,7 @@ def _local_forward(_local_lm: 'CogLM', messages: List[APICompatibleMessage], inp
   _local_lm.steps.append(step_info)
   _local_lm.rationale = None
   
-  return response.choices[0].message.content
+  return response
 
 @dataclass
 class LMConfig:
@@ -123,7 +123,7 @@ class CogLM(Module):
 
   def get_high_level_info(self) -> str:
     dict = {
-      "agent_prompt": self._get_system_prompt(),
+      "agent_prompt": self.get_system_prompt(),
       "input_names": self._get_input_names(),
       "output_name": self.get_output_label_name(),
     }
@@ -131,7 +131,7 @@ class CogLM(Module):
   
   def get_formatted_info(self) -> str:
     dict = {
-      "agent_prompt": self._get_system_prompt(),
+      "agent_prompt": self.get_system_prompt(),
       "input_variables": self._get_input_names(),
       "output_schema": self.get_output_label_name(),
     }
@@ -195,11 +195,11 @@ class CogLM(Module):
   def _get_input_names(self) -> List[str]:
     return [variable.name for variable in self.input_variables]
 
-  def _get_system_prompt(self) -> str:
+  def get_system_prompt(self) -> str:
     return self.system_message.content[0].text
   
   def get_agent_role(self) -> str:
-    return self._get_system_prompt()
+    return self.get_system_prompt()
   
   def contains_custom_format_instructions(self) -> bool:
     return self.output_label and self.output_label.custom_output_format_instructions
@@ -214,7 +214,7 @@ class CogLM(Module):
     api_compatible_messages = [self.system_message.to_api()] + messages
     api_compatible_messages.extend([demo_message.to_api() for demo_message in self.demo_messages])
     if self.contains_custom_format_instructions():
-      api_compatible_messages.append({"role": "user", "content": self.output.custom_output_format_instructions})
+      api_compatible_messages.append({"role": "user", "content": self.get_custom_format_instructions_if_any()})
     return api_compatible_messages
 
   def aggregate_thread_local_meta(self, _local_self: 'CogLM'):
@@ -256,7 +256,7 @@ class CogLM(Module):
         input_fields.append(f"{input_var.name}: {inputs[input_var.name]}")
     messages.append(CompletionMessage(role="user", 
                                       content=[TextContent(text="\n".join(input_fields))]))
-    return messages
+    return [message.to_api() for message in messages]
 
 
   def _forward(self, messages: List[APICompatibleMessage] = [], inputs: Dict[str, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
@@ -292,7 +292,7 @@ class StructuredCogLM(CogLM):
   @override
   def get_formatted_info(self) -> str:
     dict = {
-      "agent_prompt": self._get_system_prompt(),
+      "agent_prompt": self.get_system_prompt(),
       "input_variables": self._get_input_names(),
       "output_schema": self.output_format.schema.model_json_schema()
     }
@@ -304,11 +304,11 @@ class StructuredCogLM(CogLM):
 
   @override
   def get_custom_format_instructions_if_any(self) -> Optional[str]:
-    return self.output_label.custom_output_format_instructions
+    return self.output_format.custom_output_format_instructions
 
   @override
   def _get_api_compatible_messages(self, messages: List[APICompatibleMessage]) -> List[APICompatibleMessage]:
-    api_compatible_messages = super(CogLM, self)._get_api_compatible_messages(messages)
+    api_compatible_messages = super()._get_api_compatible_messages(messages)
     api_compatible_messages.append(self.output_format.get_output_instruction_message().to_api())
     return api_compatible_messages
 
@@ -330,7 +330,6 @@ class StructuredCogLM(CogLM):
       raise ValueError(f"Model {full_kwargs["model"]} on provider {full_kwargs["custom_llm_provider"]} does not support structured output") 
     else:
       model = full_kwargs.pop('model')
-      messages.append(self.output_format.get_output_instruction_message())
       response: ModelResponse = completion(model, 
                         self._get_api_compatible_messages(messages),
                         response_format=self.output_format.schema,

@@ -18,7 +18,7 @@ class OutputFormat:
     def get_output_instruction_message(self) -> CompletionMessage:
         content = ""
         if self.should_hint_format_in_prompt:
-            content += '\n' + get_format_hint()
+            content += '\n' + get_format_hint(self.schema)
         if self.custom_output_format_instructions:
             content += '\n' + self.custom_output_format_instructions
         return CompletionMessage(role="user", content=[TextContent(text=content)])

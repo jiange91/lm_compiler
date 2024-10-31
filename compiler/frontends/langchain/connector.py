@@ -8,6 +8,7 @@ from compiler.llm.model import LMConfig
 import uuid
 from litellm import ModelResponse
 from typing import Any, List, Dict
+from dataclasses import dataclass
 
 APICompatibleMessage = Dict[str, str] # {"role": "...", "content": "..."}
 
@@ -16,6 +17,10 @@ langchain_message_role_to_api_message_role = {
   "human": "user",
   "ai": "assistant"
 }
+
+@dataclass
+class LangchainOutput:
+  content: str
 
 class RunnableCogLM(Runnable):
   def __init__(self, runnable: Runnable = None, name: str = None):
@@ -85,14 +90,15 @@ class RunnableCogLM(Runnable):
   def invoke(self, input: Dict) -> Any:
     assert self.cog_lm, "CogLM must be initialized before invoking"
 
-    chat_prompt_value: ChatPromptValue = self.chat_prompt_template.invoke(input)
-    messages = self._get_api_compatible_messages(chat_prompt_value)
-    inputs: Dict[InputVar, str] = {InputVar(name=k): v for k,v in input.items()}
-    result: ModelResponse = self.cog_lm.forward(messages, inputs) # kwargs have already been set when initializing cog_lm
+    messages = None
+    if self.chat_prompt_template:
+      chat_prompt_value: ChatPromptValue = self.chat_prompt_template.invoke(input)
+      messages = self._get_api_compatible_messages(chat_prompt_value)
+    result: ModelResponse = self.cog_lm(messages, input) # kwargs have already been set when initializing cog_lm
     if isinstance(self.cog_lm, StructuredCogLM):
-      return self.cog_lm.output_format.schema.model_validate_json(result)
+      return self.cog_lm.output_format.schema.model_validate_json(result.choices[0].message.content)
     else:
-      return result.choices[0].message.content
+      return LangchainOutput(content=result.choices[0].message.content)
     
   def _get_api_compatible_messages(chat_prompt_value: ChatPromptValue) -> List[APICompatibleMessage]:
     api_comptaible_messages: List[APICompatibleMessage] = []
@@ -105,6 +111,6 @@ class RunnableCogLM(Runnable):
   
 
 def as_runnable(cog_lm: CogLM) -> RunnableCogLM:
-  runnable_cog_lm = RunnableCogLM(runnable=None, name=cog_lm.agent_name)
+  runnable_cog_lm = RunnableCogLM(runnable=None, name=cog_lm.name)
   runnable_cog_lm.cog_lm = cog_lm
   return runnable_cog_lm

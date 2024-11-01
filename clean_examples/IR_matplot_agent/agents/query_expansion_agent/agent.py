@@ -49,4 +49,4 @@ qgen_lm_config = LMConfig(
 )
 query_expansion_lm.lm_config = common_lm_config
 query_expansion_agent = query_expansion_lm.as_runnable()
-ZeroShotCoT.direct_apply(query_expansion_lm)
+# ZeroShotCoT.direct_apply(query_expansion_lm)

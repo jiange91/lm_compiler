@@ -92,7 +92,7 @@ def gpt_4v_evaluate(ground_truth, image, rollback):
 
 
 def mainworkflow(test_sample_id, plot_path):
-    ground_truth = f"/mnt/ssd4/lm_compiler/examples/matplot_agent/benchmark_data/ground_truth/example_{test_sample_id}.png"
+    ground_truth = f"benchmark_data/ground_truth/example_{test_sample_id}.png"
 
     image = plot_path
     image_rollback = plot_path
@@ -116,14 +116,14 @@ class VisionScore(MetricBase):
       pred_path = f"{dir}/{base_name[:6]}{ext}" # rollback to the previous version
       warnings.warn(f"fallback to un-refined version")
       
-    ground_truth = f"/mnt/ssd4/lm_compiler/examples/matplot_agent/benchmark_data/ground_truth/example_{sample_id}.png"
+    ground_truth = f"benchmark_data/ground_truth/example_{sample_id}.png"
     if not os.path.exists(ground_truth):
       return 0
     return gpt_4v_evaluate(ground_truth, pred_path, pred_path)
     
 def vision_score(gt, state: StatePool):
   pred_path = os.path.join(state.news('workspace'), state.news('plot_file_name'))
-  ground_truth = f"/mnt/ssd4/lm_compiler/examples/matplot_agent/benchmark_data/ground_truth/example_{state.news('sample_id')}.png"
+  ground_truth = f"benchmark_data/ground_truth/example_{state.news('sample_id')}.png"
   if not os.path.exists(ground_truth):
     return 0
   return gpt_4v_evaluate(ground_truth, pred_path, pred_path)

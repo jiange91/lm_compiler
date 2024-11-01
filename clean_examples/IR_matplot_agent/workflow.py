@@ -96,7 +96,7 @@ def matplot_eval(gold, pred) -> float:
 
 if __name__ == "__main__":
     print("-- Running main workflow --")
-    data_path = 'examples/IR_matplot_agent/benchmark_data'
+    data_path = 'benchmark_data'
     
     # open the json file 
     data = json.load(open(f'{data_path}/19.json'))
@@ -105,7 +105,7 @@ if __name__ == "__main__":
         novice_instruction = item['simple_instruction']
         expert_instruction = item['expert_instruction']
         example_id = item['id']
-        directory_path = "examples/IR_matplot_agent/sample_runs_direct_expend_cot"
+        directory_path = "sample_runs_direct"
 
         # Check if the directory already exists
         if not os.path.exists(directory_path):

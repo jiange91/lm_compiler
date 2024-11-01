@@ -48,7 +48,7 @@ visual_refine_lm_config = LMConfig(
 visual_refinement_lm.lm_config = common_lm_config
 visual_refinement_agent = visual_refinement_lm.as_runnable()
 
-ZeroShotCoT.direct_apply(visual_refinement_lm)
+# ZeroShotCoT.direct_apply(visual_refinement_lm)
 
 class VisualRefineAgent:
     def __init__(self, plot_file, config, code, query):

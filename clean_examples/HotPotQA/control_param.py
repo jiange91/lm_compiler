@@ -32,8 +32,8 @@ general_ensemble_params = ensemble.ModuleEnsemble(
 )
 # Layer Config
 outer_opt_config = flow.OptConfig(
-    n_trials=4,
-    throughput=4,
+    n_trials=2,
+    throughput=2,
 )
 outer_loop_config = driver.LayerConfig(
     layer_name='outer_loop',
@@ -44,5 +44,5 @@ outer_loop_config = driver.LayerConfig(
 # ================= Overall Control Parameter =================
 optimize_control_param = ControlParameter(
     opt_layer_configs=[outer_loop_config, inner_loop_config],
-    opt_history_log_dir='clear_opt_results'
+    opt_history_log_dir='test_small_opt_results'
 )

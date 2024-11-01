@@ -1,60 +1,50 @@
-# Cognify
+# Cognify: A Comprehensive, Multi-Faceted Gen AI Workflow Optimizer
 
-**Cognify optimizes your LM-based workflow for accuracy and cost with just one click.** To complete complex tasks, LMs are often deployed as "agents" responsible for different sub-tasks within a workflow. However, tuning this workflow is not systematic and typically requires significant manual effort to tune each LM. **Enter, Cognify.**
-
-**Cognify** hooks on to the language models used in your program and searches over various optimization techniques to give you the best configurations for both high accuracy and low cost. With **Cognify**, you can test out the latest models, prompt techniques, and even a different workflow structure. Whether you directly interact with the OpenAI API or use a framework like Langchain or DSPy, Cognify can deliver exceptional results without the need to adopt a brand new programming model and the fewest possible changes to your code.
-
-**Cognify** outperforms the leading foundation models on a variety of tasks, able to improve accuracy by up to 56% and cost by up to 10x. See how we compare against the DSPy optimizer and leading foundation models like OpenAI o1 in our [benchmarks]().
+Building high-quality, cost-effective generative AI applications is challenging due to the absence of systematic methods for tuning, testing, and optimization. We introduce **Cognify**, a tool that automatically enhances generation quality and reduces costs for generative AI workflows, including those written with LangChain, DSPy, and annotated Python. Built on a novel foundation of hierarchical, workflow-level optimization, **Cognify** delivers up to a 56% improvement in generation quality and up to 10x cost reduction. Read more about **Cognify** [here]().
 
 ## Installation
 
-Cognify is available as a python package.
+Cognify is available as a Python package.
 ```
 pip install cognify
 ```
 
-Or, install from source.
+Or install from the source.
 ```
 git clone <...>
 cd Cognify
 pip install -e .
 ```
 
-## Usage
+## Basic Usage
 
-You can use Cognify with our CLI like so:
+You can use Cognify with our CLI:
 ```
-cognify optimize /path/to/workflow.py --parameters /path/to/params.json --evaluator /path/to/evaluator.py --dataloader /path/to/dataloader.py 
+cognify optimize workflow.py   
 ```
+where workflow.py is your workflow source code. Cognify currently supports unmodified [LangChain](https://github.com/langchain-ai/langchain) and [DSPy](https://github.com/stanfordnlp/dspy) workflow source code. You can also port your existing workflow written directly on Python or develop new Python-based workflows with our simple interface. Read more about [workflow interface]() and our [workflow examples]().
 
-### Parameters
+Additionally, Cognify automatically searches for the default three files under the same directory: config.py, dataloader.py, and evaluator.py. You can also specify these three files explicitly by:
+```
+cognify optimize /your/source/workflow.py -c /your/cog/config.py -d /your/sample/dataloader.py -e /your/specified/evaluator.py  
+```
+config.py contains the configurations of workflow optimizers, or *cog*s, that you want to use and how you want them to be used. Read more about [cog configuration]() and find [an example here]().
+dataloader.py specifies the loading of input-output data used for Cognify's optimization process. Read more about [data loader]() and find [an example here]().
+evaluator.py includes a function user provides to evaluate the final workflow generation quality. Read more about [evaluator]() and an find [an example here]().
 
-The Cognify optimizer searches over a set of parameters that you can specify. There are three kinds of parameters.
-1. Decomposition - breaks down a single agent's task into multiple agents
-2. Reasoning - adds meta-prompting, such as Chain-of-Thought prompting and demonstrations, to assist the LM with more complex reasoning-style tasks.
-3. Model Selection - chooses from different LMs, both open and closed source models
+## CogHub
 
-Read more about [customizing parameters]().
+**CogHub** is a registry of gen AI workflow optimizers, what we call **cog**s. We currently support five cogs: 
 
-### Evaluators
+* Task Decomposition: break a task into multiple more precise subtasks
+* Task Ensemble: multiple workers making an ensemble of generations, from which the most consistent majority one is chosen
+* Multi-Step Reasoning: asking models to reason step by step
+* Few-Shot Examples: adding a few high-quality example demonstrations from the sample dataset
+* Model Selection: evaluating different ML models
 
-To conduct the search, the Cognify optimizer requires an evaluator and a dataset. The dataset should be split into a training set that is used during the search and a test set that is used to evaluate the final performance. While we also provide a few evaluator functions out of the box, each workflow is different and will benefit from specialization.
-
-Read more about [customizing evaluators]().
+We welcome community contributions of more cogs. Read more about [cogs]().
 
 
-## Integrating Cognify
+## Contributing
 
-Since Cognify operates by hooking onto your LMs, very little code changes are needed. Based on your setup, there are different ways to register an LM with the Cognify optimizer.
-
-### Completions API
-
-If your code calls the OpenAI completions API, you can substitute the API call with our [wrapper module]() and pass all arguments just as you would directly to the endpoint. Internally, we use `litellm` to ensure consistency with the original API call. 
-
-### Langchain or DSPy
-
-We provide connector modules that wrap a Langchain Runnable or a DSPy Module. Optionally, you can try our [translation tool]() to automatically wrap your runnables or modules. We plan on adding support for more  frameworks in the future. If you would like to request a connector to a framework or contribute one yourself, see our [contribution guide]().
-
-### Writing a workflow from scratch
-
-We provide a NetworkX-style graph interface that you can use to write your workflow. You can refer to our [examples]() as a starting point. 
+We welcome and value any contributions to Cognify. Please read our [contribution instructions]() on how to get involved.

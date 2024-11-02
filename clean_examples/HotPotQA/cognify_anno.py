@@ -15,7 +15,8 @@ from compiler.optimizer.params.reasoning import ZeroShotCoT
 from compiler.optimizer.params.common import NoChange
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsage
-from compiler.optimizer import register_opt_program_entry, register_opt_score_fn
+from evaluator import answer_f1
+from compiler.optimizer import register_opt_program_entry
 
 qgen_lm_config = LMConfig(
     provider='openai',
@@ -119,14 +120,6 @@ def do_qa(question: str):
     answer = pipeline(question=question)
     return answer
 
-from dsp.utils.metrics import HotPotF1, F1
-
-@register_opt_score_fn
-def answer_f1(label: str, pred: str):
-    if isinstance(label, str):
-        label = [label]
-    score = F1(pred, label)
-    return score
 
 if __name__ == "__main__":
     input = "What was the 2010 population of the birthplace of Gerard Piel?"

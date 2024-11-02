@@ -44,5 +44,5 @@ outer_loop_config = driver.LayerConfig(
 # ================= Overall Control Parameter =================
 optimize_control_param = ControlParameter(
     opt_layer_configs=[outer_loop_config, inner_loop_config],
-    evaluator_parallel=40,
+    evaluator_batch_size=40,
 )

@@ -141,7 +141,6 @@ class EvalTask:
     
     def to_dict(self) -> dict:
         return self.__getstate__()
-    
 
     @classmethod
     def from_dict(cls, state: dict) -> 'EvalTask':
@@ -149,10 +148,11 @@ class EvalTask:
         obj.__setstate__(state)
         return obj
 
-    def add_PYTHON_PATH(self):
-        dir = os.path.dirname(self.script_path)
-        if dir not in sys.path:
-            sys.path.append(dir)
+    def add_PYTHON_PATH(self, evaluator_path: str):
+        dirs = [os.path.dirname(self.script_path), os.path.dirname(evaluator_path)]
+        for dir in dirs:
+            if dir not in sys.path:
+                sys.path.append(dir)
         if self.other_python_paths is not None:
             for path in self.other_python_paths:
                 if path not in sys.path:
@@ -198,10 +198,10 @@ class EvalTask:
         }
         return new_modules_dict
 
-    def get_program_schema(self):
-        self.add_PYTHON_PATH()
+    def get_program_schema(self, evaluator_path: str) -> OptimizerSchema:
+        self.add_PYTHON_PATH(evaluator_path)
         sys.argv = [self.script_path] + self.args
-        schema = OptimizerSchema.capture(self.script_path)
+        schema = OptimizerSchema.capture(self.script_path, evaluator_path)
         
         logger.debug(f'opt_target_modules = {schema.opt_target_modules}')
         assert schema.opt_target_modules, "No module to optimize"
@@ -209,12 +209,13 @@ class EvalTask:
                     
     def evaluate_program(
         self, 
+        evaluator_path,
         input, 
         label, 
         show_process, 
         task_index, sema, progress, total_score, lock, num_total_task, q
     ):
-        schema = self.get_program_schema()
+        schema = self.get_program_schema(evaluator_path)
         module_pool = {m.name: m for m in schema.opt_target_modules}
         
         # replace module invoke with new module
@@ -320,6 +321,7 @@ def plot_progress(done, total, avg_score, bar_length: int = 100):
 class EvaluatorPlugin(GeneralEvaluatorInterface):
     def __init__(
         self,
+        evaluator_path: str,
         trainset: Optional[Iterable[Tuple[any,any]]], # list of input data and labels
         evalset: Optional[Iterable[Tuple[any,any]]], # list of input data and labels
         testset: Optional[Iterable[Tuple[any,any]]], # list of input data and labels
@@ -327,6 +329,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         score_reducer: Callable = None,
         price_reducer: Callable = None,
     ):
+        self.evaluator_path = evaluator_path
         self.dataset = {
             'train': [trainset, None if not trainset else list(range(len(trainset)))],
             'eval': [evalset, None if not evalset else list(range(len(evalset)))],
@@ -351,7 +354,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         task: EvalTask,
         show_process: bool,
     ):
-        task.add_PYTHON_PATH()
+        task.add_PYTHON_PATH(self.evaluator_path)
         logger.debug(f'sys_path = {sys.path}')
         
         data, indices = self.dataset[mode]
@@ -370,8 +373,10 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
             input, label = data[pair_idx]
             sema.acquire()
             worker = mp.Process(target=task.evaluate_program, 
-                                args=(input, label, show_process, task_index, 
-                                        sema, progress, total_score, plock, len(indices), result_q))
+                                args=(
+                                    self.evaluator_path,
+                                    input, label, show_process, task_index, 
+                                    sema, progress, total_score, plock, len(indices), result_q))
             worker.start()
             all_workers.append(worker)
             

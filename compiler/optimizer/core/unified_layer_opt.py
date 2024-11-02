@@ -345,15 +345,10 @@ class OptimizationLayer:
         params = [param for params in self.params.values() for param in params]
         dump_params(params, param_save_path)
     
-    def load_opt_ckpt(self, opt_log_path: str):
-        with open(opt_log_path, 'r') as f:
-            opt_trace = json.load(f)
-            
-        for trial_log_id, trial_meta in opt_trace.items():
-            trial_log = self.trial_log_cls.from_dict(trial_meta)
-            self.opt_logs[trial_log_id] = trial_log
-            self.opt_cost += trial_log.eval_cost
-            
+    def _load_opt_ckpt(self, opt_log_path: str):
+        self.load_opt_log(opt_log_path)
+        
+        for trial_log_id, trial_log in self.opt_logs.items():
             trial = optuna.trial.create_trial(
                 params=trial_log.params,
                 values=[trial_log.score, trial_log.price],
@@ -507,17 +502,14 @@ class OptimizationLayer:
         logger.info("-------------------------------------------------")
         return pareto_frontier
 
-    def inspect(self, opt_log_path) -> tuple[float, list[tuple[TrialLog, str]], dict[str, TrialLog]]:
+    def load_opt_log(self, opt_log_path: str):
         with open(opt_log_path, 'r') as f:
             opt_trace = json.load(f)
         for trial_log_id, trial_meta in opt_trace.items():
             trial_log = self.trial_log_cls.from_dict(trial_meta)
             self.opt_logs[trial_log_id] = trial_log
             self.opt_cost += trial_log.eval_cost
-        pareto_frontier = self.post_optimize()
-        
-        return self.opt_cost, pareto_frontier, self.opt_logs
-    
+
     def optimize(
         self,
         current_tdi: TopDownInformation,
@@ -532,7 +524,7 @@ class OptimizationLayer:
         # load previous optimization logs if exists
         opt_log_path = self.top_down_info.opt_config.opt_log_path
         if os.path.exists(opt_log_path):
-            self.load_opt_ckpt(opt_log_path)
+            self._load_opt_ckpt(opt_log_path)
         
         # start optimization
         total_budget = self.top_down_info.opt_config.n_trials

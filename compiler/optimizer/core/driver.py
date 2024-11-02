@@ -163,17 +163,47 @@ class MultiLayerOptimizationDriver:
         )
         self.dump_frontier_details(frontier)
         return opt_cost, frontier, all_opt_logs
+
+    def evaluate(
+        self,
+        evaluator: EvaluatorPlugin,
+        config_id: str,
+    ) -> EvaluationResult:
+        self.build_tiered_optimization(evaluator)
+        opt_config = self.layer_configs[0].opt_config
+        opt_config.finalize()
+        
+        top_layer = self.opt_layers[0]
+        top_layer.load_opt_log(opt_config.opt_log_path)
+        all_configs = top_layer.get_all_candidates()
+        config_path = None
+        for opt_log, path in all_configs:
+            if opt_log.id == config_id:
+                config_path = path
+                break
+        else:
+            raise ValueError(f"Config {config_id} not found in the optimization log.")
+        
+        result = BottomLevelOptimization.easy_eval(
+            evaluator=evaluator,
+            config_id=config_id,
+            opt_log_path=config_path,
+        )
+        return result
+        
     
-    def inspect(self, dump_details: bool = False) -> tuple[float, list[tuple[TrialLog, str]], dict[str, TrialLog]]:
+    def inspect(self, dump_details: bool = False):
         self.build_tiered_optimization(None)
         opt_config = self.layer_configs[0].opt_config
         opt_config.finalize()
-        opt_cost, frontier, all_opt_logs = self.opt_layers[0].inspect(opt_config.opt_log_path)
+        
+        self.opt_layers[0].load_opt_log(opt_config.opt_log_path)
+        frontier = self.opt_layers[0].post_optimize()
         
         # dump frontier details to file
         if dump_details:
             self.dump_frontier_details(frontier)
-        return opt_cost, frontier, all_opt_logs
+        return 
     
     def dump_frontier_details(self, frontier):
         param_log_dir = os.path.join(self.opt_log_dir, 'pareto_frontier_details')

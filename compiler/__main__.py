@@ -26,8 +26,9 @@ def from_cognify_args(args):
     else:
         raise ValueError(f"Unknown mode: {args.mode}")
     
-def dry_run(script_path, train_data, eval_parallel, log_dir):
+def dry_run(script_path, evaluator_path, train_data, eval_parallel, log_dir):
     evaluator = EvaluatorPlugin(
+        evaluator_path=evaluator_path,
         trainset=train_data,
         evalset=None,
         testset=None,
@@ -101,6 +102,7 @@ def optimize_routine(opt_args: OptimizationArgs):
     # dry run on train set
     raw_result = dry_run(
         script_path=opt_args.workflow, 
+        evaluator_path=opt_args.evaluator,
         train_data=train_set, 
         eval_parallel=control_param.evaluator_batch_size,
         log_dir=control_param.opt_history_log_dir,

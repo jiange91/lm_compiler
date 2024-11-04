@@ -11,6 +11,9 @@ from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorP
 from compiler.optimizer.core.flow import TrialLog, OptConfig
 from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization, BottomLevelTrialLog
 from compiler.optimizer.core.upper_layer import UpperLevelOptimization, LayerEvaluator
+import logging
+
+logger = logging.getLogger(__name__)
 
 class LayerConfig:
     def __init__(
@@ -127,6 +130,7 @@ class MultiLayerOptimizationDriver:
                     target_modules=layer_config.target_modules,
                     save_ckpt_interval=layer_config.save_ckpt_interval,
                     quality_constraint=self.quality_constraint,
+                    hierarchy_level=idx,
                 )
             else:
                 layer_evaluator = LayerEvaluator(
@@ -143,6 +147,7 @@ class MultiLayerOptimizationDriver:
                     next_level_opt_config=self.layer_configs[idx + 1].opt_config,
                     use_SH_allocation=layer_config.use_SH_allocation,
                     quality_constraint=self.quality_constraint,
+                    hierarchy_level=idx,
                 )
             self.opt_layers[idx] = opt_layer
             
@@ -155,12 +160,14 @@ class MultiLayerOptimizationDriver:
     ) -> tuple[float, list[tuple[TrialLog, str]], dict[str, TrialLog]]:
         self.build_tiered_optimization(evaluator)
         first_layer_opt_config = self.layer_configs[0].opt_config
+        logger.info("----------------- Start Optimization -----------------")
         opt_cost, frontier, all_opt_logs = self.opt_layers[0].easy_optimize(
             opt_config=first_layer_opt_config,
             script_path=script_path,
             script_args=script_args,
             other_python_paths=other_python_paths,
         )
+        logger.info("----------------- Optimization Finished -----------------")
         self.dump_frontier_details(frontier)
         return opt_cost, frontier, all_opt_logs
 
@@ -209,12 +216,13 @@ class MultiLayerOptimizationDriver:
         param_log_dir = os.path.join(self.opt_log_dir, 'pareto_frontier_details')
         if not os.path.exists(param_log_dir):
             os.makedirs(param_log_dir, exist_ok=True)
-        for trial_log, opt_path in frontier:
+        for i, (trial_log, opt_path) in enumerate(frontier):
             trial_log: BottomLevelTrialLog
-            dump_path = os.path.join(param_log_dir, f'{trial_log.id}.cog')
+            dump_path = os.path.join(param_log_dir, f'option_{i+1}.cog')
             trans = trial_log.show_transformation()
             details = f"Trial - {trial_log.id}\n"
             details += f"Log at: {opt_path}\n"
+            details += f"Quality= {trial_log.score:.3f}, Cost per 1K invocation= {trial_log.price * 1000:.2f} $\n"
             details += trans
             with open(dump_path, 'w') as f:
                 f.write(details)

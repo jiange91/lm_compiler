@@ -12,6 +12,7 @@ from compiler.optimizer.registry import get_registered_data_loader
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from compiler.optimizer.core import driver
 from compiler.optimizer.control_param import ControlParameter
+from compiler._logging import _configure_logger
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +42,7 @@ def dry_run(script_path, evaluator_path, train_data, eval_parallel, log_dir):
         all_params={},
         module_name_paths={},
         aggregated_proposals={},
+        trace_back=["dry_run"],
     )
     logger.info(f"Dry run on train set: {len(train_data)} samples for optimizer analysis")
     dry_run_log_path = os.path.join(log_dir, 'dry_run_train.json')
@@ -201,6 +203,8 @@ def main():
     parser = argparse.ArgumentParser()
     init_cognify_args(parser)
     raw_args = parser.parse_args()
+    _configure_logger(raw_args.log_level)
+    
     cognify_args = from_cognify_args(raw_args)
     if raw_args.mode == 'optimize':
         optimize_routine(cognify_args)

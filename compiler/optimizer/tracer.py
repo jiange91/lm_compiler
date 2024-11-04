@@ -9,7 +9,6 @@ import numpy as np
 
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.llm import LMConfig, LLMPredictor
-from compiler.utils import get_bill
 
 
 logger = logging.getLogger(__name__)

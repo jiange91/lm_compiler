@@ -15,7 +15,7 @@ few_shot_params = LMFewShot(4)
 
 # Layer Config
 inner_opt_config = flow.OptConfig(
-    n_trials=2,
+    n_trials=4,
 )
 inner_loop_config = driver.LayerConfig(
     layer_name='inner_loop',
@@ -38,10 +38,11 @@ outer_loop_config = driver.LayerConfig(
     layer_name='outer_loop',
     universal_params=[general_ensemble_params],
     opt_config=outer_opt_config,
+    use_SH_allocation=False,
 )
 
 # ================= Overall Control Parameter =================
 optimize_control_param = ControlParameter(
     opt_layer_configs=[outer_loop_config, inner_loop_config],
-    opt_history_log_dir='clear_opt_results'
+    opt_history_log_dir='test_pbar'
 )

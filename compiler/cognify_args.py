@@ -13,6 +13,7 @@ class CommonArgs:
     data_loader: str = None
     evaluator: str = None
     control_param: str = None
+    log_level: str = 'INFO'
     
     def __post_init__(self):
         # Set missing values
@@ -51,6 +52,14 @@ class CommonArgs:
             help="Path to the optimizer control parameter file.\n"
             "If not provided, will search control_param.py in the same directory as workflow script.",
             metavar='path_to_opimizer_control_param',
+        )
+        parser.add_argument(
+            '-l', '--log_level',
+            type=str,
+            default=CommonArgs.log_level,
+            help="Log level",
+            choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+            metavar='log_level',
         )
     
     @classmethod

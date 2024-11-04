@@ -23,7 +23,6 @@ from compiler.optimizer.evaluation.metric import MetricBase
 from compiler.optimizer.params.common import ParamBase
 from compiler.optimizer.params.utils import build_param
 from compiler.optimizer.plugin import OptimizerSchema
-from compiler.utils import get_bill
 from compiler.optimizer.core.flow import TopDownInformation, ModuleTransformTrace
 
 logger = logging.getLogger(__name__)
@@ -121,6 +120,7 @@ class EvalTask:
     all_params: dict[str, ParamBase] # {param_hash: param}
     module_name_paths: dict[str, str]
     aggregated_proposals: dict[str, dict[str, list[tuple[str, str]]]] # {layer_name: {module_name: [(param, option)]}}
+    trace_back: list[str]
     
     def __getstate__(self) -> object:
         state = copy.deepcopy(self.__dict__)
@@ -210,10 +210,11 @@ class EvalTask:
     def evaluate_program(
         self, 
         evaluator_path,
-        input, 
-        label, 
-        show_process, 
-        task_index, sema, progress, total_score, lock, num_total_task, q
+        input,
+        label,
+        task_index,
+        sema,
+        q: mp.Queue,
     ):
         schema = self.get_program_schema(evaluator_path)
         module_pool = {m.name: m for m in schema.opt_target_modules}
@@ -246,15 +247,10 @@ class EvalTask:
             demo = lm.get_step_as_example()
             if demo is not None:
                 lm_2_demo[lm.name] = demo
-        
-        with lock:
-            progress.value += 1
-            total_score.value += score
-            if show_process:
-                plot_progress(progress.value, num_total_task, total_score.value / progress.value)
             
         q.put((task_index, result, score, price, lm_2_demo, end_time - start_time))
         sema.release()
+
     
     def show_opt_trace(self) -> str:
         trace_lines = []
@@ -295,6 +291,7 @@ class EvalTask:
             all_params=tdi.all_params,
             module_name_paths=tdi.module_ttrace.module_name_paths,
             aggregated_proposals=tdi.module_ttrace.aggregated_proposals,
+            trace_back=tdi.trace_back,
         )
     
 class GeneralEvaluatorInterface(ABC):
@@ -302,21 +299,13 @@ class GeneralEvaluatorInterface(ABC):
     def evaluate(
         self,
         task: Union[EvalTask, TopDownInformation],
-        show_process: bool = False,
+        **kwargs,
     ) -> EvaluationResult:
         ...
 
-def plot_progress(done, total, avg_score, bar_length: int = 100):
-    """
-    Plots the progress of task processing.
-    
-    Args:
-        bar_length (int, optional): The length of the progress bar. Defaults to 100.
-    """
-    processed_ratio = done / total 
-    progress_length = int(processed_ratio * bar_length)
-    print('\x1b[1A' + '\x1b[2K' + '\x1b[1A')  # Clear previous line
-    print(f"[{'=' * progress_length}>{' ' * (bar_length - progress_length)}] {done}/{total} | avg_score: {avg_score}")
+def _gen_pbar_desc(level, tb, score, price):
+    indent = '---' * level + '>'
+    return f'{indent} Evaluation in {tb} | (avg score: {score:.2f}, avg cost@1000: {price*1000:.2f} $)'
 
 class EvaluatorPlugin(GeneralEvaluatorInterface):
     def __init__(
@@ -344,15 +333,25 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         self,
         task: EvalTask,
         show_process: bool = False,
+        pbar_position: int = 0,
+        hierarchy_level: int = 0,
+        **kwargs,
     ):
-        return self.get_score(mode='train', task=task, show_process=show_process)
-
+        return self.get_score(
+            mode='train', 
+            task=task, 
+            show_process=show_process, 
+            pbar_position=pbar_position,
+            hierarchy_level=hierarchy_level,
+        )
         
     def get_score(
         self,
         mode: Literal['train', 'eval', 'test'],
         task: EvalTask,
         show_process: bool,
+        pbar_position: int = 0,
+        hierarchy_level: int = 0,
     ):
         task.add_PYTHON_PATH(self.evaluator_path)
         logger.debug(f'sys_path = {sys.path}')
@@ -362,27 +361,47 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         
         # Task queue to limit the number of parallel tasks
         # avoid worker pool to avoid reusing the same process
-        sema = mp.Semaphore(n_parallel)
-        plock = mp.Lock()
         all_workers = []
+        sema = mp.Semaphore(n_parallel)
         result_q = mp.Queue()
         
-        progress = mp.Value('i', 0)
-        total_score = mp.Value('d', 0.0)
         for task_index, pair_idx in enumerate(indices):
             input, label = data[pair_idx]
             sema.acquire()
-            worker = mp.Process(target=task.evaluate_program, 
-                                args=(
-                                    self.evaluator_path,
-                                    input, label, show_process, task_index, 
-                                    sema, progress, total_score, plock, len(indices), result_q))
+            worker = mp.Process(
+                target=task.evaluate_program, 
+                args=(
+                    self.evaluator_path,
+                    input, label, 
+                    task_index, sema, result_q
+                )
+            )
             worker.start()
             all_workers.append(worker)
             
         results = []
-        for i in range(len(indices)):
-            results.append(result_q.get())
+        
+        if show_process:
+            opt_trace = ' | '.join(task.trace_back)
+            total_score, total_cost = 0.0, 0.0
+            with tqdm(
+                total=len(indices),
+                desc=_gen_pbar_desc(hierarchy_level, opt_trace, 0.0, 0.0),
+                leave=False,
+                position=pbar_position,
+            ) as pbar:
+                for i in range(len(indices)):
+                    results.append(result_q.get())
+                    _, _, score, price, _, _ = results[-1]
+                    total_score += score
+                    total_cost += price
+                    pbar.update(1)
+                    pbar.set_description(
+                        _gen_pbar_desc(hierarchy_level, opt_trace, total_score / (i+1), total_cost / (i+1))
+                    )
+        else:
+            for i in range(len(indices)):
+                results.append(result_q.get())
             
         for worker in all_workers:
             worker.join()

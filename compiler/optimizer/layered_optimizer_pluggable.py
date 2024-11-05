@@ -20,9 +20,9 @@ from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.llm import LMConfig, LLMPredictor
 from compiler.utils import get_bill
 from compiler.optimizer.tracer import batch_run_and_eval, OfflineBatchTracer
-from compiler.optimizer.params.common import ParamBase, OptionBase, DynamicParamBase, EvolveType, T_ModuleMapping, mmerge, mflatten, AddNewModuleImportInterface
-from compiler.optimizer.params.utils import dump_params, load_params
-from compiler.optimizer.params.model_selection import LMSelection
+from compiler.cog_hub.common import CogBase, OptionBase, DynamicCogBase, EvolveType, T_ModuleMapping, mmerge, mflatten, AddNewModuleImportInterface
+from compiler.cog_hub.utils import dump_params, load_params
+from compiler.cog_hub.model_selection import LMSelection
 from compiler.langchain_bridge.interface import LangChainLM
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from compiler.optimizer.evaluation.metric import MetricBase, MInput
@@ -96,8 +96,8 @@ class InnerLoopBayesianOptimization:
     
     def __init__(
         self,
-        dedicate_params: list[ParamBase] = [],
-        universal_params: list[ParamBase] = [],
+        dedicate_params: list[CogBase] = [],
+        universal_params: list[CogBase] = [],
         target_modules: Iterable[str] = None,
         progress_bar: bool = False,
         save_ckpt_interval: int = 0,
@@ -129,7 +129,7 @@ class InnerLoopBayesianOptimization:
         self.opt_cost = 0
 
         # will be updated when prepare_opt_env is called
-        self.params: dict[str, list[ParamBase]] = None
+        self.params: dict[str, list[CogBase]] = None
         self.param_categorical_dist: dict[str, optuna.distributions.CategoricalDistribution] = None
         self.opt_logs: dict[int, InnerLoopBayesianOptimization.TrialLog] = None
         self.study: optuna.study.Study = None
@@ -309,7 +309,7 @@ class InnerLoopBayesianOptimization:
             is_evolved = False
             for params in self.params.values():
                 for param in params:
-                    if isinstance(param, DynamicParamBase):
+                    if isinstance(param, DynamicCogBase):
                         evolve_type = param.evolve(eval_result)
                         if evolve_type != EvolveType.ID:
                             is_evolved = True
@@ -748,8 +748,8 @@ class OuterLoopOptimization:
     
     def __init__(
         self,
-        dedicate_params: list[ParamBase] = [],
-        universal_params: list[ParamBase] = [],
+        dedicate_params: list[CogBase] = [],
+        universal_params: list[CogBase] = [],
         target_modules: Iterable[str] = None,
         quality_constraint: float = None,
         save_ckpt_interval: int = 0,
@@ -780,7 +780,7 @@ class OuterLoopOptimization:
         self.opt_cost = 0
 
         # will be updated when prepare_opt_env is called
-        self.params: dict[str, list[ParamBase]] = None
+        self.params: dict[str, list[CogBase]] = None
         self.opt_base_lms: list[LangChainLM] = None
         self.param_categorical_dist: dict[str, optuna.distributions.CategoricalDistribution] = None
         self.opt_logs: dict[int, OuterLoopOptimization.TrialLog] = None
@@ -929,7 +929,7 @@ class OuterLoopOptimization:
             is_evolved = False
             for params in self.params.values():
                 for param in params:
-                    if isinstance(param, DynamicParamBase):
+                    if isinstance(param, DynamicCogBase):
                         evolve_type = param.evolve(eval_result)
                         if evolve_type != EvolveType.ID:
                             is_evolved = True

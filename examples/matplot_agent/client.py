@@ -115,8 +115,8 @@ plot_debugger.lm_config = {**openai_kwargs}
 visual_refinement.lm_config = {**openai_kwargs}
 refine_plot_coder.lm_config = {**openai_kwargs}
 
-from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
-from compiler.optimizer.params.meta_programming.mp import MetaPrompting
+from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
+from compiler.cog_hub.meta_programming.mp import MetaPrompting
 
 # peng = MetaPrompting()
 # peng.apply(query_expansion_lm)
@@ -236,7 +236,7 @@ def task_disambiguous():
 # Importance evaluation
 # ========================================
 from compiler.optimizer.importance_eval_new import LMImportanceEvaluator
-from compiler.optimizer.params import reasoning, model_selection, common
+from compiler.cog_hub import reasoning, model_selection, common
 
 def importance_eval():
     importance_evaluator = LMImportanceEvaluator(
@@ -261,8 +261,8 @@ def importance_eval():
 # ========================================
 
 from compiler.optimizer.layered_optimizer import InnerLoopBayesianOptimization, SMACAllInOneLayer, OuterLoopOptimization
-from compiler.optimizer.params.fewshot import LMFewShot
-from compiler.optimizer.params.scaffolding import LMScaffolding
+from compiler.cog_hub.fewshot import LMFewShot
+from compiler.cog_hub.scaffolding import LMScaffolding
 
 def opt():
     lm_options = [

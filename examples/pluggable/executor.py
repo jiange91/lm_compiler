@@ -47,7 +47,7 @@ executor = exec_prompt | get_inspect_runnable() | ChatOpenAI(model="gpt-4o-mini"
 # With Annotation
 #==============================================================================
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
-from compiler.optimizer.params import ensemble, common
+from compiler.cog_hub import ensemble, common
 
 semantic = LangChainSemantic(
     system_prompt=exec_system,

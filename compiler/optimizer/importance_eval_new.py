@@ -9,7 +9,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.llm import LMConfig, LLMPredictor
-from compiler.optimizer.params.common import ParamBase, OptionBase
+from compiler.cog_hub.common import CogBase, OptionBase
 from compiler.langchain_bridge.interface import LangChainLM
 from compiler.optimizer.evaluation.metric import MetricBase
 

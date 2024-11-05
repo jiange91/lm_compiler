@@ -16,15 +16,15 @@ from compiler.IR.base import Module, StatePool, ModuleStatus
 from compiler.IR.program import Workflow, Input, Output
 from compiler.IR.modules import CodeBox
 from compiler.IR.llm import LLMPredictor, Demonstration
-from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, NoChange, AddNewModuleImportInterface
+from compiler.cog_hub.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange, AddNewModuleImportInterface
 from compiler.optimizer.decompose import LMTaskDecompose, StructuredAgentSystem
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, get_inspect_runnable, var_2_str
-from compiler.optimizer.params.utils import dump_params, load_params
+from compiler.cog_hub.utils import dump_params, load_params
 from compiler.optimizer.plugin import OptimizerSchema
 from abc import ABC, ABCMeta
 
-class ModuleEnsemble(ParamBase):
-    level = ParamLevel.GRAPH
+class ModuleEnsemble(CogBase):
+    level = CogLayerLevel.GRAPH
     
     def __init__(
         self, 

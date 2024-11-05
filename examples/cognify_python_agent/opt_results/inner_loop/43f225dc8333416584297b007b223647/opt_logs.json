@@ -72,7 +72,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -91,7 +91,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -114,7 +114,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -218,7 +218,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -241,7 +241,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -349,7 +349,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -427,7 +427,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -446,7 +446,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -469,7 +469,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -573,7 +573,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -596,7 +596,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -704,7 +704,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -782,7 +782,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -801,7 +801,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -824,7 +824,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -928,7 +928,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -951,7 +951,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -1059,7 +1059,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -1137,7 +1137,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -1156,7 +1156,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -1179,7 +1179,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -1283,7 +1283,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -1306,7 +1306,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -1414,7 +1414,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -1492,7 +1492,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -1511,7 +1511,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -1534,7 +1534,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -1638,7 +1638,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -1661,7 +1661,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -1769,7 +1769,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -1847,7 +1847,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -1866,7 +1866,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -1899,7 +1899,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -2011,7 +2011,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -2044,7 +2044,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -2161,7 +2161,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -2239,7 +2239,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -2258,7 +2258,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -2291,7 +2291,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -2403,7 +2403,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -2436,7 +2436,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -2553,7 +2553,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -2631,7 +2631,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -2650,7 +2650,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -2683,7 +2683,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -2795,7 +2795,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -2828,7 +2828,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -2945,7 +2945,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -3023,7 +3023,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -3042,7 +3042,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -3075,7 +3075,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -3187,7 +3187,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -3220,7 +3220,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -3337,7 +3337,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -3415,7 +3415,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -3434,7 +3434,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -3467,7 +3467,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -3579,7 +3579,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -3612,7 +3612,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -3729,7 +3729,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -3807,7 +3807,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -3826,7 +3826,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -3859,7 +3859,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -3971,7 +3971,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -4004,7 +4004,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -4121,7 +4121,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -4199,7 +4199,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -4218,7 +4218,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -4261,7 +4261,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -4381,7 +4381,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -4424,7 +4424,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -4550,7 +4550,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -4628,7 +4628,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -4647,7 +4647,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -4690,7 +4690,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -4810,7 +4810,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -4853,7 +4853,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -4979,7 +4979,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -5057,7 +5057,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -5076,7 +5076,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -5119,7 +5119,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -5239,7 +5239,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -5282,7 +5282,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -5408,7 +5408,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -5486,7 +5486,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -5505,7 +5505,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -5548,7 +5548,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -5668,7 +5668,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -5711,7 +5711,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -5837,7 +5837,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -5915,7 +5915,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -5934,7 +5934,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -5977,7 +5977,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -6097,7 +6097,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -6140,7 +6140,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -6266,7 +6266,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -6344,7 +6344,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -6363,7 +6363,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -6406,7 +6406,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -6526,7 +6526,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -6569,7 +6569,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -6695,7 +6695,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }
@@ -6773,7 +6773,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code finalize_ensemble": {
                     "name": "ensemble",
@@ -6792,7 +6792,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "ModuleEnsemble",
-                    "__module__": "compiler.optimizer.params.ensemble"
+                    "__module__": "compiler.cog_hub.ensemble"
                 },
                 "code completion_few_shot": {
                     "name": "few_shot",
@@ -6835,7 +6835,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -6955,7 +6955,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 },
                 "code finalize_few_shot": {
                     "name": "few_shot",
@@ -6998,7 +6998,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMFewShot",
-                    "__module__": "compiler.optimizer.params.fewshot",
+                    "__module__": "compiler.cog_hub.fewshot",
                     "demo_cache": [
                         {
                             "inputs": {
@@ -7124,7 +7124,7 @@
                     },
                     "default_option": "Identity",
                     "__class__": "LMReasoning",
-                    "__module__": "compiler.optimizer.params.reasoning"
+                    "__module__": "compiler.cog_hub.reasoning"
                 }
             }
         }

@@ -8,7 +8,7 @@ from agents.openai_chatComplete import  completion_for_4v
 from agents.utils import fill_in_placeholders, common_lm_config
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsage
-from compiler.optimizer.params.reasoning import ZeroShotCoT
+from compiler.cog_hub.reasoning import ZeroShotCoT
 
 
 

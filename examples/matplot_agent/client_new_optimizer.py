@@ -116,8 +116,8 @@ visual_refinement.lm_config = {'model': lm, **openai_kwargs}
 refine_plot_coder.lm_config = {'model': lm, **openai_kwargs}
 
 
-from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
-from compiler.optimizer.params.meta_programming.mp import MetaPrompting
+from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
+from compiler.cog_hub.meta_programming.mp import MetaPrompting
 
 # peng = MetaPrompting()
 # peng.apply(query_expansion_lm)
@@ -215,7 +215,7 @@ def testing():
 # Importance evaluation
 # ========================================
 from compiler.optimizer.importance_eval_new import LMImportanceEvaluator
-from compiler.optimizer.params import reasoning, model_selection, common
+from compiler.cog_hub import reasoning, model_selection, common
 
 def importance_eval():
     importance_evaluator = LMImportanceEvaluator(

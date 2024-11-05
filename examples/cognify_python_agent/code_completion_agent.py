@@ -4,7 +4,7 @@ Your task is to read incomplete Python functions and complete them based on the 
 
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, LMConfig
 from pydantic import BaseModel, Field
-from compiler.optimizer.params.reasoning import ZeroShotCoT
+from compiler.cog_hub.reasoning import ZeroShotCoT
 
 
 code_completion_semantic = LangChainSemantic(

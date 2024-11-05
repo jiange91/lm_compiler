@@ -83,6 +83,8 @@ class LMConfig:
                 return (2.5 * prompt + 10 * completion + 2.5 * prompt_cached_tokens) / 1e6 
             elif 'gpt-4o' in model:
                 return (2.5 * prompt + 10 * completion + 1.25 * prompt_cached_tokens) / 1e6
+            elif 'o1-preview' in model:
+                return (15 * prompt + 60 * completion + 7.5 * prompt_cached_tokens) / 1e6
         elif self.provider == 'together':
             if 'meta-llama/Llama-3.2-3B-Instruct-Turbo' in model:
                 return 0.06 * (prompt + completion) / 1e6 # change to fireworks price

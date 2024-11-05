@@ -17,9 +17,9 @@ from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.llm import LMConfig, LLMPredictor
 from compiler.utils import get_bill
 from compiler.optimizer.tracer import batch_run_and_eval, OfflineBatchTracer
-from compiler.optimizer.params.common import ParamBase, OptionBase, DynamicParamBase, EvolveType, T_ModuleMapping, merge_module_mapping, flatten_mapping
-from compiler.optimizer.params.utils import dump_params, load_params
-from compiler.optimizer.params.model_selection import LMSelection
+from compiler.cog_hub.common import CogBase, OptionBase, DynamicCogBase, EvolveType, T_ModuleMapping, merge_module_mapping, flatten_mapping
+from compiler.cog_hub.utils import dump_params, load_params
+from compiler.cog_hub.model_selection import LMSelection
 from compiler.langchain_bridge.interface import LangChainLM
 from compiler.optimizer.evaluation.evaluator import EvaluatorInterface, EvaluationResult, Evaluator
 from compiler.optimizer.evaluation.metric import MetricBase, MInput
@@ -34,7 +34,7 @@ class OptRoutineBase(ABC):
         self,
         workflow: Workflow,
         opt_directions: list[str],
-        params: dict[str, list[ParamBase]],
+        params: dict[str, list[CogBase]],
         quality_constraint: Optional[float] = None,
     ):
         self.workflow = workflow
@@ -188,8 +188,8 @@ class LayerBase(ABC):
     def __init__(
         self,
         name: str,
-        dedicate_params: list[ParamBase] = [],
-        universal_params: list[ParamBase] = [],
+        dedicate_params: list[CogBase] = [],
+        universal_params: list[CogBase] = [],
         target_modules: Iterable[str] = None,
     ):
         """Create a LOPT instance with configs
@@ -211,8 +211,8 @@ class GeneralLLMOptLayer(LayerBase):
         self, 
         name: str,
         module_mapping: Optional[dict[str, list[str]]] = None,
-        dedicate_params: list[ParamBase] = [],
-        universal_params: list[ParamBase] = [],
+        dedicate_params: list[CogBase] = [],
+        universal_params: list[CogBase] = [],
         target_modules: Iterable[str] = None,
         quality_constraint: float = None,
     ):
@@ -243,7 +243,7 @@ class GeneralLLMOptLayer(LayerBase):
         opt_directions: list[str],
     ) -> OptRoutineBase:
         lm_modules = workflow.get_all_modules(lambda x: isinstance(x, LangChainLM))
-        _params: dict[str, list[ParamBase]] = {}
+        _params: dict[str, list[CogBase]] = {}
         
         if self.universal_params:
             for lm in lm_modules:
@@ -275,8 +275,8 @@ class GeneralLLMOptLayer(LayerBase):
 class InnerLoopBayesianOptimization:
     def __init__(
         self,
-        dedicate_params: list[ParamBase] = [],
-        universal_params: list[ParamBase] = [],
+        dedicate_params: list[CogBase] = [],
+        universal_params: list[CogBase] = [],
         target_modules: Iterable[str] = None,
         fields_in_interest: list[str] = None,
         important_lms: list[str] = None,
@@ -306,7 +306,7 @@ class InnerLoopBayesianOptimization:
         self.opt_cost = 0
     
     def prepare_params(self, lm_modules: list[LangChainLM], module_mapping: T_ModuleMapping):
-        self.params: dict[str, list[ParamBase]] = defaultdict(list)
+        self.params: dict[str, list[CogBase]] = defaultdict(list)
         current_lm_names = set([lm.name for lm in lm_modules])
         
         # broadcast universal params
@@ -446,7 +446,7 @@ class InnerLoopBayesianOptimization:
             is_evolved = False
             for params in self.params.values():
                 for param in params:
-                    if isinstance(param, DynamicParamBase):
+                    if isinstance(param, DynamicCogBase):
                         evolve_type = param.evolve(eval_result)
                         if evolve_type != EvolveType.ID:
                             is_evolved = True
@@ -638,8 +638,8 @@ class OuterLoopOptimization:
     
     def __init__(
         self,
-        dedicate_params: list[ParamBase] = [],
-        universal_params: list[ParamBase] = [],
+        dedicate_params: list[CogBase] = [],
+        universal_params: list[CogBase] = [],
         target_modules: Iterable[str] = None,
         quality_constraint: float = None,
     ):
@@ -702,7 +702,7 @@ class OuterLoopOptimization:
         return new_study
     
     def prepare_params(self, lm_modules: list[LangChainLM]):
-        self.params: dict[str, list[ParamBase]] = defaultdict(list)
+        self.params: dict[str, list[CogBase]] = defaultdict(list)
         if self.universal_params:
             for lm in lm_modules:
                 lm_name = lm.name
@@ -782,7 +782,7 @@ class OuterLoopOptimization:
             is_evolved = False
             for params in self.params.values():
                 for param in params:
-                    if isinstance(param, DynamicParamBase):
+                    if isinstance(param, DynamicCogBase):
                         evolve_type = param.evolve(eval_result)
                         if evolve_type != EvolveType.ID:
                             is_evolved = True
@@ -939,7 +939,7 @@ from smac.multi_objective.parego import ParEGO
 class SMACAllInOneLayer:
     def __init__(
         self,
-        params: Union[dict[str, list[ParamBase]], list[ParamBase]],
+        params: Union[dict[str, list[CogBase]], list[CogBase]],
         opt_direction: Literal['maximize', 'minimize'],
         target_modules: Iterable[str] = None,
         fields_in_interest: list[str] = None,
@@ -952,7 +952,7 @@ class SMACAllInOneLayer:
     
     def prepare_params(self, workflow: Workflow) -> ConfigurationSpace:
         lm_modules = workflow.get_all_modules(lambda x: isinstance(x, LangChainLM))
-        self.params: dict[str, list[ParamBase]] = {}
+        self.params: dict[str, list[CogBase]] = {}
         if isinstance(self.raw_params, list):
             for lm in lm_modules:
                 lm_name = lm.name

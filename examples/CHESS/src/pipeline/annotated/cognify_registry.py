@@ -38,38 +38,38 @@ def set_lm_config_statically(pipeline_cfg):
 
 _pipeline_cfg = {
     "keyword_extraction": {
-        "engine": "gpt-4o-mini",
-        "temperature": 0.2,
+        "engine": "o1-preview",
+        # "temperature": 0.2,
         "base_uri": ""
     },
     "column_filtering": {
-        "engine": "gpt-4o-mini",
-        "temperature": 0.0,
+        "engine": "o1-preview",
+        # "temperature": 0.0,
         "base_uri": ""
     },
     "table_selection": {
         "mode": "ask_model",
-        "engine": "gpt-4o-mini",
-        "temperature": 0.0,
+        "engine": "o1-preview",
+        # "temperature": 0.0,
         "base_uri": "",
         "sampling_count": 1
     },
     "column_selection": {
         "mode": "ask_model",
-        "engine": "gpt-4o-mini",
-        "temperature": 0.0,
+        "engine": "o1-preview",
+        # "temperature": 0.0,
         "base_uri": "",
         "sampling_count": 1
     },
     "candidate_generation": {
-        "engine": "gpt-4o-mini",
-        "temperature": 0.0,
+        "engine": "o1-preview",
+        # "temperature": 0.0,
         "base_uri": "",
         "sampling_count": 1
     },
     "revision": {
-        "engine": "gpt-4o-mini",
-        "temperature": 0.0,
+        "engine": "o1-preview",
+        # "temperature": 0.0,
         "base_uri": "",
         "sampling_count": 1
     }

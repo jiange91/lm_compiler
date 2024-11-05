@@ -82,16 +82,16 @@ def load_dataset(data_path: str) -> List[Dict[str, Any]]:
 
 
 if __name__ == "__main__":
-    debugpy.listen(5678)
-    print("Waiting for debugger attach")
-    debugpy.wait_for_client()
-    debugpy.breakpoint()
+    # debugpy.listen(5678)
+    # print("Waiting for debugger attach")
+    # debugpy.wait_for_client()
+    # debugpy.breakpoint()
     
     args = parse_arguments()
     dataset = load_dataset(args.data_path)
     
     inputs = []
-    dir_prefix = 'cognify_results/try_output_retionale'
+    dir_prefix = 'cognify_results/o1-example'
     for data in dataset:
         inputs.append(
             {
@@ -111,6 +111,7 @@ if __name__ == "__main__":
         aggregated_proposals={},
     )
     evaluator = EvaluatorPlugin(
+        evaluator_path='/mnt/ssd4/lm_compiler/examples/CHESS/evaluator.py',
         trainset=None,
         evalset=None,
         testset=eval_data,

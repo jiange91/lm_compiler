@@ -7,14 +7,14 @@ import pickle
 
 import multiprocessing as mp
 from compiler.IR.program import StatePool, Module
-from compiler.optimizer.params.fewshot import LMFewShot
+from compiler.cog_hub.fewshot import LMFewShot
 from compiler.optimizer.evaluation.evaluator import Evaluator
 from compiler.optimizer.evaluation.metric import MetricBase, MInput
 from compiler.langchain_bridge.interface import LangChainLM, LangChainSemantic
 
-from compiler.optimizer.params import reasoning, model_selection, common, ensemble
-from compiler.optimizer.params.utils import load_params
-from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
+from compiler.cog_hub import reasoning, model_selection, common, ensemble
+from compiler.cog_hub.utils import load_params
+from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
 from compiler.IR.schema_parser import json_schema_to_pydantic_model, get_pydantic_format_instruction
 
 from compiler.utils import load_api_key, get_bill

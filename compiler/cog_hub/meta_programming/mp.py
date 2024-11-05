@@ -31,7 +31,7 @@ final_answer_indicator = meta_prompt_config_dict["meta-model"][
 ]
 
 
-from compiler.optimizer.params.reasoning import ReasonThenFormat
+from compiler.cog_hub.reasoning import ReasonThenFormat
 from compiler.IR.llm import LLMPredictor 
 from compiler.langchain_bridge.interface import LLMTracker, LangChainLM, LangChainSemantic
 from .helper import MetaPromptingScaffolding

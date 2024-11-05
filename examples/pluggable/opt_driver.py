@@ -1,14 +1,14 @@
 from compiler.optimizer.layered_optimizer_pluggable import InnerLoopBayesianOptimization, OuterLoopOptimization
-from compiler.optimizer.params.fewshot import LMFewShot
-from compiler.optimizer.params.scaffolding import LMScaffolding
+from compiler.cog_hub.fewshot import LMFewShot
+from compiler.cog_hub.scaffolding import LMScaffolding
 from compiler.optimizer.importance_eval_new import LMImportanceEvaluator
-from compiler.optimizer.params import reasoning, model_selection, common
+from compiler.cog_hub import reasoning, model_selection, common
 from compiler.optimizer.evaluation.evaluator import EvaluatorPlugin
 import runpy
 import uuid
 import multiprocessing as mp
 
-from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
+from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
 from compiler.optimizer.plugin import OptimizerSchema
 
 def opt():

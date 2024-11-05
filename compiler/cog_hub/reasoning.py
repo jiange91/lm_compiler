@@ -1,6 +1,6 @@
 from abc import ABC, ABCMeta
 import traceback
-from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase, NoChange
+from compiler.cog_hub.common import CogBase, CogLayerLevel, OptionBase, NoChange
 from compiler.IR.llm import LLMPredictor
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, get_inspect_runnable 
 from compiler.IR.program import Workflow
@@ -21,8 +21,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class LMReasoning(ParamBase):
-    level = ParamLevel.NODE
+class LMReasoning(CogBase):
+    level = CogLayerLevel.NODE
     
     def __init__(
         self, 

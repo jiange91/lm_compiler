@@ -2,17 +2,17 @@ import json
 import logging
 import importlib
 
-from .common import ParamBase, OptionBase
+from .common import CogBase, OptionBase
 
 logger = logging.getLogger(__name__)
 
-def dump_params(params: list[ParamBase], log_path: str):
+def dump_params(params: list[CogBase], log_path: str):
     logger.debug(f'---- Dumping parameters to {log_path} ----')
     ps = [param.to_dict() for param in params]
     with open(log_path, 'w+') as f:
         json.dump(ps, f, indent=4)
         
-def load_params(log_path: str) -> list[ParamBase]:
+def load_params(log_path: str) -> list[CogBase]:
     logger.debug(f'---- Loading parameters from {log_path} ----')
     with open(log_path, 'r') as f:
         data = json.load(f)

@@ -1,9 +1,9 @@
 
 from compiler.optimizer.core import driver, flow
-from compiler.optimizer.params import reasoning, ensemble
-from compiler.optimizer.params.common import NoChange
-from compiler.optimizer.params.fewshot import LMFewShot
-from compiler.optimizer.params.reasoning import ZeroShotCoT
+from compiler.cog_hub import reasoning, ensemble
+from compiler.cog_hub.common import NoChange
+from compiler.cog_hub.fewshot import LMFewShot
+from compiler.cog_hub.reasoning import ZeroShotCoT
 from compiler.optimizer.control_param import ControlParameter
 
 # ================= Inner Loop Config =================

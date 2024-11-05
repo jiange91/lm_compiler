@@ -11,8 +11,8 @@ colbert = dspy.ColBERTv2(url='http://192.168.1.16:8893/api/search')
 dspy.configure(rm=colbert)
 
 import copy
-from compiler.optimizer.params.reasoning import ZeroShotCoT
-from compiler.optimizer.params.common import NoChange
+from compiler.cog_hub.reasoning import ZeroShotCoT
+from compiler.cog_hub.common import NoChange
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
 from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsage
 from evaluator import answer_f1
@@ -20,10 +20,10 @@ from compiler.optimizer import register_opt_program_entry
 
 qgen_lm_config = LMConfig(
     provider='openai',
-    model='gpt-4o-mini',
-    kwargs= {
-        'temperature': 0.0,
-    }
+    model='o1-preview',
+    # kwargs= {
+    #     'temperature': 0.0,
+    # }
 )
 
 initial_query_prompt = """
@@ -54,10 +54,10 @@ following_query_semantic = LangChainSemantic(
 following_query_agent = LangChainLM('refine_query', following_query_semantic, opt_register=True)
 refine_lm_config = LMConfig(
     provider='openai',
-    model='gpt-4o-mini',
-    kwargs= {
-        'temperature': 0.0,
-    }
+    model='o1-preview',
+    # kwargs= {
+    #     'temperature': 0.0,
+    # }
 )
 following_query_agent.lm_config = refine_lm_config
 
@@ -73,10 +73,10 @@ answer_semantic = LangChainSemantic(
 answer_agent = LangChainLM('generate_answer', answer_semantic, opt_register=True)
 answer_lm_config = LMConfig(
     provider='openai',
-    model='gpt-4o-mini',
-    kwargs= {
-        'temperature': 0.0,
-    }
+    model='o1-preview',
+    # kwargs= {
+    #     'temperature': 0.0,
+    # }
 )
 answer_agent.lm_config = answer_lm_config
 
@@ -101,14 +101,18 @@ class BasicMH(dspy.Module):
         search_query = self.initial_generate_query.invoke({'question': question}).content
         # avoid only searching the first line
         search_query = search_query.replace("\n", ". ")
+        print(search_query)
         passages = self.retrieve(search_query).passages
         context = deduplicate(context + passages)
+        print(self.doc_str(context))
         
         search_query = self.follwing_generate_query.invoke({'context': self.doc_str(context), 'question': question}).content
         # avoid only searching the first line
         search_query = search_query.replace("\n", ". ")
+        print(search_query)
         passages = self.retrieve(search_query).passages
         context = deduplicate(context + passages)
+        print(self.doc_str(context))
         
         answer = self.generate_answer.invoke({'context': self.doc_str(context), 'question': question}).content
         return answer
@@ -119,7 +123,6 @@ pipeline = BasicMH(passages_per_hop=2)
 def do_qa(question: str):
     answer = pipeline(question=question)
     return answer
-
 
 if __name__ == "__main__":
     input = "What was the 2010 population of the birthplace of Gerard Piel?"

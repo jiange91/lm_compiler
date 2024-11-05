@@ -15,7 +15,7 @@ sys.path.append(parent_dir)
 from more_complex_workload import qa_flow
 
 from compiler.IR.program import StatePool
-from compiler.optimizer.params.fewshot import LMFewShot
+from compiler.cog_hub.fewshot import LMFewShot
 from compiler.optimizer.evaluation.evaluator import Evaluator
 from compiler.optimizer.evaluation.metric import MetricBase, MInput
 
@@ -39,11 +39,11 @@ evaluator = Evaluator(
 )
 
 from compiler.optimizer.importance_eval_new import LMImportanceEvaluator
-from compiler.optimizer.params import reasoning, model_selection, common
-from compiler.optimizer.params.utils import dump_params, load_params
-from compiler.optimizer.params.scaffolding import LMScaffolding
+from compiler.cog_hub import reasoning, model_selection, common
+from compiler.cog_hub.utils import dump_params, load_params
+from compiler.cog_hub.scaffolding import LMScaffolding
 from compiler.optimizer.layered_optimizer import InnerLoopBayesianOptimization, OuterLoopOptimization
-from compiler.optimizer.params.utils import load_params
+from compiler.cog_hub.utils import load_params
 
 scaffolding_params = LMScaffolding.bootstrap(
     qa_flow,

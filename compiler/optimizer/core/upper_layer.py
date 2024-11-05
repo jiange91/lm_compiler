@@ -19,9 +19,9 @@ import multiprocessing as mp
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.llm import LMConfig, LLMPredictor
 from compiler.optimizer.tracer import batch_run_and_eval, OfflineBatchTracer
-from compiler.optimizer.params.common import ParamBase, OptionBase, DynamicParamBase, EvolveType, AddNewModuleImportInterface
-from compiler.optimizer.params.utils import dump_params, load_params
-from compiler.optimizer.params.model_selection import LMSelection
+from compiler.cog_hub.common import CogBase, OptionBase, DynamicCogBase, EvolveType, AddNewModuleImportInterface
+from compiler.cog_hub.utils import dump_params, load_params
+from compiler.cog_hub.model_selection import LMSelection
 from compiler.langchain_bridge.interface import LangChainLM
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask, GeneralEvaluatorInterface
 from compiler.optimizer.evaluation.metric import MetricBase, MInput

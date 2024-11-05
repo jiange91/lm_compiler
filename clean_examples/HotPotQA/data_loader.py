@@ -27,5 +27,7 @@ def load_data_minor():
         ("""What are both National Bird and America's Heart and Soul?""", """What are both National Bird and America's Heart and Soul?"""),
         ("""What was the 2010 population of the birthplace of Gerard Piel?""", """17,121"""),
         ("""On what streets is the hospital that cared for Molly Meldrum located?""", """the corner of Commercial and Punt Roads"""),
+        ("""What river is near the Crichton Collegiate Church?""", """the River Tyne"""),
+        ("Where did an event take place resulting in a win during a domestic double due to the action of a Peruvian footballer known for his goal scoring ability?", "Bundesliga"),
     ]
-    return trainset[:3], trainset[3:5], trainset[5:7]
+    return trainset[:3], trainset[3:5], trainset[-4:-3]

@@ -5,7 +5,7 @@ from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal, Seq
 import time
 import copy
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import optuna
 import numpy as np
 from concurrent.futures import ThreadPoolExecutor
@@ -20,8 +20,8 @@ import logging
 from compiler.IR.program import Workflow, Module, StatePool
 from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsage
 from compiler.optimizer.evaluation.metric import MetricBase
-from compiler.optimizer.params.common import ParamBase
-from compiler.optimizer.params.utils import build_param
+from compiler.cog_hub.common import CogBase
+from compiler.cog_hub.utils import build_param
 from compiler.optimizer.plugin import OptimizerSchema
 from compiler.optimizer.core.flow import TopDownInformation, ModuleTransformTrace
 
@@ -117,10 +117,10 @@ class EvalTask:
     other_python_paths: list[str]
     
     # transformation meta
-    all_params: dict[str, ParamBase] # {param_hash: param}
+    all_params: dict[str, CogBase] # {param_hash: param}
     module_name_paths: dict[str, str]
     aggregated_proposals: dict[str, dict[str, list[tuple[str, str]]]] # {layer_name: {module_name: [(param, option)]}}
-    trace_back: list[str]
+    trace_back: list[str] = field(default_factory=list)
     
     def __getstate__(self) -> object:
         state = copy.deepcopy(self.__dict__)
@@ -173,7 +173,7 @@ class EvalTask:
             for module_name, l_param_option in proposal.items():
                 module = module_pool[module_name]
                 for param_name, option_name in l_param_option:
-                    param_hash = ParamBase.chash(module_name, param_name)
+                    param_hash = CogBase.chash(module_name, param_name)
                     param = self.all_params[param_hash]
                     
                     new_module, new_mapping = param.apply_option(option_name, module)
@@ -264,7 +264,7 @@ class EvalTask:
                 trace_lines.append(f"\n  >>> Module: {module_name} <<<")
                 
                 for param_name, option_name in param_options:
-                    param_hash = ParamBase.chash(module_name, param_name)
+                    param_hash = CogBase.chash(module_name, param_name)
                     param = self.all_params[param_hash]
                     trace_lines.append(f"\n    - Parameter: {param}")
                     trace_lines.append(f"      Applied Option: {option_name}")

@@ -15,7 +15,7 @@
                 },
                 "default_option": "universal_self_consistency",
                 "__class__": "ModuleEnsemble",
-                "__module__": "compiler.optimizer.params.ensemble"
+                "__module__": "compiler.cog_hub.ensemble"
             },
             {
                 "name": "ensemble_candidate_generation",
@@ -30,7 +30,7 @@
                 },
                 "default_option": "universal_self_consistency",
                 "__class__": "ModuleEnsemble",
-                "__module__": "compiler.optimizer.params.ensemble"
+                "__module__": "compiler.cog_hub.ensemble"
             },
             {
                 "name": "ensemble_revision",
@@ -45,7 +45,7 @@
                 },
                 "default_option": "universal_self_consistency",
                 "__class__": "ModuleEnsemble",
-                "__module__": "compiler.optimizer.params.ensemble"
+                "__module__": "compiler.cog_hub.ensemble"
             }
         ],
         "universal_params": [],
@@ -77,7 +77,7 @@
                 },
                 "default_option": "Identity",
                 "__class__": "LMFewShot",
-                "__module__": "compiler.optimizer.params.fewshot",
+                "__module__": "compiler.cog_hub.fewshot",
                 "demo_cache": [],
                 "best_score_by_task": {},
                 "demo_pq": [],
@@ -105,7 +105,7 @@
                 },
                 "default_option": "Identity",
                 "__class__": "LMReasoning",
-                "__module__": "compiler.optimizer.params.reasoning"
+                "__module__": "compiler.cog_hub.reasoning"
             }
         ],
         "target_modules": null,

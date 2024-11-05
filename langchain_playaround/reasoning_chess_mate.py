@@ -71,7 +71,7 @@ qgen_lm_config = LMConfig(
 qa_agent.lm_config = qgen_lm_config
 runnable = qa_agent.as_runnable()
 
-from compiler.optimizer.params.reasoning import ZeroShotCoT
+from compiler.cog_hub.reasoning import ZeroShotCoT
 cot = ZeroShotCoT()
 cot.apply(qa_agent)
 
@@ -97,8 +97,8 @@ qa_flow.pregel_run(state)
 
 print(state.news('move'))
 
-from compiler.optimizer.params.meta_programming.mp import MetaPrompting
-from compiler.optimizer.params.reasoning import ZeroShotCoT
+from compiler.cog_hub.meta_programming.mp import MetaPrompting
+from compiler.cog_hub.reasoning import ZeroShotCoT
 
 # reasoning = MetaPrompting()
 reasoning = ZeroShotCoT()

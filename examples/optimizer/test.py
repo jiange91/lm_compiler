@@ -62,7 +62,7 @@ add_on_agent = LangChainLM('add_on_agent', add_on)
 add_on_agent.lm_config = {'model': "gpt-4o-mini", 'temperature': 0.0}
 
 from compiler.optimizer.layered_optimizer import InnerLoopBayesianOptimization
-from compiler.optimizer.params import reasoning, model_selection
+from compiler.cog_hub import reasoning, model_selection
 
 reasoning_param = reasoning.LMReasoning("reasoning", None, [reasoning.ZeroShotCoT(), reasoning.PlanBefore()])
 model_param = model_selection.LMSelection('lm_model', None, model_selection.model_option_factory(['gpt-4o-mini', 'gpt-4o']))

@@ -5,8 +5,8 @@ from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal, Seq
 from dataclasses import dataclass, field, asdict
 import logging
 
-from compiler.optimizer.params.common import ParamBase
-from compiler.optimizer.params.utils import build_param
+from compiler.cog_hub.common import CogBase
+from compiler.cog_hub.utils import build_param
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask, GeneralEvaluatorInterface
 from compiler.optimizer.core.flow import TrialLog, OptConfig
 from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization, BottomLevelTrialLog
@@ -19,8 +19,8 @@ class LayerConfig:
     def __init__(
         self,
         layer_name: str,
-        dedicate_params: list[ParamBase] = [],
-        universal_params: list[ParamBase] = [],
+        dedicate_params: list[CogBase] = [],
+        universal_params: list[CogBase] = [],
         target_modules: Iterable[str] = None,
         save_ckpt_interval: int = 1,
         opt_config: OptConfig = None,

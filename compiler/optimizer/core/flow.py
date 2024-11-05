@@ -9,7 +9,7 @@ import uuid
 from dataclasses import dataclass, field
 
 from compiler.IR.program import Workflow, Module, StatePool
-from compiler.optimizer.params.common import ParamBase
+from compiler.cog_hub.common import CogBase
 from compiler.optimizer.plugin import OptimizerSchema
 from compiler.optimizer.plugin import capture_module_from_fs
 from compiler.optimizer.registry import get_registered_opt_modules
@@ -146,7 +146,7 @@ class TopDownInformation:
     opt_config: OptConfig
     
     # optimization meta inherit from the previous level
-    all_params: Optional[dict[str, ParamBase]]
+    all_params: Optional[dict[str, CogBase]]
     module_ttrace: Optional[ModuleTransformTrace]
     current_module_pool: Optional[dict[str, Module]]
     

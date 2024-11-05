@@ -3,7 +3,7 @@ You are a code expert. Given an incomplete function and the function body genera
 """
 
 from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM, LMConfig
-from compiler.optimizer.params.reasoning import ZeroShotCoT
+from compiler.cog_hub.reasoning import ZeroShotCoT
 
 code_finalize_semantic = LangChainSemantic(
   system_prompt=system_prompt,

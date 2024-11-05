@@ -14,7 +14,7 @@ sys.path.append(parent_dir)
 from workload import qa_flow
 
 from compiler.IR.program import StatePool
-from compiler.optimizer.params.fewshot import LMFewShot
+from compiler.cog_hub.fewshot import LMFewShot
 from compiler.optimizer.evaluation.evaluator import Evaluator
 from compiler.optimizer.evaluation.metric import MetricBase, MInput
 
@@ -38,11 +38,11 @@ evaluator = Evaluator(
 lm_few_shot_params = LMFewShot.bootstrap(qa_flow, evaluator, 2, log_path='test_fs.json')
 
 from compiler.optimizer.importance_eval_new import LMImportanceEvaluator
-from compiler.optimizer.params import reasoning, model_selection, common
-from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
-from compiler.optimizer.params.meta_programming.mp import MetaPrompting
+from compiler.cog_hub import reasoning, model_selection, common
+from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
+from compiler.cog_hub.meta_programming.mp import MetaPrompting
 from compiler.optimizer.layered_optimizer import InnerLoopBayesianOptimization
-from compiler.optimizer.params.utils import load_params
+from compiler.cog_hub.utils import load_params
 
 def opt():
     lm_options = [

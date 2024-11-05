@@ -1,4 +1,4 @@
-compiler.optimizer.params package
+compiler.cog_hub package
 =================================
 
 Subpackages
@@ -7,63 +7,63 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   compiler.optimizer.params.meta_programming
+   compiler.cog_hub.meta_programming
 
 Submodules
 ----------
 
-compiler.optimizer.params.common module
+compiler.cog_hub.common module
 ---------------------------------------
 
-.. automodule:: compiler.optimizer.params.common
+.. automodule:: compiler.cog_hub.common
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.optimizer.params.ensemble module
+compiler.cog_hub.ensemble module
 -----------------------------------------
 
-.. automodule:: compiler.optimizer.params.ensemble
+.. automodule:: compiler.cog_hub.ensemble
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.optimizer.params.fewshot module
+compiler.cog_hub.fewshot module
 ----------------------------------------
 
-.. automodule:: compiler.optimizer.params.fewshot
+.. automodule:: compiler.cog_hub.fewshot
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.optimizer.params.model\_selection module
+compiler.cog_hub.model\_selection module
 -------------------------------------------------
 
-.. automodule:: compiler.optimizer.params.model_selection
+.. automodule:: compiler.cog_hub.model_selection
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.optimizer.params.reasoning module
+compiler.cog_hub.reasoning module
 ------------------------------------------
 
-.. automodule:: compiler.optimizer.params.reasoning
+.. automodule:: compiler.cog_hub.reasoning
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.optimizer.params.scaffolding module
+compiler.cog_hub.scaffolding module
 --------------------------------------------
 
-.. automodule:: compiler.optimizer.params.scaffolding
+.. automodule:: compiler.cog_hub.scaffolding
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.optimizer.params.utils module
+compiler.cog_hub.utils module
 --------------------------------------
 
-.. automodule:: compiler.optimizer.params.utils
+.. automodule:: compiler.cog_hub.utils
    :members:
    :undoc-members:
    :show-inheritance:
@@ -71,7 +71,7 @@ compiler.optimizer.params.utils module
 Module contents
 ---------------
 
-.. automodule:: compiler.optimizer.params
+.. automodule:: compiler.cog_hub
    :members:
    :undoc-members:
    :show-inheritance:

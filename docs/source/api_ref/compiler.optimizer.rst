@@ -11,7 +11,7 @@ Subpackages
    compiler.optimizer.bo
    compiler.optimizer.core
    compiler.optimizer.evaluation
-   compiler.optimizer.params
+   compiler.cog_hub
 
 Submodules
 ----------

@@ -52,7 +52,7 @@ qa_flow.add_edge('start', 'qa_agent')
 qa_flow.add_edge('qa_agent', 'end')
 qa_flow.compile()
 
-from compiler.optimizer.params.fewshot import LMFewShot
+from compiler.cog_hub.fewshot import LMFewShot
 from compiler.optimizer.evaluation.evaluator import Evaluator
 from compiler.optimizer.evaluation.metric import MetricBase, MInput
 from langchain_openai.chat_models import ChatOpenAI

@@ -247,7 +247,7 @@ class LangChainSemantic(LMSemantic):
         else:
             self.chat_prompt_template = ChatPromptTemplate.from_messages(
                 [
-                    ("system", self.system_prompt),
+                    ("user", self.system_prompt),
                 ]
             )
         

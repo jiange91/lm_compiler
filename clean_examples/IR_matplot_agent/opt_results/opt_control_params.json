@@ -21,7 +21,7 @@
                 },
                 "default_option": "NoChange",
                 "__class__": "ModuleEnsemble",
-                "__module__": "compiler.optimizer.params.ensemble"
+                "__module__": "compiler.cog_hub.ensemble"
             }
         ],
         "target_modules": null,
@@ -52,7 +52,7 @@
                 },
                 "default_option": "NoChange",
                 "__class__": "LMFewShot",
-                "__module__": "compiler.optimizer.params.fewshot",
+                "__module__": "compiler.cog_hub.fewshot",
                 "demo_cache": [],
                 "best_score_by_task": {},
                 "demo_pq": [],
@@ -80,7 +80,7 @@
                 },
                 "default_option": "NoChange",
                 "__class__": "LMReasoning",
-                "__module__": "compiler.optimizer.params.reasoning"
+                "__module__": "compiler.cog_hub.reasoning"
             }
         ],
         "target_modules": null,

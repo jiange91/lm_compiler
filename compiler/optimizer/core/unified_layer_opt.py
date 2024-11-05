@@ -15,8 +15,8 @@ import warnings
 
 
 from compiler.IR.program import Workflow, Module, StatePool
-from compiler.optimizer.params.common import ParamBase, OptionBase, DynamicParamBase, EvolveType, AddNewModuleImportInterface
-from compiler.optimizer.params.utils import dump_params, load_params
+from compiler.cog_hub.common import CogBase, OptionBase, DynamicCogBase, EvolveType, AddNewModuleImportInterface
+from compiler.cog_hub.utils import dump_params, load_params
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask, GeneralEvaluatorInterface
 from optuna.samplers import TPESampler, _base
 from optuna.trial import TrialState, FrozenTrial
@@ -58,8 +58,8 @@ class OptimizationLayer:
         self,
         name: str,
         evaluator: GeneralEvaluatorInterface,
-        dedicate_params: list[ParamBase] = [],
-        universal_params: list[ParamBase] = [],
+        dedicate_params: list[CogBase] = [],
+        universal_params: list[CogBase] = [],
         target_modules: Iterable[str] = None,
         save_ckpt_interval: int = 0,
         quality_constraint: Optional[float] = None,
@@ -98,7 +98,7 @@ class OptimizationLayer:
         self.opt_cost = 0
 
         # will be updated when prepare_opt_env is called
-        self.params: dict[str, list[ParamBase]] = None
+        self.params: dict[str, list[CogBase]] = None
         self.param_categorical_dist: dict[str, optuna.distributions.CategoricalDistribution] = None
         
         self.opt_logs: dict[str, TrialLog] = dict()
@@ -327,7 +327,7 @@ class OptimizationLayer:
             is_evolved = False
             for params in self.params.values():
                 for param in params:
-                    if isinstance(param, DynamicParamBase):
+                    if isinstance(param, DynamicCogBase):
                         evolve_type = param.evolve(eval_result)
                         if evolve_type != EvolveType.ID:
                             is_evolved = True
@@ -683,7 +683,7 @@ class BottomLevelOptimization(OptimizationLayer):
                 is_evolved = False
                 for params in self.params.values():
                     for param in params:
-                        if isinstance(param, DynamicParamBase):
+                        if isinstance(param, DynamicCogBase):
                             evolve_type = param.evolve(evolve_result)
                             if evolve_type != EvolveType.ID:
                                 is_evolved = True
@@ -714,7 +714,7 @@ class BottomLevelOptimization(OptimizationLayer):
         has_evolve = False
         for params in self.params.values():
             for param in params:
-                if isinstance(param, DynamicParamBase):
+                if isinstance(param, DynamicCogBase):
                     has_evolve = True
                     break
         if not has_evolve:
@@ -732,7 +732,7 @@ class BottomLevelOptimization(OptimizationLayer):
             is_evolved = False
             for params in self.params.values():
                 for param in params:
-                    if isinstance(param, DynamicParamBase):
+                    if isinstance(param, DynamicCogBase):
                         evolve_type = param.evolve(eval_result)
                         if evolve_type != EvolveType.ID:
                             is_evolved = True

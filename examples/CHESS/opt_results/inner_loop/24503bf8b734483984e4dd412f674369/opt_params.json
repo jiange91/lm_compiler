@@ -30,7 +30,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMFewShot",
-        "__module__": "compiler.optimizer.params.fewshot",
+        "__module__": "compiler.cog_hub.fewshot",
         "demo_cache": [
             {
                 "inputs": {
@@ -171,7 +171,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMReasoning",
-        "__module__": "compiler.optimizer.params.reasoning"
+        "__module__": "compiler.cog_hub.reasoning"
     },
     {
         "name": "few_shot",
@@ -204,7 +204,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMFewShot",
-        "__module__": "compiler.optimizer.params.fewshot",
+        "__module__": "compiler.cog_hub.fewshot",
         "demo_cache": [
             {
                 "inputs": {
@@ -330,7 +330,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMReasoning",
-        "__module__": "compiler.optimizer.params.reasoning"
+        "__module__": "compiler.cog_hub.reasoning"
     },
     {
         "name": "few_shot",
@@ -363,7 +363,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMFewShot",
-        "__module__": "compiler.optimizer.params.fewshot",
+        "__module__": "compiler.cog_hub.fewshot",
         "demo_cache": [
             {
                 "inputs": {
@@ -489,7 +489,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMReasoning",
-        "__module__": "compiler.optimizer.params.reasoning"
+        "__module__": "compiler.cog_hub.reasoning"
     },
     {
         "name": "few_shot",
@@ -522,7 +522,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMFewShot",
-        "__module__": "compiler.optimizer.params.fewshot",
+        "__module__": "compiler.cog_hub.fewshot",
         "demo_cache": [
             {
                 "inputs": {
@@ -663,7 +663,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMReasoning",
-        "__module__": "compiler.optimizer.params.reasoning"
+        "__module__": "compiler.cog_hub.reasoning"
     },
     {
         "name": "few_shot",
@@ -696,7 +696,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMFewShot",
-        "__module__": "compiler.optimizer.params.fewshot",
+        "__module__": "compiler.cog_hub.fewshot",
         "demo_cache": [
             {
                 "inputs": {
@@ -837,7 +837,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMReasoning",
-        "__module__": "compiler.optimizer.params.reasoning"
+        "__module__": "compiler.cog_hub.reasoning"
     },
     {
         "name": "few_shot",
@@ -870,7 +870,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMFewShot",
-        "__module__": "compiler.optimizer.params.fewshot",
+        "__module__": "compiler.cog_hub.fewshot",
         "demo_cache": [
             {
                 "inputs": {
@@ -996,7 +996,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMReasoning",
-        "__module__": "compiler.optimizer.params.reasoning"
+        "__module__": "compiler.cog_hub.reasoning"
     },
     {
         "name": "few_shot",
@@ -1029,7 +1029,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMFewShot",
-        "__module__": "compiler.optimizer.params.fewshot",
+        "__module__": "compiler.cog_hub.fewshot",
         "demo_cache": [
             {
                 "inputs": {
@@ -1155,7 +1155,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMReasoning",
-        "__module__": "compiler.optimizer.params.reasoning"
+        "__module__": "compiler.cog_hub.reasoning"
     },
     {
         "name": "few_shot",
@@ -1188,7 +1188,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMFewShot",
-        "__module__": "compiler.optimizer.params.fewshot",
+        "__module__": "compiler.cog_hub.fewshot",
         "demo_cache": [
             {
                 "inputs": {
@@ -1314,7 +1314,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMReasoning",
-        "__module__": "compiler.optimizer.params.reasoning"
+        "__module__": "compiler.cog_hub.reasoning"
     },
     {
         "name": "few_shot",
@@ -1347,7 +1347,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMFewShot",
-        "__module__": "compiler.optimizer.params.fewshot",
+        "__module__": "compiler.cog_hub.fewshot",
         "demo_cache": [
             {
                 "inputs": {
@@ -1473,7 +1473,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMReasoning",
-        "__module__": "compiler.optimizer.params.reasoning"
+        "__module__": "compiler.cog_hub.reasoning"
     },
     {
         "name": "few_shot",
@@ -1516,7 +1516,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMFewShot",
-        "__module__": "compiler.optimizer.params.fewshot",
+        "__module__": "compiler.cog_hub.fewshot",
         "demo_cache": [
             {
                 "inputs": {
@@ -1657,7 +1657,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMReasoning",
-        "__module__": "compiler.optimizer.params.reasoning"
+        "__module__": "compiler.cog_hub.reasoning"
     },
     {
         "name": "few_shot",
@@ -1690,7 +1690,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMFewShot",
-        "__module__": "compiler.optimizer.params.fewshot",
+        "__module__": "compiler.cog_hub.fewshot",
         "demo_cache": [
             {
                 "inputs": {
@@ -1816,7 +1816,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMReasoning",
-        "__module__": "compiler.optimizer.params.reasoning"
+        "__module__": "compiler.cog_hub.reasoning"
     },
     {
         "name": "few_shot",
@@ -1859,7 +1859,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMFewShot",
-        "__module__": "compiler.optimizer.params.fewshot",
+        "__module__": "compiler.cog_hub.fewshot",
         "demo_cache": [
             {
                 "inputs": {
@@ -2000,7 +2000,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMReasoning",
-        "__module__": "compiler.optimizer.params.reasoning"
+        "__module__": "compiler.cog_hub.reasoning"
     },
     {
         "name": "few_shot",
@@ -2033,7 +2033,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMFewShot",
-        "__module__": "compiler.optimizer.params.fewshot",
+        "__module__": "compiler.cog_hub.fewshot",
         "demo_cache": [
             {
                 "inputs": {
@@ -2159,7 +2159,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMReasoning",
-        "__module__": "compiler.optimizer.params.reasoning"
+        "__module__": "compiler.cog_hub.reasoning"
     },
     {
         "name": "few_shot",
@@ -2192,7 +2192,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMFewShot",
-        "__module__": "compiler.optimizer.params.fewshot",
+        "__module__": "compiler.cog_hub.fewshot",
         "demo_cache": [
             {
                 "inputs": {
@@ -2318,7 +2318,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMReasoning",
-        "__module__": "compiler.optimizer.params.reasoning"
+        "__module__": "compiler.cog_hub.reasoning"
     },
     {
         "name": "few_shot",
@@ -2361,7 +2361,7 @@
         },
         "default_option": "Identity",
         "__class__": "LMFewShot",
-        "__module__": "compiler.optimizer.params.fewshot",
+        "__module__": "compiler.cog_hub.fewshot",
         "demo_cache": [
             {
                 "inputs": {
@@ -2496,6 +2496,6 @@
         },
         "default_option": "Identity",
         "__class__": "LMReasoning",
-        "__module__": "compiler.optimizer.params.reasoning"
+        "__module__": "compiler.cog_hub.reasoning"
     }
 ]

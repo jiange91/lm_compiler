@@ -1,4 +1,4 @@
-from compiler.optimizer.params.reasoning import ReasonThenFormat
+from compiler.cog_hub.reasoning import ReasonThenFormat
 from compiler.utils import load_api_key
 from compiler.IR.llm import LLMPredictor 
 from compiler.langchain_bridge.interface import LLMTracker, LangChainLM, LangChainSemantic

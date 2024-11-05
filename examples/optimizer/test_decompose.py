@@ -14,7 +14,7 @@ sys.path.append(parent_dir)
 from more_complex_workload import qa_flow
 
 from compiler.IR.program import StatePool
-from compiler.optimizer.params.fewshot import LMFewShot
+from compiler.cog_hub.fewshot import LMFewShot
 from compiler.optimizer.evaluation.evaluator import Evaluator
 from compiler.optimizer.evaluation.metric import MetricBase, MInput
 
@@ -24,10 +24,10 @@ class DummyMetric(MetricBase):
         return random.uniform(0.0, 1.0)
 
 
-from compiler.optimizer.params.utils import dump_params, load_params
-from compiler.optimizer.params.scaffolding import LMScaffolding
+from compiler.cog_hub.utils import dump_params, load_params
+from compiler.cog_hub.scaffolding import LMScaffolding
 from compiler.optimizer.layered_optimizer import InnerLoopBayesianOptimization
-from compiler.optimizer.params.utils import load_params
+from compiler.cog_hub.utils import load_params
 from compiler.optimizer.decompose import LMTaskDecompose
 
 # scaffolding_params = LMScaffolding.bootstrap(

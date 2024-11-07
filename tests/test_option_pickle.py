@@ -17,7 +17,7 @@ from compiler.cog_hub import reasoning, model_selection, common, ensemble
 from compiler.cog_hub.utils import load_params
 from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
 
-from compiler.utils import load_api_key, get_bill
+from compiler.utils import load_api_key
 load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')
 
 def is_picklable(obj):

@@ -176,3 +176,4 @@ local_testing/
 
 # secrets
 secrets.toml
+examples/**/*.json

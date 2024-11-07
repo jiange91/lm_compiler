@@ -81,7 +81,7 @@ class Demonstration:
       """Truncate text if it exceeds max_length, appending '...' at the end."""
       return text if len(text) <= max_length else text[:max_length] + "..."
       
-    inputs_truncated = {filled_input_var.input_variable.name: truncate(filled_input_var.value) for filled_input_var in self.inputs}
+    inputs_truncated = {filled_input_var.input_variable.name: truncate(filled_input_var.value) for filled_input_var in self.filled_input_variables}
     input_str = '**Input**\n' + json.dumps(inputs_truncated, indent=4)
     if self.reasoning:
       input_str += f"\n\n**Reasoning**\n{truncate(self.reasoning)}"

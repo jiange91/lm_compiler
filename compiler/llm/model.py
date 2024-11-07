@@ -14,6 +14,9 @@ import copy
 import threading
 import logging
 
+litellm_logger = logging.getLogger("LiteLLM")
+litellm_logger.disabled = True
+
 logger = logging.getLogger(__name__)
 APICompatibleMessage = Dict[str, str] # {"role": "...", "content": "..."}
 _thread_local_chain = threading.local()

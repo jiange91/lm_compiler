@@ -80,18 +80,14 @@ class BasicMH(dspy.Module):
         search_query = self.initial_generate_query(question=question).search_query
         # avoid only searching the first line
         search_query = search_query.replace("\n", ". ")
-        print(search_query)
         passages = self.retrieve(search_query).passages
         context = deduplicate(context + passages)
-        print(self.doc_str(context))
         
         search_query = self.following_generate_query(context=self.doc_str(context), question=question).search_query
         # avoid only searching the first line
         search_query = search_query.replace("\n", ". ")
-        print(search_query)
         passages = self.retrieve(search_query).passages
         context = deduplicate(context + passages)
-        print(self.doc_str(context))
         
         answer = self.generate_answer(context=self.doc_str(context), question=question).answer
         return answer

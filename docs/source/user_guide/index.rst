@@ -13,4 +13,3 @@ Welcome! This guide provides tutorials, tips, and resources to help you get the 
     introduction
     installation
     quickstart
-    basics

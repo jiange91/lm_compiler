@@ -28,7 +28,7 @@ class LMFewShot(DynamicCogBase):
         name: str = "few_shot",
         module_name: str = None,
         eval_result: EvaluationResult = None,
-        inherit: bool = False,
+        inherit: bool = True,
         allow_duplicate: bool = False,
         user_demos: list[Demonstration] = None,
         disable_evolve: bool = False,

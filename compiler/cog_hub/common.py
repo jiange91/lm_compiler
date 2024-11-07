@@ -174,7 +174,7 @@ class CogBase(metaclass=CogMeta):
         options: list[OptionBase],
         default_option: Union[int, str] = 0,
         module_name: str = None,
-        inherit: bool = False,
+        inherit: bool = True,
     ):
         """Define a parameter with a list of options
         
@@ -263,7 +263,7 @@ class DynamicCogBase(CogBase, ABC):
         options: list[OptionBase], 
         default_option: int | str = 0, 
         module_name: str = None, 
-        inherit: bool = False,
+        inherit: bool = True,
         inherit_options: bool = False,
         disable_evolve: bool = False,
     ):

@@ -30,7 +30,7 @@ class LMReasoning(CogBase):
         name: str = 'reasoning', 
         default_option: Union[int, str] = 0,
         module_name: str = None,
-        inherit: bool = False,
+        inherit: bool = True,
     ):
         return super().__init__(
             name, options, default_option, module_name, inherit
@@ -237,7 +237,7 @@ class PlanBefore(ReasonThenFormat):
         super().__init__("PlanBefore")
     
     def _get_cost_indicator(self):
-        return 2.0
+        return 3.0
     
     def describe(self):
         desc = """

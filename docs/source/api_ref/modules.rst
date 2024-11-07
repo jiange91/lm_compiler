@@ -1,5 +1,5 @@
-compiler
-========
+API Reference
+=============
 
 .. toctree::
    :maxdepth: 4

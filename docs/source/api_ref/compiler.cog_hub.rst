@@ -1,5 +1,5 @@
-compiler.cog_hub package
-=================================
+compiler.cog\_hub package
+=========================
 
 Subpackages
 -----------
@@ -12,56 +12,56 @@ Subpackages
 Submodules
 ----------
 
-compiler.cog_hub.common module
----------------------------------------
+compiler.cog\_hub.common module
+-------------------------------
 
 .. automodule:: compiler.cog_hub.common
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.cog_hub.ensemble module
------------------------------------------
+compiler.cog\_hub.ensemble module
+---------------------------------
 
 .. automodule:: compiler.cog_hub.ensemble
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.cog_hub.fewshot module
-----------------------------------------
+compiler.cog\_hub.fewshot module
+--------------------------------
 
 .. automodule:: compiler.cog_hub.fewshot
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.cog_hub.model\_selection module
--------------------------------------------------
+compiler.cog\_hub.model\_selection module
+-----------------------------------------
 
 .. automodule:: compiler.cog_hub.model_selection
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.cog_hub.reasoning module
-------------------------------------------
+compiler.cog\_hub.reasoning module
+----------------------------------
 
 .. automodule:: compiler.cog_hub.reasoning
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.cog_hub.scaffolding module
---------------------------------------------
+compiler.cog\_hub.scaffolding module
+------------------------------------
 
 .. automodule:: compiler.cog_hub.scaffolding
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.cog_hub.utils module
---------------------------------------
+compiler.cog\_hub.utils module
+------------------------------
 
 .. automodule:: compiler.cog_hub.utils
    :members:

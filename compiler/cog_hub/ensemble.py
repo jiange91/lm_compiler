@@ -32,7 +32,7 @@ class ModuleEnsemble(CogBase):
         name: str = 'ensemble',
         default_option: Union[int, str] = 0,
         module_name: str = None,
-        inherit: bool = False,
+        inherit: bool = True,
     ):
         super().__init__(name, options, default_option, module_name, inherit)
     

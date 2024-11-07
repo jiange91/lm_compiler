@@ -228,7 +228,13 @@ class OptimizationLayer:
         for lm_name, params in self.params.items():
             for param in params:
                 selected = trial_params[param.hash]
-                new_module, new_mapping = param.apply_option(selected, module_dict[lm_name])
+                try:
+                    new_module, new_mapping = param.apply_option(selected, module_dict[lm_name])
+                except Exception as e:
+                    logger.error(f'Error in applying param {param.name} to {lm_name}: {e}')
+                    logger.error(f'Module dict {module_dict.keys()} and self params {self.params.keys()}')
+                    traceback.print_exc()
+
                 for old_name, new_name in new_mapping.items():
                     trace_for_next_level.add_mapping(old_name, new_name)
                 new_modules.append(new_module)

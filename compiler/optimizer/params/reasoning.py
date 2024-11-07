@@ -72,7 +72,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
             agg_messages.append(f"\n: {response.choices[0].message.content}")
         return "\n".join(agg_messages)
 
-    def forward(self, lm_module: CogLM, messages: List[APICompatibleMessage], model_kwargs: Optional[dict] = None) -> List[ModelResponse]:
+    def forward(self, lm_module: CogLM, messages: List[APICompatibleMessage], model_kwargs: dict) -> List[ModelResponse]:
         """
         If the orignal output has certain format, applying additional reasoning steps will break down
         it into two phases, first one allows free generation along with reasoning steps, and the second
@@ -80,14 +80,11 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
         """
         self.model_responses = []
 
-        if not model_kwargs:
-            assert lm_module.lm_config, "Model kwargs must be provided if LM config is not set at initialization"
-        full_kwargs = model_kwargs or lm_module.lm_config.get_model_kwargs()
-        model: str = full_kwargs.pop("model")
+        model: str = model_kwargs.pop("model")
         responses: List[ModelResponse] = []
 
         messages.append({"role": "user", "content": "Don't give your final response to the instruction directly. We can start with some reasoning first.\n"})
-        reasoning_step_responses: List[ModelResponse] = self.reasoning_step(copy.deepcopy(messages))
+        reasoning_step_responses: List[ModelResponse] = self.reasoning_step(model, copy.deepcopy(messages), model_kwargs)
         responses.extend(self.get_all_model_responses())
         rationale = self.aggregate_reasoning_steps(reasoning_step_responses)
         lm_module.rationale = rationale
@@ -103,12 +100,12 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
             response = completion(model, 
                                 full_messages, 
                                 response_format=lm_module.output_format.schema, 
-                                **full_kwargs)
+                                **model_kwargs)
             responses.append(response)
         else:
             response = completion(model, 
                                 full_messages,
-                                **full_kwargs)
+                                **model_kwargs)
             responses.append(response)
         return responses
     

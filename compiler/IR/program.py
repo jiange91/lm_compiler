@@ -6,6 +6,7 @@ import functools
 import traceback
 
 from compiler.llm import CogLM
+from compiler.llm.response import ResponseMetadata
 from compiler.IR.modules import Input, Output, Branch, Identity
 from compiler.IR.base import *
 from compiler.IR.rewriter.utils import replace_branch_destination
@@ -566,20 +567,22 @@ class Workflow(ComposibleModuleInterface):
         """get token usage summary for all LLM modules recursively
         """
         for lm in (m for m in self.get_all_modules(lambda x: isinstance(x, CogLM))):
+            lm: CogLM
             if lm.name not in self.token_usage_buffer:
                 self.token_usage_buffer[lm.name] = {}
-            for meta in lm.lm_history:
-                model = meta['model']
+            for meta in lm.response_metadata_history:
+                meta: ResponseMetadata
+                model = meta.model
                 if model not in self.token_usage_buffer[lm.name]:
                     self.token_usage_buffer[lm.name][model] = defaultdict(int)
-                self.token_usage_buffer[lm.name][model]['prompt_tokens'] += meta['prompt_tokens']
-                self.token_usage_buffer[lm.name][model]['completion_tokens'] += meta['completion_tokens']
+                self.token_usage_buffer[lm.name][model]['prompt_tokens'] += meta.usage.prompt_tokens
+                self.token_usage_buffer[lm.name][model]['completion_tokens'] += meta.usage.completion_tokens
                 if model not in self.token_usage_buffer['total']:
                     self.token_usage_buffer['total'][model] = defaultdict(int)
-                self.token_usage_buffer['total'][model]['prompt_tokens'] += meta['prompt_tokens']
-                self.token_usage_buffer['total'][model]['completion_tokens'] += meta['completion_tokens']
+                self.token_usage_buffer['total'][model]['prompt_tokens'] += meta.usage.prompt_tokens
+                self.token_usage_buffer['total'][model]['completion_tokens'] += meta.usage.completion_tokens
             # NOTE: clear incase of double counting
-            lm.lm_history = []
+            lm.response_metadata_history = []
         return self.token_usage_buffer
     
     def log_module_time(self, path):

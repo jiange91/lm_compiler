@@ -52,7 +52,6 @@ class PredictCogLM(dspy.Module):
         self.output_schema = generate_pydantic_model("OutputData", output_fields_for_schema)
 
         # lm config
-        print(dspy.settings)
         lm_client: dspy.LM = dspy.settings.get('lm', None)
         assert lm_client, "Expected lm client, got none"
         lm_config = LMConfig(model=lm_client.model, kwargs=lm_client.kwargs)

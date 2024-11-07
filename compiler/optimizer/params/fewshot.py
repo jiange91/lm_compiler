@@ -14,10 +14,11 @@ logger = logging.getLogger(__name__)
 from compiler.IR.base import Module
 from compiler.IR.program import Workflow
 from compiler.llm import CogLM, Demonstration
+from compiler.llm.prompt import FilledInputVar, InputVar, ImageParams
 from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, NoChange
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from compiler.optimizer.params.utils import dump_params, load_params
-
+from typing import List
     
 class LMFewShot(DynamicParamBase):
     level = ParamLevel.NODE
@@ -145,6 +146,15 @@ class LMFewShot(DynamicParamBase):
         demo_cache = {}
         for e in data['demo_cache']:
             demo = Demonstration(**e)
+            # convert list of dict => list of FilledInputVar
+            filled_input_variables: List[FilledInputVar] = []
+            for filled in demo.filled_input_variables:
+                filled_input_variables.append(FilledInputVar(**filled))
+            for filled in filled_input_variables:
+                input_var = InputVar(**filled.input_variable)
+                input_var.image_params = ImageParams(**input_var.image_params) if input_var.image_params else None
+                filled.input_variable = input_var
+            demo.filled_input_variables = filled_input_variables
             demo_cache[demo.id] = demo
         param.demo_cache = demo_cache
         param.best_score_by_task = data['best_score_by_task']

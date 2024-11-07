@@ -40,8 +40,8 @@ class Demonstration:
   id: str
   reasoning: str = None
 
-  def __init__(self, inputs: Dict[str, str], output: str, id: str = None, reasoning: str = None):
-    self.filled_input_variables = [FilledInputVar(input_variable=InputVar(name=key), value=value) for key, value in inputs.items()]
+  def __init__(self, filled_input_variables: List[FilledInputVar], output: str, id: str = None, reasoning: str = None):
+    self.filled_input_variables = filled_input_variables
     self.output = output
     self.id = id or str(uuid.uuid4())
     self.reasoning = reasoning

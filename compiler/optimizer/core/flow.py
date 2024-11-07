@@ -8,9 +8,11 @@ from collections import defaultdict
 import uuid
 from dataclasses import dataclass, field
 
-from compiler.IR.program import Module
-from compiler.optimizer.params.common import ParamBase
+from compiler.IR.program import Workflow, Module, StatePool
+from compiler.cog_hub.common import CogBase
 from compiler.optimizer.plugin import OptimizerSchema
+from compiler.optimizer.plugin import capture_module_from_fs
+from compiler.optimizer.registry import get_registered_opt_modules
 
 logger = logging.getLogger(__name__)
 
@@ -144,7 +146,7 @@ class TopDownInformation:
     opt_config: OptConfig
     
     # optimization meta inherit from the previous level
-    all_params: Optional[dict[str, ParamBase]]
+    all_params: Optional[dict[str, CogBase]]
     module_ttrace: Optional[ModuleTransformTrace]
     current_module_pool: Optional[dict[str, Module]]
     
@@ -167,8 +169,8 @@ class TopDownInformation:
             if dir not in sys.path:
                 sys.path.insert(0, dir)
             sys.argv = [self.script_path] + self.script_args
-            schema = OptimizerSchema.capture(self.script_path)
-            self.current_module_pool = {m.name: m for m in schema.opt_target_modules}
+            capture_module_from_fs(self.script_path)
+            self.current_module_pool = {m.name: m for m in get_registered_opt_modules()}
         
         if self.module_ttrace is None:
             name_2_type = {m.name: type(m) for m in self.current_module_pool.values()}

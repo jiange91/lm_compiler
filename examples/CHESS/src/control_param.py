@@ -7,11 +7,11 @@ evaluator_parallel: int = 20
 from compiler.llm.model import LMConfig
 from compiler.optimizer.core import driver, flow
 
-from compiler.optimizer.params import reasoning, model_selection
-from compiler.optimizer.params import ensemble
-from compiler.optimizer.params.common import NoChange
-from compiler.optimizer.params.fewshot import LMFewShot
-from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
+from compiler.cog_hub import reasoning, model_selection
+from compiler.cog_hub import ensemble
+from compiler.cog_hub.common import NoChange
+from compiler.cog_hub.fewshot import LMFewShot
+from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
 
 """
 Be aware that for this workload a single trial running 100 input data requres $0.5~$1.0, please be cautious about the cost.

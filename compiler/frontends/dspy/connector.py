@@ -52,7 +52,6 @@ class PredictCogLM(dspy.Module):
         self.output_schema = generate_pydantic_model("OutputData", output_fields_for_schema)
 
         # lm config
-        print(dspy.settings)
         lm_client: dspy.LM = dspy.settings.get('lm', None)
         assert lm_client, "Expected lm client, got none"
         lm_config = LMConfig(model=lm_client.model, kwargs=lm_client.kwargs)
@@ -70,23 +69,25 @@ class PredictCogLM(dspy.Module):
         if self.ignore_module:
             return self.predictor(**kwargs)
         else:
-            inputs: Dict[InputVar, str] = {k: kwargs[k.name] for k in self.cog_lm.input_variables}
-            messages: APICompatibleMessage = self.chat_adapter.format(self.predictor.extended_signature,
-                                                                    self.predictor.demos,
-                                                                    inputs)
-            response: ModelResponse = self.cog_lm.forward(messages, inputs) # model kwargs already set
-            kwargs: dict = self.cog_lm.output_format.schema.model_validate_json(response).model_dump()
+            inputs: Dict[str, str] = {k.name: kwargs[k.name] for k in self.cog_lm.input_variables}
+            messages = None
+            if self.predictor:
+                messages: APICompatibleMessage = self.chat_adapter.format(self.predictor.extended_signature,
+                                                                        self.predictor.demos,
+                                                                        inputs)
+            response: ModelResponse = self.cog_lm(messages, inputs) # model kwargs already set
+            kwargs: dict = self.cog_lm.output_format.schema.model_validate_json(response.choices[0].message.content).model_dump()
             return dspy.Prediction(**kwargs)
         
 def as_predict(cog_lm: CogLM) -> PredictCogLM:
-    predictor = PredictCogLM(name=cog_lm.agent_name)
+    predictor = PredictCogLM(name=cog_lm.name)
     if isinstance(cog_lm, StructuredCogLM):
         predictor.cog_lm = cog_lm
         predictor.output_schema = cog_lm.output_format.schema
     else:
         output_schema = generate_pydantic_model("OutputData", {cog_lm.get_output_label_name(): str})
-        predictor.cog_lm = StructuredCogLM(agent_name=cog_lm.agent_name,
-                                      system_prompt=cog_lm.system_prompt,
+        predictor.cog_lm = StructuredCogLM(agent_name=cog_lm.name,
+                                      system_prompt=cog_lm.get_system_prompt(),
                                       input_variables=cog_lm.input_variables,
                                       output_format=OutputFormat(output_schema, 
                                                                  custom_output_format_instructions=cog_lm.get_custom_format_instructions_if_any()),

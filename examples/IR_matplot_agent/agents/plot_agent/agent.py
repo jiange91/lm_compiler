@@ -7,7 +7,7 @@ from agents.openai_chatComplete import completion_with_backoff
 from agents.utils import fill_in_placeholders, get_error_message, is_run_code_success, run_code
 from agents.utils import print_filesys_struture
 from agents.utils import change_directory, common_lm_config
-from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsage
+from compiler.llm.model import LMConfig, Demonstration
 import logging
 
 
@@ -201,7 +201,15 @@ Cognify Implementation
 """  
 
 from pydantic import BaseModel, Field
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
+from compiler.llm import CogLM, InputVar, OutputLabel
+
+lm_config = LMConfig(
+    custom_llm_provider='openai',
+    model='gpt-4o-mini',
+    kwargs= {
+        'temperature': 0.0,
+    }
+)
 
 #==============================================================================
 # Coder
@@ -214,24 +222,10 @@ If the instruction requires data manipulation from a csv file, write code to pro
 
 Your code should save the final plot to a png file with the give filename rather than displaying it.
 '''
-
-initial_coder_semantic = LangChainSemantic(
-    system_prompt=INITIAL_SYSTEM_PROMPT_IR,
-    inputs=['query', 'expanded_query', 'plot_file_name'],
-    output_format="code",
-    output_format_instructions="Please only give the code as your answer and format it in markdown code block, i.e. wrap it with ```python and ```.",
-)
-
-initial_coder_lm = LangChainLM('initial code generation', initial_coder_semantic, opt_register=True)
-initial_coder_lm_config = LMConfig(
-    provider='openai',
-    model='gpt-4o-mini',
-    kwargs= {
-        'temperature': 0.0,
-    }
-)
-initial_coder_lm.lm_config = common_lm_config
-initial_coder_agent = initial_coder_lm.as_runnable()
+initial_coder_agent = CogLM(agent_name='initial code generation', system_prompt=INITIAL_SYSTEM_PROMPT_IR,
+                            input_variables=[InputVar(name='query'), InputVar(name='expanded_query'), InputVar(name='plot_file_name')],
+                            output=OutputLabel(name='code', custom_output_format_instructions="Please only give the code as your answer and format it in markdown code block, i.e. wrap it with ```python and ```."),
+                            lm_config=lm_config)
 
 #==============================================================================
 # Debugger
@@ -247,24 +241,10 @@ Your task is to:
 Always output the complete, updated Python code with all necessary corrections applied, ensuring it is ready to be executed successfully.
 Your code should save the final plot to a png file with the give filename rather than displaying it.
 """
-
-plot_debugger_semantic = LangChainSemantic(
-    system_prompt=DEBUG_SYSTEM_PROMPT_IR,
-    inputs=['query', 'code', 'error_message'],
-    output_format="code",
-    output_format_instructions="Please only give the code as your answer and format it in markdown code block, i.e. wrap it with ```python and ```.",
-)
-
-plot_debugger_lm = LangChainLM('plot debugger', plot_debugger_semantic, opt_register=True)
-debugger_lm_config = LMConfig(
-    provider='openai',
-    model='gpt-4o-mini',
-    kwargs= {
-        'temperature': 0.0,
-    }
-)
-plot_debugger_lm.lm_config = common_lm_config
-plot_debugger_agent = plot_debugger_lm.as_runnable()
+plot_debugger_agent = CogLM(agent_name='plot debugger', system_prompt=DEBUG_SYSTEM_PROMPT_IR,
+                            input_variables=[InputVar(name='query'), InputVar(name='code'), InputVar(name='error_message')],
+                            output=OutputLabel(name='code', custom_output_format_instructions="Please only give the code as your answer and format it in markdown code block, i.e. wrap it with ```python and ```."),
+                            lm_config=lm_config)
 
 #==============================================================================
 # Refiner
@@ -282,23 +262,10 @@ Please analyze the feedback and apply the recommended changes to the Python code
 Your code should save the final plot to a png file with the give filename rather than displaying it.
 """
 
-refine_semantic = LangChainSemantic(
-    system_prompt=VIS_SYSTEM_PROMPT_IR,
-    inputs=['query', 'code', 'visual_refinement', 'plot_file_name'],
-    output_format="code",
-    output_format_instructions="Please only return the python code. Wrap it with ```python and ``` to format it properly.",
-)
-
-refine_plot_lm = LangChainLM('visual refine coder', refine_semantic, opt_register=True)
-refine_lm_config = LMConfig(
-    provider='openai',
-    model='gpt-4o-mini',
-    kwargs= {
-        'temperature': 0.0,
-    }
-)
-refine_plot_lm.lm_config = common_lm_config
-refine_plot_agent = refine_plot_lm.as_runnable()
+refine_plot_agent = CogLM(agent_name='visual refine coder', system_prompt=VIS_SYSTEM_PROMPT_IR,
+                            input_variables=[InputVar(name='query'), InputVar(name='code'), InputVar(name='visual_refinement'), InputVar(name='plot_file_name')],
+                            output=OutputLabel(name='code', custom_output_format_instructions="Please only return the python code. Wrap it with ```python and ``` to format it properly."),
+                            lm_config=lm_config)
 
 class PlotAgentModule:
     def __init__(self, data_information=None):
@@ -321,9 +288,9 @@ class PlotAgentModule:
     ):
         try_count = 0
         if query_type == 'initial':
-            result = initial_coder_agent.invoke(kwargs).content
+            result = initial_coder_agent(inputs=kwargs).choices[0].message.content
         else:
-            result = refine_plot_agent.invoke(kwargs).content
+            result = refine_plot_agent(inputs=kwargs).choices[0].message.content
         
         while try_count < 4:
             code = self.get_code(result)
@@ -342,13 +309,13 @@ class PlotAgentModule:
                     
                     # debug and retry
                     try_count += 1
-                    result = plot_debugger_agent.invoke({'query': kwargs['query'], 'code': code, 'error_message': error_message}).content
+                    result = plot_debugger_agent(inputs={'query': kwargs['query'], 'code': code, 'error_message': error_message}).choices[0].message.content
                 else:
                     return log, code
             else:
                 error = get_error_message(log) if error is None else error
                 try_count += 1
-                result = plot_debugger_agent.invoke({'query': kwargs['query'], 'code': code, 'error_message': error}).content
+                result = plot_debugger_agent(inputs={'query': kwargs['query'], 'code': code, 'error_message': error}).choices[0].message.content
         return log, ''
     
     def run(self, query_type, workspace, **kwargs):

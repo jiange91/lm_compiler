@@ -6,9 +6,9 @@ import re
 from .prompt import SYSTEM_PROMPT, USER_PROMPT, ERROR_PROMPT
 from agents.openai_chatComplete import  completion_for_4v
 from agents.utils import fill_in_placeholders, common_lm_config
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
-from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsage
-from compiler.optimizer.params.reasoning import ZeroShotCoT
+from compiler.llm.model import CogLM, InputVar, OutputLabel, LMConfig
+from compiler.llm.prompt import ImageParams
+from compiler.cog_hub.reasoning import ZeroShotCoT
 
 
 
@@ -30,14 +30,6 @@ Carefully read and analyze the user query to understand the specific requirement
 
 You don't need to provide the complete code, just be very explicit in what changes are needed and how to make them.
 """
-
-visual_refinement_semantic = LangChainSemantic(
-    VISUAL_FEEDBACK_SYSTEM_PROMPT,
-    ['query', 'code', 'plot_image'],
-    "refinement",
-    img_input_idices=[2],
-)
-visual_refinement_lm = LangChainLM('visual_refinement', visual_refinement_semantic, opt_register=True)
 visual_refine_lm_config = LMConfig(
     provider='openai',
     model='gpt-4o-mini',
@@ -45,10 +37,14 @@ visual_refine_lm_config = LMConfig(
         'temperature': 0.0,
     }
 )
-visual_refinement_lm.lm_config = common_lm_config
-visual_refinement_agent = visual_refinement_lm.as_runnable()
+visual_refinement_agent = CogLM(agent_name='visual_refinement', system_prompt=VISUAL_FEEDBACK_SYSTEM_PROMPT,
+                                input_variables=[InputVar(name='query'), InputVar(name='code'), 
+                                                 InputVar(name='plot_image', 
+                                                          image_params=ImageParams())],
+                                output=OutputLabel(name='refinement'),
+                                lm_config=visual_refine_lm_config)
 
-ZeroShotCoT.direct_apply(visual_refinement_lm)
+ZeroShotCoT.direct_apply(visual_refinement_agent)
 
 class VisualRefineAgent:
     def __init__(self, plot_file, config, code, query):
@@ -68,5 +64,5 @@ class VisualRefineAgent:
             'plot_image': base64_image1,
         }
 
-        visual_feedback = visual_refinement_agent.invoke(information).content
+        visual_feedback = visual_refinement_agent(inputs=information).choices[0].message.content
         return visual_feedback

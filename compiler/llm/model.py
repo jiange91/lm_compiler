@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Dict, Optional, override
-from compiler.llm.prompt import InputVar, CompletionMessage, Demonstration, Content, TextContent, FilledInputVar
+from compiler.llm.prompt import InputVar, FilledInputVar, CompletionMessage, Demonstration, Content, TextContent, ImageContent, FilledInputVar, get_image_content_from_upload
 from compiler.llm.output import OutputLabel, OutputFormat
 import litellm
 from litellm import completion, get_supported_openai_params, ModelResponse
@@ -14,16 +14,20 @@ import copy
 import threading
 import logging
 
+litellm_logger = logging.getLogger("LiteLLM")
+litellm_logger.disabled = True
+
 logger = logging.getLogger(__name__)
 APICompatibleMessage = Dict[str, str] # {"role": "...", "content": "..."}
 _thread_local_chain = threading.local()
 
-def _local_forward(_local_lm: 'CogLM', messages: List[APICompatibleMessage], inputs: Dict[InputVar, str], model_kwargs: Optional[dict] = None):
+def _local_forward(_local_lm: 'CogLM', messages: List[APICompatibleMessage], inputs: Dict[str, str], model_kwargs: Optional[dict] = None):
   if _local_lm.reasoning:
     responses: List[ModelResponse] = _local_lm.reasoning.forward(_local_lm, messages, model_kwargs)
     _local_lm.response_metadata_history.extend([ResponseMetadata(model=response.model, 
                                                                  cost=response._hidden_params["response_cost"], 
                                                                  usage=response.usage) for response in responses])
+    response = responses[-1]
   else:
     response: ModelResponse = _local_lm._forward(messages, model_kwargs)
     _local_lm.response_metadata_history.append(ResponseMetadata(model=response.model, 
@@ -35,7 +39,7 @@ def _local_forward(_local_lm: 'CogLM', messages: List[APICompatibleMessage], inp
   _local_lm.steps.append(step_info)
   _local_lm.rationale = None
   
-  return response.choices[0].message.content
+  return response
 
 @dataclass
 class LMConfig:
@@ -54,7 +58,8 @@ class LMConfig:
     return obj
 
   def get_model_kwargs(self) -> dict:
-    full_kwargs_dict = self.kwargs or {}
+    full_kwargs_dict = {}
+    full_kwargs_dict.update(self.kwargs)
     full_kwargs_dict["model"] = self.model
     if self.custom_llm_provider:
       full_kwargs_dict["custom_llm_provider"] = self.custom_llm_provider
@@ -70,7 +75,7 @@ class CogLM(Module):
   def __init__(self, agent_name: str,
                system_prompt: str, 
                input_variables: List[InputVar], 
-               output: Optional[OutputLabel] = None,
+               output: OutputLabel,
                lm_config: Optional[LMConfig] = None,
                opt_register: bool = True):
     self._lock = threading.Lock()
@@ -84,7 +89,9 @@ class CogLM(Module):
     self.steps: List[StepInfo] = []
     self.reasoning = None
     self.rationale = None
-    self.lm_config = lm_config
+
+    # TODO: improve lm configuration handling between agents. currently just unique config for each agent
+    self.lm_config = copy.deepcopy(lm_config)
 
     setattr(_thread_local_chain, agent_name, self)
 
@@ -104,7 +111,6 @@ class CogLM(Module):
     super().reset()
     self.response_metadata_history = []
     self.steps = []
-    self.lm_config = None
 
   def get_thread_local_chain(self):
     try:
@@ -121,7 +127,7 @@ class CogLM(Module):
 
   def get_high_level_info(self) -> str:
     dict = {
-      "agent_prompt": self._get_system_prompt(),
+      "agent_prompt": self.get_system_prompt(),
       "input_names": self._get_input_names(),
       "output_name": self.get_output_label_name(),
     }
@@ -129,7 +135,7 @@ class CogLM(Module):
   
   def get_formatted_info(self) -> str:
     dict = {
-      "agent_prompt": self._get_system_prompt(),
+      "agent_prompt": self.get_system_prompt(),
       "input_variables": self._get_input_names(),
       "output_schema": self.get_output_label_name(),
     }
@@ -140,11 +146,12 @@ class CogLM(Module):
       return None
     else:
       last_step: StepInfo = self.steps[-1]
-      filled_input_dict: Dict[str, str] = {} # input name -> input value
+      filled_input_list: List[FilledInputVar] = []
       for input_variable in self.input_variables:
         input_value = last_step.filled_inputs_dict.get(input_variable.name, None)
-        filled_input_dict[input_variable.name] = input_value
-      return Demonstration(inputs=filled_input_dict, 
+        filled_input_list.append(FilledInputVar(input_variable=input_variable,
+                                                value=input_value))
+      return Demonstration(filled_input_variables=filled_input_list, 
                            output=last_step.output, 
                            reasoning=last_step.rationale)
 
@@ -193,11 +200,11 @@ class CogLM(Module):
   def _get_input_names(self) -> List[str]:
     return [variable.name for variable in self.input_variables]
 
-  def _get_system_prompt(self) -> str:
+  def get_system_prompt(self) -> str:
     return self.system_message.content[0].text
   
   def get_agent_role(self) -> str:
-    return self._get_system_prompt()
+    return self.get_system_prompt()
   
   def contains_custom_format_instructions(self) -> bool:
     return self.output_label and self.output_label.custom_output_format_instructions
@@ -212,7 +219,7 @@ class CogLM(Module):
     api_compatible_messages = [self.system_message.to_api()] + messages
     api_compatible_messages.extend([demo_message.to_api() for demo_message in self.demo_messages])
     if self.contains_custom_format_instructions():
-      api_compatible_messages.append({"role": "user", "content": self.output.custom_output_format_instructions})
+      api_compatible_messages.append({"role": "user", "content": self.get_custom_format_instructions_if_any()})
     return api_compatible_messages
 
   def aggregate_thread_local_meta(self, _local_self: 'CogLM'):
@@ -222,24 +229,59 @@ class CogLM(Module):
       self.steps.extend(_local_self.steps)
       self.response_metadata_history.extend(_local_self.response_metadata_history)
 
-  def __call__(self, messages: List[APICompatibleMessage], inputs: Dict[InputVar, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
-    return self.forward(messages, inputs, model_kwargs)
+  def __call__(self, messages: List[APICompatibleMessage] = [], inputs: Dict[InputVar|str, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
+    # input variables will always take precedence
+    if not inputs:
+      assert messages, "Messages must be provided"
+      final_message_list = messages
+    else:
+      if isinstance(list(inputs.keys())[0], InputVar):
+        inputs = {input_var.name: value for input_var, value in inputs.items()}
+      final_message_list = self._get_input_messages(inputs)
 
-  def forward(self, messages: List[APICompatibleMessage], inputs: Dict[InputVar, str], model_kwargs: Optional[dict] = None) -> ModelResponse:
+    # lm config will always take precedence
+    if not self.lm_config:
+      assert model_kwargs, "Model kwargs must be provided if LM config is not set at initialization"
+      full_kwargs = model_kwargs
+    else:
+      full_kwargs = self.lm_config.get_model_kwargs()
+
+    return self.forward(final_message_list, inputs, full_kwargs)
+
+  def forward(self, messages: List[APICompatibleMessage], inputs: Dict[str, str], model_kwargs: dict) -> ModelResponse:
     _self = self.get_thread_local_chain()
     result = _local_forward(_self, messages, inputs, model_kwargs)
     self.aggregate_thread_local_meta(_self)
     return result
 
-  def _forward(self, messages: List[APICompatibleMessage], model_kwargs: Optional[dict] = None) -> ModelResponse:
-    if not model_kwargs:
-      assert self.lm_config, "Model kwargs must be provided if LM config is not set at initialization"
+  def _get_input_messages(self, inputs: Dict[str, str]) -> List[APICompatibleMessage]:
+    assert set(inputs.keys()) == set([input.name for input in self.input_variables]), "Input variables do not match"
+
+    input_names = ", ".join(f"`{name}`" for name in inputs.keys())
+    messages = [CompletionMessage(role="user", 
+                                  content=[TextContent(text=f"Given {input_names}, please strictly provide `{self.get_output_label_name()}`")])]
     
-    full_kwargs = model_kwargs or self.lm_config.get_model_kwargs()
-    model = full_kwargs.pop("model")
+    input_fields = []
+    for input_var in self.input_variables:
+      if input_var.image_params:
+        if input_var.image_params.is_image_upload:
+          image_content = get_image_content_from_upload(inputs[input_var.name], input_var.image_params.file_type)
+        else:
+          image_content = ImageContent(image_url=inputs[input_var.name])
+        messages.append(CompletionMessage(role="user", 
+                                          content=[image_content]))
+      else:
+        input_fields.append(f"{input_var.name}: {inputs[input_var.name]}")
+    messages.append(CompletionMessage(role="user", 
+                                      content=[TextContent(text="\n".join(input_fields))]))
+    return [message.to_api() for message in messages]
+
+
+  def _forward(self, messages: List[APICompatibleMessage], model_kwargs: dict) -> ModelResponse:
+    model = model_kwargs.pop("model")
     response: ModelResponse = completion(model, 
                       self._get_api_compatible_messages(messages),
-                      **full_kwargs)
+                      **model_kwargs)
     return response
   
 
@@ -251,7 +293,9 @@ class StructuredCogLM(CogLM):
                lm_config: Optional[LMConfig] = None,
                opt_register: bool = True):
     self.output_format: OutputFormat = output_format
-    super().__init__(agent_name, system_prompt, input_variables, lm_config=lm_config, opt_register=opt_register)
+    super().__init__(agent_name, system_prompt, 
+                     input_variables, output=OutputLabel(name=output_format.schema.__name__), 
+                     lm_config=lm_config, opt_register=opt_register)
 
   @override
   def get_output_label_name(self):
@@ -260,7 +304,7 @@ class StructuredCogLM(CogLM):
   @override
   def get_formatted_info(self) -> str:
     dict = {
-      "agent_prompt": self._get_system_prompt(),
+      "agent_prompt": self.get_system_prompt(),
       "input_variables": self._get_input_names(),
       "output_schema": self.output_format.schema.model_json_schema()
     }
@@ -272,31 +316,26 @@ class StructuredCogLM(CogLM):
 
   @override
   def get_custom_format_instructions_if_any(self) -> Optional[str]:
-    return self.output_label.custom_output_format_instructions
+    return self.output_format.custom_output_format_instructions
 
   @override
   def _get_api_compatible_messages(self, messages: List[APICompatibleMessage]) -> List[APICompatibleMessage]:
-    api_compatible_messages = super(CogLM, self)._get_api_compatible_messages(messages)
+    api_compatible_messages = super()._get_api_compatible_messages(messages)
     api_compatible_messages.append(self.output_format.get_output_instruction_message().to_api())
     return api_compatible_messages
 
   @override
-  def _forward(self, messages: List[APICompatibleMessage], model_kwargs: Optional[dict] = None) -> ModelResponse:
+  def _forward(self, messages: List[APICompatibleMessage], model_kwargs: dict) -> ModelResponse:
     litellm.enable_json_schema_validation = True
-    
-    if not model_kwargs:
-      assert self.lm_config, "Model kwargs must be provided if LM config is not set at initialization"
 
-    full_kwargs = model_kwargs or self.lm_config.get_model_kwargs()
-    params = get_supported_openai_params(model=full_kwargs["model"], 
-                                         custom_llm_provider=full_kwargs["custom_llm_provider"])
+    params = get_supported_openai_params(model=model_kwargs["model"], 
+                                         custom_llm_provider=model_kwargs["custom_llm_provider"])
     if "response_format" not in params:
-      raise ValueError(f"Model {full_kwargs["model"]} on provider {full_kwargs["custom_llm_provider"]} does not support structured output") 
+      raise ValueError(f"Model {model_kwargs["model"]} on provider {model_kwargs["custom_llm_provider"]} does not support structured output") 
     else:
-      model = full_kwargs.pop('model')
-      messages.append(self.output_format.get_output_instruction_message())
+      model = model_kwargs.pop('model')
       response: ModelResponse = completion(model, 
                         self._get_api_compatible_messages(messages),
                         response_format=self.output_format.schema,
-                        **full_kwargs)
+                        **model_kwargs)
       return response

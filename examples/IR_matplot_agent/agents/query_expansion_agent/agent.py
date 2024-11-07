@@ -1,8 +1,8 @@
 from .prompt import SYSTEM_PROMPT, EXPERT_USER_PROMPT
 from agents.openai_chatComplete import completion_with_backoff, completion_with_log
 from agents.utils import fill_in_placeholders, get_error_message, is_run_code_success, print_chat_message, common_lm_config
-from compiler.IR.llm import LMConfig, LLMPredictor, Demonstration, TokenUsage
-from compiler.optimizer.params.reasoning import ZeroShotCoT
+from compiler.llm.model import LMConfig
+from compiler.cog_hub.reasoning import ZeroShotCoT
 
 
 class QueryExpansionAgent():
@@ -30,23 +30,18 @@ class QueryExpansionAgent():
         return expanded_query_instruction
 
 
-from compiler.langchain_bridge.interface import LangChainSemantic, LangChainLM
+from compiler.llm.model import CogLM, InputVar, OutputLabel
 from pydantic import BaseModel, Field
-
-query_expansion_semantic = LangChainSemantic(
-    SYSTEM_PROMPT,
-    ['query'],
-    "expanded_query",
-)
-
-query_expansion_lm = LangChainLM('query expansion', query_expansion_semantic, opt_register=True)
 qgen_lm_config = LMConfig(
-    provider='openai',
+    custom_llm_provider='openai',
     model='gpt-4o-mini',
     kwargs= {
         'temperature': 0.0,
     }
 )
-query_expansion_lm.lm_config = common_lm_config
-query_expansion_agent = query_expansion_lm.as_runnable()
-ZeroShotCoT.direct_apply(query_expansion_lm)
+
+query_expansion_agent = CogLM(agent_name='query expansion', system_prompt=SYSTEM_PROMPT, 
+                              input_variables=[InputVar(name='query')],
+                              output=OutputLabel(name='expanded_query'),
+                                lm_config=qgen_lm_config)
+ZeroShotCoT.direct_apply(query_expansion_agent)

@@ -1,20 +1,25 @@
 import os
 import json
 from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal, Sequence
-from compiler.optimizer.params.common import ParamBase
-from compiler.optimizer.params.utils import build_param
-from compiler.optimizer.evaluation.evaluator import EvaluatorPlugin
+from dataclasses import dataclass, field, asdict
+import logging
+
+from compiler.cog_hub.common import CogBase
+from compiler.cog_hub.utils import build_param
+from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask, GeneralEvaluatorInterface
 from compiler.optimizer.core.flow import TrialLog, OptConfig
 from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization, BottomLevelTrialLog
 from compiler.optimizer.core.upper_layer import UpperLevelOptimization, LayerEvaluator
-from dataclasses import asdict
+import logging
+
+logger = logging.getLogger(__name__)
 
 class LayerConfig:
     def __init__(
         self,
         layer_name: str,
-        dedicate_params: list[ParamBase] = [],
-        universal_params: list[ParamBase] = [],
+        dedicate_params: list[CogBase] = [],
+        universal_params: list[CogBase] = [],
         target_modules: Iterable[str] = None,
         save_ckpt_interval: int = 1,
         opt_config: OptConfig = None,
@@ -124,6 +129,7 @@ class MultiLayerOptimizationDriver:
                     target_modules=layer_config.target_modules,
                     save_ckpt_interval=layer_config.save_ckpt_interval,
                     quality_constraint=self.quality_constraint,
+                    hierarchy_level=idx,
                 )
             else:
                 layer_evaluator = LayerEvaluator(
@@ -140,6 +146,7 @@ class MultiLayerOptimizationDriver:
                     next_level_opt_config=self.layer_configs[idx + 1].opt_config,
                     use_SH_allocation=layer_config.use_SH_allocation,
                     quality_constraint=self.quality_constraint,
+                    hierarchy_level=idx,
                 )
             self.opt_layers[idx] = opt_layer
             
@@ -152,36 +159,69 @@ class MultiLayerOptimizationDriver:
     ) -> tuple[float, list[tuple[TrialLog, str]], dict[str, TrialLog]]:
         self.build_tiered_optimization(evaluator)
         first_layer_opt_config = self.layer_configs[0].opt_config
+        logger.info("----------------- Start Optimization -----------------")
         opt_cost, frontier, all_opt_logs = self.opt_layers[0].easy_optimize(
             opt_config=first_layer_opt_config,
             script_path=script_path,
             script_args=script_args,
             other_python_paths=other_python_paths,
         )
+        logger.info("----------------- Optimization Finished -----------------")
         self.dump_frontier_details(frontier)
         return opt_cost, frontier, all_opt_logs
+
+    def evaluate(
+        self,
+        evaluator: EvaluatorPlugin,
+        config_id: str,
+    ) -> EvaluationResult:
+        self.build_tiered_optimization(evaluator)
+        opt_config = self.layer_configs[0].opt_config
+        opt_config.finalize()
+        
+        top_layer = self.opt_layers[0]
+        top_layer.load_opt_log(opt_config.opt_log_path)
+        all_configs = top_layer.get_all_candidates()
+        config_path = None
+        for opt_log, path in all_configs:
+            if opt_log.id == config_id:
+                config_path = path
+                break
+        else:
+            raise ValueError(f"Config {config_id} not found in the optimization log.")
+        
+        result = BottomLevelOptimization.easy_eval(
+            evaluator=evaluator,
+            config_id=config_id,
+            opt_log_path=config_path,
+        )
+        return result
+        
     
-    def inspect(self, dump_details: bool = False) -> tuple[float, list[tuple[TrialLog, str]], dict[str, TrialLog]]:
+    def inspect(self, dump_details: bool = False):
         self.build_tiered_optimization(None)
         opt_config = self.layer_configs[0].opt_config
         opt_config.finalize()
-        opt_cost, frontier, all_opt_logs = self.opt_layers[0].inspect(opt_config.opt_log_path)
+        
+        self.opt_layers[0].load_opt_log(opt_config.opt_log_path)
+        frontier = self.opt_layers[0].post_optimize()
         
         # dump frontier details to file
         if dump_details:
             self.dump_frontier_details(frontier)
-        return opt_cost, frontier, all_opt_logs
+        return 
     
     def dump_frontier_details(self, frontier):
         param_log_dir = os.path.join(self.opt_log_dir, 'pareto_frontier_details')
         if not os.path.exists(param_log_dir):
             os.makedirs(param_log_dir, exist_ok=True)
-        for trial_log, opt_path in frontier:
+        for i, (trial_log, opt_path) in enumerate(frontier):
             trial_log: BottomLevelTrialLog
-            dump_path = os.path.join(param_log_dir, f'{trial_log.id}.cog')
+            dump_path = os.path.join(param_log_dir, f'option_{i+1}.cog')
             trans = trial_log.show_transformation()
             details = f"Trial - {trial_log.id}\n"
             details += f"Log at: {opt_path}\n"
+            details += f"Quality= {trial_log.score:.3f}, Cost per 1K invocation= {trial_log.price * 1000:.2f} $\n"
             details += trans
             with open(dump_path, 'w') as f:
                 f.write(details)

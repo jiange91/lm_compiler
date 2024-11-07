@@ -1,8 +1,10 @@
+import importlib.util
 from typing import Callable, Iterable, Any
 import runpy
 import importlib
 import logging
 import os
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +15,6 @@ from compiler.optimizer import (
     get_registered_opt_modules, 
     get_registered_opt_score_fn,
 )
-from compiler.optimizer import registry 
 
 class OptimizerSchema:
     def __init__(
@@ -28,9 +29,9 @@ class OptimizerSchema:
         # logger.info(f"modules cap: {opt_target_modules}")
 
     @classmethod
-    def capture(cls, script_path: str) -> 'OptimizerSchema':
-        logger.debug(f"initial modules: {id(registry._reg_opt_modules_)}")
-        runpy.run_path(script_path)
+    def capture(cls, script_path: str, evaluator_path: str) -> 'OptimizerSchema':
+        capture_module_from_fs(script_path)
+        capture_module_from_fs(evaluator_path)
         schema = cls(
             program=get_registered_opt_program_entry(),
             score_fn=get_registered_opt_score_fn(),
@@ -38,8 +39,10 @@ class OptimizerSchema:
         )
         return schema
 
-def capture_data_loader(fn_path: str):
-    logger.debug(f"obtain data loader at: {fn_path}")
-    runpy.run_path(fn_path)
-    data_loader = registry.get_registered_data_loader()
-    return data_loader
+def capture_module_from_fs(module_path: str):
+    logger.debug(f"obtain module at: {module_path}")
+    path = Path(module_path)
+    spec = importlib.util.spec_from_file_location(path.stem, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    

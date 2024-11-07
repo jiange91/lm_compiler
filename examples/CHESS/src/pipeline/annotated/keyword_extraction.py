@@ -3,7 +3,7 @@ import sys
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', '..', '..', '..'))
 from compiler.llm import CogLM, InputVar, OutputLabel
-from compiler.llm.prompt import Demonstration
+from compiler.llm.prompt import Demonstration, FilledInputVar
 from compiler.frontends.langchain.connector import as_runnable
 from llm.parsers import PythonListOutputParser
 
@@ -38,26 +38,47 @@ Ensure that you output only the list itself, without any variable assignments, e
 
 demos = [
     Demonstration(
-        inputs={
-            "QUESTION": "What is the annual revenue of Acme Corp in the United States for 2022?",
-            'HINT': "Focus on financial reports and U.S. market performance for the fiscal year 2022."
-        },
+        filled_input_variables=[
+            FilledInputVar(
+                InputVar("QUESTION"), 
+                value="What is the annual revenue of Acme Corp in the United States for 2022?"
+            ),
+            FilledInputVar(
+                InputVar("HINT"), 
+                value="Focus on financial reports and U.S. market performance for the fiscal year 2022."
+            )
+        ],
         output='["annual revenue", "Acme Corp", "United States", "2022", "financial reports", "U.S. market performance", "fiscal year"]'
     ),
+
     Demonstration(
-        inputs={
-            "QUESTION": "In the Winter and Summer Olympics of 1988, which game has the most number of competitors? Find the difference of the number of competitors between the two games.",
-            "HINT": "the most number of competitors refer to MAX(COUNT(person_id)); SUBTRACT(COUNT(person_id where games_name = '1988 Summer'), COUNT(person_id where games_name = '1988 Winter'));"
-        },
+        filled_input_variables=[
+            FilledInputVar(
+                InputVar("QUESTION"), 
+                value="In the Winter and Summer Olympics of 1988, which game has the most number of competitors? Find the difference of the number of competitors between the two games."
+            ),
+            FilledInputVar(
+                InputVar("HINT"), 
+                value="the most number of competitors refer to MAX(COUNT(person_id)); SUBTRACT(COUNT(person_id where games_name = '1988 Summer'), COUNT(person_id where games_name = '1988 Winter'));"
+            )
+        ],
         output='["Winter Olympics", "Summer Olympics", "1988", "1988 Summer", "Summer", "1988 Winter", "Winter", "number of competitors", "difference", "MAX(COUNT(person_id))", "games_name", "person_id"]'
     ),
+
     Demonstration(
-        inputs={
-            "QUESTION": "How many Men's 200 Metres Freestyle events did Ian James Thorpe compete in?",
-            "HINT": "Men's 200 Metres Freestyle events refer to event_name = 'Swimming Men''s 200 metres Freestyle'; events compete in refers to event_id;"
-        },
+        filled_input_variables=[
+            FilledInputVar(
+                InputVar("QUESTION"), 
+                value="How many Men's 200 Metres Freestyle events did Ian James Thorpe compete in?"
+            ),
+            FilledInputVar(
+                InputVar("HINT"), 
+                value="Men's 200 Metres Freestyle events refer to event_name = 'Swimming Men's 200 metres Freestyle'; events compete in refers to event_id;"
+            )
+        ],
         output='["Swimming Men\'s 200 metres Freestyle", "Ian James Thorpe", "Ian", "James", "Thorpe", "compete in", "event_name", "event_id"]'
     )
+
 ]
 
 exec = CogLM(agent_name="keyword_extraction",

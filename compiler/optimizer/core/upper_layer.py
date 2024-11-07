@@ -13,9 +13,19 @@ from concurrent.futures import ThreadPoolExecutor, Future, wait, FIRST_COMPLETED
 import math
 import threading
 import uuid
-from compiler.optimizer.evaluation.evaluator import EvaluationResult, GeneralEvaluatorInterface
-from compiler.optimizer.core.flow import TrialLog, TopDownInformation, OptConfig
-from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelTrialLog
+from dataclasses import dataclass, field
+import multiprocessing as mp
+
+from compiler.IR.program import Workflow, Module, StatePool
+from compiler.cog_hub.common import CogBase, OptionBase, DynamicCogBase, EvolveType, AddNewModuleImportInterface
+from compiler.cog_hub.utils import dump_params, load_params
+from compiler.cog_hub.model_selection import LMSelection
+from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask, GeneralEvaluatorInterface
+from compiler.optimizer.evaluation.metric import MetricBase, MInput
+from compiler.optimizer.plugin import OptimizerSchema
+from optuna.samplers import TPESampler
+from compiler.optimizer.core.flow import TrialLog, ModuleTransformTrace, TopDownInformation, OptConfig
+from compiler.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelTrialLog, ask_for_position, release_position
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +42,7 @@ class LayerEvaluator(GeneralEvaluatorInterface):
     def evaluate(
         self, 
         layer_task: TopDownInformation, 
-        show_process=False
+        **kwargs,
     ) -> EvaluationResult:
         #NOTE: optimization will change layer meta, make a copy
         target_layer_cpy = copy.deepcopy(self.target_layer)
@@ -174,7 +184,7 @@ class UpperLevelOptimization(OptimizationLayer):
         self.use_SH_allocation = use_SH_allocation
     
     def prepare_next_level_tdi(self, new_program, new_trace, trial_number):
-        next_level_info = super().prepare_next_level_tdi(new_program, new_trace)
+        next_level_info = super().prepare_next_level_tdi(new_program, new_trace, trial_number)
         # reset opt_config for next level
         if self.next_level_opt_config:
             next_level_info.opt_config.update(self.next_level_opt_config)
@@ -183,17 +193,22 @@ class UpperLevelOptimization(OptimizationLayer):
             current_level_log_dir = self.top_down_info.opt_config.log_dir
             next_level_info.opt_config.log_dir = os.path.join(
                 current_level_log_dir, 
-                f"{self.name}_trial_{trial_number}_{self.evaluator.target_layer.name}"
+                f"{self.name}_trial_{trial_number}",
             )
-        next_level_info.trace_back.append(self.generate_trial_id(trial_number))
         # set these path to None to let the next level to populate
         next_level_info.opt_config.opt_log_path = None
         next_level_info.opt_config.param_save_path = None
         return next_level_info
 
+    def get_eval_feedback(self, eval_result: EvaluationResult):
+        if eval_result.reduced_price == float(0xdeadbeef):
+            return None, None
+        return eval_result.reduced_score, eval_result.reduced_price
+        
+
     def _optimize_iteration(self, base_program):
         next_trial, program, new_trace, log_id = self.propose(base_program, 1)[0]
-        next_level_info = self.prepare_next_level_tdi(program, new_trace)
+        next_level_info = self.prepare_next_level_tdi(program, new_trace, next_trial.number)
         
         self.opt_logs[log_id].next_level_log_dir = next_level_info.opt_config.log_dir
 
@@ -201,6 +216,7 @@ class UpperLevelOptimization(OptimizationLayer):
         try:
             eval_result = self.evaluator.evaluate(next_level_info)
             self.update(next_trial, eval_result, log_id)
+            return eval_result
         except Exception as e:
             logger.error(f"Error in evaluation: {e}")
             raise
@@ -235,12 +251,15 @@ class UpperLevelOptimization(OptimizationLayer):
     
     def get_all_candidates(self) -> list[TrialLog, str]:
         candidates = []
-        for log_id, trial_log in self.opt_logs.items():
-            bot_opt_log_path = os.path.join(trial_log.next_level_log_dir, 'opt_logs.json') 
+        for _, upper_trial_log in self.opt_logs.items():
+            bot_opt_log_path = os.path.join(upper_trial_log.next_level_log_dir, 'opt_logs.json') 
             with open(bot_opt_log_path, 'r') as f:
                 opt_trace = json.load(f)
                 
             for trial_log_id, trial_meta in opt_trace.items():
                 trial_log = BottomLevelTrialLog.from_dict(trial_meta)
+                # if not meet the quality constraint, skip
+                if self.quality_constraint is not None and trial_log.score < self.quality_constraint:
+                    continue
                 candidates.append((trial_log, bot_opt_log_path))
         return candidates

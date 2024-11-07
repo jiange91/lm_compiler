@@ -45,7 +45,7 @@ def mainworkflow(input: dict):
     # Query expanding
     logging.debug('=========Query Expansion AGENT=========')
     config = {'workspace': workspace}
-    expanded_simple_instruction = query_expansion_agent.invoke({'query': query}).content
+    expanded_simple_instruction = query_expansion_agent(inputs={'query': query}).choices[0].message.content
     # logging.info('=========Expanded Simple Instruction=========')
     # logging.info(expanded_simple_instruction)
     logging.debug('=========Plotting=========')

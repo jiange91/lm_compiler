@@ -1,10 +1,10 @@
-from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase
+from compiler.cog_hub.common import CogBase, CogLayerLevel, OptionBase
 from compiler.llm.model import CogLM, LMConfig
 import uuid
 import copy
 
-class LMSelection(ParamBase):
-    level = ParamLevel.NODE
+class LMSelection(CogBase):
+    level = CogLayerLevel.NODE
     
     @classmethod
     def from_dict(cls, data: dict):

@@ -1,4 +1,4 @@
-from compiler.optimizer.params.reasoning import ReasonThenFormat
+from compiler.cog_hub.reasoning import ReasonThenFormat
 from compiler.utils import load_api_key
 from compiler.llm import *
 from compiler.llm.model import APICompatibleMessage

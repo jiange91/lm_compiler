@@ -15,13 +15,6 @@ from compiler.optimizer import register_opt_module
 from compiler.optimizer import registry
 
 import logging
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(pathname)s:%(lineno)d - %(levelname)s - %(message)s')
-logging.getLogger('httpx').setLevel(logging.WARNING)
-logging.getLogger('absl').setLevel(logging.WARNING)
-logging.getLogger('datasets').setLevel(logging.WARNING)
-
-warnings.filterwarnings("ignore", module="pydantic")
 
 
 logger = logging.getLogger(__name__)

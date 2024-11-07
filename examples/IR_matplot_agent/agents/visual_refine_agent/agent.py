@@ -8,7 +8,7 @@ from agents.openai_chatComplete import  completion_for_4v
 from agents.utils import fill_in_placeholders, common_lm_config
 from compiler.llm.model import CogLM, InputVar, OutputLabel, LMConfig
 from compiler.llm.prompt import ImageParams
-from compiler.optimizer.params.reasoning import ZeroShotCoT
+from compiler.cog_hub.reasoning import ZeroShotCoT
 
 
 

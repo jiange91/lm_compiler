@@ -5,7 +5,7 @@ from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal, Seq
 import time
 import copy
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import optuna
 import numpy as np
 from concurrent.futures import ThreadPoolExecutor
@@ -19,8 +19,8 @@ import logging
 
 from compiler.IR.program import Workflow, Module
 from compiler.llm import CogLM, Demonstration
-from compiler.optimizer.params.common import ParamBase
-from compiler.optimizer.params.utils import build_param
+from compiler.cog_hub.common import CogBase
+from compiler.cog_hub.utils import build_param
 from compiler.optimizer.plugin import OptimizerSchema
 from compiler.optimizer.core.flow import TopDownInformation, ModuleTransformTrace
 
@@ -116,9 +116,10 @@ class EvalTask:
     other_python_paths: list[str]
     
     # transformation meta
-    all_params: dict[str, ParamBase] # {param_hash: param}
+    all_params: dict[str, CogBase] # {param_hash: param}
     module_name_paths: dict[str, str]
     aggregated_proposals: dict[str, dict[str, list[tuple[str, str]]]] # {layer_name: {module_name: [(param, option)]}}
+    trace_back: list[str] = field(default_factory=list)
     
     def __getstate__(self) -> object:
         state = copy.deepcopy(self.__dict__)
@@ -139,7 +140,6 @@ class EvalTask:
     
     def to_dict(self) -> dict:
         return self.__getstate__()
-    
 
     @classmethod
     def from_dict(cls, state: dict) -> 'EvalTask':
@@ -147,10 +147,11 @@ class EvalTask:
         obj.__setstate__(state)
         return obj
 
-    def add_PYTHON_PATH(self):
-        dir = os.path.dirname(self.script_path)
-        if dir not in sys.path:
-            sys.path.append(dir)
+    def add_PYTHON_PATH(self, evaluator_path: str):
+        dirs = [os.path.dirname(self.script_path), os.path.dirname(evaluator_path)]
+        for dir in dirs:
+            if dir not in sys.path:
+                sys.path.append(dir)
         if self.other_python_paths is not None:
             for path in self.other_python_paths:
                 if path not in sys.path:
@@ -171,7 +172,7 @@ class EvalTask:
             for module_name, l_param_option in proposal.items():
                 module = module_pool[module_name]
                 for param_name, option_name in l_param_option:
-                    param_hash = ParamBase.chash(module_name, param_name)
+                    param_hash = CogBase.chash(module_name, param_name)
                     param = self.all_params[param_hash]
                     
                     new_module, new_mapping = param.apply_option(option_name, module)
@@ -196,10 +197,10 @@ class EvalTask:
         }
         return new_modules_dict
 
-    def get_program_schema(self):
-        self.add_PYTHON_PATH()
+    def get_program_schema(self, evaluator_path: str) -> OptimizerSchema:
+        self.add_PYTHON_PATH(evaluator_path)
         sys.argv = [self.script_path] + self.args
-        schema = OptimizerSchema.capture(self.script_path)
+        schema = OptimizerSchema.capture(self.script_path, evaluator_path)
         
         logger.debug(f'opt_target_modules = {schema.opt_target_modules}')
         assert schema.opt_target_modules, "No module to optimize"
@@ -207,12 +208,14 @@ class EvalTask:
                     
     def evaluate_program(
         self, 
-        input, 
-        label, 
-        show_process, 
-        task_index, sema, progress, total_score, lock, num_total_task, q
+        evaluator_path,
+        input,
+        label,
+        task_index,
+        sema,
+        q: mp.Queue,
     ):
-        schema = self.get_program_schema()
+        schema = self.get_program_schema(evaluator_path)
         module_pool = {m.name: m for m in schema.opt_target_modules}
         
         # replace module invoke with new module
@@ -243,15 +246,10 @@ class EvalTask:
             demo = lm.get_last_step_as_demo()
             if demo is not None:
                 lm_to_demo[lm.name] = demo
-        
-        with lock:
-            progress.value += 1
-            total_score.value += score
-            if show_process:
-                plot_progress(progress.value, num_total_task, total_score.value / progress.value)
             
         q.put((task_index, result, score, price, lm_to_demo, end_time - start_time))
         sema.release()
+
     
     def show_opt_trace(self) -> str:
         trace_lines = []
@@ -265,7 +263,7 @@ class EvalTask:
                 trace_lines.append(f"\n  >>> Module: {module_name} <<<")
                 
                 for param_name, option_name in param_options:
-                    param_hash = ParamBase.chash(module_name, param_name)
+                    param_hash = CogBase.chash(module_name, param_name)
                     param = self.all_params[param_hash]
                     trace_lines.append(f"\n    - Parameter: {param}")
                     trace_lines.append(f"      Applied Option: {option_name}")
@@ -292,6 +290,7 @@ class EvalTask:
             all_params=tdi.all_params,
             module_name_paths=tdi.module_ttrace.module_name_paths,
             aggregated_proposals=tdi.module_ttrace.aggregated_proposals,
+            trace_back=tdi.trace_back,
         )
     
 class GeneralEvaluatorInterface(ABC):
@@ -299,25 +298,18 @@ class GeneralEvaluatorInterface(ABC):
     def evaluate(
         self,
         task: Union[EvalTask, TopDownInformation],
-        show_process: bool = False,
+        **kwargs,
     ) -> EvaluationResult:
         ...
 
-def plot_progress(done, total, avg_score, bar_length: int = 100):
-    """
-    Plots the progress of task processing.
-    
-    Args:
-        bar_length (int, optional): The length of the progress bar. Defaults to 100.
-    """
-    processed_ratio = done / total 
-    progress_length = int(processed_ratio * bar_length)
-    print('\x1b[1A' + '\x1b[2K' + '\x1b[1A')  # Clear previous line
-    print(f"[{'=' * progress_length}>{' ' * (bar_length - progress_length)}] {done}/{total} | avg_score: {avg_score}")
+def _gen_pbar_desc(level, tb, score, price):
+    indent = '---' * level + '>'
+    return f'{indent} Evaluation in {tb} | (avg score: {score:.2f}, avg cost@1000: {price*1000:.2f} $)'
 
 class EvaluatorPlugin(GeneralEvaluatorInterface):
     def __init__(
         self,
+        evaluator_path: str,
         trainset: Optional[Iterable[Tuple[any,any]]], # list of input data and labels
         evalset: Optional[Iterable[Tuple[any,any]]], # list of input data and labels
         testset: Optional[Iterable[Tuple[any,any]]], # list of input data and labels
@@ -325,6 +317,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         score_reducer: Callable = None,
         price_reducer: Callable = None,
     ):
+        self.evaluator_path = evaluator_path
         self.dataset = {
             'train': [trainset, None if not trainset else list(range(len(trainset)))],
             'eval': [evalset, None if not evalset else list(range(len(evalset)))],
@@ -339,17 +332,27 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         self,
         task: EvalTask,
         show_process: bool = False,
+        pbar_position: int = 0,
+        hierarchy_level: int = 0,
+        **kwargs,
     ):
-        return self.get_score(mode='train', task=task, show_process=show_process)
-
+        return self.get_score(
+            mode='train', 
+            task=task, 
+            show_process=show_process, 
+            pbar_position=pbar_position,
+            hierarchy_level=hierarchy_level,
+        )
         
     def get_score(
         self,
         mode: Literal['train', 'eval', 'test'],
         task: EvalTask,
         show_process: bool,
+        pbar_position: int = 0,
+        hierarchy_level: int = 0,
     ):
-        task.add_PYTHON_PATH()
+        task.add_PYTHON_PATH(self.evaluator_path)
         logger.debug(f'sys_path = {sys.path}')
         
         data, indices = self.dataset[mode]
@@ -357,25 +360,47 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         
         # Task queue to limit the number of parallel tasks
         # avoid worker pool to avoid reusing the same process
-        sema = mp.Semaphore(n_parallel)
-        plock = mp.Lock()
         all_workers = []
+        sema = mp.Semaphore(n_parallel)
         result_q = mp.Queue()
         
-        progress = mp.Value('i', 0)
-        total_score = mp.Value('d', 0.0)
         for task_index, pair_idx in enumerate(indices):
             input, label = data[pair_idx]
             sema.acquire()
-            worker = mp.Process(target=task.evaluate_program, 
-                                args=(input, label, show_process, task_index, 
-                                        sema, progress, total_score, plock, len(indices), result_q))
+            worker = mp.Process(
+                target=task.evaluate_program, 
+                args=(
+                    self.evaluator_path,
+                    input, label, 
+                    task_index, sema, result_q
+                )
+            )
             worker.start()
             all_workers.append(worker)
             
         results = []
-        for i in range(len(indices)):
-            results.append(result_q.get())
+        
+        if show_process:
+            opt_trace = ' | '.join(task.trace_back)
+            total_score, total_cost = 0.0, 0.0
+            with tqdm(
+                total=len(indices),
+                desc=_gen_pbar_desc(hierarchy_level, opt_trace, 0.0, 0.0),
+                leave=False,
+                position=pbar_position,
+            ) as pbar:
+                for i in range(len(indices)):
+                    results.append(result_q.get())
+                    _, _, score, price, _, _ = results[-1]
+                    total_score += score
+                    total_cost += price
+                    pbar.update(1)
+                    pbar.set_description(
+                        _gen_pbar_desc(hierarchy_level, opt_trace, total_score / (i+1), total_cost / (i+1))
+                    )
+        else:
+            for i in range(len(indices)):
+                results.append(result_q.get())
             
         for worker in all_workers:
             worker.join()

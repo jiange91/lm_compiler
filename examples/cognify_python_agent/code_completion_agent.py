@@ -4,7 +4,7 @@ Your task is to read incomplete Python functions and complete them based on the 
 
 from compiler.llm import CogLM, InputVar, OutputLabel, LMConfig
 from pydantic import BaseModel, Field
-from compiler.optimizer.params.reasoning import ZeroShotCoT
+from compiler.cog_hub.reasoning import ZeroShotCoT
 
 
 lm_config = LMConfig(

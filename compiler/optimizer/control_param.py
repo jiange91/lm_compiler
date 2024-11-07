@@ -8,11 +8,11 @@ from compiler.optimizer.core.driver import LayerConfig
 @dataclasses.dataclass
 class ControlParameter:
     opt_layer_configs: list[LayerConfig]
-    opt_history_log_dir: str = './opt_results'
+    opt_history_log_dir: str = 'opt_results'
     quality_constraint: float = 1.0
     train_down_sample: int = 0
     val_down_sample: int = 0
-    evaluator_parallel: int = 20
+    evaluator_batch_size: int = 20
     
     @classmethod
     def from_python_profile(cls, param_path):

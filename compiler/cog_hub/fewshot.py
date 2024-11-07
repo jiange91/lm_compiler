@@ -15,13 +15,13 @@ from compiler.IR.base import Module
 from compiler.IR.program import Workflow
 from compiler.llm import CogLM, Demonstration
 from compiler.llm.prompt import FilledInputVar, InputVar, ImageParams
-from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, NoChange
+from compiler.cog_hub.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
-from compiler.optimizer.params.utils import dump_params, load_params
+from compiler.cog_hub.utils import dump_params, load_params
 from typing import List
     
-class LMFewShot(DynamicParamBase):
-    level = ParamLevel.NODE
+class LMFewShot(DynamicCogBase):
+    level = CogLayerLevel.NODE
     
     def __init__(
         self, 
@@ -29,7 +29,7 @@ class LMFewShot(DynamicParamBase):
         name: str = "few_shot",
         module_name: str = None,
         eval_result: EvaluationResult = None,
-        inherit: bool = False,
+        inherit: bool = True,
         allow_duplicate: bool = False,
         user_demos: list[Demonstration] = None,
         disable_evolve: bool = False,

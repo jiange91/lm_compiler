@@ -1,9 +1,9 @@
 
 from compiler.optimizer.core import driver, flow
-from compiler.optimizer.params import reasoning, ensemble
-from compiler.optimizer.params.common import NoChange
-from compiler.optimizer.params.fewshot import LMFewShot
-from compiler.optimizer.params.reasoning import ZeroShotCoT
+from compiler.cog_hub import reasoning, ensemble
+from compiler.cog_hub.common import NoChange
+from compiler.cog_hub.fewshot import LMFewShot
+from compiler.cog_hub.reasoning import ZeroShotCoT
 from compiler.optimizer.control_param import ControlParameter
 
 # ================= Inner Loop Config =================
@@ -44,5 +44,5 @@ outer_loop_config = driver.LayerConfig(
 # ================= Overall Control Parameter =================
 optimize_control_param = ControlParameter(
     opt_layer_configs=[outer_loop_config, inner_loop_config],
-    evaluator_parallel=40,
+    evaluator_batch_size=40,
 )

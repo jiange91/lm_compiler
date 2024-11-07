@@ -1,9 +1,8 @@
-
 from compiler.optimizer.core import driver, flow
-from compiler.optimizer.params import reasoning, ensemble
-from compiler.optimizer.params.common import NoChange
-from compiler.optimizer.params.fewshot import LMFewShot
-from compiler.optimizer.params.reasoning import ZeroShotCoT
+from compiler.cog_hub import reasoning, ensemble
+from compiler.cog_hub.common import NoChange
+from compiler.cog_hub.fewshot import LMFewShot
+from compiler.cog_hub.reasoning import ZeroShotCoT
 from compiler.optimizer.control_param import ControlParameter
 
 # ================= Inner Loop Config =================
@@ -16,7 +15,7 @@ few_shot_params = LMFewShot(4)
 
 # Layer Config
 inner_opt_config = flow.OptConfig(
-    n_trials=2,
+    n_trials=4,
 )
 inner_loop_config = driver.LayerConfig(
     layer_name='inner_loop',
@@ -32,17 +31,18 @@ general_ensemble_params = ensemble.ModuleEnsemble(
 )
 # Layer Config
 outer_opt_config = flow.OptConfig(
-    n_trials=4,
-    throughput=4,
+    n_trials=2,
+    throughput=2,
 )
 outer_loop_config = driver.LayerConfig(
     layer_name='outer_loop',
     universal_params=[general_ensemble_params],
     opt_config=outer_opt_config,
+    use_SH_allocation=False,
 )
 
 # ================= Overall Control Parameter =================
 optimize_control_param = ControlParameter(
     opt_layer_configs=[outer_loop_config, inner_loop_config],
-    opt_history_log_dir='clear_opt_results'
+    opt_history_log_dir='test_pbar'
 )

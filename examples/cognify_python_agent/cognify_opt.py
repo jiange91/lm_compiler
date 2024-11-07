@@ -1,10 +1,10 @@
-from compiler.optimizer.params.fewshot import LMFewShot
-from compiler.optimizer.params.scaffolding import LMScaffolding
-from compiler.optimizer.params import reasoning, model_selection, common
+from compiler.cog_hub.fewshot import LMFewShot
+from compiler.cog_hub.scaffolding import LMScaffolding
+from compiler.cog_hub import reasoning, model_selection, common
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from compiler.optimizer.analysis.param_sensitivity import SensitivityAnalyzer
 from compiler.langchain_bridge.interface import LangChainLM
-from compiler.optimizer.params import ensemble
+from compiler.cog_hub import ensemble
 import runpy
 import uuid
 import multiprocess as mp

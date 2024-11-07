@@ -8,9 +8,9 @@ from compiler.frontends.langchain.connector import as_runnable
 from compiler.llm import CogLM, InputVar, OutputFormat, OutputLabel
 
 from compiler.llm import *
-from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
+from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
 from llm.parsers import SQLGenerationOutput, RawSqlOutputParser
-from compiler.optimizer.params import ensemble
+from compiler.cog_hub import ensemble
 from langchain_core.runnables import chain
 
 

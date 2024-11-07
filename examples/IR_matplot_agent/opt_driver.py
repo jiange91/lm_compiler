@@ -1,7 +1,7 @@
 from compiler.optimizer.layered_optimizer_pluggable import InnerLoopBayesianOptimization, OuterLoopOptimization
-from compiler.optimizer.params.fewshot import LMFewShot
-from compiler.optimizer.params.scaffolding import LMScaffolding
-from compiler.optimizer.params import reasoning, model_selection, common
+from compiler.cog_hub.fewshot import LMFewShot
+from compiler.cog_hub.scaffolding import LMScaffolding
+from compiler.cog_hub import reasoning, model_selection, common
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 import runpy
 import uuid
@@ -12,8 +12,8 @@ import random
 import optuna
 import numpy as np
 
-from compiler.optimizer.params.common import NoChange
-from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
+from compiler.cog_hub.common import NoChange
+from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
 from compiler.optimizer.plugin import OptimizerSchema
 from compiler.optimizer.analysis.param_sensitivity import SensitivityAnalyzer
 from compiler.optimizer.core import driver, flow

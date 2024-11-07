@@ -7,7 +7,7 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, Future
 
 from compiler.IR.program import Module
-from compiler.optimizer.params.common import ParamBase
+from compiler.cog_hub.common import CogBase, OptionBase
 from compiler.optimizer.evaluation.evaluator import EvaluatorPlugin, EvalTask, EvaluationResult
 
 logger = logging.getLogger(__name__)
@@ -23,12 +23,12 @@ class SensitivityAnalyzer:
     """
     def __init__(
         self,
-        target_param_type: Type[ParamBase],
+        target_param_type: Type[CogBase],
         eval_task: EvalTask,
         evaluator: EvaluatorPlugin,
         n_parallel: int = 1,
         log_dir: str = None,
-        try_options: Optional[ParamBase] = None,
+        try_options: Optional[CogBase] = None,
         module_type: Type[Module] = None,
     ):
         self.target_param_type = target_param_type
@@ -136,7 +136,7 @@ class SensitivityAnalyzer:
             for layer_name, m_to_proposals in base_aggregated_proposals.items():
                 for module_name, proposals in m_to_proposals.items():
                     for i, (param_name, option_name) in enumerate(proposals):
-                        param_hash = ParamBase.chash(module_name, param_name)
+                        param_hash = CogBase.chash(module_name, param_name)
                         param = param_pool[param_hash]
                         if isinstance(param, self.target_param_type):
                             # identify the target
@@ -158,7 +158,7 @@ class SensitivityAnalyzer:
         for layer_name, m_to_proposals in base_aggregated_proposals.items():
             for module_name, proposals in m_to_proposals.items():
                 for i, (param_name, option_name) in enumerate(proposals):
-                    param_hash = ParamBase.chash(module_name, param_name)
+                    param_hash = CogBase.chash(module_name, param_name)
                     param = param_pool[param_hash]
                     if isinstance(param, self.target_param_type):
                         # identify the target

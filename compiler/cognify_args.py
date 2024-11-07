@@ -9,68 +9,131 @@ logger = logging.getLogger(__name__)
 
 @dataclasses.dataclass(kw_only=True)
 class CommonArgs:
-    script_path: str
-    data_loader_path: str
+    workflow: str
+    data_loader: str = None
+    evaluator: str = None
+    control_param: str = None
+    log_level: str = 'INFO'
+    
+    def __post_init__(self):
+        # Set missing values
+        self.search_at_workflow_dir_if_not_set('data_loader', 'py')
+        self.search_at_workflow_dir_if_not_set('evaluator', 'py')
+        self.search_at_workflow_dir_if_not_set('control_param', 'py')
     
     @staticmethod
-    def add_cli_args(parser):
-        parser.add_argument('--script_path', type=str, required=True)
-        parser.add_argument('--data_loader_path', type=str, required=True)
+    def add_cli_args(parser: argparse.ArgumentParser):
+        parser.add_argument(
+            'workflow', 
+            type=str,
+            help="Path to the workflow script",
+            metavar='path_to_workflow',
+        )
+        parser.add_argument(
+            '-d', '--data_loader', 
+            type=str,
+            default=CommonArgs.data_loader,
+            help="Path to the data loader script.\n"
+            "If not provided, will search data_loader.py in the same directory as workflow script.",
+            metavar='path_to_data_loader',
+        )
+        parser.add_argument(
+            '-e', '--evaluator', 
+            type=str,
+            default=CommonArgs.evaluator,
+            help="Path to the evaluator script.\n"
+            "If not provided, will search evaluator.py in the same directory as workflow script.",
+            metavar='path_to_evaluator',
+        )
+        parser.add_argument(
+            '-c', '--control_param',
+            type=str,
+            default=OptimizationArgs.control_param,
+            help="Path to the optimizer control parameter file.\n"
+            "If not provided, will search control_param.py in the same directory as workflow script.",
+            metavar='path_to_opimizer_control_param',
+        )
+        parser.add_argument(
+            '-l', '--log_level',
+            type=str,
+            default=CommonArgs.log_level,
+            help="Log level",
+            choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+            metavar='log_level',
+        )
     
     @classmethod
-    def from_cli_args(cls, args: argparse.Namespace):
+    def from_cli_args(cls, args: argparse.Namespace) -> 'CommonArgs':
         attrs = [attr.name for attr in dataclasses.fields(cls)]
         return cls(**{attr: getattr(args, attr) for attr in attrs})
 
+    def search_at_workflow_dir_if_not_set(self, attr, suffix):
+        if getattr(self, attr) is None:
+            workflow_dir = os.path.dirname(self.workflow)
+            setattr(self, attr, os.path.join(workflow_dir, f'{attr}.{suffix}'))
+        
 @dataclasses.dataclass
 class OptimizationArgs(CommonArgs):
-    control_param_path: str
+    ...
     
-    @staticmethod
-    def add_cli_args(parser):
-        CommonArgs.add_cli_args(parser)
-        parser.add_argument('--control_param_path', type=str, required=True)
 
 @dataclasses.dataclass
 class EvaluationArgs(CommonArgs):
     config_id: str
-    config_log_path: str
     n_parallel: int = 10
-    log_path: str = None
+    output_path: str = None
+    
+    def __post_init__(self):
+        super().__post_init__()
+        self.search_at_workflow_dir_if_not_set('output_path', 'json')
     
     @staticmethod
-    def add_cli_args(parser):
+    def add_cli_args(parser: argparse.ArgumentParser):
         CommonArgs.add_cli_args(parser)
-        parser.add_argument('--config_id', type=str, required=True)
-        parser.add_argument('--config_log_path', type=str, required=True)
-        parser.add_argument('--n_parallel', type=int, default=EvaluationArgs.n_parallel)
-        parser.add_argument('--log_path', type=str, required=False)
+        parser.add_argument(
+            '-i', '--config_id', 
+            type=str, 
+            required=True, 
+            help="Configuration ID for evaluation",
+            metavar='config_id',
+        )
+        parser.add_argument(
+            '-j', '--n_parallel', 
+            type=int,
+            default=EvaluationArgs.n_parallel,
+            help="Number of parallel executions for evaluation. Please be aware of the rate limit of your model API provider.",
+            metavar='n_parallel',
+        )
+        parser.add_argument(
+            '-o', '--output_path', 
+            type=str,
+            default=EvaluationArgs.output_path,
+            help="Path to the log file for evaluation results.\nIf not provided, will save to the same directory as workflow script.",
+            metavar='path_to_output_json',
+        )
         
 @dataclasses.dataclass
-class InspectionArgs:
-    control_param_path: str
+class InspectionArgs(CommonArgs):
     dump_frontier_details: bool = False
     
     @staticmethod
     def add_cli_args(parser):
-        parser.add_argument('--control_param_path', type=str, required=True)
-        parser.add_argument('--dump_frontier_details', action='store_true')
-    
-    @classmethod
-    def from_cli_args(cls, args: argparse.Namespace):
-        attrs = [attr.name for attr in dataclasses.fields(cls)]
-        return cls(**{attr: getattr(args, attr) for attr in attrs})
+        CommonArgs.add_cli_args(parser)
+        parser.add_argument(
+            '-f', '--dump_frontier_details',
+            action='store_true',
+            help="Dump descriptive optimization details of all Pareto frontiers.",
+        )
         
 def init_cognify_args(parser):
     subparsers = parser.add_subparsers(dest='mode')
     subparsers.required = True
     
-    opt_parser = subparsers.add_parser('optimize')
+    opt_parser = subparsers.add_parser('optimize', formatter_class=argparse.RawTextHelpFormatter)
     OptimizationArgs.add_cli_args(opt_parser)
     
-    eval_parser = subparsers.add_parser('evaluate')
+    eval_parser = subparsers.add_parser('evaluate', formatter_class=argparse.RawTextHelpFormatter)
     EvaluationArgs.add_cli_args(eval_parser)
     
-    inspect_parser = subparsers.add_parser('inspect')
+    inspect_parser = subparsers.add_parser('inspect', formatter_class=argparse.RawTextHelpFormatter)
     InspectionArgs.add_cli_args(inspect_parser)
-

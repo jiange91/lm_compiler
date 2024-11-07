@@ -9,12 +9,12 @@ logger = logging.getLogger(__name__)
 from compiler.IR.base import Module, StatePool, ModuleStatus
 from compiler.IR.program import Workflow, Input, Output
 from compiler.IR.modules import CodeBox
-from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase, NoChange
+from compiler.cog_hub.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange, AddNewModuleImportInterface
 from compiler.llm import CogLM, StructuredCogLM, StepInfo, InputVar, OutputFormat, OutputLabel
 from abc import ABC, ABCMeta
 
-class ModuleEnsemble(ParamBase):
-    level = ParamLevel.GRAPH
+class ModuleEnsemble(CogBase):
+    level = CogLayerLevel.GRAPH
     
     def __init__(
         self, 
@@ -22,7 +22,7 @@ class ModuleEnsemble(ParamBase):
         name: str = 'ensemble',
         default_option: Union[int, str] = 0,
         module_name: str = None,
-        inherit: bool = False,
+        inherit: bool = True,
     ):
         super().__init__(name, options, default_option, module_name, inherit)
     

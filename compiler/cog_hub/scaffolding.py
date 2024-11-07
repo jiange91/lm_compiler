@@ -15,13 +15,13 @@ logger = logging.getLogger(__name__)
 from compiler.IR.base import Module
 from compiler.IR.program import Workflow
 from compiler.llm.model import CogLM
-from compiler.optimizer.params.common import EvolveType, ParamBase, ParamLevel, OptionBase, DynamicParamBase, NoChange, AddNewModuleImportInterface
+from compiler.cog_hub.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange, AddNewModuleImportInterface
 from compiler.optimizer.decompose import LMTaskDecompose, StructuredAgentSystem
 from compiler.optimizer.plugin import OptimizerSchema
 from compiler.optimizer import clear_registry
 
-class LMScaffolding(ParamBase, AddNewModuleImportInterface):
-    level = ParamLevel.GRAPH
+class LMScaffolding(CogBase, AddNewModuleImportInterface):
+    level = CogLayerLevel.GRAPH
     
     def __init__(
         self,

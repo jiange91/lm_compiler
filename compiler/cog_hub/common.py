@@ -6,7 +6,7 @@ import logging
 import json
 
 from compiler.IR.base import Module
-from compiler.optimizer.params.protection import Protection
+from compiler.cog_hub.protection import Protection
 
 logger = logging.getLogger(__name__)
 
@@ -69,18 +69,18 @@ class NoChange(OptionBase):
     def from_dict(cls, data: dict):
         return cls()
     
-class ParamLevel(Enum):
+class CogLayerLevel(Enum):
     """Please do not change this 
     the optimizer is not generic to any number of levels
     """
     GRAPH = auto()
     NODE = auto()
     
-class ParamMeta(ABCMeta):
+class CogMeta(ABCMeta):
     required_fields = []
     registry = {}
     level_to_params = defaultdict(list)
-    base_class = {'ParamBase', 'DynamicParamBase'}
+    base_class = {'CogBase', 'DynamicCogBase'}
     
     def __new__(cls, name, bases, attrs):
         if name not in cls.base_class:
@@ -165,8 +165,8 @@ class AddNewModuleImportInterface:
         """
         ...
     
-class ParamBase(metaclass=ParamMeta):
-    ParamMeta.required_fields = ['level']
+class CogBase(metaclass=CogMeta):
+    CogMeta.required_fields = ['level']
     
     def __init__(
         self, 
@@ -174,7 +174,7 @@ class ParamBase(metaclass=ParamMeta):
         options: list[OptionBase],
         default_option: Union[int, str] = 0,
         module_name: str = None,
-        inherit: bool = False,
+        inherit: bool = True,
     ):
         """Define a parameter with a list of options
         
@@ -212,7 +212,7 @@ class ParamBase(metaclass=ParamMeta):
     
     @property
     def hash(self):
-        return ParamBase.chash(self.module_name, self.name)
+        return CogBase.chash(self.module_name, self.name)
        
     def apply_option(self, option: str, module: Module) -> tuple[Module, T_ModuleMapping]:
         """Apply the idx-th option to the module
@@ -255,7 +255,7 @@ class EvolveType(Enum):
     RANGE = auto() # range of values
     ENTITY = auto() # add or remove entities
 
-class DynamicParamBase(ParamBase, ABC):
+class DynamicCogBase(CogBase, ABC):
     
     def __init__(
         self, 
@@ -263,7 +263,7 @@ class DynamicParamBase(ParamBase, ABC):
         options: list[OptionBase], 
         default_option: int | str = 0, 
         module_name: str = None, 
-        inherit: bool = False,
+        inherit: bool = True,
         inherit_options: bool = False,
         disable_evolve: bool = False,
     ):

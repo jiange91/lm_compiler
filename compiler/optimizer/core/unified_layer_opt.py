@@ -1,48 +1,69 @@
 import os
-import sys
 import json
 from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal, get_type_hints
 import copy
 import logging
-import optunahub
 import optuna
 import numpy as np
 from collections import defaultdict
-from abc import ABC, abstractmethod
-from concurrent.futures import ThreadPoolExecutor, Future, wait, FIRST_COMPLETED
-import math
+from concurrent.futures import ThreadPoolExecutor, Future, wait, FIRST_COMPLETED, as_completed
 import threading
 import traceback
+from tqdm import tqdm
+import heapq
+import warnings
 
-from compiler.IR.program import Module
-from compiler.optimizer.params.common import ParamBase, DynamicParamBase, EvolveType, AddNewModuleImportInterface
-from compiler.optimizer.params.utils import dump_params, load_params
+
+from compiler.IR.program import Workflow, Module, StatePool
+from compiler.cog_hub.common import CogBase, OptionBase, DynamicCogBase, EvolveType, AddNewModuleImportInterface
+from compiler.cog_hub.utils import dump_params, load_params
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask, GeneralEvaluatorInterface
 from optuna.samplers import TPESampler, _base
 from optuna.trial import TrialState, FrozenTrial
 from compiler.optimizer.bo.tpe import FrugalTPESampler
 from compiler.optimizer.core.flow import TrialLog, ModuleTransformTrace, TopDownInformation, OptConfig
-from optuna.samplers._base import _process_constraints_after_trial
 
 logger = logging.getLogger(__name__)
+
 
 qc_identifier = '_#cognify_quality_constraint'
 def get_quality_constraint(trial: optuna.trial.FrozenTrial):
     return trial.user_attrs.get(qc_identifier, (1, ))
 
+_max_position = 20
+_position_pool = list(range(_max_position))
+heapq.heapify(_position_pool)
+_pbar_lock = threading.Lock()
+
+def ask_for_position():
+    global _max_position
+    with _pbar_lock:
+        # if no position is available, add a new one
+        if len(_position_pool) == 0:
+            position = _max_position
+            _max_position += 1
+        else:
+            position = heapq.heappop(_position_pool)
+        return position
+
+def release_position(position):
+    with _pbar_lock:
+        heapq.heappush(_position_pool, position)
+
 class OptimizationLayer:
     trial_log_cls = TrialLog
-    opt_logs: dict[int, TrialLog]
+    opt_logs: dict[str, TrialLog]
     
     def __init__(
         self,
         name: str,
         evaluator: GeneralEvaluatorInterface,
-        dedicate_params: list[ParamBase] = [],
-        universal_params: list[ParamBase] = [],
+        dedicate_params: list[CogBase] = [],
+        universal_params: list[CogBase] = [],
         target_modules: Iterable[str] = None,
         save_ckpt_interval: int = 0,
         quality_constraint: Optional[float] = None,
+        hierarchy_level: int = 0,
     ):
         """
         The optimization will always try to minimize the price and maximize the score
@@ -77,10 +98,10 @@ class OptimizationLayer:
         self.opt_cost = 0
 
         # will be updated when prepare_opt_env is called
-        self.params: dict[str, list[ParamBase]] = None
+        self.params: dict[str, list[CogBase]] = None
         self.param_categorical_dist: dict[str, optuna.distributions.CategoricalDistribution] = None
         
-        self.opt_logs: dict[int, TrialLog] = dict()
+        self.opt_logs: dict[str, TrialLog] = dict()
         self.study: optuna.study.Study = None
         self._study_lock: threading.Lock = None
         self.opt_target_lm_names: set[str] = None
@@ -88,7 +109,8 @@ class OptimizationLayer:
         self.top_down_info: TopDownInformation = None
         
         self.quality_constraint = quality_constraint
-    
+        self.hierarchy_level = hierarchy_level
+        
     def prepare_opt_env(self):
         self.params = defaultdict(list)
         
@@ -263,7 +285,7 @@ class OptimizationLayer:
             with self._study_lock:
                 trial = self.study.ask(self.param_categorical_dist)
             
-            logger.info(f"- {self.name} - apply param - Trial {trial.number} params: {trial.params}")
+            logger.debug(f"- {self.name} - apply param - Trial {trial.number} params: {trial.params}")
             trial_id_str = self.generate_trial_id(trial.number)
             trial_log = self.trial_log_cls(params=trial.params, bo_trial_id=trial.number, id=trial_id_str)
 
@@ -279,7 +301,7 @@ class OptimizationLayer:
         new_top_down_info: TopDownInformation,
     ) -> EvaluationResult:
         eval_task = EvalTask.from_top_down_info(new_top_down_info)
-        eval_result: EvaluationResult = self.evaluator.evaluate(eval_task, show_process=False)
+        eval_result: EvaluationResult = self.evaluator.evaluate(eval_task)
         return eval_result
     
     def add_constraint(self, score, trial: optuna.trial.Trial):
@@ -297,22 +319,21 @@ class OptimizationLayer:
         log_id: str,
     ):
         score, price = eval_result.reduced_score, eval_result.reduced_price
-        logger.info(f"- {self.name} - Trial {trial.number} result: score: {score}, price@1: {price}, eval_cost: {eval_result.total_eval_cost}")
+        logger.debug(f"- {self.name} - Trial {trial.number} result: score: {score}, price@1: {price}, eval_cost: {eval_result.total_eval_cost}")
         self.opt_logs[log_id].score = score
         self.opt_logs[log_id].price = price
         
         self.opt_logs[log_id].eval_cost = eval_result.total_eval_cost
         self.opt_cost += eval_result.total_eval_cost
         
-        self.add_constraint(score, trial)
-         
         # update study if any dynamic params can evolve
         with self._study_lock:
+            self.add_constraint(score, trial)
             frozen_trial = self.study.tell(trial, [score, price])
             is_evolved = False
             for params in self.params.values():
                 for param in params:
-                    if isinstance(param, DynamicParamBase):
+                    if isinstance(param, DynamicCogBase):
                         evolve_type = param.evolve(eval_result)
                         if evolve_type != EvolveType.ID:
                             is_evolved = True
@@ -325,6 +346,14 @@ class OptimizationLayer:
                 # create new study and migrate all trials
                 new_study = self.init_study(self.study)
                 self.study = new_study
+
+    def get_eval_feedback(self, eval_result: EvaluationResult):
+        """Override this method to get feedback from the evaluation result
+        
+        Bottom Layer uses the average score and price on the evaluation set
+        Upper Layer uses the best score and price on the inner loop optimization
+        """
+        raise NotImplementedError
     
     def _get_new_python_paths(self):
         new_python_paths = []
@@ -340,15 +369,10 @@ class OptimizationLayer:
         params = [param for params in self.params.values() for param in params]
         dump_params(params, param_save_path)
     
-    def load_opt_ckpt(self, opt_log_path: str):
-        with open(opt_log_path, 'r') as f:
-            opt_trace = json.load(f)
-            
-        for trial_log_id, trial_meta in opt_trace.items():
-            trial_log = self.trial_log_cls.from_dict(trial_meta)
-            self.opt_logs[trial_log_id] = trial_log
-            self.opt_cost += trial_log.eval_cost
-            
+    def _load_opt_ckpt(self, opt_log_path: str):
+        self.load_opt_log(opt_log_path)
+        
+        for trial_log_id, trial_log in self.opt_logs.items():
             trial = optuna.trial.create_trial(
                 params=trial_log.params,
                 values=[trial_log.score, trial_log.price],
@@ -363,6 +387,7 @@ class OptimizationLayer:
         self, 
         new_program: list[Module], 
         new_trace: ModuleTransformTrace,
+        trial_number: str,
     ) -> TopDownInformation:
         """create info for next level optimization or actual evaluation
         
@@ -383,6 +408,7 @@ class OptimizationLayer:
             script_args=self.top_down_info.script_args,
             other_python_paths=python_paths,
         )
+        next_level_info.trace_back.append(self.generate_trial_id(trial_number))
         
         # add current level params for next level
         for lm_name, params in self.params.items():
@@ -396,43 +422,70 @@ class OptimizationLayer:
     def _optimize_iteration(
         self,
         base_program: list[Module],
-    ):
+    ) -> EvaluationResult:
         try:
             next_trial, program, new_trace, log_id = self.propose(base_program, 1)[0]
-            next_level_info = self.prepare_next_level_tdi(program, new_trace)
+            next_level_info = self.prepare_next_level_tdi(program, new_trace, next_trial.number)
             
             eval_result = self.evaluate(log_id, next_level_info)
             self.update(next_trial, eval_result, log_id)
+            return eval_result
         except Exception as e:
             logger.error(f'Error in opt iteration: {e}')
             logger.error(traceback.format_exc())
             raise
-        
+    
+    def _gen_opt_bar_desc(self, score, cost):
+        indent = '---' * self.hierarchy_level + '>'
+        opt_trace = ' | '.join(self.top_down_info.trace_back)
+        return f'{indent} {self.name} in {opt_trace} | (best score: {score:.2f}, lowest cost@1000: {cost*1000:.2f} $)'
+    
     def _optimize(self, base_program: list[Module]):
         opt_config = self.top_down_info.opt_config
-        if opt_config.throughput == 1:
-            for i in range(opt_config.n_trials):
-                self._optimize_iteration(base_program)
-                if self.save_ckpt_interval > 0 and i % self.save_ckpt_interval == 0:
-                    self.save_ckpt(opt_config.opt_log_path, opt_config.param_save_path)
-        else:
-            futures: set[Future] = set()
-            counter = 0
-            with ThreadPoolExecutor(max_workers=opt_config.throughput) as executor:
-                for n_submitted_trials in range(opt_config.n_trials):
-                    if len(futures) >= opt_config.throughput:
-                        completed, futures = wait(futures, return_when=FIRST_COMPLETED)
-                        for f in completed:
-                            try:
-                                f.result()
-                                counter += 1
-                                if self.save_ckpt_interval > 0 and counter % self.save_ckpt_interval == 0:
-                                    self.save_ckpt(opt_config.opt_log_path, opt_config.param_save_path)
-                            except Exception as e:
-                                logger.error(f'Error in evaluating task: {e}')
-                                raise
-                    futures.add(executor.submit(self._optimize_iteration, base_program))
-                wait(futures, return_when="ALL_COMPLETED")
+        num_current_trials = len(self.opt_logs)
+        pbar_position = ask_for_position()
+        best_score, lowest_cost = None, None
+        
+        def _update_pbar(pbar, eval_result: EvaluationResult):
+            nonlocal best_score, lowest_cost
+            score, cost = self.get_eval_feedback(eval_result)
+            if score is not None and cost is not None:
+                best_score = score if best_score is None else max(best_score, score)
+                lowest_cost = cost if lowest_cost is None else min(lowest_cost, cost)
+                pbar.set_description(self._gen_opt_bar_desc(best_score, lowest_cost))
+            pbar.update(1)
+        
+        with tqdm(
+            total=num_current_trials + opt_config.n_trials,
+            initial=num_current_trials,
+            desc=self._gen_opt_bar_desc(0.0, 0.0),
+            leave=self.hierarchy_level == 0,
+            position=pbar_position,
+        ) as pbar:
+            if opt_config.throughput == 1:
+                for i in range(opt_config.n_trials):
+                    result = self._optimize_iteration(base_program)
+                    if self.save_ckpt_interval > 0 and i % self.save_ckpt_interval == 0:
+                        self.save_ckpt(opt_config.opt_log_path, opt_config.param_save_path)
+                    _update_pbar(pbar, result)
+            else:
+                counter = 0
+                with ThreadPoolExecutor(max_workers=opt_config.throughput) as executor:
+                    futures = [
+                        executor.submit(self._optimize_iteration, base_program)
+                        for _ in range(opt_config.n_trials)
+                    ]
+                    for f in as_completed(futures):
+                        try:
+                            result = f.result()
+                            counter += 1
+                            if self.save_ckpt_interval > 0 and counter % self.save_ckpt_interval == 0:
+                                self.save_ckpt(opt_config.opt_log_path, opt_config.param_save_path)
+                            _update_pbar(pbar, result)
+                        except Exception as e:
+                            logger.error(f'Error in evaluating task: {e}')
+                            raise
+        release_position(pbar_position)
     
     def get_finished_bo_trials(self, need_copy: bool) -> list[FrozenTrial]:
         states_of_interest = (TrialState.COMPLETE,)
@@ -472,47 +525,41 @@ class OptimizationLayer:
         ...
     
     def get_all_candidates(self):
-        cancidates = [
-            (log, self.top_down_info.opt_config.opt_log_path) 
-            for log_id, log in self.opt_logs.items()
-        ]
+        cancidates = []
+        for log_id, log in self.opt_logs.items():
+            # if not meet the quality constraint, skip
+            if self.quality_constraint is not None and log.score < self.quality_constraint:
+                continue
+            cancidates.append((log, self.top_down_info.opt_config.opt_log_path))
         return cancidates
         
     def post_optimize(self):
         # Analysis optimization result
         candidates = self.get_all_candidates()
         pareto_frontier = self.get_pareto_front(candidates=candidates)
-        if self.quality_constraint is not None:
-            pareto_frontier = [
-                (log, path) 
-                for log, path in pareto_frontier 
-                if log.score >= self.quality_constraint
-            ]
-            
-        logger.info(f"--------- {self.name} Optimization Results ---------")
-        for i, (trial_log, log_path) in enumerate(pareto_frontier):
-            logger.info("# {}-th Pareto solution".format(i))
-            logger.info("  Config id: {}".format(trial_log.id))
-            logger.info("  Params: {}".format(trial_log.params))
-            logger.info("  Values: score= {}, price@1= {}".format(trial_log.score, trial_log.price))
-            logger.info("  config saved at: {}".format(log_path))
-            
-        logger.info("Opt Cost: {}".format(self.opt_cost))
-        logger.info(f"#Pareto Frontier: {len(pareto_frontier)}")
-        logger.info("-------------------------------------------------")
+        if self.hierarchy_level == 0:
+            print(f"=========== Optimization Results ===========") 
+            print(f"Num Pareto Frontier: {len(pareto_frontier)}")
+            for i, (trial_log, log_path) in enumerate(pareto_frontier):
+                print("--------------------------------------------------------")
+                print("# {}-th Pareto solution".format(i))
+                # logger.info("  Params: {}".format(trial_log.params))
+                print("  Quality = {:.3f}, Cost per 1K invocation = {:.2f} $".format(trial_log.score, trial_log.price * 1000))
+                print("  Applied Optimization: {}".format(trial_log.id))
+                # logger.info("  config saved at: {}".format(log_path))
+                
+            # logger.info("Opt Cost: {}".format(self.opt_cost))
+            print("========================================================")
         return pareto_frontier
 
-    def inspect(self, opt_log_path) -> tuple[float, list[tuple[TrialLog, str]], dict[str, TrialLog]]:
+    def load_opt_log(self, opt_log_path: str):
         with open(opt_log_path, 'r') as f:
             opt_trace = json.load(f)
         for trial_log_id, trial_meta in opt_trace.items():
             trial_log = self.trial_log_cls.from_dict(trial_meta)
             self.opt_logs[trial_log_id] = trial_log
             self.opt_cost += trial_log.eval_cost
-        pareto_frontier = self.post_optimize()
-        
-        return self.opt_cost, pareto_frontier, self.opt_logs
-    
+
     def optimize(
         self,
         current_tdi: TopDownInformation,
@@ -527,15 +574,15 @@ class OptimizationLayer:
         # load previous optimization logs if exists
         opt_log_path = self.top_down_info.opt_config.opt_log_path
         if os.path.exists(opt_log_path):
-            self.load_opt_ckpt(opt_log_path)
+            self._load_opt_ckpt(opt_log_path)
         
         # start optimization
         total_budget = self.top_down_info.opt_config.n_trials
         if total_budget > 0:
             self.pre_optimize()
-            logger.info(f"Start optimization {self.name} with {total_budget} trials")
+            logger.debug(f"Start optimization {self.name} with {total_budget} trials")
             self._optimize(list(current_tdi.current_module_pool.values()))
-            logger.info(f"Optimization {self.name} finished")
+            logger.debug(f"Optimization {self.name} finished")
             self.save_ckpt(self.top_down_info.opt_config.opt_log_path,
                            self.top_down_info.opt_config.param_save_path)
         
@@ -596,7 +643,9 @@ class BottomLevelOptimization(OptimizationLayer):
     def evaluate(self, log_id, new_top_down_info):
         eval_task = EvalTask.from_top_down_info(new_top_down_info)
         self.opt_logs[log_id].eval_task = eval_task.to_dict()
-        eval_result: EvaluationResult = self.evaluator.evaluate(eval_task, False)
+        pbar_position = ask_for_position()
+        eval_result: EvaluationResult = self.evaluator.evaluate(eval_task, True, pbar_position, self.hierarchy_level+1)
+        release_position(pbar_position)
         return eval_result
 
     def best_score_config(self) -> BottomLevelTrialLog:
@@ -617,7 +666,7 @@ class BottomLevelOptimization(OptimizationLayer):
         self.opt_logs[log_id].price = price
         
         self.opt_logs[log_id].eval_cost = eval_result.total_eval_cost
-        logger.info(f"- {self.name} - Trial {trial.number} result: score: {score}, price@1: {price}, eval_cost: {eval_result.total_eval_cost}")
+        logger.debug(f"- {self.name} - Trial {trial.number} result: score= {score:.2f}, cost@1000= {price*1000:.3f}")
         self.opt_cost += eval_result.total_eval_cost
         
         # update study if any dynamic params can evolve
@@ -626,21 +675,21 @@ class BottomLevelOptimization(OptimizationLayer):
             frozen_trial = self.study.tell(trial, [score, price])
             existing_trials = self.get_finished_bo_trials(False)
             if len(existing_trials) > 0 and len(existing_trials) % self.top_down_info.opt_config.evolve_interval == 0:
-                logger.info(f"Eval at {len(existing_trials)} trials, start evolving params")
+                logger.debug(f"Evolving on Validation Set at {len(existing_trials)} trials")
                 evolve_result = eval_result
                 if self.evaluator.dataset['eval'][0] is not None:
-                    logger.info("Use best score config to get evolving results")
+                    logger.debug("Use best score config to get evolving results")
                     # use best score config to get evolving results
                     best_score_log = self.best_score_config()
                     evolve_eval_task = EvalTask.from_dict(copy.deepcopy(best_score_log.eval_task))
                     evolve_result = self.evaluator.get_score(
                         mode='eval', task=evolve_eval_task, show_process=False)
-                    logger.info(f"Evolve eval result: {evolve_result}")
+                    logger.debug(f"Validation set result: score= {evolve_result.reduced_score:.2f}, cost@1000= {evolve_result.reduced_price*1000:.3f}")
             
                 is_evolved = False
                 for params in self.params.values():
                     for param in params:
-                        if isinstance(param, DynamicParamBase):
+                        if isinstance(param, DynamicCogBase):
                             evolve_type = param.evolve(evolve_result)
                             if evolve_type != EvolveType.ID:
                                 is_evolved = True
@@ -654,6 +703,12 @@ class BottomLevelOptimization(OptimizationLayer):
                     new_study = self.init_study(self.study)
                     self.study = new_study
     
+    def get_eval_feedback(self, eval_result: EvaluationResult):
+        avg_score = eval_result.reduced_score
+        if self.quality_constraint and avg_score >= self.quality_constraint:
+            return avg_score, eval_result.reduced_price
+        return None, None
+    
     def pre_optimize(self):
         """Bootstrap the initial evolving params with given config
         
@@ -665,23 +720,25 @@ class BottomLevelOptimization(OptimizationLayer):
         has_evolve = False
         for params in self.params.values():
             for param in params:
-                if isinstance(param, DynamicParamBase):
+                if isinstance(param, DynamicCogBase):
                     has_evolve = True
                     break
         if not has_evolve:
             return
                     
-        logger.info(f"Start pre-optimization for {self.name}")
+        logger.debug(f"Start pre-optimization for {self.name}")
         eval_task = EvalTask.from_top_down_info(self.top_down_info)
+        pbar_position = ask_for_position()
         if self.evaluator.dataset['eval'][0] is None:
-            eval_result = self.evaluator.get_score(mode='train', task=eval_task, show_process=True)
+            eval_result = self.evaluator.get_score(mode='train', task=eval_task, show_process=True, pbar_position=pbar_position, hierarchy_level=self.hierarchy_level+1)
         else:
-            eval_result = self.evaluator.get_score(mode='eval', task=eval_task, show_process=True)
+            eval_result = self.evaluator.get_score(mode='eval', task=eval_task, show_process=True, pbar_position=pbar_position, hierarchy_level=self.hierarchy_level+1)
+        release_position(pbar_position)
         with self._study_lock:
             is_evolved = False
             for params in self.params.values():
                 for param in params:
-                    if isinstance(param, DynamicParamBase):
+                    if isinstance(param, DynamicCogBase):
                         evolve_type = param.evolve(eval_result)
                         if evolve_type != EvolveType.ID:
                             is_evolved = True

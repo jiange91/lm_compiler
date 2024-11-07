@@ -1,0 +1,116 @@
+Trial - outer_loop_0|inner_loop_3
+Log at: test_pbar/outer_loop/outer_loop_trial_0/opt_logs.json
+Quality= 0.842, Cost per 1K invocation= 0.60 $
+********** Detailed Optimization Trace **********
+
+========== Layer: outer_loop ==========
+
+  >>> Module: refine_query <<<
+
+    - Parameter: <compiler.cog_hub.ensemble.ModuleEnsemble object at 0x7fe0e13bf620>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+  >>> Module: generate_query <<<
+
+    - Parameter: <compiler.cog_hub.ensemble.ModuleEnsemble object at 0x7fe0e13bffe0>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+  >>> Module: generate_answer <<<
+
+    - Parameter: <compiler.cog_hub.ensemble.ModuleEnsemble object at 0x7fe0e13bec00>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+==================================================
+
+========== Layer: inner_loop ==========
+
+  >>> Module: refine_query <<<
+
+    - Parameter: <compiler.cog_hub.fewshot.LMFewShot object at 0x7fe0e13bed80>
+      Applied Option: refine_query_demos_ed43a4db-3301-4240-9caa-1ef24ae36a8d
+      Transformation Details:
+        - FewShot Examples -
+        2 demos:
+        Demonstration 1:
+        **Input**
+        {
+            "context": "[1]: 1792 Whiskey | 1792 Whiskey is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery are owned by the Sazerac Company. It is ...",
+            "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+        }
+        
+        **Response**
+        spending on bourbon whiskey in the United States
+        ========================================
+        Demonstration 2:
+        **Input**
+        {
+            "context": "[1]: John Laub | John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, Colle...",
+            "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+        }
+        
+        **Response**
+        University of Maryland College Park founding year
+        ========================================
+
+    - Parameter: <compiler.cog_hub.reasoning.LMReasoning object at 0x7fe0e13bee10>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+  >>> Module: generate_query <<<
+
+    - Parameter: <compiler.cog_hub.fewshot.LMFewShot object at 0x7fe0e13bec60>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+    - Parameter: <compiler.cog_hub.reasoning.LMReasoning object at 0x7fe0e1415820>
+      Applied Option: ZeroShotCoT
+      Transformation Details:
+        
+        - ZeroShotCoT -
+        Return step-by-step reasoning for the given chat prompt messages.
+        
+        Reasoning Prompt: 
+            Let's solve this problem step by step before giving the final response.
+
+  >>> Module: generate_answer <<<
+
+    - Parameter: <compiler.cog_hub.fewshot.LMFewShot object at 0x7fe0e14177a0>
+      Applied Option: generate_answer_demos_c29248fc-d6d6-4981-849c-7f95a91d0c5e
+      Transformation Details:
+        - FewShot Examples -
+        2 demos:
+        Demonstration 1:
+        **Input**
+        {
+            "context": "[1]: 1792 Whiskey | 1792 Whiskey is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery are owned by the Sazerac Company. It is ...",
+            "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?"
+        }
+        
+        **Response**
+        As of 2014, the distillers' wholesale market revenue for bourbon sold within the U.S. is about $2.7 billion.
+        ========================================
+        Demonstration 2:
+        **Input**
+        {
+            "context": "[1]: John Laub | John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, Colle...",
+            "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?"
+        }
+        
+        **Response**
+        1856
+        ========================================
+
+    - Parameter: <compiler.cog_hub.reasoning.LMReasoning object at 0x7fe0e1417770>
+      Applied Option: NoChange
+      Transformation Details:
+        NoChange
+
+==================================================

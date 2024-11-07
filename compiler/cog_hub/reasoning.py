@@ -1,7 +1,7 @@
 from abc import ABC, ABCMeta
 from typing import List, Optional, Union
 import traceback
-from compiler.optimizer.params.common import ParamBase, ParamLevel, OptionBase, NoChange
+from compiler.cog_hub.common import CogBase, CogLayerLevel, OptionBase, NoChange
 from compiler.llm import CogLM, StructuredCogLM, StepInfo, InputVar, OutputFormat, OutputLabel
 from compiler.llm.model import APICompatibleMessage
 from litellm import ModelResponse, completion
@@ -11,8 +11,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-class LMReasoning(ParamBase):
-    level = ParamLevel.NODE
+
+class LMReasoning(CogBase):
+    level = CogLayerLevel.NODE
     
     def __init__(
         self, 
@@ -20,7 +21,7 @@ class LMReasoning(ParamBase):
         name: str = 'reasoning', 
         default_option: Union[int, str] = 0,
         module_name: str = None,
-        inherit: bool = False,
+        inherit: bool = True,
     ):
         return super().__init__(
             name, options, default_option, module_name, inherit
@@ -150,7 +151,7 @@ class PlanBefore(ReasonThenFormat):
         super().__init__("PlanBefore")
     
     def _get_cost_indicator(self):
-        return 2.0
+        return 3.0
     
     def describe(self):
         desc = """

@@ -7,15 +7,15 @@ import pickle
 
 import multiprocessing as mp
 from compiler.IR.program import StatePool, Module
-from compiler.optimizer.params.fewshot import LMFewShot
+from compiler.cog_hub.fewshot import LMFewShot
 from compiler.optimizer.evaluation.evaluator import Evaluator
 from compiler.optimizer.evaluation.metric import MetricBase, MInput
 from compiler.llm import CogLM, InputVar, OutputLabel
 from compiler.llm.model import LMConfig
 
-from compiler.optimizer.params import reasoning, model_selection, common, ensemble
-from compiler.optimizer.params.utils import load_params
-from compiler.optimizer.params.reasoning import ZeroShotCoT, PlanBefore
+from compiler.cog_hub import reasoning, model_selection, common, ensemble
+from compiler.cog_hub.utils import load_params
+from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
 
 from compiler.utils import load_api_key, get_bill
 load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')

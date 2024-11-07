@@ -24,6 +24,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+# TODO: refactor meta-programming to new interface
+# Adapted from: https://github.com/suzgunmirac/meta-prompting
+
 
 # Define the MetaPromptingScaffolding class
 class MetaPromptingScaffolding:

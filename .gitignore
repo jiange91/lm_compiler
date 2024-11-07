@@ -178,3 +178,5 @@ local_testing/
 secrets.toml
 examples/**/*.json
 *.cog
+cache/
+local_cache/

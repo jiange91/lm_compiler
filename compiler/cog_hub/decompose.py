@@ -11,8 +11,8 @@ from compiler.IR.rewriter.utils import add_argument_to_position
 from pydantic import BaseModel
 from compiler.IR.modules import CodeBox
 from compiler.llm import CogLM, StructuredCogLM, OutputFormat, OutputLabel
-from compiler.optimizer.decompose_agents import *
-from compiler.optimizer.decompose_agents.estimate_complexity import ComplexityEstimation
+from compiler.cog_hub.decompose_agents import *
+from compiler.cog_hub.decompose_agents.estimate_complexity import ComplexityEstimation
 from compiler.optimizer.utils import aggregator_factory, json_schema_to_pydantic_model
 from dataclasses import dataclass
 

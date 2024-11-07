@@ -16,7 +16,7 @@ from compiler.IR.base import Module
 from compiler.IR.program import Workflow
 from compiler.llm.model import CogLM
 from compiler.cog_hub.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange, AddNewModuleImportInterface
-from compiler.optimizer.decompose import LMTaskDecompose, StructuredAgentSystem
+from compiler.cog_hub.decompose import LMTaskDecompose, StructuredAgentSystem
 from compiler.optimizer.plugin import OptimizerSchema
 from compiler.optimizer import clear_registry
 

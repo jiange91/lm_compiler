@@ -229,16 +229,13 @@ class CogLM(Module):
       self.steps.extend(_local_self.steps)
       self.response_metadata_history.extend(_local_self.response_metadata_history)
 
-  def __call__(self, messages: List[APICompatibleMessage] = [], inputs: Dict[InputVar|str, str] = None, model_kwargs: Optional[dict] = None) -> ModelResponse:
-    # input variables will always take precedence
-    if not inputs:
-      assert messages, "Messages must be provided"
-      final_message_list = messages
-    else:
-      if isinstance(list(inputs.keys())[0], InputVar):
-        inputs = {input_var.name: value for input_var, value in inputs.items()}
-      final_message_list = self._get_input_messages(inputs)
-
+  def __call__(self, inputs: Dict[InputVar|str, str], messages: Optional[List[APICompatibleMessage]] = [], model_kwargs: Optional[dict] = None) -> ModelResponse:
+    if isinstance(list(inputs.keys())[0], InputVar):
+      stripped_inputs = {input_var.name: value for input_var, value in inputs.items()}
+    
+    # messages can override messages constructed from inputs
+    final_message_list = messages or self._get_input_messages(inputs)
+    
     # lm config will always take precedence
     if not self.lm_config:
       assert model_kwargs, "Model kwargs must be provided if LM config is not set at initialization"
@@ -246,7 +243,7 @@ class CogLM(Module):
     else:
       full_kwargs = self.lm_config.get_model_kwargs()
 
-    return self.forward(final_message_list, inputs, full_kwargs)
+    return self.forward(final_message_list, stripped_inputs, full_kwargs)
 
   def forward(self, messages: List[APICompatibleMessage], inputs: Dict[str, str], model_kwargs: dict) -> ModelResponse:
     _self = self.get_thread_local_chain()
@@ -263,11 +260,11 @@ class CogLM(Module):
     
     input_fields = []
     for input_var in self.input_variables:
-      if input_var.image_params:
-        if input_var.image_params.is_image_upload:
-          image_content = get_image_content_from_upload(inputs[input_var.name], input_var.image_params.file_type)
-        else:
+      if input_var.image_type:
+        if input_var.image_type == 'web':
           image_content = ImageContent(image_url=inputs[input_var.name])
+        else:
+          image_content = get_image_content_from_upload(inputs[input_var.name], input_var.image_type)
         messages.append(CompletionMessage(role="user", 
                                           content=[image_content]))
       else:
@@ -296,6 +293,14 @@ class StructuredCogLM(CogLM):
     super().__init__(agent_name, system_prompt, 
                      input_variables, output=OutputLabel(name=output_format.schema.__name__), 
                      lm_config=lm_config, opt_register=opt_register)
+
+  # these parse methods are provided for convenience
+  def parse_response_str(self, response: str) -> BaseModel:
+    # expects response to be `response.choices[0].message.content`
+    return self.output_format.schema.model_validate_json(response)
+
+  def parse_response(self, response: ModelResponse) -> BaseModel:
+    return self.parse_response_str(response.choices[0].message.content)
 
   @override
   def get_output_label_name(self):

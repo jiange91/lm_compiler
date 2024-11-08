@@ -94,9 +94,9 @@ class RunnableCogLM(Runnable):
     if self.chat_prompt_template:
       chat_prompt_value: ChatPromptValue = self.chat_prompt_template.invoke(input)
       messages = self._get_api_compatible_messages(chat_prompt_value)
-    result: ModelResponse = self.cog_lm(messages, input) # kwargs have already been set when initializing cog_lm
+    result: ModelResponse = self.cog_lm(input, messages) # kwargs have already been set when initializing cog_lm
     if isinstance(self.cog_lm, StructuredCogLM):
-      return self.cog_lm.output_format.schema.model_validate_json(result.choices[0].message.content)
+      return self.cog_lm.parse_response(result)
     else:
       return LangchainOutput(content=result.choices[0].message.content)
     

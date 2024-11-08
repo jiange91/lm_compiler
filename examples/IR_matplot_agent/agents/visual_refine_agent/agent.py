@@ -7,7 +7,6 @@ from .prompt import SYSTEM_PROMPT, USER_PROMPT, ERROR_PROMPT
 from agents.openai_chatComplete import  completion_for_4v
 from agents.utils import fill_in_placeholders, common_lm_config
 from compiler.llm.model import CogLM, InputVar, OutputLabel, LMConfig
-from compiler.llm.prompt import ImageParams
 from compiler.cog_hub.reasoning import ZeroShotCoT
 
 
@@ -40,7 +39,7 @@ visual_refine_lm_config = LMConfig(
 visual_refinement_agent = CogLM(agent_name='visual_refinement', system_prompt=VISUAL_FEEDBACK_SYSTEM_PROMPT,
                                 input_variables=[InputVar(name='query'), InputVar(name='code'), 
                                                  InputVar(name='plot_image', 
-                                                          image_params=ImageParams())],
+                                                          image_type='png')],
                                 output=OutputLabel(name='refinement'),
                                 lm_config=visual_refine_lm_config)
 

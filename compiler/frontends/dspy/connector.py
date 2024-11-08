@@ -64,7 +64,7 @@ class PredictCogLM(dspy.Module):
                                 lm_config=lm_config)
 
     def forward(self, **kwargs):
-        assert self.cog_lm or self.predictor, "CogLM or Predictor must be initialized before invoking"
+        assert self.cog_lm or self.predictor, "Either CogLM or Predictor must be initialized before invoking"
 
         if self.ignore_module:
             return self.predictor(**kwargs)
@@ -75,8 +75,8 @@ class PredictCogLM(dspy.Module):
                 messages: APICompatibleMessage = self.chat_adapter.format(self.predictor.extended_signature,
                                                                         self.predictor.demos,
                                                                         inputs)
-            response: ModelResponse = self.cog_lm(messages, inputs) # model kwargs already set
-            kwargs: dict = self.cog_lm.output_format.schema.model_validate_json(response.choices[0].message.content).model_dump()
+            response: ModelResponse = self.cog_lm(inputs, messages) # model kwargs already set
+            kwargs: dict = self.cog_lm.parse_response(response).model_dump()
             return dspy.Prediction(**kwargs)
         
 def as_predict(cog_lm: CogLM) -> PredictCogLM:

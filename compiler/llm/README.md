@@ -1,123 +1,63 @@
 # Cognify Interface
 
-The most common usage of LLMs is via direct use of the OpenAI chat completions API, like in the following example:
-```python
-import openai
+When writing a workflow with Cognify, you can define your optimization targets using our `CogLM` class. Defining a `CogLM` requires four components:
+1. System prompt
+2. Input variables
+3. Output label
+4. Language model config 
 
-system_prompt = "You are a helpful AI assistant built to answer questions."
-model_kwargs = {'model': 'gpt-4o-mini', 'temperature': 0.0, 'max_tokens': 100}
+The Cognify optimizer treats the system prompt as the agent's role, necessary for cogs like task decomposition. The input variables and output label are used to construct high-quality few-shot examples. When utilizing the model selection cog, the optimizer can modify the model configuration and arguments of a `CogLM`. You can also use our `StructuredCogLM` class and provide a Pydantic-based output _schema_ in lieu of an output label. `CogLM` and `StructuredCogLM` both make calls to `litellm` under the hood, so you can always expect [consistent output](https://docs.litellm.ai/docs/completion/output). Both classes also support image input. 
 
-def call_qa_llm(question):
-  messages = [
-    {
-      "role": "system",
-      "content": system_prompt
-    },
-    {
-      "role": "user",
-      "content": f"{question}"
-    }
-  ]
+Much like other frameworks, we endorse the separation of the LLM's signature from its invocation. The Cognify optimizer registers your `CogLM`s at initialization, which means they should be defined in the global namespace. Otherwise, the optimizer does not have a stable set of targets from one trial to the next. You can read more about our optimizer [here]().
 
-  return openai.chat.completions.create({
-    messages: messages,
-    model_kwargs: model_kwargs
-  })
-```
+## Usage
 
-Much like other frameworks, we endorse the separation of the LLM's signature from its invocation. However, Cognify requires minimal change to your codebase. Defining a Cognify LM simply requires the following:
-1. System prompt - we consider this to be the agent's role, necessary for optimizations like decomposition
-2. Input variables - a placeholder for the actual user's request, necessary to construct high-quality few-shot examples
+Integrating Cognify into your code is straightforward.
+1. Define the `CogLM` as a global variable.
+2. Use our decorator to mark the workflow entry point `@cognify.register_workflow`
+3. Call your `CogLM` directly with the relevant inputs.
 
-With Cognify, the above code looks like this:
 ```python
 import cognify
-from cognify.llm import InputVar, CogLM
+from cognify import InputVar, CogLM, OutputLabel, LMConfig
 
-system_prompt = "You are a helpful AI assistant built to answer questions."
+# define cognify agent
+qa_question = InputVar(name="question")
+cog_agent = CogLM(agent_name="qa_agent",
+  system_prompt="You are a helpful AI assistant that answers questions.",
+  input_variables=[qa_question],
+  output_label=OutputLabel(name="answer"),
+  lm_config=LMConfig(
+    model="gpt-4o-mini", 
+    kwargs={"temperature": 0.0, "max_tokens": 100}
+  )
+)
+
+@cognify.register_workflow
+def call_qa_llm(question):
+  response = cog_agent(inputs={qa_question: question})
+  return response.choices[0].message.content # consistent output using litellm
+```
+
+By default, `CogLM` will construct messages on your behalf based on the `system_prompt`, `inputs` and `output_label`. These messages are directly passed to model defined in the `lm_config`. For compatibility with existing codebases that rely on passing messages and keyword arguments directly, we allow the user to pass in optional `messages` and `model_kwargs` arguments when calling a `CogLM` like so:
+
+
+```python
+import cognify
+from cognify import InputVar, CogLM, OutputLabel, LMConfig
+
+system_prompt = "You are a helpful AI assistant that answers questions."
 model_kwargs = {'model': 'gpt-4o-mini', 'temperature': 0.0, 'max_tokens': 100}
 
 # define cognify agent
 qa_question = InputVar(name="question")
 cog_agent = CogLM(agent_name="qa_agent",
   system_prompt=system_prompt,
-  input_variables=[qa_question]
-)
-
-@cognify.register
-def call_qa_llm(question):
-    messages = [
-      {
-        "role": "system",
-        "content": system_prompt
-      },
-      {
-        "role": "user",
-        "content": f"{question}",
-      }
-    ]
-    return cog_agent.forward(
-      messages, 
-      model_kwargs, 
-      inputs={qa_question: question}
-    )
-```
-
-Upon creation of a `CogLM` instance, it is automatically registered with the optimizer. Therefore, in order to have a consistent set of optimization targets, all `CogLM`s should be initialized globally. After that, the API call is simply replaced with the invocation of `CogLM.forward`. Under the hood, we use `litellm` to invoke the user's request. 
-
-
-## Structured Output
-
-We also support structured output. Original code:
-```python
-import openai
-from pydantic import BaseModel
-
-system_prompt = "You are a helpful AI assistant built to answer questions."
-
-class Response(BaseModel):
-  answer: str
-
-model_kwargs = {'model': 'gpt-4o-mini', 'temperature': 0.0, 'max_tokens': 100}
-
-def call_qa_llm(question):
-  messages = [
-    {
-      "role": "system",
-      "content": system_prompt
-    },
-    {
-      "role": "user",
-      "content": f"{question}"
-    }
-  ]
-
-- return openai.chat.completions.parse(
-    messages=messages,
-    response_format=Response,
-    **model_kwargs
-  )
-```
-
-Ours:
-```python
-import cognify
-from cognify.llm import InputVar, StructuredCogLM, OutputFormat
-from pydantic import BaseModel
-
-system_prompt = "You are a helpful AI assistant built to answer questions."
-
-class Response(BaseModel):
-  answer: str
-
-qa_question = InputVar(name="question")
-struct_cog_agent = StructuredCogLM(
-  agent_name="qa_agent",
-  system_prompt=system_prompt,
   input_variables=[qa_question],
-  output_format=OutputFormat(schema=Response)
+  output_label=OutputLabel(name="answer")
 )
 
+@cognify.register_workflow
 def call_qa_llm(question):
   messages = [
     {
@@ -126,91 +66,75 @@ def call_qa_llm(question):
     },
     {
       "role": "user",
-      "content": f"{question}"
+      "content": f"Answer the following question: {question}"
     }
   ]
-
-  return struct_cog_agent.forward(
-    messages, 
-    inputs={qa_question: question}
-    model_kwargs, 
+  response = cog_agent(
+    inputs={qa_question: question}, 
+    messages=messages, 
+    model_kwargs=model_kwargs
   )
+  return response.choices[0].message.content
 ```
+
+## Output Formatting
+
+Cognify allows for additional output formatting. In the base `CogLM` class, you can specify custom formatting instructions when defining the output label like so:
+```python
+cog_agent = CogLM(
+  ...
+  output_label=OutputLabel(
+    name="answer", 
+    custom_output_format_instructions="Answer the question in less than 10 words."
+  )
+  ...
+)
+```
+
+### Structured Output
+
+When working with `StructuredCogLM`, you must provide a schema that will be used to format the response.
+```python
+from cognify import ..., StructuredCogLM, OutputFormat
+from pydantic import BaseModel
+
+class ConfidentAnswer(BaseModel):
+  answer: str
+  confidence: float
+
+struct_cog_agent = StructuredCogLM(
+  ...
+  output_format=OutputFormat(
+    schema=ConfidentAnswer
+  )
+  ...
+)
+```
+
+The `OutputFormat` class also supports custom formatting instructions, as well as an optional hint parameter: if `should_hint_format_in_prompt=True`, Cognify will construct more detailed hints for the model based on the provided schema.
+
+The response can be converted back to the intended datatype like so:
+```python
+ans: ConfidentAnswer = struct_cog_agent.parse_response(response)
+```
+Alternatively, you can also call `parse_response_str(response_str)` where `response_str` is `response.choices[0].message.content`. 
 
 ## Image Inputs
 
-You can also specify image inputs. Original code:
-
+The `InputVar` class supports an optional `image_type` parameter, which can take on the values of "web", "jpeg", or "png". If either "jpeg" or "png" is selected, the system expects the image to be Base64 image upload for consistency with the [OpenAI Vision docs](https://platform.openai.com/docs/guides/vision). An image input variable can be specified like so:
 ```python
-import openai
+from cognify import InputVar
+...
+# Typical function to encode the image into base64
+import base64
+def encode_image(image_path):
+  with open(image_path, "rb") as image_file:
+    return base64.b64encode(image_file.read()).decode('utf-8')
 
-system_prompt = "You are a helpful AI assistant built to answer questions about an image."
-model_kwargs = {'model': 'gpt-4o-mini', 'temperature': 0.0, 'max_tokens': 100}
+...
+image_input = InputVar(name="my_image", image_type="png")
+base64_str = encode_image("my_image_path.png")
+...
 
-def call_qa_llm(question, image_path):
-    messages = [
-      {
-        "role": "system",
-        "content": system_prompt
-      },
-      {
-        "role": "user",
-        "content": [
-          {"type": "text", "text": f"{question}"},
-          {
-            "type": "image_url",
-            "image_url": {
-              "url": f"data:image/png;base64,{image_path}"
-            }
-          }
-        ]
-      },
-    ]
-    return openai.chat.completions.create({
-      messages: messages,
-      model_kwargs: model_kwargs
-    })
-```
-
-Ours:
-
-```python
-import cognify
-from cognify.llm import InputVar, ImageParams, CogLM
-
-system_prompt = "You are a helpful AI assistant built to answer questions about an image."
-model_kwargs = {'model': 'gpt-4o-mini', 'temperature': 0.0, 'max_tokens': 100}
-
-qa_question = InputVar(name="question")
-qa_image = InputVar(name="image", ImageParams(is_image_upload=True, file_type='png'))
-cog_agent = CogLM(agent_name="qa_agent",
-  system_prompt=system_prompt,
-  input_variables=[qa_question, qa_image]
-)
-
-@cognify.register
-def call_qa_llm(question, image_path):
-    messages = [
-      {
-        "role": "system",
-        "content": system_prompt
-      },
-      {
-        "role": "user",
-        "content": [
-          {"type": "text", "text": f"{question}"},
-          {
-            "type": "image_url",
-            "image_url": {
-              "url": f"data:image/png;base64,{image_path}"
-            }
-          }
-        ]
-      },
-    ]
-    return cog_agent.forward(
-      messages, 
-      model_kwargs, 
-      inputs={qa_question: question, qa_image: image_path}
-    )
+response = cog_agent(inputs={..., image_input: base64_str, ...})
 ```

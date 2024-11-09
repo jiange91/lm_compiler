@@ -1,0 +1,563 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Introduction &#8212; Cognify 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8a9f7ea2" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'fundamentals/cog_basics/intro';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Out-of-the-box Cogs in Cognify" href="examples.html" />
+    <link rel="prev" title="Cognify Workflow Interface" href="../ir.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cognify 0.1.0 documentation - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Cognify 0.1.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Fundamentals
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api_ref/modules.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WukLab/Cognify" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Fundamentals
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api_ref/modules.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WukLab/Cognify" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Cognify Interface</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ir.html">Cognify Workflow Interface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cog Basics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Out-of-the-box Cogs in Cognify</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="model_selection.html">Model Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reasoning.html">Agent Reasoning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="few_shot.html">Few-Shot Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ensemble.html">Module Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decompose.html">Scaffolding</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Hierarchical Optimizer</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../optimizer/overview.html">Overview</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Fundamentals</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Introduction</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="introduction">
+<span id="cog-intro"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h1>
+<p>In Cognify, workflows are composed of modular components, and <cite>Cogs</cite> define learnable parameters within these modules. Each <cite>Cog</cite> has a set of options that can be applied to change the module behavior. The optimizer selects the best option for each <cite>Cog</cite> based on the evaluation results.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Think of each Cog in Cognify as similar to a learnable weight in a neural network. Just as neuron weight influence how a neural network predicts, Cogs control various aspects of a generative AI workflow by setting different value for each Cog, allowing it to adapt for optimal performance.</p>
+</div>
+<section id="key-concepts">
+<h2>Key Concepts<a class="headerlink" href="#key-concepts" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Cog</strong>: A parameter that needs to be optimized within a module.</p></li>
+<li><p><strong>Option</strong>: A choice or setting available to a <cite>Cog</cite>, each offering different transformations to the module.</p></li>
+<li><p><strong>Dynamic Cog</strong>: A <cite>Cog</cite> capable of evolving during optimization, allowing more advanced adaptability in the options it carries based on evaluation results.</p></li>
+</ul>
+<section id="cog-the-unit-of-optimization">
+<h3>Cog: The Unit of Optimization<a class="headerlink" href="#cog-the-unit-of-optimization" title="Link to this heading">#</a></h3>
+<p>A <cite>Cog</cite> always contains the following attributes:</p>
+<ul class="simple">
+<li><p><strong>name</strong> (<cite>str</cite>): The name of the <cite>Cog</cite>, developers can use this to identify the <cite>Cog</cite> easily. <strong>NO</strong> two <cite>Cogs</cite> should share the same name if they are in the same module.</p></li>
+<li><p><strong>options</strong> (<cite>list[OptionBase]</cite>): A list of options available for this <cite>Cog</cite>, where each option represents a different way of transforming the module.</p></li>
+<li><p><strong>default_option</strong> (<cite>Union[int, str]</cite>): The default option for the <cite>Cog</cite>, specified by index or name.</p></li>
+<li><p><strong>module_name</strong> (<cite>str</cite>): The name of the module where the <cite>Cog</cite> is applied.</p></li>
+<li><p><strong>inherit</strong> (<cite>bool</cite>): Specifies whether current <cite>Cog</cite> can be inherited by new modules derived from the current one during the optimization process. Set to <cite>True</cite> by default.</p></li>
+</ul>
+</section>
+<section id="option-module-behavior-descriptor">
+<h3>Option: Module Behavior Descriptor<a class="headerlink" href="#option-module-behavior-descriptor" title="Link to this heading">#</a></h3>
+<p>Each <cite>Option</cite> encapsulates a unique configuration or transformation for a module. Selecting an option within a <cite>Cog</cite> changes the module’s behavior according to the option’s implementation. The following core information is included in each <cite>Option</cite>:</p>
+<ul>
+<li><p><strong>name</strong> (<cite>str</cite>): The name of the option. This helps developers select or reference specific configurations easily. <strong>NO</strong> two options should share the same name within a <cite>Cog</cite>.</p></li>
+<li><dl>
+<dt><strong>cost_indicator</strong> (<cite>float</cite>): A pre-evaluation estimate of the relative execution cost of applying this option.</dt><dd><ul class="simple">
+<li><p><strong>Purpose</strong>: Helping the optimizer anticipate the expense of evaluating a configuration. This is especially useful when two options are expected to have a similar effect on quality, allowing the optimizer to favor a lower-cost option for a more efficient search.</p></li>
+<li><p><strong>Scope</strong>: The <cite>cost_indicator</cite> only provides a rough estimation to guide frugal search decisions, but it doesn’t replace actual execution costs. You may even set it to a large value to discourage using an option, while the optimizer still relies on real execution costs for final assessment.</p></li>
+<li><p><strong>Usage</strong>: You can override <code class="xref py py-func docutils literal notranslate"><span class="pre">OptionBase._get_cost_indicator()</span></code> to customize the cost penalty for each option. By default it returns <cite>1.0</cite>.</p></li>
+</ul>
+<p class="rubric">Example</p>
+<p>If a module originally costs <cite>$0.5</cite> to execute, and applying this option is expected to increase it to <cite>$1.5</cite>, a reasonable <cite>cost_indicator</cite> would be <cite>3</cite>.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>In addition to these attributes, each <cite>Option</cite> provides an <code class="docutils literal notranslate"><span class="pre">apply</span></code> method that performs the actual transformation on the module. This method is responsible for changing the module based on the option’s configuration.</p>
+</section>
+<section id="dynamiccog-adaptive-parameter-in-cognify">
+<span id="dynamic-cog"></span><h3>DynamicCog: Adaptive Parameter in Cognify<a class="headerlink" href="#dynamiccog-adaptive-parameter-in-cognify" title="Link to this heading">#</a></h3>
+<p>A <cite>DynamicCog</cite> is a specialized type of <cite>Cog</cite> in Cognify that can evolve or adapt its options based on evaluation results during the optimization process. Unlike standard <cite>Cogs</cite>, which have a fixed set of options, <cite>DynamicCogs</cite> are designed to update or generate new options dynamically in response to performance feedback.</p>
+<p>Apart from standard attributes in normal <cite>Cog</cite>, each <cite>DynamicCog</cite> includes an <cite>evolve</cite> method, which defines how the <cite>Cog</cite> should adapt based on evaluation results. This method is customizable, allowing developers to tailor the evolution process to suit specific parameter types or optimization goals.</p>
+<p><strong>Benefits of Using DynamicCog</strong></p>
+<p>The adaptability of <cite>DynamicCogs</cite> allows for more granular control over parameters that benefit from dynamic refinement. By enabling parameters to evolve based on evaluation feedback, <cite>DynamicCogs</cite> make Cognify’s optimization process more efficient and effective, particularly for complex workflows requiring iterative improvements.</p>
+<p><strong>Note</strong>: The exact behavior of a <cite>DynamicCog</cite> depends on how the developer implements the <cite>evolve</cite> method. This customization provides flexibility, allowing <cite>DynamicCogs</cite> to be tailored to various types of parameters.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="few_shot.html#cognify-fewshot"><span class="std std-ref">Few-Shot Learning</span></a></p>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../ir.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Cognify Workflow Interface</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="examples.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Out-of-the-box Cogs in Cognify</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-concepts">Key Concepts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cog-the-unit-of-optimization">Cog: The Unit of Optimization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-module-behavior-descriptor">Option: Module Behavior Descriptor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamiccog-adaptive-parameter-in-cognify">DynamicCog: Adaptive Parameter in Cognify</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/fundamentals/cog_basics/intro.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, GenseeAI Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

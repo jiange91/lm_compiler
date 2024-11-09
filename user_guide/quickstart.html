@@ -1,0 +1,776 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Cognify Quickstart &#8212; Cognify 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=8a9f7ea2" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/quickstart';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Fundamentals" href="../fundamentals/index.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Cognify 0.1.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Cognify 0.1.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../fundamentals/index.html">
+    Fundamentals
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api_ref/modules.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WukLab/Cognify" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../fundamentals/index.html">
+    Fundamentals
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api_ref/modules.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WukLab/Cognify" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">What is Cognify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Cognify Quickstart</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User Guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Cognify Quickstart</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="cognify-quickstart">
+<span id="id1"></span><h1>Cognify Quickstart<a class="headerlink" href="#cognify-quickstart" title="Link to this heading">#</a></h1>
+<p>Building a high-quality, cost-effective generative AI application requires a systematic approach to defining, evaluating, and optimizing workflows. Cognify enables this by providing tools to construct multi-agent workflows, evaluate them against specific metrics, and systematically tune them for both quality and cost.</p>
+<section id="integrate-cognify-in-3-steps">
+<h2>Integrate Cognify in <strong>3</strong> Steps<a class="headerlink" href="#integrate-cognify-in-3-steps" title="Link to this heading">#</a></h2>
+<section id="connect-to-your-workflow">
+<h3>1. Connect to Your Workflow<a class="headerlink" href="#connect-to-your-workflow" title="Link to this heading">#</a></h3>
+<p>The first step in using Cognify is to connect it to your existing generative AI workflow. This involves integrating Cognify’s internal representation (IR) with the original components of your workflow, allowing the optimizer to control each agent’s behavior. The flexibility of Cognify’s IR means it can adapt to various AI modules, including LangChain, DSPy, and low-level Python code.</p>
+</section>
+<section id="build-the-evaluation-pipeline">
+<h3>2. Build the Evaluation Pipeline<a class="headerlink" href="#build-the-evaluation-pipeline" title="Link to this heading">#</a></h3>
+<p>Once the initial workflow is connected, the next step is to create an evaluation pipeline. This involves defining the data sources and performance metrics that will be used to assess the workflow.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Data Source</strong>: The evaluation pipeline begins by selecting a dataset appropriate for the task, such as a question-answering dataset for QA workflows. Cognify allows users to register a data loader function that returns a sequence of input/output paris for evaluation.</p></li>
+<li><p><strong>Metric Definition</strong>: A scoring function is defined to measure the accuracy or relevance of the workflow’s output. The evaluation metric helps quantify workflow performance, allowing the optimizer to reason about how to search different configurations.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="configure-the-optimizer-behavior">
+<h3>3. Configure the Optimizer Behavior<a class="headerlink" href="#configure-the-optimizer-behavior" title="Link to this heading">#</a></h3>
+<p>With the workflow and evaluation pipeline in place, the final step is configuring the optimizer to refine the workflow’s performance. Cognify’s optimizer is highly flexible, enabling both fine-grained parameter tuning and larger structural adjustments to the workflow.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Select Search Space</strong>: Define the <em>Cogs</em> and their <em>Options</em> that the optimizer will explore, also known as the search space.</p></li>
+<li><p><strong>Decide Cog Placement</strong>: Determine at which optimization <em>layer</em> each <em>Cog</em> should be placed. This decision impacts the update frequency at each Cog dimension and the stability of the optimization process.</p></li>
+<li><p><strong>Config Optimization Settings</strong>: Establish the overall optimization strategy by defining the settings for search iterations, resource allocation policy and quality constraints. Normally users can control the trade-off between optimization cost and result by adjusting the configuration here.</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="a-minimal-example">
+<h2>A Minimal Example<a class="headerlink" href="#a-minimal-example" title="Link to this heading">#</a></h2>
+<p>Now let’s walk through setting up the optimization pipeline for a single-agent system. In this example, we will define a single agent designed to answer user question using <strong>retrieval-augmented generation (RAG)</strong>. We will follow the three steps outlined above to perform parameter tuning for this workload.</p>
+<section id="step-0-5-setup-the-optimization-environment">
+<h3>Step 0.5: Setup the optimization environment<a class="headerlink" href="#step-0-5-setup-the-optimization-environment" title="Link to this heading">#</a></h3>
+<p>To get started, let’s first prepare the project file structure as follows:</p>
+<ol class="arabic simple">
+<li><p>Create a folder called <code class="docutils literal notranslate"><span class="pre">my_project</span></code>. This will serve as the root directory for your optimization pipeline.</p></li>
+<li><p>Inside the <code class="docutils literal notranslate"><span class="pre">my_project</span></code> folder, create the following files:</p>
+<ul class="simple">
+<li><p><strong>.env</strong>: This file will contain necessary environment variables, such as API keys.</p></li>
+<li><p><strong>workflow.py</strong>: This will contain the definition of your agent workflow.</p></li>
+<li><p><strong>data_loader.py</strong>: This file will define the dataset used to evaluate the workflow.</p></li>
+<li><p><strong>evaluator.py</strong>: This will contain the evaluation metric or scoring function for your workflow.</p></li>
+<li><p><strong>control_param.py</strong>: This file will specify the control parameters for the optimizer.</p></li>
+</ul>
+</li>
+</ol>
+<p>The resulting structure should look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>my_project
+├── .env
+├── workflow.py
+├── data_loader.py
+├── evaluator.py
+└── control_param.py
+</pre></div>
+</div>
+<p>In the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file, set your openai API key as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&quot;YOUR_API_KEY&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="step-1-connect-to-your-workflow">
+<h3>Step 1: Connect to your workflow<a class="headerlink" href="#step-1-connect-to-your-workflow" title="Link to this heading">#</a></h3>
+<p>Say our original workflow is defined in <em>DSPy</em>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dspy</span>
+
+<span class="n">colbert</span> <span class="o">=</span> <span class="n">dspy</span><span class="o">.</span><span class="n">ColBERTv2</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;&lt;YOUR_URL&gt;/api/search&#39;</span><span class="p">)</span> <span class="c1"># replace this with your own ColBERT server</span>
+<span class="n">gpt4o_mini</span> <span class="o">=</span> <span class="n">dspy</span><span class="o">.</span><span class="n">LM</span><span class="p">(</span><span class="s1">&#39;gpt-4o-mini&#39;</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">dspy</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">lm</span><span class="o">=</span><span class="n">gpt4o_mini</span><span class="p">,</span> <span class="n">rm</span><span class="o">=</span><span class="n">colbert</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Agent</span><span class="p">(</span><span class="n">dspy</span><span class="o">.</span><span class="n">Signature</span><span class="p">):</span>
+<span class="w">   </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">   You are an expert in responding to user questions based on provided context.</span>
+<span class="sd">   &quot;&quot;&quot;</span>
+   <span class="n">question</span> <span class="o">=</span> <span class="n">dspy</span><span class="o">.</span><span class="n">InputField</span><span class="p">()</span>
+   <span class="n">context</span> <span class="o">=</span> <span class="n">dspy</span><span class="o">.</span><span class="n">InputField</span><span class="p">()</span>
+   <span class="n">answer</span> <span class="o">=</span> <span class="n">dspy</span><span class="o">.</span><span class="n">OutputField</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">QAWorkflow</span><span class="p">(</span><span class="n">dspy</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">retrieve</span> <span class="o">=</span> <span class="n">dspy</span><span class="o">.</span><span class="n">Retrieve</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">()</span>
+
+   <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">):</span>
+      <span class="n">docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">question</span><span class="p">)</span><span class="o">.</span><span class="n">passages</span>
+      <span class="n">answer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="p">(</span><span class="n">question</span><span class="o">=</span><span class="n">question</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">docs</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">answer</span>
+</pre></div>
+</div>
+<p>Now we want the optimizer to hook on the LLM agent in this workflow and tune its parameters. To do this, we will replace the dspy agent with <cite>Cognify</cite> semantics as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compiler.llm.model</span> <span class="kn">import</span> <span class="n">CogLM</span>
+<span class="kn">from</span> <span class="nn">compiler.llm</span> <span class="kn">import</span> <span class="n">InputVar</span><span class="p">,</span> <span class="n">OutputLabel</span>
+<span class="kn">from</span> <span class="nn">compiler.frontends.dspy.connector</span> <span class="kn">import</span> <span class="n">as_predict</span>
+
+<span class="n">cognify_agent</span> <span class="o">=</span> <span class="n">CogLM</span><span class="p">(</span>
+   <span class="n">agent_name</span><span class="o">=</span><span class="s1">&#39;qa_agent&#39;</span><span class="p">,</span>
+   <span class="n">system_prompt</span><span class="o">=</span><span class="s1">&#39;You are an expert in responding to user questions based on provided context.&#39;</span><span class="p">,</span>
+   <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span>
+      <span class="n">InputVar</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;question&quot;</span><span class="p">),</span>
+      <span class="n">InputVar</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;context&quot;</span><span class="p">)</span>
+   <span class="p">],</span>
+   <span class="n">output</span><span class="o">=</span><span class="n">OutputLabel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;answer&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="n">as_predict</span><span class="p">(</span><span class="n">cognify_agent</span><span class="p">)</span> <span class="c1"># apply adapter for easier integration</span>
+
+<span class="k">class</span> <span class="nc">QAWorkflow</span><span class="p">(</span><span class="n">dspy</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">retrieve</span> <span class="o">=</span> <span class="n">dspy</span><span class="o">.</span><span class="n">Retrieve</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">agent</span> <span class="o">=</span> <span class="n">agent</span>
+
+   <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">):</span>
+      <span class="n">docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">question</span><span class="p">)</span><span class="o">.</span><span class="n">passages</span>
+      <span class="n">answer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="p">(</span><span class="n">question</span><span class="o">=</span><span class="n">question</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">docs</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">answer</span>
+</pre></div>
+</div>
+<p>We will save the modified workflow in <code class="docutils literal notranslate"><span class="pre">workflow.py</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dspy</span>
+<span class="kn">from</span> <span class="nn">compiler.llm.model</span> <span class="kn">import</span> <span class="n">CogLM</span>
+<span class="kn">from</span> <span class="nn">compiler.llm</span> <span class="kn">import</span> <span class="n">InputVar</span><span class="p">,</span> <span class="n">OutputLabel</span>
+<span class="kn">from</span> <span class="nn">compiler.frontends.dspy.connector</span> <span class="kn">import</span> <span class="n">as_predict</span>
+<span class="kn">from</span> <span class="nn">compiler.optimizer</span> <span class="kn">import</span> <span class="n">register_opt_program_entry</span>
+
+<span class="n">colbert</span> <span class="o">=</span> <span class="n">dspy</span><span class="o">.</span><span class="n">ColBERTv2</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;&lt;YOUR_URL&gt;/api/search&#39;</span><span class="p">)</span> <span class="c1"># replace this with your own ColBERT server</span>
+<span class="n">dspy</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">rm</span><span class="o">=</span><span class="n">colbert</span><span class="p">)</span>
+
+<span class="n">cognify_agent</span> <span class="o">=</span> <span class="n">CogLM</span><span class="p">(</span>
+   <span class="n">agent_name</span><span class="o">=</span><span class="s1">&#39;qa_agent&#39;</span><span class="p">,</span>
+   <span class="n">system_prompt</span><span class="o">=</span><span class="s1">&#39;You are an expert in responding to user questions based on provided context.&#39;</span><span class="p">,</span>
+   <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span>
+      <span class="n">InputVar</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;question&quot;</span><span class="p">),</span>
+      <span class="n">InputVar</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;context&quot;</span><span class="p">)</span>
+   <span class="p">],</span>
+   <span class="n">output</span><span class="o">=</span><span class="n">OutputLabel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;answer&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="n">as_predict</span><span class="p">(</span><span class="n">cognify_agent</span><span class="p">)</span> <span class="c1"># apply adapter for easier integration</span>
+
+<span class="k">class</span> <span class="nc">QAWorkflow</span><span class="p">(</span><span class="n">dspy</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">retrieve</span> <span class="o">=</span> <span class="n">dspy</span><span class="o">.</span><span class="n">Retrieve</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">agent</span> <span class="o">=</span> <span class="n">agent</span>
+
+   <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">):</span>
+      <span class="n">docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">question</span><span class="p">)</span><span class="o">.</span><span class="n">passages</span>
+      <span class="n">answer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="p">(</span><span class="n">question</span><span class="o">=</span><span class="n">question</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">docs</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">answer</span>
+
+<span class="n">workflow</span> <span class="o">=</span> <span class="n">QAWorkflow</span><span class="p">()</span>
+
+<span class="c1"># Also, in order to tell the optimizer how to use this workflow</span>
+<span class="c1"># we need to register an invoke function with the annotation</span>
+<span class="nd">@register_opt_program_entry</span>
+<span class="k">def</span> <span class="nf">invoke_workflow</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+   <span class="k">return</span> <span class="n">workflow</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-2-build-the-evaluation-pipeline">
+<h3>Step 2: Build the Evaluation Pipeline<a class="headerlink" href="#step-2-build-the-evaluation-pipeline" title="Link to this heading">#</a></h3>
+<p>Next, we will define the data loader and evaluator for our workflow, in <code class="docutils literal notranslate"><span class="pre">data_loader.py</span></code> and <code class="docutils literal notranslate"><span class="pre">evaluator.py</span></code> respectively.</p>
+<section id="define-data-loader">
+<h4>2.1 Define data loader<a class="headerlink" href="#define-data-loader" title="Link to this heading">#</a></h4>
+<p>Cognify expects a function that returns (<strong>input / ground_truth</strong>) pairs for the optimizer to use. These variables will be used in the following way:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># workflow &lt;- optimizer.propose()</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">call_your_workflow</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">call_your_evaluator</span><span class="p">(</span><span class="n">ground_truth</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
+<span class="c1"># optimizer.update(workflow, score)</span>
+</pre></div>
+</div>
+<p>Variables like input/ground_truth/prediction will be forwarded to the corresponding functions directly without any modification. While this provides utmost flexibility in the data format, it is your responsibility to ensure function signatures match the expected input/output.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If your metric does not need a ground truth, e.g. using LLM judge with only scoring criteria, you are free to use any dummy value or <code class="docutils literal notranslate"><span class="pre">None</span></code> for the output entry.</p>
+<p>Current optimizer will not try to inspect or exploit the ground truth information.</p>
+</div>
+<p>In this example, we provide a small subset of examples from HotPotQA dataset. The function will be registered to the optimizer as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compiler.optimizer.registry</span> <span class="kn">import</span> <span class="n">register_data_loader</span>
+
+<span class="nd">@register_data_loader</span>
+<span class="k">def</span> <span class="nf">load_data</span><span class="p">():</span>
+   <span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="c1"># 13 pairs of user question (input) and short answer (ground truth)</span>
+      <span class="p">(</span><span class="s2">&quot;&quot;&quot;Are Walt Disney and Sacro GRA both documentry films?&quot;&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;yes&quot;&quot;&quot;</span><span class="p">),</span>
+      <span class="p">(</span><span class="s2">&quot;&quot;&quot;What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?&quot;&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;design their own interdisciplinary program&quot;&quot;&quot;</span><span class="p">),</span>
+      <span class="p">(</span><span class="s2">&quot;&quot;&quot;Which is published more frequently, The People&#39;s Friend or Bust?&quot;&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;The People&#39;s Friend&quot;&quot;&quot;</span><span class="p">),</span>
+      <span class="p">(</span><span class="s2">&quot;&quot;&quot;How much is spent on the type of whiskey that 1792 Whiskey is in the United States?&quot;&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;about $2.7 billion&quot;&quot;&quot;</span><span class="p">),</span>
+      <span class="p">(</span><span class="s2">&quot;&quot;&quot;The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?&quot;&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;1856&quot;&quot;&quot;</span><span class="p">),</span>
+      <span class="p">(</span><span class="s2">&quot;&quot;&quot;What year did the mountain known in Italian as &quot;Monte Vesuvio&quot;, erupt?&quot;&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;79 AD&quot;&quot;&quot;</span><span class="p">),</span>
+      <span class="p">(</span><span class="s2">&quot;&quot;&quot;What was the full name of the author that memorialized Susan Bertie through her single volume of poems?&quot;&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;Emilia Lanier&quot;&quot;&quot;</span><span class="p">),</span>
+      <span class="p">(</span><span class="s2">&quot;&quot;&quot;How many seasons did, the Guard with a FG</span><span class="si">%%</span><span class="s2"> around .420, play in the NBA ?&quot;&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;14 seasons&quot;&quot;&quot;</span><span class="p">),</span>
+      <span class="p">(</span><span class="s2">&quot;&quot;&quot;Estonian Philharmonic Chamber Choir won the grammy Award for Best Choral Performance for two songs by a composer born in what year ?&quot;&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;1935&quot;&quot;&quot;</span><span class="p">),</span>
+      <span class="p">(</span><span class="s2">&quot;&quot;&quot;Which of the sport analyst of The Experts Network is nicknamed  &quot;The Iron Man&quot;?&quot;&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;Calvin Edwin Ripken Jr.&quot;&quot;&quot;</span><span class="p">),</span>
+      <span class="p">(</span><span class="s2">&quot;&quot;&quot;What are both National Bird and America&#39;s Heart and Soul?&quot;&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;What are both National Bird and America&#39;s Heart and Soul?&quot;&quot;&quot;</span><span class="p">),</span>
+      <span class="p">(</span><span class="s2">&quot;&quot;&quot;What was the 2010 population of the birthplace of Gerard Piel?&quot;&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;17,121&quot;&quot;&quot;</span><span class="p">),</span>
+      <span class="p">(</span><span class="s2">&quot;&quot;&quot;On what streets is the hospital that cared for Molly Meldrum located?&quot;&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;the corner of Commercial and Punt Roads&quot;&quot;&quot;</span><span class="p">),</span>
+   <span class="p">]</span>
+   <span class="n">train_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+   <span class="n">validation_data</span> <span class="o">=</span> <span class="kc">None</span>
+   <span class="n">test_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span>
+   <span class="k">return</span> <span class="n">train_data</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">test_data</span>
+</pre></div>
+</div>
+<p>Just like dataloaders in many other frameworks (e.g. huggingface, pytorch), this function should also split the data into train/validation/test sets. In this example, we use the first 5 examples as training data, and the rest as test data. The validation set is set to <code class="docutils literal notranslate"><span class="pre">None</span></code> for simplicity.</p>
+</section>
+<section id="define-evaluation-method">
+<h4>2.2 Define evaluation method<a class="headerlink" href="#define-evaluation-method" title="Link to this heading">#</a></h4>
+<p>Cognify expects a function that takes in the ground truth and prediction, and returns a numeric score. In this example, we will use the F1 score as the evaluation metric. The function will be registered to the optimizer as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dsp.utils.metrics</span> <span class="kn">import</span> <span class="n">F1</span>
+
+<span class="nd">@register_opt_score_fn</span>
+<span class="k">def</span> <span class="nf">answer_f1</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pred</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+   <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+      <span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="n">label</span><span class="p">]</span>
+   <span class="n">score</span> <span class="o">=</span> <span class="n">F1</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+   <span class="k">return</span> <span class="n">score</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="step-3-configure-the-optimizer-behavior">
+<h3>Step 3: Configure the Optimizer Behavior<a class="headerlink" href="#step-3-configure-the-optimizer-behavior" title="Link to this heading">#</a></h3>
+<p>Finally, we will define the control parameters for the optimizer in <code class="docutils literal notranslate"><span class="pre">control_param.py</span></code>. The optimizer will use these parameters to guide the search process.</p>
+<p>In this example, we will give a simple configuration for the optimizer. The search space has only one layer, meaning all parameters will be tuned jointly in a single optimization routine.</p>
+<p>The parameters we want to tune for the LLM agent include</p>
+<ol class="arabic simple">
+<li><p>the reasoning style</p></li>
+<li><p>few-shot examples to add to the prompt</p></li>
+</ol>
+<p>The optimizer will search for different combinations of these parameters to trade-off the F1 score and the cost of running the workflow.</p>
+<p>The final configuration file will look like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compiler.cog_hub</span> <span class="kn">import</span> <span class="n">reasoning</span><span class="p">,</span> <span class="n">fewshot</span>
+<span class="kn">from</span> <span class="nn">compiler.cog_hub.common</span> <span class="kn">import</span> <span class="n">NoChange</span>
+<span class="kn">from</span> <span class="nn">compiler.optimizer.control_param</span> <span class="kn">import</span> <span class="n">ControlParameter</span>
+<span class="kn">from</span> <span class="nn">compiler.optimizer.core</span> <span class="kn">import</span> <span class="n">driver</span><span class="p">,</span> <span class="n">flow</span>
+
+<span class="c1"># Define search space</span>
+<span class="n">reasoning_param</span> <span class="o">=</span> <span class="n">reasoning</span><span class="o">.</span><span class="n">LMReasoning</span><span class="p">(</span>
+   <span class="p">[</span><span class="n">NoChange</span><span class="p">(),</span> <span class="n">reasoning</span><span class="o">.</span><span class="n">ZeroShotCoT</span><span class="p">()]</span>
+<span class="p">)</span>
+
+<span class="n">fewshot_param</span> <span class="o">=</span> <span class="n">fewshot</span><span class="o">.</span><span class="n">FewShot</span><span class="p">(</span><span class="n">max_num</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Decide parameter placement</span>
+<span class="n">single_layer_config</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">LayerConfig</span><span class="p">(</span>
+   <span class="n">layer_name</span><span class="o">=</span><span class="s1">&#39;simple_optimization_layer&#39;</span><span class="p">,</span>
+   <span class="n">universal_params</span><span class="o">=</span><span class="p">[</span><span class="n">reasoning_param</span><span class="p">,</span> <span class="n">fewshot_param</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="c1"># Register optimizer settings</span>
+<span class="n">optimize_control_param</span> <span class="o">=</span> <span class="n">ControlParameter</span><span class="p">(</span>
+   <span class="n">opt_layer_configs</span><span class="o">=</span><span class="p">[</span><span class="n">single_layer_config</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="run-the-optimization">
+<h3>Run the Optimization<a class="headerlink" href="#run-the-optimization" title="Link to this heading">#</a></h3>
+<p>With all the components in place, you can now run the optimization to find the most cost-efficient way to apply these prompt engineer techniques.</p>
+<p>If you follow the naming convension in the example above, you can run the following command in the terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>my_project
+cognify<span class="w"> </span>optimize<span class="w"> </span>workflow.py
+</pre></div>
+</div>
+<p>otherwise you can specify the file names explicitly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>my_project
+cognify<span class="w"> </span>optimize<span class="w"> </span>workflow.py<span class="w"> </span>-d<span class="w"> </span>&lt;data_loader<span class="w"> </span>file<span class="w"> </span>name&gt;<span class="w"> </span>-e<span class="w"> </span>&lt;evaluator<span class="w"> </span>file<span class="w"> </span>name&gt;<span class="w"> </span>-c<span class="w"> </span>&lt;control_param<span class="w"> </span>file<span class="w"> </span>name&gt;
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="installation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Installation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../fundamentals/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Fundamentals</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integrate-cognify-in-3-steps">Integrate Cognify in <strong>3</strong> Steps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-your-workflow">1. Connect to Your Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#build-the-evaluation-pipeline">2. Build the Evaluation Pipeline</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-the-optimizer-behavior">3. Configure the Optimizer Behavior</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-minimal-example">A Minimal Example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-0-5-setup-the-optimization-environment">Step 0.5: Setup the optimization environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-connect-to-your-workflow">Step 1: Connect to your workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-build-the-evaluation-pipeline">Step 2: Build the Evaluation Pipeline</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-data-loader">2.1 Define data loader</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-evaluation-method">2.2 Define evaluation method</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-configure-the-optimizer-behavior">Step 3: Configure the Optimizer Behavior</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-optimization">Run the Optimization</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/user_guide/quickstart.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, GenseeAI Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

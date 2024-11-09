@@ -1,0 +1,632 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Few-Shot Learning &#8212; Cognify 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8a9f7ea2" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'fundamentals/cog_basics/few_shot';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Module Ensemble" href="ensemble.html" />
+    <link rel="prev" title="Agent Reasoning" href="reasoning.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cognify 0.1.0 documentation - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Cognify 0.1.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Fundamentals
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api_ref/modules.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WukLab/Cognify" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Fundamentals
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api_ref/modules.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WukLab/Cognify" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Cognify Interface</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ir.html">Cognify Workflow Interface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cog Basics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="examples.html">Out-of-the-box Cogs in Cognify</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="model_selection.html">Model Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reasoning.html">Agent Reasoning</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Few-Shot Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ensemble.html">Module Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decompose.html">Scaffolding</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Hierarchical Optimizer</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../optimizer/overview.html">Overview</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Fundamentals</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="examples.html" class="nav-link">Out-of-the-box Cogs in Cognify</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Few-Shot Learning</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="few-shot-learning">
+<span id="cognify-fewshot"></span><h1>Few-Shot Learning<a class="headerlink" href="#few-shot-learning" title="Link to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>The <strong>Few-Shot Learning Cog</strong> (<cite>LMFewShot</cite>) enables embedding of few-shot examples to guide the behavior of language models. This Cog allows the optimizer to select the best demonstrations from an evaluation dataset, helping the model achieve better task performance by using the most relevant examples.</p>
+<p>This Cog is a type of <a class="reference internal" href="intro.html#dynamic-cog"><span class="std std-ref">DynamicCog</span></a>. As a <strong>DynamicCog</strong>, it evolves over time by continuously updating its options based on new evaluation results. This adaptability allows the Few-Shot Learning Cog to maintain an optimal set of examples that maximize the alignment to the given task.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Like a Python closure capturing variables, the Few-Shot Learning Cog can retain high-quality demonstrations from more expensive configurations during optimization. This allows the final solution to benefit from the reasoning or generation quality of those higher-cost trials, without needing to adopt the full expense of those configurations in production.</p>
+</div>
+<p class="rubric">Key Attributes</p>
+<ul class="simple">
+<li><p><strong>max_num</strong> (<cite>int</cite>): The maximum number of demonstrations (few-shot examples) to include in each option.</p></li>
+</ul>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>In current implementation, Cognify limits the search space by always trying to select demonstration sets of size <code class="docutils literal notranslate"><span class="pre">max_num</span></code> as the options available to the optimizer.</p>
+</div>
+<ul class="simple">
+<li><p><strong>allow_duplicate</strong> (<cite>bool</cite>): Determines whether multiple demonstrations of the same data point can appear in the option set. This can be useful for controlling the expoitation and exploration trade-off in few-shot examples.</p></li>
+</ul>
+<div class="admonition-follow-up admonition">
+<p class="admonition-title">Follow-up</p>
+<p>By enabling <code class="docutils literal notranslate"><span class="pre">allow_duplicate</span></code>, a few-shot option can contain different solution paths for the same task. This can be benefitial if tasks are alike but can be solved in different ways.</p>
+<p>Disabling <code class="docutils literal notranslate"><span class="pre">allow_duplicate</span></code> means that demonstrations selected in each option cover different inputs. This ensures diversity in the few-shot examples, which can be useful for generalization.</p>
+</div>
+<ul class="simple">
+<li><p><strong>Options</strong> (<cite>DemoOption</cite>): Each option represents a unique combination of few-shot demonstrations, dynamically updated based on the evaluation scores.</p></li>
+</ul>
+</section>
+<section id="a-glance-into-demonstrations">
+<h2>A Glance into Demonstrations<a class="headerlink" href="#a-glance-into-demonstrations" title="Link to this heading">#</a></h2>
+<p>In Cognify’s few-shot learning approach, a <strong>Demonstration</strong> contains a complete example that includes inputs, an expected output, and optional reasoning. These demonstrations are used within prompts to guide and steer the agent’s behavior, enabling the model to learn from high-quality examples and apply similar reasoning in new situations.</p>
+<p class="rubric">What Information Does a Demonstration Carry?</p>
+<ul class="simple">
+<li><p><strong>Input Variables</strong> (<cite>filled_input_variables</cite>): A list of <code class="docutils literal notranslate"><span class="pre">FilledInputVar</span></code> each carries the input label (a descriptive name) and the value in string.</p></li>
+<li><p><strong>Output</strong> (<cite>output</cite>): The expected response for the input, which the model should strive to capture the pattern or logic behind.</p></li>
+<li><p><strong>Reasoning</strong> (<cite>reasoning</cite>, optional): An optional explanation of the reasoning process behind the output. This field provides insight into the steps or thought process used to arrive at the answer, which can enhance the model’s understanding and improve its problem-solving ability.</p></li>
+<li><p><strong>ID</strong> (<cite>id</cite>): A unique identifier for the demonstration, which helps manage and reference specific examples.</p></li>
+</ul>
+</section>
+<section id="few-shot-example-evolving-process">
+<h2>Few-Shot Example Evolving Process<a class="headerlink" href="#few-shot-example-evolving-process" title="Link to this heading">#</a></h2>
+<p>The Few-Shot Learning Cog tracks evaluation scores for each data point. It updates the options whenever the top-K combination changes the composition, adding a new option that includes the new top-K demonstrations.</p>
+<ol class="arabic simple">
+<li><p><strong>Initialization</strong>: The Cog can start with a user-defined set or an empty set of few-shot examples.</p></li>
+<li><p><strong>Tracking by Data Points</strong>: The <cite>Few-Shot Learning Cog</cite> monitors the highest score for each data point in the evaluation dataset, with top-scoring data points serving as potential examples.</p></li>
+<li><p><strong>Updating Option Set</strong>: In each optimization iteration, if any data point achieves a new high score and meets specified criteria (e.g., uniqueness if <code class="docutils literal notranslate"><span class="pre">allow_duplicate</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>), a new option is created with the current top-K highest-scoring data points as demonstrations, guiding the model’s behavior.</p></li>
+</ol>
+</section>
+<section id="demooption">
+<h2>DemoOption<a class="headerlink" href="#demooption" title="Link to this heading">#</a></h2>
+<p>Each <cite>DemoOption</cite> encapsulates a set of few-shot demonstrations used to guide the model generalization. Key elements include:</p>
+<ul class="simple">
+<li><p><strong>demos</strong> (<cite>list[Demonstration]</cite>): A list of selected demonstrations, each</p></li>
+<li><p><strong>cost_indicator</strong> (<cite>float</cite>): A simple heuristic using the number of demonstrations to estimate the cost of applying this option. Assumption is that each example’s input/output length is similar to the orignal task.</p></li>
+<li><p><strong>apply</strong> (<cite>Callable</cite>): A emthod that embeds corresponding few-shot examples to LLM calls.</p></li>
+</ul>
+</section>
+<section id="example-usage">
+<h2>Example Usage<a class="headerlink" href="#example-usage" title="Link to this heading">#</a></h2>
+<p>Below we show how to create a simple Few-Shot Learning Cog with empty initial demonstration set:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compiler.cog_hub.fewshot</span> <span class="kn">import</span> <span class="n">LMFewShot</span>
+
+<span class="n">few_shot_cog</span> <span class="o">=</span> <span class="n">LMFewShot</span><span class="p">(</span>
+   <span class="n">max_num</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="c1"># each option will have at most 5 demonstrations</span>
+   <span class="n">name</span><span class="o">=</span><span class="s2">&quot;simple_few_shot_cog&quot;</span><span class="p">,</span>
+   <span class="n">allow_duplicate</span><span class="o">=</span><span class="kc">False</span> <span class="c1"># no demonstrations from the same input in each option</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Cognify also provides a programmable interface to manage and apply your few-shot examples:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compiler.llm.prompt</span> <span class="kn">import</span> <span class="n">Demonstration</span><span class="p">,</span> <span class="n">FilledInputVar</span>
+
+<span class="c1"># A list of demos for task: extract keywords from a question given some hints for retrieval</span>
+<span class="n">demos</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="n">Demonstration</span><span class="p">(</span>
+      <span class="n">filled_input_variables</span><span class="o">=</span><span class="p">[</span>
+         <span class="n">FilledInputVar</span><span class="p">(</span>
+            <span class="n">InputVar</span><span class="p">(</span><span class="s2">&quot;QUESTION&quot;</span><span class="p">),</span>
+            <span class="n">value</span><span class="o">=</span><span class="s2">&quot;What is the annual revenue of Acme Corp in the United States for 2022?&quot;</span>
+         <span class="p">),</span>
+         <span class="n">FilledInputVar</span><span class="p">(</span>
+            <span class="n">InputVar</span><span class="p">(</span><span class="s2">&quot;HINT&quot;</span><span class="p">),</span>
+            <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Focus on financial reports and U.S. market performance for the fiscal year 2022.&quot;</span>
+         <span class="p">)</span>
+      <span class="p">],</span>
+      <span class="n">output</span><span class="o">=</span><span class="s1">&#39;[&quot;annual revenue&quot;, &quot;Acme Corp&quot;, &quot;United States&quot;, &quot;2022&quot;, &quot;financial reports&quot;, &quot;U.S. market performance&quot;, &quot;fiscal year&quot;]&#39;</span>
+   <span class="p">),</span>
+
+   <span class="c1"># Can also optionally provide your reasoning text</span>
+   <span class="n">Demonstration</span><span class="p">(</span>
+      <span class="n">filled_input_variables</span><span class="o">=</span><span class="p">[</span>
+         <span class="n">FilledInputVar</span><span class="p">(</span>
+            <span class="n">InputVar</span><span class="p">(</span><span class="s2">&quot;QUESTION&quot;</span><span class="p">),</span>
+            <span class="n">value</span><span class="o">=</span><span class="s2">&quot;In the Winter and Summer Olympics of 1988, which game has the most number of competitors? Find the difference of the number of competitors between the two games.&quot;</span>
+         <span class="p">),</span>
+         <span class="n">FilledInputVar</span><span class="p">(</span>
+            <span class="n">InputVar</span><span class="p">(</span><span class="s2">&quot;HINT&quot;</span><span class="p">),</span>
+            <span class="n">value</span><span class="o">=</span><span class="s2">&quot;the most number of competitors refer to MAX(COUNT(person_id)); SUBTRACT(COUNT(person_id where games_name = &#39;1988 Summer&#39;), COUNT(person_id where games_name = &#39;1988 Winter&#39;));&quot;</span>
+         <span class="p">)</span>
+      <span class="p">],</span>
+      <span class="n">output</span><span class="o">=</span><span class="s1">&#39;[&quot;Winter Olympics&quot;, &quot;Summer Olympics&quot;, &quot;1988&quot;, &quot;1988 Summer&quot;, &quot;Summer&quot;, &quot;1988 Winter&quot;, &quot;Winter&quot;, &quot;number of competitors&quot;, &quot;difference&quot;, &quot;MAX(COUNT(person_id))&quot;, &quot;games_name&quot;, &quot;person_id&quot;]&#39;</span><span class="p">,</span>
+      <span class="n">reasoning</span><span class="o">=</span><span class="s1">&#39;To extract keyword in the question, we first understand the hints ...&#39;</span>
+   <span class="p">),</span>
+<span class="p">]</span>
+
+<span class="c1"># To add demos to your agent directly</span>
+<span class="kn">from</span> <span class="nn">compiler.llm.model</span> <span class="kn">import</span> <span class="n">CogLM</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="n">CogLm</span><span class="p">()</span>
+<span class="n">agent</span><span class="o">.</span><span class="n">add_demos</span><span class="p">(</span><span class="n">demos</span><span class="o">=</span><span class="n">demos</span><span class="p">)</span>
+
+<span class="c1"># To create a few-shot cog with these predefined demos</span>
+<span class="n">ur_expert</span> <span class="o">=</span> <span class="n">LMFewShot</span><span class="p">(</span>
+   <span class="n">max_num</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+   <span class="n">name</span><span class="o">=</span><span class="s2">&quot;few_shot_cog_with_help&quot;</span><span class="p">,</span>
+   <span class="n">user_demos</span><span class="o">=</span><span class="n">demos</span><span class="p">,</span>
+   <span class="c1"># Uncomment following of you want the optimizer</span>
+   <span class="c1"># to only select from the provided examples</span>
+   <span class="c1"># disable_evolve=True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="reasoning.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Agent Reasoning</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ensemble.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Module Ensemble</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-glance-into-demonstrations">A Glance into Demonstrations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#few-shot-example-evolving-process">Few-Shot Example Evolving Process</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demooption">DemoOption</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-usage">Example Usage</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/fundamentals/cog_basics/few_shot.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, GenseeAI Team.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -47,6 +47,7 @@ To get started, let's first prepare the project file structure as follows:
 
 1. Create a folder called ``my_project``. This will serve as the root directory for your optimization pipeline.
 2. Inside the ``my_project`` folder, create the following files:
+ 
    - **.env**: This file will contain necessary environment variables, such as API keys.
    - **workflow.py**: This will contain the definition of your agent workflow.
    - **data_loader.py**: This file will define the dataset used to evaluate the workflow.

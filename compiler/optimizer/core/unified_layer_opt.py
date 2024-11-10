@@ -524,13 +524,16 @@ class OptimizationLayer:
     def pre_optimize(self):
         ...
     
-    def get_all_candidates(self):
+    def get_all_candidates(self, config_path: str = None):
         cancidates = []
         for log_id, log in self.opt_logs.items():
             # if not meet the quality constraint, skip
             if self.quality_constraint is not None and log.score < self.quality_constraint:
                 continue
-            cancidates.append((log, self.top_down_info.opt_config.opt_log_path))
+            if config_path:
+                cancidates.append((log, config_path))
+            else:
+                cancidates.append((log, self.top_down_info.opt_config.opt_log_path))
         return cancidates
         
     def post_optimize(self):

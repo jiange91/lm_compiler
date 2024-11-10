@@ -42,7 +42,7 @@ Now let's walk through setting up the optimization pipeline for a single-agent s
 
 .. hint::
 
-   The complete code and data for trying this example can be found in ``examples/quickstart`` directory. This tutorial will explain each step in detail.
+   The complete code and data for trying this example can be found at `examples/quickstart <https://github.com/WukLab/Cognify/tree/add_doc_cog/examples/quickstart>`_. This tutorial will explain each step in detail.
 
 Step 0.5: Setup the optimization environment
 --------------------------------------------
@@ -284,7 +284,7 @@ The bottom-layer includes the following parameters:
       [NoChange(), reasoning.ZeroShotCoT()] 
    )
    # Few Shot Parameter
-   few_shot_params = fewshot.LMFewShot(4)
+   few_shot_params = fewshot.LMFewShot(2)
 
 Then we define how the optimizer should search through these parameters:
 
@@ -360,12 +360,12 @@ If you follow the naming convension in the example above, you can run the follow
 
 .. code-block:: bash
    
-   cd my_project
-   cognify optimize workflow.py
+   cd examples/quickstart
+   cognify optimize cognify_workflow.py
 
 otherwise you can specify the file names explicitly:
 
 .. code-block:: bash
 
-   cd my_project
-   cognify optimize workflow.py -d <data_loader file name> -e <evaluator file name> -c <control_param file name>
+   cd examples/quickstart
+   cognify optimize cognify_workflow.py -d <data_loader file name> -e <evaluator file name> -c <control_param file name>

@@ -11,7 +11,7 @@ reasoning_param = reasoning.LMReasoning(
     [NoChange(), ZeroShotCoT()] 
 )
 # Few Shot Parameter
-few_shot_params = LMFewShot(4)
+few_shot_params = LMFewShot(2)
 
 # Layer Config
 inner_opt_config = flow.OptConfig(
@@ -19,7 +19,7 @@ inner_opt_config = flow.OptConfig(
 )
 inner_loop_config = driver.LayerConfig(
     layer_name='inner_loop',
-    universal_params=[reasoning_param],
+    universal_params=[few_shot_params, reasoning_param],
     opt_config=inner_opt_config,
 )
 
@@ -27,7 +27,7 @@ inner_loop_config = driver.LayerConfig(
 # Ensemble Parameter
 general_usc_ensemble = ensemble.UniversalSelfConsistency(3)
 general_ensemble_params = ensemble.ModuleEnsemble(
-    [general_usc_ensemble]
+    [NoChange(), general_usc_ensemble]
 )
 # Layer Config
 outer_opt_config = flow.OptConfig(

@@ -10,6 +10,7 @@ import uuid
 from litellm import ModelResponse
 from typing import Any, List, Dict
 from dataclasses import dataclass
+from langchain_core.messages import AIMessage
 
 APICompatibleMessage = Dict[str, str] # {"role": "...", "content": "..."}
 
@@ -88,7 +89,7 @@ class RunnableCogLM(Runnable):
                   input_variables=input_vars,
                   lm_config=lm_config)
 
-  def invoke(self, input: Dict) -> Any:
+  def invoke(self, input: Dict, config = None, **kwargs: Any) -> Any:
     assert self.cog_lm, "CogLM must be initialized before invoking"
 
     messages = None
@@ -103,7 +104,7 @@ class RunnableCogLM(Runnable):
     if isinstance(self.cog_lm, StructuredCogLM):
       return result
     else:
-      return LangchainOutput(content=result)
+      return AIMessage(result)
     
   def _get_api_compatible_messages(chat_prompt_value: ChatPromptValue) -> List[APICompatibleMessage]:
     api_comptaible_messages: List[APICompatibleMessage] = []

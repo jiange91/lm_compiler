@@ -181,7 +181,7 @@ class MultiLayerOptimizationDriver:
         
         top_layer = self.opt_layers[0]
         top_layer.load_opt_log(opt_config.opt_log_path)
-        all_configs = top_layer.get_all_candidates()
+        all_configs = top_layer.get_all_candidates(opt_config.opt_log_path)
         config_path = None
         for opt_log, path in all_configs:
             if opt_log.id == config_id:

@@ -64,9 +64,6 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
         """
         raise NotImplementedError
 
-    def get_all_model_responses(self):
-        return self.model_responses
-
     def aggregate_reasoning_steps(self, responses: List[ModelResponse]) -> str:
         agg_messages = []
         for response in responses:
@@ -79,14 +76,14 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
         it into two phases, first one allows free generation along with reasoning steps, and the second
         one will the formatting step
         """
-        self.model_responses = []
 
         model: str = model_kwargs.pop("model")
-        responses: List[ModelResponse] = []
+        responses = []
 
         messages.append({"role": "user", "content": "Don't give your final response to the instruction directly. We can start with some reasoning first.\n"})
         reasoning_step_responses: List[ModelResponse] = self.reasoning_step(model, copy.deepcopy(messages), model_kwargs)
-        responses.extend(self.get_all_model_responses())
+        
+        responses.extend(reasoning_step_responses)
         rationale = self.aggregate_reasoning_steps(reasoning_step_responses)
         lm_module.rationale = rationale
 

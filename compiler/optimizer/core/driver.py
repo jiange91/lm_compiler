@@ -23,7 +23,7 @@ class LayerConfig:
         target_modules: Iterable[str] = None,
         save_ckpt_interval: int = 1,
         opt_config: OptConfig = None,
-        use_SH_allocation: bool = True,
+        use_SH_allocation: bool = False,
     ):
         """Config for each optimization layer
         

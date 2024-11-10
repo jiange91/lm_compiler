@@ -99,8 +99,8 @@ Answer: {response}
         for i, expert in enumerate(self.experts):
             if expert.steps:
                 step: StepInfo = expert.steps[-1]
-                rationale = step.get('rationale', None)
-                output = step['output']
+                rationale = step.rationale
+                output = step.output
                 proposal = proposal_template.format(i=i, rationale=rationale, response=output)
                 paths.append(proposal)
         paths_str = '\n---\n'.join(paths)

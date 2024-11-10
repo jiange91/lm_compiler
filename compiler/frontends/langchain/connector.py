@@ -3,6 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTempla
 from langchain_core.prompt_values import ChatPromptValue
 from langchain_core.output_parsers import BaseOutputParser
 from langchain_openai.chat_models.base import BaseChatOpenAI
+from compiler.IR.base import StatePool
 from compiler.llm import CogLM, InputVar, StructuredCogLM, OutputFormat
 from compiler.llm.model import LMConfig
 import uuid
@@ -94,11 +95,15 @@ class RunnableCogLM(Runnable):
     if self.chat_prompt_template:
       chat_prompt_value: ChatPromptValue = self.chat_prompt_template.invoke(input)
       messages = self._get_api_compatible_messages(chat_prompt_value)
-    result: ModelResponse = self.cog_lm(messages, input) # kwargs have already been set when initializing cog_lm
+      
+    statep = StatePool()
+    statep.init(input) 
+    self.cog_lm.invoke(statep) # kwargs have already been set when initializing cog_lm
+    result = statep.news(self.cog_lm.get_output_label_name())
     if isinstance(self.cog_lm, StructuredCogLM):
-      return self.cog_lm.output_format.schema.model_validate_json(result.choices[0].message.content)
+      return result
     else:
-      return LangchainOutput(content=result.choices[0].message.content)
+      return LangchainOutput(content=result)
     
   def _get_api_compatible_messages(chat_prompt_value: ChatPromptValue) -> List[APICompatibleMessage]:
     api_comptaible_messages: List[APICompatibleMessage] = []

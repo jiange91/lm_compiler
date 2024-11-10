@@ -30,6 +30,7 @@ class OptimizerSchema:
 
     @classmethod
     def capture(cls, script_path: str, evaluator_path: str) -> 'OptimizerSchema':
+        clear_registry(),
         capture_module_from_fs(script_path)
         capture_module_from_fs(evaluator_path)
         schema = cls(

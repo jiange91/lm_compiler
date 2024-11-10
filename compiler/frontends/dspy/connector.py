@@ -1,5 +1,6 @@
 import dspy
 from dspy.adapters.chat_adapter import ChatAdapter, prepare_instructions
+from compiler.IR.base import StatePool
 from compiler.llm import CogLM, StructuredCogLM, InputVar, OutputFormat
 from compiler.llm.model import LMConfig
 import uuid
@@ -70,13 +71,11 @@ class PredictCogLM(dspy.Module):
             return self.predictor(**kwargs)
         else:
             inputs: Dict[str, str] = {k.name: kwargs[k.name] for k in self.cog_lm.input_variables}
-            messages = None
-            if self.predictor:
-                messages: APICompatibleMessage = self.chat_adapter.format(self.predictor.extended_signature,
-                                                                        self.predictor.demos,
-                                                                        inputs)
-            response: ModelResponse = self.cog_lm(messages, inputs) # model kwargs already set
-            kwargs: dict = self.cog_lm.output_format.schema.model_validate_json(response.choices[0].message.content).model_dump()
+            statep = StatePool()
+            statep.init(input) 
+            self.cog_lm.invoke(statep) # kwargs have already been set when initializing cog_lm
+            result = statep.news(self.cog_lm.get_output_label_name())
+            kwargs: dict = result.model_dump()
             return dspy.Prediction(**kwargs)
         
 def as_predict(cog_lm: CogLM) -> PredictCogLM:

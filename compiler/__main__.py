@@ -4,6 +4,7 @@ import multiprocessing as mp
 import os
 import logging
 import json
+import debugpy
 
 from compiler.optimizer.plugin import OptimizerSchema
 from compiler.cognify_args import init_cognify_args, OptimizationArgs, EvaluationArgs, InspectionArgs

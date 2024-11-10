@@ -20,159 +20,174 @@ The first step in using Cognify is to connect it to your existing generative AI 
 
 Once the initial workflow is connected, the next step is to create an evaluation pipeline. This involves defining the data sources and performance metrics that will be used to assess the workflow.
 
-   - **Data Source**: The evaluation pipeline begins by selecting a dataset appropriate for the task, such as a question-answering dataset for QA workflows. Cognify allows users to register a data loader function that returns a sequence of input/output paris for evaluation.
-   
-   - **Metric Definition**: A scoring function is defined to measure the accuracy or relevance of the workflow’s output. The evaluation metric helps quantify workflow performance, allowing the optimizer to reason about how to search different configurations.
+- **Data Source**: The evaluation pipeline begins by selecting a dataset appropriate for the task, such as a question-answering dataset for QA workflows. Cognify allows users to register a data loader function that returns a sequence of input/output paris for evaluation.
+
+- **Metric Definition**: A scoring function is defined to measure the accuracy or relevance of the workflow’s output. The evaluation metric helps quantify workflow performance, allowing the optimizer to reason about how to search different configurations.
 
 3. Configure the Optimizer Behavior
 -----------------------------------
 
 With the workflow and evaluation pipeline in place, the final step is configuring the optimizer to refine the workflow’s performance. Cognify’s optimizer is highly flexible, enabling both fine-grained parameter tuning and larger structural adjustments to the workflow.
 
-   - **Select Search Space**: Define the *Cogs* and their *Options* that the optimizer will explore, also known as the search space.
+- **Select Search Space**: Define the *Cogs* and their *Options* that the optimizer will explore, also known as the search space.
 
-   - **Decide Cog Placement**: Determine at which optimization *layer* each *Cog* should be placed. This decision impacts the update frequency at each Cog dimension and the stability of the optimization process.
+- **Decide Cog Placement**: Determine at which optimization *layer* each *Cog* should be placed. This decision impacts the update frequency at each Cog dimension and the stability of the optimization process.
 
-   - **Config Optimization Settings**: Establish the overall optimization strategy by defining the settings for search iterations, resource allocation policy and quality constraints. Normally users can control the trade-off between optimization cost and result by adjusting the configuration here.
+- **Config Optimization Settings**: Establish the overall optimization strategy by defining the settings for search iterations, resource allocation policy and quality constraints. Normally users can control the trade-off between optimization cost and result by adjusting the configuration here.
 
 A Minimal Example
 =================
 
-Now let's walk through setting up the optimization pipeline for a single-agent system. In this example, we will define a single agent designed to answer user question using **retrieval-augmented generation (RAG)**. We will follow the three steps outlined above to perform parameter tuning for this workload.
+Now let's walk through setting up the optimization pipeline for a single-agent system. In this example, we will define a single LLM agent to answer user question using the provided context.
+
+.. hint::
+
+   The complete code and data for trying this example can be found in ``examples/quickstart`` directory. This tutorial will explain each step in detail.
 
 Step 0.5: Setup the optimization environment
 --------------------------------------------
 
-To get started, let's first prepare the project file structure as follows:
+To get started, let's first inspect the project file structure:
 
-1. Create a folder called ``my_project``. This will serve as the root directory for your optimization pipeline.
-2. Inside the ``my_project`` folder, create the following files:
+1. The folder ``quickstart`` serves as the root directory for your optimization pipeline.
+2. Inside the folder, the following files are included:
  
    - **.env**: This file will contain necessary environment variables, such as API keys.
-   - **workflow.py**: This will contain the definition of your agent workflow.
-   - **data_loader.py**: This file will define the dataset used to evaluate the workflow.
+   - **ori_workflow.py**: The primitive AI workflow defined in pure LangGraph.
+   - **cognify_workflow.py**: The workflow to be optimized. Modified with Cognify semantics for the optimizer to hook on.
+   - **data_loader.py**: This file will load the dataset used to evaluate the workflow.
    - **evaluator.py**: This will contain the evaluation metric or scoring function for your workflow.
    - **control_param.py**: This file will specify the control parameters for the optimizer.
+   - **data._json**: A small set of data points. This file is **optional**, include here for the clarity of ``data_loader.py``.
 
-The resulting structure should look like this:
+.. note::
+
+   ``.env`` file is ommitted in the repo, please create the file and set your API keys.
+
+   ``ori_workflow.py`` is not required and is not the workflow to be optimized. Include this file to show how to connect an existing workflow to Cognify.
+
+The overall structure looks like this:
 
 ::
 
-   my_project
+   quickstart/
    ├── .env
-   ├── workflow.py
+   ├── cognify_workflow.py
+   ├── control_param.py
    ├── data_loader.py
+   ├── data._json
    ├── evaluator.py
-   └── control_param.py
+   └── ori_workflow.py
 
-In the ``.env`` file, set your openai API key as follows:
+
+Step 1: Connect to the workflow
+-------------------------------
+
+1.1 Original workflow
+^^^^^^^^^^^^^^^^^^^^^
+Our initial workflow is defined in :file:`ori_workflow.py`. Let's take a closer look at the definition of the llm agent:
+
+.. code-block:: python
+
+   from langchain_openai import ChatOpenAI
+   from pydantic import BaseModel
+   from typing import List
+
+
+   # Define system prompt
+   system_prompt = """
+   You are an expert at answering questions based on provided documents. 
+   Your task is to provide the answer along with all supporting facts in given documents.
+   """
+
+   # Define Pydantic model for structured output
+   class AnswerOutput(BaseModel):
+      answer: str
+      supporting_facts: List[str]
+      
+   # Initialize the model
+   model = ChatOpenAI(model="gpt-4o-mini", temperature=0).with_structured_output(AnswerOutput)
+
+   # Define agent routine 
+   from langchain_core.prompts import ChatPromptTemplate
+   agent_prompt = ChatPromptTemplate.from_messages(
+      [
+         ("system", system_prompt),
+         ("human", "User question: {question} \n\nDocuments: {documents}"),
+      ]
+   )
+
+   qa_agent = agent_prompt | model
+
+The agent is backed by GPT-4o-mini. It takes in a user question and a series of documents, then returns the answer along with supporting facts. The output is structured as a Pydantic model.
+
+You can try running this agent with:
+
+.. code-block:: python
+
+   print(qa_agent.invoke(
+      {
+         "question": "What was the 2010 population of the birthplace of Gerard Piel?", 
+         "documents": """
+            [1]: Gerard Piel | Gerard Piel (1 March 1915 in Woodmere, N.Y. – 5 September 2004) was the publisher of the new Scientific American magazine starting in 1948. He wrote for magazines, including "The Nation", and published books on science for the general public. In 1990, Piel was presented with the "In Praise of Reason" award by the Committee for Skeptical Inquiry (CSICOP).
+            [2]: Woodmere, New York | Woodmere is a hamlet and census-designated place (CDP) in Nassau County, New York, United States. The population was 17,121 at the 2010 census.
+         """,
+      }
+   ))
+
+**Output**:
 
 ::
 
-   OPENAI_API_KEY="YOUR_API_KEY"
+   answer='The 2010 population of Woodmere, New York, the birthplace of Gerard Piel, was 17,121.'
+   supporting_facts=[
+      'Gerard Piel was born on 1 March 1915 in Woodmere, N.Y.', 
+      'Woodmere is a hamlet and census-designated place (CDP) in Nassau County, New York.', 
+      'The population of Woodmere was 17,121 at the 2010 census.'
+   ]
 
+You can further refer to :file:`ori_workflow.py` for the complete implementation.
 
-Step 1: Connect to your workflow
---------------------------------
+1.2 Use Cognify semantics
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Say our original workflow is defined in *DSPy*:
-
-.. code-block:: python
-
-   import dspy
-
-   colbert = dspy.ColBERTv2(url='<YOUR_URL>/api/search') # replace this with your own ColBERT server
-   gpt4o_mini = dspy.LM('gpt-4o-mini', max_tokens=1000)
-   dspy.configure(lm=gpt4o_mini, rm=colbert)
-
-   class Agent(dspy.Signature):
-      """
-      You are an expert in responding to user questions based on provided context.
-      """
-      question = dspy.InputField()
-      context = dspy.InputField()
-      answer = dspy.OutputField()
-
-   class QAWorkflow(dspy.Module):
-      def __init__(self):
-         self.retrieve = dspy.Retrieve(k=2)
-         self.agent = Agent()
-
-      def forward(self, question):
-         docs = self.retrieve(question).passages
-         answer = self.agent(question=question, context=docs)
-         return answer
-
-Now we want the optimizer to hook on the LLM agent in this workflow and tune its parameters. To do this, we will replace the dspy agent with `Cognify` semantics as follows:
+Next, we show how to modify this agent to connect it to the optimizer. Cognify provides rich features to define a LLM agent in a more structured way.
 
 .. code-block:: python
 
-   from compiler.llm.model import CogLM
-   from compiler.llm import InputVar, OutputLabel
-   from compiler.frontends.dspy.connector import as_predict
-
-   cognify_agent = CogLM(
-      agent_name='qa_agent',
-      system_prompt='You are an expert in responding to user questions based on provided context.',
-      input_variables=[
-         InputVar(name="question"),
-         InputVar(name="context")
-      ],
-      output=OutputLabel(name="answer")
+   from compiler.llm.model import StructuredCogLM, InputVar, OutputFormat
+   cognify_qa_agent = StructuredCogLM(
+      agent_name="qa_agent",
+      system_prompt=system_prompt,
+      input_variables=[InputVar(name="question"), InputVar(name="documents")],
+      output_format=OutputFormat(schema=AnswerOutput),
+      lm_config=lm_config
    )
-   agent = as_predict(cognify_agent) # apply adapter for easier integration
 
-   class QAWorkflow(dspy.Module):
-      def __init__(self):
-         self.retrieve = dspy.Retrieve(k=2)
-         self.agent = agent
+   # Use builtin connector for smooth integration
+   from compiler.frontends.langchain.connector import as_runnable
+   qa_agent = as_runnable(cognify_qa_agent)
 
-      def forward(self, question):
-         docs = self.retrieve(question).passages
-         answer = self.agent(question=question, context=docs)
-         return answer
+To facilitate smooth integration with various frontend, we encourage using provided adapters (e.g. ``as_runnable``) to convert the CogLM agent interface. 
 
-We will save the modified workflow in ``workflow.py``. 
+To this point, we successfully create a CogLM agent that the optimizer can transform while seamlessly fitting into the original workflow.
 
-.. code-block:: python
-
-   import dspy
-   from compiler.llm.model import CogLM
-   from compiler.llm import InputVar, OutputLabel
-   from compiler.frontends.dspy.connector import as_predict
-   from compiler.optimizer import register_opt_program_entry
-
-   colbert = dspy.ColBERTv2(url='<YOUR_URL>/api/search') # replace this with your own ColBERT server
-   dspy.configure(rm=colbert)
-
-   cognify_agent = CogLM(
-      agent_name='qa_agent',
-      system_prompt='You are an expert in responding to user questions based on provided context.',
-      input_variables=[
-         InputVar(name="question"),
-         InputVar(name="context")
-      ],
-      output=OutputLabel(name="answer")
-   )
-   agent = as_predict(cognify_agent) # apply adapter for easier integration
-
-   class QAWorkflow(dspy.Module):
-      def __init__(self):
-         self.retrieve = dspy.Retrieve(k=2)
-         self.agent = agent
-
-      def forward(self, question):
-         docs = self.retrieve(question).passages
-         answer = self.agent(question=question, context=docs)
-         return answer
+.. note::
    
-   workflow = QAWorkflow()
-   
-   # Also, in order to tell the optimizer how to use this workflow
-   # we need to register an invoke function with the annotation
-   @register_opt_program_entry
-   def invoke_workflow(input):
-      return workflow.forward(input)
+   Auxiliary messages such as "User question: {question} \n\nDocuments: {documents}" or output format instructions will be automatically added by the Cognify runtime. This simplify the agent definition for users and grant more flexibility for the optimizer to adjust the agent behavior.
+
+You can try running this agent with the same input.
+
+**Output**:
+
+::
+
+   answer='The population of Woodmere, New York in 2010 was 17,121.' 
+   supporting_facts=[
+      'Gerard Piel was born in Woodmere, New York.', 
+      'Woodmere is a hamlet and census-designated place (CDP) in Nassau County, New York, United States.', 
+      'The population of Woodmere was 17,121 at the 2010 census.'
+   ]
 
 
 Step 2: Build the Evaluation Pipeline
@@ -182,110 +197,159 @@ Next, we will define the data loader and evaluator for our workflow, in ``data_l
 
 2.1 Define data loader
 ^^^^^^^^^^^^^^^^^^^^^^
-Cognify expects a function that returns (**input / ground_truth**) pairs for the optimizer to use. These variables will be used in the following way:
+Cognify expects a function that returns (**input / ground_truth**) pairs for the optimizer to use. 
 
+The ``input`` will be forwarded to the workflow directly. The the ``ground_truth`` along with the ``output`` will be forwarded to the evaluator intactly.
+
+In short:
 ::
 
+   # [(input, ground_truth), ...] <- data_loader()
    # workflow <- optimizer.propose()
-   prediction = call_your_workflow(input)
-   score = call_your_evaluator(ground_truth, prediction)
+   # for each pair:
+      prediction = call_your_workflow(input)
+      score = call_your_evaluator(ground_truth, prediction)
    # optimizer.update(workflow, score)
 
-Variables like input/ground_truth/prediction will be forwarded to the corresponding functions directly without any modification. While this provides utmost flexibility in the data format, it is your responsibility to ensure function signatures match the expected input/output.
+While this provides utmost flexibility in the data format, it is your responsibility to ensure function signatures match the expected data type.
 
-.. note::
+.. hint::
 
-   If your metric does not need a ground truth, e.g. using LLM judge with only scoring criteria, you are free to use any dummy value or ``None`` for the output entry. 
+   If your metric does not need a ground truth, e.g. using LLM judge with only scoring criteria, you are free to use any dummy value or ``None`` for the ground_truth. 
    
    Current optimizer will not try to inspect or exploit the ground truth information.
 
-In this example, we provide a small subset of examples from HotPotQA dataset. The function will be registered to the optimizer as follows:
+In this example, we provide a small set of examples from HotPotQA dataset in :file:`data._json`. The data loade  function will read the file and return the pairs as follows:
 
 .. code-block:: python
 
    from compiler.optimizer.registry import register_data_loader
+   import json
 
    @register_data_loader
-   def load_data():
-      data = [
-         # 13 pairs of user question (input) and short answer (ground truth)
-         ("""Are Walt Disney and Sacro GRA both documentry films?""", """yes"""),
-         ("""What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?""", """design their own interdisciplinary program"""),
-         ("""Which is published more frequently, The People's Friend or Bust?""", """The People's Friend"""),
-         ("""How much is spent on the type of whiskey that 1792 Whiskey is in the United States?""", """about $2.7 billion"""),
-         ("""The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?""", """1856"""),
-         ("""What year did the mountain known in Italian as "Monte Vesuvio", erupt?""", """79 AD"""),
-         ("""What was the full name of the author that memorialized Susan Bertie through her single volume of poems?""", """Emilia Lanier"""),
-         ("""How many seasons did, the Guard with a FG%% around .420, play in the NBA ?""", """14 seasons"""),
-         ("""Estonian Philharmonic Chamber Choir won the grammy Award for Best Choral Performance for two songs by a composer born in what year ?""", """1935"""),
-         ("""Which of the sport analyst of The Experts Network is nicknamed  "The Iron Man"?""", """Calvin Edwin Ripken Jr."""),
-         ("""What are both National Bird and America's Heart and Soul?""", """What are both National Bird and America's Heart and Soul?"""),
-         ("""What was the 2010 population of the birthplace of Gerard Piel?""", """17,121"""),
-         ("""On what streets is the hospital that cared for Molly Meldrum located?""", """the corner of Commercial and Punt Roads"""),
-      ]
-      train_data = data[:5]
-      validation_data = None
-      test_data = data[5:]
-      return train_data, None, test_data
+   def load_data_minor():
+      with open("data._json", "r") as f:
+         data = json.load(f)
 
-Just like dataloaders in many other frameworks (e.g. huggingface, pytorch), this function should also split the data into train/validation/test sets. In this example, we use the first 5 examples as training data, and the rest as test data. The validation set is set to ``None`` for simplicity.
+      # format to (input, output) pairs
+      new_data = []
+      for d in data:
+         input = (d["question"], d["docs"])
+         output = d["answer"]
+         new_data.append((input, output))
+      return new_data[:5], None, new_data[5:]
+
+
+Just like dataloaders in many other frameworks (e.g. huggingface, pytorch), this function also split the data into train/validation/test sets. In this example, we use the first 5 rows as training data, and the rest as test data. The validation set is set to ``None`` for simplicity.
 
 2.2 Define evaluation method
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Cognify expects a function that takes in the ground truth and prediction, and returns a numeric score. In this example, we will use the F1 score as the evaluation metric. The function will be registered to the optimizer as follows:
+Cognify expects a function that takes in the ground truth and prediction, and returns a numeric score. 
+
+In this example, we will use the F1 score as the evaluation metric. Please check the ``evaluator.py`` file for the complete code if needed.
+
+The function will be registered to the optimizer as follows:
 
 .. code-block:: python
 
-   from dsp.utils.metrics import F1
+   from compiler.optimizer import register_opt_score_fn
 
    @register_opt_score_fn
-   def answer_f1(label: str, pred: str):
-      if isinstance(label, str):
-         label = [label]
-      score = F1(pred, label)
+   def f1(label: str, pred: str) -> float:
+      score = f1_score_strings(label, pred)
       return score
 
 Step 3: Configure the Optimizer Behavior
 ----------------------------------------
 
-Finally, we will define the control parameters for the optimizer in ``control_param.py``. The optimizer will use these parameters to guide the search process. 
+Finally, we will define control parameters for the optimizer in ``control_param.py``, including the search space and optimization settings.
 
-In this example, we will give a simple configuration for the optimizer. The search space has only one layer, meaning all parameters will be tuned jointly in a single optimization routine.
+In this example, we will construct a simple 2-layer search space for the optimizer to explore.
 
-The parameters we want to tune for the LLM agent include 
+.. rubric:: Bottom-layer
 
-1. the reasoning style
-2. few-shot examples to add to the prompt
+The bottom-layer includes the following parameters:
 
-The optimizer will search for different combinations of these parameters to trade-off the F1 score and the cost of running the workflow.
-
-The final configuration file will look like this:
+1. **reasoning style**: whether to use zero-shot CoT or not
+2. **few-shot examples**: teach the agent with a few good demonstrations
 
 .. code-block:: python
 
    from compiler.cog_hub import reasoning, fewshot
    from compiler.cog_hub.common import NoChange
-   from compiler.optimizer.control_param import ControlParameter
-   from compiler.optimizer.core import driver, flow
 
-   # Define search space
+   # ================= Inner Loop Config =================
+   # Reasoning Parameter
    reasoning_param = reasoning.LMReasoning(
       [NoChange(), reasoning.ZeroShotCoT()] 
    )
+   # Few Shot Parameter
+   few_shot_params = fewshot.LMFewShot(4)
 
-   fewshot_param = fewshot.FewShot(max_num=4)
+Then we define how the optimizer should search through these parameters:
 
-   # Decide parameter placement
-   single_layer_config = driver.LayerConfig(
-      layer_name='simple_optimization_layer',
-      universal_params=[reasoning_param, fewshot_param],
+.. code-block:: python
+
+   from compiler.optimizer.core import driver, flow
+
+   inner_opt_config = flow.OptConfig(
+      n_trials=4,
+   )
+   inner_loop_config = driver.LayerConfig(
+      layer_name='inner_loop',
+      universal_params=[few_shot_params, reasoning_param],
+      opt_config=inner_opt_config,
    )
 
-   # Register optimizer settings
+We register the search space and allow the optimizer to try 4-iterations to find the best combination at the bottom layer.
+
+.. rubric:: Top-layer
+
+Similarly, we define the top-layer search space and the optimizer settings as follows:
+
+.. code-block:: python
+
+   from compiler.cog_hub import ensemble
+
+   # Ensemble Parameter
+   general_usc_ensemble = ensemble.UniversalSelfConsistency(3)
+   general_ensemble_params = ensemble.ModuleEnsemble(
+      [NoChange(), general_usc_ensemble]
+   )
+   # Layer Config
+   outer_opt_config = flow.OptConfig(
+      n_trials=2,
+   )
+   outer_loop_config = driver.LayerConfig(
+      layer_name='outer_loop',
+      universal_params=[general_ensemble_params],
+      opt_config=outer_opt_config,
+   )
+
+At this layer, we will determine if `ensembling <https://arxiv.org/abs/2311.17311>`_ should be applied to the agent in two trials. If applied, multiple agents will be spawned and the final output will be a combination of their outputs.
+
+.. note::
+
+   Each spawned agent will be optimized independently in the bottom layer with the same search space.
+
+   Each top-layer trial will run a complete bottom-layer optimization process, meaning the total number of workflow evaluations will be **2*4 = 8**.
+
+.. rubric:: Overall Optimizer Settings
+
+Finally, we define the control parameters for the optimizer, registering the 2-layer search space and decide the directory to store the optimization results:
+
+.. code-block:: python
+
+   from compiler.optimizer.control_param import ControlParameter
+
    optimize_control_param = ControlParameter(
-      opt_layer_configs=[single_layer_config],
+      opt_layer_configs=[outer_loop_config, inner_loop_config],
+      opt_history_log_dir='quick_opt_results'
    )
 
+You can refer to the complete code in ``control_param.py`` for an overview. 
+
+The optimizer will search for different combinations of these parameters to trade-off the F1 score and the cost of running the workflow.
 
 Run the Optimization
 --------------------

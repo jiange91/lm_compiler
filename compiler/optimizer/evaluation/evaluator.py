@@ -14,6 +14,11 @@ from abc import ABC, abstractmethod
 import multiprocessing as mp
 import textwrap
 from tqdm import tqdm
+from compiler.optimizer import (
+    get_registered_opt_program_entry, 
+    get_registered_opt_modules, 
+    get_registered_opt_score_fn,
+)
 
 import logging
 
@@ -228,7 +233,6 @@ class EvalTask:
                     new_module.compile()
                 logger.debug(f'replace {m} with {new_module}')
                 m.invoke = new_module.invoke
-                m.reset()
         
         # clear execution state
         for m in module_pool.values():

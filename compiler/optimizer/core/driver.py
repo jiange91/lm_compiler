@@ -217,7 +217,7 @@ class MultiLayerOptimizationDriver:
             os.makedirs(param_log_dir, exist_ok=True)
         for i, (trial_log, opt_path) in enumerate(frontier):
             trial_log: BottomLevelTrialLog
-            dump_path = os.path.join(param_log_dir, f'option_{i+1}.cog')
+            dump_path = os.path.join(param_log_dir, f'option_{i}.cog')
             trans = trial_log.show_transformation()
             details = f"Trial - {trial_log.id}\n"
             details += f"Log at: {opt_path}\n"

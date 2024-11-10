@@ -8,10 +8,10 @@ if __name__ == '__main__':
         trainset=train,
         evalset=val,
         testset=dev,
-        n_parallel=1,
+        n_parallel=20,
     )
     eval_task = EvalTask(
-        script_path='cognify_anno.py',
+        script_path='cognify_workflow.py',
         args=[],
         other_python_paths=[],
         all_params={},

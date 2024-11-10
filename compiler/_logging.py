@@ -1,6 +1,7 @@
 import logging
 import warnings
 import optuna
+import threading
 
 def _create_default_formatter(log_level) -> logging.Formatter:
     """Create a default formatter of log messages.
@@ -18,22 +19,27 @@ def _create_default_formatter(log_level) -> logging.Formatter:
     )
     return formatter
 
+_handler = None
+_handler_lock = threading.Lock()
+
 def _configure_logger(log_level):
-    # config root logger
-    handler = logging.StreamHandler()
-    handler.setFormatter(_create_default_formatter(log_level))
-    root_logger = logging.getLogger()
-    root_logger.addHandler(handler)
-    root_logger.setLevel(log_level)
-    
-    logging.getLogger('httpx').setLevel(logging.WARNING)
-    logging.getLogger('absl').setLevel(logging.WARNING)
-    logging.getLogger('datasets').setLevel(logging.WARNING)
+    global _handler
+    with _handler_lock:
+        if _handler is not None:
+            return
 
-    warnings.filterwarnings("ignore", module="pydantic")
-    optuna.logging.set_verbosity(optuna.logging.WARNING)
-    warnings.filterwarnings("ignore", category=optuna.exceptions.ExperimentalWarning, module="optuna")
-    warnings.filterwarnings("ignore", category=FutureWarning)
+        # config root logger
+        _handler = logging.StreamHandler()
+        _handler.setFormatter(_create_default_formatter(log_level))
+        root_logger = logging.getLogger()
+        root_logger.addHandler(_handler)
+        root_logger.setLevel(log_level)
+        
+        logging.getLogger('httpx').setLevel(logging.WARNING)
+        logging.getLogger('absl').setLevel(logging.WARNING)
+        logging.getLogger('datasets').setLevel(logging.WARNING)
 
-
-    
+        warnings.filterwarnings("ignore", module="pydantic")
+        optuna.logging.set_verbosity(optuna.logging.WARNING)
+        warnings.filterwarnings("ignore", category=optuna.exceptions.ExperimentalWarning, module="optuna")
+        warnings.filterwarnings("ignore", category=FutureWarning)

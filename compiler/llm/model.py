@@ -230,7 +230,6 @@ class CogLM(Module):
     with self._lock:
       self.steps.extend(_local_self.steps)
       self.response_metadata_history.extend(_local_self.response_metadata_history)
-
   
   @override
   def invoke(self, statep: StatePool):
@@ -239,9 +238,11 @@ class CogLM(Module):
         if field not in self.defaults and field not in statep.states:
             raise ValueError(f"Missing field {field} in state when calling {self.name}, available fields: {statep.states.keys()}")
     kargs = {field: statep.news(field) for field in statep.states if field in self.input_fields}
+    messages = statep.news(f"messages", [])
+    model_kwargs = statep.news(f"model_kwargs", None)
     # time the execution
     start = time.perf_counter()
-    result = self.forward(inputs=kargs)
+    result = self.forward(messages=messages, inputs=kargs, model_kwargs=model_kwargs)
     dur = time.perf_counter() - start
     result_snapshot = copy.deepcopy(result)
     statep.publish(result_snapshot, self.version_id, self.is_static)
@@ -275,6 +276,26 @@ class CogLM(Module):
     result = _local_forward(_self, messages, inputs, model_kwargs)
     self.aggregate_thread_local_meta(_self)
     return {self.get_output_label_name(): result}
+  
+  def __call__(
+    self, 
+    messages: List[APICompatibleMessage] = [], 
+    inputs: Dict[str, str] = None, 
+    model_kwargs: dict = None
+  ):
+    """External interface to invoke the cog_lm
+    """
+    statep = StatePool()
+    statep.init(
+      {
+        "messages": messages,
+        "model_kwargs": model_kwargs,
+        **inputs,
+      }
+    )
+    self.invoke(statep) # kwargs have already been set when initializing cog_lm
+    result = statep.news(self.get_output_label_name())
+    return result
 
   def _get_input_messages(self, inputs: Dict[str, str]) -> List[APICompatibleMessage]:
     assert set(inputs.keys()) == set([input.name for input in self.input_variables]), "Input variables do not match"

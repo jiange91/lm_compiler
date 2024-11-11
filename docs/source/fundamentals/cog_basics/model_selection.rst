@@ -20,7 +20,7 @@ Below is an example of how to define and initialize a Model Selection Cog with m
 .. code-block:: python
 
    from compiler.cog_hub.model_selection import LMSelection, model_option_factory
-   from compiler.IR.llm import LMConfig
+   from compiler.llm.model import LMConfig
 
    # Define model configurations, each encapsulated in a ModelOption
    model_configs = [

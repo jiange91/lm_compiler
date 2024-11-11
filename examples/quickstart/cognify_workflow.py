@@ -39,7 +39,7 @@ cognify_qa_agent = StructuredCogLM(
 
 # Use builtin connector for smooth integration
 from compiler.frontends.langchain.connector import as_runnable
-qa_agent = as_runnable(cognify_qa_agent)
+qa_agent = as_runnable(cognify_qa_agent) 
 
 def doc_str(docs):
     context = []

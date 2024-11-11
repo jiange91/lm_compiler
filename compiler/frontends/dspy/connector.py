@@ -71,10 +71,12 @@ class PredictCogLM(dspy.Module):
             return self.predictor(**kwargs)
         else:
             inputs: Dict[str, str] = {k.name: kwargs[k.name] for k in self.cog_lm.input_variables}
-            statep = StatePool()
-            statep.init(input) 
-            self.cog_lm.invoke(statep) # kwargs have already been set when initializing cog_lm
-            result = statep.news(self.cog_lm.get_output_label_name())
+            messages = None
+            if self.predictor:
+                messages: APICompatibleMessage = self.chat_adapter.format(self.predictor.extended_signature,
+                                                                        self.predictor.demos,
+                                                                        inputs)
+            result = self.cog_lm(messages, inputs) # kwargs have already been set when initializing cog_lm
             kwargs: dict = result.model_dump()
             return dspy.Prediction(**kwargs)
         

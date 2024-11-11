@@ -293,7 +293,7 @@ Then we define how the optimizer should search through these parameters:
    from compiler.optimizer.core import driver, flow
 
    inner_opt_config = flow.OptConfig(
-      n_trials=4,
+      n_trials=6,
    )
    inner_loop_config = driver.LayerConfig(
       layer_name='inner_loop',
@@ -301,7 +301,7 @@ Then we define how the optimizer should search through these parameters:
       opt_config=inner_opt_config,
    )
 
-We register the search space and allow the optimizer to try 4-iterations to find the best combination at the bottom layer.
+We register the search space and allow the optimizer to try 6-iterations to find the best combination at the bottom layer.
 
 .. rubric:: Top-layer
 
@@ -332,7 +332,7 @@ At this layer, we will determine if `ensembling <https://arxiv.org/abs/2311.1731
 
    Each spawned agent will be optimized independently in the bottom layer with the same search space.
 
-   Each top-layer trial will run a complete bottom-layer optimization process, meaning the total number of workflow evaluations will be **2*4 = 8**.
+   Each top-layer trial will run a complete bottom-layer optimization process, meaning the total number of workflow evaluations will be **2*6 = 12**.
 
 .. rubric:: Overall Optimizer Settings
 
@@ -351,8 +351,8 @@ You can refer to the complete code in ``control_param.py`` for an overview.
 
 The optimizer will search for different combinations of these parameters to trade-off the F1 score and the cost of running the workflow.
 
-Run the Optimization
---------------------
+Run Cognify
+-----------
 
 With all the components in place, you can now run the optimization to find the most cost-efficient way to apply these prompt engineer techniques.
 
@@ -363,9 +363,129 @@ If you follow the naming convension in the example above, you can run the follow
    cd examples/quickstart
    cognify optimize cognify_workflow.py
 
-otherwise you can specify the file names explicitly:
+Alternatively you can specify the file names explicitly:
 
 .. code-block:: bash
 
    cd examples/quickstart
    cognify optimize cognify_workflow.py -d <data_loader file name> -e <evaluator file name> -c <control_param file name>
+
+Example Console Output
+^^^^^^^^^^^^^^^^^^^^^^
+
+Upon running the optimization, you should see logs similar to the following:
+
+.. code-block:: bash
+
+   (my_env) user@hostname:/path/to/quickstart$ cognify optimize cognify_workflow.py 
+   [INFO 2024-11-11 02:33:47] Loading data from data_loader.py
+   [INFO 2024-11-11 02:33:47] Size of train set: 5, val set: 0, test set: 10
+   [INFO 2024-11-11 02:33:47] Dry run on train set: 5 samples for optimizer analysis
+   [INFO 2024-11-11 02:33:51] Dry run result saved to opt_results/dry_run_train.json
+   [INFO 2024-11-11 02:33:51] ----------------- Start Optimization -----------------
+   > outer_loop | (best score: 0.42, lowest cost@1000: 0.17 $): 100%|███████████| 2/2 [00:19<00:00,  9.90s/it]
+   =========== Optimization Results ===========
+   Num Pareto Frontier: 2
+   --------------------------------------------------------
+   # 0-th Pareto solution
+     Quality = 0.420, Cost per 1K invocation = 0.19 $
+     Applied Optimization: outer_loop_0.inner_loop_2
+   --------------------------------------------------------
+   # 1-th Pareto solution
+     Quality = 0.402, Cost per 1K invocation = 0.17 $
+     Applied Optimization: outer_loop_0.inner_loop_4
+   ========================================================
+   [INFO 2024-11-11 02:34:12] ----------------- Optimization Finished -----------------
+
+
+Interpreting the Results
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+- **Data Loading**: The optimizer loads data from the specified data loader file (``data_loader.py``), dividing it into training, validation, and testing sets. Here, it uses 5 examples for training and 10 for testing.
+- **Dry Run**: The optimizer performs a dry run on the training data, analyzing baseline scores/costs and saving results to ``opt_results/dry_run_train.json``. This provides initial insights into the workflow.
+- **Optimization**: The optimizer then explores 2 configurations at the top-layer, each tries 6 configurations at the bottom-layer.
+
+  * Among all results, we achieve the best quality score of ``0.42`` and a lowest cost per 1,000 invocations of ``$0.17``.
+
+.. note::
+   
+   By default, the constraints on **Lower Cost** is retaining 100% of the original score. You can adjust this by setting the ``quality_constraint`` in ``ControlParameter``.
+- **Pareto Frontier**: The results as the **Pareto Frontier**, highlighting the most cost-effective configurations that balance quality and cost.
+
+  * Here, two solutions are provided, all found at the 0-th trial of the outer loop but at different trials of the inner loop. 
+  * All other configurations are dominated by these two thus not shown.
+
+Inspecting the Transformation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can also view detailed information about each frontier, available inside ``pareto_frontier_details`` directory.
+
+For **0-th solution** in the above run, this is the details of the transformation applied:
+
+.. code-block:: bash
+
+   (my_env) user@hostname:/path/to/quickstart$ cat opt_results/pareto_frontier_details/option_0.cog
+   Trial - outer_loop_0.inner_loop_2
+   Log at: opt_results/outer_loop/outer_loop_trial_0/opt_logs.json
+   Quality= 0.420, Cost per 1K invocation= 0.19 $
+   ********** Detailed Optimization Trace **********
+
+   ========== Layer: outer_loop ==========
+
+     >>> Module: qa_agent <<<
+
+       - Parameter: <compiler.cog_hub.ensemble.ModuleEnsemble>
+         Applied Option: NoChange
+         Transformation Details:
+           NoChange
+
+   ==================================================
+
+   ========== Layer: inner_loop ==========
+
+     >>> Module: qa_agent <<<
+
+       - Parameter: <compiler.cog_hub.fewshot.LMFewShot>
+         Applied Option: qa_agent_demos_8224898e-0af1-46b7-ae7b-1dbe533c8082
+         Transformation Details:
+           - FewShot Examples -
+           2 demos:
+           Demonstration 1:
+           **Input**
+           {
+               "question": "Which is published more frequently, The People's Friend or Bust?",
+               "documents": "Bust (magazine) | BUST is a women's lifestyle magazine that is published six times a year. The magazine is published by Debbie Stoller and Laurie Henzel.\nThe People's Friend | The People's Friend is a..."
+           }
+           
+           **Response**
+           {"answer":"The People's Friend is published more frequently than Bust.","supporting_facts":["Bust is published six times a year.","The People's Friend is a British weekly magazine."]}
+           ========================================
+           Demonstration 2:
+           **Input**
+           {
+               "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?",
+               "documents": "John Laub | John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Pa..."
+           }
+           
+           **Response**
+           {"answer":"1856","supporting_facts":["John Laub is a Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park.","The Univers...
+           ========================================
+
+       - Parameter: <compiler.cog_hub.reasoning.LMReasoning>
+         Applied Option: NoChange
+         Transformation Details:
+           NoChange
+
+   ==================================================
+
+Evaluate a Specific Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You may want to evaluate a particular configuration on the test dataset.
+
+For example, to evaluate the configuration with ID ``outer_loop_0.inner_loop_4`` and save the results to ``eval.json``, run the following command:
+
+.. code-block:: bash
+
+   cognify evaluate cognify_workflow.py -i outer_loop_0.inner_loop_4 -o eval.json
+

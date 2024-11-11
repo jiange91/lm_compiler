@@ -269,7 +269,8 @@ class EvalTask:
                 for param_name, option_name in param_options:
                     param_hash = CogBase.chash(module_name, param_name)
                     param = self.all_params[param_hash]
-                    trace_lines.append(f"\n    - Parameter: {param}")
+                    class_path = f"{param.__class__.__module__}.{param.__class__.__name__}"
+                    trace_lines.append(f"\n    - Parameter: <{class_path}>")
                     trace_lines.append(f"      Applied Option: {option_name}")
                     # Get the description with indentation for each line
                     option_description = param.options[option_name].describe()

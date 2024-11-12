@@ -24,3 +24,4 @@ This section provides an overview of the core concepts, design principles, and t
 
    optimizer/overview
    optimizer/search_space
+   optimizer/resource

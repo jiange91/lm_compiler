@@ -32,8 +32,10 @@ Each layer has its own optimization kernel, which consumes feedbacks from the su
    * The **bottom layer**'s proposal is the fully transformed workflow, the evaluation is done by running the workflow on the training data.
    * The **higher layer**'s proposal is a partially transformed workflow, with rest of the cogs in lower-layers un-determined. Its evaluator is the optimization routine of its successor, which returns a paretro frontier reflecting quality-cost trade-offs. To indicate the potential of the proposal, we use the **best-score** and the **lowest-cost** achieved as the feedback.
 
-Optimization Process Illustration
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. _opt_process:
+
+Optimization Process Explained
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To understand how the optimizer navigates this search space, consider each layer as a nested loop, performing the following steps in sequence:
    - **Propose**: Generates a configuration based on the search strategy.

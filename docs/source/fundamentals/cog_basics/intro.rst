@@ -20,6 +20,8 @@ Key Concepts
 - **Option**: A choice or setting available to a `Cog`, each offering different transformations to the module.
 - **Dynamic Cog**: A `Cog` capable of evolving during optimization, allowing more advanced adaptability in the options it carries based on evaluation results.
 
+.. _cog_basics:
+
 Cog: The Unit of Optimization
 -----------------------------
 
@@ -37,6 +39,9 @@ Option: Module Behavior Descriptor
 Each `Option` encapsulates a unique configuration or transformation for a module. Selecting an option within a `Cog` changes the module’s behavior according to the option’s implementation. The following core information is included in each `Option`:
 
 - **name** (`str`): The name of the option. This helps developers select or reference specific configurations easily. **NO** two options should share the same name within a `Cog`.
+
+.. _option_cost_indicator:
+
 - **cost_indicator** (`float`): A pre-evaluation estimate of the relative execution cost of applying this option.  
    - **Purpose**: Helping the optimizer anticipate the expense of evaluating a configuration. This is especially useful when two options are expected to have a similar effect on quality, allowing the optimizer to favor a lower-cost option for a more efficient search.
    - **Scope**: The `cost_indicator` only provides a rough estimation to guide frugal search decisions, but it doesn’t replace actual execution costs. You may even set it to a large value to discourage using an option, while the optimizer still relies on real execution costs for final assessment.

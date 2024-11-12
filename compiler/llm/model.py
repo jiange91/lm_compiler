@@ -279,11 +279,11 @@ class CogLM(Module):
   
   def __call__(
     self, 
-    inputs: Dict[str, str], 
     messages: List[APICompatibleMessage] = [], 
+    inputs: Dict[str, str] = None, 
     model_kwargs: dict = None
   ):
-    """External interface to invoke the cog_lm
+    """External interface to invoke the CogLM
     """
     statep = StatePool()
     statep.init(
@@ -380,9 +380,9 @@ class StructuredCogLM(CogLM):
     litellm.enable_json_schema_validation = True
 
     params = get_supported_openai_params(model=model_kwargs["model"], 
-                                         custom_llm_provider=model_kwargs["custom_llm_provider"])
+                                         custom_llm_provider=model_kwargs.get("custom_llm_provider", None))
     if "response_format" not in params:
-      raise ValueError(f"Model {model_kwargs["model"]} on provider {model_kwargs["custom_llm_provider"]} does not support structured output") 
+      raise ValueError(f"Model {model_kwargs["model"]} from provider {model_kwargs.get("custom_llm_provider", None)} does not support structured output") 
     else:
       model = model_kwargs.pop('model')
       response: ModelResponse = completion(model, 
@@ -394,5 +394,5 @@ class StructuredCogLM(CogLM):
   @override
   def forward(self, messages: List[APICompatibleMessage] = [], inputs: Dict[str, str] = None, model_kwargs: dict = None) -> str:
     result = super().forward(messages, inputs, model_kwargs)
-    result_obj = self.output_format.schema.model_validate_json(result[self.get_output_label_name()])
+    result_obj = self.parse_response_str(result[self.get_output_label_name()])
     return {self.get_output_label_name(): result_obj}

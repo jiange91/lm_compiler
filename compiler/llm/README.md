@@ -14,7 +14,7 @@ Much like other frameworks, we endorse the separation of the LLM's signature fro
 
 Integrating Cognify into your code is straightforward.
 1. Define the `CogLM` as a global variable.
-2. Use our decorator to mark the workflow entry point `@cognify.register_workflow`
+2. Use our decorator to mark the workflow entry point `@cognify.workflow_entry`
 3. Call your `CogLM` directly with the relevant inputs.
 
 ```python
@@ -33,10 +33,9 @@ cog_agent = CogLM(agent_name="qa_agent",
   )
 )
 
-@cognify.register_workflow
+@cognify.workflow_entry
 def call_qa_llm(question):
-  response = cog_agent(inputs={qa_question: question})
-  return response.choices[0].message.content # consistent output using litellm
+  return cog_agent(inputs={qa_question: question})
 ```
 
 By default, `CogLM` will construct messages on your behalf based on the `system_prompt`, `inputs` and `output_label`. These messages are directly passed to model defined in the `lm_config`. For compatibility with existing codebases that rely on passing messages and keyword arguments directly, we allow the user to pass in optional `messages` and `model_kwargs` arguments when calling a `CogLM` like so:
@@ -57,7 +56,7 @@ cog_agent = CogLM(agent_name="qa_agent",
   output_label=OutputLabel(name="answer")
 )
 
-@cognify.register_workflow
+@cognify.workflow_entry
 def call_qa_llm(question):
   messages = [
     {
@@ -69,12 +68,11 @@ def call_qa_llm(question):
       "content": f"Answer the following question: {question}"
     }
   ]
-  response = cog_agent(
+  return cog_agent(
     inputs={qa_question: question}, 
     messages=messages, 
     model_kwargs=model_kwargs
   )
-  return response.choices[0].message.content
 ```
 
 ## Output Formatting
@@ -109,15 +107,11 @@ struct_cog_agent = StructuredCogLM(
   )
   ...
 )
+
+conf_answer: ConfidentAnswer = struct_cog_agent(...)
 ```
 
 The `OutputFormat` class also supports custom formatting instructions, as well as an optional hint parameter: if `should_hint_format_in_prompt=True`, Cognify will construct more detailed hints for the model based on the provided schema.
-
-The response can be converted back to the intended datatype like so:
-```python
-ans: ConfidentAnswer = struct_cog_agent.parse_response(response)
-```
-Alternatively, you can also call `parse_response_str(response_str)` where `response_str` is `response.choices[0].message.content`. 
 
 ## Image Inputs
 
@@ -136,5 +130,7 @@ image_input = InputVar(name="my_image", image_type="png")
 base64_str = encode_image("my_image_path.png")
 ...
 
-response = cog_agent(inputs={..., image_input: base64_str, ...})
+response = cog_agent(inputs={..., 
+                            image_input: base64_str, 
+                            ...})
 ```

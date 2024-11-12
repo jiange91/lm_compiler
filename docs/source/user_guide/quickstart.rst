@@ -155,6 +155,18 @@ Next, we show how to modify this agent to connect it to the optimizer. Cognify p
 
 .. code-block:: python
 
+
+   # Initialize the model
+   from compiler.llm.model import LMConfig
+   lm_config = LMConfig(
+      custom_llm_provider='openai',
+      model='gpt-4o-mini',
+      kwargs= {
+         'temperature': 0.0,
+      }
+   )
+
+   # Define agent's role
    from compiler.llm.model import StructuredCogLM, InputVar, OutputFormat
    cognify_qa_agent = StructuredCogLM(
       agent_name="qa_agent",

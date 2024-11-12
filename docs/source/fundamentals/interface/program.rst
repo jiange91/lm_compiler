@@ -55,7 +55,7 @@ The `CogLM` is designed to replace your calls to the OpenAI endpoint. However, m
 Other frameworks
 ================
 
-By default, if your current program is based on either Langchain or DSPy, Cognify will automatically translate your Langchain Runnables and DSPy Predictors into `CogLM`s during the initialization step. Below, we'll go through the nuances of each framework. 
+By default, if your current program is based on either Langchain or DSPy, Cognify will automatically translate your Langchain Runnables and DSPy Predictors into `CogLM`s during the initialization step. Below, we'll go through the nuances of each framework.
 
 Langchain
 ---------
@@ -63,9 +63,11 @@ Langchain
 In Langchain, the `Runnable` class is the primary abstraction for executing a task. To create a `CogLM` from a runnable chain, the chain must contain a chat prompt template, a chat model, and optionally an ouptut parser. The chat prompt template is used to construct the system prompt and obtain the input variables, the chat model is used to obtain the language model config, and the output parser is used to construct the output format. If no output parser is provided, Cognify will assign a default label. Just like with `CogLM`s, we will only translate runnables that are instantiated as global variables. The translation process automatically converts all runnables in the global scope into `CogLM`s. However, if you want more control over which `Runnable`s should be targeted for optimization, you can manually wrap your chain with our `RunnableCogLM` class and pass the `--no-translate` flag to the `$ cognify optimize` command. For detailed usage instructions, check out our [GitHub repo]().
 
 .. tip::
+
   Your chain must follow the following format: `ChatPromptTemplate | ChatModel | (optional) OutputParser`. This provides `CogLM` with all the information it needs to optimize your workflow. The chat prompt template must contain a system prompt and at least one input variable.
 
 .. code-block:: python
+
   from langchain_core.prompts import ChatPromptTemplate
   from langchain_core.chat_models import ChatOpenAI
   from langchain_core.output_parsers import StrOutputParser
@@ -86,6 +88,7 @@ In Langchain, the `Runnable` class is the primary abstraction for executing a ta
 If you prefer to define your modules using our `CogLM` interface but still want to utilize them with your existing Langchain infrastructure, you can wrap your `CogLM` with an `as_runnable()` call. This will convert your `CogLM` into a `RunnableCogLM` and follows the Langchain `Runnable` protocol.
 
 .. code-block:: python
+
   from cognify.llm import *
   from cognify.frontends.langchain import as_runnable
   from langchain_core.runnables import RunnableLambda
@@ -111,6 +114,7 @@ DSPy
 In DSPy, the `Predict` class is the primary abstraction for obtaining a response from a language model. A predictor contains a `Signature`, from which we infer the system prompt, input variables, and output label. In DSPy, the language model is globally configured in `dspy.settings`. The translation process will operate on an entire DSPy `Module`, converting all `Predict`s into `PredictCogLM`s. Just like with CogLMs, we will only translate predictors that are instantiated in the module's `__init__` function. If you want more control over which predictors should be targeted for optimization, you can manually wrap your predictor with our `PredictCogLM` class and pass the `--no-translate` flag to the `$ cognify optimize` command. DSPy also contains other, more detailed modules that don't follow the behavior of `Predict` (e.g., `dspy.ChainOfThought`). In Cognify, we view Chain-of-Thought prompting (and other similar techniques) as possible optimizations to apply to an LLM call on the fly instead of as pre-defined templates. Hence, during the translation process we will strip the "reasoning" step out of the predictor definition and leave it to the optimizer. For detailed usage instructions, check out our [GitHub repo]().
 
 .. code-block:: python
+
   import dspy
   from cognify.frontends.dspy import PredictCogLM
 
@@ -130,6 +134,7 @@ In DSPy, the `Predict` class is the primary abstraction for obtaining a response
 If you prefer to define your modules using our `CogLM` interface but still want to utilize them in DSPy, you can wrap your `CogLM` with an `as_predictor()` call. This will convert your `CogLM` into a `PredictCogLM` and follows the DSPy `Module` protocol. Under the hood, we use `StructuredCogLM` to provide compatibility with DSPy's interface. You can check out our [RAG QA tutorial]() to see this in practice.
 
 .. code-block:: python
+
   from cognify.llm import *
   from cognify.frontends.dspy import as_predictor
 

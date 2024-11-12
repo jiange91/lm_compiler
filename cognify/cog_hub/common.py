@@ -5,7 +5,7 @@ from typing import Type, Union
 import logging
 import json
 
-from cognify.IR.base import Module
+from cognify.graph.base import Module
 from cognify.cog_hub.protection import Protection
 
 logger = logging.getLogger(__name__)

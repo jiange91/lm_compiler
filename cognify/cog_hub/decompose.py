@@ -6,10 +6,10 @@ from collections import defaultdict
 import concurrent.futures
 from devtools import pprint
 
-from cognify.IR.program import Workflow, Input, Output, hint_possible_destinations
-from cognify.IR.rewriter.utils import add_argument_to_position
+from cognify.graph.program import Workflow, Input, Output, hint_possible_destinations
+from cognify.graph.rewriter.utils import add_argument_to_position
 from pydantic import BaseModel
-from cognify.IR.modules import CodeBox
+from cognify.graph.modules import CodeBox
 from cognify.llm import CogLM, StructuredCogLM, OutputFormat, OutputLabel
 from cognify.cog_hub.decompose_agents import *
 from cognify.cog_hub.decompose_agents.estimate_complexity import ComplexityEstimation

@@ -1,5 +1,5 @@
-from cognify.IR.program import Workflow, hint_possible_destinations
-from cognify.IR.modules import CodeBox, StatePool, Input, Output
+from cognify.graph.program import Workflow, hint_possible_destinations
+from cognify.graph.modules import CodeBox, StatePool, Input, Output
 import unittest
 
 class ReturnNodeValue:

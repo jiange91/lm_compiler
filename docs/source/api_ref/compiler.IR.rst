@@ -4,50 +4,50 @@ compiler.IR package
 Submodules
 ----------
 
-compiler.IR.base module
+compiler.graph.base module
 -----------------------
 
-.. automodule:: compiler.IR.base
+.. automodule:: compiler.graph.base
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.IR.llm module
+compiler.graph.llm module
 ----------------------
 
-.. automodule:: compiler.IR.llm
+.. automodule:: compiler.graph.llm
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.IR.modules module
+compiler.graph.modules module
 --------------------------
 
-.. automodule:: compiler.IR.modules
+.. automodule:: compiler.graph.modules
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.IR.program module
+compiler.graph.program module
 --------------------------
 
-.. automodule:: compiler.IR.program
+.. automodule:: compiler.graph.program
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.IR.schema\_parser module
+compiler.graph.schema\_parser module
 ---------------------------------
 
-.. automodule:: compiler.IR.schema_parser
+.. automodule:: compiler.graph.schema_parser
    :members:
    :undoc-members:
    :show-inheritance:
 
-compiler.IR.utils module
+compiler.graph.utils module
 ------------------------
 
-.. automodule:: compiler.IR.utils
+.. automodule:: compiler.graph.utils
    :members:
    :undoc-members:
    :show-inheritance:

@@ -43,7 +43,7 @@ Cognify also allows direct application of any ensemble options to your workflow:
 
 .. code-block:: python
 
-   from compiler.IR.program import Workflow
+   from compiler.graph.program import Workflow
    from compiler.llm import CogLM
    from compiler.cog_hub.ensemble import UniversalSelfConsistency
 

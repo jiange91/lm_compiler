@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod, ABCMeta
 from dataclasses import dataclass
 from typing import Any
 
-from cognify.IR.program import StatePool
+from cognify.graph.program import StatePool
 
 @dataclass
 class MInput:

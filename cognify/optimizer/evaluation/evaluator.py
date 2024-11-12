@@ -22,7 +22,7 @@ from cognify.optimizer import (
 
 import logging
 
-from cognify.IR.program import Workflow, Module
+from cognify.graph.program import Workflow, Module
 from cognify.llm import CogLM, Demonstration
 from cognify.cog_hub.common import CogBase
 from cognify.cog_hub.utils import build_param

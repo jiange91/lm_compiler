@@ -6,7 +6,7 @@ import uuid
 import pickle
 
 import multiprocessing as mp
-from cognify.IR.program import StatePool, Module
+from cognify.graph.program import StatePool, Module
 from cognify.cog_hub.fewshot import LMFewShot
 from cognify.optimizer.evaluation.evaluator import Evaluator
 from cognify.optimizer.evaluation.metric import MetricBase, MInput

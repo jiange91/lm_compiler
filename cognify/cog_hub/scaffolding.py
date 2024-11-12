@@ -12,8 +12,8 @@ import copy
 
 logger = logging.getLogger(__name__)
 
-from cognify.IR.base import Module
-from cognify.IR.program import Workflow
+from cognify.graph.base import Module
+from cognify.graph.program import Workflow
 from cognify.llm.model import CogLM
 from cognify.cog_hub.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange, AddNewModuleImportInterface
 from cognify.cog_hub.decompose import LMTaskDecompose, StructuredAgentSystem

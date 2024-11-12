@@ -10,7 +10,7 @@ import logging
 import copy
 from graphviz import Digraph
 
-from cognify.IR.utils import get_function_kwargs
+from cognify.graph.utils import get_function_kwargs
 from cognify.optimizer import register_opt_module
 from cognify.optimizer import registry
 

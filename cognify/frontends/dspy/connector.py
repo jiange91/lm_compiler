@@ -1,6 +1,6 @@
 import dspy
 from dspy.adapters.chat_adapter import ChatAdapter, prepare_instructions
-from cognify.IR.base import StatePool
+from cognify.graph.base import StatePool
 from cognify.llm import CogLM, StructuredCogLM, InputVar, OutputFormat
 from cognify.llm.model import LMConfig
 import uuid

@@ -3,7 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTempla
 from langchain_core.prompt_values import ChatPromptValue
 from langchain_core.output_parsers import BaseOutputParser
 from langchain_openai.chat_models.base import BaseChatOpenAI
-from cognify.IR.base import StatePool
+from cognify.graph.base import StatePool
 from cognify.llm import CogLM, InputVar, StructuredCogLM, OutputFormat
 from cognify.llm.model import LMConfig
 import uuid

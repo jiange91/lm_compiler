@@ -8,7 +8,7 @@ from collections import defaultdict
 import uuid
 from dataclasses import dataclass, field
 
-from cognify.IR.program import Workflow, Module, StatePool
+from cognify.graph.program import Workflow, Module, StatePool
 from cognify.cog_hub.common import CogBase
 from cognify.optimizer.plugin import OptimizerSchema
 from cognify.optimizer.plugin import capture_module_from_fs

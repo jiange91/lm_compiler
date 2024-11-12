@@ -18,7 +18,7 @@ from langchain_core.messages import (
     BaseMessage,
 )
 
-from cognify.IR.base import StatePool
+from cognify.graph.base import StatePool
 from cognify.langchain_bridge.interface import LangChainSemantic, LangChainLM
 import logging
 

@@ -14,7 +14,7 @@ import heapq
 import warnings
 
 
-from cognify.IR.program import Workflow, Module, StatePool
+from cognify.graph.program import Workflow, Module, StatePool
 from cognify.cog_hub.common import CogBase, OptionBase, DynamicCogBase, EvolveType, AddNewModuleImportInterface
 from cognify.cog_hub.utils import dump_params, load_params
 from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask, GeneralEvaluatorInterface

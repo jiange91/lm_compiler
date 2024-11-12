@@ -10,7 +10,7 @@ import time
 from litellm import Usage
 from openai.types import CompletionUsage
 from cognify.llm.response import ResponseMetadata, aggregate_usages, StepInfo
-from cognify.IR.base import Module, StatePool
+from cognify.graph.base import Module, StatePool
 import copy
 import threading
 import logging

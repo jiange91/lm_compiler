@@ -11,7 +11,7 @@ import warnings
 
 from openai import OpenAI
 from cognify.utils import load_api_key, get_bill
-from cognify.IR.base import StatePool
+from cognify.graph.base import StatePool
 load_api_key('secrets.toml')
 
 BASE_URL='https://api.openai.com/v1'

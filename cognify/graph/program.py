@@ -7,10 +7,10 @@ import traceback
 
 from cognify.llm import CogLM
 from cognify.llm.response import ResponseMetadata
-from cognify.IR.modules import Input, Output, Branch, Identity
-from cognify.IR.base import *
-from cognify.IR.rewriter.utils import replace_branch_destination
-from cognify.IR.utils import get_function_kwargs, simple_cycles
+from cognify.graph.modules import Input, Output, Branch, Identity
+from cognify.graph.base import *
+from cognify.graph.rewriter.utils import replace_branch_destination
+from cognify.graph.utils import get_function_kwargs, simple_cycles
 from cognify.utils import deprecate_func
 from dataclasses import dataclass
 import json
@@ -335,7 +335,7 @@ class Workflow(ComposibleModuleInterface):
         Examples:
         NOTE: please hint all possible destinations for the multiplexer
             ```python
-            from compiler.IR.program import hint_possible_destinations
+            from compiler.graph.program import hint_possible_destinations
             
             @hint_possible_destinations(['a', 'b'])
             def multiplexer(ctx, smth):
@@ -376,7 +376,7 @@ class Workflow(ComposibleModuleInterface):
         Examples:
         NOTE: please hint all possible destinations for the multiplexer
             ```python
-            from compiler.IR.program import hint_possible_destinations
+            from compiler.graph.program import hint_possible_destinations
             
             @hint_possible_destinations(['a', 'b'])
             def multiplexer(ctx, smth):

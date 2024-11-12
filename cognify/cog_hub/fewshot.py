@@ -11,8 +11,8 @@ from itertools import permutations, combinations
 
 logger = logging.getLogger(__name__)
 
-from cognify.IR.base import Module
-from cognify.IR.program import Workflow
+from cognify.graph.base import Module
+from cognify.graph.program import Workflow
 from cognify.llm import CogLM, Demonstration
 from cognify.llm.prompt import FilledInputVar, InputVar
 from cognify.cog_hub.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange

@@ -8,7 +8,7 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
-from cognify.IR.program import Module, Workflow
+from cognify.graph.program import Module, Workflow
 from cognify.optimizer import (
     clear_registry,
     get_registered_opt_program_entry, 

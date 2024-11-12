@@ -11,8 +11,8 @@ import concurrent.futures
 
 from graphviz import Digraph
 
-from cognify.IR.utils import get_function_kwargs
-from cognify.IR.base import Module, ComposibleModuleInterface, StatePool, Context
+from cognify.graph.utils import get_function_kwargs
+from cognify.graph.base import Module, ComposibleModuleInterface, StatePool, Context
 
 logger = logging.getLogger(__name__)
 

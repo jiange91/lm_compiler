@@ -283,7 +283,7 @@ class CogLM(Module):
     inputs: Dict[str, str] = None, 
     model_kwargs: dict = None
   ):
-    """External interface to invoke the cog_lm
+    """External interface to invoke the CogLM
     """
     statep = StatePool()
     statep.init(
@@ -306,11 +306,11 @@ class CogLM(Module):
     
     input_fields = []
     for input_var in self.input_variables:
-      if input_var.image_params:
-        if input_var.image_params.is_image_upload:
-          image_content = get_image_content_from_upload(inputs[input_var.name], input_var.image_params.file_type)
-        else:
+      if input_var.image_type:
+        if input_var.image_type == 'web':
           image_content = ImageContent(image_url=inputs[input_var.name])
+        else:
+          image_content = get_image_content_from_upload(inputs[input_var.name], input_var.image_type)
         messages.append(CompletionMessage(role="user", 
                                           content=[image_content]))
       else:
@@ -339,6 +339,14 @@ class StructuredCogLM(CogLM):
     super().__init__(agent_name, system_prompt, 
                      input_variables, output=OutputLabel(name=output_format.schema.__name__), 
                      lm_config=lm_config, opt_register=opt_register)
+
+  # these parse methods are provided for convenience
+  def parse_response_str(self, response: str) -> BaseModel:
+    # expects response to be `response.choices[0].message.content`
+    return self.output_format.schema.model_validate_json(response)
+
+  def parse_response(self, response: ModelResponse) -> BaseModel:
+    return self.parse_response_str(response.choices[0].message.content)
 
   @override
   def get_output_label_name(self):
@@ -372,9 +380,9 @@ class StructuredCogLM(CogLM):
     litellm.enable_json_schema_validation = True
 
     params = get_supported_openai_params(model=model_kwargs["model"], 
-                                         custom_llm_provider=model_kwargs["custom_llm_provider"])
+                                         custom_llm_provider=model_kwargs.get("custom_llm_provider", None))
     if "response_format" not in params:
-      raise ValueError(f"Model {model_kwargs["model"]} on provider {model_kwargs["custom_llm_provider"]} does not support structured output") 
+      raise ValueError(f"Model {model_kwargs["model"]} from provider {model_kwargs.get("custom_llm_provider", None)} does not support structured output") 
     else:
       model = model_kwargs.pop('model')
       response: ModelResponse = completion(model, 
@@ -386,5 +394,5 @@ class StructuredCogLM(CogLM):
   @override
   def forward(self, messages: List[APICompatibleMessage] = [], inputs: Dict[str, str] = None, model_kwargs: dict = None) -> str:
     result = super().forward(messages, inputs, model_kwargs)
-    result_obj = self.output_format.schema.model_validate_json(result[self.get_output_label_name()])
+    result_obj = self.parse_response_str(result[self.get_output_label_name()])
     return {self.get_output_label_name(): result_obj}

@@ -4,14 +4,12 @@ import uuid
 import json
 
 @dataclass
-class ImageParams:
-  file_type: Literal['jpeg', 'png'] = 'png'
-  is_image_upload: bool = True
-
-@dataclass
 class InputVar:
   name: str
-  image_params: Optional[ImageParams] = None
+  image_type: Optional[Literal['web', 'jpeg', 'png']] = None
+
+  def __hash__(self):
+    return hash(self.name, self.image_type)
 
 @dataclass
 class FilledInputVar:
@@ -53,13 +51,13 @@ class Demonstration:
     for filled in self.filled_input_variables:
       demo_string += f'{filled.input_variable.name}:\n'
       input_variable = filled.input_variable
-      if input_variable.image_params:
+      if input_variable.image_type:
         demo_content.append(TextContent(text=demo_string))
         demo_string = ""
-        if input_variable.image_params.is_image_upload:
-          demo_content.append(get_image_content_from_upload(image_upload=filled.value, file_type=input_variable.image_params.file_type))
-        else:
+        if input_variable.image_type == 'web':
           demo_content.append(ImageContent(image_url=filled.value))
+        else:
+          demo_content.append(get_image_content_from_upload(image_upload=filled.value, file_type=input_variable.image_type))
     if self.reasoning is not None:
       demo_string += f'**Reasoning:**\n{self.reasoning}\n'
     else:

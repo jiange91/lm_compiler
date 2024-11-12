@@ -25,7 +25,7 @@ class PredictCogLM(dspy.Module):
         self.chat_adapter: ChatAdapter = ChatAdapter()
         self.predictor: dspy.Module = dspy_predictor
         self.ignore_module = False
-        self.cog_lm: StructuredCogLM = self.cognify_predictor(dspy_predictor)
+        self.cog_lm: StructuredCogLM = self.cognify_predictor(dspy_predictor, name)
         self.output_schema = None
 
     def cognify_predictor(self, dspy_predictor: dspy.Module = None, name: str = None) -> StructuredCogLM:
@@ -36,6 +36,7 @@ class PredictCogLM(dspy.Module):
             warnings.warn("Original module is not a `Predict`. This may result in lossy translation", UserWarning)
         
         if isinstance(dspy_predictor, dspy.Retrieve):
+            warnings.warn("Original module is a `Retrieve`. This will be ignored", UserWarning)
             self.ignore_module = True
             return None
             
@@ -48,7 +49,7 @@ class PredictCogLM(dspy.Module):
         output_fields = dspy_predictor.extended_signature.output_fields
         if "reasoning" in output_fields:
             del output_fields["reasoning"]
-            warnings.warn("Original module contained reasoning. This will be stripped. Add reasoning to the optimizer instead", UserWarning)
+            warnings.warn("Original module contained reasoning. This will be stripped. Add reasoning as a cog instead", UserWarning)
         output_fields_for_schema = {k: v.annotation for k, v in output_fields.items()}
         self.output_schema = generate_pydantic_model("OutputData", output_fields_for_schema)
 
@@ -65,7 +66,7 @@ class PredictCogLM(dspy.Module):
                                 lm_config=lm_config)
 
     def forward(self, **kwargs):
-        assert self.cog_lm or self.predictor, "CogLM or Predictor must be initialized before invoking"
+        assert self.cog_lm or self.predictor, "Either CogLM or Predictor must be initialized before invoking"
 
         if self.ignore_module:
             return self.predictor(**kwargs)

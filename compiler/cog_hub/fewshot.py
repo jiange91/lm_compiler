@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 from compiler.IR.base import Module
 from compiler.IR.program import Workflow
 from compiler.llm import CogLM, Demonstration
-from compiler.llm.prompt import FilledInputVar, InputVar, ImageParams
+from compiler.llm.prompt import FilledInputVar, InputVar
 from compiler.cog_hub.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange
 from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from compiler.cog_hub.utils import dump_params, load_params
@@ -152,7 +152,6 @@ class LMFewShot(DynamicCogBase):
                 filled_input_variables.append(FilledInputVar(**filled))
             for filled in filled_input_variables:
                 input_var = InputVar(**filled.input_variable)
-                input_var.image_params = ImageParams(**input_var.image_params) if input_var.image_params else None
                 filled.input_variable = input_var
             demo.filled_input_variables = filled_input_variables
             demo_cache[demo.id] = demo

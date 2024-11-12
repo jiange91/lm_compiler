@@ -1,6 +1,6 @@
 from typing import List
 from pydantic import BaseModel, Field
-from compiler.llm import Input, StructuredCogLM, OutputFormat
+from compiler.llm import InputVar, StructuredCogLM, OutputFormat
 from .prompts import complexity_system
 
 class ComplexityEstimation(BaseModel):
@@ -20,7 +20,7 @@ class ComplexityList(BaseModel):
     
 
 def estimate_complexity_kernel(agents: list[str]) -> List[ComplexityEstimation]:
-    agent_input = Input(name="agents")
+    agent_input = InputVar(name="agents")
     complexity_agent = StructuredCogLM(agent_name="complexity_agent",
                                        system_prompt=complexity_system, 
                                        input_variables=[agent_input],

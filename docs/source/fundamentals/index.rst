@@ -9,5 +9,5 @@ This section provides an overview of the core concepts, design principles, and t
 .. toctree::
     :maxdepth: 1
 
-    ir
+    interface
     cog/index

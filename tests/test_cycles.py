@@ -1,5 +1,5 @@
-from compiler.IR.program import Workflow, hint_possible_destinations, Context
-from compiler.IR.modules import CodeBox, StatePool, Input, Output
+from cognify.IR.program import Workflow, hint_possible_destinations, Context
+from cognify.IR.modules import CodeBox, StatePool, Input, Output
 import unittest
 
 class ReturnNodeValue:

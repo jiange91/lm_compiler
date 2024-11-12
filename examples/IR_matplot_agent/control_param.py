@@ -1,9 +1,9 @@
-from compiler.optimizer.core import driver, flow
-from compiler.cog_hub import reasoning, ensemble
-from compiler.cog_hub.common import NoChange
-from compiler.cog_hub.fewshot import LMFewShot
-from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
-from compiler.optimizer.control_param import ControlParameter
+from cognify.optimizer.core import driver, flow
+from cognify.cog_hub import reasoning, ensemble
+from cognify.cog_hub.common import NoChange
+from cognify.cog_hub.fewshot import LMFewShot
+from cognify.cog_hub.reasoning import ZeroShotCoT, PlanBefore
+from cognify.optimizer.control_param import ControlParameter
 
 # ================= Inner Loop Config =================
 # Reasoning Parameter

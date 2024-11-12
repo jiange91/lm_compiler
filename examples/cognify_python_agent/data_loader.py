@@ -2,7 +2,7 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__))))
-from compiler.optimizer.registry import register_data_loader
+from cognify.optimizer.registry import register_data_loader
 from humaneval.humaneval import HumanEvalDataset
 import random
 

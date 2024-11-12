@@ -7,7 +7,7 @@ from agents.openai_chatComplete import completion_with_backoff
 from agents.utils import fill_in_placeholders, get_error_message, is_run_code_success, run_code
 from agents.utils import print_filesys_struture
 from agents.utils import change_directory, common_lm_config
-from compiler.llm.model import LMConfig, Demonstration
+from cognify.llm.model import LMConfig, Demonstration
 import logging
 
 
@@ -201,7 +201,7 @@ Cognify Implementation
 """  
 
 from pydantic import BaseModel, Field
-from compiler.llm import CogLM, InputVar, OutputLabel
+from cognify.llm import CogLM, InputVar, OutputLabel
 
 lm_config = LMConfig(
     custom_llm_provider='openai',

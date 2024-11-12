@@ -2,9 +2,9 @@ completion_system_prompt = """
 Your task is to read incomplete Python functions and complete them based on the provided docstring.
 """
 
-from compiler.llm import CogLM, InputVar, OutputLabel, LMConfig
+from cognify.llm import CogLM, InputVar, OutputLabel, LMConfig
 from pydantic import BaseModel, Field
-from compiler.cog_hub.reasoning import ZeroShotCoT
+from cognify.cog_hub.reasoning import ZeroShotCoT
 
 
 lm_config = LMConfig(

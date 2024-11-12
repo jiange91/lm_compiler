@@ -10,8 +10,8 @@ sys.path.insert(0, sys.path[0]+"/../")
 import warnings
 
 from openai import OpenAI
-from compiler.utils import load_api_key, get_bill
-from compiler.IR.base import StatePool
+from cognify.utils import load_api_key, get_bill
+from cognify.IR.base import StatePool
 load_api_key('secrets.toml')
 
 BASE_URL='https://api.openai.com/v1'
@@ -100,7 +100,7 @@ def mainworkflow(test_sample_id, plot_path):
     plot_result = gpt_4v_evaluate(ground_truth, image, image_rollback)
     print(plot_result)
   
-from compiler.optimizer.evaluation.metric import MetricBase, MInput
+from cognify.optimizer.evaluation.metric import MetricBase, MInput
 
 class VisionScore(MetricBase):
   workspace = MInput(str, 'workspace dir')

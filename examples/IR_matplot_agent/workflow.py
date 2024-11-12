@@ -16,8 +16,8 @@ import sys
 from agents.utils import is_run_code_success, run_code, get_code
 from agents.dspy_common import OpenAIModel
 from agents.config.openai import openai_kwargs
-from compiler.utils import load_api_key, get_bill
-from compiler.optimizer import register_opt_program_entry, register_opt_score_fn
+from cognify.utils import load_api_key, get_bill
+from cognify.optimizer import register_opt_program_entry, register_opt_score_fn
 
 # set to info level logging
 logging.basicConfig(level=logging.INFO)

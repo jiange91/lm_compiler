@@ -1,11 +1,11 @@
 import json
 from code_completion_agent import code_completion_agent
 from code_finalize_agent import code_finalize_agent
-from compiler.optimizer import register_opt_program_entry, register_opt_score_fn
+from cognify.optimizer import register_opt_program_entry, register_opt_score_fn
 from humaneval.humaneval import HumanEvalDataset, check_correctness_thread, check_correctness
-from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
+from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 
-from compiler.utils import load_api_key
+from cognify.utils import load_api_key
 import string
 
 load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')

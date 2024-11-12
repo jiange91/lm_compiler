@@ -1,8 +1,8 @@
 from .prompt import SYSTEM_PROMPT, EXPERT_USER_PROMPT
 from agents.openai_chatComplete import completion_with_backoff, completion_with_log
 from agents.utils import fill_in_placeholders, get_error_message, is_run_code_success, print_chat_message, common_lm_config
-from compiler.llm.model import LMConfig
-from compiler.cog_hub.reasoning import ZeroShotCoT
+from cognify.llm.model import LMConfig
+from cognify.cog_hub.reasoning import ZeroShotCoT
 
 
 class QueryExpansionAgent():
@@ -30,7 +30,7 @@ class QueryExpansionAgent():
         return expanded_query_instruction
 
 
-from compiler.llm.model import CogLM, InputVar, OutputLabel
+from cognify.llm.model import CogLM, InputVar, OutputLabel
 from pydantic import BaseModel, Field
 qgen_lm_config = LMConfig(
     custom_llm_provider='openai',

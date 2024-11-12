@@ -7,16 +7,16 @@ import dspy
 from dspy.evaluate import Evaluate
 from dsp.utils.utils import deduplicate
 from dspy.teleprompt import BootstrapFewShotWithRandomSearch
-from compiler.utils import load_api_key
+from cognify.utils import load_api_key
 
 load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')
 
 colbert = dspy.ColBERTv2(url='http://192.168.1.16:8893/api/search') # Change to your ColBERT endpoint
 dspy.configure(rm=colbert)
 
-from compiler.llm.model import LMConfig, CogLM
-from compiler.llm import InputVar, OutputLabel
-from compiler.frontends.dspy.connector import as_predict
+from cognify.llm.model import LMConfig, CogLM
+from cognify.llm import InputVar, OutputLabel
+from cognify.frontends.dspy.connector import as_predict
 
 dummy_lm_config = LMConfig(
     provider='openai',

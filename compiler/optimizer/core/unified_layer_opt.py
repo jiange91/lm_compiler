@@ -269,7 +269,7 @@ class OptimizationLayer:
         return new_modules, trace_for_next_level
 
     def generate_trial_id(self, trial_number: int) -> str:
-        return '|'.join(self.top_down_info.trace_back + [f'{self.name}_{trial_number}'])
+        return '.'.join(self.top_down_info.trace_back + [f'{self.name}_{trial_number}'])
 
     def propose(
         self,
@@ -437,8 +437,11 @@ class OptimizationLayer:
     
     def _gen_opt_bar_desc(self, score, cost):
         indent = '---' * self.hierarchy_level + '>'
-        opt_trace = ' | '.join(self.top_down_info.trace_back)
-        return f'{indent} {self.name} in {opt_trace} | (best score: {score:.2f}, lowest cost@1000: {cost*1000:.2f} $)'
+        if self.top_down_info.trace_back:
+            opt_trace = ' | '.join(self.top_down_info.trace_back)
+            return f'{indent} {self.name} in {opt_trace} | (best score: {score:.2f}, lowest cost@1000: {cost*1000:.2f} $)'
+        else:
+            return f'{indent} {self.name} | (best score: {score:.2f}, lowest cost@1000: {cost*1000:.2f} $)'
     
     def _optimize(self, base_program: list[Module]):
         opt_config = self.top_down_info.opt_config
@@ -524,13 +527,16 @@ class OptimizationLayer:
     def pre_optimize(self):
         ...
     
-    def get_all_candidates(self):
+    def get_all_candidates(self, config_path: str = None):
         cancidates = []
         for log_id, log in self.opt_logs.items():
             # if not meet the quality constraint, skip
             if self.quality_constraint is not None and log.score < self.quality_constraint:
                 continue
-            cancidates.append((log, self.top_down_info.opt_config.opt_log_path))
+            if config_path:
+                cancidates.append((log, config_path))
+            else:
+                cancidates.append((log, self.top_down_info.opt_config.opt_log_path))
         return cancidates
         
     def post_optimize(self):
@@ -774,5 +780,4 @@ class BottomLevelOptimization(OptimizationLayer):
         # run evaluation
         eval_result = evaluator.get_score(mode='test', task=eval_task, show_process=True)
         return eval_result
-    
     

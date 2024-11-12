@@ -6,10 +6,11 @@ import litellm
 from litellm import completion, get_supported_openai_params, ModelResponse
 from pydantic import BaseModel
 import json
+import time
 from litellm import Usage
 from openai.types import CompletionUsage
 from compiler.llm.response import ResponseMetadata, aggregate_usages, StepInfo
-from compiler.IR.base import Module
+from compiler.IR.base import Module, StatePool
 import copy
 import threading
 import logging
@@ -21,7 +22,7 @@ logger = logging.getLogger(__name__)
 APICompatibleMessage = Dict[str, str] # {"role": "...", "content": "..."}
 _thread_local_chain = threading.local()
 
-def _local_forward(_local_lm: 'CogLM', messages: List[APICompatibleMessage], inputs: Dict[str, str], model_kwargs: Optional[dict] = None):
+def _local_forward(_local_lm: 'CogLM', messages: List[APICompatibleMessage], inputs: Dict[str, str], model_kwargs: Optional[dict] = None) -> str:
   if _local_lm.reasoning:
     responses: List[ModelResponse] = _local_lm.reasoning.forward(_local_lm, messages, model_kwargs)
     _local_lm.response_metadata_history.extend([ResponseMetadata(model=response.model, 
@@ -39,7 +40,7 @@ def _local_forward(_local_lm: 'CogLM', messages: List[APICompatibleMessage], inp
   _local_lm.steps.append(step_info)
   _local_lm.rationale = None
   
-  return response
+  return response.choices[0].message.content
 
 @dataclass
 class LMConfig:
@@ -92,6 +93,7 @@ class CogLM(Module):
 
     # TODO: improve lm configuration handling between agents. currently just unique config for each agent
     self.lm_config = copy.deepcopy(lm_config)
+    self.input_fields = [input_var.name for input_var in self.input_variables]
 
     setattr(_thread_local_chain, agent_name, self)
 
@@ -228,14 +230,37 @@ class CogLM(Module):
     with self._lock:
       self.steps.extend(_local_self.steps)
       self.response_metadata_history.extend(_local_self.response_metadata_history)
+  
+  @override
+  def invoke(self, statep: StatePool):
+    logger.debug(f"Invoking {self}")
+    for field in self.input_fields:
+        if field not in self.defaults and field not in statep.states:
+            raise ValueError(f"Missing field {field} in state when calling {self.name}, available fields: {statep.states.keys()}")
+    kargs = {field: statep.news(field) for field in statep.states if field in self.input_fields}
+    messages = statep.news(f"messages", [])
+    model_kwargs = statep.news(f"model_kwargs", None)
+    # time the execution
+    start = time.perf_counter()
+    result = self.forward(messages=messages, inputs=kargs, model_kwargs=model_kwargs)
+    dur = time.perf_counter() - start
+    result_snapshot = copy.deepcopy(result)
+    statep.publish(result_snapshot, self.version_id, self.is_static)
+    self.outputs.append(result_snapshot)
+    # update metadata
+    self.exec_times.append(dur)
+    self.version_id += 1
 
-  def __call__(self, inputs: Dict[InputVar|str, str], messages: Optional[List[APICompatibleMessage]] = [], model_kwargs: Optional[dict] = None) -> ModelResponse:
-    if isinstance(list(inputs.keys())[0], InputVar):
-      stripped_inputs = {input_var.name: value for input_var, value in inputs.items()}
-    
-    # messages can override messages constructed from inputs
-    final_message_list = messages or self._get_input_messages(inputs)
-    
+  def prepare_input(self, messages: List[APICompatibleMessage], inputs: Dict[InputVar|str, str], model_kwargs: Optional[dict]) -> ModelResponse:
+    # input variables will always take precedence
+    if not inputs:
+      assert messages, "Messages must be provided"
+      final_message_list = messages
+    else:
+      if isinstance(list(inputs.keys())[0], InputVar):
+        inputs = {input_var.name: value for input_var, value in inputs.items()}
+      final_message_list = self._get_input_messages(inputs)
+
     # lm config will always take precedence
     if not self.lm_config:
       assert model_kwargs, "Model kwargs must be provided if LM config is not set at initialization"
@@ -243,12 +268,33 @@ class CogLM(Module):
     else:
       full_kwargs = self.lm_config.get_model_kwargs()
 
-    return self.forward(final_message_list, stripped_inputs, full_kwargs)
+    return final_message_list, inputs, full_kwargs
 
-  def forward(self, messages: List[APICompatibleMessage], inputs: Dict[str, str], model_kwargs: dict) -> ModelResponse:
+  def forward(self, messages: List[APICompatibleMessage] = [], inputs: Dict[str, str] = None, model_kwargs: dict = None):
     _self = self.get_thread_local_chain()
+    messages, inputs, model_kwargs = _self.prepare_input(messages, inputs, model_kwargs)
     result = _local_forward(_self, messages, inputs, model_kwargs)
     self.aggregate_thread_local_meta(_self)
+    return {self.get_output_label_name(): result}
+  
+  def __call__(
+    self, 
+    inputs: Dict[str, str], 
+    messages: List[APICompatibleMessage] = [], 
+    model_kwargs: dict = None
+  ):
+    """External interface to invoke the cog_lm
+    """
+    statep = StatePool()
+    statep.init(
+      {
+        "messages": messages,
+        "model_kwargs": model_kwargs,
+        **inputs,
+      }
+    )
+    self.invoke(statep) # kwargs have already been set when initializing cog_lm
+    result = statep.news(self.get_output_label_name())
     return result
 
   def _get_input_messages(self, inputs: Dict[str, str]) -> List[APICompatibleMessage]:
@@ -344,3 +390,9 @@ class StructuredCogLM(CogLM):
                         response_format=self.output_format.schema,
                         **model_kwargs)
       return response
+  
+  @override
+  def forward(self, messages: List[APICompatibleMessage] = [], inputs: Dict[str, str] = None, model_kwargs: dict = None) -> str:
+    result = super().forward(messages, inputs, model_kwargs)
+    result_obj = self.output_format.schema.model_validate_json(result[self.get_output_label_name()])
+    return {self.get_output_label_name(): result_obj}

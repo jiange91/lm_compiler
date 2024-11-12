@@ -14,6 +14,11 @@ from abc import ABC, abstractmethod
 import multiprocessing as mp
 import textwrap
 from tqdm import tqdm
+from compiler.optimizer import (
+    get_registered_opt_program_entry, 
+    get_registered_opt_modules, 
+    get_registered_opt_score_fn,
+)
 
 import logging
 
@@ -228,7 +233,6 @@ class EvalTask:
                     new_module.compile()
                 logger.debug(f'replace {m} with {new_module}')
                 m.invoke = new_module.invoke
-                m.reset()
         
         # clear execution state
         for m in module_pool.values():
@@ -265,7 +269,8 @@ class EvalTask:
                 for param_name, option_name in param_options:
                     param_hash = CogBase.chash(module_name, param_name)
                     param = self.all_params[param_hash]
-                    trace_lines.append(f"\n    - Parameter: {param}")
+                    class_path = f"{param.__class__.__module__}.{param.__class__.__name__}"
+                    trace_lines.append(f"\n    - Parameter: <{class_path}>")
                     trace_lines.append(f"      Applied Option: {option_name}")
                     # Get the description with indentation for each line
                     option_description = param.options[option_name].describe()

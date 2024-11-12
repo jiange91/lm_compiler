@@ -4,6 +4,7 @@ import multiprocessing as mp
 import os
 import logging
 import json
+import debugpy
 
 from compiler.optimizer.plugin import OptimizerSchema
 from compiler.cognify_args import init_cognify_args, OptimizationArgs, EvaluationArgs, InspectionArgs
@@ -81,7 +82,11 @@ def load_data(data_loader_path):
     capture_module_from_fs(data_loader_path)
     data_loader_fn = get_registered_data_loader()
     train_set, val_set, test_set = data_loader_fn()
-    logger.info(f"size of train set: {len(train_set)}, val set: {len(val_set)}, test set: {len(test_set)}")
+    logger.info(
+        f"size of train set: {0 if not train_set else len(train_set)}, "
+        f"val set: {0 if not val_set else len(val_set)}, "
+        f"test set: {0 if not test_set else len(test_set)}"
+    )
     return train_set, val_set, test_set
     
 

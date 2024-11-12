@@ -23,7 +23,6 @@ class LayerConfig:
         target_modules: Iterable[str] = None,
         save_ckpt_interval: int = 1,
         opt_config: OptConfig = None,
-        use_SH_allocation: bool = True,
     ):
         """Config for each optimization layer
         
@@ -41,7 +40,6 @@ class LayerConfig:
             opt_config (OptConfig, optional): optimization config. Defaults to None.
                 all fields not set here will be decided by the upper layer
             
-            use_SH_allocation (bool, optional): whether to use SH allocation. Defaults to False.
         """
         self.layer_name = layer_name
         self.dedicate_params = dedicate_params
@@ -49,10 +47,12 @@ class LayerConfig:
         self.target_modules = target_modules
         self.save_ckpt_interval = save_ckpt_interval
         self.opt_config = opt_config
-        self.use_SH_allocation = use_SH_allocation
         
         if len(self.dedicate_params) + len(self.universal_params) == 0:
             raise ValueError(f'No params provided for optimization layer {layer_name}')
+        
+        if self.opt_config is None:
+            self.opt_config = OptConfig(n_trials=5)
     
     def to_dict(self):
         return {
@@ -62,7 +62,6 @@ class LayerConfig:
             'target_modules': self.target_modules,
             'save_ckpt_interval': self.save_ckpt_interval,
             'opt_config': asdict(self.opt_config),
-            'use_SH_allocation': self.use_SH_allocation,
         }
     
     @classmethod
@@ -74,7 +73,6 @@ class LayerConfig:
             target_modules=d['target_modules'],
             save_ckpt_interval=d['save_ckpt_interval'],
             opt_config=OptConfig(**d['opt_config']),
-            use_SH_allocation=d['use_SH_allocation'],
         )
         
 
@@ -144,7 +142,7 @@ class MultiLayerOptimizationDriver:
                     target_modules=layer_config.target_modules,
                     save_ckpt_interval=layer_config.save_ckpt_interval,
                     next_level_opt_config=self.layer_configs[idx + 1].opt_config,
-                    use_SH_allocation=layer_config.use_SH_allocation,
+                    use_SH_allocation=layer_config.opt_config.use_SH_allocation,
                     quality_constraint=self.quality_constraint,
                     hierarchy_level=idx,
                 )
@@ -181,7 +179,7 @@ class MultiLayerOptimizationDriver:
         
         top_layer = self.opt_layers[0]
         top_layer.load_opt_log(opt_config.opt_log_path)
-        all_configs = top_layer.get_all_candidates()
+        all_configs = top_layer.get_all_candidates(opt_config.opt_log_path)
         config_path = None
         for opt_log, path in all_configs:
             if opt_log.id == config_id:
@@ -217,7 +215,7 @@ class MultiLayerOptimizationDriver:
             os.makedirs(param_log_dir, exist_ok=True)
         for i, (trial_log, opt_path) in enumerate(frontier):
             trial_log: BottomLevelTrialLog
-            dump_path = os.path.join(param_log_dir, f'option_{i+1}.cog')
+            dump_path = os.path.join(param_log_dir, f'option_{i}.cog')
             trans = trial_log.show_transformation()
             details = f"Trial - {trial_log.id}\n"
             details += f"Log at: {opt_path}\n"

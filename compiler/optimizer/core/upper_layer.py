@@ -249,7 +249,7 @@ class UpperLevelOptimization(OptimizationLayer):
             if self.save_ckpt_interval > 0 and i % self.save_ckpt_interval == 0:
                 self.save_ckpt(opt_config.opt_log_path, opt_config.param_save_path)
     
-    def get_all_candidates(self) -> list[TrialLog, str]:
+    def get_all_candidates(self, config_path: str = None) -> list[TrialLog, str]:
         candidates = []
         for _, upper_trial_log in self.opt_logs.items():
             bot_opt_log_path = os.path.join(upper_trial_log.next_level_log_dir, 'opt_logs.json') 

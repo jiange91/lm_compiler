@@ -1,11 +1,11 @@
 import dspy
 from dsp.utils.utils import deduplicate
 import dspy.evaluate
-from compiler.utils import load_api_key
 import string
 import time
+import dotenv
 
-load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')
+dotenv.load_dotenv()
 
 colbert = dspy.ColBERTv2(url='http://192.168.1.16:8893/api/search')
 dspy.configure(rm=colbert)
@@ -88,7 +88,6 @@ class BasicMH(dspy.Module):
         search_query = search_query.replace("\n", ". ")
         passages = self.retrieve(search_query).passages
         context = deduplicate(context + passages)
-        
         answer = self.generate_answer(context=self.doc_str(context), question=question).answer
         return answer
 

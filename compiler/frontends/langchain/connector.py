@@ -3,12 +3,16 @@ from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTempla
 from langchain_core.prompt_values import ChatPromptValue
 from langchain_core.output_parsers import BaseOutputParser
 from langchain_openai.chat_models.base import BaseChatOpenAI
+from compiler.IR.base import StatePool
 from compiler.llm import CogLM, InputVar, StructuredCogLM, OutputFormat
 from compiler.llm.model import LMConfig
 import uuid
 from litellm import ModelResponse
 from typing import Any, List, Dict
 from dataclasses import dataclass
+from langchain_core.messages import AIMessage
+from langchain_core.runnables import RunnableLambda
+
 
 APICompatibleMessage = Dict[str, str] # {"role": "...", "content": "..."}
 
@@ -86,7 +90,7 @@ class RunnableCogLM(Runnable):
                   system_prompt=system_prompt_content,
                   input_variables=input_vars,
                   lm_config=lm_config)
-
+  
   def invoke(self, input: Dict) -> Any:
     assert self.cog_lm, "CogLM must be initialized before invoking"
 
@@ -94,11 +98,12 @@ class RunnableCogLM(Runnable):
     if self.chat_prompt_template:
       chat_prompt_value: ChatPromptValue = self.chat_prompt_template.invoke(input)
       messages = self._get_api_compatible_messages(chat_prompt_value)
-    result: ModelResponse = self.cog_lm(input, messages) # kwargs have already been set when initializing cog_lm
+      
+    result = self.cog_lm(messages, input) # kwargs have already been set when initializing cog_lm
     if isinstance(self.cog_lm, StructuredCogLM):
-      return self.cog_lm.parse_response(result)
+      return result
     else:
-      return LangchainOutput(content=result.choices[0].message.content)
+      return AIMessage(result)
     
   def _get_api_compatible_messages(chat_prompt_value: ChatPromptValue) -> List[APICompatibleMessage]:
     api_comptaible_messages: List[APICompatibleMessage] = []
@@ -109,8 +114,7 @@ class RunnableCogLM(Runnable):
         raise NotImplementedError(f"Message type {type(message)} is not supported, must be one of `SystemMessage`, `HumanMessage`, or `AIMessage`")
     return api_comptaible_messages
   
-
-def as_runnable(cog_lm: CogLM) -> RunnableCogLM:
+def as_runnable(cog_lm: CogLM):
   runnable_cog_lm = RunnableCogLM(runnable=None, name=cog_lm.name)
   runnable_cog_lm.cog_lm = cog_lm
-  return runnable_cog_lm
+  return RunnableLambda(runnable_cog_lm.invoke)

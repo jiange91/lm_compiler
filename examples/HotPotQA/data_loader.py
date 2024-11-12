@@ -30,4 +30,4 @@ def load_data_minor():
         ("""What river is near the Crichton Collegiate Church?""", """the River Tyne"""),
         ("Where did an event take place resulting in a win during a domestic double due to the action of a Peruvian footballer known for his goal scoring ability?", "Bundesliga"),
     ]
-    return trainset[:3], trainset[3:5], trainset[-4:-3]
+    return trainset[:3], trainset[3:5], trainset

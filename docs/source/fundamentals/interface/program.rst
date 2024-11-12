@@ -1,7 +1,7 @@
 .. _cognify_interface:
 
 ########################################
-Cognify Interface
+Programming with Cognify
 ########################################
 
 There are 4 key components that the Cognify optimizer utilizes when improving a workflow:

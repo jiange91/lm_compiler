@@ -23,3 +23,4 @@ This section provides an overview of the core concepts, design principles, and t
    :maxdepth: 2
 
    optimizer/overview
+   optimizer/search_space

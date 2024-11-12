@@ -121,7 +121,7 @@ class OptConfig:
     opt_log_path: str = field(default=None)
     param_save_path: str = field(default=None)
     frugal_eval_cost: bool = field(default=True)
-    
+    use_SH_allocation: bool = field(default=False)
     
     def finalize(self):
         if not os.path.exists(self.log_dir):

@@ -46,4 +46,5 @@ def capture_module_from_fs(module_path: str):
     spec = importlib.util.spec_from_file_location(path.stem, path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
+    return module
     

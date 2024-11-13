@@ -10,16 +10,12 @@ logger = logging.getLogger(__name__)
 @dataclasses.dataclass(kw_only=True)
 class CommonArgs:
     workflow: str
-    data_loader: str = None
-    evaluator: str = None
-    control_param: str = None
+    config: str = None
     log_level: str = 'INFO'
     
     def __post_init__(self):
         # Set missing values
-        self.search_at_workflow_dir_if_not_set('data_loader', 'py')
-        self.search_at_workflow_dir_if_not_set('evaluator', 'py')
-        self.search_at_workflow_dir_if_not_set('control_param', 'py')
+        self.search_at_workflow_dir_if_not_set('config', 'py')
     
     @staticmethod
     def add_cli_args(parser: argparse.ArgumentParser):
@@ -30,28 +26,13 @@ class CommonArgs:
             metavar='path_to_workflow',
         )
         parser.add_argument(
-            '-d', '--data_loader', 
+            '-c', '--config',
             type=str,
-            default=CommonArgs.data_loader,
-            help="Path to the data loader script.\n"
-            "If not provided, will search data_loader.py in the same directory as workflow script.",
-            metavar='path_to_data_loader',
-        )
-        parser.add_argument(
-            '-e', '--evaluator', 
-            type=str,
-            default=CommonArgs.evaluator,
-            help="Path to the evaluator script.\n"
-            "If not provided, will search evaluator.py in the same directory as workflow script.",
-            metavar='path_to_evaluator',
-        )
-        parser.add_argument(
-            '-c', '--control_param',
-            type=str,
-            default=OptimizationArgs.control_param,
-            help="Path to the optimizer control parameter file.\n"
-            "If not provided, will search control_param.py in the same directory as workflow script.",
-            metavar='path_to_opimizer_control_param',
+            default=OptimizationArgs.config,
+            help="Path to the configuration file for the optimization pipeline.\n"
+            "If not provided, will search config.py in the same directory as workflow script.\n"
+            "The file should contains the evaluator, data_loader, and optimizer settings.",
+            metavar='path_to_config',
         )
         parser.add_argument(
             '-l', '--log_level',

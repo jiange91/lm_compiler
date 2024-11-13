@@ -9,7 +9,7 @@ import debugpy
 from cognify.optimizer.plugin import OptimizerSchema
 from cognify.cognify_args import init_cognify_args, OptimizationArgs, EvaluationArgs, InspectionArgs
 from cognify.optimizer.plugin import capture_module_from_fs
-from cognify.optimizer.registry import get_registered_data_loader
+from cognify.optimizer.registry import get_registered_data_loader, get_registered_opt_score_fn
 from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from cognify.optimizer.core import driver
 from cognify.optimizer.control_param import ControlParameter
@@ -28,14 +28,7 @@ def from_cognify_args(args):
     else:
         raise ValueError(f"Unknown mode: {args.mode}")
     
-def dry_run(script_path, evaluator_path, train_data, eval_parallel, log_dir):
-    evaluator = EvaluatorPlugin(
-        evaluator_path=evaluator_path,
-        trainset=train_data,
-        evalset=None,
-        testset=None,
-        n_parallel=eval_parallel,
-    )
+def dry_run(script_path, evaluator: EvaluatorPlugin, log_dir):
     eval_task = EvalTask(
         script_path=script_path,
         args=[],
@@ -45,7 +38,7 @@ def dry_run(script_path, evaluator_path, train_data, eval_parallel, log_dir):
         aggregated_proposals={},
         trace_back=["dry_run"],
     )
-    logger.info(f"Dry run on train set: {len(train_data)} samples for optimizer analysis")
+    logger.info(f"Dry run on train set: {len(evaluator.dataset['train'])} samples for optimizer analysis")
     dry_run_log_path = os.path.join(log_dir, 'dry_run_train.json')
     
     if os.path.exists(dry_run_log_path):
@@ -60,7 +53,7 @@ def dry_run(script_path, evaluator_path, train_data, eval_parallel, log_dir):
     logger.info(f"Dry run result saved to {dry_run_log_path}")
     return result
 
-def downsample_data(script_path, source, mode, sample_size, log_dir):
+def downsample_data(script_path, source: EvaluatorPlugin, mode, sample_size, log_dir):
     plain_task = EvalTask(
         script_path=script_path,
         args=[],
@@ -77,9 +70,10 @@ def downsample_data(script_path, source, mode, sample_size, log_dir):
         log_dir=log_dir,
     )
 
-def load_data(data_loader_path):
-    logger.info(f"Loading data from {data_loader_path}")
-    capture_module_from_fs(data_loader_path)
+def parse_pipeline_config_file(config_path):
+    config_module = capture_module_from_fs(config_path)
+    
+    # load data
     data_loader_fn = get_registered_data_loader()
     train_set, val_set, test_set = data_loader_fn()
     logger.info(
@@ -87,19 +81,19 @@ def load_data(data_loader_path):
         f"val set: {0 if not val_set else len(val_set)}, "
         f"test set: {0 if not test_set else len(test_set)}"
     )
-    return train_set, val_set, test_set
+    
+    # get optimizer control parameters
+    control_param = ControlParameter.build_control_param(loaded_module=config_module)
+    
+    return (train_set, val_set, test_set), control_param
     
 
 def optimize_routine(opt_args: OptimizationArgs):
-    # load data
-    train_set, val_set, test_set = load_data(opt_args.data_loader)
-    
-    # get optimizer control parameters
-    control_param = ControlParameter.build_control_param(opt_args.control_param)
+    (train_set, val_set, test_set), control_param = parse_pipeline_config_file(opt_args.config)
     
     # create evaluator
     evaluator = EvaluatorPlugin(
-        evaluator_path=opt_args.evaluator,
+        evaluator_path=opt_args.config,
         trainset=train_set,
         evalset=val_set,
         testset=test_set,
@@ -109,9 +103,7 @@ def optimize_routine(opt_args: OptimizationArgs):
     # dry run on train set
     raw_result = dry_run(
         script_path=opt_args.workflow, 
-        evaluator_path=opt_args.evaluator,
-        train_data=train_set, 
-        eval_parallel=control_param.evaluator_batch_size,
+        evaluator=evaluator,
         log_dir=control_param.opt_history_log_dir,
     )
     

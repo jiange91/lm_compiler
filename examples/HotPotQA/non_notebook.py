@@ -2,7 +2,7 @@ import dotenv
 
 dotenv.load_dotenv()
 
-from compiler.llm.model import LMConfig
+from cognify.llm.model import LMConfig
 
 lm_config = LMConfig(
     custom_llm_provider='openai',
@@ -12,7 +12,7 @@ lm_config = LMConfig(
     }
 )
 
-from compiler.llm import CogLM, InputVar, OutputLabel
+from cognify.llm import CogLM, InputVar, OutputLabel
 
 initial_query_prompt = """
 You are an expert at crafting precise search queries based on a provided question. Your sole task is to generate a detailed and well-structured search query that will help retrieve relevant external documents containing information needed to answer the question.
@@ -48,7 +48,7 @@ from dsp.utils.utils import deduplicate
 colbert = dspy.ColBERTv2(url='http://192.168.1.16:8893/api/search') # replace this with your own ColBERT server
 dspy.configure(rm=colbert)
 
-from compiler.frontends.dspy.connector import as_predict
+from cognify.frontends.dspy.connector import as_predict
 
 class BasicQA(dspy.Module):
     def __init__(self, passages_per_hop=3):

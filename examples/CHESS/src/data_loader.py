@@ -145,7 +145,7 @@ def read_from_file(data_path, args):
     eval_data = [(input, None) for input in inputs]
     return eval_data
 
-from compiler.optimizer.registry import register_data_loader
+from cognify.optimizer.registry import register_data_loader
 import numpy as np
 
 @register_data_loader

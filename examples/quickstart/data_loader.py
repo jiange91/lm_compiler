@@ -1,4 +1,4 @@
-from compiler.optimizer.registry import register_data_loader
+from cognify.optimizer.registry import register_data_loader
 import json
 
 @register_data_loader

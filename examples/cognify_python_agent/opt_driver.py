@@ -1,9 +1,9 @@
-from compiler.optimizer.layered_optimizer_pluggable import InnerLoopBayesianOptimization, OuterLoopOptimization
-from compiler.cog_hub.fewshot import LMFewShot
-from compiler.cog_hub.scaffolding import LMScaffolding
-from compiler.optimizer.importance_eval_new import LMImportanceEvaluator
-from compiler.cog_hub import reasoning, model_selection, common
-from compiler.optimizer.evaluation.evaluator import EvaluatorInterface, EvaluationResult, EvaluatorPlugin, EvalTask
+from cognify.optimizer.layered_optimizer_pluggable import InnerLoopBayesianOptimization, OuterLoopOptimization
+from cognify.cog_hub.fewshot import LMFewShot
+from cognify.cog_hub.scaffolding import LMScaffolding
+from cognify.optimizer.importance_eval_new import LMImportanceEvaluator
+from cognify.cog_hub import reasoning, model_selection, common
+from cognify.optimizer.evaluation.evaluator import EvaluatorInterface, EvaluationResult, EvaluatorPlugin, EvalTask
 import runpy
 import uuid
 import multiprocessing as mp
@@ -12,9 +12,9 @@ import os
 import random
 import optuna
 
-from compiler.cog_hub.common import NoChange
-from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
-from compiler.optimizer.plugin import OptimizerSchema
+from cognify.cog_hub.common import NoChange
+from cognify.cog_hub.reasoning import ZeroShotCoT, PlanBefore
+from cognify.optimizer.plugin import OptimizerSchema
 from humaneval.humaneval import HumanEvalDataset
 
 def opt(train):

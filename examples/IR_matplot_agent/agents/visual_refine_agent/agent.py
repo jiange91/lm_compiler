@@ -6,9 +6,9 @@ import re
 from .prompt import SYSTEM_PROMPT, USER_PROMPT, ERROR_PROMPT
 from agents.openai_chatComplete import  completion_for_4v
 from agents.utils import fill_in_placeholders, common_lm_config
-from compiler.llm.model import CogLM, InputVar, OutputLabel, LMConfig
-from compiler.cog_hub.reasoning import ZeroShotCoT
-
+from cognify.llm.model import CogLM, InputVar, OutputLabel, LMConfig
+from cognify.cog_hub.reasoning import ZeroShotCoT
+cognify
 
 
 def encode_image(image_path):

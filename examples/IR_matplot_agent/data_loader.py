@@ -2,7 +2,7 @@ import json
 import os
 import numpy as np
 
-from compiler.optimizer.registry import register_data_loader
+from cognify.optimizer.registry import register_data_loader
 
 @register_data_loader
 def load_data():

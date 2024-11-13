@@ -11,13 +11,13 @@ colbert = dspy.ColBERTv2(url='http://192.168.1.16:8893/api/search')
 dspy.configure(rm=colbert)
 
 import copy
-from compiler.cog_hub.reasoning import ZeroShotCoT
-from compiler.cog_hub.common import NoChange
-from compiler.llm.model import LMConfig, CogLM
-from compiler.llm import InputVar, OutputLabel
-from compiler.frontends.dspy.connector import as_predict
+from cognify.cog_hub.reasoning import ZeroShotCoT
+from cognify.cog_hub.common import NoChange
+from cognify.llm.model import LMConfig, CogLM
+from cognify.llm import InputVar, OutputLabel
+from cognify.frontends.dspy.connector import as_predict
 from evaluator import answer_f1
-from compiler.optimizer import register_opt_program_entry
+from cognify.optimizer import register_opt_program_entry
 
 lm_config = LMConfig(
     custom_llm_provider='openai',

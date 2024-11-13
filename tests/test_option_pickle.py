@@ -6,18 +6,18 @@ import uuid
 import pickle
 
 import multiprocessing as mp
-from compiler.IR.program import StatePool, Module
-from compiler.cog_hub.fewshot import LMFewShot
-from compiler.optimizer.evaluation.evaluator import Evaluator
-from compiler.optimizer.evaluation.metric import MetricBase, MInput
-from compiler.llm import CogLM, InputVar, OutputLabel
-from compiler.llm.model import LMConfig
+from cognify.graph.program import StatePool, Module
+from cognify.cog_hub.fewshot import LMFewShot
+from cognify.optimizer.evaluation.evaluator import Evaluator
+from cognify.optimizer.evaluation.metric import MetricBase, MInput
+from cognify.llm import CogLM, InputVar, OutputLabel
+from cognify.llm.model import LMConfig
 
-from compiler.cog_hub import reasoning, model_selection, common, ensemble
-from compiler.cog_hub.utils import load_params
-from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
+from cognify.cog_hub import reasoning, model_selection, common, ensemble
+from cognify.cog_hub.utils import load_params
+from cognify.cog_hub.reasoning import ZeroShotCoT, PlanBefore
 
-from compiler.utils import load_api_key
+from cognify.utils import load_api_key
 load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')
 
 def is_picklable(obj):

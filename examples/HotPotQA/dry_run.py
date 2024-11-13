@@ -1,4 +1,4 @@
-from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
+from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from data_loader import load_data_minor
 
 if __name__ == '__main__':

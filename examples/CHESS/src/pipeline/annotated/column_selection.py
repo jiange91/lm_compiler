@@ -2,9 +2,9 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', '..', '..', '..'))
-from compiler.llm import CogLM, InputVar, OutputLabel
-from compiler.llm.prompt import Demonstration
-from compiler.frontends.langchain.connector import as_runnable
+from cognify.llm import CogLM, InputVar, OutputLabel
+from cognify.llm.prompt import Demonstration
+from cognify.frontends.langchain.connector import as_runnable
 from langchain_core.output_parsers import JsonOutputParser
 from llm.parsers import ColumnSelectionOutput
 

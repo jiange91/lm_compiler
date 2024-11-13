@@ -4,13 +4,13 @@ import sys
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', '..', '..', '..'))
 
 from typing import Any
-from compiler.frontends.langchain.connector import as_runnable
-from compiler.llm import CogLM, InputVar, OutputFormat, OutputLabel
+from cognify.frontends.langchain.connector import as_runnable
+from cognify.llm import CogLM, InputVar, OutputFormat, OutputLabel
 
-from compiler.llm import *
-from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
+from cognify.llm import *
+from cognify.cog_hub.reasoning import ZeroShotCoT, PlanBefore
 from llm.parsers import SQLGenerationOutput, RawSqlOutputParser
-from compiler.cog_hub import ensemble
+from cognify.cog_hub import ensemble
 from langchain_core.runnables import chain
 
 

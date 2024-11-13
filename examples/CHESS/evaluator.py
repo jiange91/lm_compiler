@@ -1,4 +1,4 @@
-from compiler.optimizer import register_opt_program_entry, register_opt_score_fn
+from cognify.optimizer import register_opt_program_entry, register_opt_score_fn
 
 @register_opt_score_fn
 def eval(label, stats):

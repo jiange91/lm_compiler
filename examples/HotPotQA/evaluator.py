@@ -1,4 +1,4 @@
-from compiler.optimizer import register_opt_score_fn
+from cognify.optimizer import register_opt_score_fn
 from dsp.utils.metrics import HotPotF1, F1
 
 @register_opt_score_fn

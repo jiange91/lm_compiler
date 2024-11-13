@@ -2,7 +2,7 @@ from langchain_core.runnables import Runnable, RunnableSequence
 from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from langchain_core.prompt_values import ChatPromptValue
 from langchain_core.output_parsers import BaseOutputParser
-from langchain_openai.chat_models.base import BaseChatOpenAI
+from langchain_core.language_models.chat_models import BaseChatModel
 from compiler.IR.base import StatePool
 from compiler.llm import CogLM, InputVar, StructuredCogLM, OutputFormat
 from compiler.llm.model import LMConfig
@@ -33,8 +33,8 @@ class RunnableCogLM(Runnable):
   
   """
   Connector currently supports the following units to construct a `CogLM`:
-  - BaseChatPromptTemplate | BaseChatOpenAI
-  - BaseChatPromptTemplate | BaseChatOpenAI | BaseOutputParser
+  - BaseChatPromptTemplate | BaseChatModel
+  - BaseChatPromptTemplate | BaseChatModel | BaseOutputParser
   These indepedent units should be split out of more complex chains.
   """
   def cognify_runnable(self, runnable: Runnable = None, name: str = None) -> CogLM:
@@ -48,13 +48,13 @@ class RunnableCogLM(Runnable):
     output_parser = None
 
     if runnable.middle is None:
-      assert isinstance(runnable.last, BaseChatOpenAI), "Last runnable in a sequence with no middle must be a `BaseChatOpenAI`"
-      chat_model: BaseChatOpenAI = runnable.last
+      assert isinstance(runnable.last, BaseChatModel), "Last runnable in a sequence with no middle must be a `BaseChatModel`"
+      chat_model: BaseChatModel = runnable.last
     elif len(runnable.middle) == 1:
-      assert isinstance(runnable.middle[0], BaseChatOpenAI), "Middle runnable must be a `BaseChatOpenAI`"
-      chat_model: BaseChatOpenAI = runnable.middle[0]
+      assert isinstance(runnable.middle[0], BaseChatModel), "Middle runnable must be a `BaseChatModel`"
+      chat_model: BaseChatModel = runnable.middle[0]
 
-      assert isinstance(runnable.last, BaseOutputParser), "Last runnable in a sequence with a middle `BaseChatOpenAI` must be a `BaseOutputParser`"
+      assert isinstance(runnable.last, BaseOutputParser), "Last runnable in a sequence with a middle `BaseChatModel` must be a `BaseOutputParser`"
       output_parser: BaseOutputParser = runnable.last
     else:
       raise NotImplementedError("Only one middle runnable is supported at this time")
@@ -66,7 +66,7 @@ class RunnableCogLM(Runnable):
     assert isinstance(self.chat_prompt_template.messages[0], SystemMessagePromptTemplate), "First message in a `ChatPromptTemplate` must be a `SystemMessagePromptTemplate`"
     system_message_prompt_template: SystemMessagePromptTemplate = self.chat_prompt_template.messages[0]
     if system_message_prompt_template.prompt.input_variables:
-      raise NotImplementedError("Input variables are not supported in the system prompt. Best practices suggest placing these in")
+      raise NotImplementedError("Input variables are not supported in the system prompt. Best practices suggest placing these in the user messages in the prompt template")
     system_prompt_content: str = system_message_prompt_template.prompt.template
 
     # input variables (ignore partial variables)

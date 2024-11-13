@@ -11,6 +11,10 @@ from types import ModuleType
 from pydantic import BaseModel
 from datamodel_code_generator.parser.jsonschema import JsonSchemaParser
 
+from tqdm.auto import tqdm
+
+_cognify_tqdm = tqdm
+
 logger = logging.getLogger(__name__)
 
 def aggregator_factory(lm: CogLM, code: str):
@@ -73,3 +77,4 @@ def json_schema_to_pydantic_model(json_schema: dict, file_path: str) -> type[Bas
     main_model_name = _to_camel_case(name=json_schema["title"])
     pydantic_model: type[BaseModel] = module.__dict__[main_model_name]
     return pydantic_model
+

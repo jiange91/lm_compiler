@@ -13,7 +13,7 @@ import uuid
 from abc import ABC, abstractmethod
 import multiprocessing as mp
 import textwrap
-from tqdm import tqdm
+from cognify.optimizer.utils import _cognify_tqdm as tqdm
 from cognify.optimizer import (
     get_registered_opt_program_entry, 
     get_registered_opt_modules, 

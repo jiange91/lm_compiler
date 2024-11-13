@@ -9,7 +9,7 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, Future, wait, FIRST_COMPLETED, as_completed
 import threading
 import traceback
-from tqdm import tqdm
+from cognify.optimizer.utils import _cognify_tqdm as tqdm
 import heapq
 import warnings
 
@@ -117,7 +117,7 @@ class OptimizationLayer:
         # NOTE: if param file exists, will load params from file and ignore the given params
         param_save_path = self.top_down_info.opt_config.param_save_path
         if os.path.exists(param_save_path):
-            logger.info(f'Loading innerloop params from {param_save_path}')
+            logger.info(f'Loading {self.name} params from {param_save_path}')
             l_param = load_params(param_save_path)
             for param in l_param:
                 self.params[param.module_name].append(param)

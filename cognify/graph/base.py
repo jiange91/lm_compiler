@@ -118,7 +118,7 @@ class ModuleInterface(ABC):
         """
         ...
 
-MT = TypeVar('MT', bound='Module')   
+MT = TypeVar('MT', bound='Module') 
 
 class Module(ModuleInterface):
     def __init__(self, name, kernel, opt_register: bool = False) -> None:
@@ -132,6 +132,7 @@ class Module(ModuleInterface):
         self.enclosing_module: ComposibleModuleInterface = None
         self.prepare_input_env()
         
+        self.opt_target = opt_register
         if opt_register:
             register_opt_module(self)
         

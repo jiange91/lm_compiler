@@ -19,6 +19,9 @@ def normalize_text(s):
     s = ' '.join(s.split())
     return s
 
+from cognify.optimizer import register_opt_score_fn
+
+@register_opt_score_fn
 def f1_score_strings(label, pred):
     # Tokenize the strings (split by whitespace)
     tokens1 = set(normalize_text(label).split())
@@ -38,12 +41,6 @@ def f1_score_strings(label, pred):
     f1 = 2 * precision * recall / (precision + recall)
     return f1
 
-from cognify.optimizer import register_opt_score_fn
-
-@register_opt_score_fn
-def f1(label: str, pred: str) -> float:
-    score = f1_score_strings(label, pred)
-    return score
 
 #================================================================
 # Data Loader
@@ -95,7 +92,7 @@ few_shot_params = LMFewShot(2)
 
 # Layer Config
 inner_opt_config = flow.OptConfig(
-    n_trials=6,
+    n_trials=2,
 )
 inner_loop_config = driver.LayerConfig(
     layer_name='inner_loop',
@@ -123,4 +120,5 @@ outer_loop_config = driver.LayerConfig(
 optimize_control_param = ControlParameter(
     opt_layer_configs=[outer_loop_config, inner_loop_config],
     opt_history_log_dir='opt_results',
+    evaluator_batch_size=2,
 )

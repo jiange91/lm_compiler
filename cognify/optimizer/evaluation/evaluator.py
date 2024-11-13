@@ -26,7 +26,7 @@ from cognify.graph.program import Workflow, Module
 from cognify.llm import CogLM, Demonstration
 from cognify.cog_hub.common import CogBase
 from cognify.cog_hub.utils import build_param
-from cognify.optimizer.plugin import OptimizerSchema
+from cognify.optimizer.plugin import OptimizerSchema, capture_module_from_fs
 from cognify.optimizer.core.flow import TopDownInformation, ModuleTransformTrace
 
 logger = logging.getLogger(__name__)
@@ -34,13 +34,6 @@ logger = logging.getLogger(__name__)
 def default_reduer(xs):
     return sum(xs) / len(xs)
 
-class EvaluatorConfig:
-    """Control what to log
-    
-    TODO: implement this
-    """
-    ...
-    
 # {module_name: demo}
 TDemoInTrial = dict[str, Demonstration] 
 
@@ -109,7 +102,34 @@ class EvaluationResult:
             reduced_score=data['summary']['reduced_score'],
             reduced_price=data['summary']['reduced_price'],
         )
+
+class EvalFn:
+    def __init__(
+        self, 
+        score_fn: Optional[Callable] = None,
+        score_file_path: Optional[str] = None,
+    ):
+        self.score_fn = score_fn
+        self.score_file_path = score_file_path
     
+    def _set_score_fn(self):
+        if self.score_file_path is not None:
+            # load the score file
+            dir = os.path.dirname(self.score_file_path)
+            if dir not in sys.path:
+                sys.path.append(dir)
+            
+            capture_module_from_fs(self.score_file_path)
+            self.score_fn = get_registered_opt_score_fn()
+        
+        assert self.score_fn is not None, "score function not set properly"
+    
+    def score(self, label, result):
+        # lazy load the score function
+        # This to avoid pickling the score function
+        if self.score_fn is None:
+            self._set_score_fn()
+        return self.score_fn(label, result)
 
 @dataclass
 class EvalTask:
@@ -202,25 +222,24 @@ class EvalTask:
         }
         return new_modules_dict
 
-    def get_program_schema(self, evaluator_path: str) -> OptimizerSchema:
-        self.add_PYTHON_PATH(evaluator_path)
+    def get_program_schema(self) -> OptimizerSchema:
         sys.argv = [self.script_path] + self.args
-        schema = OptimizerSchema.capture(self.script_path, evaluator_path)
+        schema = OptimizerSchema.capture(self.script_path)
         
         logger.debug(f'opt_target_modules = {schema.opt_target_modules}')
         assert schema.opt_target_modules, "No module to optimize"
         return schema
-                    
+                   
     def evaluate_program(
         self, 
-        evaluator_path,
+        evaluator: EvalFn,
         input,
         label,
         task_index,
         sema,
         q: mp.Queue,
     ):
-        schema = self.get_program_schema(evaluator_path)
+        schema = self.get_program_schema()
         module_pool = {m.name: m for m in schema.opt_target_modules}
         
         # replace module invoke with new module
@@ -240,7 +259,7 @@ class EvalTask:
         start_time = time.time()
         result = schema.program(input)
         end_time = time.time()
-        score = schema.score_fn(label, result)
+        score = evaluator.score(label, result)
         
         # get price and demo of running the program
         price = 0.0
@@ -314,15 +333,21 @@ def _gen_pbar_desc(level, tb, score, price):
 class EvaluatorPlugin(GeneralEvaluatorInterface):
     def __init__(
         self,
-        evaluator_path: str,
         trainset: Optional[Iterable[Tuple[any,any]]], # list of input data and labels
         evalset: Optional[Iterable[Tuple[any,any]]], # list of input data and labels
         testset: Optional[Iterable[Tuple[any,any]]], # list of input data and labels
+        evaluator_fn: Optional[EvalFn] = None,
+        evaluator_path: Optional[str] = None,
         n_parallel: int = 1,
         score_reducer: Callable = None,
         price_reducer: Callable = None,
     ):
-        self.evaluator_path = evaluator_path
+        """Specify the evaluation method
+        
+        If both score_fn and score_file_path are provided, score file will be used
+        
+        If you have non-copyable or non-picklable evaluation function, consider specifying the path to the score file
+        """
         self.dataset = {
             'train': [trainset, None if not trainset else list(range(len(trainset)))],
             'eval': [evalset, None if not evalset else list(range(len(evalset)))],
@@ -332,6 +357,8 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         self.n_parallel = n_parallel
         self.score_reducer = score_reducer if score_reducer is not None else default_reduer
         self.price_reducer = price_reducer if price_reducer is not None else default_reduer
+        
+        self._evaluator = EvalFn(score_fn=evaluator_fn, score_file_path=evaluator_path)
     
     def evaluate(
         self,
@@ -357,7 +384,6 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         pbar_position: int = 0,
         hierarchy_level: int = 0,
     ):
-        task.add_PYTHON_PATH(self.evaluator_path)
         logger.debug(f'sys_path = {sys.path}')
         
         data, indices = self.dataset[mode]
@@ -375,7 +401,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
             worker = mp.Process(
                 target=task.evaluate_program, 
                 args=(
-                    self.evaluator_path,
+                    self._evaluator,
                     input, label, 
                     task_index, sema, result_q
                 )

@@ -49,6 +49,7 @@ class State(TypedDict):
     answer: str
 
 from cognify.optimizer.plugin import Entry
+
 class HelloWorld(Entry):
     def __init__(self):
         self.cognify_agent = cognify_qa_agent

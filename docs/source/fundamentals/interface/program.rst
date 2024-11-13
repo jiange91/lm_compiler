@@ -5,10 +5,10 @@ Programming with Cognify
 ########################################
 
 There are 4 key components that the Cognify optimizer utilizes when improving a workflow:
-1. System prompt - this is often used to define the model's role or provide context and instructions to the model. Cogs like task decomposition rely on the system prompt. 
-2. Input variables - these are the parts of the message to the model that differ from user to user. For example, in a task like "summarize a document", the document to be summarized would be an input variable. Few-shot reasoning requires robust labeled examples, which is only possible if the differences between user inputs can be captured.
-3. Output format - this can be simply a label that is assigned to the output string or a complex schema that the response is expected to conform to. Cognify uses this information across various optimizations, such as constructing few-shot examples and to maintain consistency in the output format during task decomposition.
-4. Language model config - this tells Cognify which model is being used and what arguments should be passed to the model. The model selection cog can change the model that gets queried for a particular task.
+1. **System prompt** - this is often used to define the model's role or provide context and instructions to the model. Cogs like task decomposition rely on the system prompt. 
+2. **Input variables** - these are the parts of the message to the model that differ from user to user. For example, in a task like "summarize a document", the document to be summarized would be an input variable. Few-shot reasoning requires robust labeled examples, which is only possible if the differences between user inputs can be captured.
+3. **Output format** - this can be simply a label that is assigned to the output string or a complex schema that the response is expected to conform to. Cognify uses this information across various optimizations, such as constructing few-shot examples and to maintain consistency in the output format during task decomposition.
+4. **Language model** config - this tells Cognify which model is being used and what arguments should be passed to the model. The model selection cog can change the model that gets queried for a particular task.
 
 We package all of these into a single `CogLM` class. This class is designed to be a drop-in replacement for your calls to the OpenAI endpoint. It abstracts away the complexity of constructing messages to send to the model and allows you to focus on the task at hand. The optimizer will use the information in the `CogLM` to construct messages to send to the model and to optimize the workflow.
 
@@ -66,6 +66,7 @@ In Langchain, the `Runnable` class is the primary abstraction for executing a ta
   Your chain must follow the following format: `ChatPromptTemplate | ChatModel | (optional) OutputParser`. This provides `CogLM` with all the information it needs to optimize your workflow. The chat prompt template must contain a system prompt and at least one input variable.
 
 .. code-block:: python
+
   from langchain_core.prompts import ChatPromptTemplate
   from langchain_core.chat_models import ChatOpenAI
   from langchain_core.output_parsers import StrOutputParser
@@ -86,6 +87,7 @@ In Langchain, the `Runnable` class is the primary abstraction for executing a ta
 If you prefer to define your modules using our `CogLM` interface but still want to utilize them with your existing Langchain infrastructure, you can wrap your `CogLM` with an `as_runnable()` call. This will convert your `CogLM` into a `RunnableCogLM` and follows the Langchain `Runnable` protocol.
 
 .. code-block:: python
+
   from cognify.llm import *
   from cognify.frontends.langchain import as_runnable
   from langchain_core.runnables import RunnableLambda
@@ -111,6 +113,7 @@ DSPy
 In DSPy, the `Predict` class is the primary abstraction for obtaining a response from a language model. A predictor contains a `Signature`, from which we infer the system prompt, input variables, and output label. In DSPy, the language model is globally configured in `dspy.settings`. The translation process will operate on an entire DSPy `Module`, converting all `Predict`s into `PredictCogLM`s. Just like with CogLMs, we will only translate predictors that are instantiated in the module's `__init__` function. If you want more control over which predictors should be targeted for optimization, you can manually wrap your predictor with our `PredictCogLM` class and pass the `--no-translate` flag to the `$ cognify optimize` command. DSPy also contains other, more detailed modules that don't follow the behavior of `Predict` (e.g., `dspy.ChainOfThought`). In Cognify, we view Chain-of-Thought prompting (and other similar techniques) as possible optimizations to apply to an LLM call on the fly instead of as pre-defined templates. Hence, during the translation process we will strip the "reasoning" step out of the predictor definition and leave it to the optimizer. For detailed usage instructions, check out our [GitHub repo]().
 
 .. code-block:: python
+
   import dspy
   from cognify.frontends.dspy import PredictCogLM
 
@@ -130,6 +133,7 @@ In DSPy, the `Predict` class is the primary abstraction for obtaining a response
 If you prefer to define your modules using our `CogLM` interface but still want to utilize them in DSPy, you can wrap your `CogLM` with an `as_predictor()` call. This will convert your `CogLM` into a `PredictCogLM` and follows the DSPy `Module` protocol. Under the hood, we use `StructuredCogLM` to provide compatibility with DSPy's interface. You can check out our [RAG QA tutorial]() to see this in practice.
 
 .. code-block:: python
+
   from cognify.llm import *
   from cognify.frontends.dspy import as_predictor
 

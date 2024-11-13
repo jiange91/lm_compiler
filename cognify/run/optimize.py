@@ -61,7 +61,12 @@ def optimize(
     eval_path: str = None,
     val_set = None,
 ):
+    # Validate and prepare the pipeline
     assert eval_fn is not None or eval_path is not None, "Either eval_fn or eval_path should be provided"
+    
+    # create directory for logging
+    if not os.path.exists(control_param.opt_history_log_dir):
+        os.makedirs(control_param.opt_history_log_dir, exist_ok=True)
     
     # create evaluator
     evaluator = EvaluatorPlugin(

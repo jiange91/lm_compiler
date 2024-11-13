@@ -6,7 +6,7 @@ import logging
 
 from cognify.cog_hub.common import CogBase
 from cognify.cog_hub.utils import build_param
-from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask, GeneralEvaluatorInterface
+from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from cognify.optimizer.core.flow import TrialLog, OptConfig
 from cognify.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization, BottomLevelTrialLog
 from cognify.optimizer.core.upper_layer import UpperLevelOptimization, LayerEvaluator
@@ -167,13 +167,8 @@ class MultiLayerOptimizationDriver:
         logger.info("----------------- Optimization Finished -----------------")
         self.dump_frontier_details(frontier)
         return opt_cost, frontier, all_opt_logs
-
-    def evaluate(
-        self,
-        evaluator: EvaluatorPlugin,
-        config_id: str,
-    ) -> EvaluationResult:
-        self.build_tiered_optimization(evaluator)
+    
+    def _find_config_log_path(self, config_id: str) -> str:
         opt_config = self.layer_configs[0].opt_config
         opt_config.finalize()
         
@@ -187,6 +182,15 @@ class MultiLayerOptimizationDriver:
                 break
         else:
             raise ValueError(f"Config {config_id} not found in the optimization log.")
+        return config_path
+
+    def evaluate(
+        self,
+        evaluator: EvaluatorPlugin,
+        config_id: str,
+    ) -> EvaluationResult:
+        self.build_tiered_optimization(evaluator)
+        config_path = self._find_config_log_path(config_id)
         
         result = BottomLevelOptimization.easy_eval(
             evaluator=evaluator,
@@ -194,6 +198,19 @@ class MultiLayerOptimizationDriver:
             opt_log_path=config_path,
         )
         return result
+    
+    def load(
+        self,
+        config_id: str,
+    ):
+        self.build_tiered_optimization(None)
+        config_path = self._find_config_log_path(config_id)
+        with open(config_path, 'r') as f:
+            opt_trace = json.load(f)
+        trial_log = BottomLevelTrialLog.from_dict(opt_trace[config_id])
+        eval_task = EvalTask.from_dict(trial_log.eval_task)
+        schema, old_name_2_new_module = eval_task.load_and_transform()
+        return schema, old_name_2_new_module
         
     
     def inspect(self, dump_details: bool = False):

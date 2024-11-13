@@ -772,12 +772,17 @@ class BottomLevelOptimization(OptimizationLayer):
         trial_log = BottomLevelTrialLog.from_dict(opt_trace[config_id])
         
         # apply selected trial
-        logger.info(f"----- Testing select trial {config_id} -----")
-        logger.info("  Params: {}".format(trial_log.params))
-        logger.info("  Values: score= {}, price@1= {}".format(trial_log.score, trial_log.price))
+        print(f"----- Testing select trial {config_id} -----")
+        print("  Params: {}".format(trial_log.params))
+        print("  Quality = {:.3f}, Cost per 1K invocation = {:.2f} $".format(trial_log.score, trial_log.price * 1000))
         
         eval_task = EvalTask.from_dict(trial_log.eval_task)
         # run evaluation
-        eval_result = evaluator.get_score(mode='test', task=eval_task, show_process=True)
+        eval_result = evaluator.get_score(mode='test', task=eval_task, show_process=True, keep_bar=True)
+        
+        print(f"=========== Evaluation Results ===========") 
+        print("  Quality = {:.3f}, Cost per 1K invocation = {:.2f} $".format(eval_result.reduced_score, eval_result.reduced_price * 1000))
+        print("===========================================")
+        
         return eval_result
     

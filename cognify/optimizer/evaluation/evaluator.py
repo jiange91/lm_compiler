@@ -229,16 +229,8 @@ class EvalTask:
         logger.debug(f'opt_target_modules = {schema.opt_target_modules}')
         assert schema.opt_target_modules, "No module to optimize"
         return schema
-                   
-    def evaluate_program(
-        self, 
-        evaluator: EvalFn,
-        input,
-        label,
-        task_index,
-        sema,
-        q: mp.Queue,
-    ):
+    
+    def load_and_transform(self):
         schema = self.get_program_schema()
         module_pool = {m.name: m for m in schema.opt_target_modules}
         
@@ -256,6 +248,19 @@ class EvalTask:
         # clear execution state
         for m in module_pool.values():
             m.reset()
+        return schema, module_pool
+        
+                   
+    def evaluate_program(
+        self, 
+        evaluator: EvalFn,
+        input,
+        label,
+        task_index,
+        sema,
+        q: mp.Queue,
+    ):
+        schema, module_pool = self.load_and_transform()
         start_time = time.time()
         result = schema.program(input)
         end_time = time.time()
@@ -383,6 +388,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         show_process: bool,
         pbar_position: int = 0,
         hierarchy_level: int = 0,
+        keep_bar: bool = False,
     ):
         logger.debug(f'sys_path = {sys.path}')
         
@@ -417,7 +423,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
             with tqdm(
                 total=len(indices),
                 desc=_gen_pbar_desc(hierarchy_level, opt_trace, 0.0, 0.0),
-                leave=False,
+                leave=keep_bar,
                 position=pbar_position,
             ) as pbar:
                 for i in range(len(indices)):

@@ -13,6 +13,7 @@ from cognify.optimizer.registry import get_registered_data_loader, get_registere
 from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from cognify.optimizer.control_param import ControlParameter
 from cognify.run.optimize import optimize
+from cognify.run.evaluate import evaluate
 from cognify._logging import _configure_logger
 
 logger = logging.getLogger(__name__)
@@ -62,28 +63,15 @@ def optimize_routine(opt_args: OptimizationArgs):
     
 def evaluate_routine(eval_args: EvaluationArgs):
     (train_set, val_set, test_set), control_param = parse_pipeline_config_file(eval_args.config)
-    
-    evaluator = EvaluatorPlugin(
-        evaluator_path=eval_args.config,
-        trainset=None,
-        evalset=None,
-        testset=test_set,
-        n_parallel=eval_args.n_parallel,
-    )
-    
-    opt_driver = driver.MultiLayerOptimizationDriver(
-        layer_configs=control_param.opt_layer_configs,
-        opt_log_dir=control_param.opt_history_log_dir,
-        save_config_to_file=False,
-    )
-    result = opt_driver.evaluate(
-        evaluator=evaluator,
+    result = evaluate(
+        control_param=control_param,
         config_id=eval_args.config_id,
+        test_set=test_set,
+        n_parallel=eval_args.n_parallel,
+        eval_fn=None,
+        eval_path=eval_args.config,
+        save_to=eval_args.output_path,
     )
-    logger.info(result)
-    if eval_args.output_path is not None:
-        with open(eval_args.output_path, 'w') as f:
-            json.dump(result.to_dict(), f, indent=4)
     return result
 
 def inspect_routine(inspect_args: InspectionArgs):

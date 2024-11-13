@@ -35,8 +35,4 @@ class ControlParameter:
                 return obj
         raise ValueError(f"No ControlParameter instance found in {param_path}")
     
-    def __post_init__(self):
-        # create directory for logging
-        if not os.path.exists(self.opt_history_log_dir):
-            os.makedirs(self.opt_history_log_dir, exist_ok=True)
         

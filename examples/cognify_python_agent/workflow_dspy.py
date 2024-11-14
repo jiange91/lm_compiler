@@ -7,7 +7,7 @@ import dspy
 from dspy.evaluate import Evaluate
 from dspy.datasets.hotpotqa import HotPotQA
 from dspy.teleprompt import BootstrapFewShotWithRandomSearch
-from compiler.utils import load_api_key
+from cognify.utils import load_api_key
 
 load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')
 

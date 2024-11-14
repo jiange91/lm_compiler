@@ -1,10 +1,10 @@
-from compiler.cog_hub.fewshot import LMFewShot
-from compiler.cog_hub.scaffolding import LMScaffolding
-from compiler.cog_hub import reasoning, model_selection, common
-from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
-from compiler.optimizer.analysis.param_sensitivity import SensitivityAnalyzer
-from compiler.langchain_bridge.interface import LangChainLM
-from compiler.cog_hub import ensemble
+from cognify.cog_hub.fewshot import LMFewShot
+from cognify.cog_hub.scaffolding import LMScaffolding
+from cognify.cog_hub import reasoning, model_selection, common
+from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
+from cognify.optimizer.analysis.param_sensitivity import SensitivityAnalyzer
+from cognify.langchain_bridge.interface import LangChainLM
+from cognify.cog_hub import ensemble
 import runpy
 import uuid
 import multiprocess as mp
@@ -13,7 +13,7 @@ import os
 import random
 import optuna
 
-from compiler.optimizer.registry import register_data_loader
+from cognify.optimizer.registry import register_data_loader
 
 def raw_test(data):
     evaluator = EvaluatorPlugin(

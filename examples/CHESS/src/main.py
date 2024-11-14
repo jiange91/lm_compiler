@@ -95,7 +95,7 @@ if __name__ == "__main__":
         )
     eval_data = [(input, None) for input in inputs]
     
-    from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask 
+    from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask 
     plain_task = EvalTask(
         script_path='src/cognify_worker.py',
         args=[],

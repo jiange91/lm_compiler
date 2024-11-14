@@ -38,8 +38,11 @@ exclude_patterns = []
 html_theme = "pydata_sphinx_theme"
 html_static_path = ['_static']
 
-html_logo = "_static/logo.png"
 html_theme_options = {
+    "logo": {
+        "image_light": "_static/logo_light.png",
+        "image_dark": "_static/logo_dark.png",
+    },
     "icon_links": [
         {
             "name": "GitHub",

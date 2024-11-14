@@ -1,8 +1,8 @@
-from compiler.optimizer.layered_optimizer_pluggable import InnerLoopBayesianOptimization, OuterLoopOptimization
-from compiler.cog_hub.fewshot import LMFewShot
-from compiler.cog_hub.scaffolding import LMScaffolding
-from compiler.cog_hub import reasoning, model_selection, common
-from compiler.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
+from cognify.optimizer.layered_optimizer_pluggable import InnerLoopBayesianOptimization, OuterLoopOptimization
+from cognify.cog_hub.fewshot import LMFewShot
+from cognify.cog_hub.scaffolding import LMScaffolding
+from cognify.cog_hub import reasoning, model_selection, common
+from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 import runpy
 import uuid
 import multiprocessing as mp
@@ -12,12 +12,12 @@ import random
 import optuna
 import numpy as np
 
-from compiler.cog_hub.common import NoChange
-from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
-from compiler.optimizer.plugin import OptimizerSchema
-from compiler.optimizer.analysis.param_sensitivity import SensitivityAnalyzer
-from compiler.optimizer.core import driver, flow
-from compiler.llm.model import LMConfig
+from cognify.cog_hub.common import NoChange
+from cognify.cog_hub.reasoning import ZeroShotCoT, PlanBefore
+from cognify.optimizer.plugin import OptimizerSchema
+from cognify.optimizer.analysis.param_sensitivity import SensitivityAnalyzer
+from cognify.optimizer.core import driver, flow
+from cognify.llm.model import LMConfig
 
 def load_data():
     def load_from_file(input_file):

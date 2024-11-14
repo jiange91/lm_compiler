@@ -27,7 +27,7 @@ To ensure the optimizer captures your `CogLM`s, be sure to instantiate them as g
   my_cog_agent = CogLM(
     system_prompt="You are an assistant that can summarize documents.",
     input_variables=InputVar("document"),
-    output_label=OutputLabel("summary"),
+    output=OutputLabel("summary"),
     lm_config=LMConfig(model="gpt-4o-mini", max_tokens=100)
   )
 
@@ -41,7 +41,7 @@ To ensure the optimizer captures your `CogLM`s, be sure to instantiate them as g
     my_cog_agent = CogLM(
       system_prompt="You are an assistant that can summarize documents.",
       input_variables=InputVar("document"),
-      output_label=OutputLabel("summary"),
+      output=OutputLabel("summary"),
       lm_config=LMConfig(model="gpt-4o-mini", max_tokens=100)
     )
     return my_cog_agent({"document": document})
@@ -55,7 +55,7 @@ The `CogLM` is designed to replace your calls to the OpenAI endpoint. However, m
 Other frameworks
 ================
 
-By default, if your current program is based on either Langchain or DSPy, Cognify will automatically translate your Langchain Runnables and DSPy Predictors into `CogLM`s during the initialization step. Below, we'll go through the nuances of each framework. 
+By default, if your current program is based on either Langchain or DSPy, Cognify will automatically translate your Langchain Runnables and DSPy Predictors into `CogLM`s during the initialization step. Below, we'll go through the nuances of each framework.
 
 Langchain
 ---------
@@ -63,6 +63,7 @@ Langchain
 In Langchain, the `Runnable` class is the primary abstraction for executing a task. To create a `CogLM` from a runnable chain, the chain must contain a chat prompt template, a chat model, and optionally an ouptut parser. The chat prompt template is used to construct the system prompt and obtain the input variables, the chat model is used to obtain the language model config, and the output parser is used to construct the output format. If no output parser is provided, Cognify will assign a default label. Just like with `CogLM`s, we will only translate runnables that are instantiated as global variables. The translation process automatically converts all runnables in the global scope into `CogLM`s. However, if you want more control over which `Runnable`s should be targeted for optimization, you can manually wrap your chain with our `RunnableCogLM` class and pass the `--no-translate` flag to the `$ cognify optimize` command. For detailed usage instructions, check out our [GitHub repo]().
 
 .. tip::
+
   Your chain must follow the following format: `ChatPromptTemplate | ChatModel | (optional) OutputParser`. This provides `CogLM` with all the information it needs to optimize your workflow. The chat prompt template must contain a system prompt and at least one input variable.
 
 .. code-block:: python
@@ -96,7 +97,7 @@ If you prefer to define your modules using our `CogLM` interface but still want 
   my_runnable_cog_agent = as_runnable(CogLM(
     system_prompt="You are an assistant that can summarize documents.",
     input_variables=InputVar("document"),
-    output_label=OutputLabel("summary"),
+    output=OutputLabel("summary"),
     lm_config=LMConfig(model="gpt-4o-mini", max_tokens=100)
   ))
 
@@ -140,7 +141,7 @@ If you prefer to define your modules using our `CogLM` interface but still want 
   my_cog_agent = CogLM(
     system_prompt="You are an assistant that can summarize documents.",
     input_variables=InputVar("document"),
-    output_label=OutputLabel("summary"),
+    output=OutputLabel("summary"),
     lm_config=LMConfig(model="gpt-4o-mini", max_tokens=100)
   )
 

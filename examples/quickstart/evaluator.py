@@ -34,7 +34,7 @@ def f1_score_strings(label, pred):
     f1 = 2 * precision * recall / (precision + recall)
     return f1
 
-from compiler.optimizer import register_opt_score_fn
+from cognify.optimizer import register_opt_score_fn
 
 @register_opt_score_fn
 def f1(label: str, pred: str) -> float:

@@ -1,12 +1,12 @@
 import dotenv
-from compiler._logging import _configure_logger
+from cognify._logging import _configure_logger
 
 dotenv.load_dotenv()
 _configure_logger("INFO")
 
 from typing import List
 
-from compiler.llm.model import LMConfig
+from cognify.llm.model import LMConfig
 
 lm_config = LMConfig(
     custom_llm_provider='openai',
@@ -16,7 +16,7 @@ lm_config = LMConfig(
     }
 )
 
-from compiler.llm.model import CogLM, InputVar, OutputLabel
+from cognify.llm.model import CogLM, InputVar, OutputLabel
 #================= Complete Code Agent =================
 cc_system_prompt = """
 Given an incomplete python function, complete the function body according to the provided docstring.
@@ -35,7 +35,7 @@ cognify_cc_agent = CogLM(
     lm_config=lm_config,
 )
 
-from compiler.frontends.langchain.connector import as_runnable
+from cognify.frontends.langchain.connector import as_runnable
 cc_agent = as_runnable(cognify_cc_agent)
 
 #================= Refine Code Agent =================
@@ -87,7 +87,7 @@ workflow.add_edge("refine_code", END)
 
 app = workflow.compile()
 
-from compiler.optimizer.registry import register_opt_program_entry
+from cognify.optimizer.registry import register_opt_program_entry
 
 @register_opt_program_entry
 def do_code_gen(input):

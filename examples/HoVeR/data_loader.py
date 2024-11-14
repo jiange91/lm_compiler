@@ -1,7 +1,7 @@
 import random
 import json
 import pandas as pd
-from compiler.optimizer.registry import register_data_loader
+from cognify.optimizer.registry import register_data_loader
 
     
 train_size = 100

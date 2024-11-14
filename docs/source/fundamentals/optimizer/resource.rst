@@ -10,7 +10,7 @@ The Cognify optimizer offers various settings and strategies to control and opti
 Simple Budget Limit Settings
 ----------------------------
 
-Each layer in the optimization hierarchy can independently control the number of trials (evaluations) and the level of parallelism by configuring its `OptConfig`:
+Each layer in the optimization hierarchy can independently control the number of trials (evaluations) and the level of parallelism by configuring the ``OptConfig``:
 
 - **n_trials**: Sets the maximum number of optimization iterations. This value determines the total budget for each **invocation** of the optimizer routine in that layer.
 - **throughput**: Controls the level of parallelism by specifying the number of proposals to evaluate concurrently. Adjusting throughput can speed up optimization but also impacts resource consumption.

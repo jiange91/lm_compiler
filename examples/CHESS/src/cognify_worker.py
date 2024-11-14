@@ -34,8 +34,8 @@ from pipeline.evaluation import evaluation
 from pipeline.annotated import cognify_registry
 from pipeline.workflow_builder import build_pipeline
 
-from compiler.llm.model import LMConfig
-from compiler.optimizer import register_opt_program_entry, register_opt_score_fn
+from cognify.llm.model import LMConfig
+from cognify.optimizer import register_opt_program_entry, register_opt_score_fn
 
 
 @register_opt_program_entry

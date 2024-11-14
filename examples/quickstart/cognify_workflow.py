@@ -1,5 +1,5 @@
 import dotenv
-from compiler._logging import _configure_logger
+from cognify._logging import _configure_logger
 
 dotenv.load_dotenv()
 _configure_logger("INFO")
@@ -18,7 +18,7 @@ class AnswerOutput(BaseModel):
     supporting_facts: List[str]
     
 # Initialize the model
-from compiler.llm.model import LMConfig
+from cognify.llm.model import LMConfig
 lm_config = LMConfig(
     custom_llm_provider='openai',
     model='gpt-4o-mini',
@@ -28,7 +28,7 @@ lm_config = LMConfig(
 )
 
 # Define agent routine 
-from compiler.llm.model import StructuredCogLM, InputVar, OutputFormat
+from cognify.llm.model import StructuredCogLM, InputVar, OutputFormat
 cognify_qa_agent = StructuredCogLM(
     agent_name="qa_agent",
     system_prompt=system_prompt,
@@ -38,7 +38,7 @@ cognify_qa_agent = StructuredCogLM(
 )
 
 # Use builtin connector for smooth integration
-from compiler.frontends.langchain.connector import as_runnable
+from cognify.frontends.langchain.connector import as_runnable
 qa_agent = as_runnable(cognify_qa_agent) 
 
 def doc_str(docs):
@@ -68,7 +68,7 @@ workflow.add_edge("grounded_qa", END)
 
 app = workflow.compile()
 
-from compiler.optimizer.registry import register_opt_program_entry
+from cognify.optimizer.registry import register_opt_program_entry
 
 @register_opt_program_entry
 def do_qa(input):

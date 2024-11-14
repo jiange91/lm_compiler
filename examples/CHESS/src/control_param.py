@@ -4,14 +4,14 @@ val_down_sample: int = 25
 opt_history_log_dir: str = 'cognify_opt_results'
 evaluator_parallel: int = 20
 
-from compiler.llm.model import LMConfig
-from compiler.optimizer.core import driver, flow
+from cognify.llm.model import LMConfig
+from cognify.optimizer.core import driver, flow
 
-from compiler.cog_hub import reasoning, model_selection
-from compiler.cog_hub import ensemble
-from compiler.cog_hub.common import NoChange
-from compiler.cog_hub.fewshot import LMFewShot
-from compiler.cog_hub.reasoning import ZeroShotCoT, PlanBefore
+from cognify.cog_hub import reasoning, model_selection
+from cognify.cog_hub import ensemble
+from cognify.cog_hub.common import NoChange
+from cognify.cog_hub.fewshot import LMFewShot
+from cognify.cog_hub.reasoning import ZeroShotCoT, PlanBefore
 
 """
 Be aware that for this workload a single trial running 100 input data requres $0.5~$1.0, please be cautious about the cost.

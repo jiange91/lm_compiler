@@ -2,12 +2,10 @@ from langchain_core.runnables import Runnable, RunnableSequence
 from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from langchain_core.prompt_values import ChatPromptValue
 from langchain_core.output_parsers import BaseOutputParser
-from langchain_openai.chat_models.base import BaseChatOpenAI
-from cognify.graph.base import StatePool
+from langchain_core.language_models.chat_models import BaseChatModel
 from cognify.llm import CogLM, InputVar, StructuredCogLM, OutputFormat, OutputLabel
 from cognify.llm.model import LMConfig
 import uuid
-from litellm import ModelResponse
 from typing import Any, List, Dict
 from dataclasses import dataclass
 from langchain_core.messages import AIMessage
@@ -30,17 +28,17 @@ DEFAULT_SYSTEM_PROMPT = "You are an intelligent assistant."
 UNRECOGNIZED_PARAMS = ["model_name", "_type"]
 
 class RunnableCogLM(Runnable):
-  def __init__(self, runnable: Runnable = None, name: str = None):
+  def __init__(self, runnable: RunnableSequence = None, name: str = None):
     self.chat_prompt_template: ChatPromptTemplate = None
     self.cog_lm: CogLM = self.cognify_runnable(runnable, name)
   
   """
   Connector currently supports the following units to construct a `CogLM`:
-  - BaseChatPromptTemplate | BaseChatOpenAI
-  - BaseChatPromptTemplate | BaseChatOpenAI | BaseOutputParser
+  - BaseChatPromptTemplate | BaseChatModel
+  - BaseChatPromptTemplate | BaseChatModel | BaseOutputParser
   These indepedent units should be split out of more complex chains.
   """
-  def cognify_runnable(self, runnable: Runnable = None, name: str = None) -> CogLM:
+  def cognify_runnable(self, runnable: RunnableSequence = None, name: str = None) -> CogLM:
     if not runnable:
       return None
 
@@ -50,19 +48,19 @@ class RunnableCogLM(Runnable):
     output_parser = None
 
     if runnable.middle is None or len(runnable.middle) == 0:
-      assert isinstance(runnable.last, BaseChatOpenAI), "Last runnable in a sequence with no middle must be a `BaseChatOpenAI`"
-      chat_model: BaseChatOpenAI = runnable.last
+      assert isinstance(runnable.last, BaseChatModel), f"Last runnable in a sequence with no middle must be a `BaseChatModel`, instead got {type(runnable.last)}"
+      chat_model: BaseChatModel = runnable.last
     elif len(runnable.middle) == 1:
-      assert isinstance(runnable.middle[0], BaseChatOpenAI), "Middle runnable must be a `BaseChatOpenAI`"
-      chat_model: BaseChatOpenAI = runnable.middle[0]
+      assert isinstance(runnable.middle[0], BaseChatModel), f"Middle runnable must be a `BaseChatModel`, instead got {type(runnable.middle[0])}"
+      chat_model: BaseChatModel = runnable.middle[0]
 
-      assert isinstance(runnable.last, BaseOutputParser), "Last runnable in a sequence with a middle `BaseChatOpenAI` must be a `BaseOutputParser`"
+      assert isinstance(runnable.last, BaseOutputParser), f"Last runnable in a sequence with a middle `BaseChatModel` must be a `BaseOutputParser`, instead got {type(runnable.last)}"
       output_parser: BaseOutputParser = runnable.last
     else:
       raise NotImplementedError(f"Only one middle runnable is supported at this time, instead got {runnable.middle}")
     
     # initialize cog lm
-    agent_name = runnable.name or name or str(uuid.uuid4())
+    agent_name = name or runnable.name or str(uuid.uuid4())
 
     # system prompt
     if isinstance(self.chat_prompt_template.messages[0], SystemMessagePromptTemplate):

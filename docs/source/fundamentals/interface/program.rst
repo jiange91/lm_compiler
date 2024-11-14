@@ -27,7 +27,7 @@ To ensure the optimizer captures your `CogLM`s, be sure to instantiate them as g
   my_cog_agent = CogLM(
     system_prompt="You are an assistant that can summarize documents.",
     input_variables=InputVar("document"),
-    output_label=OutputLabel("summary"),
+    output=OutputLabel("summary"),
     lm_config=LMConfig(model="gpt-4o-mini", max_tokens=100)
   )
 
@@ -41,7 +41,7 @@ To ensure the optimizer captures your `CogLM`s, be sure to instantiate them as g
     my_cog_agent = CogLM(
       system_prompt="You are an assistant that can summarize documents.",
       input_variables=InputVar("document"),
-      output_label=OutputLabel("summary"),
+      output=OutputLabel("summary"),
       lm_config=LMConfig(model="gpt-4o-mini", max_tokens=100)
     )
     return my_cog_agent({"document": document})
@@ -97,7 +97,7 @@ If you prefer to define your modules using our `CogLM` interface but still want 
   my_runnable_cog_agent = as_runnable(CogLM(
     system_prompt="You are an assistant that can summarize documents.",
     input_variables=InputVar("document"),
-    output_label=OutputLabel("summary"),
+    output=OutputLabel("summary"),
     lm_config=LMConfig(model="gpt-4o-mini", max_tokens=100)
   ))
 
@@ -141,7 +141,7 @@ If you prefer to define your modules using our `CogLM` interface but still want 
   my_cog_agent = CogLM(
     system_prompt="You are an assistant that can summarize documents.",
     input_variables=InputVar("document"),
-    output_label=OutputLabel("summary"),
+    output=OutputLabel("summary"),
     lm_config=LMConfig(model="gpt-4o-mini", max_tokens=100)
   )
 

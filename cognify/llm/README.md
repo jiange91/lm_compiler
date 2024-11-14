@@ -26,7 +26,7 @@ qa_question = InputVar(name="question")
 cog_agent = CogLM(agent_name="qa_agent",
   system_prompt="You are a helpful AI assistant that answers questions.",
   input_variables=[qa_question],
-  output_label=OutputLabel(name="answer"),
+  output=OutputLabel(name="answer"),
   lm_config=LMConfig(
     model="gpt-4o-mini", 
     kwargs={"temperature": 0.0, "max_tokens": 100}
@@ -38,7 +38,7 @@ def call_qa_llm(question):
   return cog_agent(inputs={qa_question: question})
 ```
 
-By default, `CogLM` will construct messages on your behalf based on the `system_prompt`, `inputs` and `output_label`. These messages are directly passed to model defined in the `lm_config`. For compatibility with existing codebases that rely on passing messages and keyword arguments directly, we allow the user to pass in optional `messages` and `model_kwargs` arguments when calling a `CogLM` like so:
+By default, `CogLM` will construct messages on your behalf based on the `system_prompt`, `inputs` and `output`. These messages are directly passed to model defined in the `lm_config`. For compatibility with existing codebases that rely on passing messages and keyword arguments directly, we allow the user to pass in optional `messages` and `model_kwargs` arguments when calling a `CogLM` like so:
 
 
 ```python
@@ -53,7 +53,7 @@ qa_question = InputVar(name="question")
 cog_agent = CogLM(agent_name="qa_agent",
   system_prompt=system_prompt,
   input_variables=[qa_question],
-  output_label=OutputLabel(name="answer")
+  output=OutputLabel(name="answer")
 )
 
 @cognify.workflow_entry
@@ -81,7 +81,7 @@ Cognify allows for additional output formatting. In the base `CogLM` class, you 
 ```python
 cog_agent = CogLM(
   ...
-  output_label=OutputLabel(
+  output=OutputLabel(
     name="answer", 
     custom_output_format_instructions="Answer the question in less than 10 words."
   )

@@ -27,6 +27,7 @@ class LangchainOutput:
   content: str
 
 DEFAULT_SYSTEM_PROMPT = "You are an intelligent assistant."
+UNRECOGNIZED_PARAMS = ["model_name", "_type"]
 
 class RunnableCogLM(Runnable):
   def __init__(self, runnable: Runnable = None, name: str = None):
@@ -78,6 +79,11 @@ class RunnableCogLM(Runnable):
     
     # lm config
     full_kwargs = chat_model._get_invocation_params()
+
+    # remove unrecognized params 
+    for param in UNRECOGNIZED_PARAMS:
+      full_kwargs.pop(param, None)
+
     lm_config = LMConfig(model=full_kwargs.pop('model'), kwargs=full_kwargs)
 
     if output_parser is not None:
@@ -102,22 +108,18 @@ class RunnableCogLM(Runnable):
     messages = None
     if self.chat_prompt_template:
       chat_prompt_value: ChatPromptValue = self.chat_prompt_template.invoke(input)
-      messages = self._get_api_compatible_messages(chat_prompt_value)
+      messages: List[APICompatibleMessage] = []
+      for message in chat_prompt_value.messages:
+        if message.type in langchain_message_role_to_api_message_role:
+          messages.append({"role": langchain_message_role_to_api_message_role[message.type], "content": message.content})
+        else:
+          raise NotImplementedError(f"Message type {type(message)} is not supported, must be one of `SystemMessage`, `HumanMessage`, or `AIMessage`")
       
     result = self.cog_lm(messages, input) # kwargs have already been set when initializing cog_lm
     if isinstance(self.cog_lm, StructuredCogLM):
       return result
     else:
       return AIMessage(result)
-    
-  def _get_api_compatible_messages(chat_prompt_value: ChatPromptValue) -> List[APICompatibleMessage]:
-    api_comptaible_messages: List[APICompatibleMessage] = []
-    for message in chat_prompt_value.messages:
-      if message.type in langchain_message_role_to_api_message_role:
-        api_comptaible_messages.append({"role": langchain_message_role_to_api_message_role[message.type], "content": message.content})
-      else:
-        raise NotImplementedError(f"Message type {type(message)} is not supported, must be one of `SystemMessage`, `HumanMessage`, or `AIMessage`")
-    return api_comptaible_messages
   
 def as_runnable(cog_lm: CogLM):
   runnable_cog_lm = RunnableCogLM(runnable=None, name=cog_lm.name)

@@ -181,7 +181,7 @@ Please read through all the responses carefully and provide a clear, consistent 
             agg_agent = CogLM(f"{lm.name}_aggregator",
                               UniversalSelfConsistency.aggregator_system_prompt,
                               input_variables=[InputVar("worker_task"), InputVar("inputs"), InputVar("proposals")],
-                              output_label=new_output_label,
+                              output=new_output_label,
                               lm_config=copy.deepcopy(lm.lm_config))  
         sub_graph.add_module(agg_agent)
         sub_graph.add_edge(sampler_post_process.name, agg_agent.name)

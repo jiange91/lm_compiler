@@ -548,9 +548,9 @@ class OptimizationLayer:
             print(f"Num Pareto Frontier: {len(pareto_frontier)}")
             for i, (trial_log, log_path) in enumerate(pareto_frontier):
                 print("--------------------------------------------------------")
-                print("# {}-th Pareto solution".format(i))
+                print("Pareto_{}".format(i+1))
                 # logger.info("  Params: {}".format(trial_log.params))
-                print("  Quality = {:.3f}, Cost per 1K invocation = {:.2f} $".format(trial_log.score, trial_log.price * 1000))
+                print("  Quality: {:.3f}, Cost per 1K invocation ($): {:.2f}".format(trial_log.score, trial_log.price * 1000))
                 print("  Applied Optimization: {}".format(trial_log.id))
                 # logger.info("  config saved at: {}".format(log_path))
                 
@@ -761,7 +761,7 @@ class BottomLevelOptimization(OptimizationLayer):
     @staticmethod
     def easy_eval(
         evaluator: EvaluatorPlugin,
-        config_id: str,
+        trial_id: str,
         opt_log_path: str,
     ) -> EvaluationResult:
         if not os.path.exists(opt_log_path):
@@ -769,19 +769,19 @@ class BottomLevelOptimization(OptimizationLayer):
         
         with open(opt_log_path, 'r') as f:
             opt_trace = json.load(f)
-        trial_log = BottomLevelTrialLog.from_dict(opt_trace[config_id])
+        trial_log = BottomLevelTrialLog.from_dict(opt_trace[trial_id])
         
         # apply selected trial
-        print(f"----- Testing select trial {config_id} -----")
+        print(f"----- Testing select trial {trial_id} -----")
         print("  Params: {}".format(trial_log.params))
-        print("  Quality = {:.3f}, Cost per 1K invocation = {:.2f} $".format(trial_log.score, trial_log.price * 1000))
+        print("  Quality: {:.3f}, Cost per 1K invocation ($): {:.2f} $".format(trial_log.score, trial_log.price * 1000))
         
         eval_task = EvalTask.from_dict(trial_log.eval_task)
         # run evaluation
         eval_result = evaluator.get_score(mode='test', task=eval_task, show_process=True, keep_bar=True)
         
         print(f"=========== Evaluation Results ===========") 
-        print("  Quality = {:.3f}, Cost per 1K invocation = {:.2f} $".format(eval_result.reduced_score, eval_result.reduced_price * 1000))
+        print("  Quality: {:.3f}, Cost per 1K invocation ($): {:.2f} $".format(eval_result.reduced_score, eval_result.reduced_price * 1000))
         print("===========================================")
         
         return eval_result

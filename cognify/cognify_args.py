@@ -75,7 +75,7 @@ class EvaluationArgs(CommonArgs):
             '-i', '--config_id', 
             type=str, 
             required=True, 
-            help="Configuration ID for evaluation",
+            help="Configuration ID for evaluation, e.g. `Pareto_1`, `Pareto_2`, etc.",
             metavar='config_id',
         )
         parser.add_argument(

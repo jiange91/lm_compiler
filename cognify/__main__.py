@@ -12,6 +12,7 @@ from cognify.optimizer.plugin import capture_module_from_fs
 from cognify.optimizer.registry import get_registered_data_loader, get_registered_opt_score_fn
 from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from cognify.optimizer.control_param import ControlParameter
+from cognify.optimizer.core import driver
 from cognify.run.optimize import optimize
 from cognify.run.evaluate import evaluate
 from cognify._logging import _configure_logger

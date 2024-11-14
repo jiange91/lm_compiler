@@ -35,6 +35,11 @@ class CommonArgs:
             metavar='path_to_config',
         )
         parser.add_argument(
+            '--no-translate',
+            action='store_true',
+            help="Skip the translation of langchain runnables/dspy modules from the workflow script."
+        )
+        parser.add_argument(
             '-l', '--log_level',
             type=str,
             default=CommonArgs.log_level,

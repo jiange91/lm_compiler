@@ -42,11 +42,11 @@ class PredictCogLM(dspy.Module):
             
         # initialize cog lm
         agent_name = name or str(uuid.uuid4())
-        system_prompt = prepare_instructions(dspy_predictor.extended_signature)
-        input_names = list(dspy_predictor.extended_signature.input_fields.keys())
+        system_prompt = prepare_instructions(dspy_predictor.signature)
+        input_names = list(dspy_predictor.signature.input_fields.keys())
         input_variables = [InputVar(name=name) for name in input_names]
 
-        output_fields = dspy_predictor.extended_signature.output_fields
+        output_fields = dspy_predictor.signature.output_fields
         if "reasoning" in output_fields:
             del output_fields["reasoning"]
             warnings.warn("Original module contained reasoning. This will be stripped. Add reasoning as a cog instead", UserWarning)
@@ -74,7 +74,7 @@ class PredictCogLM(dspy.Module):
             inputs: Dict[str, str] = {k.name: kwargs[k.name] for k in self.cog_lm.input_variables}
             messages = None
             if self.predictor:
-                messages: APICompatibleMessage = self.chat_adapter.format(self.predictor.extended_signature,
+                messages: APICompatibleMessage = self.chat_adapter.format(self.predictor.signature,
                                                                         self.predictor.demos,
                                                                         inputs)
             result = self.cog_lm(messages, inputs) # kwargs have already been set when initializing cog_lm

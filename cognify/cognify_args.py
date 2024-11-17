@@ -58,8 +58,17 @@ class CommonArgs:
         
 @dataclasses.dataclass
 class OptimizationArgs(CommonArgs):
-    ...
+    resume: bool = False
     
+    @staticmethod
+    def add_cli_args(parser: argparse.ArgumentParser):
+        CommonArgs.add_cli_args(parser)
+        parser.add_argument(
+            '-r', '--resume',
+            action='store_true',
+            help="Resume optimization from the last checkpoint.",
+        )
+            
 
 @dataclasses.dataclass
 class EvaluationArgs(CommonArgs):

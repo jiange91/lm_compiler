@@ -60,6 +60,7 @@ def optimize_routine(opt_args: OptimizationArgs):
         val_set=val_set,
         eval_fn=None,
         eval_path=opt_args.config,
+        resume=opt_args.resume,
     )
     return cost, frontier, opt_logs
     

@@ -23,7 +23,7 @@ class LayerConfig:
         universal_params: list[CogBase] = [],
         target_modules: Iterable[str] = None,
         save_ckpt_interval: int = 1,
-        opt_config: OptConfig = None,
+        opt_config: Optional[OptConfig] = None,
     ):
         """Config for each optimization layer
         

@@ -8,7 +8,6 @@ import logging
 from dataclasses import dataclass, field
 import optuna
 import numpy as np
-from concurrent.futures import ThreadPoolExecutor
 import uuid
 from abc import ABC, abstractmethod
 import multiprocessing as mp
@@ -19,6 +18,7 @@ from cognify.optimizer import (
     get_registered_opt_modules, 
     get_registered_opt_score_fn,
 )
+from .metric import MetricBase
 
 import logging
 
@@ -119,8 +119,17 @@ class EvalFn:
             if dir not in sys.path:
                 sys.path.append(dir)
             
-            capture_module_from_fs(self.score_file_path)
-            self.score_fn = get_registered_opt_score_fn()
+            module = capture_module_from_fs(self.score_file_path)
+            score_fn = get_registered_opt_score_fn()
+            if score_fn is None:
+                # find builtin metric instance
+                for name, obj in vars(module).items():
+                    if isinstance(obj, MetricBase):
+                        score_fn = obj.score
+                        break
+            if score_fn is None:
+                raise ValueError("No score function found in the config file")
+            self.score_fn = score_fn
         
         assert self.score_fn is not None, "score function not set properly"
     

@@ -51,58 +51,6 @@ def capture_module_from_fs(module_path: str):
         raise
     
     
-class A:
-    def __init__(self, name):
-        self.name = name
-
-class B:
-    def __init__(self, a_instance=None, nested_obj=None):
-        self.a_instance = a_instance  # Could be an instance of A
-        self.nested_obj = nested_obj  # Could be another object containing A
-
-    def find_all_instances_of_A(self, found_instances=None):
-        """
-        Recursively finds all instances of type A within the object's fields.
-        
-        :param found_instances: A list to collect found instances of A (used for recursion).
-        :return: A list of all instances of type A found within the object.
-        """
-        if found_instances is None:
-            found_instances = []
-
-        # Check if the current object is an instance of A
-        if isinstance(self, A):
-            found_instances.append(self)
-        else:
-            # Check attributes of the current B instance
-            for attr_name in dir(self):
-                # Skip built-in attributes and methods
-                if not attr_name.startswith("__"):
-                    attr_value = getattr(self, attr_name)
-                    
-                    # Recursively search within this attribute if it's an instance of B or a collection
-                    self._search_in_attribute(attr_value, found_instances)
-
-        return found_instances
-
-    def _search_in_attribute(self, attr_value, found_instances):
-        """
-        Helper method to handle recursive searching of an attribute.
-        
-        :param attr_value: The attribute value to search within.
-        :param found_instances: A list to collect found instances of A.
-        """
-        if isinstance(attr_value, A):
-            found_instances.append(attr_value)
-        elif isinstance(attr_value, (list, tuple, set)):
-            for item in attr_value:
-                self._search_in_attribute(item, found_instances)
-        elif isinstance(attr_value, dict):
-            for value in attr_value.values():
-                self._search_in_attribute(value, found_instances)
-        elif isinstance(attr_value, B):  # Continue searching within nested B instances
-            attr_value.find_all_instances_of_A(found_instances)
-    
 class EntryBase:
     def __init__(self):
         pass

@@ -5,6 +5,7 @@ from dataclasses import dataclass, field, asdict
 import logging
 import re
 
+from cognify._signal import _set_exit_msg
 from cognify.cog_hub.common import CogBase
 from cognify.cog_hub.utils import build_param
 from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
@@ -123,7 +124,6 @@ class MultiLayerOptimizationDriver:
             else:
                 layer_evaluator = LayerEvaluator(
                     target_layer=self.opt_layers[idx + 1],
-                    quality_constraint=self.quality_constraint,
                 )
                 opt_layer = UpperLevelOptimization(
                     name=layer_config.layer_name,

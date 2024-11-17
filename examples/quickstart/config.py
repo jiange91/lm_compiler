@@ -32,4 +32,6 @@ def load_data_minor():
 
 from cognify.optimizer import default_search
 
-search_settings = default_search.create_search()
+search_settings = default_search.create_search(
+    opt_log_dir='try_interrupt',
+)

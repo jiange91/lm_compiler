@@ -6,15 +6,15 @@ import logging
 import json
 import debugpy
 
-from cognify.optimizer.plugin import OptimizerSchema
 from cognify.cognify_args import init_cognify_args, OptimizationArgs, EvaluationArgs, InspectionArgs
 from cognify.optimizer.plugin import capture_module_from_fs
-from cognify.optimizer.registry import get_registered_data_loader, get_registered_opt_score_fn
-from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
+from cognify.optimizer.registry import get_registered_data_loader
+from cognify.optimizer.evaluation.evaluator import EvaluationResult 
 from cognify.optimizer.control_param import ControlParameter
 from cognify.optimizer.core import driver
 from cognify.run.optimize import optimize
 from cognify.run.evaluate import evaluate
+from cognify.run.inspect import inspect
 from cognify._logging import _configure_logger
 
 logger = logging.getLogger(__name__)
@@ -31,9 +31,14 @@ def from_cognify_args(args):
         raise ValueError(f"Unknown mode: {args.mode}")
     
 
-def parse_pipeline_config_file(config_path):
+def parse_pipeline_config_file(config_path, load_data: bool = True):
     config_module = capture_module_from_fs(config_path)
     
+    # get optimizer control parameters
+    control_param = ControlParameter.build_control_param(loaded_module=config_module)
+    if not load_data:
+        return None, control_param
+
     # load data
     data_loader_fn = get_registered_data_loader()
     train_set, val_set, test_set = data_loader_fn()
@@ -42,9 +47,6 @@ def parse_pipeline_config_file(config_path):
         f"val set: {0 if not val_set else len(val_set)}, "
         f"test set: {0 if not test_set else len(test_set)}"
     )
-    
-    # get optimizer control parameters
-    control_param = ControlParameter.build_control_param(loaded_module=config_module)
     
     return (train_set, val_set, test_set), control_param
 
@@ -65,39 +67,22 @@ def optimize_routine(opt_args: OptimizationArgs):
 def evaluate_routine(eval_args: EvaluationArgs):
     (train_set, val_set, test_set), control_param = parse_pipeline_config_file(eval_args.config)
     result = evaluate(
-        control_param=control_param,
-        config_id=eval_args.config_id,
+        config_id=eval_args.select,
         test_set=test_set,
         n_parallel=eval_args.n_parallel,
         eval_fn=None,
         eval_path=eval_args.config,
         save_to=eval_args.output_path,
+        control_param=control_param,
     )
     return result
 
 def inspect_routine(inspect_args: InspectionArgs):
-    control_param = ControlParameter.build_control_param(inspect_args.control_param)
-    
-    # get dry run result on train set
-    quality_constraint = None
-    if control_param.quality_constraint is not None:
-        dry_run_log_path = os.path.join(control_param.opt_history_log_dir, 'dry_run_train.json')
-        if os.path.exists(dry_run_log_path):
-            with open(dry_run_log_path, 'r') as f:
-                dry_run_result = EvaluationResult.from_dict(json.load(f))
-            logger.info(f"Loading existing dry run result at {dry_run_log_path}")
-            quality_constraint = control_param.quality_constraint * dry_run_result.reduced_score
-        else:
-            logger.warning(f"Quality constraint is set but no dry run result found at {dry_run_log_path}, will ignore constraint")
-            quality_constraint = None
-    
-    opt_driver = driver.MultiLayerOptimizationDriver(
-        layer_configs=control_param.opt_layer_configs,
-        opt_log_dir=control_param.opt_history_log_dir,
-        quality_constraint=quality_constraint,
-        save_config_to_file=False,
+    _, control_param = parse_pipeline_config_file(inspect_args.config, load_data=False)
+    inspect(
+        control_param=control_param,
+        dump_frontier_details=inspect_args.dump_frontier_details,
     )
-    return opt_driver.inspect(inspect_args.dump_frontier_details)
     
     
 def main():

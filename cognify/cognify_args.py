@@ -15,7 +15,10 @@ class CommonArgs:
     
     def __post_init__(self):
         # Set missing values
-        self.search_at_workflow_dir_if_not_set('config', 'py')
+        self.find_files()
+    
+    def find_files(self):
+        self.search_at_workflow_dir_if_not_set('config', 'config.py')
     
     @staticmethod
     def add_cli_args(parser: argparse.ArgumentParser):
@@ -28,7 +31,7 @@ class CommonArgs:
         parser.add_argument(
             '-c', '--config',
             type=str,
-            default=OptimizationArgs.config,
+            default=CommonArgs.config,
             help="Path to the configuration file for the optimization pipeline.\n"
             "If not provided, will search config.py in the same directory as workflow script.\n"
             "The file should contains the evaluator, data_loader, and optimizer settings.",
@@ -48,10 +51,10 @@ class CommonArgs:
         attrs = [attr.name for attr in dataclasses.fields(cls)]
         return cls(**{attr: getattr(args, attr) for attr in attrs})
 
-    def search_at_workflow_dir_if_not_set(self, attr, suffix):
+    def search_at_workflow_dir_if_not_set(self, attr, fpath):
         if getattr(self, attr) is None:
             workflow_dir = os.path.dirname(self.workflow)
-            setattr(self, attr, os.path.join(workflow_dir, f'{attr}.{suffix}'))
+            setattr(self, attr, os.path.join(workflow_dir, fpath))
         
 @dataclasses.dataclass
 class OptimizationArgs(CommonArgs):
@@ -60,23 +63,23 @@ class OptimizationArgs(CommonArgs):
 
 @dataclasses.dataclass
 class EvaluationArgs(CommonArgs):
-    config_id: str
+    select: str
     n_parallel: int = 10
     output_path: str = None
     
-    def __post_init__(self):
-        super().__post_init__()
-        self.search_at_workflow_dir_if_not_set('output_path', 'json')
+    def find_files(self):
+        super().find_files()
+        self.search_at_workflow_dir_if_not_set('output_path', 'eval_result.json')
     
     @staticmethod
     def add_cli_args(parser: argparse.ArgumentParser):
         CommonArgs.add_cli_args(parser)
         parser.add_argument(
-            '-i', '--config_id', 
+            '-s', '--select', 
             type=str, 
-            required=True, 
-            help="Configuration ID for evaluation, e.g. `Pareto_1`, `Pareto_2`, etc.",
-            metavar='config_id',
+            required=True,
+            help="Select one configuration by ID for evaluation.",
+            metavar='Pareto_x',
         )
         parser.add_argument(
             '-j', '--n_parallel', 

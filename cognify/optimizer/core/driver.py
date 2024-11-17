@@ -8,7 +8,7 @@ import re
 from cognify.cog_hub.common import CogBase
 from cognify.cog_hub.utils import build_param
 from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
-from cognify.optimizer.core.flow import TrialLog, OptConfig
+from cognify.optimizer.core.flow import TrialLog, OptConfig, TopDownInformation
 from cognify.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization, BottomLevelTrialLog
 from cognify.optimizer.core.upper_layer import UpperLevelOptimization, LayerEvaluator
 import logging
@@ -76,14 +76,12 @@ class LayerConfig:
             opt_config=OptConfig(**d['opt_config']),
         )
         
-
 class MultiLayerOptimizationDriver:
     def __init__(
         self,
         layer_configs: Sequence[LayerConfig],
         opt_log_dir: str,
         quality_constraint: float = None,
-        save_config_to_file: bool = True,
     ):
         """Driver for multi-layer optimization
         
@@ -98,15 +96,7 @@ class MultiLayerOptimizationDriver:
         # initialize optimization layers
         self.opt_layers: list[OptimizationLayer] = [None] * len(layer_configs)
         
-        # dump control params
         self.opt_log_dir = opt_log_dir
-        if not os.path.exists(opt_log_dir):
-            os.makedirs(opt_log_dir, exist_ok=True)
-        param_log_path = os.path.join(opt_log_dir, 'opt_control_params.json')
-        layer_configs_dict = [lc.to_dict() for lc in layer_configs]
-        if save_config_to_file:
-            with open(param_log_path, 'w') as f:
-                json.dump(layer_configs_dict, f, indent=4)
         
         # config log dir for layer opts
         # NOTE: only the top layer will be set, others are decided at runtime
@@ -186,10 +176,20 @@ class MultiLayerOptimizationDriver:
     def _find_config_log_path(self, trial_id: str) -> str:
         opt_config = self.layer_configs[0].opt_config
         opt_config.finalize()
+        tdi = TopDownInformation(
+            opt_config=opt_config,
+            all_params=None,
+            module_ttrace=None,
+            current_module_pool=None,
+            script_path=None,
+            script_args=None,
+            other_python_paths=None,
+        )
         
         top_layer = self.opt_layers[0]
         top_layer.load_opt_log(opt_config.opt_log_path)
-        all_configs = top_layer.get_all_candidates(opt_config.opt_log_path)
+        top_layer.top_down_info = tdi
+        all_configs = top_layer.get_all_candidates()
         config_path = None
             
         for opt_log, path in all_configs:
@@ -236,8 +236,20 @@ class MultiLayerOptimizationDriver:
         self.build_tiered_optimization(None)
         opt_config = self.layer_configs[0].opt_config
         opt_config.finalize()
+        tdi = TopDownInformation(
+            opt_config=opt_config,
+            all_params=None,
+            module_ttrace=None,
+            current_module_pool=None,
+            script_path=None,
+            script_args=None,
+            other_python_paths=None,
+        )
         
-        self.opt_layers[0].load_opt_log(opt_config.opt_log_path)
+        top_layer = self.opt_layers[0]
+        top_layer.load_opt_log(opt_config.opt_log_path)
+        top_layer.top_down_info = tdi
+        
         frontier = self.opt_layers[0].post_optimize()
         
         # dump frontier details to file

@@ -6,6 +6,7 @@ import logging
 from cognify.optimizer.control_param import ControlParameter
 from cognify.optimizer.core import driver
 from cognify.optimizer.evaluation.evaluator import EvaluatorPlugin, EvalTask, EvaluationResult
+from cognify.optimizer.evaluation.metric import MetricBase
 
 
 logger = logging.getLogger(__name__)
@@ -57,7 +58,7 @@ def optimize(
     control_param: ControlParameter,
     train_set,
     *,
-    eval_fn: Callable = None,
+    eval_fn: Union[Callable, MetricBase] = None,
     eval_path: str = None,
     val_set = None,
 ):
@@ -67,8 +68,16 @@ def optimize(
     # create directory for logging
     if not os.path.exists(control_param.opt_history_log_dir):
         os.makedirs(control_param.opt_history_log_dir, exist_ok=True)
+
+    # dump control params
+    param_log_path = os.path.join(control_param.opt_history_log_dir, 'control_param.json')
+    with open(param_log_path, 'w') as f:
+        json.dump(control_param.to_dict(), f, indent=4)
     
     # create evaluator
+    if eval_fn is not None:
+        if isinstance(eval_fn, MetricBase):
+            eval_fn = eval_fn.score
     evaluator = EvaluatorPlugin(
         trainset=train_set,
         evalset=val_set,

@@ -7,20 +7,32 @@ from cognify.optimizer.plugin import OptimizerSchema
 from cognify.optimizer.control_param import ControlParameter
 from cognify.optimizer.core import driver
 from cognify.optimizer.evaluation.evaluator import EvaluatorPlugin, EvalTask, EvaluationResult
+from cognify.optimizer.evaluation.metric import MetricBase
 
 
 logger = logging.getLogger(__name__)
 
 def evaluate(
-    control_param: ControlParameter,
+    *,
     config_id: str,
     test_set,
-    *,
+    opt_result_path: Optional[str] = None,
+    control_param: Optional[ControlParameter] = None,
     n_parallel: int = 10,
-    eval_fn: Callable = None,
+    eval_fn: Union[Callable, MetricBase] = None,
     eval_path: str = None,
     save_to: str = None,
 ) -> EvaluationResult:
+    assert control_param or opt_result_path, "Either control_param or opt_result_path should be provided"
+    # If both are provided, control_param will be used
+    
+    if control_param is None:
+        control_param_save_path = os.path.join(opt_result_path, 'control_param.json')
+        control_param = ControlParameter.from_json_profile(control_param_save_path)
+    
+    if eval_fn is not None:
+        if isinstance(eval_fn, MetricBase):
+            eval_fn = eval_fn.score
     evaluator = EvaluatorPlugin(
         trainset=None,
         evalset=None,
@@ -33,7 +45,6 @@ def evaluate(
     opt_driver = driver.MultiLayerOptimizationDriver(
         layer_configs=control_param.opt_layer_configs,
         opt_log_dir=control_param.opt_history_log_dir,
-        save_config_to_file=False,
     )
     result = opt_driver.evaluate(
         evaluator=evaluator,
@@ -46,13 +57,21 @@ def evaluate(
     return result
 
 def load_workflow(
-    control_param: ControlParameter,
+    *,
     config_id: str,
+    opt_result_path: Optional[str] = None,
+    control_param: Optional[ControlParameter] = None,
 ) -> Callable:
+    assert control_param or opt_result_path, "Either control_param or opt_result_path should be provided"
+    # If both are provided, control_param will be used
+    
+    if control_param is None:
+        control_param_save_path = os.path.join(opt_result_path, 'control_param.json')
+        control_param = ControlParameter.from_json_profile(control_param_save_path)
+        
     opt_driver = driver.MultiLayerOptimizationDriver(
         layer_configs=control_param.opt_layer_configs,
         opt_log_dir=control_param.opt_history_log_dir,
-        save_config_to_file=False,
     )
     schema, _ = opt_driver.load(config_id)
     return schema.program

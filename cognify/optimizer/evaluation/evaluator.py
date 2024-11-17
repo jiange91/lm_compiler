@@ -277,7 +277,7 @@ class EvalTask:
         _init_exit_gracefully(verbose=False)
         schema, module_pool = self.load_and_transform()
         if _should_exit():
-            q.put((task_index, None, 0.0, 0.0, None, 0.0))
+            q.put((task_index, False, None, 0.0, 0.0, None, 0.0))
             sema.release()
             return
         
@@ -295,9 +295,8 @@ class EvalTask:
             if demo is not None:
                 lm_to_demo[lm.name] = demo
             
-        q.put((task_index, result, score, price, lm_to_demo, end_time - start_time))
+        q.put((task_index, True, result, score, price, lm_to_demo, end_time - start_time))
         sema.release()
-
     
     def show_opt_trace(self) -> str:
         trace_lines = []
@@ -324,7 +323,6 @@ class EvalTask:
                     trace_lines.append(f"      Transformation Details:\n{indented_description}")
             
             trace_lines.append("\n" + "=" * 50 + "\n")
-
         
         # Combine all trace lines into a single string
         trace_dump = "\n".join(trace_lines)
@@ -421,54 +419,59 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         sema = mp.Semaphore(n_parallel)
         result_q = mp.Queue()
         
-        for task_index, pair_idx in enumerate(indices):
-            if _should_exit():
-                break
-            input, label = data[pair_idx]
-            sema.acquire()
-            if _should_exit():
-                sema.release()
-                break
-            worker = mp.Process(
-                target=task.evaluate_program, 
-                args=(
-                    self._evaluator,
-                    input, label, 
-                    task_index, sema, result_q
-                )
+        total_score, total_cost, visited = 0.0, 0.0, 0
+        opt_trace = '.'.join(task.trace_back)
+        def update_pbar(pbar, eval_result):
+            nonlocal total_score, total_cost, visited
+            visited += 1
+            score, price = eval_result[3], eval_result[4]
+            total_score += score
+            total_cost += price
+            pbar.update(1)
+            pbar.set_description(
+                _gen_pbar_desc(hierarchy_level, opt_trace, total_score / visited, total_cost / visited)
             )
-            worker.start()
-            all_workers.append(worker)
             
         results = []
-        
-        if show_process:
-            opt_trace = ' | '.join(task.trace_back)
-            total_score, total_cost = 0.0, 0.0
-            with tqdm(
-                total=len(all_workers),
-                desc=_gen_pbar_desc(hierarchy_level, opt_trace, 0.0, 0.0),
-                leave=keep_bar,
-                position=pbar_position,
-            ) as pbar:
-                for i in range(len(all_workers)):
+        with tqdm(
+            total=len(indices),
+            desc=_gen_pbar_desc(hierarchy_level, opt_trace, 0.0, 0.0),
+            leave=keep_bar,
+            position=pbar_position,
+        ) as pbar:
+            
+            for task_index, pair_idx in enumerate(indices):
+                if _should_exit():
+                    break
+                
+                # check for result updates
+                while not result_q.empty():
                     eval_result = result_q.get()
-                    if eval_result[1] is None:
-                        continue
-                    results.append(eval_result)
-                    _, _, score, price, _, _ = eval_result
-                    total_score += score
-                    total_cost += price
-                    pbar.update(1)
-                    pbar.set_description(
-                        _gen_pbar_desc(hierarchy_level, opt_trace, total_score / (i+1), total_cost / (i+1))
+                    if eval_result[1]:
+                        results.append(eval_result)
+                        if show_process:
+                            update_pbar(pbar, eval_result)
+                        
+                input, label = data[pair_idx]
+                sema.acquire()
+                worker = mp.Process(
+                    target=task.evaluate_program, 
+                    args=(
+                        self._evaluator,
+                        input, label, 
+                        task_index, sema, result_q
                     )
-        else:
-            for i in range(len(all_workers)):
+                )
+                worker.start()
+                all_workers.append(worker)
+            
+            for i in range(len(all_workers) - visited):
                 eval_result = result_q.get()
-                if eval_result[1] is None:
+                if not eval_result[1]: 
                     continue
                 results.append(eval_result)
+                if show_process:
+                    update_pbar(pbar, eval_result)
             
         for worker in all_workers:
             worker.join()
@@ -480,8 +483,8 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         scores = []
         demos = []
         exec_times = []
-        for tid, result, score, price, demo, exec_time in results:
-            assert result is not None, "Result should not be None"
+        for tid, finished, result, score, price, demo, exec_time in results:
+            assert finished, "Only finished tasks should be collected"
             data_ids.append(indices[tid])
             prices.append(price)
             scores.append(score)

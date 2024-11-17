@@ -498,32 +498,30 @@ class OptimizationLayer:
                         for _ in range(opt_config.n_trials)
                     ]
                     for f in as_completed(futures):
-                        if _should_exit():
-                            # Prevent new tasks from starting
-                            executor.shutdown(cancel_futures=True, wait=True) 
-                            break
                         try:
                             result = f.result()
                             processed_futures.add(f)
-                            if result is None or not result.complete:
-                                continue
-                            counter += 1
-                            if self.save_ckpt_interval > 0 and counter % self.save_ckpt_interval == 0:
-                                self.save_ckpt(opt_config.opt_log_path, opt_config.param_save_path)
-                            _update_pbar(pbar, result)
+                            if result and result.complete:
+                                counter += 1
+                                if self.save_ckpt_interval > 0 and counter % self.save_ckpt_interval == 0:
+                                    self.save_ckpt(opt_config.opt_log_path, opt_config.param_save_path)
+                                _update_pbar(pbar, result)
+                            if _should_exit():
+                                executor.shutdown(wait=True, cancel_futures=True)
+                                break
                         except Exception as e:
                             logger.error(f'Error in evaluating task: {e}')
                             raise
                     if _should_exit():
                         print(f'{self.name} collecting finished tasks...')
-                        for f in as_completed(futures):
-                            if f not in processed_futures:
-                                processed_futures.add(f)
-                                if f.done() and not f.cancelled():
-                                    result = f.result()
-                                    if result is None:
-                                        continue
-                                    _update_pbar(pbar, result)
+                        should_wait = [f for f in futures if f not in processed_futures]
+                        for f in should_wait:
+                            processed_futures.add(f)
+                            if not f.cancelled():
+                                result = f.result()
+                                if result is None or not result.complete:
+                                    continue
+                                _update_pbar(pbar, result)
                     
         release_position(pbar_position)
     
@@ -774,6 +772,7 @@ class BottomLevelOptimization(OptimizationLayer):
                     
         logger.debug(f"Start pre-optimization for {self.name}")
         eval_task = EvalTask.from_top_down_info(self.top_down_info)
+        eval_task.trace_back=["pre-opt-analysis"]
         pbar_position = ask_for_position()
         if self.evaluator.dataset['eval'][0] is None:
             eval_result = self.evaluator.get_score(mode='train', task=eval_task, show_process=True, pbar_position=pbar_position, hierarchy_level=self.hierarchy_level+1)

@@ -16,57 +16,48 @@ import uuid
 from dataclasses import dataclass, field
 import multiprocessing as mp
 
-from cognify.graph.program import Workflow, Module, StatePool
-from cognify.cog_hub.common import CogBase, OptionBase, DynamicCogBase, EvolveType, AddNewModuleImportInterface
-from cognify.cog_hub.utils import dump_params, load_params
-from cognify.cog_hub.model_selection import LMSelection
-from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask, GeneralEvaluatorInterface
-from cognify.optimizer.evaluation.metric import MetricBase, MInput
-from cognify.optimizer.plugin import OptimizerSchema
-from optuna.samplers import TPESampler
-from cognify.optimizer.core.flow import TrialLog, ModuleTransformTrace, TopDownInformation, OptConfig
-from cognify.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelTrialLog, ask_for_position, release_position
+from cognify._signal import _should_exit
+from cognify.optimizer.evaluation.evaluator import EvaluationResult, GeneralEvaluatorInterface
+from cognify.optimizer.core.flow import TrialLog, TopDownInformation, OptConfig
+from cognify.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelTrialLog
 
 logger = logging.getLogger(__name__)
-
 
 class LayerEvaluator(GeneralEvaluatorInterface):
     def __init__(
         self,
         target_layer: OptimizationLayer,
-        quality_constraint: float = None,
     ):
         self.target_layer = target_layer
-        self.quality_constraint = quality_constraint
     
     def evaluate(
-        self, 
+        self,
         layer_task: TopDownInformation, 
         **kwargs,
     ) -> EvaluationResult:
         #NOTE: optimization will change layer meta, make a copy
         target_layer_cpy = copy.deepcopy(self.target_layer)
+        # NOTE: returned opt_logs is all finished
         eval_cost, pareto_frontier, opt_logs = target_layer_cpy.optimize(layer_task)
+        if not opt_logs:
+            # If no trial is finished:
+            #   return bad information instead of no information
+            # consider this as a failed evaluation
+            return EvaluationResult(
+                reduced_price=float(0xdeadbeef),
+                reduced_score=0,
+                complete=False,
+            )
+        
         inner_log_ids, scores, prices, exec_times = [], [], [], []
         for trial_log in opt_logs.values():
             inner_log_ids.append(trial_log.id)
             scores.append(trial_log.score)
             prices.append(trial_log.price)
             exec_times.append(trial_log.eval_cost)
+            
         reduced_score = max(scores)
-        if self.quality_constraint is not None:
-            """
-            Consider cheapest price that passes the quality constraint
-            if no trial passed the quality constraint, set the price to a agreed number, it will be rejected at TPE side no matter what this number is
-            """
-            passed_price = [price for i, price in enumerate(prices) 
-                            if scores[i] >= self.quality_constraint]
-            if not passed_price:
-                reduced_price = float(0xdeadbeef)
-            else:
-                reduced_price = min(passed_price)
-        else:
-            reduced_price = min(prices)
+        reduced_price = min(prices)
         result = EvaluationResult(
             ids=inner_log_ids,
             scores=scores,
@@ -115,6 +106,9 @@ class SuccessiveHalving:
             try:
                 outer_indicators = []
                 for f in futures:
+                    if _should_exit():
+                        executor.shutdown(cancel_futures=True, wait=True)
+                        break
                     eval_result: EvaluationResult = f.result()
                     outer_indicators.append((eval_result.reduced_score, eval_result.reduced_price))
             except Exception as e:
@@ -136,6 +130,8 @@ class SuccessiveHalving:
     
     def execute(self):
         while len(self.ready_to_run) > 0:
+            if _should_exit():
+                break
             self.run_and_prune()
         # Collect inner loop performance
         outer_run_evals = []
@@ -153,10 +149,11 @@ class UpperLevelTrialLog(TrialLog):
         score = 0, 
         price = 0, 
         eval_cost = 0,
+        finished = False,
         next_level_log_dir = None,
         num_next_level_trials = 0,
     ):
-        super().__init__(params, bo_trial_id, id, score, price, eval_cost)
+        super().__init__(params, bo_trial_id, id, score, price, eval_cost, finished)
         self.next_level_log_dir = next_level_log_dir
         self.num_next_level_trials = num_next_level_trials
     
@@ -209,9 +206,11 @@ class UpperLevelOptimization(OptimizationLayer):
     def _optimize_iteration(self, base_program):
         next_trial, program, new_trace, log_id = self.propose(base_program, 1)[0]
         next_level_info = self.prepare_next_level_tdi(program, new_trace, next_trial.number)
-        
         self.opt_logs[log_id].next_level_log_dir = next_level_info.opt_config.log_dir
-
+        
+        if _should_exit():
+            return None
+        
         # run evaluation
         try:
             eval_result = self.evaluator.evaluate(next_level_info)
@@ -232,6 +231,8 @@ class UpperLevelOptimization(OptimizationLayer):
             selected_runs.append((self.evaluator, next_level_info))
             self.opt_logs[new_log_id].next_level_log_dir = next_level_info.opt_config.log_dir
         sh = SuccessiveHalving(selected_runs)
+        if _should_exit():
+            return
         eval_results, num_inner_trials = sh.execute()
         for i, (trial, program, new_trace, log_id) in enumerate(proposals_at_this_level):
             self.update(trial, eval_results[i], log_id)
@@ -245,13 +246,19 @@ class UpperLevelOptimization(OptimizationLayer):
         opt_config = self.top_down_info.opt_config
         n_iters = opt_config.n_trials // opt_config.throughput
         for i in range(n_iters):
+            if _should_exit():
+                break
             self._optimize_SH(base_program)
+            if _should_exit():
+                break
             if self.save_ckpt_interval > 0 and i % self.save_ckpt_interval == 0:
                 self.save_ckpt(opt_config.opt_log_path, opt_config.param_save_path)
     
-    def get_all_candidates(self, config_path: str = None) -> list[TrialLog, str]:
+    def get_all_candidates(self) -> list[TrialLog, str]:
         candidates = []
         for _, upper_trial_log in self.opt_logs.items():
+            if not upper_trial_log.finished:
+                continue
             bot_opt_log_path = os.path.join(upper_trial_log.next_level_log_dir, 'opt_logs.json') 
             with open(bot_opt_log_path, 'r') as f:
                 opt_trace = json.load(f)

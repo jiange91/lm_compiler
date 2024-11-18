@@ -25,7 +25,7 @@ class LMFewShot(DynamicCogBase):
     
     def __init__(
         self, 
-        max_num: int = 5,
+        max_num: int = 2,
         name: str = "few_shot",
         module_name: str = None,
         eval_result: EvaluationResult = None,

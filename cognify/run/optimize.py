@@ -3,9 +3,11 @@ import json
 from typing import Optional, Union, Sequence, Callable
 import logging
 
+from cognify._signal import _should_exit
 from cognify.optimizer.control_param import ControlParameter
 from cognify.optimizer.core import driver
 from cognify.optimizer.evaluation.evaluator import EvaluatorPlugin, EvalTask, EvaluationResult
+from cognify.optimizer.evaluation.metric import MetricBase
 
 
 logger = logging.getLogger(__name__)
@@ -30,9 +32,12 @@ def dry_run(script_path, evaluator: EvaluatorPlugin, log_dir):
         return dry_run_result
     
     result = evaluator.get_score('train', eval_task, show_process=True)
-    with open(dry_run_log_path, 'w+') as f:
-        json.dump(result.to_dict(), f, indent=4)
-    logger.info(f"Dry run result saved to {dry_run_log_path}")
+    if result.complete:
+        with open(dry_run_log_path, 'w+') as f:
+            json.dump(result.to_dict(), f, indent=4)
+        logger.info(f"Dry run result saved to {dry_run_log_path}")
+    else:
+        logger.warning(f"Dry run not completed, result will be discarded")
     return result
 
 def downsample_data(script_path, source: EvaluatorPlugin, mode, sample_size, log_dir):
@@ -57,9 +62,10 @@ def optimize(
     control_param: ControlParameter,
     train_set,
     *,
-    eval_fn: Callable = None,
+    eval_fn: Union[Callable, MetricBase] = None,
     eval_path: str = None,
     val_set = None,
+    resume: bool = False
 ):
     # Validate and prepare the pipeline
     assert eval_fn is not None or eval_path is not None, "Either eval_fn or eval_path should be provided"
@@ -68,7 +74,21 @@ def optimize(
     if not os.path.exists(control_param.opt_history_log_dir):
         os.makedirs(control_param.opt_history_log_dir, exist_ok=True)
     
+    if not resume:
+        # Can reuse dry run and analysis results but avoid overwriting other opt logs
+        top_layer_opt_dir = os.path.join(control_param.opt_history_log_dir, control_param.opt_layer_configs[0].layer_name)
+        if os.path.isdir(top_layer_opt_dir) and len(os.listdir(top_layer_opt_dir)) > 0:
+            raise ValueError(f"Directory {control_param.opt_history_log_dir} is not empty, if you want to resume from previous checkpoint, please set -r or --resume flag")
+
+    # dump control params
+    param_log_path = os.path.join(control_param.opt_history_log_dir, 'control_param.json')
+    with open(param_log_path, 'w') as f:
+        json.dump(control_param.to_dict(), f, indent=4)
+    
     # create evaluator
+    if eval_fn is not None:
+        if isinstance(eval_fn, MetricBase):
+            eval_fn = eval_fn.score
     evaluator = EvaluatorPlugin(
         trainset=train_set,
         evalset=val_set,
@@ -85,6 +105,9 @@ def optimize(
         log_dir=control_param.opt_history_log_dir,
     )
     
+    if _should_exit():
+        return None, None, None
+    
     # downsample data
     if control_param.train_down_sample > 0:
         downsample_data(
@@ -94,6 +117,9 @@ def optimize(
             sample_size=control_param.train_down_sample,
             log_dir=control_param.opt_history_log_dir,
         )
+    if _should_exit():
+        return None, None, None
+    
     if control_param.val_down_sample > 0:
         downsample_data(
             script_path=script_path,
@@ -102,6 +128,8 @@ def optimize(
             sample_size=control_param.val_down_sample,
             log_dir=control_param.opt_history_log_dir,
         )
+    if _should_exit():
+        return None, None, None
         
     # build optimizer from parameters
     opt_driver = driver.MultiLayerOptimizationDriver(

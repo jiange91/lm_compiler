@@ -8,7 +8,6 @@ import logging
 from dataclasses import dataclass, field
 import optuna
 import numpy as np
-from concurrent.futures import ThreadPoolExecutor
 import uuid
 from abc import ABC, abstractmethod
 import multiprocessing as mp
@@ -19,9 +18,11 @@ from cognify.optimizer import (
     get_registered_opt_modules, 
     get_registered_opt_score_fn,
 )
+from .metric import MetricBase
 
 import logging
 
+from cognify._signal import _init_exit_gracefully, _should_exit
 from cognify.graph.program import Workflow, Module
 from cognify.llm import CogLM, Demonstration
 from cognify.cog_hub.common import CogBase
@@ -45,6 +46,7 @@ class EvaluationResult:
         prices: Sequence[float],
         exec_times: Sequence[float],
         total_eval_cost: float,
+        complete: bool,
         reduced_score: Optional[float] = None,
         reduced_price: Optional[float] = None,
         demos: Optional[Sequence[TDemoInTrial]] = None,
@@ -56,6 +58,7 @@ class EvaluationResult:
         self.prices = prices
         self.exec_times = exec_times
         self.total_eval_cost = total_eval_cost
+        self.complete = complete
         self.reduced_score = reduced_score
         self.reduced_price = reduced_price
         self.demos = demos
@@ -80,6 +83,7 @@ class EvaluationResult:
             'reduced_score': self.reduced_score,
             'reduced_price': self.reduced_price,
             'total_eval_cost': self.total_eval_cost,
+            'complete': self.complete,
         }
         stats['detailed'] = []
         for id, score, price, exec_time in zip(self.ids, self.scores, self.prices, self.exec_times):
@@ -99,6 +103,7 @@ class EvaluationResult:
             prices=[d['price'] for d in data['detailed']],
             exec_times=[d['exec_time'] for d in data['detailed']],
             total_eval_cost=data['summary']['total_eval_cost'],
+            complete=data['summary']['complete'],
             reduced_score=data['summary']['reduced_score'],
             reduced_price=data['summary']['reduced_price'],
         )
@@ -119,8 +124,17 @@ class EvalFn:
             if dir not in sys.path:
                 sys.path.append(dir)
             
-            capture_module_from_fs(self.score_file_path)
-            self.score_fn = get_registered_opt_score_fn()
+            module = capture_module_from_fs(self.score_file_path)
+            score_fn = get_registered_opt_score_fn()
+            if score_fn is None:
+                # find builtin metric instance
+                for name, obj in vars(module).items():
+                    if isinstance(obj, MetricBase):
+                        score_fn = obj.score
+                        break
+            if score_fn is None:
+                raise ValueError("No score function found in the config file")
+            self.score_fn = score_fn
         
         assert self.score_fn is not None, "score function not set properly"
     
@@ -260,7 +274,13 @@ class EvalTask:
         sema,
         q: mp.Queue,
     ):
+        _init_exit_gracefully(verbose=False)
         schema, module_pool = self.load_and_transform()
+        if _should_exit():
+            q.put((task_index, False, None, 0.0, 0.0, None, 0.0))
+            sema.release()
+            return
+        
         start_time = time.time()
         result = schema.program(input)
         end_time = time.time()
@@ -275,9 +295,8 @@ class EvalTask:
             if demo is not None:
                 lm_to_demo[lm.name] = demo
             
-        q.put((task_index, result, score, price, lm_to_demo, end_time - start_time))
+        q.put((task_index, True, result, score, price, lm_to_demo, end_time - start_time))
         sema.release()
-
     
     def show_opt_trace(self) -> str:
         trace_lines = []
@@ -304,7 +323,6 @@ class EvalTask:
                     trace_lines.append(f"      Transformation Details:\n{indented_description}")
             
             trace_lines.append("\n" + "=" * 50 + "\n")
-
         
         # Combine all trace lines into a single string
         trace_dump = "\n".join(trace_lines)
@@ -401,54 +419,73 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         sema = mp.Semaphore(n_parallel)
         result_q = mp.Queue()
         
-        for task_index, pair_idx in enumerate(indices):
-            input, label = data[pair_idx]
-            sema.acquire()
-            worker = mp.Process(
-                target=task.evaluate_program, 
-                args=(
-                    self._evaluator,
-                    input, label, 
-                    task_index, sema, result_q
-                )
+        total_score, total_cost, visited = 0.0, 0.0, 0
+        opt_trace = '.'.join(task.trace_back)
+        def update_pbar(pbar, eval_result):
+            nonlocal total_score, total_cost, visited
+            visited += 1
+            score, price = eval_result[3], eval_result[4]
+            total_score += score
+            total_cost += price
+            pbar.update(1)
+            pbar.set_description(
+                _gen_pbar_desc(hierarchy_level, opt_trace, total_score / visited, total_cost / visited)
             )
-            worker.start()
-            all_workers.append(worker)
             
         results = []
-        
-        if show_process:
-            opt_trace = ' | '.join(task.trace_back)
-            total_score, total_cost = 0.0, 0.0
-            with tqdm(
-                total=len(indices),
-                desc=_gen_pbar_desc(hierarchy_level, opt_trace, 0.0, 0.0),
-                leave=keep_bar,
-                position=pbar_position,
-            ) as pbar:
-                for i in range(len(indices)):
-                    results.append(result_q.get())
-                    _, _, score, price, _, _ = results[-1]
-                    total_score += score
-                    total_cost += price
-                    pbar.update(1)
-                    pbar.set_description(
-                        _gen_pbar_desc(hierarchy_level, opt_trace, total_score / (i+1), total_cost / (i+1))
+        with tqdm(
+            total=len(indices),
+            desc=_gen_pbar_desc(hierarchy_level, opt_trace, 0.0, 0.0),
+            leave=keep_bar,
+            position=pbar_position,
+        ) as pbar:
+            
+            for task_index, pair_idx in enumerate(indices):
+                if _should_exit():
+                    break
+                
+                # check for result updates
+                while not result_q.empty():
+                    eval_result = result_q.get()
+                    if eval_result[1]:
+                        results.append(eval_result)
+                        if show_process:
+                            update_pbar(pbar, eval_result)
+                        
+                input, label = data[pair_idx]
+                sema.acquire()
+                worker = mp.Process(
+                    target=task.evaluate_program, 
+                    args=(
+                        self._evaluator,
+                        input, label, 
+                        task_index, sema, result_q
                     )
-        else:
-            for i in range(len(indices)):
-                results.append(result_q.get())
+                )
+                worker.start()
+                all_workers.append(worker)
+            
+            for i in range(len(all_workers) - visited):
+                eval_result = result_q.get()
+                if not eval_result[1]: 
+                    continue
+                results.append(eval_result)
+                if show_process:
+                    update_pbar(pbar, eval_result)
             
         for worker in all_workers:
             worker.join()
         # re-order the results according to the task index
         results = sorted(results, key=lambda x: x[0])
             
+        data_ids = []
         prices = []
         scores = []
         demos = []
         exec_times = []
-        for tid, result, score, price, demo, exec_time in results:
+        for tid, finished, result, score, price, demo, exec_time in results:
+            assert finished, "Only finished tasks should be collected"
+            data_ids.append(indices[tid])
             prices.append(price)
             scores.append(score)
             demos.append(demo)
@@ -456,11 +493,12 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         reduced_score = self.score_reducer(scores)
         reduced_price = self.price_reducer(prices)
         return EvaluationResult(
-            ids=[f'{mode}_{i}' for i in indices],
+            ids=[f'{mode}_{i}' for i in data_ids],
             scores=scores,
             prices=prices,
             exec_times=exec_times,
             total_eval_cost=sum(prices),
+            complete=len(results) == len(indices),
             reduced_score=reduced_score,
             reduced_price=reduced_price,
             demos=demos,

@@ -73,10 +73,10 @@ def capture_module_from_fs(module_path: str):
             module.__dict__[k] = RunnableCogLM(v, name=name)
             num_translated += 1
             named_runnables[k] += 1
-    if num_translated == 0:
-        warnings.warn("No modules translated. If using langchain/langgraph, be sure to elevate the runnable instantiation to global scope.", UserWarning)
-    else:
-        logger.info(f"Translated {num_translated} modules")
+    # if num_translated == 0:
+    #     warnings.warn("No modules translated. If using langchain/langgraph, be sure to elevate the runnable instantiation to global scope.", UserWarning)
+    # else:
+    #     logger.info(f"Translated {num_translated} modules")
 
     return module
 

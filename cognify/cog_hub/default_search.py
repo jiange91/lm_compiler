@@ -1,7 +1,8 @@
 from typing import Optional, Literal
 
+from cognify.llm import LMConfig
 from cognify.optimizer.core import driver, flow
-from cognify.cog_hub import reasoning, ensemble
+from cognify.cog_hub import reasoning, ensemble, model_selection
 from cognify.cog_hub.common import NoChange
 from cognify.cog_hub.fewshot import LMFewShot
 from cognify.cog_hub.reasoning import ZeroShotCoT, PlanBefore
@@ -13,6 +14,7 @@ def create_light_search(
     quality_constraint: float = 1.0,
     evaluator_batch_size: int = 10,
     opt_log_dir: str = 'opt_results',
+    model_selection_cog: model_selection.LMSelection = None,
 ):
     # Reasoning Parameter
     reasoning_param = reasoning.LMReasoning(
@@ -26,6 +28,9 @@ def create_light_search(
     inner_opt_config = flow.OptConfig(
         n_trials=n_trials,
     )
+    params = [few_shot_params, reasoning_param]
+    if model_selection_cog is not None:
+        params.append(model_selection_cog)
     inner_loop_config = driver.LayerConfig(
         layer_name='light_opt_layer',
         universal_params=[few_shot_params, reasoning_param],
@@ -46,6 +51,7 @@ def create_medium_search(
     quality_constraint: float = 1.0,
     evaluator_batch_size: int = 10,
     opt_log_dir: str = 'opt_results',
+    model_selection_cog: model_selection.LMSelection = None,
 ):
     # Assign resource to each layer
     inner_trials = 15
@@ -64,6 +70,9 @@ def create_medium_search(
     inner_opt_config = flow.OptConfig(
         n_trials=inner_trials,
     )
+    params = [few_shot_params, reasoning_param]
+    if model_selection_cog:
+        params.append(model_selection_cog)
     inner_loop_config = driver.LayerConfig(
         layer_name='medium_inner',
         universal_params=[few_shot_params, reasoning_param],
@@ -100,6 +109,7 @@ def create_heavy_search(
     quality_constraint: float = 1.0,
     evaluator_batch_size: int = 10,
     opt_log_dir: str = 'opt_results',
+    model_selection_cog: model_selection.LMSelection = None,
 ):
     # Assign resource to each layer
     # Use SH resource allocation
@@ -120,6 +130,10 @@ def create_heavy_search(
     inner_opt_config = flow.OptConfig(
         n_trials=inner_trials,
     )
+    
+    params = [few_shot_params, reasoning_param]
+    if model_selection_cog:
+        params.append(model_selection_cog)
     inner_loop_config = driver.LayerConfig(
         layer_name='heavy_inner',
         universal_params=[few_shot_params, reasoning_param],
@@ -159,12 +173,22 @@ def create_search(
     quality_constraint: float = 1.0,
     evaluator_batch_size: int = 10,
     opt_log_dir: str = 'opt_results',
+    model_selection_cog: model_selection.LMSelection | list[LMConfig] | None = None,
 ):
+    if model_selection_cog is not None:
+        if isinstance(model_selection_cog, list):
+            model_selection_options = model_selection.model_option_factory(model_selection_cog)
+            model_selection_cog = model_selection.LMSelection(
+                'model_selection',
+                model_selection_options,
+            )
+        assert isinstance(model_selection_cog, model_selection.LMSelection)
+    
     if search_type == 'light':
-        return create_light_search(n_trials, quality_constraint, evaluator_batch_size, opt_log_dir)
+        return create_light_search(n_trials, quality_constraint, evaluator_batch_size, opt_log_dir, model_selection_cog)
     elif search_type == 'medium':
-        return create_medium_search(n_trials, quality_constraint, evaluator_batch_size, opt_log_dir)
+        return create_medium_search(n_trials, quality_constraint, evaluator_batch_size, opt_log_dir, model_selection_cog)
     elif search_type == 'heavy':
-        return create_heavy_search(n_trials, quality_constraint, evaluator_batch_size, opt_log_dir)
+        return create_heavy_search(n_trials, quality_constraint, evaluator_batch_size, opt_log_dir, model_selection_cog)
     else:
         raise ValueError(f"Invalid search type: {search_type}")

@@ -31,7 +31,7 @@ def evaluate(
     )
     
     opt_driver = driver.MultiLayerOptimizationDriver(
-        layer_configs=control_param.opt_layer_configs,
+        layer_configs=control_param.opt_setup.layer_configs,
         opt_log_dir=control_param.opt_history_log_dir,
         save_config_to_file=False,
     )
@@ -50,7 +50,7 @@ def load_workflow(
     config_id: str,
 ) -> Callable:
     opt_driver = driver.MultiLayerOptimizationDriver(
-        layer_configs=control_param.opt_layer_configs,
+        layer_configs=control_param.opt_setup.layer_configs,
         opt_log_dir=control_param.opt_history_log_dir,
         save_config_to_file=False,
     )

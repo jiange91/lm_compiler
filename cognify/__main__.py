@@ -91,7 +91,7 @@ def inspect_routine(inspect_args: InspectionArgs):
             quality_constraint = None
     
     opt_driver = driver.MultiLayerOptimizationDriver(
-        layer_configs=control_param.opt_layer_configs,
+        layer_configs=control_param.opt_setup.layer_configs,
         opt_log_dir=control_param.opt_history_log_dir,
         quality_constraint=quality_constraint,
         save_config_to_file=False,

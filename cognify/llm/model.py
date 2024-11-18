@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import List, Dict, Optional, override
+from typing import List, Dict, Optional
+from cognify._compat import override
 from cognify.llm.prompt import InputVar, FilledInputVar, CompletionMessage, Demonstration, Content, TextContent, ImageContent, FilledInputVar, get_image_content_from_upload
 from cognify.llm.output import OutputLabel, OutputFormat
 import litellm
@@ -382,7 +383,7 @@ class StructuredCogLM(CogLM):
     params = get_supported_openai_params(model=model_kwargs["model"], 
                                          custom_llm_provider=model_kwargs.get("custom_llm_provider", None))
     if "response_format" not in params:
-      raise ValueError(f"Model {model_kwargs["model"]} from provider {model_kwargs.get("custom_llm_provider", None)} does not support structured output") 
+      raise ValueError(f"Model {model_kwargs['model']} from provider {model_kwargs.get('custom_llm_provider', None)} does not support structured output") 
     else:
       model = model_kwargs.pop('model')
       response: ModelResponse = completion(model, 

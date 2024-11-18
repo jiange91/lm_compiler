@@ -1,5 +1,5 @@
 import ast
-import astunparse  # You'll need to install this package: pip install astunparse
+import astunparse
 from typing import Callable
 import inspect
 

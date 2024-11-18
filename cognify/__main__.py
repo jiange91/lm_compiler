@@ -1,18 +1,13 @@
 import argparse
-import sys
-import multiprocessing as mp
-import os
-import logging
-import json
 import debugpy
+import logging
+
 
 from cognify._signal import _init_exit_gracefully
 from cognify.cognify_args import init_cognify_args, OptimizationArgs, EvaluationArgs, InspectionArgs
 from cognify.optimizer.plugin import capture_module_from_fs
 from cognify.optimizer.registry import get_registered_data_loader
-from cognify.optimizer.evaluation.evaluator import EvaluationResult 
 from cognify.optimizer.control_param import ControlParameter
-from cognify.optimizer.core import driver
 from cognify.run.optimize import optimize
 from cognify.run.evaluate import evaluate
 from cognify.run.inspect import inspect

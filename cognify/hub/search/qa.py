@@ -1,13 +1,14 @@
 
 from cognify.optimizer.core import driver, flow
 from cognify.optimizer.control_param import ControlParameter
-from cognify.hub.cogs import reasoning, ensemble
+from cognify.hub.cogs import reasoning, ensemble, model_selection
 from cognify.hub.cogs.common import NoChange
 from cognify.hub.cogs.fewshot import LMFewShot
 from cognify.hub.cogs.reasoning import ZeroShotCoT
 from cognify.hub.search.default import SearchParams
+from cognify.llm import LMConfig
 
-def create_search(search_params: SearchParams) -> ControlParameter:
+def create_qa_search(search_params: SearchParams) -> ControlParameter:
     # ================= Inner Loop Config =================
     # Reasoning Parameter
     reasoning_param = reasoning.LMReasoning(
@@ -49,3 +50,23 @@ def create_search(search_params: SearchParams) -> ControlParameter:
         quality_constraint=search_params.quality_constraint,
     )
     return optimize_control_param
+
+def create_search(
+    *,
+    n_trials: int = 10,
+    quality_constraint: float = 1.0,
+    evaluator_batch_size: int = 10,
+    opt_log_dir: str = 'opt_results',
+    model_selection_cog: model_selection.LMSelection | list[LMConfig] | None = None,
+):
+    if model_selection_cog is not None:
+        if isinstance(model_selection_cog, list):
+            model_selection_options = model_selection.model_option_factory(model_selection_cog)
+            model_selection_cog = model_selection.LMSelection(
+                'model_selection',
+                model_selection_options,
+            )
+        assert isinstance(model_selection_cog, model_selection.LMSelection)
+    
+    search_params = SearchParams(n_trials, quality_constraint, evaluator_batch_size, opt_log_dir, model_selection_cog)
+    return create_qa_search(search_params)

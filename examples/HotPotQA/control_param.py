@@ -1,8 +1,4 @@
-from cognify.optimizer.control_param import ControlParameter
-from cognify.hub.cogs.optim_setup.qa import QASetup
+from cognify.hub.search import qa
 
 # ================= Overall Control Parameter =================
-optimize_control_param = ControlParameter(
-    opt_setup=QASetup(),
-    opt_history_log_dir='test_pbar'
-)
+optimize_control_param = qa.create_search(opt_log_dir='test_pbar')

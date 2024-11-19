@@ -1,4 +1,4 @@
-from cognify.cog_hub.reasoning import ReasonThenFormat
+from cognify.hub.cogs.reasoning import ReasonThenFormat
 from cognify.utils import load_api_key
 from cognify.llm import *
 from cognify.llm.model import APICompatibleMessage

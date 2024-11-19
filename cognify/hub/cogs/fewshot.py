@@ -15,9 +15,9 @@ from cognify.graph.base import Module
 from cognify.graph.program import Workflow
 from cognify.llm import CogLM, Demonstration
 from cognify.llm.prompt import FilledInputVar, InputVar
-from cognify.cog_hub.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange
+from cognify.hub.cogs.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange
 from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
-from cognify.cog_hub.utils import dump_params, load_params
+from cognify.hub.cogs.utils import dump_params, load_params
 from typing import List
     
 class LMFewShot(DynamicCogBase):
@@ -25,7 +25,7 @@ class LMFewShot(DynamicCogBase):
     
     def __init__(
         self, 
-        max_num: int = 5,
+        max_num: int = 2,
         name: str = "few_shot",
         module_name: str = None,
         eval_result: EvaluationResult = None,

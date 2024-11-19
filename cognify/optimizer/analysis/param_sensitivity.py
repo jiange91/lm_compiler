@@ -7,7 +7,7 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, Future
 
 from cognify.graph.program import Module
-from cognify.cog_hub.common import CogBase, OptionBase
+from cognify.hub.cogs.common import CogBase, OptionBase
 from cognify.optimizer.evaluation.evaluator import EvaluatorPlugin, EvalTask, EvaluationResult
 
 logger = logging.getLogger(__name__)

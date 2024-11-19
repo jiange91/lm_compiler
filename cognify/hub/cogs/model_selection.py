@@ -1,4 +1,4 @@
-from cognify.cog_hub.common import CogBase, CogLayerLevel, OptionBase
+from cognify.hub.cogs.common import CogBase, CogLayerLevel, OptionBase
 from cognify.llm.model import CogLM, LMConfig
 import uuid
 import copy
@@ -24,7 +24,7 @@ class ModelOption(OptionBase):
     def __init__(self, model_config: LMConfig, tag: str = None):
         # NOTE: this assumes provider + model is unique
         # use this as tag to increase config readability
-        tag = tag or f'{model_config.provider}_{model_config.model}'
+        tag = tag or f'{model_config.custom_llm_provider}_{model_config.model}'
         super().__init__(tag)
         # NOTE: deepcopy is necessary in case module config is shared in memory
         self.model_config = copy.deepcopy(model_config)

@@ -9,7 +9,7 @@ import uuid
 from dataclasses import dataclass, field
 
 from cognify.graph.program import Workflow, Module, StatePool
-from cognify.cog_hub.common import CogBase
+from cognify.hub.cogs.common import CogBase
 from cognify.optimizer.plugin import OptimizerSchema
 from cognify.optimizer.plugin import capture_module_from_fs
 from cognify.optimizer.registry import get_registered_opt_modules
@@ -187,6 +187,7 @@ class TrialLog:
         score: float = 0.0,
         price: float = 0.0,
         eval_cost: float = 0.0,
+        finished: bool = False,
     ):
         self.id: str = id or uuid.uuid4().hex
         self.params = params
@@ -194,6 +195,7 @@ class TrialLog:
         self.score = score
         self.price = price
         self.eval_cost = eval_cost
+        self.finished = finished
     
     def to_dict(self):
         return {
@@ -203,6 +205,7 @@ class TrialLog:
             'score': self.score,
             'price': self.price,
             'eval_cost': self.eval_cost,
+            'finished': self.finished,
         }
     
     @classmethod

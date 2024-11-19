@@ -1,7 +1,7 @@
 from cognify.optimizer.layered_optimizer_pluggable import InnerLoopBayesianOptimization, OuterLoopOptimization
-from cognify.cog_hub.fewshot import LMFewShot
-from cognify.cog_hub.scaffolding import LMScaffolding
-from cognify.cog_hub import reasoning, model_selection, common
+from cognify.hub.cogs.fewshot import LMFewShot
+from cognify.hub.cogs.scaffolding import LMScaffolding
+from cognify.hub.cogs import reasoning, model_selection, common
 from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 import runpy
 import uuid
@@ -12,8 +12,8 @@ import random
 import optuna
 import numpy as np
 
-from cognify.cog_hub.common import NoChange
-from cognify.cog_hub.reasoning import ZeroShotCoT, PlanBefore
+from cognify.hub.cogs.common import NoChange
+from cognify.hub.cogs.reasoning import ZeroShotCoT, PlanBefore
 from cognify.optimizer.plugin import OptimizerSchema
 from cognify.optimizer.analysis.param_sensitivity import SensitivityAnalyzer
 from cognify.optimizer.core import driver, flow

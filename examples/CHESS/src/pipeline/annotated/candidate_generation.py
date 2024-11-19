@@ -8,9 +8,9 @@ from cognify.frontends.langchain.connector import as_runnable
 from cognify.llm import CogLM, InputVar, OutputFormat, OutputLabel
 
 from cognify.llm import *
-from cognify.cog_hub.reasoning import ZeroShotCoT, PlanBefore
+from cognify.hub.cogs.reasoning import ZeroShotCoT, PlanBefore
 from llm.parsers import SQLGenerationOutput, RawSqlOutputParser
-from cognify.cog_hub import ensemble
+from cognify.hub.cogs import ensemble
 from langchain_core.runnables import chain
 
 

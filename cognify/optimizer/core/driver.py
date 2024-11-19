@@ -3,11 +3,13 @@ import json
 from typing import Union, Optional, Any, Tuple, Callable, Iterable, Literal, Sequence
 from dataclasses import dataclass, field, asdict
 import logging
+import re
 
-from cognify.cog_hub.common import CogBase
-from cognify.cog_hub.utils import build_param
+from cognify._signal import _set_exit_msg
+from cognify.hub.cogs.common import CogBase
+from cognify.hub.cogs.utils import build_param
 from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
-from cognify.optimizer.core.flow import TrialLog, OptConfig
+from cognify.optimizer.core.flow import TrialLog, OptConfig, TopDownInformation
 from cognify.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization, BottomLevelTrialLog
 from cognify.optimizer.core.upper_layer import UpperLevelOptimization, LayerEvaluator
 import logging
@@ -22,7 +24,7 @@ class LayerConfig:
         universal_params: list[CogBase] = [],
         target_modules: Iterable[str] = None,
         save_ckpt_interval: int = 1,
-        opt_config: OptConfig = None,
+        opt_config: Optional[OptConfig] = None,
     ):
         """Config for each optimization layer
         
@@ -75,14 +77,12 @@ class LayerConfig:
             opt_config=OptConfig(**d['opt_config']),
         )
         
-
 class MultiLayerOptimizationDriver:
     def __init__(
         self,
         layer_configs: Sequence[LayerConfig],
         opt_log_dir: str,
         quality_constraint: float = None,
-        save_config_to_file: bool = True,
     ):
         """Driver for multi-layer optimization
         
@@ -97,15 +97,7 @@ class MultiLayerOptimizationDriver:
         # initialize optimization layers
         self.opt_layers: list[OptimizationLayer] = [None] * len(layer_configs)
         
-        # dump control params
         self.opt_log_dir = opt_log_dir
-        if not os.path.exists(opt_log_dir):
-            os.makedirs(opt_log_dir, exist_ok=True)
-        param_log_path = os.path.join(opt_log_dir, 'opt_control_params.json')
-        layer_configs_dict = [lc.to_dict() for lc in layer_configs]
-        if save_config_to_file:
-            with open(param_log_path, 'w') as f:
-                json.dump(layer_configs_dict, f, indent=4)
         
         # config log dir for layer opts
         # NOTE: only the top layer will be set, others are decided at runtime
@@ -132,7 +124,6 @@ class MultiLayerOptimizationDriver:
             else:
                 layer_evaluator = LayerEvaluator(
                     target_layer=self.opt_layers[idx + 1],
-                    quality_constraint=self.quality_constraint,
                 )
                 opt_layer = UpperLevelOptimization(
                     name=layer_config.layer_name,
@@ -168,20 +159,45 @@ class MultiLayerOptimizationDriver:
         self.dump_frontier_details(frontier)
         return opt_cost, frontier, all_opt_logs
     
-    def _find_config_log_path(self, config_id: str) -> str:
+    def _extract_trial_id(self, config_id: str) -> str:
+        param_log_dir = os.path.join(self.opt_log_dir, 'pareto_frontier_details')
+        if not os.path.exists(param_log_dir):
+            raise ValueError(f"Cannot find the optimization log directory at {param_log_dir}")
+        
+        with open(os.path.join(param_log_dir, f"{config_id}.cog"), 'r') as f:
+            first_line = f.readline().strip()
+        match = re.search(r"Trial - (.+)", first_line)
+        if match:
+            trial_id = match.group(1)
+            return trial_id
+        else:
+            raise ValueError(f"Cannot extract trial id from the log file {config_id}.cog")
+    
+    def _find_config_log_path(self, trial_id: str) -> str:
         opt_config = self.layer_configs[0].opt_config
         opt_config.finalize()
+        tdi = TopDownInformation(
+            opt_config=opt_config,
+            all_params=None,
+            module_ttrace=None,
+            current_module_pool=None,
+            script_path=None,
+            script_args=None,
+            other_python_paths=None,
+        )
         
         top_layer = self.opt_layers[0]
         top_layer.load_opt_log(opt_config.opt_log_path)
-        all_configs = top_layer.get_all_candidates(opt_config.opt_log_path)
+        top_layer.top_down_info = tdi
+        all_configs = top_layer.get_all_candidates()
         config_path = None
+            
         for opt_log, path in all_configs:
-            if opt_log.id == config_id:
+            if opt_log.id == trial_id:
                 config_path = path
                 break
         else:
-            raise ValueError(f"Config {config_id} not found in the optimization log.")
+            raise ValueError(f"Config {trial_id} not found in the optimization log.")
         return config_path
 
     def evaluate(
@@ -190,11 +206,12 @@ class MultiLayerOptimizationDriver:
         config_id: str,
     ) -> EvaluationResult:
         self.build_tiered_optimization(evaluator)
-        config_path = self._find_config_log_path(config_id)
+        trial_id = self._extract_trial_id(config_id)
+        config_path = self._find_config_log_path(trial_id)
         
         result = BottomLevelOptimization.easy_eval(
             evaluator=evaluator,
-            config_id=config_id,
+            trial_id=trial_id,
             opt_log_path=config_path,
         )
         return result
@@ -204,10 +221,12 @@ class MultiLayerOptimizationDriver:
         config_id: str,
     ):
         self.build_tiered_optimization(None)
-        config_path = self._find_config_log_path(config_id)
+        trial_id = self._extract_trial_id(config_id)
+        config_path = self._find_config_log_path(trial_id)
+        
         with open(config_path, 'r') as f:
             opt_trace = json.load(f)
-        trial_log = BottomLevelTrialLog.from_dict(opt_trace[config_id])
+        trial_log = BottomLevelTrialLog.from_dict(opt_trace[trial_id])
         eval_task = EvalTask.from_dict(trial_log.eval_task)
         schema, old_name_2_new_module = eval_task.load_and_transform()
         return schema, old_name_2_new_module
@@ -217,8 +236,20 @@ class MultiLayerOptimizationDriver:
         self.build_tiered_optimization(None)
         opt_config = self.layer_configs[0].opt_config
         opt_config.finalize()
+        tdi = TopDownInformation(
+            opt_config=opt_config,
+            all_params=None,
+            module_ttrace=None,
+            current_module_pool=None,
+            script_path=None,
+            script_args=None,
+            other_python_paths=None,
+        )
         
-        self.opt_layers[0].load_opt_log(opt_config.opt_log_path)
+        top_layer = self.opt_layers[0]
+        top_layer.load_opt_log(opt_config.opt_log_path)
+        top_layer.top_down_info = tdi
+        
         frontier = self.opt_layers[0].post_optimize()
         
         # dump frontier details to file
@@ -232,11 +263,11 @@ class MultiLayerOptimizationDriver:
             os.makedirs(param_log_dir, exist_ok=True)
         for i, (trial_log, opt_path) in enumerate(frontier):
             trial_log: BottomLevelTrialLog
-            dump_path = os.path.join(param_log_dir, f'option_{i}.cog')
+            dump_path = os.path.join(param_log_dir, f'Pareto_{i+1}.cog')
             trans = trial_log.show_transformation()
             details = f"Trial - {trial_log.id}\n"
             details += f"Log at: {opt_path}\n"
-            details += f"Quality= {trial_log.score:.3f}, Cost per 1K invocation= {trial_log.price * 1000:.2f} $\n"
+            details += f"Quality: {trial_log.score:.3f}, Cost per 1K invocation ($): {trial_log.price * 1000:.2f} $\n"
             details += trans
             with open(dump_path, 'w') as f:
                 f.write(details)

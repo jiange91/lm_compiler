@@ -31,7 +31,7 @@ final_answer_indicator = meta_prompt_config_dict["meta-model"][
 ]
 
 
-from cognify.cog_hub.reasoning import ReasonThenFormat
+from cognify.hub.cogs.reasoning import ReasonThenFormat
 from cognify.graph.llm import LLMPredictor 
 from cognify.langchain_bridge.interface import LLMTracker, LangChainLM, LangChainSemantic
 from .helper import MetaPromptingScaffolding

@@ -67,7 +67,7 @@ dnspython==2.6.1
 docopt==0.6.2
 docstring_parser==0.16
 docutils==0.21.2
-dspy-ai==2.5.0
+dspy-ai==2.5.31
 email_validator==2.2.0
 emcee==3.1.6
 evaluate==0.4.2
@@ -78,7 +78,7 @@ fastavro==1.9.5
 fastjsonschema==2.20.0
 filelock==3.15.4
 fireworks-ai==0.15.4
-flair==0.14.0
+flair==0.13.0
 flake8==7.1.1
 flatbuffers==24.3.25
 fonttools==4.53.1
@@ -156,7 +156,7 @@ langgraph-checkpoint==2.0.1
 langgraph-sdk==0.1.33
 langsmith==0.1.136
 linkify-it-py==2.0.3
-litellm==1.48.0
+litellm==1.51.0
 llvmlite==0.43.0
 locket==1.0.0
 lxml==5.2.2

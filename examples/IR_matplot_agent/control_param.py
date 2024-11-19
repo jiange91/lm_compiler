@@ -1,5 +1,5 @@
 from cognify.optimizer.control_param import ControlParameter
-from cognify.cog_hub.optim_setup.datavis import DataVisSetup
+from cognify.hub.cogs.optim_setup.datavis import DataVisSetup
 
 # ================= Overall Control Parameter =================
 optimize_control_param = ControlParameter(

@@ -43,7 +43,7 @@ def evaluate(
     )
     
     opt_driver = driver.MultiLayerOptimizationDriver(
-        layer_configs=control_param.opt_layer_configs,
+        layer_configs=control_param.opt_setup.layer_configs,
         opt_log_dir=control_param.opt_history_log_dir,
     )
     result = opt_driver.evaluate(
@@ -70,7 +70,7 @@ def load_workflow(
         control_param = ControlParameter.from_json_profile(control_param_save_path)
         
     opt_driver = driver.MultiLayerOptimizationDriver(
-        layer_configs=control_param.opt_layer_configs,
+        layer_configs=control_param.opt_setup.layer_configs,
         opt_log_dir=control_param.opt_history_log_dir,
     )
     schema, _ = opt_driver.load(config_id)

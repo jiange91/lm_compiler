@@ -1,10 +1,10 @@
-from cognify.cog_hub.fewshot import LMFewShot
-from cognify.cog_hub.scaffolding import LMScaffolding
-from cognify.cog_hub import reasoning, model_selection, common
+from cognify.hub.cogs.fewshot import LMFewShot
+from cognify.hub.cogs.scaffolding import LMScaffolding
+from cognify.hub.cogs import reasoning, model_selection, common
 from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from cognify.optimizer.analysis.param_sensitivity import SensitivityAnalyzer
 from cognify.langchain_bridge.interface import LangChainLM
-from cognify.cog_hub import ensemble
+from cognify.hub.cogs import ensemble
 import runpy
 import uuid
 import multiprocess as mp

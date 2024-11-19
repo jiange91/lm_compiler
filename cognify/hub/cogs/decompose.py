@@ -11,8 +11,8 @@ from cognify.graph.rewriter.utils import add_argument_to_position
 from pydantic import BaseModel
 from cognify.graph.modules import CodeBox
 from cognify.llm import CogLM, StructuredCogLM, OutputFormat, OutputLabel
-from cognify.cog_hub.decompose_agents import *
-from cognify.cog_hub.decompose_agents.estimate_complexity import ComplexityEstimation
+from cognify.hub.cogs.decompose_agents import *
+from cognify.hub.cogs.decompose_agents.estimate_complexity import ComplexityEstimation
 from cognify.optimizer.utils import aggregator_factory, json_schema_to_pydantic_model
 from dataclasses import dataclass
 

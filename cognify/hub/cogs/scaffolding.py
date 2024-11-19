@@ -15,8 +15,8 @@ logger = logging.getLogger(__name__)
 from cognify.graph.base import Module
 from cognify.graph.program import Workflow
 from cognify.llm.model import CogLM
-from cognify.cog_hub.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange, AddNewModuleImportInterface
-from cognify.cog_hub.decompose import LMTaskDecompose, StructuredAgentSystem
+from cognify.hub.cogs.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange, AddNewModuleImportInterface
+from cognify.hub.cogs.decompose import LMTaskDecompose, StructuredAgentSystem
 from cognify.optimizer.plugin import OptimizerSchema
 from cognify.optimizer import clear_registry
 

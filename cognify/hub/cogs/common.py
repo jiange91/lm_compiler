@@ -6,7 +6,7 @@ import logging
 import json
 
 from cognify.graph.base import Module
-from cognify.cog_hub.protection import Protection
+from cognify.hub.cogs.protection import Protection
 
 logger = logging.getLogger(__name__)
 

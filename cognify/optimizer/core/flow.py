@@ -9,7 +9,7 @@ import uuid
 from dataclasses import dataclass, field
 
 from cognify.graph.program import Workflow, Module, StatePool
-from cognify.cog_hub.common import CogBase
+from cognify.hub.cogs.common import CogBase
 from cognify.optimizer.plugin import OptimizerSchema
 from cognify.optimizer.plugin import capture_module_from_fs
 from cognify.optimizer.registry import get_registered_opt_modules

@@ -25,8 +25,8 @@ import logging
 from cognify._signal import _init_exit_gracefully, _should_exit
 from cognify.graph.program import Workflow, Module
 from cognify.llm import CogLM, Demonstration
-from cognify.cog_hub.common import CogBase
-from cognify.cog_hub.utils import build_param
+from cognify.hub.cogs.common import CogBase
+from cognify.hub.cogs.utils import build_param
 from cognify.optimizer.plugin import OptimizerSchema, capture_module_from_fs
 from cognify.optimizer.core.flow import TopDownInformation, ModuleTransformTrace
 

@@ -11,8 +11,8 @@ colbert = dspy.ColBERTv2(url='http://192.168.1.16:8893/api/search')
 dspy.configure(rm=colbert)
 
 import copy
-from cognify.cog_hub.reasoning import ZeroShotCoT
-from cognify.cog_hub.common import NoChange
+from cognify.hub.cogs.reasoning import ZeroShotCoT
+from cognify.hub.cogs.common import NoChange
 from cognify.llm.model import LMConfig, CogLM
 from cognify.llm import InputVar, OutputLabel
 from cognify.frontends.dspy.connector import as_predict

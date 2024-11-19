@@ -4,7 +4,7 @@ from . import column_selection
 from . import keyword_extraction
 from . import revision
 from . import table_selection
-from cognify.cog_hub.reasoning import ZeroShotCoT
+from cognify.hub.cogs.reasoning import ZeroShotCoT
 from llm.models import get_llm_params
 from cognify.llm.model import LMConfig, CogLM
 

@@ -7,11 +7,11 @@ evaluator_parallel: int = 20
 from cognify.llm.model import LMConfig
 from cognify.optimizer.core import driver, flow
 
-from cognify.cog_hub import reasoning, model_selection
-from cognify.cog_hub import ensemble
-from cognify.cog_hub.common import NoChange
-from cognify.cog_hub.fewshot import LMFewShot
-from cognify.cog_hub.reasoning import ZeroShotCoT, PlanBefore
+from cognify.hub.cogs import reasoning, model_selection
+from cognify.hub.cogs import ensemble
+from cognify.hub.cogs.common import NoChange
+from cognify.hub.cogs.fewshot import LMFewShot
+from cognify.hub.cogs.reasoning import ZeroShotCoT, PlanBefore
 
 """
 Be aware that for this workload a single trial running 100 input data requres $0.5~$1.0, please be cautious about the cost.

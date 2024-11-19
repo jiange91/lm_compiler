@@ -6,8 +6,8 @@ import logging
 import re
 
 from cognify._signal import _set_exit_msg
-from cognify.cog_hub.common import CogBase
-from cognify.cog_hub.utils import build_param
+from cognify.hub.cogs.common import CogBase
+from cognify.hub.cogs.utils import build_param
 from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from cognify.optimizer.core.flow import TrialLog, OptConfig, TopDownInformation
 from cognify.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization, BottomLevelTrialLog

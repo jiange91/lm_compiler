@@ -3,7 +3,7 @@ You are a code expert. Given an incomplete function and the function body genera
 """
 
 from cognify.llm import CogLM, InputVar, OutputLabel, LMConfig
-from cognify.cog_hub.reasoning import ZeroShotCoT
+from cognify.hub.cogs.reasoning import ZeroShotCoT
 
 lm_config = LMConfig(
   custom_llm_provider="openai",

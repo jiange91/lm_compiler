@@ -49,9 +49,9 @@ model_configs = [
     ),
 ]
 
-from cognify.cog_hub import default_search
+from cognify.hub.search import default
 
-search_settings = default_search.create_search(
+search_settings = default.create_search(
     opt_log_dir='try_new_thing',
     model_selection_cog=model_configs,
 )

@@ -8,7 +8,6 @@ from agents.openai_chatComplete import  completion_for_4v
 from agents.utils import fill_in_placeholders, common_lm_config
 from cognify.llm.model import CogLM, InputVar, OutputLabel, LMConfig
 from cognify.cog_hub.reasoning import ZeroShotCoT
-cognify
 
 
 def encode_image(image_path):
@@ -30,7 +29,7 @@ Carefully read and analyze the user query to understand the specific requirement
 You don't need to provide the complete code, just be very explicit in what changes are needed and how to make them.
 """
 visual_refine_lm_config = LMConfig(
-    provider='openai',
+    custom_llm_provider='openai',
     model='gpt-4o-mini',
     kwargs= {
         'temperature': 0.0,
@@ -43,7 +42,7 @@ visual_refinement_agent = CogLM(agent_name='visual_refinement', system_prompt=VI
                                 output=OutputLabel(name='refinement'),
                                 lm_config=visual_refine_lm_config)
 
-ZeroShotCoT.direct_apply(visual_refinement_agent)
+# ZeroShotCoT.direct_apply(visual_refinement_agent)
 
 class VisualRefineAgent:
     def __init__(self, plot_file, config, code, query):
@@ -63,5 +62,5 @@ class VisualRefineAgent:
             'plot_image': base64_image1,
         }
 
-        visual_feedback = visual_refinement_agent(inputs=information).choices[0].message.content
+        visual_feedback = visual_refinement_agent(inputs=information)
         return visual_feedback

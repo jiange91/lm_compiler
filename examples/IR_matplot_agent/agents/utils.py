@@ -11,7 +11,7 @@ import subprocess
 from cognify.llm.model import LMConfig
 
 common_lm_config = LMConfig(
-    provider='openai',
+    custom_llm_provider='openai',
     model='gpt-4o-mini',
     kwargs= {
         'temperature': 0.0,

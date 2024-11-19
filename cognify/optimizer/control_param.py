@@ -3,8 +3,7 @@ import os
 import json
 import importlib
 
-from cognify.optimizer.core.driver import LayerConfig
-from cognify.optimizer.plugin import capture_module_from_fs
+from cognify.optimizer.core.flow import LayerConfig
 
 @dataclasses.dataclass
 class ControlParameter:

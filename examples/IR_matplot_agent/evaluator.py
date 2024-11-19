@@ -10,9 +10,10 @@ sys.path.insert(0, sys.path[0]+"/../")
 import warnings
 
 from openai import OpenAI
-from cognify.utils import load_api_key, get_bill
 from cognify.graph.base import StatePool
-load_api_key('secrets.toml')
+import dotenv
+
+dotenv.load_dotenv()
 
 BASE_URL='https://api.openai.com/v1'
 API_KEY=os.environ["OPENAI_API_KEY"]
@@ -30,7 +31,7 @@ def gpt_4v_evaluate(ground_truth, image, rollback):
             base64_image1 = encode_image(f"{ground_truth}")
             base64_image2 = encode_image(f"{rollback}")
         else:
-            image = '/mnt/ssd4/lm_compiler/examples/matplot_agent/benchmark_data/ground_truth/empty.png'
+            image = '/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/benchmark_data/ground_truth/empty.png'
             base64_image1 = encode_image(f"{image}")
             base64_image2 = encode_image(f"{image}")
     else:
@@ -92,7 +93,7 @@ def gpt_4v_evaluate(ground_truth, image, rollback):
 
 
 def mainworkflow(test_sample_id, plot_path):
-    ground_truth = f"/mnt/ssd4/lm_compiler/examples/matplot_agent/benchmark_data/ground_truth/example_{test_sample_id}.png"
+    ground_truth = f"/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/benchmark_data/ground_truth/example_{test_sample_id}.png"
 
     image = plot_path
     image_rollback = plot_path
@@ -100,30 +101,9 @@ def mainworkflow(test_sample_id, plot_path):
     plot_result = gpt_4v_evaluate(ground_truth, image, image_rollback)
     print(plot_result)
   
-from cognify.optimizer.evaluation.metric import MetricBase, MInput
-
-class VisionScore(MetricBase):
-  workspace = MInput(str, 'workspace dir')
-  plot_file_name = MInput(str, 'plot file name')
-  sample_id = MInput(int, 'sample id')
-  
-  def score(self, label, workspace, plot_file_name, sample_id):
-    pred_path = os.path.join(workspace, plot_file_name)
-    
-    if not os.path.exists(pred_path):
-      dir, filename = os.path.split(pred_path)
-      base_name, ext = os.path.splitext(filename)
-      pred_path = f"{dir}/{base_name[:6]}{ext}" # rollback to the previous version
-      warnings.warn(f"fallback to un-refined version")
-      
-    ground_truth = f"/mnt/ssd4/lm_compiler/examples/matplot_agent/benchmark_data/ground_truth/example_{sample_id}.png"
-    if not os.path.exists(ground_truth):
-      return 0
-    return gpt_4v_evaluate(ground_truth, pred_path, pred_path)
-    
 def vision_score(gt, state: StatePool):
   pred_path = os.path.join(state.news('workspace'), state.news('plot_file_name'))
-  ground_truth = f"/mnt/ssd4/lm_compiler/examples/matplot_agent/benchmark_data/ground_truth/example_{state.news('sample_id')}.png"
+  ground_truth = f"/mnt/ssd4/lm_compiler/examples/IR_matplot_agent/benchmark_data/ground_truth/example_{state.news('sample_id')}.png"
   if not os.path.exists(ground_truth):
     return 0
   return gpt_4v_evaluate(ground_truth, pred_path, pred_path)

@@ -13,11 +13,7 @@ from abc import ABC, abstractmethod
 import multiprocessing as mp
 import textwrap
 from cognify.optimizer.utils import _cognify_tqdm as tqdm
-from cognify.optimizer import (
-    get_registered_opt_program_entry, 
-    get_registered_opt_modules, 
-    get_registered_opt_score_fn,
-)
+from cognify.optimizer.registry import get_registered_opt_score_fn
 from .metric import MetricBase
 
 import logging

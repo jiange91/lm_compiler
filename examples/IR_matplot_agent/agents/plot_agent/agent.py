@@ -288,9 +288,9 @@ class PlotAgentModule:
     ):
         try_count = 0
         if query_type == 'initial':
-            result = initial_coder_agent(inputs=kwargs).choices[0].message.content
+            result = initial_coder_agent(inputs=kwargs)
         else:
-            result = refine_plot_agent(inputs=kwargs).choices[0].message.content
+            result = refine_plot_agent(inputs=kwargs)
         
         while try_count < 4:
             code = self.get_code(result)
@@ -309,13 +309,13 @@ class PlotAgentModule:
                     
                     # debug and retry
                     try_count += 1
-                    result = plot_debugger_agent(inputs={'query': kwargs['query'], 'code': code, 'error_message': error_message}).choices[0].message.content
+                    result = plot_debugger_agent(inputs={'query': kwargs['query'], 'code': code, 'error_message': error_message})
                 else:
                     return log, code
             else:
                 error = get_error_message(log) if error is None else error
                 try_count += 1
-                result = plot_debugger_agent(inputs={'query': kwargs['query'], 'code': code, 'error_message': error}).choices[0].message.content
+                result = plot_debugger_agent(inputs={'query': kwargs['query'], 'code': code, 'error_message': error})
         return log, ''
     
     def run(self, query_type, workspace, **kwargs):

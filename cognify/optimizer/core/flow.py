@@ -6,11 +6,11 @@ import copy
 import logging
 from collections import defaultdict
 import uuid
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 
-from cognify.graph.program import Workflow, Module, StatePool
+from cognify.graph.base import Module
+from cognify.cog_hub.utils import build_param
 from cognify.cog_hub.common import CogBase
-from cognify.optimizer.plugin import OptimizerSchema
 from cognify.optimizer.plugin import capture_module_from_fs
 from cognify.optimizer.registry import get_registered_opt_modules
 
@@ -211,3 +211,64 @@ class TrialLog:
     @classmethod
     def from_dict(cls, data):
         return cls(**data)
+
+class LayerConfig:
+    def __init__(
+        self,
+        layer_name: str,
+        dedicate_params: list[CogBase] = [],
+        universal_params: list[CogBase] = [],
+        target_modules: Iterable[str] = None,
+        save_ckpt_interval: int = 1,
+        opt_config: Optional[OptConfig] = None,
+    ):
+        """Config for each optimization layer
+        
+        Args:
+            layer_name (str): name of the layer
+            
+            dedicate_params (list[ParamBase], optional): dedicated params for this layer. Defaults to [].
+            
+            universal_params (list[ParamBase], optional): universal params for this layer. Defaults to [].
+            
+            target_modules (Iterable[str], optional): target modules for this layer. Defaults to None.
+            
+            save_ckpt_interval (int, optional): save checkpoint interval. Defaults to 0.
+            
+            opt_config (OptConfig, optional): optimization config. Defaults to None.
+                all fields not set here will be decided by the upper layer
+            
+        """
+        self.layer_name = layer_name
+        self.dedicate_params = dedicate_params
+        self.universal_params = universal_params
+        self.target_modules = target_modules
+        self.save_ckpt_interval = save_ckpt_interval
+        self.opt_config = opt_config
+        
+        if len(self.dedicate_params) + len(self.universal_params) == 0:
+            raise ValueError(f'No params provided for optimization layer {layer_name}')
+        
+        if self.opt_config is None:
+            self.opt_config = OptConfig(n_trials=5)
+    
+    def to_dict(self):
+        return {
+            'layer_name': self.layer_name,
+            'dedicate_params': [p.to_dict() for p in self.dedicate_params],
+            'universal_params': [p.to_dict() for p in self.universal_params],
+            'target_modules': self.target_modules,
+            'save_ckpt_interval': self.save_ckpt_interval,
+            'opt_config': asdict(self.opt_config),
+        }
+    
+    @classmethod
+    def from_dict(cls, d):
+        return cls(
+            layer_name=d['layer_name'],
+            dedicate_params=[build_param(p) for p in d['dedicate_params']],
+            universal_params=[build_param(p) for p in d['universal_params']],
+            target_modules=d['target_modules'],
+            save_ckpt_interval=d['save_ckpt_interval'],
+            opt_config=OptConfig(**d['opt_config']),
+        )

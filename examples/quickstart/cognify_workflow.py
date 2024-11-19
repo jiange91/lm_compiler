@@ -1,8 +1,7 @@
 import dotenv
-from cognify._logging import _configure_logger
+import cognify
 
 dotenv.load_dotenv()
-_configure_logger("INFO")
 
 from pydantic import BaseModel
 from typing import List
@@ -17,8 +16,8 @@ class AnswerOutput(BaseModel):
     answer: str
     supporting_facts: List[str]
     
+from cognify.llm import StructuredCogLM, InputVar, OutputFormat, LMConfig
 # Initialize the model
-from cognify.llm.model import LMConfig
 lm_config = LMConfig(
     custom_llm_provider='openai',
     model='gpt-4o-mini',
@@ -28,7 +27,6 @@ lm_config = LMConfig(
 )
 
 # Define agent routine 
-from cognify.llm.model import StructuredCogLM, InputVar, OutputFormat
 cognify_qa_agent = StructuredCogLM(
     agent_name="qa_agent",
     system_prompt=system_prompt,
@@ -38,7 +36,7 @@ cognify_qa_agent = StructuredCogLM(
 )
 
 # Use builtin connector for smooth integration
-from cognify.frontends.langchain.connector import as_runnable
+from cognify.frontends.langchain import as_runnable
 qa_agent = as_runnable(cognify_qa_agent) 
 
 def doc_str(docs):
@@ -53,7 +51,7 @@ def qa_agent_routine(state):
     format_context = doc_str(documents)
     return {"response": qa_agent.invoke({"question": question, "documents": format_context})}
 
-from langgraph.graph import END, START, StateGraph, MessagesState
+from langgraph.graph import END, START, StateGraph
 from typing import Dict, TypedDict
 
 class State(TypedDict):
@@ -68,7 +66,7 @@ workflow.add_edge("grounded_qa", END)
 
 app = workflow.compile()
 
-from cognify.optimizer.registry import register_opt_program_entry
+from cognify.optimizer import register_opt_program_entry
 
 @register_opt_program_entry
 def do_qa(input):

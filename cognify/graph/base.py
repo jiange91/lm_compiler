@@ -11,8 +11,6 @@ import copy
 from graphviz import Digraph
 
 from cognify.graph.utils import get_function_kwargs
-from cognify.optimizer import register_opt_module
-from cognify.optimizer import registry
 
 import logging
 
@@ -134,6 +132,7 @@ class Module(ModuleInterface):
         
         self.opt_target = opt_register
         if opt_register:
+            from cognify.optimizer import register_opt_module
             register_opt_module(self)
         
     def prepare_input_env(self):

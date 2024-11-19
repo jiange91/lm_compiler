@@ -2,9 +2,9 @@
 # Evaluator
 #================================================================
 
-from cognify.optimizer.evaluation.metric import F1Str
+import cognify
 
-metric = F1Str()
+metric = cognify.metric.F1Str()
 
 #================================================================
 # Data Loader

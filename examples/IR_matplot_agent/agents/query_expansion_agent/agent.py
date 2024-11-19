@@ -44,4 +44,4 @@ query_expansion_agent = CogLM(agent_name='query expansion', system_prompt=SYSTEM
                               input_variables=[InputVar(name='query')],
                               output=OutputLabel(name='expanded_query'),
                                 lm_config=qgen_lm_config)
-ZeroShotCoT.direct_apply(query_expansion_agent)
+# ZeroShotCoT.direct_apply(query_expansion_agent)

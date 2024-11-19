@@ -30,29 +30,8 @@ def load_data_minor():
 # Optimizer Set Up
 #================================================================
 
-from cognify.llm.model import LMConfig
-
-# Define model configurations, each encapsulated in a ModelOption
-model_configs = [
-    # OpenAI model
-    LMConfig(
-        custom_llm_provider='openai',
-        model='gpt-4o-mini',
-        cost_indicator=1.0,
-        kwargs={'temperature': 0.0}
-    ),
-    LMConfig(
-        custom_llm_provider='openai',
-        model='gpt-4o',
-        cost_indicator=10.0,
-        kwargs={'temperature': 0.0}
-    ),
-]
-
 from cognify.cog_hub import default_search
 
 search_settings = default_search.create_search(
     n_trials=5,
-    opt_log_dir='try_new_thing',
-    model_selection_cog=model_configs,
 )

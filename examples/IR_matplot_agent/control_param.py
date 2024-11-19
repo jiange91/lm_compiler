@@ -1,9 +1,4 @@
-from cognify.optimizer.control_param import ControlParameter
-from cognify.hub.cogs.optim_setup.datavis import DataVisSetup
+from cognify.hub.search import datavis
 
 # ================= Overall Control Parameter =================
-optimize_control_param = ControlParameter(
-    opt_setup=DataVisSetup(),
-    opt_history_log_dir='opt_results',
-    evaluator_batch_size=50,
-)
+optimize_control_param = datavis.create_search(opt_log_dir='opt_results', evaluator_batch_size=50)

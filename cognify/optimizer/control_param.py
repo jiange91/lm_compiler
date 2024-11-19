@@ -3,12 +3,12 @@ import os
 import json
 import importlib
 
-from cognify.hub.cogs.optim_setup.base import OptimSetup
+from cognify.optimizer.core.driver import LayerConfig
 from cognify.optimizer.plugin import capture_module_from_fs
 
 @dataclasses.dataclass
 class ControlParameter:
-    opt_setup: OptimSetup
+    opt_layer_configs: list[LayerConfig] = []
     opt_history_log_dir: str = 'opt_results'
     quality_constraint: float = 1.0
     train_down_sample: int = 0

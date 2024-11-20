@@ -73,7 +73,7 @@ In LangChain, the :code:`Runnable` class is the primary abstraction for executin
 .. code-block:: python
 
   from langchain_core.prompts import ChatPromptTemplate
-  from langchain_core.chat_models import ChatOpenAI
+  from langchain_openai import ChatOpenAI
   from langchain_core.output_parsers import StrOutputParser
 
   # typical langchain code

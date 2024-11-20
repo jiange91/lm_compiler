@@ -52,27 +52,26 @@ def capture_module_from_fs(module_path: str):
         logger.error(f"Failed to load module from {module_path}")
         raise
 
-    # translate
-    num_translated = 0
-    named_runnables = defaultdict(int)
+    # check if user has manually wrapped their runnables
+    is_manually_translated = False
     for k, v in module.__dict__.items():
         if isinstance(v, RunnableModel) or isinstance(v, PredictModel):
-            continue
+            is_manually_translated = True
+            break
 
-        if isinstance(v, dspy.Module):
-            named_predictors = v.named_predictors()
-            for name, predictor in named_predictors:
-                module.__dict__[k].__dict__[name] = PredictModel(name, predictor)
-                num_translated += 1
-        elif isinstance(v, RunnableSequence):
-            # ensure unique naming for runnable
-            name = k if named_runnables[k] == 0 else f"{k}_{named_runnables[k]}"
-            module.__dict__[k] = RunnableModel(name, v)
-            num_translated += 1
-            named_runnables[k] += 1
-    # if num_translated == 0:
-    #     warnings.warn("No modules translated. If using langchain/langgraph, be sure to elevate the runnable instantiation to global scope.", UserWarning)
-    # else:
-    #     logger.info(f"Translated {num_translated} modules")
+    # translate
+    if not is_manually_translated:
+        named_runnables = defaultdict(int)
+        for k, v in module.__dict__.items():
+            if isinstance(v, dspy.Module):
+                named_predictors = v.named_predictors()
+                for name, predictor in named_predictors:
+                    module.__dict__[k].__dict__[name] = PredictModel(name, predictor)
+                    num_translated += 1
+            elif isinstance(v, RunnableSequence):
+                # ensure unique naming for runnable
+                name = k if named_runnables[k] == 0 else f"{k}_{named_runnables[k]}"
+                module.__dict__[k] = RunnableModel(name, v)
+                named_runnables[k] += 1
 
     return module

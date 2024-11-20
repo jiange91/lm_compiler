@@ -5,7 +5,7 @@ from langchain_core.output_parsers import BaseOutputParser
 from langchain_core.language_models.chat_models import BaseChatModel
 from cognify.llm import Model, Input, StructuredModel, OutputFormat, OutputLabel
 from cognify.llm.model import LMConfig
-import uuid
+from pydantic import BaseModel
 from typing import Any, List, Dict
 from dataclasses import dataclass
 from langchain_core.messages import AIMessage
@@ -34,6 +34,7 @@ class RunnableModel(Runnable):
     def __init__(self, name: str, runnable: RunnableSequence = None):
         self.chat_prompt_template: ChatPromptTemplate = None
         self.cog_lm: Model = self.cognify_runnable(name, runnable)
+        self.output_parser = None
 
     """
   Connector currently supports the following units to construct a `cognify.Model`:
@@ -70,6 +71,7 @@ class RunnableModel(Runnable):
                 runnable.last, BaseOutputParser
             ), f"Last runnable in a sequence with a middle `BaseChatModel` must be a `BaseOutputParser`, instead got {type(runnable.last)}"
             output_parser: BaseOutputParser = runnable.last
+            self.output_parser = output_parser
         else:
             raise NotImplementedError(
                 f"Only one middle runnable is supported at this time, instead got {runnable.middle}"
@@ -108,13 +110,15 @@ class RunnableModel(Runnable):
 
         lm_config = LMConfig(model=full_kwargs.pop("model"), kwargs=full_kwargs)
 
-        # custom format instructions
-        try:
-            custom_format_instructions = output_parser.get_format_instructions()
-        except NotImplementedError:
-            custom_format_instructions = None
-
-        if output_parser is not None:
+        # StructuredModel only supports pydantic types
+        # all other output formatting or parsing will be applied functionally to the result
+        if output_parser is not None and isinstance(output_parser.OutputType, BaseModel):
+            # custom format instructions
+            try:
+                custom_format_instructions = output_parser.get_format_instructions()
+            except NotImplementedError:
+                custom_format_instructions = None
+            
             output_format = OutputFormat(
                 schema=output_parser.OutputType,
                 should_hint_format_in_prompt=True,
@@ -163,6 +167,8 @@ class RunnableModel(Runnable):
         )  # kwargs have already been set when initializing cog_lm
         if isinstance(self.cog_lm, StructuredModel):
             return result
+        elif self.output_parser:
+            return self.output_parser.parse(result)
         else:
             return AIMessage(result)
 
@@ -171,3 +177,18 @@ def as_runnable(cog_lm: Model):
     runnable_cog_lm = RunnableModel(cog_lm.name)
     runnable_cog_lm.cog_lm = cog_lm
     return RunnableLambda(runnable_cog_lm.invoke)
+
+if __name__=='__main__':
+    from langchain_core.prompts import ChatPromptTemplate
+    from langchain_openai.chat_models import ChatOpenAI
+    from langchain_core.output_parsers import StrOutputParser
+
+    # typical langchain code
+    my_prompt_template = ChatPromptTemplate([("system", "You are an assistant that can summarize documents."), ("human", "{document}")])
+    my_chat_model = ChatOpenAI(model="gpt-4o-mini", max_tokens=100)
+    my_output_parser = StrOutputParser()
+    my_langchain = my_prompt_template | my_chat_model | my_output_parser
+
+    # convert to runnable
+    my_runnable_model = RunnableModel("my_langchain", my_langchain)
+    print(my_runnable_model.invoke({"document": "This is a document."}).content)  # prints the response from the model

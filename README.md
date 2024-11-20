@@ -13,7 +13,7 @@ pip install cognify
 
 Or install from the source:
 ```
-git clone <...>
+git clone https://github.com/WukLab/Cognify
 cd Cognify
 pip install -e .
 ```

@@ -185,20 +185,19 @@ class UpperLevelOptimization(OptimizationLayer):
         super().__init__(*args, **kwargs)
         self.next_level_opt_config = next_level_opt_config
         self.use_SH_allocation = use_SH_allocation
-
-    def prepare_next_level_tdi(self, new_program, new_trace, trial_number):
-        next_level_info = super().prepare_next_level_tdi(
-            new_program, new_trace, trial_number
-        )
+    
+    def prepare_next_level_tdi(self, new_program, new_trace, trial_id):
+        next_level_info = super().prepare_next_level_tdi(new_program, new_trace, trial_id)
         # reset opt_config for next level
         if self.next_level_opt_config:
             next_level_info.opt_config.update(self.next_level_opt_config)
         # incase log_dir is not set
         if self.next_level_opt_config.log_dir is None:
             current_level_log_dir = self.top_down_info.opt_config.log_dir
+            _trial_number = trial_id.split('_')[-1]
             next_level_info.opt_config.log_dir = os.path.join(
-                current_level_log_dir,
-                f"{self.name}_trial_{trial_number}",
+                current_level_log_dir, 
+                f"{self.name}_trial_{_trial_number}",
             )
         # set these path to None to let the next level to populate
         next_level_info.opt_config.opt_log_path = None

@@ -64,6 +64,7 @@ def optimize_routine(opt_args: OptimizationArgs):
         eval_fn=None,
         eval_path=opt_args.config,
         resume=opt_args.resume,
+        force=opt_args.force,
     )
     return cost, frontier, opt_logs
 
@@ -75,6 +76,7 @@ def evaluate_routine(eval_args: EvaluationArgs):
     result = evaluate(
         config_id=eval_args.select,
         test_set=test_set,
+        workflow=eval_args.workflow,
         n_parallel=eval_args.n_parallel,
         eval_fn=None,
         eval_path=eval_args.config,

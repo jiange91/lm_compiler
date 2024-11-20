@@ -1,15 +1,7 @@
-from dataclasses import dataclass
-from typing import List, Dict, Optional, override
-from cognify.llm.prompt import (
-    Input,
-    FilledInput,
-    CompletionMessage,
-    Demonstration,
-    Content,
-    TextContent,
-    ImageContent,
-    get_image_content_from_upload,
-)
+from dataclasses import dataclass, field
+from typing import List, Dict, Optional
+from cognify._compat import override
+from cognify.llm.prompt import Input, FilledInputVar, CompletionMessage, Demonstration, Content, TextContent, ImageContent, FilledInputVar, get_image_content_from_upload
 from cognify.llm.output import OutputLabel, OutputFormat
 import litellm
 from litellm import completion, get_supported_openai_params, ModelResponse
@@ -76,7 +68,7 @@ def _local_forward(
 @dataclass
 class LMConfig:
     model: str  # see https://docs.litellm.ai/docs/providers
-    kwargs: Optional[dict]
+    kwargs: dict = field(default_factory=dict)
     custom_llm_provider: Optional[str] = None
     cost_indicator: float = (
         1.0  # used to rank models during model selection optimization step

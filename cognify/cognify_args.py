@@ -66,7 +66,8 @@ class CommonArgs:
 @dataclasses.dataclass
 class OptimizationArgs(CommonArgs):
     resume: bool = False
-
+    force: bool = False
+    
     @staticmethod
     def add_cli_args(parser: argparse.ArgumentParser):
         CommonArgs.add_cli_args(parser)
@@ -76,7 +77,12 @@ class OptimizationArgs(CommonArgs):
             action="store_true",
             help="Resume optimization from the last checkpoint.",
         )
-
+        parser.add_argument(
+            '-f', '--force',
+            action='store_true',
+            help="Force to overwrite the previous checkpoint.",
+        )
+            
 
 @dataclasses.dataclass
 class EvaluationArgs(CommonArgs):
@@ -96,8 +102,8 @@ class EvaluationArgs(CommonArgs):
             "--select",
             type=str,
             required=True,
-            help="Select one configuration by ID for evaluation.",
-            metavar="Pareto_x",
+            help="Select one configuration by ID for evaluation. If evaluating the original workflow, use 'NoChange'.",
+            metavar='Pareto_x/NoChange',
         )
         parser.add_argument(
             "-j",

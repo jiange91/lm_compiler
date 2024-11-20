@@ -11,7 +11,7 @@ The purpose of this is to separate the definition of the runnable from its invoc
 For more control over which runnables are optimized, pass the `--no-translate` flag to the `$ cognify optimize` command. Then, manually connect a Langchain `Runnable` to Cognify by wrapping your `Runnable` with our wrapper class `cognify.RunnableModel`:
 ```python
 from langchain_core._prompts import ChatPromptTemplate
-from langchain_openai.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import PydanticOutputParser
 from pydantic import BaseModel
 
@@ -29,7 +29,7 @@ runnable = prompt | model | parser
 
 ### wrap your runnable like so
 import cognify
-runnable = cognify.RunnableModel(runnable, name="gen_capital_city")
+runnable = cognify.RunnableModel(name="gen_capital_city", runnable)
 
 def call_capital_city_qa(country):
   runnable.invoke({"country": country}) ### invocation code remains unchanged

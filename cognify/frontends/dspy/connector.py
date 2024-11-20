@@ -2,7 +2,6 @@ import dspy
 from dspy.adapters.chat_adapter import ChatAdapter, prepare_instructions
 from cognify.llm import Model, StructuredModel, Input, OutputFormat
 from cognify.llm.model import LMConfig
-import uuid
 from pydantic import BaseModel, create_model
 from typing import Any, Dict, Type
 import warnings
@@ -26,16 +25,16 @@ This is done because we handle reasoning via cogs for the optimizer instead of i
 
 
 class PredictModel(dspy.Module):
-    def __init__(self, dspy_predictor: dspy.Module = None, name: str = None):
+    def __init__(self, name: str, dspy_predictor: dspy.Module = None):
         super().__init__()
         self.chat_adapter: ChatAdapter = ChatAdapter()
         self.predictor: dspy.Module = dspy_predictor
         self.ignore_module = False
-        self.cog_lm: StructuredModel = self.cognify_predictor(dspy_predictor, name)
+        self.cog_lm: StructuredModel = self.cognify_predictor(name, dspy_predictor)
         self.output_schema = None
 
     def cognify_predictor(
-        self, dspy_predictor: dspy.Module = None, name: str = None
+        self, name: str, dspy_predictor: dspy.Module = None
     ) -> StructuredModel:
         if not dspy_predictor:
             return None
@@ -54,10 +53,9 @@ class PredictModel(dspy.Module):
             return None
 
         # initialize cog lm
-        agent_name = name or str(uuid.uuid4())
         system_prompt = prepare_instructions(dspy_predictor.signature)
         input_names = list(dspy_predictor.signature.input_fields.keys())
-        input_variables = [Input(name=name) for name in input_names]
+        input_variables = [Input(name=input_name) for input_name in input_names]
 
         output_fields = dspy_predictor.signature.output_fields
         if "reasoning" in output_fields:
@@ -78,7 +76,7 @@ class PredictModel(dspy.Module):
 
         # always treat as structured to provide compatiblity with forward function
         return StructuredModel(
-            agent_name=agent_name,
+            agent_name=name,
             system_prompt=system_prompt,
             input_variables=input_variables,
             output_format=OutputFormat(schema=self.output_schema),

@@ -13,6 +13,7 @@ class SingleHop(dspy.Module):
   def __init__(self):
     self.retrieve = dspy.Retrieve(k=3)
     self.generate_answer = cognify.PredictModel(
+      "generate_answer",
       dspy.Predict("context,question->answer"),
     ) ## wrap with cognify
   
@@ -26,7 +27,7 @@ class SingleHop(dspy.Module):
 DSPy is a tool that automatically generates prompts on behalf of the user, which we access directly at the message passing layer. A core difference between Cognify and DSPy is we treat reasoning as a cog at the optimizer level, while DSPy requires users to specify reasoning in the interface. Because the Cognify optimizer can modify the user's prompts by applying various reasoning techniques, we strip explicit reasoning from the predictor.
 ```python
 # reasoning will be stripped from this predictor
-generate_answer = cognify.PredictModel(dspy.ChainOfThought(BasicQA)) 
+generate_answer = cognify.PredictModel("generate_answer", dspy.ChainOfThought(BasicQA)) 
 ```
 
 By default, DSPy provides structured output back to the user in the form of a `dspy.Prediction`. We preserve this behavior so your module's `forward()` can remain unchanged. Under the hood, all `cognify.PredictModel`s act as `cognify.StructuredModel`s. 

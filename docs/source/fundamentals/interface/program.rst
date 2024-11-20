@@ -48,7 +48,7 @@ To ensure the optimizer captures your each :code:`cognify.Model`, be sure to ins
       output=cognify.OutputLabel("summary"),
       lm_config=cognify.LMConfig(model="gpt-4o-mini", max_tokens=100)
     )
-    return my_cog_agent({"document": document})
+    return my_cog_agent({"document": document}).content
 
 Invoking a :code:`cognify.Model` is straightforward. Simply pass in a dictionary of inputs that maps the variable to its actual value. The optimizer will then use the system prompt, input variables, and output format to construct the messages to send to the model endpoint. Under the hood, it calls the :code:`litellm` completions API. We encourage users to let Cognify handle message construction and passing. However, for fine-grained control over the messages and arguments passed to the model and easy integration with your current codebase, you can optionally pass in a list of messages and your model keyword arguments. For more detailed usage instructions, check out our `GitHub repo <https://github.com/WukLab/Cognify/tree/main/cognify/llm>`_.
 
@@ -84,10 +84,10 @@ In LangChain, the :code:`Runnable` class is the primary abstraction for executin
 
   ### all it takes! this is what happens under the hood during the automatic translation
   import cognify
-  my_langchain = cognify.RunnableModel(my_langchain)    # you can pass `--no-translate` to manually choose which runnables to target
+  my_langchain = cognify.RunnableModel("my_chain", my_langchain)    # you can pass `--no-translate` to manually choose which runnables to target
 
   def invoke_chain(document: str):
-    return my_langchain.invoke({"document": document})   # invocation code remains unchanged
+    return my_langchain.invoke({"document": document}).content   # invocation code remains unchanged
 
 If you prefer to define your modules using our :code:`cognify.Model` interface but still want to utilize them with your existing LangChain infrastructure, you can wrap your :code:`cognify.Model` with an :code:`as_runnable()` call. This will convert your :code:`cognify.Model` into a :code:`cognify.RunnableModel` and follows the LangChain :code:`Runnable` protocol.
 
@@ -108,7 +108,7 @@ If you prefer to define your modules using our :code:`cognify.Model` interface b
   def invoke_chain(document: str):
     ### fits right into your existing LangChain code
     my_chain = my_runnable_cog_agent | StrOutputParser() | RunnableLambda(lambda x: len(x))
-    return my_chain.invoke({"document": document})
+    return my_chain.invoke({"document": document}).content
 
 **LangGraph** is an orchestrator that is agnostic to the underlying framework. It can be used to orchestrate LangChain runnables, DSPy predictors, any other framework or even pure python. All you need to do to hook up your LangGraph code is use our decorator wherever you are invoking your compiled graph.
 
@@ -127,9 +127,18 @@ In DSPy, the :code:`dspy.Predict` class is the primary abstraction for obtaining
       super().__init__()
 
       self.retrieve = dspy.Retrieve(k=passages_per_hop)
-      self.initial_generate_query = cognify.PredictModel(dspy.Predict("question -> search_query"))   # this is all automatically done during translation
-      self.following_generate_query = cognify.PredictModel(dspy.Predict("question, context -> search_query")) # you can pass `--no-translate` to manually choose which runnables to target
-      self.generate_answer = cognify.PredictModel(dspy.Predict("question, context -> answer"))
+      self.initial_generate_query = cognify.PredictModel(
+        "initial_generate_query", 
+        dspy.Predict("question -> search_query")
+      )  # this is all automatically done during translation
+      self.following_generate_query = cognify.PredictModel(
+        "following_generate_query", 
+        dspy.Predict("question, context -> search_query")
+      ) # you can pass `--no-translate` to manually choose which runnables to target
+      self.generate_answer = cognify.PredictModel(
+        "generate_answer",
+        dspy.Predict("question, context -> answer")
+      )
     
     def forward(self, question):
       ### invocation code remains unchanged

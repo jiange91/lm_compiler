@@ -2,13 +2,12 @@ from dataclasses import dataclass
 from typing import List, Dict, Optional, override
 from cognify.llm.prompt import (
     Input,
-    FilledInputVar,
+    FilledInput,
     CompletionMessage,
     Demonstration,
     Content,
     TextContent,
     ImageContent,
-    FilledInputVar,
     get_image_content_from_upload,
 )
 from cognify.llm.output import OutputLabel, OutputFormat

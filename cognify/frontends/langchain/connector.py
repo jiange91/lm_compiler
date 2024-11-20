@@ -31,9 +31,9 @@ UNRECOGNIZED_PARAMS = ["model_name", "_type"]
 
 
 class RunnableModel(Runnable):
-    def __init__(self, runnable: RunnableSequence = None, name: str = None):
+    def __init__(self, name: str, runnable: RunnableSequence = None):
         self.chat_prompt_template: ChatPromptTemplate = None
-        self.cog_lm: Model = self.cognify_runnable(runnable, name)
+        self.cog_lm: Model = self.cognify_runnable(name, runnable)
 
     """
   Connector currently supports the following units to construct a `cognify.Model`:
@@ -43,7 +43,7 @@ class RunnableModel(Runnable):
   """
 
     def cognify_runnable(
-        self, runnable: RunnableSequence = None, name: str = None
+        self, name: str, runnable: RunnableSequence = None
     ) -> Model:
         if not runnable:
             return None
@@ -75,9 +75,6 @@ class RunnableModel(Runnable):
                 f"Only one middle runnable is supported at this time, instead got {runnable.middle}"
             )
 
-        # initialize cog lm
-        agent_name = name or runnable.name or str(uuid.uuid4())
-
         # system prompt
         if isinstance(
             self.chat_prompt_template.messages[0], SystemMessagePromptTemplate
@@ -99,7 +96,7 @@ class RunnableModel(Runnable):
 
         # input variables (ignore partial variables)
         input_vars: List[Input] = [
-            Input(name=name) for name in self.chat_prompt_template.input_variables
+            Input(name=input_var) for input_var in self.chat_prompt_template.input_variables
         ]
 
         # lm config
@@ -111,14 +108,20 @@ class RunnableModel(Runnable):
 
         lm_config = LMConfig(model=full_kwargs.pop("model"), kwargs=full_kwargs)
 
+        # custom format instructions
+        try:
+            custom_format_instructions = output_parser.get_format_instructions()
+        except NotImplementedError:
+            custom_format_instructions = None
+
         if output_parser is not None:
             output_format = OutputFormat(
                 schema=output_parser.OutputType,
                 should_hint_format_in_prompt=True,
-                custom_output_format_instructions=output_parser.get_format_instructions(),
+                custom_output_format_instructions=custom_format_instructions,
             )
             return StructuredModel(
-                agent_name=agent_name,
+                agent_name=name,
                 system_prompt=system_prompt_content,
                 input_variables=input_vars,
                 output_format=output_format,
@@ -126,7 +129,7 @@ class RunnableModel(Runnable):
             )
         else:
             return Model(
-                agent_name=agent_name,
+                agent_name=name,
                 system_prompt=system_prompt_content,
                 input_variables=input_vars,
                 output=OutputLabel(name="response"),
@@ -165,6 +168,6 @@ class RunnableModel(Runnable):
 
 
 def as_runnable(cog_lm: Model):
-    runnable_cog_lm = RunnableModel(runnable=None, name=cog_lm.name)
+    runnable_cog_lm = RunnableModel(cog_lm.name)
     runnable_cog_lm.cog_lm = cog_lm
     return RunnableLambda(runnable_cog_lm.invoke)

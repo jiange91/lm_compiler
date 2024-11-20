@@ -62,12 +62,12 @@ def capture_module_from_fs(module_path: str):
         if isinstance(v, dspy.Module):
             named_predictors = v.named_predictors()
             for name, predictor in named_predictors:
-                module.__dict__[k].__dict__[name] = PredictModel(predictor, name)
+                module.__dict__[k].__dict__[name] = PredictModel(name, predictor)
                 num_translated += 1
         elif isinstance(v, RunnableSequence):
             # ensure unique naming for runnable
             name = k if named_runnables[k] == 0 else f"{k}_{named_runnables[k]}"
-            module.__dict__[k] = RunnableModel(v, name=name)
+            module.__dict__[k] = RunnableModel(name, v)
             num_translated += 1
             named_runnables[k] += 1
     # if num_translated == 0:

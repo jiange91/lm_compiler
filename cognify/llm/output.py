@@ -4,10 +4,12 @@ from datamodel_code_generator.parser.jsonschema import JsonSchemaParser
 from cognify.llm.prompt import CompletionMessage, TextContent
 from dataclasses import dataclass
 
+
 @dataclass
 class OutputLabel:
     name: str
     custom_output_format_instructions: str = None
+
 
 @dataclass
 class OutputFormat:
@@ -18,30 +20,36 @@ class OutputFormat:
     def get_output_instruction_message(self) -> CompletionMessage:
         content = ""
         if self.should_hint_format_in_prompt:
-            content += '\n' + get_format_hint(self.schema)
+            content += "\n" + get_format_hint(self.schema)
         if self.custom_output_format_instructions:
-            content += '\n' + self.custom_output_format_instructions
+            content += "\n" + self.custom_output_format_instructions
         return CompletionMessage(role="user", content=[TextContent(text=content)])
+
 
 def pydantic_model_repr(model: type[BaseModel]) -> str:
     """Get str representation of a Pydantic model
-    
+
     Will return the class definition of the Pydantic model as a string.
     """
-    pydantic_str = JsonSchemaParser(
-        json.dumps(model.model_json_schema())
-    ).parse(with_import=False)
+    pydantic_str = JsonSchemaParser(json.dumps(model.model_json_schema())).parse(
+        with_import=False
+    )
     return pydantic_str
+
 
 class InnerModel(BaseModel):
     """A nested model"""
+
     a: int = Field(description="An integer field")
     b: str = Field(description="A string field")
-    
+
+
 class ExampleModel(BaseModel):
     """An example output schema"""
+
     ms: list[InnerModel] = Field(description="A list of InnerModel")
     meta: dict[str, str] = Field(description="A dictionary of string to string")
+
 
 example_output_json = """
 ```json
@@ -55,8 +63,8 @@ example_output_json = """
 ```
 """
 
+
 def get_format_hint(schema: type[BaseModel]) -> str:
-    
     template = """\
 Your answer should be formatted as a JSON instance that conforms to the output schema. The json instance will be used directly to instantiate the Pydantic model.
 

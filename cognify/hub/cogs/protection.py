@@ -9,8 +9,7 @@ class Protection:
         self.original_attrs = {}
 
     def __enter__(self):
-        """Temporarily overrides specified attributes with a function that raises an error.
-        """
+        """Temporarily overrides specified attributes with a function that raises an error."""
         for field in self.protected_fields:
             if hasattr(self.instance, field):
                 # Save original attribute
@@ -26,4 +25,5 @@ class Protection:
     def _make_raise_error(self, field):
         def raise_error(*args, **kwargs):
             raise Exception(f"Access to protected '{field}' is restricted.")
+
         return raise_error

@@ -1,4 +1,3 @@
-
 from cognify.optimizer.core import driver, flow
 from cognify.hub.cogs import reasoning, ensemble, model_selection
 from cognify.hub.cogs.common import NoChange
@@ -8,12 +7,11 @@ from cognify.hub.search.default import SearchParams
 from cognify.optimizer.control_param import ControlParameter
 from cognify.llm import LMConfig
 
+
 def create_codegen_search(search_params: SearchParams) -> ControlParameter:
     # ================= Inner Loop Config =================
     # Reasoning Parameter
-    reasoning_param = reasoning.LMReasoning(
-        [NoChange(), ZeroShotCoT()] 
-    )
+    reasoning_param = reasoning.LMReasoning([NoChange(), ZeroShotCoT()])
     # Few Shot Parameter
     few_shot_params = LMFewShot(4)
 
@@ -22,7 +20,7 @@ def create_codegen_search(search_params: SearchParams) -> ControlParameter:
         n_trials=6,
     )
     inner_loop_config = driver.LayerConfig(
-        layer_name='inner_loop',
+        layer_name="inner_loop",
         universal_params=[few_shot_params, reasoning_param],
         opt_config=inner_opt_config,
     )
@@ -39,7 +37,7 @@ def create_codegen_search(search_params: SearchParams) -> ControlParameter:
         throughput=4,
     )
     outer_loop_config = driver.LayerConfig(
-        layer_name='outer_loop',
+        layer_name="outer_loop",
         universal_params=[general_ensemble_params],
         opt_config=outer_opt_config,
     )
@@ -52,22 +50,31 @@ def create_codegen_search(search_params: SearchParams) -> ControlParameter:
     )
     return optimize_control_param
 
+
 def create_search(
     *,
     n_trials: int = 10,
     quality_constraint: float = 1.0,
     evaluator_batch_size: int = 10,
-    opt_log_dir: str = 'opt_results',
+    opt_log_dir: str = "opt_results",
     model_selection_cog: model_selection.LMSelection | list[LMConfig] | None = None,
 ):
     if model_selection_cog is not None:
         if isinstance(model_selection_cog, list):
-            model_selection_options = model_selection.model_option_factory(model_selection_cog)
+            model_selection_options = model_selection.model_option_factory(
+                model_selection_cog
+            )
             model_selection_cog = model_selection.LMSelection(
-                'model_selection',
+                "model_selection",
                 model_selection_options,
             )
         assert isinstance(model_selection_cog, model_selection.LMSelection)
-    
-    search_params = SearchParams(n_trials, quality_constraint, evaluator_batch_size, opt_log_dir, model_selection_cog)
+
+    search_params = SearchParams(
+        n_trials,
+        quality_constraint,
+        evaluator_batch_size,
+        opt_log_dir,
+        model_selection_cog,
+    )
     return create_codegen_search(search_params)

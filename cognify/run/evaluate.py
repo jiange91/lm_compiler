@@ -1,16 +1,19 @@
 import os
 import json
-from typing import Optional, Union, Sequence, Callable
+from typing import Optional, Union, Callable
 import logging
 
-from cognify.optimizer.plugin import OptimizerSchema
 from cognify.optimizer.control_param import ControlParameter
 from cognify.optimizer.core import driver
-from cognify.optimizer.evaluation.evaluator import EvaluatorPlugin, EvalTask, EvaluationResult
+from cognify.optimizer.evaluation.evaluator import (
+    EvaluatorPlugin,
+    EvaluationResult,
+)
 from cognify.optimizer.evaluation.metric import MetricBase
 
 
 logger = logging.getLogger(__name__)
+
 
 def evaluate(
     *,
@@ -23,13 +26,15 @@ def evaluate(
     eval_path: str = None,
     save_to: str = None,
 ) -> EvaluationResult:
-    assert control_param or opt_result_path, "Either control_param or opt_result_path should be provided"
+    assert (
+        control_param or opt_result_path
+    ), "Either control_param or opt_result_path should be provided"
     # If both are provided, control_param will be used
-    
+
     if control_param is None:
-        control_param_save_path = os.path.join(opt_result_path, 'control_param.json')
+        control_param_save_path = os.path.join(opt_result_path, "control_param.json")
         control_param = ControlParameter.from_json_profile(control_param_save_path)
-    
+
     if eval_fn is not None:
         if isinstance(eval_fn, MetricBase):
             eval_fn = eval_fn.score
@@ -41,7 +46,7 @@ def evaluate(
         evaluator_fn=eval_fn,
         n_parallel=n_parallel,
     )
-    
+
     opt_driver = driver.MultiLayerOptimizationDriver(
         layer_configs=control_param.opt_setup.layer_configs,
         opt_log_dir=control_param.opt_history_log_dir,
@@ -50,11 +55,12 @@ def evaluate(
         evaluator=evaluator,
         config_id=config_id,
     )
-    
+
     if save_to is not None:
-        with open(save_to, 'w') as f:
+        with open(save_to, "w") as f:
             json.dump(result.to_dict(), f, indent=4)
     return result
+
 
 def load_workflow(
     *,
@@ -62,13 +68,15 @@ def load_workflow(
     opt_result_path: Optional[str] = None,
     control_param: Optional[ControlParameter] = None,
 ) -> Callable:
-    assert control_param or opt_result_path, "Either control_param or opt_result_path should be provided"
+    assert (
+        control_param or opt_result_path
+    ), "Either control_param or opt_result_path should be provided"
     # If both are provided, control_param will be used
-    
+
     if control_param is None:
-        control_param_save_path = os.path.join(opt_result_path, 'control_param.json')
+        control_param_save_path = os.path.join(opt_result_path, "control_param.json")
         control_param = ControlParameter.from_json_profile(control_param_save_path)
-        
+
     opt_driver = driver.MultiLayerOptimizationDriver(
         layer_configs=control_param.opt_setup.layer_configs,
         opt_log_dir=control_param.opt_history_log_dir,

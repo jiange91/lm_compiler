@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Dict, Optional
 from cognify._compat import override
 from cognify.llm.prompt import Input, FilledInputVar, CompletionMessage, Demonstration, Content, TextContent, ImageContent, FilledInputVar, get_image_content_from_upload
@@ -46,7 +46,7 @@ def _local_forward(_local_lm: 'Model', messages: List[APICompatibleMessage], inp
 @dataclass
 class LMConfig:
   model: str # see https://docs.litellm.ai/docs/providers 
-  kwargs: Optional[dict]
+  kwargs: dict = field(default_factory=dict)
   custom_llm_provider: Optional[str] = None
   cost_indicator: float = 1.0  # used to rank models during model selection optimization step
 

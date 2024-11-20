@@ -99,11 +99,12 @@ class AgentJudge(MetricBase):
             input_variables=inputs,
             output_format=OutputFormat(schema=AgentJudge.Judgement),
             lm_config=model_config,
+            opt_register=False,
         )
         
     def score(self, label, pred):
         result: AgentJudge.Judgement = self.score_agent(
-            {
+            inputs={
                 "ground truth": label,
                 "output": pred,
             }

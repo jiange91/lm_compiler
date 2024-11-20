@@ -108,6 +108,8 @@ class OptimizationLayer:
         self.save_ckpt_interval = save_ckpt_interval
         self.top_down_info: TopDownInformation = None
         
+        self._best_score = None
+        self._lowest_cost = None
         self.quality_constraint = quality_constraint
         self.hierarchy_level = hierarchy_level
         
@@ -269,8 +271,17 @@ class OptimizationLayer:
                 new_modules.append(new_module)
         return new_modules, trace_for_next_level
 
-    def generate_trial_id(self, trial_number: int) -> str:
-        return '.'.join(self.top_down_info.trace_back + [f'{self.name}_{trial_number}'])
+    def generate_trial_id(self) -> tuple[str, int]:
+        # always increment the trial number
+        # optuna trial id start from num_trials, if previous run is interrupted
+        # using optuna trial number will have conflict
+        with self._study_lock:
+            max_id = None
+            for log in self.opt_logs.values():
+                id = int(log.id.split('_')[-1])
+                max_id = id if max_id is None else max(max_id, id)
+        new_trial_number = max_id + 1 if max_id is not None else 0
+        return '.'.join(self.top_down_info.trace_back + [f'{self.name}_{new_trial_number}'])
 
     def propose(
         self,
@@ -287,7 +298,7 @@ class OptimizationLayer:
                 trial = self.study.ask(self.param_categorical_dist)
             
             logger.debug(f"- {self.name} - apply param - Trial {trial.number} params: {trial.params}")
-            trial_id_str = self.generate_trial_id(trial.number)
+            trial_id_str = self.generate_trial_id()
             trial_log = self.trial_log_cls(params=trial.params, bo_trial_id=trial.number, id=trial_id_str)
 
             self.opt_logs[trial_log.id] = trial_log
@@ -378,26 +389,11 @@ class OptimizationLayer:
         params = [param for params in self.params.values() for param in params]
         dump_params(params, param_save_path)
     
-    def _load_opt_ckpt(self, opt_log_path: str):
-        self.load_opt_log(opt_log_path)
-        
-        for trial_log_id, trial_log in self.opt_logs.items():
-            assert trial_log.finished, f'Trial {trial_log_id} is not finished'
-            trial = optuna.trial.create_trial(
-                params=trial_log.params,
-                values=[trial_log.score, trial_log.price],
-                distributions=self.param_categorical_dist,
-            )
-            if self.quality_constraint is not None:
-                self.add_constraint(trial_log.score, trial)
-                trial.set_system_attr(_base._CONSTRAINTS_KEY, get_quality_constraint(trial))
-            self.study.add_trial(trial)
-    
     def prepare_next_level_tdi(
         self, 
         new_program: list[Module], 
         new_trace: ModuleTransformTrace,
-        trial_number: str,
+        trial_id: str,
     ) -> TopDownInformation:
         """create info for next level optimization or actual evaluation
         
@@ -418,7 +414,7 @@ class OptimizationLayer:
             script_args=self.top_down_info.script_args,
             other_python_paths=python_paths,
         )
-        next_level_info.trace_back.append(self.generate_trial_id(trial_number))
+        next_level_info.trace_back.append(trial_id)
         
         # add current level params for next level
         for lm_name, params in self.params.items():
@@ -434,7 +430,7 @@ class OptimizationLayer:
         base_program: list[Module],
     ) -> EvaluationResult:
         next_trial, program, new_trace, log_id = self.propose(base_program, 1)[0]
-        next_level_info = self.prepare_next_level_tdi(program, new_trace, next_trial.number)
+        next_level_info = self.prepare_next_level_tdi(program, new_trace, log_id)
         
         if _should_exit():
             return None
@@ -460,21 +456,21 @@ class OptimizationLayer:
         opt_config = self.top_down_info.opt_config
         num_current_trials = len(self.opt_logs)
         pbar_position = ask_for_position()
-        best_score, lowest_cost = None, None
         
         def _update_pbar(pbar, eval_result: EvaluationResult):
-            nonlocal best_score, lowest_cost
             score, cost = self.get_eval_feedback(eval_result)
             if score is not None and cost is not None:
-                best_score = score if best_score is None else max(best_score, score)
-                lowest_cost = cost if lowest_cost is None else min(lowest_cost, cost)
-                pbar.set_description(self._gen_opt_bar_desc(best_score, lowest_cost))
+                self._best_score = score if self._best_score is None else max(self._best_score, score)
+                self._lowest_cost = cost if self._lowest_cost is None else min(self._lowest_cost, cost)
+                pbar.set_description(self._gen_opt_bar_desc(self._best_score, self._lowest_cost))
             pbar.update(1)
         
+        initial_score = self._best_score if self._best_score is not None else 0.0
+        initial_cost = self._lowest_cost if self._lowest_cost is not None else 0.0
         with tqdm(
             total=num_current_trials + opt_config.n_trials,
             initial=num_current_trials,
-            desc=self._gen_opt_bar_desc(0.0, 0.0),
+            desc=self._gen_opt_bar_desc(initial_score, initial_cost),
             leave=self.hierarchy_level == 0,
             position=pbar_position,
         ) as pbar:
@@ -491,7 +487,6 @@ class OptimizationLayer:
                         self.save_ckpt(opt_config.opt_log_path, opt_config.param_save_path)
                     _update_pbar(pbar, result)
             else:
-                processed_futures = set()
                 with ThreadPoolExecutor(max_workers=opt_config.throughput) as executor:
                     futures = [
                         executor.submit(self._optimize_iteration, base_program)
@@ -500,28 +495,17 @@ class OptimizationLayer:
                     for f in as_completed(futures):
                         try:
                             result = f.result()
-                            processed_futures.add(f)
                             if result and result.complete:
                                 counter += 1
                                 if self.save_ckpt_interval > 0 and counter % self.save_ckpt_interval == 0:
                                     self.save_ckpt(opt_config.opt_log_path, opt_config.param_save_path)
                                 _update_pbar(pbar, result)
                             if _should_exit():
-                                executor.shutdown(wait=True, cancel_futures=True)
+                                executor.shutdown(wait=False, cancel_futures=True)
                                 break
                         except Exception as e:
                             logger.error(f'Error in evaluating task: {e}')
                             raise
-                    if _should_exit():
-                        print(f'{self.name} collecting finished tasks...')
-                        should_wait = [f for f in futures if f not in processed_futures]
-                        for f in should_wait:
-                            processed_futures.add(f)
-                            if not f.cancelled():
-                                result = f.result()
-                                if result is None or not result.complete:
-                                    continue
-                                _update_pbar(pbar, result)
                     
         release_position(pbar_position)
     
@@ -587,12 +571,34 @@ class OptimizationLayer:
                 print("Pareto_{}".format(i+1))
                 # logger.info("  Params: {}".format(trial_log.params))
                 print("  Quality: {:.3f}, Cost per 1K invocation ($): {:.2f}".format(trial_log.score, trial_log.price * 1000))
-                print("  Applied Optimization: {}".format(trial_log.id))
+                print("  Applied at: {}".format(trial_log.id))
                 # logger.info("  config saved at: {}".format(log_path))
                 
             # logger.info("Opt Cost: {}".format(self.opt_cost))
             print("========================================================")
         return pareto_frontier
+
+    def _load_opt_ckpt(self, opt_log_path: str):
+        self.load_opt_log(opt_log_path)
+        
+        if self.opt_logs:
+            candidates = self.get_all_candidates()
+            if candidates:
+                self._best_score = max([log.score for log, _ in candidates])
+                self._lowest_cost = min([log.price for log, _ in candidates])
+        
+        for trial_log_id, trial_log in self.opt_logs.items():
+            assert trial_log.finished, f'Trial {trial_log_id} is not finished'
+            trial = optuna.trial.create_trial(
+                params=trial_log.params,
+                values=[trial_log.score, trial_log.price],
+                distributions=self.param_categorical_dist,
+            )
+            if self.quality_constraint is not None:
+                self.add_constraint(trial_log.score, trial)
+                trial.set_system_attr(_base._CONSTRAINTS_KEY, get_quality_constraint(trial))
+            self.study.add_trial(trial)
+    
 
     def load_opt_log(self, opt_log_path: str):
         with open(opt_log_path, 'r') as f:
@@ -749,7 +755,7 @@ class BottomLevelOptimization(OptimizationLayer):
     
     def get_eval_feedback(self, eval_result: EvaluationResult):
         avg_score = eval_result.reduced_score
-        if self.quality_constraint and avg_score >= self.quality_constraint:
+        if self.quality_constraint is None or avg_score >= self.quality_constraint:
             return avg_score, eval_result.reduced_price
         return None, None
     

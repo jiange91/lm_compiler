@@ -37,6 +37,14 @@ def _init_exit_gracefully(msg=None, verbose=False, override=False):
     if _exit_gracefully is not None and not override:
         return
     _exit_gracefully = ExitGracefully(msg, verbose)
+    
+def _be_quiet():
+    if _exit_gracefully is not None:
+        _exit_gracefully.verbose = False
+
+def _stay_alert():
+    if _exit_gracefully is not None:
+        _exit_gracefully._interrupted = True
 
 def _set_exit_msg(msg: str):
     _exit_gracefully.msg = msg

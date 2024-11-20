@@ -1,5 +1,5 @@
 from cognify.hub.cogs.common import CogBase, CogLayerLevel, OptionBase
-from cognify.llm.model import CogLM, LMConfig
+from cognify.llm.model import Model, LMConfig
 import uuid
 import copy
 
@@ -32,7 +32,7 @@ class ModelOption(OptionBase):
     def _get_cost_indicator(self):
         return self.model_config.cost_indicator
        
-    def apply(self, lm_module: CogLM):
+    def apply(self, lm_module: Model):
         if lm_module.lm_config:
             lm_module.lm_config.update(self.model_config)
         else:

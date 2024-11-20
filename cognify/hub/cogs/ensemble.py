@@ -10,7 +10,7 @@ from cognify.graph.base import Module, StatePool, ModuleStatus
 from cognify.graph.program import Workflow, Input, Output
 from cognify.graph.modules import CodeBox
 from cognify.hub.cogs.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange, AddNewModuleImportInterface
-from cognify.llm import CogLM, StructuredCogLM, StepInfo, InputVar, OutputFormat, OutputLabel
+from cognify.llm import Model, StructuredModel, StepInfo, Input, OutputFormat, OutputLabel
 from abc import ABC, ABCMeta
 
 class ModuleEnsemble(CogBase):
@@ -69,8 +69,8 @@ class SamplerPostProcess(CodeBox):
     def __init__(
         self,
         name: str,
-        origin_expert: CogLM,
-        experts: list[CogLM],
+        origin_expert: Model,
+        experts: list[Model],
     ):
         super().__init__(name=name, kernel=None)
         # Added this incase we will apply prompt rewriting for experts
@@ -143,7 +143,7 @@ Please read through all the responses carefully and provide a clear, consistent 
         """
         return desc
     
-    def sample_then_aggregate(self, lm: CogLM) -> Module:
+    def sample_then_aggregate(self, lm: Model) -> Module:
         sub_graph = Workflow(f'{lm.name}_ensemble_{self.name}')
         input_name, output_name = f'{lm.name}_sub_graph_input', f'{lm.name}_sub_graph_output'
         sub_graph.add_module(Input(input_name))
@@ -169,18 +169,18 @@ Please read through all the responses carefully and provide a clear, consistent 
         if lm.contains_custom_format_instructions():
             custom_format_instruction = f"\nAnswer format instructions given to the worker: {lm.get_custom_format_instructions_if_any()}\n Please strictly follow this as if you are generating the answer on worker's behalf."
         
-        if isinstance(lm, StructuredCogLM):
+        if isinstance(lm, StructuredModel):
             new_output_format = OutputFormat(lm.output_format.schema, lm.output_format.should_hint_format_in_prompt, custom_format_instruction)
-            agg_agent = StructuredCogLM(f"{lm.name}_aggregator",
+            agg_agent = StructuredModel(f"{lm.name}_aggregator",
                                         UniversalSelfConsistency.aggregator_system_prompt,
-                                        input_variables=[InputVar("worker_task"), InputVar("inputs"), InputVar("proposals")],
+                                        input_variables=[Input("worker_task"), Input("inputs"), Input("proposals")],
                                         output_format=new_output_format,
                                         lm_config=copy.deepcopy(lm.lm_config))
         else:
             new_output_label = OutputLabel(lm.get_output_label_name(), custom_format_instruction)
-            agg_agent = CogLM(f"{lm.name}_aggregator",
+            agg_agent = Model(f"{lm.name}_aggregator",
                               UniversalSelfConsistency.aggregator_system_prompt,
-                              input_variables=[InputVar("worker_task"), InputVar("inputs"), InputVar("proposals")],
+                              input_variables=[Input("worker_task"), Input("inputs"), Input("proposals")],
                               output=new_output_label,
                               lm_config=copy.deepcopy(lm.lm_config))  
         sub_graph.add_module(agg_agent)

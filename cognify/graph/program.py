@@ -5,7 +5,7 @@ from functools import partial
 import functools
 import traceback
 
-from cognify.llm import CogLM
+from cognify.llm import Model
 from cognify.llm.response import ResponseMetadata
 from cognify.graph.modules import Input, Output, Branch, Identity
 from cognify.graph.base import *
@@ -566,8 +566,8 @@ class Workflow(ComposibleModuleInterface):
     def update_token_usage_summary(self):
         """get token usage summary for all LLM modules recursively
         """
-        for lm in (m for m in self.get_all_modules(lambda x: isinstance(x, CogLM))):
-            lm: CogLM
+        for lm in (m for m in self.get_all_modules(lambda x: isinstance(x, Model))):
+            lm: Model
             if lm.name not in self.token_usage_buffer:
                 self.token_usage_buffer[lm.name] = {}
             for meta in lm.response_metadata_history:

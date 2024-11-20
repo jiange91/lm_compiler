@@ -1,13 +1,13 @@
-from .model import CogLM, StructuredCogLM, LMConfig
-from .prompt import InputVar, Demonstration
+from .model import Model, StructuredModel, LMConfig
+from .prompt import Input, Demonstration
 from .output import OutputLabel, OutputFormat
 from .response import StepInfo
 
 __all__ = [
-    "CogLM",
-    "StructuredCogLM",
+    "Model",
+    "StructuredModel",
+    "Input",
     "LMConfig",
-    "InputVar",
     "Demonstration",
     "OutputLabel",
     "OutputFormat",

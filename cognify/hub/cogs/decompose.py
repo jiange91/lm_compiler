@@ -10,7 +10,7 @@ from cognify.graph.program import Workflow, Input, Output, hint_possible_destina
 from cognify.graph.rewriter.utils import add_argument_to_position
 from pydantic import BaseModel
 from cognify.graph.modules import CodeBox
-from cognify.llm import CogLM, StructuredCogLM, OutputFormat, OutputLabel
+from cognify.llm import Model, StructuredModel, OutputFormat, OutputLabel
 from cognify.hub.cogs.decompose_agents import *
 from cognify.hub.cogs.decompose_agents.estimate_complexity import ComplexityEstimation
 from cognify.optimizer.utils import aggregator_factory, json_schema_to_pydantic_model
@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class DecomposeCandidate:
-    lm: CogLM
+    lm: Model
     score: float
     rationale: str
 
@@ -28,7 +28,7 @@ class LMTaskDecompose:
     def __init__(
         self,
         workflow: Optional[Workflow] = None,
-        lm_modules: Optional[list[CogLM]] = None,
+        lm_modules: Optional[list[Model]] = None,
     ):
         """provide either workflow or lm_modules to initialize the decomposer
         
@@ -38,12 +38,12 @@ class LMTaskDecompose:
         """
         self.workflow = workflow
         if self.workflow is not None:
-            self.lm_modules : list[CogLM] = workflow.get_all_modules(lambda m: isinstance(m, CogLM))
+            self.lm_modules : list[Model] = workflow.get_all_modules(lambda m: isinstance(m, Model))
         else:
             if lm_modules is None:
                 raise ValueError("Either workflow or lm_modules should be provided")
             self.lm_modules = lm_modules
-        self.decompose_target_lms: list[CogLM] = []
+        self.decompose_target_lms: list[Model] = []
         
         # lm name -> structured agent system
         self.lm_to_final_system: dict[str, StructuredAgentSystem] = {}
@@ -94,7 +94,7 @@ class LMTaskDecompose:
         logger.info("Adding concrete dependencies to decomposed system")
         new_agent_system = {}
         json_new_agent_system = {}
-        def _ld(lm: CogLM):
+        def _ld(lm: Model):
             agent_metadata = {
                 name: high_level_decompose.model_dump()
                 for name, high_level_decompose in high_level_result[lm.name].agents.items()
@@ -117,7 +117,7 @@ class LMTaskDecompose:
     def _final_decomposition(self, log_path: str, mid_level_agent_system: Dict[str, NewAgentSystem]):
         logger.info("Finalizing new agent system")
         final_agent_system: Dict[str, StructuredAgentSystem] = {}
-        def _fd(lm: CogLM):
+        def _fd(lm: Model):
             mid_level_desc: NewAgentSystem = mid_level_agent_system[lm.name]
             final_agents = finalize_new_agents_kernel(lm.get_formatted_info(), mid_level_desc)
             final_agent_system[lm.name] = final_agents
@@ -163,7 +163,7 @@ class LMTaskDecompose:
     
     @staticmethod
     def materialize_decomposition(
-        lm: CogLM, 
+        lm: Model, 
         new_agents: StructuredAgentSystem, 
         default_lm_config: dict,
         log_dir: str,
@@ -191,14 +191,14 @@ class LMTaskDecompose:
             logical_end_name = aggregator.name
         
         # Materialize each agent
-        name_to_new_lm: dict[str, CogLM] = {}
+        name_to_new_lm: dict[str, Model] = {}
         for agent_name, agent_meta in new_agents.agents.items():
             valid_file_name = agent_name.replace(" ", "").replace("\n", "").replace("\t", "") + '.py'
             module_fpath = os.path.join(log_dir, valid_file_name)
             if isinstance(agent_meta.output_json_schema, str):
                 output_label = OutputLabel(label=agent_meta.output_json_schema,
                                            custom_output_format_instructions=lm.get_custom_format_instructions_if_any())
-                cog_agent = CogLM(agent_name, 
+                cog_agent = Model(agent_name, 
                                 agent_meta.agent_prompt, 
                                 [Input(name=input_name) for input_name in agent_meta.input_variables], 
                                 output_label)
@@ -209,18 +209,18 @@ class LMTaskDecompose:
                     output_model = list(output_model.model_fields.keys())[0]
                     output = OutputLabel(label=agent_meta.output_json_schema,
                                          custom_output_format_instructions=lm.get_custom_format_instructions_if_any())
-                    cog_agent = CogLM(agent_name, 
+                    cog_agent = Model(agent_name, 
                                     agent_meta.agent_prompt, 
                                     [Input(name=input_name) for input_name in agent_meta.input_variables], 
                                     output)
                 else:
-                    structured_lm: StructuredCogLM = lm
+                    structured_lm: StructuredModel = lm
                     new_output_format: OutputFormat = OutputFormat(
                         schema=output_model, 
                         should_hint_format_in_prompt=structured_lm.output_format.should_hint_format_in_prompt,
                         custom_output_format_instructions=structured_lm.output_format.custom_output_format_instructions
                     )
-                    cog_agent = StructuredCogLM(agent_name,
+                    cog_agent = StructuredModel(agent_name,
                                                 agent_meta.agent_prompt,
                                                 [Input(name=input_name) for input_name in agent_meta.input_variables],
                                                 output_format=new_output_format)

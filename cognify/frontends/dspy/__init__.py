@@ -1,1 +1,1 @@
-from .connector import as_predict, PredictCogLM
+from .connector import as_predict, PredictModel

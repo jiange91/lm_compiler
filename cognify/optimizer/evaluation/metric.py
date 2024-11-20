@@ -68,7 +68,7 @@ class F1Str(F1):
         return super().score(label, pred)
     
 from cognify.llm.model import LMConfig
-from cognify.llm.model import StructuredCogLM, InputVar, OutputFormat
+from cognify.llm.model import StructuredModel, Input, OutputFormat
 
 class AgentJudge(MetricBase):
     """Use LLM to judge the quality of the output based on a criterion
@@ -90,10 +90,10 @@ class AgentJudge(MetricBase):
         {criterion}.
         """
         if need_ground_truth:
-            inputs = [InputVar(name="ground truth"), InputVar(name="output")]
+            inputs = [Input(name="ground truth"), Input(name="output")]
         else:
-            inputs = [InputVar(name="output")]
-        self.score_agent = StructuredCogLM(
+            inputs = [Input(name="output")]
+        self.score_agent = StructuredModel(
             agent_name="judge_agent",
             system_prompt=system_prompt,
             input_variables=inputs,

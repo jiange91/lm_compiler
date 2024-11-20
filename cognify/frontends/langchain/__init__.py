@@ -1,1 +1,1 @@
-from .connector import as_runnable, RunnableCogLM
+from .connector import as_runnable, RunnableModel

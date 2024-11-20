@@ -3,7 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTempla
 from langchain_core.prompt_values import ChatPromptValue
 from langchain_core.output_parsers import BaseOutputParser
 from langchain_core.language_models.chat_models import BaseChatModel
-from cognify.llm import CogLM, InputVar, StructuredCogLM, OutputFormat, OutputLabel
+from cognify.llm import Model, Input, StructuredModel, OutputFormat, OutputLabel
 from cognify.llm.model import LMConfig
 import uuid
 from typing import Any, List, Dict
@@ -27,10 +27,10 @@ class LangchainOutput:
 DEFAULT_SYSTEM_PROMPT = "You are an intelligent assistant."
 UNRECOGNIZED_PARAMS = ["model_name", "_type"]
 
-class RunnableCogLM(Runnable):
+class RunnableModel(Runnable):
   def __init__(self, runnable: RunnableSequence = None, name: str = None):
     self.chat_prompt_template: ChatPromptTemplate = None
-    self.cog_lm: CogLM = self.cognify_runnable(runnable, name)
+    self.cog_lm: Model = self.cognify_runnable(runnable, name)
   
   """
   Connector currently supports the following units to construct a `CogLM`:
@@ -38,7 +38,7 @@ class RunnableCogLM(Runnable):
   - BaseChatPromptTemplate | BaseChatModel | BaseOutputParser
   These indepedent units should be split out of more complex chains.
   """
-  def cognify_runnable(self, runnable: RunnableSequence = None, name: str = None) -> CogLM:
+  def cognify_runnable(self, runnable: RunnableSequence = None, name: str = None) -> Model:
     if not runnable:
       return None
 
@@ -73,7 +73,7 @@ class RunnableCogLM(Runnable):
       system_prompt_content: str = DEFAULT_SYSTEM_PROMPT
 
     # input variables (ignore partial variables)
-    input_vars: List[InputVar] = [InputVar(name=name) for name in self.chat_prompt_template.input_variables]
+    input_vars: List[Input] = [Input(name=name) for name in self.chat_prompt_template.input_variables]
     
     # lm config
     full_kwargs = chat_model._get_invocation_params()
@@ -88,13 +88,13 @@ class RunnableCogLM(Runnable):
       output_format = OutputFormat(schema=output_parser.OutputType,
                                   should_hint_format_in_prompt=True,
                                   custom_output_format_instructions=output_parser.get_format_instructions())
-      return StructuredCogLM(agent_name=agent_name,
+      return StructuredModel(agent_name=agent_name,
                             system_prompt=system_prompt_content,
                             input_variables=input_vars,
                             output_format=output_format,
                             lm_config=lm_config)
     else:
-      return CogLM(agent_name=agent_name,
+      return Model(agent_name=agent_name,
                   system_prompt=system_prompt_content,
                   input_variables=input_vars,
                   output=OutputLabel(name="response"),
@@ -114,12 +114,12 @@ class RunnableCogLM(Runnable):
           raise NotImplementedError(f"Message type {type(message)} is not supported, must be one of `SystemMessage`, `HumanMessage`, or `AIMessage`")
       
     result = self.cog_lm(messages, input) # kwargs have already been set when initializing cog_lm
-    if isinstance(self.cog_lm, StructuredCogLM):
+    if isinstance(self.cog_lm, StructuredModel):
       return result
     else:
       return AIMessage(result)
   
-def as_runnable(cog_lm: CogLM):
-  runnable_cog_lm = RunnableCogLM(runnable=None, name=cog_lm.name)
+def as_runnable(cog_lm: Model):
+  runnable_cog_lm = RunnableModel(runnable=None, name=cog_lm.name)
   runnable_cog_lm.cog_lm = cog_lm
   return RunnableLambda(runnable_cog_lm.invoke)

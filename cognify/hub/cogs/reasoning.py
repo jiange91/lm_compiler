@@ -2,7 +2,7 @@ from abc import ABC, ABCMeta
 from typing import List, Optional, Union
 import traceback
 from cognify.hub.cogs.common import CogBase, CogLayerLevel, OptionBase, NoChange
-from cognify.llm import CogLM, StructuredCogLM
+from cognify.llm import Model, StructuredModel
 from cognify.llm.model import APICompatibleMessage
 from litellm import ModelResponse, completion
 import copy
@@ -49,7 +49,7 @@ class ReasoningOptionMeta(ABCMeta):
 class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
     
     @classmethod
-    def direct_apply(cls, lm_module: CogLM):
+    def direct_apply(cls, lm_module: Model):
         reasoning = cls()
         reasoning.apply(lm_module)
         return reasoning
@@ -70,7 +70,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
             agg_messages.append(f"\n: {response.choices[0].message.content}")
         return "\n".join(agg_messages)
 
-    def forward(self, lm_module: CogLM, messages: List[APICompatibleMessage], model_kwargs: dict) -> List[ModelResponse]:
+    def forward(self, lm_module: Model, messages: List[APICompatibleMessage], model_kwargs: dict) -> List[ModelResponse]:
         """
         If the orignal output has certain format, applying additional reasoning steps will break down
         it into two phases, first one allows free generation along with reasoning steps, and the second
@@ -94,7 +94,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
             messages.append({"role": "user", "content": f"Based on the reasoning, now please form {lm_module.get_output_label_name()} as your final response."})
               
         full_messages = [lm_module.system_message.to_api()] + messages
-        if isinstance(lm_module, StructuredCogLM):
+        if isinstance(lm_module, StructuredModel):
             response = completion(model, 
                                 full_messages, 
                                 response_format=lm_module.output_format.schema, 
@@ -107,7 +107,7 @@ class ReasonThenFormat(OptionBase, metaclass=ReasoningOptionMeta):
             responses.append(response)
         return responses
     
-    def apply(self, lm_module: CogLM):
+    def apply(self, lm_module: Model):
         lm_module.reasoning = self
         return lm_module
 

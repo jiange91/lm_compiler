@@ -2,7 +2,7 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', '..', '..', '..'))
-from cognify.llm import CogLM, InputVar, OutputLabel
+from cognify.llm import Model, Input, OutputLabel
 from cognify.frontends.langchain.connector import as_runnable
 from langchain_core.output_parsers import JsonOutputParser
 from pydantic import BaseModel, Field
@@ -46,8 +46,8 @@ Only output a json as your response.
 """   
 
 
-exec = CogLM(agent_name="table_selection",
+exec = Model(agent_name="table_selection",
              system_prompt=system_prompt, 
-             inputs=[InputVar(name=input) for input in inputs], 
+             inputs=[Input(name=input) for input in inputs], 
              output=OutputLabel(name=output_format, custom_output_format_instructions=output_format_instructions))
 runnable_exec = as_runnable(exec) | TableSelectionOutputParser()

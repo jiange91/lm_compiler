@@ -18,7 +18,7 @@ import logging
 
 from cognify._signal import _init_exit_gracefully, _should_exit
 from cognify.graph.program import Workflow, Module
-from cognify.llm import CogLM, Demonstration
+from cognify.llm import Model, Demonstration
 from cognify.hub.cogs.common import CogBase
 from cognify.hub.cogs.utils import build_param
 from cognify.optimizer.plugin import OptimizerSchema, capture_module_from_fs
@@ -283,7 +283,7 @@ class EvalTask:
         # get price and demo of running the program
         price = 0.0
         lm_to_demo = {}
-        for lm in Module.all_of_type(module_pool.values(), CogLM):
+        for lm in Module.all_of_type(module_pool.values(), Model):
             price += lm.get_total_cost()
             demo = lm.get_last_step_as_demo()
             if demo is not None:

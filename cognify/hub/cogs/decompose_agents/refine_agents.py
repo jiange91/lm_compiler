@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Dict, List
-from cognify.llm import CogLM, StructuredCogLM, OutputFormat
+from cognify.llm import Model, StructuredModel, OutputFormat
 from .prompts import decompose_refine_system, mid_level_system_format_instructions
 
 # ================== Refine New Agent Workflow ==================
@@ -30,7 +30,7 @@ class NewAgentSystem(BaseModel):
     )
 
 def decompose_refine_kernel(new_agent_meta: dict[str, dict], high_level_info: str) -> NewAgentSystem:
-    refine_new_agents = CogLM("refine", decompose_refine_system, input_variables=[])
+    refine_new_agents = Model("refine", decompose_refine_system, input_variables=[])
     messages = [{"role": "user", "content": f"""
       Now, this is the real user question for you:
 
@@ -53,7 +53,7 @@ def decompose_refine_kernel(new_agent_meta: dict[str, dict], high_level_info: st
         {"role": "user", "content": "Now please reformat your answer in the desired format.\n"}
     ])
     model_kwargs["model"] = "gpt-4o-mini"
-    reformatter = StructuredCogLM("refine_struct", decompose_refine_system,
+    reformatter = StructuredModel("refine_struct", decompose_refine_system,
                                   input_variables=[],
                                   output_format=OutputFormat(schema=NewAgentSystem, 
                                                              custom_output_format_instructions=mid_level_system_format_instructions))

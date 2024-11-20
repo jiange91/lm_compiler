@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Dict, Optional
 from cognify._compat import override
-from cognify.llm.prompt import InputVar, FilledInputVar, CompletionMessage, Demonstration, Content, TextContent, ImageContent, FilledInputVar, get_image_content_from_upload
+from cognify.llm.prompt import Input, FilledInputVar, CompletionMessage, Demonstration, Content, TextContent, ImageContent, FilledInputVar, get_image_content_from_upload
 from cognify.llm.output import OutputLabel, OutputFormat
 import litellm
 from litellm import completion, get_supported_openai_params, ModelResponse
@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 APICompatibleMessage = Dict[str, str] # {"role": "...", "content": "..."}
 _thread_local_chain = threading.local()
 
-def _local_forward(_local_lm: 'CogLM', messages: List[APICompatibleMessage], inputs: Dict[str, str], model_kwargs: Optional[dict] = None) -> str:
+def _local_forward(_local_lm: 'Model', messages: List[APICompatibleMessage], inputs: Dict[str, str], model_kwargs: Optional[dict] = None) -> str:
   if _local_lm.reasoning:
     responses: List[ModelResponse] = _local_lm.reasoning.forward(_local_lm, messages, model_kwargs)
     _local_lm.response_metadata_history.extend([ResponseMetadata(model=response.model, 
@@ -73,10 +73,10 @@ class LMConfig:
     self.kwargs.update(other.kwargs)
     self.cost_indicator = other.cost_indicator
 
-class CogLM(Module):
+class Model(Module):
   def __init__(self, agent_name: str,
                system_prompt: str, 
-               input_variables: List[InputVar], 
+               input_variables: List[Input], 
                output: OutputLabel,
                lm_config: Optional[LMConfig] = None,
                opt_register: bool = True):
@@ -84,7 +84,7 @@ class CogLM(Module):
     super().__init__(name=agent_name, kernel=None, opt_register=opt_register)
 
     self.system_message: CompletionMessage = CompletionMessage(role="system", content=[TextContent(text=system_prompt)])
-    self.input_variables: List[InputVar] = input_variables
+    self.input_variables: List[Input] = input_variables
     self.output_label: Optional[OutputLabel] = output
     self.demo_messages: List[CompletionMessage] = []
     self.response_metadata_history: List[ResponseMetadata] = []
@@ -225,7 +225,7 @@ class CogLM(Module):
       api_compatible_messages.append({"role": "user", "content": self.get_custom_format_instructions_if_any()})
     return api_compatible_messages
 
-  def aggregate_thread_local_meta(self, _local_self: 'CogLM'):
+  def aggregate_thread_local_meta(self, _local_self: 'Model'):
     if self is _local_self:
       return
     with self._lock:
@@ -252,13 +252,13 @@ class CogLM(Module):
     self.exec_times.append(dur)
     self.version_id += 1
 
-  def prepare_input(self, messages: List[APICompatibleMessage], inputs: Dict[InputVar|str, str], model_kwargs: Optional[dict]) -> ModelResponse:
+  def prepare_input(self, messages: List[APICompatibleMessage], inputs: Dict[Input|str, str], model_kwargs: Optional[dict]) -> ModelResponse:
     # input variables will always take precedence
     if not inputs:
       assert messages, "Messages must be provided"
       final_message_list = messages
     else:
-      if isinstance(list(inputs.keys())[0], InputVar):
+      if isinstance(list(inputs.keys())[0], Input):
         inputs = {input_var.name: value for input_var, value in inputs.items()}
       final_message_list = self._get_input_messages(inputs)
 
@@ -329,10 +329,10 @@ class CogLM(Module):
     return response
   
 
-class StructuredCogLM(CogLM):
+class StructuredModel(Model):
   def __init__(self, agent_name: str, 
                system_prompt: str, 
-               input_variables: List[InputVar],
+               input_variables: List[Input],
                output_format: OutputFormat,
                lm_config: Optional[LMConfig] = None,
                opt_register: bool = True):

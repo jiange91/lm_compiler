@@ -1,6 +1,6 @@
 from typing import Dict
 from pydantic import BaseModel, Field
-from cognify.llm import InputVar, CogLM, StructuredCogLM, OutputFormat
+from cognify.llm import Input, Model, StructuredModel, OutputFormat
 from .prompts import decompose_system
 
 class AgentPropose(BaseModel):
@@ -22,15 +22,15 @@ class HighLevelDecompose(BaseModel):
     )
 
 def high_level_decompose_kernel(task: str) -> HighLevelDecompose:
-    task_input = InputVar(name="task")
-    construct_new_agents = CogLM("decompose", decompose_system, input_variables=[task_input])
+    task_input = Input(name="task")
+    construct_new_agents = Model("decompose", decompose_system, input_variables=[task_input])
     messages = [{"role": "user", "content": f"Original Single Agent Prompt:\n{task}\n\n"}]
     model_kwargs = {"model": "gpt-4o", "temperature": 0.0}
     new_agents_raw: str = construct_new_agents(messages, model_kwargs, inputs={task_input: task})
 
     # format to pydantic object
-    new_agents_input = InputVar(name="new_agents")
-    format_agent = StructuredCogLM("decompose_struct", decompose_system, 
+    new_agents_input = Input(name="new_agents")
+    format_agent = StructuredModel("decompose_struct", decompose_system, 
                                    input_variables=[new_agents_input], 
                                    output_format=OutputFormat(
                                        schema=HighLevelDecompose,

@@ -16,7 +16,7 @@ class AnswerOutput(BaseModel):
     answer: str
     supporting_facts: List[str]
     
-from cognify.llm import StructuredCogLM, InputVar, OutputFormat, LMConfig
+from cognify.llm import StructuredModel, Input, OutputFormat, LMConfig
 # Initialize the model
 lm_config = LMConfig(
     custom_llm_provider='openai',
@@ -27,10 +27,10 @@ lm_config = LMConfig(
 )
 
 # Define agent routine 
-cognify_qa_agent = StructuredCogLM(
+cognify_qa_agent = StructuredModel(
     agent_name="qa_agent",
     system_prompt=system_prompt,
-    input_variables=[InputVar(name="question"), InputVar(name="documents")],
+    input_variables=[Input(name="question"), Input(name="documents")],
     output_format=OutputFormat(schema=AnswerOutput),
     lm_config=lm_config
 )

@@ -1,6 +1,6 @@
 import logging
 from functools import wraps
-from cognify.llm import CogLM, StructuredCogLM
+from cognify.llm import Model, StructuredModel
 import inspect
 import importlib.util
 import json
@@ -17,14 +17,14 @@ _cognify_tqdm = tqdm
 
 logger = logging.getLogger(__name__)
 
-def aggregator_factory(lm: CogLM, code: str):
+def aggregator_factory(lm: Model, code: str):
     agg_func_obj = compile(code, '<string>', 'exec')
     local_name_space = {}
     exec(agg_func_obj, {}, local_name_space)
     func_name = agg_func_obj.co_names[0]
     aggregator = local_name_space[func_name]
     
-    if isinstance(lm, StructuredCogLM):
+    if isinstance(lm, StructuredModel):
         @wraps(aggregator)
         def wrapper_kernel(**kwargs):
             result = aggregator(**kwargs)

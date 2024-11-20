@@ -30,7 +30,7 @@ class QueryExpansionAgent():
         return expanded_query_instruction
 
 
-from cognify.llm.model import CogLM, InputVar, OutputLabel
+from cognify.llm.model import Model, Input, OutputLabel
 from pydantic import BaseModel, Field
 qgen_lm_config = LMConfig(
     custom_llm_provider='openai',
@@ -40,8 +40,8 @@ qgen_lm_config = LMConfig(
     }
 )
 
-query_expansion_agent = CogLM(agent_name='query expansion', system_prompt=SYSTEM_PROMPT, 
-                              input_variables=[InputVar(name='query')],
+query_expansion_agent = Model(agent_name='query expansion', system_prompt=SYSTEM_PROMPT, 
+                              input_variables=[Input(name='query')],
                               output=OutputLabel(name='expanded_query'),
                                 lm_config=qgen_lm_config)
 # ZeroShotCoT.direct_apply(query_expansion_agent)

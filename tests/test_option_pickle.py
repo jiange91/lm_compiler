@@ -10,7 +10,7 @@ from cognify.graph.program import StatePool, Module
 from cognify.hub.cogs.fewshot import LMFewShot
 from cognify.optimizer.evaluation.evaluator import Evaluator
 from cognify.optimizer.evaluation.metric import MetricBase, MInput
-from cognify.llm import CogLM, InputVar, OutputLabel
+from cognify.llm import Model, Input, OutputLabel
 from cognify.llm.model import LMConfig
 
 from cognify.hub.cogs import reasoning, model_selection, common, ensemble
@@ -30,7 +30,7 @@ def is_picklable(obj):
         print(f"Cannot pickle {obj}: {e}")
         return None
 
-lm = CogLM('qa_agent', system_prompt="Repeat the input", input_variables=[InputVar(name='input')], 
+lm = Model('qa_agent', system_prompt="Repeat the input", input_variables=[Input(name='input')], 
            output=OutputLabel(name='answer'), 
            lm_config=LMConfig(model="gpt-4o-mini", kwargs={'temperature': 0.0}))
 is_picklable(lm)

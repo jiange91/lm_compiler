@@ -67,7 +67,8 @@ def optimize(
     eval_fn: Union[Callable, MetricBase] = None,
     eval_path: str = None,
     val_set = None,
-    resume: bool = False
+    resume: bool = False,
+    force: bool = False,
 ):
     # Validate and prepare the pipeline
     assert eval_fn is not None or eval_path is not None, "Either eval_fn or eval_path should be provided"
@@ -76,11 +77,15 @@ def optimize(
     if not os.path.exists(control_param.opt_history_log_dir):
         os.makedirs(control_param.opt_history_log_dir, exist_ok=True)
     
-    if not resume:
-        # Can reuse dry run and analysis results but avoid overwriting other opt logs
-        top_layer_opt_dir = os.path.join(control_param.opt_history_log_dir, control_param.opt_layer_configs[0].layer_name)
-        if os.path.isdir(top_layer_opt_dir) and len(os.listdir(top_layer_opt_dir)) > 0:
-            raise ValueError(f"Directory {control_param.opt_history_log_dir} is not empty, if you want to resume from previous checkpoint, please set -r flag in cli or pass resume = True in function call")
+    # if exist opt logs, check if reuse or force
+    top_layer_opt_dir = os.path.join(control_param.opt_history_log_dir, control_param.opt_layer_configs[0].layer_name)
+    if os.path.isdir(top_layer_opt_dir) and len(os.listdir(top_layer_opt_dir)) > 0:
+        if not resume and not force:
+            raise ValueError(f"Directory {control_param.opt_history_log_dir} is not empty, if you want to resume/overwrite previous checkpoint, please set -r/-f flag in cli or pass resume=True/force=True in function call")
+    if force:
+        # clear the directory
+        for f in os.listdir(control_param.opt_history_log_dir):
+            os.remove(os.path.join(control_param.opt_history_log_dir, f))
 
     # dump control params
     param_log_path = os.path.join(control_param.opt_history_log_dir, 'control_param.json')

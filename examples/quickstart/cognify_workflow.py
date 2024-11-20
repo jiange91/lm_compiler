@@ -37,7 +37,7 @@ cognify_qa_agent = StructuredModel(
 
 # Use builtin connector for smooth integration
 from cognify.frontends.langchain import as_runnable
-qa_agent = as_runnable(cognify_qa_agent) 
+qa_agent = as_runnable(cognify_qa_agent)
 
 def doc_str(docs):
     context = []

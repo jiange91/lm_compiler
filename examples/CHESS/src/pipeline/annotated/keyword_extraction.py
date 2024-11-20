@@ -2,9 +2,7 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', '..', '..', '..'))
-from cognify.llm import Model, Input, OutputLabel
-from cognify.llm.prompt import Demonstration, FilledInputVar
-from cognify.frontends.langchain.connector import as_runnable
+import cognify
 from llm.parsers import PythonListOutputParser
 
 system_prompt = \
@@ -37,42 +35,42 @@ Ensure that you output only the list itself, without any variable assignments, e
 """
 
 demos = [
-    Demonstration(
+   cognify.Demonstration(
         filled_input_variables=[
-            FilledInputVar(
-                Input("QUESTION"), 
+           cognify.FilledInput(
+                cognify.Input("QUESTION"), 
                 value="What is the annual revenue of Acme Corp in the United States for 2022?"
             ),
-            FilledInputVar(
-                Input("HINT"), 
+           cognify.FilledInput(
+                cognify.Input("HINT"), 
                 value="Focus on financial reports and U.S. market performance for the fiscal year 2022."
             )
         ],
         output='["annual revenue", "Acme Corp", "United States", "2022", "financial reports", "U.S. market performance", "fiscal year"]'
     ),
 
-    Demonstration(
+   cognify.Demonstration(
         filled_input_variables=[
-            FilledInputVar(
-                Input("QUESTION"), 
+           cognify.FilledInput(
+                cognify.Input("QUESTION"), 
                 value="In the Winter and Summer Olympics of 1988, which game has the most number of competitors? Find the difference of the number of competitors between the two games."
             ),
-            FilledInputVar(
-                Input("HINT"), 
+           cognify.FilledInput(
+                cognify.Input("HINT"), 
                 value="the most number of competitors refer to MAX(COUNT(person_id)); SUBTRACT(COUNT(person_id where games_name = '1988 Summer'), COUNT(person_id where games_name = '1988 Winter'));"
             )
         ],
         output='["Winter Olympics", "Summer Olympics", "1988", "1988 Summer", "Summer", "1988 Winter", "Winter", "number of competitors", "difference", "MAX(COUNT(person_id))", "games_name", "person_id"]',
     ),
 
-    Demonstration(
+   cognify.Demonstration(
         filled_input_variables=[
-            FilledInputVar(
-                Input("QUESTION"), 
+           cognify.FilledInput(
+                cognify.Input("QUESTION"), 
                 value="How many Men's 200 Metres Freestyle events did Ian James Thorpe compete in?"
             ),
-            FilledInputVar(
-                Input("HINT"), 
+           cognify.FilledInput(
+                cognify.Input("HINT"), 
                 value="Men's 200 Metres Freestyle events refer to event_name = 'Swimming Men's 200 metres Freestyle'; events compete in refers to event_id;"
             )
         ],
@@ -81,8 +79,8 @@ demos = [
 
 ]
 
-exec = Model(agent_name="keyword_extraction",
+exec = cognify.Model(agent_name="keyword_extraction",
              system_prompt=system_prompt, 
-             inputs=[Input(name=input) for input in inputs], 
-             output=OutputLabel(name=output_format, custom_output_format_instructions=output_format_instructions))
-runnable_exec = as_runnable(exec) | PythonListOutputParser()
+             inputs=[cognify.Input(name=input) for input in inputs], 
+             output=cognify.OutputLabel(name=output_format, custom_output_format_instructions=output_format_instructions))
+runnable_exec = cognify.as_runnable(exec) | PythonListOutputParser()

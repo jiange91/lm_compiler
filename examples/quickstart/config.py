@@ -30,18 +30,18 @@ def load_data_minor():
 # Optimizer Set Up
 #================================================================
 
-from cognify.llm.model import LMConfig
+import cognify
 
 # Define model configurations, each encapsulated in a ModelOption
 model_configs = [
     # OpenAI model
-    LMConfig(
+    cognify.LMConfig(
         custom_llm_provider='openai',
         model='gpt-4o-mini',
         cost_indicator=1.0,
         kwargs={'temperature': 0.0}
     ),
-    LMConfig(
+    cognify.LMConfig(
         custom_llm_provider='openai',
         model='gpt-4o',
         cost_indicator=10.0,

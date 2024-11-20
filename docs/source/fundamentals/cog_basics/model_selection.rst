@@ -10,7 +10,7 @@ Each `ModelOption` defines a unique language model configuration with the follow
 
 - **model_config** (`LMConfig`): Contains the configuration details for the model, such as the provider (`openai`, `fireworks`, etc.), model name, built-in cost indicator, and other standard parameters (e.g., `max_tokens`, `temperature`).
 - **cost_indicator** (`float`): A property that reads the cost indicator from :attr:`LMConfig.cost_indicator`, helping the optimizer evaluate cost-effectiveness.
-- **apply** (`Callable`): A method that changes the model configuration of a `CogLM` module, updating it with the selected model settings and reinitializing the predictor if necessary.
+- **apply** (`Callable`): A method that changes the model configuration of a `cognify.Model` module, updating it with the selected model settings and reinitializing the predictor if necessary.
 
 Example Usage
 -------------

@@ -13,13 +13,11 @@ dspy.configure(rm=colbert)
 import copy
 from cognify.hub.cogs.reasoning import ZeroShotCoT
 from cognify.hub.cogs.common import NoChange
-from cognify.llm.model import LMConfig, Model
-from cognify.llm import Input, OutputLabel
-from cognify.frontends.dspy.connector import as_predict
+import cognify
 from evaluator import answer_f1
 from cognify.optimizer import register_opt_program_entry
 
-lm_config = LMConfig(
+lm_config = cognify.LMConfig(
     custom_llm_provider='openai',
     model='gpt-4o-mini',
     kwargs= {
@@ -32,10 +30,10 @@ You are an expert at crafting precise search queries based on a provided questio
 
 You should not answer the question directly, nor assume any prior knowledge. Instead, focus on constructing a search query that explicitly seeks external sources of information and considers the question's key elements, context, and possible nuances. Think carefully about the implications of your search and ensure that the search query encapsulates the key elements needed to retrieve the most pertinent information.
 """
-first_query_agent = Model(agent_name="generate_query",
+first_query_agent = cognify.Model(agent_name="generate_query",
                           system_prompt=initial_query_prompt,
-                          input_variables=[Input(name="question")],
-                          output=OutputLabel(name="search_query", custom_output_format_instructions="Output only the search query, without any prefixes, or additional text."),
+                          input_variables=[cognify.Input(name="question")],
+                          output=cognify.OutputLabel(name="search_query", custom_output_format_instructions="Output only the search query, without any prefixes, or additional text."),
                           lm_config=lm_config)
 
 following_query_prompt = """
@@ -44,19 +42,19 @@ You are good at extract relevant details from the provided context and question.
 You should not answer the question directly, nor assume any prior knowledge. You must generate an accurate search query that considers the context and question to retrieve the most relevant information.
 """
 
-following_query_agent = Model(agent_name="refine_query",
+following_query_agent = cognify.Model(agent_name="refine_query",
                           system_prompt=following_query_prompt,
-                          input_variables=[Input(name="context"), Input(name="question")],
-                          output=OutputLabel(name="search_query", custom_output_format_instructions="Output only the search query, without any prefixes, or additional text."),
+                          input_variables=[cognify.Input(name="context"), cognify.Input(name="question")],
+                          output=cognify.OutputLabel(name="search_query", custom_output_format_instructions="Output only the search query, without any prefixes, or additional text."),
                           lm_config=lm_config)
 
 answer_prompt = """
 You are an expert at answering questions based on provided documents. Your task is to formulate a clear, accurate, and concise answer to the given question by using the retrieved context (documents) as your source of information. Please ensure that your answer is well-grounded in the context and directly addresses the question.
 """
-answer_agent = Model(agent_name="generate_answer",
+answer_agent = cognify.Model(agent_name="generate_answer",
                      system_prompt=answer_prompt,
-                     input_variables=[Input(name="context"), Input(name="question")],
-                     output=OutputLabel(name="answer", custom_output_format_instructions="Output the answer directly without unnecessary details, explanations, or repetition."),
+                     input_variables=[cognify.Input(name="context"), cognify.Input(name="question")],
+                     output=cognify.OutputLabel(name="answer", custom_output_format_instructions="Output the answer directly without unnecessary details, explanations, or repetition."),
                      lm_config=lm_config)
 
 class BasicMH(dspy.Module):
@@ -64,9 +62,9 @@ class BasicMH(dspy.Module):
         super().__init__()
 
         self.retrieve = dspy.Retrieve(k=passages_per_hop)
-        self.initial_generate_query = as_predict(first_query_agent)
-        self.following_generate_query = as_predict(following_query_agent)
-        self.generate_answer = as_predict(answer_agent)
+        self.initial_generate_query = cognify.as_predict(first_query_agent)
+        self.following_generate_query = cognify.as_predict(following_query_agent)
+        self.generate_answer = cognify.as_predict(answer_agent)
     
     def doc_str(self, context):
         docs = []

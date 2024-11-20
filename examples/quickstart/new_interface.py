@@ -14,8 +14,8 @@ You are an expert at answering questions based on provided documents.
 """
 
 # Initialize the model
-from cognify.llm.model import LMConfig
-lm_config = LMConfig(
+import cognify
+lm_config = cognify.LMConfig(
     custom_llm_provider='openai',
     model='gpt-4o-mini',
     kwargs= {
@@ -24,12 +24,11 @@ lm_config = LMConfig(
 )
 
 # Define agent routine 
-from cognify.llm.model import Model, Input, OutputLabel
-cognify_qa_agent = Model(
+cognify_qa_agent = cognify.Model(
     agent_name="qa_agent",
     system_prompt=system_prompt,
-    input_variables=[Input(name="question"), Input(name="documents")],
-    output=OutputLabel(name="response"),
+    input_variables=[cognify.Input(name="question"), cognify.Input(name="documents")],
+    output=cognify.OutputLabel(name="response"),
     lm_config=lm_config,
 )
 
@@ -55,8 +54,7 @@ class HelloWorld(Entry):
         self.cognify_agent = cognify_qa_agent
         self.app = self.build_workflow()
         
-        from cognify.frontends.langchain.connector import as_runnable
-        self.qa_agent = as_runnable(self.cognify_agent)
+        self.qa_agent = cognify.as_runnable(self.cognify_agent)
     
     def build_workflow(self):
         workflow = StateGraph(State)
@@ -92,11 +90,11 @@ if __name__ == "__main__":
 
     entry = HelloWorld()
     
-    new_cognify_qa_agent = Model(
+    new_cognify_qa_agent = cognify.Model(
         agent_name="new_qa_agent",
         system_prompt="You are an expert at answering questions based on provided documents. Please be very concise.",
-        input_variables=[Input(name="question"), Input(name="documents")],
-        output=OutputLabel(name="response"),
+        input_variables=[cognify.Input(name="question"), cognify.Input(name="documents")],
+        output=cognify.OutputLabel(name="response"),
         lm_config=lm_config,
     )
     

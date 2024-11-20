@@ -29,4 +29,4 @@ DSPy is a tool that automatically generates prompts on behalf of the user, which
 generate_answer = cognify.PredictModel(dspy.ChainOfThought(BasicQA)) 
 ```
 
-By default, DSPy provides structured output back to the user in the form of a `dspy.Prediction`. We preserve this behavior so your module's `forward()` can remain unchanged. Under the hood, all `cognify.PredictModel`s act as `StructuredCogLM`s. 
+By default, DSPy provides structured output back to the user in the form of a `dspy.Prediction`. We preserve this behavior so your module's `forward()` can remain unchanged. Under the hood, all `cognify.PredictModel`s act as `cognify.StructuredModel`s. 

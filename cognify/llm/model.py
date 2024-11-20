@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Dict, Optional, override
-from cognify.llm.prompt import Input, FilledInputVar, CompletionMessage, Demonstration, Content, TextContent, ImageContent, FilledInputVar, get_image_content_from_upload
+from cognify.llm.prompt import Input, FilledInput, CompletionMessage, Demonstration, Content, TextContent, ImageContent, FilledInput, get_image_content_from_upload
 from cognify.llm.output import OutputLabel, OutputFormat
 import litellm
 from litellm import completion, get_supported_openai_params, ModelResponse
@@ -148,10 +148,10 @@ class Model(Module):
       return None
     else:
       last_step: StepInfo = self.steps[-1]
-      filled_input_list: List[FilledInputVar] = []
+      filled_input_list: List[FilledInput] = []
       for input_variable in self.input_variables:
         input_value = last_step.filled_inputs_dict.get(input_variable.name, None)
-        filled_input_list.append(FilledInputVar(input_variable=input_variable,
+        filled_input_list.append(FilledInput(input_variable=input_variable,
                                                 value=input_value))
       return Demonstration(filled_input_variables=filled_input_list, 
                            output=last_step.output, 
@@ -283,7 +283,7 @@ class Model(Module):
     inputs: Dict[str, str] = None, 
     model_kwargs: dict = None
   ):
-    """External interface to invoke the CogLM
+    """External interface to invoke the cognify.Model
     """
     statep = StatePool()
     statep.init(

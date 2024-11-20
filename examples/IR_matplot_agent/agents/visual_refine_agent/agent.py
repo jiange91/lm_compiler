@@ -6,7 +6,7 @@ import re
 from .prompt import SYSTEM_PROMPT, USER_PROMPT, ERROR_PROMPT
 from agents.openai_chatComplete import  completion_for_4v
 from agents.utils import fill_in_placeholders, common_lm_config
-from cognify.llm.model import Model, Input, OutputLabel, LMConfig
+import cognify
 from cognify.hub.cogs.reasoning import ZeroShotCoT
 cognify
 
@@ -29,18 +29,18 @@ Carefully read and analyze the user query to understand the specific requirement
 
 You don't need to provide the complete code, just be very explicit in what changes are needed and how to make them.
 """
-visual_refine_lm_config = LMConfig(
+visual_refine_lm_config = cognify.LMConfig(
     provider='openai',
     model='gpt-4o-mini',
     kwargs= {
         'temperature': 0.0,
     }
 )
-visual_refinement_agent = Model(agent_name='visual_refinement', system_prompt=VISUAL_FEEDBACK_SYSTEM_PROMPT,
-                                input_variables=[Input(name='query'), Input(name='code'), 
-                                                 Input(name='plot_image', 
+visual_refinement_agent = cognify.Model(agent_name='visual_refinement', system_prompt=VISUAL_FEEDBACK_SYSTEM_PROMPT,
+                                input_variables=[cognify.Input(name='query'), cognify.Input(name='code'), 
+                                                 cognify.Input(name='plot_image', 
                                                           image_type='png')],
-                                output=OutputLabel(name='refinement'),
+                                output=cognify.OutputLabel(name='refinement'),
                                 lm_config=visual_refine_lm_config)
 
 ZeroShotCoT.direct_apply(visual_refinement_agent)

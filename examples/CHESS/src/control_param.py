@@ -4,7 +4,6 @@ val_down_sample: int = 25
 opt_history_log_dir: str = 'cognify_opt_results'
 evaluator_parallel: int = 20
 
-from cognify.llm.model import LMConfig
 from cognify.optimizer.core import driver, flow
 
 from cognify.hub.cogs import reasoning, model_selection

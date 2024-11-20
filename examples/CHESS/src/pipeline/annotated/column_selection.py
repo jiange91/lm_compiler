@@ -2,9 +2,7 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', '..', '..', '..'))
-from cognify.llm import Model, Input, OutputLabel
-from cognify.llm.prompt import Demonstration
-from cognify.frontends.langchain.connector import as_runnable
+import cognify
 from langchain_core.output_parsers import JsonOutputParser
 from llm.parsers import ColumnSelectionOutput
 
@@ -47,8 +45,8 @@ output_format_instructions = \
 Make sure your response includes the table names as keys, each associated with a list of column names that are necessary for writing a SQL query to answer the question. Only output a json as your response.
 """
 
-exec = Model(agent_name="column_selection",
+exec = cognify.Model(agent_name="column_selection",
              system_prompt=system_prompt, 
-             inputs=[Input(name=input) for input in inputs], 
-             output=OutputLabel(name=output_format, custom_output_format_instructions=output_format_instructions))
-runnable_exec = as_runnable(exec) | JsonOutputParser()
+             inputs=[cognify.Input(name=input) for input in inputs], 
+             output=cognify.OutputLabel(name=output_format, custom_output_format_instructions=output_format_instructions))
+runnable_exec = cognify.as_runnable(exec) | JsonOutputParser()

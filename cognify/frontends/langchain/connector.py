@@ -33,7 +33,7 @@ class RunnableModel(Runnable):
     self.cog_lm: Model = self.cognify_runnable(runnable, name)
   
   """
-  Connector currently supports the following units to construct a `CogLM`:
+  Connector currently supports the following units to construct a `cognify.Model`:
   - BaseChatPromptTemplate | BaseChatModel
   - BaseChatPromptTemplate | BaseChatModel | BaseOutputParser
   These indepedent units should be split out of more complex chains.
@@ -101,7 +101,7 @@ class RunnableModel(Runnable):
                   lm_config=lm_config)
   
   def invoke(self, input: Dict) -> Any:
-    assert self.cog_lm, "CogLM must be initialized before invoking"
+    assert self.cog_lm, "cognify.Model must be initialized before invoking"
 
     messages = None
     if self.chat_prompt_template:

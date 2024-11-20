@@ -1,6 +1,6 @@
 # LangChain
 
-In Langchain, the `Runnable` class is the primary abstraction for executing a task. To create a `CogLM` from a runnable chain, the chain must contain a chat prompt template, a chat model, and optionally an ouptut parser. The chat prompt template is used to construct the system prompt and obtain the input variables, the chat model is used to obtain the language model config, and the output parser is used to construct the output format. If no output parser is provided, Cognify will assign a default label. 
+In Langchain, the `Runnable` class is the primary abstraction for executing a task. To create a `cognify.Model` from a runnable chain, the chain must contain a chat prompt template, a chat model, and optionally an ouptut parser. The chat prompt template is used to construct the system prompt and obtain the input variables, the chat model is used to obtain the language model config, and the output parser is used to construct the output format. If no output parser is provided, Cognify will assign a default label. 
 
 The translatable runnables should follow the following formats:
 - `BaseChatPromptTemplate | BaseChatModel`

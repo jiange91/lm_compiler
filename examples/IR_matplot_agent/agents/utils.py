@@ -8,9 +8,9 @@ from typing import Dict
 import os
 from contextlib import contextmanager
 import subprocess
-from cognify.llm.model import LMConfig
+import cognify
 
-common_lm_config = LMConfig(
+common_lm_config = cognify.LMConfig(
     provider='openai',
     model='gpt-4o-mini',
     kwargs= {

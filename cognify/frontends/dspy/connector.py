@@ -66,7 +66,7 @@ class PredictModel(dspy.Module):
                                 lm_config=lm_config)
 
     def forward(self, **kwargs):
-        assert self.cog_lm or self.predictor, "Either CogLM or Predictor must be initialized before invoking"
+        assert self.cog_lm or self.predictor, "Either cognify.Model or predictor must be initialized before invoking"
 
         if self.ignore_module:
             return self.predictor(**kwargs)

@@ -8,7 +8,6 @@ from dspy.evaluate import Evaluate
 from dsp.utils.utils import deduplicate
 from dspy.teleprompt import BootstrapFewShotWithRandomSearch
 from cognify.utils import load_api_key
-from cognify.llm.model import LMConfig
 from openai.types.completion_usage import CompletionUsage, PromptTokensDetails
 
 load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')
@@ -81,7 +80,7 @@ if __name__ == "__main__":
     print(pids)
     print(doc_f1(dev_set[1], pred))
 
-    dummy_config = LMConfig(
+    dummy_config = cognify.LMConfig(
         custom_llm_provider='openai',
         model='gpt-4o-mini',
     )

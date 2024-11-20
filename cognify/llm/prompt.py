@@ -12,7 +12,7 @@ class Input:
     return hash(self.name, self.image_type)
 
 @dataclass
-class FilledInputVar:
+class FilledInput:
   input_variable: Input
   value: str
 
@@ -33,12 +33,12 @@ Content = TextContent | ImageContent
 
 @dataclass
 class Demonstration:
-  filled_input_variables: List[FilledInputVar]
+  filled_input_variables: List[FilledInput]
   output: str
   id: str
   reasoning: str = None
 
-  def __init__(self, filled_input_variables: List[FilledInputVar], output: str, id: str = None, reasoning: str = None):
+  def __init__(self, filled_input_variables: List[FilledInput], output: str, id: str = None, reasoning: str = None):
     self.filled_input_variables = filled_input_variables
     self.output = output
     self.id = id or str(uuid.uuid4())

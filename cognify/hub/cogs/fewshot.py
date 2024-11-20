@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 from cognify.graph.base import Module
 from cognify.graph.program import Workflow
 from cognify.llm import Model, Demonstration
-from cognify.llm.prompt import FilledInputVar, Input
+from cognify.llm.prompt import FilledInput, Input
 from cognify.hub.cogs.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange
 from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from cognify.hub.cogs.utils import dump_params, load_params
@@ -146,10 +146,10 @@ class LMFewShot(DynamicCogBase):
         demo_cache = {}
         for e in data['demo_cache']:
             demo = Demonstration(**e)
-            # convert list of dict => list of FilledInputVar
-            filled_input_variables: List[FilledInputVar] = []
+            # convert list of dict => list of FilledInput
+            filled_input_variables: List[FilledInput] = []
             for filled in demo.filled_input_variables:
-                filled_input_variables.append(FilledInputVar(**filled))
+                filled_input_variables.append(FilledInput(**filled))
             for filled in filled_input_variables:
                 input_var = Input(**filled.input_variable)
                 filled.input_variable = input_var

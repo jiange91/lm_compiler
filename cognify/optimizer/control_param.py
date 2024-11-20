@@ -5,10 +5,11 @@ import importlib
 
 from cognify.optimizer.core.flow import LayerConfig
 
+
 @dataclasses.dataclass
 class ControlParameter:
     opt_layer_configs: list[LayerConfig]
-    opt_history_log_dir: str = 'opt_results'
+    opt_history_log_dir: str = "opt_results"
     quality_constraint: float = 1.0
     train_down_sample: int = 0
     val_down_sample: int = 0

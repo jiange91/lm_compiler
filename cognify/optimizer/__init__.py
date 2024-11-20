@@ -15,6 +15,5 @@ __all__ = [
     "register_opt_module",
     "register_data_loader",
     "clear_registry",
-    
     "ControlParameter",
 ]

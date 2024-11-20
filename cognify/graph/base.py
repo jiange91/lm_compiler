@@ -139,6 +139,7 @@ class Module(ModuleInterface):
         self.opt_target = opt_register
         if opt_register:
             from cognify.optimizer import register_opt_module
+
             register_opt_module(self)
 
     def prepare_input_env(self):

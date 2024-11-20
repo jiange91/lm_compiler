@@ -28,7 +28,6 @@ _handler_lock = threading.Lock()
 def _configure_logger(log_level):
     global _handler
     with _handler_lock:
-
         # config root logger
         _handler = logging.StreamHandler()
         _handler.setFormatter(_create_default_formatter(log_level))
@@ -47,4 +46,5 @@ def _configure_logger(log_level):
         )
         warnings.filterwarnings("ignore", category=FutureWarning)
 
-_configure_logger('WARNING')
+
+_configure_logger("WARNING")

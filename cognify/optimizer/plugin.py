@@ -14,8 +14,8 @@ logger = logging.getLogger(__name__)
 from cognify.graph.program import Module
 from cognify.optimizer.registry import (
     clear_registry,
-    get_registered_opt_program_entry, 
-    get_registered_opt_modules, 
+    get_registered_opt_program_entry,
+    get_registered_opt_modules,
 )
 
 

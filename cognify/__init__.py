@@ -23,7 +23,7 @@ from . import _logging
 __all__ = [
     "llm",
     "optimizer",
-    "metric", 
+    "metric",
     "evaluate",
     "load_workflow",
     "optimize",

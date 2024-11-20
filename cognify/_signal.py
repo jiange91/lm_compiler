@@ -33,6 +33,7 @@ class ExitGracefully:
 
 _exit_gracefully = None
 
+
 def _init_exit_gracefully(msg=None, verbose=False, override=False):
     global _exit_gracefully
     if _exit_gracefully is not None and not override:

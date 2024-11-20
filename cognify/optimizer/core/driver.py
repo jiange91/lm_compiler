@@ -4,12 +4,21 @@ from typing import Union, Optional
 import logging
 import re
 
-from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
+from cognify.optimizer.evaluation.evaluator import (
+    EvaluationResult,
+    EvaluatorPlugin,
+    EvalTask,
+)
 from cognify.optimizer.core.flow import TrialLog, TopDownInformation, LayerConfig
-from cognify.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization, BottomLevelTrialLog
+from cognify.optimizer.core.unified_layer_opt import (
+    OptimizationLayer,
+    BottomLevelOptimization,
+    BottomLevelTrialLog,
+)
 from cognify.optimizer.core.upper_layer import UpperLevelOptimization, LayerEvaluator
 
 logger = logging.getLogger(__name__)
+
 
 class MultiLayerOptimizationDriver:
     def __init__(

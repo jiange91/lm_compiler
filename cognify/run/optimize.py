@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 _init_exit_gracefully(msg="Stopping main", verbose=True)
 
+
 def dry_run(script_path, evaluator: EvaluatorPlugin, log_dir):
     eval_task = EvalTask(
         script_path=script_path,
@@ -93,7 +94,9 @@ def optimize(
             control_param.opt_layer_configs[0].layer_name,
         )
         if os.path.isdir(top_layer_opt_dir) and len(os.listdir(top_layer_opt_dir)) > 0:
-            raise ValueError(f"Directory {control_param.opt_history_log_dir} is not empty, if you want to resume from previous checkpoint, please set -r flag in cli or pass resume = True in function call")
+            raise ValueError(
+                f"Directory {control_param.opt_history_log_dir} is not empty, if you want to resume from previous checkpoint, please set -r flag in cli or pass resume = True in function call"
+            )
 
     # dump control params
     param_log_path = os.path.join(

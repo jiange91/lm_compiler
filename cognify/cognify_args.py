@@ -10,8 +10,8 @@ logger = logging.getLogger(__name__)
 class CommonArgs:
     workflow: str
     config: str = None
-    log_level: str = 'WARNING'
-    
+    log_level: str = "WARNING"
+
     def __post_init__(self):
         # Set missing values
         self.find_files()

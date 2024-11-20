@@ -2,6 +2,7 @@ import os
 import json
 from typing import Optional, Union, Sequence, Callable
 import logging
+import shutil
 
 from cognify._signal import _should_exit, _init_exit_gracefully
 from cognify.optimizer.control_param import ControlParameter
@@ -85,7 +86,11 @@ def optimize(
     if force:
         # clear the directory
         for f in os.listdir(control_param.opt_history_log_dir):
-            os.remove(os.path.join(control_param.opt_history_log_dir, f))
+            file_path = os.path.join(control_param.opt_history_log_dir, f)
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
 
     # dump control params
     param_log_path = os.path.join(control_param.opt_history_log_dir, 'control_param.json')

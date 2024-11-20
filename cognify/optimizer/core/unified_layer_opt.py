@@ -521,6 +521,8 @@ class OptimizationLayer:
         
         This function will not filter with constraints
         """
+        if not candidates:
+            return []
         score_cost_list = []
         for trial_log, log_path in candidates:
             score_cost_list.append((trial_log.score, trial_log.price))
@@ -560,11 +562,9 @@ class OptimizationLayer:
     def post_optimize(self):
         # Analysis optimization result
         candidates = self.get_all_candidates()
-        if not candidates:
-            return []
         pareto_frontier = self.get_pareto_front(candidates=candidates)
         if self.hierarchy_level == 0:
-            print(f"=========== Optimization Results ===========") 
+            print(f"================ Optimization Results =================") 
             print(f"Num Pareto Frontier: {len(pareto_frontier)}")
             for i, (trial_log, log_path) in enumerate(pareto_frontier):
                 print("--------------------------------------------------------")

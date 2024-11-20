@@ -9,6 +9,9 @@ from cognify.optimizer.core import driver
 from cognify.optimizer.evaluation.evaluator import EvaluatorPlugin, EvalTask, EvaluationResult
 from cognify.optimizer.evaluation.metric import MetricBase
 
+from cognify._signal import _should_exit, _init_exit_gracefully
+
+_init_exit_gracefully(msg="Stopping main", verbose=True)
 
 logger = logging.getLogger(__name__)
 

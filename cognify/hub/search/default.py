@@ -2,20 +2,22 @@ from typing import Optional, Literal
 
 from cognify.llm import LMConfig
 from cognify.optimizer.core import driver, flow
-from cognify.cog_hub import reasoning, ensemble, model_selection
-from cognify.cog_hub.common import NoChange
-from cognify.cog_hub.fewshot import LMFewShot
-from cognify.cog_hub.reasoning import ZeroShotCoT, PlanBefore
+from cognify.hub.cogs import reasoning, ensemble, model_selection
+from cognify.hub.cogs.common import NoChange
+from cognify.hub.cogs.fewshot import LMFewShot
+from cognify.hub.cogs.reasoning import ZeroShotCoT, PlanBefore
 from cognify.optimizer.control_param import ControlParameter
+from dataclasses import dataclass
 
-
-def create_light_search(
-    n_trials: int = 10,
-    quality_constraint: float = 1.0,
-    evaluator_batch_size: int = 10,
-    opt_log_dir: str = 'opt_results',
-    model_selection_cog: model_selection.LMSelection = None,
-):
+@dataclass
+class SearchParams:
+    n_trials: int = 10
+    quality_constraint: float = 1.0
+    evaluator_batch_size: int = 10
+    opt_log_dir: str = 'opt_results'
+    model_selection_cog: model_selection.LMSelection = None
+        
+def create_light_search(search_params: SearchParams) -> ControlParameter:
     # Reasoning Parameter
     reasoning_param = reasoning.LMReasoning(
         [NoChange(), ZeroShotCoT()] 
@@ -26,11 +28,11 @@ def create_light_search(
 
     # Layer Config
     inner_opt_config = flow.OptConfig(
-        n_trials=n_trials,
+        n_trials=search_params.n_trials,
     )
     params = [few_shot_params, reasoning_param]
-    if model_selection_cog is not None:
-        params.append(model_selection_cog)
+    if search_params.model_selection_cog is not None:
+        params.append(search_params.model_selection_cog)
     inner_loop_config = driver.LayerConfig(
         layer_name='light_opt_layer',
         universal_params=[few_shot_params, reasoning_param],
@@ -40,22 +42,16 @@ def create_light_search(
     # ================= Overall Control Parameter =================
     optimize_control_param = ControlParameter(
         opt_layer_configs=[inner_loop_config],
-        opt_history_log_dir=opt_log_dir,
-        evaluator_batch_size=evaluator_batch_size,
-        quality_constraint=quality_constraint,
+        opt_history_log_dir=search_params.opt_log_dir,
+        evaluator_batch_size=search_params.evaluator_batch_size,
+        quality_constraint=search_params.quality_constraint,
     )
     return optimize_control_param
 
-def create_medium_search(
-    n_trials: int = 30,
-    quality_constraint: float = 1.0,
-    evaluator_batch_size: int = 10,
-    opt_log_dir: str = 'opt_results',
-    model_selection_cog: model_selection.LMSelection = None,
-):
+def create_medium_search(search_params: SearchParams) -> ControlParameter:
     # Assign resource to each layer
     inner_trials = 15
-    outer_trials = n_trials // inner_trials
+    outer_trials = search_params.n_trials // inner_trials
     
     # ================= Inner Loop Config =================
     # Reasoning Parameter
@@ -71,8 +67,8 @@ def create_medium_search(
         n_trials=inner_trials,
     )
     params = [few_shot_params, reasoning_param]
-    if model_selection_cog:
-        params.append(model_selection_cog)
+    if search_params.model_selection_cog:
+        params.append(search_params.model_selection_cog)
     inner_loop_config = driver.LayerConfig(
         layer_name='medium_inner',
         universal_params=[few_shot_params, reasoning_param],
@@ -98,24 +94,18 @@ def create_medium_search(
     # ================= Overall Control Parameter =================
     optimize_control_param = ControlParameter(
         opt_layer_configs=[outer_loop_config, inner_loop_config],
-        opt_history_log_dir=opt_log_dir,
-        evaluator_batch_size=evaluator_batch_size,
-        quality_constraint=quality_constraint,
+        opt_history_log_dir=search_params.opt_log_dir,
+        evaluator_batch_size=search_params.evaluator_batch_size,
+        quality_constraint=search_params.quality_constraint,
     )
     return optimize_control_param
 
-def create_heavy_search(
-    n_trials: int = 30,
-    quality_constraint: float = 1.0,
-    evaluator_batch_size: int = 10,
-    opt_log_dir: str = 'opt_results',
-    model_selection_cog: model_selection.LMSelection = None,
-):
+def create_heavy_search(search_params: SearchParams) -> ControlParameter:
     # Assign resource to each layer
     # Use SH resource allocation
     # Total trials = inner * (2 * outer - 1)
     inner_trials = 10
-    outer_trials = (n_trials / inner_trials + 1) // 2
+    outer_trials = (search_params.n_trials / inner_trials + 1) // 2
     
     # ================= Inner Loop Config =================
     # Reasoning Parameter
@@ -132,8 +122,8 @@ def create_heavy_search(
     )
     
     params = [few_shot_params, reasoning_param]
-    if model_selection_cog:
-        params.append(model_selection_cog)
+    if search_params.model_selection_cog:
+        params.append(search_params.model_selection_cog)
     inner_loop_config = driver.LayerConfig(
         layer_name='heavy_inner',
         universal_params=[few_shot_params, reasoning_param],
@@ -160,9 +150,9 @@ def create_heavy_search(
     # ================= Overall Control Parameter =================
     optimize_control_param = ControlParameter(
         opt_layer_configs=[outer_loop_config, inner_loop_config],
-        opt_history_log_dir=opt_log_dir,
-        evaluator_batch_size=evaluator_batch_size,
-        quality_constraint=quality_constraint,
+        opt_history_log_dir=search_params.opt_log_dir,
+        evaluator_batch_size=search_params.evaluator_batch_size,
+        quality_constraint=search_params.quality_constraint,
     )
     return optimize_control_param
 
@@ -184,11 +174,13 @@ def create_search(
             )
         assert isinstance(model_selection_cog, model_selection.LMSelection)
     
+    search_params = SearchParams(n_trials, quality_constraint, evaluator_batch_size, opt_log_dir, model_selection_cog)
+
     if search_type == 'light':
-        return create_light_search(n_trials, quality_constraint, evaluator_batch_size, opt_log_dir, model_selection_cog)
+        return create_light_search(search_params)
     elif search_type == 'medium':
-        return create_medium_search(n_trials, quality_constraint, evaluator_batch_size, opt_log_dir, model_selection_cog)
+        return create_medium_search(search_params)
     elif search_type == 'heavy':
-        return create_heavy_search(n_trials, quality_constraint, evaluator_batch_size, opt_log_dir, model_selection_cog)
+        return create_heavy_search(search_params)
     else:
         raise ValueError(f"Invalid search type: {search_type}")

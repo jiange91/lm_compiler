@@ -15,9 +15,9 @@ from cognify.graph.base import Module
 from cognify.graph.program import Workflow
 from cognify.llm import CogLM, Demonstration
 from cognify.llm.prompt import FilledInputVar, InputVar
-from cognify.cog_hub.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange
+from cognify.hub.cogs.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange
 from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
-from cognify.cog_hub.utils import dump_params, load_params
+from cognify.hub.cogs.utils import dump_params, load_params
 from typing import List
     
 class LMFewShot(DynamicCogBase):

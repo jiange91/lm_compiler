@@ -6,9 +6,7 @@ import time
 import copy
 import logging
 from dataclasses import dataclass, field
-import optuna
 import numpy as np
-import uuid
 from abc import ABC, abstractmethod
 import multiprocessing as mp
 import textwrap
@@ -21,8 +19,8 @@ import logging
 from cognify._signal import _init_exit_gracefully, _should_exit
 from cognify.graph.program import Workflow, Module
 from cognify.llm import CogLM, Demonstration
-from cognify.cog_hub.common import CogBase
-from cognify.cog_hub.utils import build_param
+from cognify.hub.cogs.common import CogBase
+from cognify.hub.cogs.utils import build_param
 from cognify.optimizer.plugin import OptimizerSchema, capture_module_from_fs
 from cognify.optimizer.core.flow import TopDownInformation, ModuleTransformTrace
 
@@ -270,7 +268,7 @@ class EvalTask:
         sema,
         q: mp.Queue,
     ):
-        _init_exit_gracefully(verbose=False)
+        _init_exit_gracefully(verbose=False, override=True)
         schema, module_pool = self.load_and_transform()
         if _should_exit():
             q.put((task_index, False, None, 0.0, 0.0, None, 0.0))

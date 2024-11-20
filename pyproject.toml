@@ -17,6 +17,7 @@ dependencies = [
     "bert-score==0.3.13",
     "datasets",
     "debugpy",
+    "ipywidgets",
     "docutils",
     "dspy-ai==2.5.31",
     "fastapi",

@@ -32,8 +32,10 @@ class ExitGracefully():
     
 _exit_gracefully = None
 
-def _init_exit_gracefully(msg=None, verbose=False):
+def _init_exit_gracefully(msg=None, verbose=False, override=False):
     global _exit_gracefully
+    if _exit_gracefully is not None and not override:
+        return
     _exit_gracefully = ExitGracefully(msg, verbose)
 
 def _set_exit_msg(msg: str):

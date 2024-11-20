@@ -1,4 +1,4 @@
-from cognify.cog_hub.common import CogBase, CogLayerLevel, OptionBase
+from cognify.hub.cogs.common import CogBase, CogLayerLevel, OptionBase
 from cognify.llm.model import CogLM, LMConfig
 import uuid
 import copy

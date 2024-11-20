@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 from cognify.graph.base import Module, StatePool, ModuleStatus
 from cognify.graph.program import Workflow, Input, Output
 from cognify.graph.modules import CodeBox
-from cognify.cog_hub.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange, AddNewModuleImportInterface
+from cognify.hub.cogs.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange, AddNewModuleImportInterface
 from cognify.llm import CogLM, StructuredCogLM, StepInfo, InputVar, OutputFormat, OutputLabel
 from abc import ABC, ABCMeta
 

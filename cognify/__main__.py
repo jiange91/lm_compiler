@@ -3,7 +3,6 @@ import debugpy
 import logging
 
 
-from cognify._signal import _init_exit_gracefully
 from cognify.cognify_args import init_cognify_args, OptimizationArgs, EvaluationArgs, InspectionArgs
 from cognify.optimizer.plugin import capture_module_from_fs
 from cognify.optimizer.registry import get_registered_data_loader
@@ -87,8 +86,6 @@ def main():
     # print("Waiting for debugger attach")
     # debugpy.wait_for_client()
     # debugpy.breakpoint()
-    
-    _init_exit_gracefully(msg="Stopping main", verbose=True)
     
     parser = argparse.ArgumentParser()
     init_cognify_args(parser)

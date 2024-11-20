@@ -8,9 +8,9 @@ from collections import defaultdict
 import uuid
 from dataclasses import dataclass, field, asdict
 
-from cognify.graph.base import Module
-from cognify.cog_hub.utils import build_param
-from cognify.cog_hub.common import CogBase
+from cognify.graph.program import Module
+from cognify.hub.cogs.common import CogBase
+from cognify.hub.cogs.utils import build_param
 from cognify.optimizer.plugin import capture_module_from_fs
 from cognify.optimizer.registry import get_registered_opt_modules
 

@@ -30,8 +30,8 @@ def load_data_minor():
 # Optimizer Set Up
 #================================================================
 
-from cognify.cog_hub import default_search
+from cognify.hub.search import default
 
-search_settings = default_search.create_search(
+search_settings = default.create_search(
     n_trials=5,
 )

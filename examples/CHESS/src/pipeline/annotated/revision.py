@@ -2,7 +2,7 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', '..', '..', '..'))
-from cognify.llm import CogLM, InputVar, OutputLabel
+from cognify.llm import Model, Input, OutputLabel
 from cognify.frontends.langchain.connector import as_runnable
 from llm.parsers import SQLRevisionOutput, RawSqlOutputParser
 from langchain_core.runnables import chain
@@ -59,9 +59,9 @@ Please only provide a valid SQL query as your answer. Do not include any additio
 
 
 
-exec = CogLM(agent_name="revision",
+exec = Model(agent_name="revision",
             system_prompt=system_prompt, 
-            inputs=[InputVar(name=input) for input in inputs], 
+            inputs=[Input(name=input) for input in inputs], 
             output=OutputLabel(name=output_format, custom_output_format_instructions=output_format_instructions))
 raw_runnable_exec = as_runnable(exec) | RawSqlOutputParser()
 

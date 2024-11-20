@@ -2,7 +2,7 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', '..', '..', '..'))
-from cognify.llm import CogLM, InputVar, OutputLabel
+from cognify.llm import Model, Input, OutputLabel
 from cognify.llm.prompt import Demonstration, FilledInputVar
 from cognify.frontends.langchain.connector import as_runnable
 from llm.parsers import PythonListOutputParser
@@ -40,11 +40,11 @@ demos = [
     Demonstration(
         filled_input_variables=[
             FilledInputVar(
-                InputVar("QUESTION"), 
+                Input("QUESTION"), 
                 value="What is the annual revenue of Acme Corp in the United States for 2022?"
             ),
             FilledInputVar(
-                InputVar("HINT"), 
+                Input("HINT"), 
                 value="Focus on financial reports and U.S. market performance for the fiscal year 2022."
             )
         ],
@@ -54,11 +54,11 @@ demos = [
     Demonstration(
         filled_input_variables=[
             FilledInputVar(
-                InputVar("QUESTION"), 
+                Input("QUESTION"), 
                 value="In the Winter and Summer Olympics of 1988, which game has the most number of competitors? Find the difference of the number of competitors between the two games."
             ),
             FilledInputVar(
-                InputVar("HINT"), 
+                Input("HINT"), 
                 value="the most number of competitors refer to MAX(COUNT(person_id)); SUBTRACT(COUNT(person_id where games_name = '1988 Summer'), COUNT(person_id where games_name = '1988 Winter'));"
             )
         ],
@@ -68,11 +68,11 @@ demos = [
     Demonstration(
         filled_input_variables=[
             FilledInputVar(
-                InputVar("QUESTION"), 
+                Input("QUESTION"), 
                 value="How many Men's 200 Metres Freestyle events did Ian James Thorpe compete in?"
             ),
             FilledInputVar(
-                InputVar("HINT"), 
+                Input("HINT"), 
                 value="Men's 200 Metres Freestyle events refer to event_name = 'Swimming Men's 200 metres Freestyle'; events compete in refers to event_id;"
             )
         ],
@@ -81,8 +81,8 @@ demos = [
 
 ]
 
-exec = CogLM(agent_name="keyword_extraction",
+exec = Model(agent_name="keyword_extraction",
              system_prompt=system_prompt, 
-             inputs=[InputVar(name=input) for input in inputs], 
+             inputs=[Input(name=input) for input in inputs], 
              output=OutputLabel(name=output_format, custom_output_format_instructions=output_format_instructions))
 runnable_exec = as_runnable(exec) | PythonListOutputParser()

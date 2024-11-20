@@ -1,7 +1,7 @@
 import dspy
 from dspy.adapters.chat_adapter import ChatAdapter, prepare_instructions
 from cognify.graph.base import StatePool
-from cognify.llm import CogLM, StructuredCogLM, InputVar, OutputFormat
+from cognify.llm import Model, StructuredModel, Input, OutputFormat
 from cognify.llm.model import LMConfig
 import uuid
 from pydantic import BaseModel, create_model
@@ -19,16 +19,16 @@ def generate_pydantic_model(model_name: str, fields: Dict[str, Type[Any]]) -> Ty
 Connector currently supports `Predict` with any signature and strips away all reasoning fields.
 This is done because we handle reasoning via cogs for the optimizer instead of in a templated format. 
 """
-class PredictCogLM(dspy.Module):
+class PredictModel(dspy.Module):
     def __init__(self, dspy_predictor: dspy.Module = None, name: str = None):
         super().__init__()
         self.chat_adapter: ChatAdapter = ChatAdapter()
         self.predictor: dspy.Module = dspy_predictor
         self.ignore_module = False
-        self.cog_lm: StructuredCogLM = self.cognify_predictor(dspy_predictor, name)
+        self.cog_lm: StructuredModel = self.cognify_predictor(dspy_predictor, name)
         self.output_schema = None
 
-    def cognify_predictor(self, dspy_predictor: dspy.Module = None, name: str = None) -> StructuredCogLM:
+    def cognify_predictor(self, dspy_predictor: dspy.Module = None, name: str = None) -> StructuredModel:
         if not dspy_predictor:
             return None
         
@@ -44,7 +44,7 @@ class PredictCogLM(dspy.Module):
         agent_name = name or str(uuid.uuid4())
         system_prompt = prepare_instructions(dspy_predictor.signature)
         input_names = list(dspy_predictor.signature.input_fields.keys())
-        input_variables = [InputVar(name=name) for name in input_names]
+        input_variables = [Input(name=name) for name in input_names]
 
         output_fields = dspy_predictor.signature.output_fields
         if "reasoning" in output_fields:
@@ -59,7 +59,7 @@ class PredictCogLM(dspy.Module):
         lm_config = LMConfig(model=lm_client.model, kwargs=lm_client.kwargs)
 
         # always treat as structured to provide compatiblity with forward function 
-        return StructuredCogLM(agent_name=agent_name,
+        return StructuredModel(agent_name=agent_name,
                                 system_prompt=system_prompt,
                                 input_variables=input_variables,
                                 output_format=OutputFormat(schema=self.output_schema),
@@ -81,14 +81,14 @@ class PredictCogLM(dspy.Module):
             kwargs: dict = result.model_dump()
             return dspy.Prediction(**kwargs)
         
-def as_predict(cog_lm: CogLM) -> PredictCogLM:
-    predictor = PredictCogLM(name=cog_lm.name)
-    if isinstance(cog_lm, StructuredCogLM):
+def as_predict(cog_lm: Model) -> PredictModel:
+    predictor = PredictModel(name=cog_lm.name)
+    if isinstance(cog_lm, StructuredModel):
         predictor.cog_lm = cog_lm
         predictor.output_schema = cog_lm.output_format.schema
     else:
         output_schema = generate_pydantic_model("OutputData", {cog_lm.get_output_label_name(): str})
-        predictor.cog_lm = StructuredCogLM(agent_name=cog_lm.name,
+        predictor.cog_lm = StructuredModel(agent_name=cog_lm.name,
                                       system_prompt=cog_lm.get_system_prompt(),
                                       input_variables=cog_lm.input_variables,
                                       output_format=OutputFormat(output_schema, 

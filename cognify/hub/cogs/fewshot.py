@@ -13,8 +13,8 @@ logger = logging.getLogger(__name__)
 
 from cognify.graph.base import Module
 from cognify.graph.program import Workflow
-from cognify.llm import CogLM, Demonstration
-from cognify.llm.prompt import FilledInputVar, InputVar
+from cognify.llm import Model, Demonstration
+from cognify.llm.prompt import FilledInputVar, Input
 from cognify.hub.cogs.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange
 from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 from cognify.hub.cogs.utils import dump_params, load_params
@@ -151,7 +151,7 @@ class LMFewShot(DynamicCogBase):
             for filled in demo.filled_input_variables:
                 filled_input_variables.append(FilledInputVar(**filled))
             for filled in filled_input_variables:
-                input_var = InputVar(**filled.input_variable)
+                input_var = Input(**filled.input_variable)
                 filled.input_variable = input_var
             demo.filled_input_variables = filled_input_variables
             demo_cache[demo.id] = demo
@@ -283,7 +283,7 @@ class DemoOption(OptionBase):
     def _get_cost_indicator(self):
         return len(self.demos) + 1
     
-    def apply(self, lm_module: CogLM):
+    def apply(self, lm_module: Model):
         lm_module.add_demos(self.demos)
         lm_module.reset()
         return lm_module

@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 from cognify.graph.base import Module
 from cognify.graph.program import Workflow
-from cognify.llm.model import CogLM
+from cognify.llm.model import Model
 from cognify.hub.cogs.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange, AddNewModuleImportInterface
 from cognify.hub.cogs.decompose import LMTaskDecompose, StructuredAgentSystem
 from cognify.optimizer.plugin import OptimizerSchema
@@ -46,7 +46,7 @@ class LMScaffolding(CogBase, AddNewModuleImportInterface):
     def bootstrap(
         cls,
         workflow: Optional[Workflow] = None,
-        lm_modules: Optional[list[CogLM]] = None,
+        lm_modules: Optional[list[Model]] = None,
         decompose_threshold: int = 4,
         default_identity: bool = True,
         target_modules: Optional[list[str]] = None,
@@ -138,7 +138,7 @@ class DecomposeOption(OptionBase):
     def _get_cost_indicator(self):
         return len(self.new_system.agents)
     
-    def apply(self, module: CogLM) -> Module:
+    def apply(self, module: Model) -> Module:
         new_agent = LMTaskDecompose.materialize_decomposition(
             lm=module,
             new_agents=self.new_system,

@@ -6,8 +6,8 @@ import logging
 import os
 from pathlib import Path
 from abc import ABC, abstractmethod
-from cognify.frontends.dspy.connector import PredictCogLM
-from cognify.frontends.langchain.connector import RunnableCogLM
+from cognify.frontends.dspy.connector import PredictModel
+from cognify.frontends.langchain.connector import RunnableModel
 import dspy
 from langchain_core.runnables import RunnableSequence
 import warnings
@@ -59,18 +59,18 @@ def capture_module_from_fs(module_path: str):
     num_translated = 0
     named_runnables = defaultdict(int)
     for k, v in module.__dict__.items():
-        if isinstance(v, RunnableCogLM) or isinstance(v, PredictCogLM):
+        if isinstance(v, RunnableModel) or isinstance(v, PredictModel):
             continue
         
         if isinstance(v, dspy.Module):
             named_predictors = v.named_predictors()
             for name, predictor in named_predictors:
-                module.__dict__[k].__dict__[name] = PredictCogLM(predictor, name)
+                module.__dict__[k].__dict__[name] = PredictModel(predictor, name)
                 num_translated += 1
         elif isinstance(v, RunnableSequence):
             # ensure unique naming for runnable
             name = k if named_runnables[k] == 0 else f"{k}_{named_runnables[k]}"
-            module.__dict__[k] = RunnableCogLM(v, name=name)
+            module.__dict__[k] = RunnableModel(v, name=name)
             num_translated += 1
             named_runnables[k] += 1
     # if num_translated == 0:

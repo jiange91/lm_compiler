@@ -201,7 +201,7 @@ Cognify Implementation
 """  
 
 from pydantic import BaseModel, Field
-from cognify.llm import CogLM, InputVar, OutputLabel
+from cognify.llm import Model, Input, OutputLabel
 
 lm_config = LMConfig(
     custom_llm_provider='openai',
@@ -222,8 +222,8 @@ If the instruction requires data manipulation from a csv file, write code to pro
 
 Your code should save the final plot to a png file with the give filename rather than displaying it.
 '''
-initial_coder_agent = CogLM(agent_name='initial code generation', system_prompt=INITIAL_SYSTEM_PROMPT_IR,
-                            input_variables=[InputVar(name='query'), InputVar(name='expanded_query'), InputVar(name='plot_file_name')],
+initial_coder_agent = Model(agent_name='initial code generation', system_prompt=INITIAL_SYSTEM_PROMPT_IR,
+                            input_variables=[Input(name='query'), Input(name='expanded_query'), Input(name='plot_file_name')],
                             output=OutputLabel(name='code', custom_output_format_instructions="Please only give the code as your answer and format it in markdown code block, i.e. wrap it with ```python and ```."),
                             lm_config=lm_config)
 
@@ -241,8 +241,8 @@ Your task is to:
 Always output the complete, updated Python code with all necessary corrections applied, ensuring it is ready to be executed successfully.
 Your code should save the final plot to a png file with the give filename rather than displaying it.
 """
-plot_debugger_agent = CogLM(agent_name='plot debugger', system_prompt=DEBUG_SYSTEM_PROMPT_IR,
-                            input_variables=[InputVar(name='query'), InputVar(name='code'), InputVar(name='error_message')],
+plot_debugger_agent = Model(agent_name='plot debugger', system_prompt=DEBUG_SYSTEM_PROMPT_IR,
+                            input_variables=[Input(name='query'), Input(name='code'), Input(name='error_message')],
                             output=OutputLabel(name='code', custom_output_format_instructions="Please only give the code as your answer and format it in markdown code block, i.e. wrap it with ```python and ```."),
                             lm_config=lm_config)
 
@@ -262,8 +262,8 @@ Please analyze the feedback and apply the recommended changes to the Python code
 Your code should save the final plot to a png file with the give filename rather than displaying it.
 """
 
-refine_plot_agent = CogLM(agent_name='visual refine coder', system_prompt=VIS_SYSTEM_PROMPT_IR,
-                            input_variables=[InputVar(name='query'), InputVar(name='code'), InputVar(name='visual_refinement'), InputVar(name='plot_file_name')],
+refine_plot_agent = Model(agent_name='visual refine coder', system_prompt=VIS_SYSTEM_PROMPT_IR,
+                            input_variables=[Input(name='query'), Input(name='code'), Input(name='visual_refinement'), Input(name='plot_file_name')],
                             output=OutputLabel(name='code', custom_output_format_instructions="Please only return the python code. Wrap it with ```python and ``` to format it properly."),
                             lm_config=lm_config)
 

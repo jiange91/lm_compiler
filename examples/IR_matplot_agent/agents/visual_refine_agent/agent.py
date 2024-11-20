@@ -6,7 +6,7 @@ import re
 from .prompt import SYSTEM_PROMPT, USER_PROMPT, ERROR_PROMPT
 from agents.openai_chatComplete import  completion_for_4v
 from agents.utils import fill_in_placeholders, common_lm_config
-from cognify.llm.model import CogLM, InputVar, OutputLabel, LMConfig
+from cognify.llm.model import Model, Input, OutputLabel, LMConfig
 from cognify.hub.cogs.reasoning import ZeroShotCoT
 cognify
 
@@ -36,9 +36,9 @@ visual_refine_lm_config = LMConfig(
         'temperature': 0.0,
     }
 )
-visual_refinement_agent = CogLM(agent_name='visual_refinement', system_prompt=VISUAL_FEEDBACK_SYSTEM_PROMPT,
-                                input_variables=[InputVar(name='query'), InputVar(name='code'), 
-                                                 InputVar(name='plot_image', 
+visual_refinement_agent = Model(agent_name='visual_refinement', system_prompt=VISUAL_FEEDBACK_SYSTEM_PROMPT,
+                                input_variables=[Input(name='query'), Input(name='code'), 
+                                                 Input(name='plot_image', 
                                                           image_type='png')],
                                 output=OutputLabel(name='refinement'),
                                 lm_config=visual_refine_lm_config)

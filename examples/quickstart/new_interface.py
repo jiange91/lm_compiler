@@ -24,11 +24,11 @@ lm_config = LMConfig(
 )
 
 # Define agent routine 
-from cognify.llm.model import CogLM, InputVar, OutputLabel
-cognify_qa_agent = CogLM(
+from cognify.llm.model import Model, Input, OutputLabel
+cognify_qa_agent = Model(
     agent_name="qa_agent",
     system_prompt=system_prompt,
-    input_variables=[InputVar(name="question"), InputVar(name="documents")],
+    input_variables=[Input(name="question"), Input(name="documents")],
     output=OutputLabel(name="response"),
     lm_config=lm_config,
 )
@@ -92,10 +92,10 @@ if __name__ == "__main__":
 
     entry = HelloWorld()
     
-    new_cognify_qa_agent = CogLM(
+    new_cognify_qa_agent = Model(
         agent_name="new_qa_agent",
         system_prompt="You are an expert at answering questions based on provided documents. Please be very concise.",
-        input_variables=[InputVar(name="question"), InputVar(name="documents")],
+        input_variables=[Input(name="question"), Input(name="documents")],
         output=OutputLabel(name="response"),
         lm_config=lm_config,
     )

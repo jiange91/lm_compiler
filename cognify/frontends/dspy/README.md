@@ -5,7 +5,7 @@ In DSPy, the `dspy.Predict` class is the primary abstraction for obtaining a res
 For more control over which predictors are optimized, pass the `--no-translate` flag to the `$ cognify optimize` command. Then, manually connect a DSPy `dspy.Predict` to Cognify by wrapping your `dspy.Predict` with our wrapper class `cognify.PredictModel`:
 ```python
 import dspy
-from cognify.frontends.dspy import cognify.PredictModel
+import cognify
 
 # ... setup dspy lm and retriver ...
 

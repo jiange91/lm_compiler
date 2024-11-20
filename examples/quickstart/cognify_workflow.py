@@ -28,11 +28,11 @@ lm_config = LMConfig(
 )
 
 # Define agent routine 
-from cognify.llm.model import StructuredCogLM, InputVar, OutputFormat
-cognify_qa_agent = StructuredCogLM(
+from cognify.llm.model import StructuredModel, Input, OutputFormat
+cognify_qa_agent = StructuredModel(
     agent_name="qa_agent",
     system_prompt=system_prompt,
-    input_variables=[InputVar(name="question"), InputVar(name="documents")],
+    input_variables=[Input(name="question"), Input(name="documents")],
     output_format=OutputFormat(schema=AnswerOutput),
     lm_config=lm_config
 )

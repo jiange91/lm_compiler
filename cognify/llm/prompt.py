@@ -4,7 +4,7 @@ import uuid
 import json
 
 @dataclass
-class InputVar:
+class Input:
   name: str
   image_type: Optional[Literal['web', 'jpeg', 'png']] = None
 
@@ -13,7 +13,7 @@ class InputVar:
 
 @dataclass
 class FilledInputVar:
-  input_variable: InputVar
+  input_variable: Input
   value: str
 
 @dataclass

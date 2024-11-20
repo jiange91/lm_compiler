@@ -6,7 +6,7 @@ from . import revision
 from . import table_selection
 from cognify.hub.cogs.reasoning import ZeroShotCoT
 from llm.models import get_llm_params
-from cognify.llm.model import LMConfig, CogLM
+from cognify.llm.model import LMConfig, Model
 
 add_cot = False
 
@@ -33,7 +33,7 @@ def set_lm_config_statically(pipeline_cfg):
     # Set up the language model configurations
     for node_name, cfg in pipeline_cfg.items():
         if node_name in _cognify_lm_registry:
-            lm: CogLM = _cognify_lm_registry[node_name]
+            lm: Model = _cognify_lm_registry[node_name]
             engine_name = cfg["engine"]
             temperature = cfg.get("temperature", 0)
             base_uri = cfg.get("base_uri", None)

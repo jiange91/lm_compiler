@@ -14,8 +14,8 @@ load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')
 colbert = dspy.ColBERTv2(url='http://192.168.1.16:8893/api/search') # Change to your ColBERT endpoint
 dspy.configure(rm=colbert)
 
-from cognify.llm.model import LMConfig, CogLM
-from cognify.llm import InputVar, OutputLabel
+from cognify.llm.model import LMConfig, Model
+from cognify.llm import Input, OutputLabel
 from cognify.frontends.dspy.connector import as_predict
 
 dummy_lm_config = LMConfig(
@@ -38,8 +38,8 @@ You will be given a `claim` requiring verification and a set of `passages` retri
 
 Please form your summary carefully. It will act as the foundational context for the next document search query.
 """
-summarize1_agent = CogLM(agent_name="summarize1", system_prompt=summarize1_system_prompt,
-                          input_variables=[InputVar(name="claim"), InputVar(name="passages")],
+summarize1_agent = Model(agent_name="summarize1", system_prompt=summarize1_system_prompt,
+                          input_variables=[Input(name="claim"), Input(name="passages")],
                           output=OutputLabel(name="summary"),
                           lm_config=dummy_lm_config)
 #===============================================================================
@@ -48,8 +48,8 @@ You are a strategic search specialist skilled in crafting precise queries to unc
 
 You will be given a `claim` that needs to be explored, a `summary` of the relevant information retrieved related to the claim. Your task is to generate a focused and clear query that will help retrieve more relevant external documents. This query should aim to address gaps, ambiguities, or details missing in the existing information. Target specific information or clarifications that could strengthen the evidence for or against the claim.
 """
-create_query_hop2_agent = CogLM(agent_name="create_query_hop2", system_prompt=create_query_hop2_system_prompt,
-                                input_variables=[InputVar(name="claim"), InputVar(name="summary")],
+create_query_hop2_agent = Model(agent_name="create_query_hop2", system_prompt=create_query_hop2_system_prompt,
+                                input_variables=[Input(name="claim"), Input(name="summary")],
                                 output=OutputLabel(name="query", 
                                                    custom_output_format_instructions="Output only the search query, without any prefixes, or additional text."),
                                 lm_config=dummy_lm_config)
@@ -61,8 +61,8 @@ You will be given a `claim` requiring verification, a summarized `context` of th
 
 Your role is to summarize the new passages. Summarize the information clearly, emphasizing any new details that support, refute, or add depth to the claim. Your summary should provide unique and complementary knowledge base that is not covered in the provided context to advance the understanding of the claim.
 """
-summarize2_agent = CogLM(agent_name="summarize2", system_prompt=summarize2_system_prompt,
-                         input_variables=[InputVar(name="claim"), InputVar(name="context"), InputVar(name="passages")],
+summarize2_agent = Model(agent_name="summarize2", system_prompt=summarize2_system_prompt,
+                         input_variables=[Input(name="claim"), Input(name="context"), Input(name="passages")],
                             output=OutputLabel(name="summary"),
                             lm_config=dummy_lm_config)
 #===============================================================================
@@ -71,8 +71,8 @@ You are an investigative researcher focused on constructing comprehensive querie
 
 You will be given a `claim` requiring verification, two `summary`s of the relevant information retrieved related to the claim. Your task is to formulate a final, detailed query that will help retrieve more relevant external documents. This query should target any remaining evidence gaps needed to fully verify or refute the claim. Focus on details and unresolved elements that will bring the verification process to a comprehensive conclusion.
 """
-create_query_hop3_agent = CogLM(agent_name="create_query_hop3", system_prompt=create_query_hop3_system_prompt,
-                                input_variables=[InputVar(name="claim"), InputVar(name="summary_1"), InputVar(name="summary_2")],
+create_query_hop3_agent = Model(agent_name="create_query_hop3", system_prompt=create_query_hop3_system_prompt,
+                                input_variables=[Input(name="claim"), Input(name="summary_1"), Input(name="summary_2")],
                                 output=OutputLabel(name="query", custom_output_format_instructions="Output only the search query, without any prefixes, or additional text."),
                                 lm_config=dummy_lm_config)
 #===============================================================================

@@ -1,94 +1,20 @@
 import os
 import json
-from typing import Optional, Iterable, Sequence
-from dataclasses import asdict
+from typing import Union, Optional
 import logging
 import re
 
-from cognify.hub.cogs.common import CogBase
-from cognify.hub.cogs.utils import build_param
-from cognify.optimizer.evaluation.evaluator import (
-    EvaluationResult,
-    EvaluatorPlugin,
-    EvalTask,
-)
-from cognify.optimizer.core.flow import TrialLog, OptConfig, TopDownInformation
-from cognify.optimizer.core.unified_layer_opt import (
-    OptimizationLayer,
-    BottomLevelOptimization,
-    BottomLevelTrialLog,
-)
+from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
+from cognify.optimizer.core.flow import TrialLog, TopDownInformation, LayerConfig
+from cognify.optimizer.core.unified_layer_opt import OptimizationLayer, BottomLevelOptimization, BottomLevelTrialLog
 from cognify.optimizer.core.upper_layer import UpperLevelOptimization, LayerEvaluator
 
 logger = logging.getLogger(__name__)
 
-
-class LayerConfig:
-    def __init__(
-        self,
-        layer_name: str,
-        dedicate_params: list[CogBase] = [],
-        universal_params: list[CogBase] = [],
-        target_modules: Iterable[str] = None,
-        save_ckpt_interval: int = 1,
-        opt_config: Optional[OptConfig] = None,
-    ):
-        """Config for each optimization layer
-
-        Args:
-            layer_name (str): name of the layer
-
-            dedicate_params (list[ParamBase], optional): dedicated params for this layer. Defaults to [].
-
-            universal_params (list[ParamBase], optional): universal params for this layer. Defaults to [].
-
-            target_modules (Iterable[str], optional): target modules for this layer. Defaults to None.
-
-            save_ckpt_interval (int, optional): save checkpoint interval. Defaults to 0.
-
-            opt_config (OptConfig, optional): optimization config. Defaults to None.
-                all fields not set here will be decided by the upper layer
-
-        """
-        self.layer_name = layer_name
-        self.dedicate_params = dedicate_params
-        self.universal_params = universal_params
-        self.target_modules = target_modules
-        self.save_ckpt_interval = save_ckpt_interval
-        self.opt_config = opt_config
-
-        if len(self.dedicate_params) + len(self.universal_params) == 0:
-            raise ValueError(f"No params provided for optimization layer {layer_name}")
-
-        if self.opt_config is None:
-            self.opt_config = OptConfig(n_trials=5)
-
-    def to_dict(self):
-        return {
-            "layer_name": self.layer_name,
-            "dedicate_params": [p.to_dict() for p in self.dedicate_params],
-            "universal_params": [p.to_dict() for p in self.universal_params],
-            "target_modules": self.target_modules,
-            "save_ckpt_interval": self.save_ckpt_interval,
-            "opt_config": asdict(self.opt_config),
-        }
-
-    @classmethod
-    def from_dict(cls, d):
-        return cls(
-            layer_name=d["layer_name"],
-            dedicate_params=[build_param(p) for p in d["dedicate_params"]],
-            universal_params=[build_param(p) for p in d["universal_params"]],
-            target_modules=d["target_modules"],
-            save_ckpt_interval=d["save_ckpt_interval"],
-            opt_config=OptConfig(**d["opt_config"]),
-        )
-
-
 class MultiLayerOptimizationDriver:
     def __init__(
         self,
-        layer_configs: Sequence[LayerConfig],
+        layer_configs: list[LayerConfig],
         opt_log_dir: str,
         quality_constraint: float = None,
     ):

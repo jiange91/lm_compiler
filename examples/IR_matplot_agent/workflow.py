@@ -16,13 +16,14 @@ import sys
 from agents.utils import is_run_code_success, run_code, get_code
 from agents.dspy_common import OpenAIModel
 from agents.config.openai import openai_kwargs
-from cognify.utils import load_api_key, get_bill
 from cognify.optimizer import register_opt_program_entry, register_opt_score_fn
+import dotenv
 
 # set to info level logging
 logging.basicConfig(level=logging.INFO)
 
-load_api_key('secrets.toml')
+dotenv.load_dotenv()
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--model_type', type=str, default='gpt-4o-mini')
@@ -45,7 +46,7 @@ def mainworkflow(input: dict):
     # Query expanding
     logging.debug('=========Query Expansion AGENT=========')
     config = {'workspace': workspace}
-    expanded_simple_instruction = query_expansion_agent(inputs={'query': query}).choices[0].message.content
+    expanded_simple_instruction = query_expansion_agent(inputs={'query': query})
     # logging.info('=========Expanded Simple Instruction=========')
     # logging.info(expanded_simple_instruction)
     logging.debug('=========Plotting=========')
@@ -96,16 +97,16 @@ def matplot_eval(gold, pred) -> float:
 
 if __name__ == "__main__":
     print("-- Running main workflow --")
-    data_path = 'examples/IR_matplot_agent/benchmark_data'
+    data_path = 'benchmark_data'
     
     # open the json file 
-    data = json.load(open(f'{data_path}/19.json'))
+    data = json.load(open(f'{data_path}/96.json'))
     
     for item in tqdm(data):
         novice_instruction = item['simple_instruction']
         expert_instruction = item['expert_instruction']
         example_id = item['id']
-        directory_path = "examples/IR_matplot_agent/sample_runs_direct_expend_cot"
+        directory_path = "sample_runs_direct"
 
         # Check if the directory already exists
         if not os.path.exists(directory_path):

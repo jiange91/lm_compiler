@@ -28,8 +28,6 @@ _handler_lock = threading.Lock()
 def _configure_logger(log_level):
     global _handler
     with _handler_lock:
-        if _handler is not None:
-            return
 
         # config root logger
         _handler = logging.StreamHandler()
@@ -48,3 +46,5 @@ def _configure_logger(log_level):
             "ignore", category=optuna.exceptions.ExperimentalWarning, module="optuna"
         )
         warnings.filterwarnings("ignore", category=FutureWarning)
+
+_configure_logger('WARNING')

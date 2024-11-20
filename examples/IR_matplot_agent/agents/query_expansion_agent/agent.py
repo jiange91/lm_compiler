@@ -43,4 +43,4 @@ query_expansion_agent = cognify.Model(agent_name='query expansion', system_promp
                               input_variables=[cognify.Input(name='query')],
                               output=cognify.OutputLabel(name='expanded_query'),
                                 lm_config=qgen_lm_config)
-ZeroShotCoT.direct_apply(query_expansion_agent)
+# ZeroShotCoT.direct_apply(query_expansion_agent)

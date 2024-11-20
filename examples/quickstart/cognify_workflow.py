@@ -1,8 +1,7 @@
 import dotenv
-from cognify._logging import _configure_logger
+import cognify
 
 dotenv.load_dotenv()
-_configure_logger("INFO")
 
 from pydantic import BaseModel
 from typing import List
@@ -17,6 +16,7 @@ class AnswerOutput(BaseModel):
     answer: str
     supporting_facts: List[str]
     
+
 # Initialize the model
 import cognify
 lm_config = cognify.LMConfig(
@@ -52,7 +52,7 @@ def qa_agent_routine(state):
     format_context = doc_str(documents)
     return {"response": qa_agent.invoke({"question": question, "documents": format_context})}
 
-from langgraph.graph import END, START, StateGraph, MessagesState
+from langgraph.graph import END, START, StateGraph
 from typing import Dict, TypedDict
 
 class State(TypedDict):
@@ -67,7 +67,7 @@ workflow.add_edge("grounded_qa", END)
 
 app = workflow.compile()
 
-from cognify.optimizer.registry import register_opt_program_entry
+from cognify.optimizer import register_opt_program_entry
 
 @register_opt_program_entry
 def do_qa(input):

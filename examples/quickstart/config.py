@@ -2,9 +2,9 @@
 # Evaluator
 #================================================================
 
-from cognify.optimizer.evaluation.metric import F1Str
+import cognify
 
-metric = F1Str()
+metric = cognify.metric.F1Str()
 
 #================================================================
 # Data Loader
@@ -30,28 +30,8 @@ def load_data_minor():
 # Optimizer Set Up
 #================================================================
 
-import cognify
-
-# Define model configurations, each encapsulated in a ModelOption
-model_configs = [
-    # OpenAI model
-    cognify.LMConfig(
-        custom_llm_provider='openai',
-        model='gpt-4o-mini',
-        cost_indicator=1.0,
-        kwargs={'temperature': 0.0}
-    ),
-    cognify.LMConfig(
-        custom_llm_provider='openai',
-        model='gpt-4o',
-        cost_indicator=10.0,
-        kwargs={'temperature': 0.0}
-    ),
-]
-
 from cognify.hub.search import default
 
 search_settings = default.create_search(
-    opt_log_dir='try_new_thing',
-    model_selection_cog=model_configs,
+    n_trials=5,
 )

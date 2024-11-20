@@ -1,15 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Dict, Optional, override
-from cognify.llm.prompt import (
-    Input,
-    CompletionMessage,
-    Demonstration,
-    Content,
-    TextContent,
-    ImageContent,
-    FilledInput,
-    get_image_content_from_upload,
-)
+from cognify.llm.prompt import Input, FilledInputVar, CompletionMessage, Demonstration, Content, TextContent, ImageContent, FilledInputVar, get_image_content_from_upload
 from cognify.llm.output import OutputLabel, OutputFormat
 import litellm
 from litellm import completion, get_supported_openai_params, ModelResponse

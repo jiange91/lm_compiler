@@ -11,9 +11,7 @@ from abc import ABC, abstractmethod
 import multiprocessing as mp
 import textwrap
 from cognify.optimizer.utils import _cognify_tqdm as tqdm
-from cognify.optimizer import (
-    get_registered_opt_score_fn,
-)
+from cognify.optimizer.registry import get_registered_opt_score_fn
 from .metric import MetricBase
 
 
@@ -279,7 +277,7 @@ class EvalTask:
         sema,
         q: mp.Queue,
     ):
-        _init_exit_gracefully(verbose=False)
+        _init_exit_gracefully(verbose=False, override=True)
         schema, module_pool = self.load_and_transform()
         if _should_exit():
             q.put((task_index, False, None, 0.0, 0.0, None, 0.0))

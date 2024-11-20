@@ -3,7 +3,7 @@ import json
 from typing import Union, Callable
 import logging
 
-from cognify._signal import _should_exit
+from cognify._signal import _should_exit, _init_exit_gracefully
 from cognify.optimizer.control_param import ControlParameter
 from cognify.optimizer.core import driver
 from cognify.optimizer.evaluation.evaluator import (
@@ -16,6 +16,7 @@ from cognify.optimizer.evaluation.metric import MetricBase
 
 logger = logging.getLogger(__name__)
 
+_init_exit_gracefully(msg="Stopping main", verbose=True)
 
 def dry_run(script_path, evaluator: EvaluatorPlugin, log_dir):
     eval_task = EvalTask(
@@ -92,9 +93,7 @@ def optimize(
             control_param.opt_layer_configs[0].layer_name,
         )
         if os.path.isdir(top_layer_opt_dir) and len(os.listdir(top_layer_opt_dir)) > 0:
-            raise ValueError(
-                f"Directory {control_param.opt_history_log_dir} is not empty, if you want to resume from previous checkpoint, please set -r or --resume flag"
-            )
+            raise ValueError(f"Directory {control_param.opt_history_log_dir} is not empty, if you want to resume from previous checkpoint, please set -r flag in cli or pass resume = True in function call")
 
     # dump control params
     param_log_path = os.path.join(
@@ -151,7 +150,7 @@ def optimize(
 
     # build optimizer from parameters
     opt_driver = driver.MultiLayerOptimizationDriver(
-        layer_configs=control_param.opt_setup.layer_configs,
+        layer_configs=control_param.opt_layer_configs,
         opt_log_dir=control_param.opt_history_log_dir,
         quality_constraint=control_param.quality_constraint * raw_result.reduced_score,
     )

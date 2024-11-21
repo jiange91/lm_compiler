@@ -23,8 +23,7 @@ To utilize the `ModuleEnsemble` Cog with the `UniversalSelfConsistency` option, 
 
 .. code-block:: python
 
-   from compiler.cog_hub.common import NoChange
-   from compiler.cog_hub.ensemble import ModuleEnsemble, UniversalSelfConsistency
+   from cognify.hub.cogs import NoChange, ModuleEnsemble, UniversalSelfConsistency
 
    # Define the ensemble options
    ensemble_options = [
@@ -43,9 +42,9 @@ Cognify also allows direct application of any ensemble options to your workflow:
 
 .. code-block:: python
 
-   from compiler.graph.program import Workflow
-   from compiler.llm import cognify.Model
-   from compiler.cog_hub.ensemble import UniversalSelfConsistency
+   import cognify
+   from cognify.graph.program import Workflow
+   from cognify.hub.cogs import UniversalSelfConsistency
 
    agent = cognify.Model(...)
    usc = UniversalSelfConsistency(num_path=3)

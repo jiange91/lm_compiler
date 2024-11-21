@@ -61,8 +61,7 @@ Here is an example of how to define and initialize an LMReasoning Cog with multi
 
 .. code-block:: python
 
-   from compiler.cog_hub.common import NoChange
-   from compiler.cog_hub.reasoning import LMReasoning, ZeroShotCoT, PlanBefore
+   from cognify.hub.cogs import NoChange, LMReasoning, ZeroShotCoT, PlanBefore
 
    # NoChange option stands for NO transformation to the module
    reasoning_options = [NoChange(), ZeroShotCoT(), PlanBefore()]
@@ -77,9 +76,8 @@ Cognify strives to provide a comprehensive set of reasoning options to cater to 
 
 .. code-block:: python
 
-   from compiler.llm.model import cognify.StructuredModel 
-   from compiler.llm import InputVar, OutputFormat
-   from compiler.frontends.dspy.connector import as_predict
+   import cognify
+   from cognify import Input, OutputFormat
    from pydantic import BaseModel
 
    # Define the response format schema
@@ -93,8 +91,8 @@ Cognify strives to provide a comprehensive set of reasoning options to cater to 
       agent_name='qa_agent',
       system_prompt='You are an expert in responding to user questions based on provided context. Answer the question and also provide supporting facts from the context.',
       input_variables=[
-         InputVar(name="question"),
-         InputVar(name="context")
+         Input(name="question"),
+         Input(name="context")
       ],
       output_format=OutputFormat(schema=Response),
    )
@@ -107,7 +105,7 @@ Cognify strives to provide a comprehensive set of reasoning options to cater to 
    )
 
    # Applying ZeroShotCoT reasoning manually to the agent
-   from compiler.cog_hub.reasoning import ZeroShotCoT
+   from cognify.hub.cogs import ZeroShotCoT
 
    cognify_agent = ZeroShotCoT().apply(cognify_agent)
    output: Response = cognify_agent.forward(

@@ -19,8 +19,9 @@ Below is an example of how to define and initialize a Model Selection Cog with m
 
 .. code-block:: python
 
-   from compiler.cog_hub.model_selection import LMSelection, model_option_factory
-   from compiler.llm.model import LMConfig
+   import cognify
+   from cognify.hub.cogs import LMSelection, model_option_factory
+   from cognify import LMConfig
 
    # Define model configurations, each encapsulated in a ModelOption
    model_configs = [

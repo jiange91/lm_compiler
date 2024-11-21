@@ -360,7 +360,7 @@ class Workflow(ComposibleModuleInterface):
         Examples:
         NOTE: please hint all possible destinations for the multiplexer
             ```python
-            from compiler.graph.program import hint_possible_destinations
+            from cognify.graph.program import hint_possible_destinations
 
             @hint_possible_destinations(['a', 'b'])
             def multiplexer(ctx, smth):
@@ -403,7 +403,7 @@ class Workflow(ComposibleModuleInterface):
         Examples:
         NOTE: please hint all possible destinations for the multiplexer
             ```python
-            from compiler.graph.program import hint_possible_destinations
+            from cognify.graph.program import hint_possible_destinations
 
             @hint_possible_destinations(['a', 'b'])
             def multiplexer(ctx, smth):

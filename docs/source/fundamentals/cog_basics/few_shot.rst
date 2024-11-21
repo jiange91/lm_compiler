@@ -71,7 +71,7 @@ Below we show how to create a simple Few-Shot Learning Cog with empty initial de
 
 .. code-block:: python
 
-   from compiler.cog_hub.fewshot import LMFewShot
+   from cognify.hub.cogs import LMFewShot
 
    few_shot_cog = LMFewShot(
       max_num=5, # each option will have at most 5 demonstrations
@@ -84,7 +84,8 @@ Cognify also provides a programmable interface to manage and apply your few-shot
 
 .. code-block:: python
 
-   from compiler.llm.prompt import Demonstration, FilledInput
+   import cognify
+   from cognify import Demonstration, FilledInput
 
    # A list of demos for task: extract keywords from a question given some hints for retrieval
    demos = [
@@ -120,7 +121,6 @@ Cognify also provides a programmable interface to manage and apply your few-shot
    ]
 
    # To add demos to your agent directly
-   from compiler.llm.model import cognify.Model
    agent = cognify.Model()
    agent.add_demos(demos=demos)
 

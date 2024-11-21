@@ -41,75 +41,36 @@ However, we highly encourage you to configure your optimization to achieve bette
 A Minimal Example
 =================
 
-Now let's walk through setting up the optimization pipeline for a single-agent system. In this example, we will define a single LLM agent to answer user question using the provided context.
+Now let's walk through setting up the optimization pipeline for a naive single-agent system. 
+
+Step 0.5: Inspect the original workflow
+--------------------------------------------
+
+To get started, let's first take a look at the original workflow that we will optimize.
 
 .. hint::
 
-   The complete code and data for trying this example can be found at `examples/quickstart <https://github.com/WukLab/Cognify/tree/add_doc_cog/examples/quickstart>`_. This tutorial will explain each step in detail.
-
-Step 0.5: Setup the optimization environment
---------------------------------------------
-
-To get started, let's first inspect the project file structure:
-
-1. The folder ``quickstart`` serves as the root directory for your optimization pipeline.
-2. Inside the folder, the following files are included:
- 
-   - **.env**: This file will contain necessary environment variables, such as API keys.
-   - **ori_workflow.py**: The primitive AI workflow defined in pure LangGraph.
-   - **cognify_workflow.py**: The workflow to be optimized. Modified with Cognify semantics for the optimizer to hook on.
-   - **data_loader.py**: This file will load the dataset used to evaluate the workflow.
-   - **evaluator.py**: This will contain the evaluation metric or scoring function for your workflow.
-   - **control_param.py**: This file will specify the control parameters for the optimizer.
-   - **data._json**: A small set of data points. This file is **optional**, include here for the clarity of ``data_loader.py``.
-
-.. note::
-
-   ``.env`` file is ommitted in the repo, please create the file and set your API keys.
-
-   ``ori_workflow.py`` is not required and is not the workflow to be optimized. Include this file to show how to connect an existing workflow to Cognify.
-
-The overall structure looks like this:
-
-::
-
-   quickstart/
-   ├── .env
-   ├── cognify_workflow.py
-   ├── control_param.py
-   ├── data_loader.py
-   ├── data._json
-   ├── evaluator.py
-   └── ori_workflow.py
-
-
-Step 1: Connect to the workflow
--------------------------------
-
-1.1 Original workflow
-^^^^^^^^^^^^^^^^^^^^^
-Our initial workflow is defined in :file:`ori_workflow.py`. Let's take a closer look at the definition of the llm agent:
+   The code of this example is available at `examples/quickstart <https://github.com/WukLab/Cognify/tree/main/examples/quickstart>`_. This tutorial will explain each step in detail.
 
 .. code-block:: python
 
-   from langchain_openai import ChatOpenAI
-   from pydantic import BaseModel
-   from typing import List
+   # examples/quickstart/workflow.py
 
+   # ----------------------------------------------------------------------------
+   # Define a single LLM agent to answer user question with provided documents
+   # ----------------------------------------------------------------------------
+
+   import dotenv
+   from langchain_openai import ChatOpenAI
+   # Load the environment variables
+   dotenv.load_dotenv()
+   # Initialize the model
+   model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
    # Define system prompt
    system_prompt = """
-   You are an expert at answering questions based on provided documents. 
-   Your task is to provide the answer along with all supporting facts in given documents.
+   You are an expert at answering questions based on provided documents. Your task is to provide the answer along with all supporting facts in given documents.
    """
-
-   # Define Pydantic model for structured output
-   class AnswerOutput(BaseModel):
-      answer: str
-      supporting_facts: List[str]
-      
-   # Initialize the model
-   model = ChatOpenAI(model="gpt-4o-mini", temperature=0).with_structured_output(AnswerOutput)
 
    # Define agent routine 
    from langchain_core.prompts import ChatPromptTemplate
@@ -122,385 +83,243 @@ Our initial workflow is defined in :file:`ori_workflow.py`. Let's take a closer 
 
    qa_agent = agent_prompt | model
 
-The agent is backed by GPT-4o-mini. It takes in a user question and a series of documents, then returns the answer along with supporting facts. The output is structured as a Pydantic model.
+   # Define workflow
+   def doc_str(docs):
+      context = []
+      for i, c in enumerate(docs):
+         context.append(f"[{i+1}]: {c}")
+      return "\n".join(docs)
 
-You can try running this agent with:
+   def qa_workflow(question, documents):
+      format_doc = doc_str(documents)
+      answer = qa_agent.invoke({"question": question, "documents": format_doc}).content
+      return {'answer': answer}
+
+To authenticate OpenAI API, you can create a ``.env`` file in the same directory with the following content:
+
+::
+
+   OPENAI_API_KEY=your_openai_api_key
+
+You can try running this workflow:
 
 .. code-block:: python
 
-   print(qa_agent.invoke(
-      {
-         "question": "What was the 2010 population of the birthplace of Gerard Piel?", 
-         "documents": """
-            [1]: Gerard Piel | Gerard Piel (1 March 1915 in Woodmere, N.Y. – 5 September 2004) was the publisher of the new Scientific American magazine starting in 1948. He wrote for magazines, including "The Nation", and published books on science for the general public. In 1990, Piel was presented with the "In Praise of Reason" award by the Committee for Skeptical Inquiry (CSICOP).
-            [2]: Woodmere, New York | Woodmere is a hamlet and census-designated place (CDP) in Nassau County, New York, United States. The population was 17,121 at the 2010 census.
-         """,
-      }
-   ))
+   question = "What was the 2010 population of the birthplace of Gerard Piel?"
+   documents = [
+      'Gerard Piel | Gerard Piel (1 March 1915 in Woodmere, N.Y. – 5 September 2004) was the publisher of the new Scientific American magazine starting in 1948. He wrote for magazines, including "The Nation", and published books on science for the general public. In 1990, Piel was presented with the "In Praise of Reason" award by the Committee for Skeptical Inquiry (CSICOP).',
+   ]
+
+   result = qa_workflow(question=question, documents=documents)
+   print(result)
 
 **Output**:
 
 ::
-
-   answer='The 2010 population of Woodmere, New York, the birthplace of Gerard Piel, was 17,121.'
-   supporting_facts=[
-      'Gerard Piel was born on 1 March 1915 in Woodmere, N.Y.', 
-      'Woodmere is a hamlet and census-designated place (CDP) in Nassau County, New York.', 
-      'The population of Woodmere was 17,121 at the 2010 census.'
-   ]
-
-You can further refer to :file:`ori_workflow.py` for the complete implementation.
-
-1.2 Use Cognify semantics
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Next, we show how to modify this agent to connect it to the optimizer. Cognify provides rich features to define a LLM agent in a more structured way.
-
-.. code-block:: python
-
-
-   # Initialize the model
-   from compiler.llm.model import LMConfig
-   lm_config = LMConfig(
-      custom_llm_provider='openai',
-      model='gpt-4o-mini',
-      kwargs= {
-         'temperature': 0.0,
-      }
-   )
-
-   # Define agent's role
-   from compiler.llm.model import cognify.StructuredModel, InputVar, OutputFormat
-   cognify_qa_agent = cognify.StructuredModel(
-      agent_name="qa_agent",
-      system_prompt=system_prompt,
-      input_variables=[InputVar(name="question"), InputVar(name="documents")],
-      output_format=OutputFormat(schema=AnswerOutput),
-      lm_config=lm_config
-   )
-
-   # Use builtin connector for smooth integration
-   from compiler.frontends.langchain.connector import as_runnable
-   qa_agent = as_runnable(cognify_qa_agent)
-
-To facilitate smooth integration with various frontend, we encourage using provided adapters (e.g. ``as_runnable``) to convert the cognify.Model agent interface. 
-
-To this point, we successfully create a cognify.Model agent that the optimizer can transform while seamlessly fitting into the original workflow.
-
-.. note::
    
-   Auxiliary messages such as "User question: {question} \n\nDocuments: {documents}" or output format instructions will be automatically added by the Cognify runtime. This simplify the agent definition for users and grant more flexibility for the optimizer to adjust the agent behavior.
+   {'answer': 'The birthplace of Gerard Piel is Woodmere, New York. However, the provided document does not include the 2010 population of Woodmere. To find that information, one would typically refer to census data or demographic reports from that year.'}
 
-You can try running this agent with the same input.
+Step 1: Connect to the workflow
+-------------------------------
 
-**Output**:
+Cognify will automatically capture agents defined globally, we only need to inform the optimizer which function to call to run the workflow.
 
-::
+In this example, the entry point to the workflow is the ``qa_workflow`` function. We will register it with:
 
-   answer='The population of Woodmere, New York in 2010 was 17,121.' 
-   supporting_facts=[
-      'Gerard Piel was born in Woodmere, New York.', 
-      'Woodmere is a hamlet and census-designated place (CDP) in Nassau County, New York, United States.', 
-      'The population of Woodmere was 17,121 at the 2010 census.'
-   ]
+.. code-block:: python
 
+   from cognify.optimizer import register_opt_workflow
+
+   @register_opt_workflow
+   def qa_workflow(question, documents):
+      format_doc = doc_str(documents)
+      answer = qa_agent.invoke({"question": question, "documents": format_doc}).content
+      return {'answer': answer}
 
 Step 2: Build the Evaluation Pipeline
 -------------------------------------
 
-Next, we will define the data loader and evaluator for our workflow, in ``data_loader.py`` and ``evaluator.py`` respectively.
+Next, we will define the evaluator and training data used for optimization.
 
-2.1 Define data loader
+Create a ``config.py`` file under the same directory with ``workflow.py`` and define the evaluator and data loader functions there.
+
+2.1 Register evaluator
 ^^^^^^^^^^^^^^^^^^^^^^
-Cognify expects a function that returns (**input / ground_truth**) pairs for the optimizer to use. 
 
-The ``input`` will be forwarded to the workflow directly. The the ``ground_truth`` along with the ``output`` will be forwarded to the evaluator intactly.
+In this example, we use the ``F1`` score to quantify the similarity between the predicted answer and the ground truth.
 
-In short:
-::
-
-   # [(input, ground_truth), ...] <- data_loader()
-   # workflow <- optimizer.propose()
-   # for each pair:
-      prediction = call_your_workflow(input)
-      score = call_your_evaluator(ground_truth, prediction)
-   # optimizer.update(workflow, score)
-
-While this provides utmost flexibility in the data format, it is your responsibility to ensure function signatures match the expected data type.
-
-.. hint::
-
-   If your metric does not need a ground truth, e.g. using LLM judge with only scoring criteria, you are free to use any dummy value or ``None`` for the ground_truth. 
-   
-   Current optimizer will not try to inspect or exploit the ground truth information.
-
-In this example, we provide a small set of examples from HotPotQA dataset in :file:`data._json`. The data loade  function will read the file and return the pairs as follows:
+Cognify already provides an implementation of this metric. We will register it as follows:
 
 .. code-block:: python
 
-   from compiler.optimizer.registry import register_data_loader
+   import cognify
+   from cognify.optimizer.registry import register_opt_score_fn
+
+   metric = cognify.metric.f1_score_str
+
+   @register_opt_score_fn
+   def evaluate_answer(answer, label):
+      return metric(answer, label)
+
+2.2 Register data loader
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Cognify expects the data to be formatted as (**input / ground_truth**) pairs. Both needs to be a dictionary.
+
+In this example, we provide a small set of examples from HotPotQA dataset in :file:`data._json`. The data loader will read the file and return the pairs as follows:
+
+.. code-block:: python
+
+   from cognify.optimizer.registry import register_data_loader
    import json
 
    @register_data_loader
    def load_data_minor():
       with open("data._json", "r") as f:
          data = json.load(f)
-
+            
       # format to (input, output) pairs
       new_data = []
       for d in data:
-         input = (d["question"], d["docs"])
-         output = d["answer"]
+         input = {
+               'question': d["question"], 
+               'documents': d["docs"]
+         }
+         output = {
+               'label': d["answer"],
+         }
          new_data.append((input, output))
+      
+      # split to train, val, test
       return new_data[:5], None, new_data[5:]
 
+.. hint::
 
-Just like dataloaders in many other frameworks (e.g. huggingface, pytorch), this function also split the data into train/validation/test sets. In this example, we use the first 5 rows as training data, and the rest as test data. The validation set is set to ``None`` for simplicity.
+   The dataset is small for a quick demonstration. In practice, you should provide a larger dataset for better generalization.
 
-2.2 Define evaluation method
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Cognify expects a function that takes in the ground truth and prediction, and returns a numeric score. 
-
-In this example, we will use the F1 score as the evaluation metric. Please check the ``evaluator.py`` file for the complete code if needed.
-
-The function will be registered to the optimizer as follows:
-
-.. code-block:: python
-
-   from compiler.optimizer import register_opt_score_fn
-
-   @register_opt_score_fn
-   def f1(label: str, pred: str) -> float:
-      score = f1_score_strings(label, pred)
-      return score
 
 Step 3: Configure the Optimizer Behavior
 ----------------------------------------
 
-Finally, we will define control parameters for the optimizer in ``control_param.py``, including the search space and optimization settings.
+Now we need to define a search setting for the optimizer. This should also be added to the ``config.py`` file.
 
-In this example, we will construct a simple 2-layer search space for the optimizer to explore.
+The setting includes a search space and the optimization strategies. Cognify also provides a set of `pre-defined configurations <https://github.com/WukLab/Cognify/blob/main/cognify/hub/search/default.py>`_ for you to start with.
 
-.. rubric:: Bottom-layer
-
-The bottom-layer includes the following parameters:
-
-1. **reasoning style**: whether to use zero-shot CoT or not
-2. **few-shot examples**: teach the agent with a few good demonstrations
+Here we just use the default one:
 
 .. code-block:: python
 
-   from compiler.cog_hub import reasoning, fewshot
-   from compiler.cog_hub.common import NoChange
+   from cognify.hub.search import default
 
-   # ================= Inner Loop Config =================
-   # Reasoning Parameter
-   reasoning_param = reasoning.LMReasoning(
-      [NoChange(), reasoning.ZeroShotCoT()] 
-   )
-   # Few Shot Parameter
-   few_shot_params = fewshot.LMFewShot(2)
+   search_settings = default.create_search()
 
-Then we define how the optimizer should search through these parameters:
+Wrap Up
+-------
 
-.. code-block:: python
+Now we have all the components in place. The final directory structure should look like this:
 
-   from compiler.optimizer.core import driver, flow
+::
 
-   inner_opt_config = flow.OptConfig(
-      n_trials=6,
-   )
-   inner_loop_config = driver.LayerConfig(
-      layer_name='inner_loop',
-      universal_params=[few_shot_params, reasoning_param],
-      opt_config=inner_opt_config,
-   )
+   .
+   ├── config.py # evaluator + data loader + search settings
+   ├── data._json
+   ├── workflow.py
+   └── .env
 
-We register the search space and allow the optimizer to try 6-iterations to find the best combination at the bottom layer.
 
-.. rubric:: Top-layer
-
-Similarly, we define the top-layer search space and the optimizer settings as follows:
-
-.. code-block:: python
-
-   from compiler.cog_hub import ensemble
-
-   # Ensemble Parameter
-   general_usc_ensemble = ensemble.UniversalSelfConsistency(3)
-   general_ensemble_params = ensemble.ModuleEnsemble(
-      [NoChange(), general_usc_ensemble]
-   )
-   # Layer Config
-   outer_opt_config = flow.OptConfig(
-      n_trials=2,
-   )
-   outer_loop_config = driver.LayerConfig(
-      layer_name='outer_loop',
-      universal_params=[general_ensemble_params],
-      opt_config=outer_opt_config,
-   )
-
-At this layer, we will determine if `ensembling <https://arxiv.org/abs/2311.17311>`_ should be applied to the agent in two trials. If applied, multiple agents will be spawned and the final output will be a combination of their outputs.
-
-.. note::
-
-   Each spawned agent will be optimized independently in the bottom layer with the same search space.
-
-   Each top-layer trial will run a complete bottom-layer optimization process, meaning the total number of workflow evaluations will be **2*6 = 12**.
-
-.. rubric:: Overall Optimizer Settings
-
-Finally, we define the control parameters for the optimizer, registering the 2-layer search space and decide the directory to store the optimization results:
-
-.. code-block:: python
-
-   from compiler.optimizer.control_param import ControlParameter
-
-   optimize_control_param = ControlParameter(
-      opt_layer_configs=[outer_loop_config, inner_loop_config],
-      opt_history_log_dir='quick_opt_results'
-   )
-
-You can refer to the complete code in ``control_param.py`` for an overview. 
-
-The optimizer will search for different combinations of these parameters to trade-off the F1 score and the cost of running the workflow.
-
-Run Cognify
------------
-
-With all the components in place, you can now run the optimization to find the most cost-efficient way to apply these prompt engineer techniques.
-
-If you follow the naming convension in the example above, you can run the following command in the terminal:
+Run Cognify Optimization
+------------------------
 
 .. code-block:: bash
    
    cd examples/quickstart
-   cognify optimize cognify_workflow.py
+   cognify optimize workflow.py
 
-Alternatively you can specify the file names explicitly:
-
-.. code-block:: bash
-
-   cd examples/quickstart
-   cognify optimize cognify_workflow.py -d <data_loader file name> -e <evaluator file name> -c <control_param file name>
-
-Example Console Output
-^^^^^^^^^^^^^^^^^^^^^^
-
-Upon running the optimization, you should see logs similar to the following:
+**Example Output:**
 
 .. code-block:: bash
 
-   (my_env) user@hostname:/path/to/quickstart$ cognify optimize cognify_workflow.py 
-   [INFO 2024-11-11 02:33:47] Loading data from data_loader.py
-   [INFO 2024-11-11 02:33:47] Size of train set: 5, val set: 0, test set: 10
-   [INFO 2024-11-11 02:33:47] Dry run on train set: 5 samples for optimizer analysis
-   [INFO 2024-11-11 02:33:51] Dry run result saved to opt_results/dry_run_train.json
-   [INFO 2024-11-11 02:33:51] ----------------- Start Optimization -----------------
-   > outer_loop | (best score: 0.42, lowest cost@1000: 0.17 $): 100%|███████████| 2/2 [00:19<00:00,  9.90s/it]
-   =========== Optimization Results ===========
+   (my_env) user@hostname:/path/to/quickstart$ cognify optimize workflow.py 
+   > light_opt_layer | (best score: 0.16, lowest cost@1000: 0.09 $): 100%|███████████████| 10/10 [01:53<00:00, 11.30s/it]
+   ================ Optimization Results =================
    Num Pareto Frontier: 2
    --------------------------------------------------------
-   # 0-th Pareto solution
-     Quality = 0.420, Cost per 1K invocation = 0.19 $
-     Applied Optimization: outer_loop_0.inner_loop_2
+   Pareto_1
+   Quality: 0.160, Cost per 1K invocation: $0.28
+   Applied at: light_opt_layer_4
    --------------------------------------------------------
-   # 1-th Pareto solution
-     Quality = 0.402, Cost per 1K invocation = 0.17 $
-     Applied Optimization: outer_loop_0.inner_loop_4
+   Pareto_2
+   Quality: 0.154, Cost per 1K invocation: $0.09
+   Applied at: light_opt_layer_6
    ========================================================
-   [INFO 2024-11-11 02:34:12] ----------------- Optimization Finished -----------------
 
-
-Interpreting the Results
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-- **Data Loading**: The optimizer loads data from the specified data loader file (``data_loader.py``), dividing it into training, validation, and testing sets. Here, it uses 5 examples for training and 10 for testing.
-- **Dry Run**: The optimizer performs a dry run on the training data, analyzing baseline scores/costs and saving results to ``opt_results/dry_run_train.json``. This provides initial insights into the workflow.
-- **Optimization**: The optimizer then explores 2 configurations at the top-layer, each tries 6 configurations at the bottom-layer.
-
-  * Among all results, we achieve the best quality score of ``0.42`` and a lowest cost per 1,000 invocations of ``$0.17``.
+The optimizer found two Pareto frontiers, meaning these two are the most cost-effective solutions within all searched ones.
 
 .. note::
-   
-   By default, the constraints on **Lower Cost** is retaining 100% of the original score. You can adjust this by setting the ``quality_constraint`` in ``ControlParameter``.
-- **Pareto Frontier**: The results as the **Pareto Frontier**, highlighting the most cost-effective configurations that balance quality and cost.
 
-  * Here, two solutions are provided, all found at the 0-th trial of the outer loop but at different trials of the inner loop. 
-  * All other configurations are dominated by these two thus not shown.
+   It's not guaranteed that the optimizer will find any better solutions than the original one. You might get ``Num Pareto Frontier: 0`` in the output.
 
-Inspecting the Transformation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Check detailed optimizations
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You can also view detailed information about each frontier, available inside ``pareto_frontier_details`` directory.
+You can find all Pareto frontiers' information under the ``opt_results/pareto_frontier_details`` directory. 
 
-For **0-th solution** in the above run, this is the details of the transformation applied:
+Beflow is the transformations that ``Pareto_1`` will apply to the original workflow, saying CoT reasoning is applied while no few-shot demonstration is added.
 
-.. code-block:: bash
+::
 
-   (my_env) user@hostname:/path/to/quickstart$ cat opt_results/pareto_frontier_details/option_0.cog
-   Trial - outer_loop_0.inner_loop_2
-   Log at: opt_results/outer_loop/outer_loop_trial_0/opt_logs.json
-   Quality= 0.420, Cost per 1K invocation= 0.19 $
+   Trial - light_opt_layer_4
+   Log at: opt_results/light_opt_layer/opt_logs.json
+   Quality: 0.160, Cost per 1K invocation ($): 0.28 $
    ********** Detailed Optimization Trace **********
 
-   ========== Layer: outer_loop ==========
+   ========== Layer: light_opt_layer ==========
 
-     >>> Module: qa_agent <<<
+   >>> Module: qa_agent <<<
 
-       - Parameter: <compiler.cog_hub.ensemble.ModuleEnsemble>
+      - Parameter: <cognify.hub.cogs.fewshot.LMFewShot>
          Applied Option: NoChange
          Transformation Details:
-           NoChange
+         NoChange
+
+      - Parameter: <cognify.hub.cogs.reasoning.LMReasoning>
+         Applied Option: ZeroShotCoT
+         Transformation Details:
+         
+         - ZeroShotCoT -
+         Return step-by-step reasoning for the given chat prompt messages.
+         
+         Reasoning Prompt: 
+               Let's solve this problem step by step before giving the final response.
 
    ==================================================
 
-   ========== Layer: inner_loop ==========
-
-     >>> Module: qa_agent <<<
-
-       - Parameter: <compiler.cog_hub.fewshot.LMFewShot>
-         Applied Option: qa_agent_demos_8224898e-0af1-46b7-ae7b-1dbe533c8082
-         Transformation Details:
-           - FewShot Examples -
-           2 demos:
-           Demonstration 1:
-           **Input**
-           {
-               "question": "Which is published more frequently, The People's Friend or Bust?",
-               "documents": "Bust (magazine) | BUST is a women's lifestyle magazine that is published six times a year. The magazine is published by Debbie Stoller and Laurie Henzel.\nThe People's Friend | The People's Friend is a..."
-           }
-           
-           **Response**
-           {"answer":"The People's Friend is published more frequently than Bust.","supporting_facts":["Bust is published six times a year.","The People's Friend is a British weekly magazine."]}
-           ========================================
-           Demonstration 2:
-           **Input**
-           {
-               "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?",
-               "documents": "John Laub | John H. Laub (born 1953) is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Pa..."
-           }
-           
-           **Response**
-           {"answer":"1856","supporting_facts":["John Laub is a Distinguished University Professor in the Department of Criminology and Criminal Justice at the University of Maryland, College Park.","The Univers...
-           ========================================
-
-       - Parameter: <compiler.cog_hub.reasoning.LMReasoning>
-         Applied Option: NoChange
-         Transformation Details:
-           NoChange
-
-   ==================================================
 
 Evaluate a Specific Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You may want to evaluate a particular configuration on the test dataset.
-
-For example, to evaluate the configuration with ID ``outer_loop_0.inner_loop_4`` and save the results to ``eval.json``, run the following command:
+We can further evaluate a specific optimization on the test dataset.
 
 .. code-block:: bash
 
-   cognify evaluate cognify_workflow.py -i outer_loop_0.inner_loop_4 -o eval.json
+   cognify evaluate workflow.py -s Pareto_1
 
+**Example Output:**
+
+.. code-block:: bash
+
+   (my_env) user@hostname:/path/to/quickstart$ cognify evaluate workflow.py -s Pareto_1
+   ----- Testing select trial light_opt_layer_4 -----
+   Params: {'qa_agent_few_shot': 'NoChange', 'qa_agent_reasoning': 'ZeroShotCoT'}
+   Training Quality: 0.160, Cost per 1K invocation: $0.28
+
+   > Evaluation in light_opt_layer_4 | (avg score: 0.20, avg cost@1000: 0.28 $): 100%|███████10/10 [00:07<00:00,  1.42it/s]
+   =========== Evaluation Results ===========
+   Quality: 0.199, Cost per 1K invocation: $0.28
+   ===========================================
+
+You can also use Cognify to evaluate the original workflow with:
+
+.. code-block:: bash
+
+   cognify evaluate workflow.py -s NoChange

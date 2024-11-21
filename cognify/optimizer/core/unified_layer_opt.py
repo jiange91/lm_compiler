@@ -935,7 +935,7 @@ class BottomLevelOptimization(OptimizationLayer):
         # apply selected trial
         print(f"----- Testing select trial {trial_id} -----")
         print("  Params: {}".format(trial_log.params))
-        print("  Training Quality: {:.3f}, Cost per 1K invocation: ${:.2f}".format(trial_log.score, trial_log.price * 1000))
+        print("  Training Quality: {:.3f}, Cost per 1K invocation: ${:.2f}\n".format(trial_log.score, trial_log.price * 1000))
         
         eval_task = EvalTask.from_dict(trial_log.eval_task)
         # run evaluation

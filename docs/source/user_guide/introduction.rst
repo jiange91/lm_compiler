@@ -32,7 +32,7 @@ Benchmark Results
 -----------------
 
 We compare Cognify to non-optimized workflows and `DSPy <https://github.com/stanfordnlp/dspy>`_ using the `HotpotQA <https://hotpotqa.github.io/>`_ workload,
-a `code generation <>`_ workload, and a `text-to-SQL <>`_ workload.
+a `code generation <https://github.com/openai/human-eval>`_ workload, and a `text-to-SQL <https://github.com/ShayanTalaei/CHESS>`_ workload.
 The figures below show the generation quality and execution cost effectiveness (larger the better for both) of these results.
 Cognify pushes the cost-quality Pareto frontier over DSPy and non-optimized workflows across these workloads,
 achieving 3.7% to 27% quality improvements and 1.8x to 7x cost reduction.

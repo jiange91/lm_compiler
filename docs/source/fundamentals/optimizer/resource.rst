@@ -19,7 +19,7 @@ Example:
 
 .. code-block:: python
 
-   from compiler.optimizer.core import driver, flow
+   from cognify.optimizer.core import driver, flow
 
    layer_opt_config = flow.OptConfig(
       n_trials=10,    # each invocation of this layer will run 10 trials
@@ -112,7 +112,7 @@ Frugal optimization is enabled by default. To explicitly set this flag:
 
 .. code-block:: python
 
-   from compiler.optimizer.core import flow
+   from cognify.optimizer.core import flow
 
    frugal_config = flow.OptConfig(
       n_trials=30,               

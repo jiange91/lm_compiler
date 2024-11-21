@@ -12,7 +12,7 @@ For example, we can add **reasoning** and **few-shot**:
 
 .. code-block:: python
 
-   from compiler.cog_hub import reasoning, fewshot, common
+   from cognify.cog_hub import reasoning, fewshot, common
 
    # Reasoning Parameter
    reasoning_param = reasoning.LMReasoning(
@@ -65,7 +65,7 @@ Example Configuration:
 
 .. code-block:: python
 
-   from compiler.optimizer.core import driver
+   from cognify.optimizer.core import driver
 
    reasoning_param.module_name = "Agent 0"
 
@@ -90,8 +90,8 @@ This step is done by passing a list of ``LayerConfig`` objects to the ``ControlP
 
 .. code-block:: python
 
-   from compiler.optimizer.core import driver
-   from compiler.optimizer.control_param import ControlParameter
+   from cognify.optimizer.core import driver
+   from cognify.optimizer.control_param import ControlParameter
 
    layer_0 = driver.LayerConfig(...)  # Top layer (high-level structure)
    layer_1 = driver.LayerConfig(...)  # Mid layer (refinements on structure)

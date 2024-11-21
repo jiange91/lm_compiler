@@ -33,8 +33,9 @@ UNRECOGNIZED_PARAMS = ["model_name", "_type"]
 class RunnableModel(Runnable):
     def __init__(self, name: str, runnable: RunnableSequence = None):
         self.chat_prompt_template: ChatPromptTemplate = None
+        self.runnable = runnable
+        self.contains_output_parser: bool = False
         self.cog_lm: Model = self.cognify_runnable(name, runnable)
-        self.output_parser = None
 
     """
   Connector currently supports the following units to construct a `cognify.Model`:
@@ -69,7 +70,7 @@ class RunnableModel(Runnable):
                 runnable.last, BaseOutputParser
             ), f"Last runnable in a sequence with a middle `BaseChatModel` must be a `BaseOutputParser`, instead got {type(runnable.last)}"
             output_parser: BaseOutputParser = runnable.last
-            self.output_parser = output_parser
+            self.contains_output_parser = True
         else:
             raise NotImplementedError(
                 f"Only one middle runnable is supported at this time, instead got {runnable.middle}"
@@ -166,10 +167,13 @@ class RunnableModel(Runnable):
         result = self.cog_lm(
             messages, input
         )  # kwargs have already been set when initializing cog_lm
+
         if isinstance(self.cog_lm, StructuredModel):
             return result
-        elif self.output_parser:
-            return self.output_parser.parse(result)
+        elif self.contains_output_parser:
+            type_cls = type(self.runnable.last)
+            type_inst = type_cls()
+            return type_inst.parse(result)
         else:
             return AIMessage(result)
 
@@ -180,24 +184,3 @@ def as_runnable(cog_lm: Model):
     return RunnableLambda(runnable_cog_lm.invoke)
 
 
-if __name__ == "__main__":
-    from langchain_core.prompts import ChatPromptTemplate
-    from langchain_openai.chat_models import ChatOpenAI
-    from langchain_core.output_parsers import StrOutputParser
-
-    # typical langchain code
-    my_prompt_template = ChatPromptTemplate(
-        [
-            ("system", "You are an assistant that can summarize documents."),
-            ("human", "{document}"),
-        ]
-    )
-    my_chat_model = ChatOpenAI(model="gpt-4o-mini", max_tokens=100)
-    my_output_parser = StrOutputParser()
-    my_langchain = my_prompt_template | my_chat_model | my_output_parser
-
-    # convert to runnable
-    my_runnable_model = RunnableModel("my_langchain", my_langchain)
-    print(
-        my_runnable_model.invoke({"document": "This is a document."}).content
-    )  # prints the response from the model

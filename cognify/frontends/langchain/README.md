@@ -8,7 +8,7 @@ The translatable runnables should follow the following formats:
 
 The purpose of this is to separate the definition of the runnable from its invocation. If there are `RunnableLambda`s interspersed, changes to any prompt templates or model outputs only take place at runtime and can differ based on the input. Once a runnable has been translated, it can be freely used in more complex chains. 
 
-For more control over which runnables are optimized, pass the `--no-translate` flag to the `$ cognify optimize` command. Then, manually connect a Langchain `Runnable` to Cognify by wrapping your `Runnable` with our wrapper class `cognify.RunnableModel`:
+For more control over which runnables are optimized, you can manually wrap your `Runnable` with our wrapper class `cognify.RunnableModel`:
 ```python
 from langchain_core._prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI

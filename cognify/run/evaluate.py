@@ -8,7 +8,7 @@ from cognify.optimizer.core import driver
 from cognify.optimizer.evaluation.evaluator import (
     EvaluatorPlugin,
     EvaluationResult,
-    EvalTask
+    EvalTask,
 )
 from cognify.optimizer.evaluation.metric import MetricBase
 
@@ -42,9 +42,11 @@ def evaluate(
         evaluator_fn=eval_fn,
         n_parallel=n_parallel,
     )
-    if config_id == 'NoChange':
+    if config_id == "NoChange":
         if workflow is None:
-            raise ValueError("If evaluating the original workflow, path to the script should be provided")
+            raise ValueError(
+                "If evaluating the original workflow, path to the script should be provided"
+            )
         eval_task = EvalTask(
             script_path=workflow,
             args=[],
@@ -54,21 +56,25 @@ def evaluate(
             aggregated_proposals={},
             trace_back=["evaluate_raw"],
         )
-        result = evaluator.get_score(mode='test', task=eval_task, show_process=True)
+        result = evaluator.get_score(mode="test", task=eval_task, show_process=True)
         print(f"----- Testing Raw Program -----")
-        print(f"=========== Evaluation Results ===========") 
-        print("  Quality: {:.3f}, Cost per 1K invocation ($): {:.2f} $".format(result.reduced_score, result.reduced_price * 1000))
+        print(f"=========== Evaluation Results ===========")
+        print(
+            "  Quality: {:.3f}, Cost per 1K invocation ($): {:.2f} $".format(
+                result.reduced_score, result.reduced_price * 1000
+            )
+        )
         print("===========================================")
         return result
-    
+
     if not control_param and not opt_result_path:
-    # If both are provided, control_param will be used
+        # If both are provided, control_param will be used
         raise ValueError("Either control_param or opt_result_path should be provided")
-    
+
     if control_param is None:
-        control_param_save_path = os.path.join(opt_result_path, 'control_param.json')
+        control_param_save_path = os.path.join(opt_result_path, "control_param.json")
         control_param = ControlParameter.from_json_profile(control_param_save_path)
-    
+
     opt_driver = driver.MultiLayerOptimizationDriver(
         layer_configs=control_param.opt_layer_configs,
         opt_log_dir=control_param.opt_history_log_dir,

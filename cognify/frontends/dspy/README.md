@@ -2,7 +2,7 @@
 
 In DSPy, the `dspy.Predict` class is the primary abstraction for obtaining a response from a language model. A predictor contains a `dspy.Signature`, from which we infer the system prompt, input variables, and output label. In DSPy, the language model is globally configured in `dspy.settings`. The translation process will operate on an entire `dspy.Module` (i.e., a workflow), converting each `dspy.Predict`s into a `cognify.PredictModel`. As with DSPy, we will only translate predictors that are instantiated in the module's `__init__()`; users should refrain from initializing new predictors in the module's `forward()`.
 
-For more control over which predictors are optimized, pass the `--no-translate` flag to the `$ cognify optimize` command. Then, manually connect a DSPy `dspy.Predict` to Cognify by wrapping your `dspy.Predict` with our wrapper class `cognify.PredictModel`:
+For more control over which predictors are optimized, manually wrap a `dspy.Predict` with our wrapper class `cognify.PredictModel`:
 ```python
 import dspy
 import cognify

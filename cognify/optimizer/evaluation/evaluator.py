@@ -281,15 +281,15 @@ class EvalTask:
         _be_quiet()
         # directly raise interrupt signal
         _stay_alert()
-        
+
         try:
             schema, module_pool = self.load_and_transform()
-            
+
             start_time = time.time()
             result = schema.program(input)
             end_time = time.time()
             score = evaluator.score(label, result)
-            
+
             # get price and demo of running the program
             price = 0.0
             lm_to_demo = {}
@@ -298,14 +298,23 @@ class EvalTask:
                 demo = lm.get_last_step_as_demo()
                 if demo is not None:
                     lm_to_demo[lm.name] = demo
-                
-            q.put((task_index, True, result, score, price, lm_to_demo, end_time - start_time))
+
+            q.put(
+                (
+                    task_index,
+                    True,
+                    result,
+                    score,
+                    price,
+                    lm_to_demo,
+                    end_time - start_time,
+                )
+            )
         except KeyboardInterrupt:
             q.put((task_index, False, None, 0.0, 0.0, None, 0.0))
         finally:
             sema.release()
-                
-    
+
     def show_opt_trace(self) -> str:
         trace_lines = []
         trace_lines.append("********** Detailed Optimization Trace **********\n")
@@ -476,7 +485,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
                     results.append(eval_result)
                     if show_process:
                         update_pbar(pbar, eval_result)
-                        
+
                 input, label = data[pair_idx]
                 sema.acquire()
                 worker = mp.Process(
@@ -496,17 +505,17 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
 
         for worker in all_workers:
             worker.join()
-        
+
         if not results:
             return EvaluationResult(
-                ids=[f'{mode}_{i}' for i in indices],
+                ids=[f"{mode}_{i}" for i in indices],
                 scores=[0.0],
                 prices=[0.0],
                 exec_times=[0.0],
                 total_eval_cost=0.0,
                 complete=False,
             )
-        
+
         # re-order the results according to the task index
         results = sorted(results, key=lambda x: x[0])
 

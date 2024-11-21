@@ -5,7 +5,7 @@ Submodules
 ----------
 
 compiler.graph.base module
------------------------
+--------------------------
 
 .. automodule:: compiler.graph.base
    :members:
@@ -13,7 +13,7 @@ compiler.graph.base module
    :show-inheritance:
 
 compiler.graph.llm module
-----------------------
+-------------------------
 
 .. automodule:: compiler.graph.llm
    :members:
@@ -21,7 +21,7 @@ compiler.graph.llm module
    :show-inheritance:
 
 compiler.graph.modules module
---------------------------
+-----------------------------
 
 .. automodule:: compiler.graph.modules
    :members:
@@ -29,7 +29,7 @@ compiler.graph.modules module
    :show-inheritance:
 
 compiler.graph.program module
---------------------------
+-----------------------------
 
 .. automodule:: compiler.graph.program
    :members:

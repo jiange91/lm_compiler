@@ -43,9 +43,7 @@ class RunnableModel(Runnable):
   These indepedent units should be split out of more complex chains.
   """
 
-    def cognify_runnable(
-        self, name: str, runnable: RunnableSequence = None
-    ) -> Model:
+    def cognify_runnable(self, name: str, runnable: RunnableSequence = None) -> Model:
         if not runnable:
             return None
 
@@ -98,7 +96,8 @@ class RunnableModel(Runnable):
 
         # input variables (ignore partial variables)
         input_vars: List[Input] = [
-            Input(name=input_var) for input_var in self.chat_prompt_template.input_variables
+            Input(name=input_var)
+            for input_var in self.chat_prompt_template.input_variables
         ]
 
         # lm config
@@ -112,13 +111,15 @@ class RunnableModel(Runnable):
 
         # StructuredModel only supports pydantic types
         # all other output formatting or parsing will be applied functionally to the result
-        if output_parser is not None and isinstance(output_parser.OutputType, BaseModel):
+        if output_parser is not None and isinstance(
+            output_parser.OutputType, BaseModel
+        ):
             # custom format instructions
             try:
                 custom_format_instructions = output_parser.get_format_instructions()
             except NotImplementedError:
                 custom_format_instructions = None
-            
+
             output_format = OutputFormat(
                 schema=output_parser.OutputType,
                 should_hint_format_in_prompt=True,
@@ -178,17 +179,25 @@ def as_runnable(cog_lm: Model):
     runnable_cog_lm.cog_lm = cog_lm
     return RunnableLambda(runnable_cog_lm.invoke)
 
-if __name__=='__main__':
+
+if __name__ == "__main__":
     from langchain_core.prompts import ChatPromptTemplate
     from langchain_openai.chat_models import ChatOpenAI
     from langchain_core.output_parsers import StrOutputParser
 
     # typical langchain code
-    my_prompt_template = ChatPromptTemplate([("system", "You are an assistant that can summarize documents."), ("human", "{document}")])
+    my_prompt_template = ChatPromptTemplate(
+        [
+            ("system", "You are an assistant that can summarize documents."),
+            ("human", "{document}"),
+        ]
+    )
     my_chat_model = ChatOpenAI(model="gpt-4o-mini", max_tokens=100)
     my_output_parser = StrOutputParser()
     my_langchain = my_prompt_template | my_chat_model | my_output_parser
 
     # convert to runnable
     my_runnable_model = RunnableModel("my_langchain", my_langchain)
-    print(my_runnable_model.invoke({"document": "This is a document."}).content)  # prints the response from the model
+    print(
+        my_runnable_model.invoke({"document": "This is a document."}).content
+    )  # prints the response from the model

@@ -75,7 +75,7 @@ def optimize(
     *,
     eval_fn: Union[Callable, MetricBase] = None,
     eval_path: str = None,
-    val_set = None,
+    val_set=None,
     resume: bool = False,
     force: bool = False,
 ):
@@ -87,12 +87,16 @@ def optimize(
     # create directory for logging
     if not os.path.exists(control_param.opt_history_log_dir):
         os.makedirs(control_param.opt_history_log_dir, exist_ok=True)
-    
+
     # if exist opt logs, check if reuse or force
-    top_layer_opt_dir = os.path.join(control_param.opt_history_log_dir, control_param.opt_layer_configs[0].layer_name)
+    top_layer_opt_dir = os.path.join(
+        control_param.opt_history_log_dir, control_param.opt_layer_configs[0].layer_name
+    )
     if os.path.isdir(top_layer_opt_dir) and len(os.listdir(top_layer_opt_dir)) > 0:
         if not resume and not force:
-            raise ValueError(f"Directory {control_param.opt_history_log_dir} is not empty, if you want to resume/overwrite previous checkpoint, please set -r/-f flag in cli or pass resume=True/force=True in function call")
+            raise ValueError(
+                f"Directory {control_param.opt_history_log_dir} is not empty, if you want to resume/overwrite previous checkpoint, please set -r/-f flag in cli or pass resume=True/force=True in function call"
+            )
     if force:
         # clear the directory
         for f in os.listdir(control_param.opt_history_log_dir):

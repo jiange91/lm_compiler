@@ -1,8 +1,8 @@
 .. _cog_intro:
 
-************
-Introduction
-************
+********************
+Introduction to Cogs
+********************
 
 A core concept in Cognify is `Cogs`, a term we use to refer to all types of optimizations that could apply to gen AI workflows.
 `Cogs` can be optimizations that work across components in a gen AI workflow by changing the workflow structure (e.g., decompose a component into two);

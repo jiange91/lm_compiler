@@ -139,7 +139,7 @@ class OptimizationLayer:
         self.opt_target_lm_names: set[str] = None
         self.save_ckpt_interval = save_ckpt_interval
         self.top_down_info: TopDownInformation = None
-        
+
         self._best_score = None
         self._lowest_cost = None
         self.quality_constraint = quality_constraint
@@ -328,10 +328,12 @@ class OptimizationLayer:
         with self._study_lock:
             max_id = None
             for log in self.opt_logs.values():
-                id = int(log.id.split('_')[-1])
+                id = int(log.id.split("_")[-1])
                 max_id = id if max_id is None else max(max_id, id)
         new_trial_number = max_id + 1 if max_id is not None else 0
-        return '.'.join(self.top_down_info.trace_back + [f'{self.name}_{new_trial_number}'])
+        return ".".join(
+            self.top_down_info.trace_back + [f"{self.name}_{new_trial_number}"]
+        )
 
     def propose(
         self,
@@ -346,10 +348,14 @@ class OptimizationLayer:
         for i in range(n_sample):
             with self._study_lock:
                 trial = self.study.ask(self.param_categorical_dist)
-            
-            logger.debug(f"- {self.name} - apply param - Trial {trial.number} params: {trial.params}")
+
+            logger.debug(
+                f"- {self.name} - apply param - Trial {trial.number} params: {trial.params}"
+            )
             trial_id_str = self.generate_trial_id()
-            trial_log = self.trial_log_cls(params=trial.params, bo_trial_id=trial.number, id=trial_id_str)
+            trial_log = self.trial_log_cls(
+                params=trial.params, bo_trial_id=trial.number, id=trial_id_str
+            )
 
             self.opt_logs[trial_log.id] = trial_log
             program_copy = copy.deepcopy(ms)
@@ -443,7 +449,7 @@ class OptimizationLayer:
         json.dump(opt_logs_json_obj, open(opt_log_path, "w+"), indent=4)
         params = [param for params in self.params.values() for param in params]
         dump_params(params, param_save_path)
-    
+
     def prepare_next_level_tdi(
         self,
         new_program: list[Module],
@@ -472,7 +478,7 @@ class OptimizationLayer:
             other_python_paths=python_paths,
         )
         next_level_info.trace_back.append(trial_id)
-        
+
         # add current level params for next level
         for lm_name, params in self.params.items():
             # NOTE: params might be updated when scheduling the current iteration
@@ -488,7 +494,7 @@ class OptimizationLayer:
     ) -> EvaluationResult:
         next_trial, program, new_trace, log_id = self.propose(base_program, 1)[0]
         next_level_info = self.prepare_next_level_tdi(program, new_trace, log_id)
-        
+
         if _should_exit():
             return None
 
@@ -513,15 +519,21 @@ class OptimizationLayer:
         opt_config = self.top_down_info.opt_config
         num_current_trials = len(self.opt_logs)
         pbar_position = ask_for_position()
-        
+
         def _update_pbar(pbar, eval_result: EvaluationResult):
             score, cost = self.get_eval_feedback(eval_result)
             if score is not None and cost is not None:
-                self._best_score = score if self._best_score is None else max(self._best_score, score)
-                self._lowest_cost = cost if self._lowest_cost is None else min(self._lowest_cost, cost)
-                pbar.set_description(self._gen_opt_bar_desc(self._best_score, self._lowest_cost))
+                self._best_score = (
+                    score if self._best_score is None else max(self._best_score, score)
+                )
+                self._lowest_cost = (
+                    cost if self._lowest_cost is None else min(self._lowest_cost, cost)
+                )
+                pbar.set_description(
+                    self._gen_opt_bar_desc(self._best_score, self._lowest_cost)
+                )
             pbar.update(1)
-        
+
         initial_score = self._best_score if self._best_score is not None else 0.0
         initial_cost = self._lowest_cost if self._lowest_cost is not None else 0.0
         with tqdm(
@@ -574,7 +586,7 @@ class OptimizationLayer:
                         except Exception as e:
                             logger.error(f"Error in evaluating task: {e}")
                             raise
-                    
+
         release_position(pbar_position)
 
     def get_finished_bo_trials(self, need_copy: bool) -> list[FrozenTrial]:
@@ -637,7 +649,11 @@ class OptimizationLayer:
                 print("--------------------------------------------------------")
                 print("Pareto_{}".format(i + 1))
                 # logger.info("  Params: {}".format(trial_log.params))
-                print("  Quality: {:.3f}, Cost per 1K invocation ($): {:.2f}".format(trial_log.score, trial_log.price * 1000))
+                print(
+                    "  Quality: {:.3f}, Cost per 1K invocation ($): {:.2f}".format(
+                        trial_log.score, trial_log.price * 1000
+                    )
+                )
                 print("  Applied at: {}".format(trial_log.id))
                 # logger.info("  config saved at: {}".format(log_path))
 
@@ -647,15 +663,15 @@ class OptimizationLayer:
 
     def _load_opt_ckpt(self, opt_log_path: str):
         self.load_opt_log(opt_log_path)
-        
+
         if self.opt_logs:
             candidates = self.get_all_candidates()
             if candidates:
                 self._best_score = max([log.score for log, _ in candidates])
                 self._lowest_cost = min([log.price for log, _ in candidates])
-        
+
         for trial_log_id, trial_log in self.opt_logs.items():
-            assert trial_log.finished, f'Trial {trial_log_id} is not finished'
+            assert trial_log.finished, f"Trial {trial_log_id} is not finished"
             trial = optuna.trial.create_trial(
                 params=trial_log.params,
                 values=[trial_log.score, trial_log.price],
@@ -663,9 +679,10 @@ class OptimizationLayer:
             )
             if self.quality_constraint is not None:
                 self.add_constraint(trial_log.score, trial)
-                trial.set_system_attr(_base._CONSTRAINTS_KEY, get_quality_constraint(trial))
+                trial.set_system_attr(
+                    _base._CONSTRAINTS_KEY, get_quality_constraint(trial)
+                )
             self.study.add_trial(trial)
-    
 
     def load_opt_log(self, opt_log_path: str):
         with open(opt_log_path, "r") as f:

@@ -38,11 +38,6 @@ class CommonArgs:
             metavar="path_to_config",
         )
         parser.add_argument(
-            "--no-translate",
-            action="store_true",
-            help="Skip the translation of langchain runnables/dspy modules from the workflow script.",
-        )
-        parser.add_argument(
             "-l",
             "--log_level",
             type=str,
@@ -67,7 +62,7 @@ class CommonArgs:
 class OptimizationArgs(CommonArgs):
     resume: bool = False
     force: bool = False
-    
+
     @staticmethod
     def add_cli_args(parser: argparse.ArgumentParser):
         CommonArgs.add_cli_args(parser)
@@ -78,11 +73,12 @@ class OptimizationArgs(CommonArgs):
             help="Resume optimization from the last checkpoint.",
         )
         parser.add_argument(
-            '-f', '--force',
-            action='store_true',
+            "-f",
+            "--force",
+            action="store_true",
             help="Force to overwrite the previous checkpoint.",
         )
-            
+
 
 @dataclasses.dataclass
 class EvaluationArgs(CommonArgs):
@@ -103,7 +99,7 @@ class EvaluationArgs(CommonArgs):
             type=str,
             required=True,
             help="Select one configuration by ID for evaluation. If evaluating the original workflow, use 'NoChange'.",
-            metavar='Pareto_x/NoChange',
+            metavar="Pareto_x/NoChange",
         )
         parser.add_argument(
             "-j",

@@ -1,7 +1,17 @@
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional
 from cognify._compat import override
-from cognify.llm.prompt import Input, FilledInputVar, CompletionMessage, Demonstration, Content, TextContent, ImageContent, FilledInputVar, get_image_content_from_upload
+from cognify.llm.prompt import (
+    Input,
+    FilledInputVar,
+    CompletionMessage,
+    Demonstration,
+    Content,
+    TextContent,
+    ImageContent,
+    FilledInputVar,
+    get_image_content_from_upload,
+)
 from cognify.llm.output import OutputLabel, OutputFormat
 import litellm
 from litellm import completion, get_supported_openai_params, ModelResponse
@@ -447,6 +457,10 @@ class StructuredModel(Model):
         lm_config: Optional[LMConfig] = None,
         opt_register: bool = True,
     ):
+        assert isinstance(
+            output_format.schema, BaseModel
+        ), "Output format must be a Pydantic `BaseModel`"
+
         self.output_format: OutputFormat = output_format
         super().__init__(
             agent_name,

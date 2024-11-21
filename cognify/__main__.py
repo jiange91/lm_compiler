@@ -3,7 +3,12 @@ import debugpy
 import logging
 
 
-from cognify.cognify_args import init_cognify_args, OptimizationArgs, EvaluationArgs, InspectionArgs
+from cognify.cognify_args import (
+    init_cognify_args,
+    OptimizationArgs,
+    EvaluationArgs,
+    InspectionArgs,
+)
 from cognify.optimizer.plugin import capture_module_from_fs
 from cognify.optimizer.registry import get_registered_data_loader
 from cognify.optimizer.control_param import ControlParameter
@@ -16,19 +21,19 @@ logger = logging.getLogger(__name__)
 
 
 def from_cognify_args(args):
-    if args.mode == 'optimize':
+    if args.mode == "optimize":
         return OptimizationArgs.from_cli_args(args)
-    elif args.mode == 'evaluate':
+    elif args.mode == "evaluate":
         return EvaluationArgs.from_cli_args(args)
-    elif args.mode == 'inspect':
+    elif args.mode == "inspect":
         return InspectionArgs.from_cli_args(args)
     else:
         raise ValueError(f"Unknown mode: {args.mode}")
-    
+
 
 def parse_pipeline_config_file(config_path, load_data: bool = True):
     config_module = capture_module_from_fs(config_path)
-    
+
     # get optimizer control parameters
     control_param = ControlParameter.build_control_param(loaded_module=config_module)
     if not load_data:
@@ -42,12 +47,15 @@ def parse_pipeline_config_file(config_path, load_data: bool = True):
         f"val set: {0 if not val_set else len(val_set)}, "
         f"test set: {0 if not test_set else len(test_set)}"
     )
-    
+
     return (train_set, val_set, test_set), control_param
 
+
 def optimize_routine(opt_args: OptimizationArgs):
-    (train_set, val_set, test_set), control_param = parse_pipeline_config_file(opt_args.config)
-    
+    (train_set, val_set, test_set), control_param = parse_pipeline_config_file(
+        opt_args.config
+    )
+
     cost, frontier, opt_logs = optimize(
         script_path=opt_args.workflow,
         control_param=control_param,
@@ -59,9 +67,12 @@ def optimize_routine(opt_args: OptimizationArgs):
         force=opt_args.force,
     )
     return cost, frontier, opt_logs
-    
+
+
 def evaluate_routine(eval_args: EvaluationArgs):
-    (train_set, val_set, test_set), control_param = parse_pipeline_config_file(eval_args.config)
+    (train_set, val_set, test_set), control_param = parse_pipeline_config_file(
+        eval_args.config
+    )
     result = evaluate(
         config_id=eval_args.select,
         test_set=test_set,
@@ -74,34 +85,35 @@ def evaluate_routine(eval_args: EvaluationArgs):
     )
     return result
 
+
 def inspect_routine(inspect_args: InspectionArgs):
     _, control_param = parse_pipeline_config_file(inspect_args.config, load_data=False)
     inspect(
         control_param=control_param,
         dump_frontier_details=inspect_args.dump_frontier_details,
     )
-    
-    
+
+
 def main():
     # debugpy.listen(5678)
     # print("Waiting for debugger attach")
     # debugpy.wait_for_client()
     # debugpy.breakpoint()
-    
+
     parser = argparse.ArgumentParser()
     init_cognify_args(parser)
     raw_args = parser.parse_args()
     _configure_logger(raw_args.log_level)
-    
+
     cognify_args = from_cognify_args(raw_args)
-    if raw_args.mode == 'optimize':
+    if raw_args.mode == "optimize":
         optimize_routine(cognify_args)
-    elif raw_args.mode == 'evaluate':
+    elif raw_args.mode == "evaluate":
         evaluate_routine(cognify_args)
     else:
         inspect_routine(cognify_args)
     return
 
+
 if __name__ == "__main__":
     main()
-    

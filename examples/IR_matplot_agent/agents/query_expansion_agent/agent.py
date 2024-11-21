@@ -1,7 +1,7 @@
 from .prompt import SYSTEM_PROMPT, EXPERT_USER_PROMPT
 from agents.openai_chatComplete import completion_with_backoff, completion_with_log
 from agents.utils import fill_in_placeholders, get_error_message, is_run_code_success, print_chat_message, common_lm_config
-from cognify.llm.model import LMConfig
+import cognify
 from cognify.hub.cogs.reasoning import ZeroShotCoT
 
 
@@ -30,9 +30,8 @@ class QueryExpansionAgent():
         return expanded_query_instruction
 
 
-from cognify.llm.model import Model, Input, OutputLabel
 from pydantic import BaseModel, Field
-qgen_lm_config = LMConfig(
+qgen_lm_config = cognify.LMConfig(
     custom_llm_provider='openai',
     model='gpt-4o-mini',
     kwargs= {
@@ -40,8 +39,8 @@ qgen_lm_config = LMConfig(
     }
 )
 
-query_expansion_agent = Model(agent_name='query expansion', system_prompt=SYSTEM_PROMPT, 
-                              input_variables=[Input(name='query')],
-                              output=OutputLabel(name='expanded_query'),
+query_expansion_agent = cognify.Model(agent_name='query expansion', system_prompt=SYSTEM_PROMPT, 
+                              input_variables=[cognify.Input(name='query')],
+                              output=cognify.OutputLabel(name='expanded_query'),
                                 lm_config=qgen_lm_config)
 # ZeroShotCoT.direct_apply(query_expansion_agent)

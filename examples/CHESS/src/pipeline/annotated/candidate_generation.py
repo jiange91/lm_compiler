@@ -4,10 +4,7 @@ import sys
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', '..', '..', '..'))
 
 from typing import Any
-from cognify.frontends.langchain.connector import as_runnable
-from cognify.llm import Model, Input, OutputFormat, OutputLabel
-
-from cognify.llm import *
+import cognify
 from cognify.hub.cogs.reasoning import ZeroShotCoT, PlanBefore
 from llm.parsers import SQLGenerationOutput, RawSqlOutputParser
 from cognify.hub.cogs import ensemble
@@ -54,11 +51,11 @@ output_format_instructions = \
 Please only provide a valid SQL query in a single string. Do not include any additional information or explanations.
 """
 
-exec = Model(agent_name="candidate_generation",
+exec = cognify.Model(agent_name="candidate_generation",
             system_prompt=system_prompt, 
-             inputs=[Input(name=input) for input in inputs], 
-             output=OutputLabel(name=output_format, custom_output_format_instructions=output_format_instructions))
-raw_runnable_exec = as_runnable(exec) | RawSqlOutputParser()
+             inputs=[cognify.Input(name=input) for input in inputs], 
+             output=cognify.cognify.OutputLabel(name=output_format, custom_output_format_instructions=output_format_instructions))
+raw_runnable_exec = cognify.cognify.as_runnable(exec) | RawSqlOutputParser()
 
 @chain
 def runnable_exec(input: dict):

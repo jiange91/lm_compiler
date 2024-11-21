@@ -4,9 +4,9 @@ from . import column_selection
 from . import keyword_extraction
 from . import revision
 from . import table_selection
+import cognify
 from cognify.hub.cogs.reasoning import ZeroShotCoT
 from llm.models import get_llm_params
-from cognify.llm.model import LMConfig, Model
 
 add_cot = False
 
@@ -33,14 +33,14 @@ def set_lm_config_statically(pipeline_cfg):
     # Set up the language model configurations
     for node_name, cfg in pipeline_cfg.items():
         if node_name in _cognify_lm_registry:
-            lm: Model = _cognify_lm_registry[node_name]
+            lm: cognify.Model = _cognify_lm_registry[node_name]
             engine_name = cfg["engine"]
             temperature = cfg.get("temperature", 0)
             base_uri = cfg.get("base_uri", None)
             
             lm_params_cpy = get_llm_params(engine=engine_name, temperature=temperature, base_uri=base_uri).copy()
             model = lm_params_cpy.pop("model")
-            lm.lm_config = LMConfig(
+            lm.lm_config = cognify.LMConfig(
                 custom_llm_provider='openai',
                 model=model,
                 kwargs=lm_params_cpy,

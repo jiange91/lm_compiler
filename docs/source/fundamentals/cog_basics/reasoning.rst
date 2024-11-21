@@ -77,7 +77,7 @@ Cognify strives to provide a comprehensive set of reasoning options to cater to 
 
 .. code-block:: python
 
-   from compiler.llm.model import StructuredCogLM 
+   from compiler.llm.model import cognify.StructuredModel 
    from compiler.llm import InputVar, OutputFormat
    from compiler.frontends.dspy.connector import as_predict
    from pydantic import BaseModel
@@ -87,9 +87,9 @@ Cognify strives to provide a comprehensive set of reasoning options to cater to 
       supporting_facts: list[str]
       answer: str
 
-   # Initialize a StructuredCogLM
+   # Initialize a cognify.StructuredModel
    # Cognify will automatically inject format instructions to the prompt
-   cognify_agent = StructuredCogLM(
+   cognify_agent = cognify.StructuredModel(
       agent_name='qa_agent',
       system_prompt='You are an expert in responding to user questions based on provided context. Answer the question and also provide supporting facts from the context.',
       input_variables=[

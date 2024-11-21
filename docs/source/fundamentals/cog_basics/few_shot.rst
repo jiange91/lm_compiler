@@ -41,7 +41,7 @@ In Cognify’s few-shot learning approach, a **Demonstration** contains a comple
 
 .. rubric:: What Information Does a Demonstration Carry?
 
-- **Input Variables** (`filled_input_variables`): A list of ``FilledInputVar`` each carries the input label (a descriptive name) and the value in string.
+- **Input Variables** (`filled_input_variables`): A list of ``FilledInput`` each carries the input label (a descriptive name) and the value in string.
 - **Output** (`output`): The expected response for the input, which the model should strive to capture the pattern or logic behind.
 - **Reasoning** (`reasoning`, optional): An optional explanation of the reasoning process behind the output. This field provides insight into the steps or thought process used to arrive at the answer, which can enhance the model’s understanding and improve its problem-solving ability.
 - **ID** (`id`): A unique identifier for the demonstration, which helps manage and reference specific examples.
@@ -84,17 +84,17 @@ Cognify also provides a programmable interface to manage and apply your few-shot
 
 .. code-block:: python
 
-   from compiler.llm.prompt import Demonstration, FilledInputVar
+   from compiler.llm.prompt import Demonstration, FilledInput
 
    # A list of demos for task: extract keywords from a question given some hints for retrieval
    demos = [
       Demonstration(
          filled_input_variables=[
-            FilledInputVar(
+            FilledInput(
                InputVar("QUESTION"), 
                value="What is the annual revenue of Acme Corp in the United States for 2022?"
             ),
-            FilledInputVar(
+            FilledInput(
                InputVar("HINT"), 
                value="Focus on financial reports and U.S. market performance for the fiscal year 2022."
             )
@@ -105,11 +105,11 @@ Cognify also provides a programmable interface to manage and apply your few-shot
       # Can also optionally provide your reasoning text
       Demonstration(
          filled_input_variables=[
-            FilledInputVar(
+            FilledInput(
                InputVar("QUESTION"), 
                value="In the Winter and Summer Olympics of 1988, which game has the most number of competitors? Find the difference of the number of competitors between the two games."
             ),
-            FilledInputVar(
+            FilledInput(
                InputVar("HINT"), 
                value="the most number of competitors refer to MAX(COUNT(person_id)); SUBTRACT(COUNT(person_id where games_name = '1988 Summer'), COUNT(person_id where games_name = '1988 Winter'));"
             )
@@ -120,8 +120,8 @@ Cognify also provides a programmable interface to manage and apply your few-shot
    ]
 
    # To add demos to your agent directly
-   from compiler.llm.model import CogLM
-   agent = CogLm()
+   from compiler.llm.model import cognify.Model
+   agent = cognify.Model()
    agent.add_demos(demos=demos)
 
    # To create a few-shot cog with these predefined demos

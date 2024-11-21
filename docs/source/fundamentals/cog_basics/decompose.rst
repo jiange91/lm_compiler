@@ -59,13 +59,13 @@ The following example demonstrates how to create an `LMScaffolding` Cog using Co
 
 .. code-block:: python
 
-   from compiler.llm import CogLM
+   from compiler.llm import cognify.Model
    from compiler.cog_hub.scaffolding import LMScaffolding
 
    # Initial LLM agents in the workflow
-   agent_0 = CogLM(...)
-   agent_1 = CogLM(...)
-   agent_2 = CogLM(...)
+   agent_0 = cognify.Model(...)
+   agent_1 = cognify.Model(...)
+   agent_2 = cognify.Model(...)
 
    # Bootstrap the LMScaffolding Cog for all agents
    scaffolding_cogs = LMScaffolding.bootstrap(

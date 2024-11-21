@@ -1,4 +1,3 @@
-from cognify.optimizer.layered_optimizer_pluggable import InnerLoopBayesianOptimization, OuterLoopOptimization
 from cognify.hub.cogs.fewshot import LMFewShot
 from cognify.hub.cogs.scaffolding import LMScaffolding
 from cognify.hub.cogs import reasoning, model_selection, common
@@ -12,12 +11,12 @@ import random
 import optuna
 import numpy as np
 
+import cognify
 from cognify.hub.cogs.common import NoChange
 from cognify.hub.cogs.reasoning import ZeroShotCoT, PlanBefore
 from cognify.optimizer.plugin import OptimizerSchema
 from cognify.optimizer.analysis.param_sensitivity import SensitivityAnalyzer
 from cognify.optimizer.core import driver, flow
-from cognify.llm.model import LMConfig
 
 def load_data():
     def load_from_file(input_file):
@@ -123,7 +122,7 @@ def opt(train, val, test):
     # downsample(evaluator)
     
     lm_options = [
-        LMConfig(
+        cognify.LMConfig(
             provider='openai',
             model='gpt-4o-mini',
             cost_indicator=1.0,
@@ -131,7 +130,7 @@ def opt(train, val, test):
                 'temperature': 0.0,
             }
         ),
-        LMConfig(
+        cognify.LMConfig(
             provider='openai',
             model='gpt-4o',
             cost_indicator=1.0,

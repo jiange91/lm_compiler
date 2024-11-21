@@ -312,7 +312,7 @@ To see how well an optimized workflow peforms, you can load it into your code an
    result = optimized_workflow(question=question, documents=documents)
    print(result)
 
-You can also evaluate an optimized workflow on your entire test dataset. This is defined in your dataloader, where you can split your data into train, validation, and test sets as mentioned above. 
+You can also evaluate an optimized workflow on your entire test dataset. When you define your dataloader, you already split the data into train, validation, and test sets. The following command will run the optimized workflow on your test data.
 
 .. code-block:: bash
 

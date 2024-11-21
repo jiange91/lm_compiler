@@ -17,29 +17,34 @@ _cognify_tqdm = tqdm
 
 logger = logging.getLogger(__name__)
 
+
 def aggregator_factory(lm: Model, code: str):
-    agg_func_obj = compile(code, '<string>', 'exec')
+    agg_func_obj = compile(code, "<string>", "exec")
     local_name_space = {}
     exec(agg_func_obj, {}, local_name_space)
     func_name = agg_func_obj.co_names[0]
     aggregator = local_name_space[func_name]
-    
+
     if isinstance(lm, StructuredModel):
+
         @wraps(aggregator)
         def wrapper_kernel(**kwargs):
             result = aggregator(**kwargs)
             mresult = lm.output_format.schema.model_validate(result)
             field = lm.output_format.schema.__name__
             return {field: getattr(mresult, field)}
+
     else:
-        wrapper_kernel = aggregator       
+        wrapper_kernel = aggregator
     sig = inspect.signature(wrapper_kernel)
-    logger.debug(f'Aggregator signature: {sig}')
+    logger.debug(f"Aggregator signature: {sig}")
     return wrapper_kernel
+
 
 NON_ALPHANUMERIC = re.compile(r"[^a-zA-Z0-9]+")
 UPPER_CAMEL_CASE = re.compile(r"[A-Z][a-zA-Z0-9]+")
 LOWER_CAMEL_CASE = re.compile(r"[a-z][a-zA-Z0-9]+")
+
 
 class BadJsonSchema(Exception):
     pass
@@ -64,10 +69,11 @@ def _load_module_from_file(file_path: Path) -> ModuleType:
     spec.loader.exec_module(module)
     return module
 
+
 def json_schema_to_pydantic_model(json_schema: dict, file_path: str) -> type[BaseModel]:
     json_schema_as_str = json.dumps(json_schema)
     pydantic_models_as_str: str = JsonSchemaParser(json_schema_as_str).parse()
-    
+
     module_file_path = Path(file_path).resolve()
     with open(module_file_path, "wb+") as f:
         f.write(pydantic_models_as_str.encode())
@@ -77,4 +83,3 @@ def json_schema_to_pydantic_model(json_schema: dict, file_path: str) -> type[Bas
     main_model_name = _to_camel_case(name=json_schema["title"])
     pydantic_model: type[BaseModel] = module.__dict__[main_model_name]
     return pydantic_model
-

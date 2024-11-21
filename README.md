@@ -1,4 +1,4 @@
-[Cognify-Logo](cognify.jpg)
+![Cognify-Logo](./cognify.jpg)
 
 # Cognify: A Comprehensive, Multi-Faceted Gen AI Workflow Optimizer
 
@@ -13,7 +13,7 @@ pip install cognify
 
 Or install from the source:
 ```
-git clone <...>
+git clone https://github.com/WukLab/Cognify
 cd Cognify
 pip install -e .
 ```
@@ -24,7 +24,7 @@ You can use Cognify with our CLI:
 ```bash
 cognify optimize workflow.py   
 ```
-where `workflow.py` is your workflow source code. Cognify currently supports unmodified [LangChain](https://github.com/langchain-ai/langchain) and [DSPy](https://github.com/stanfordnlp/dspy) workflow source code. You can also port your existing workflow written directly on Python or develop new Python-based workflows with our [simple workflow interface]().
+where `workflow.py` is your workflow source code. Cognify currently supports unmodified [LangChain](https://github.com/langchain-ai/langchain) and [DSPy](https://github.com/stanfordnlp/dspy) workflow source code. You can also port your existing workflow written directly on Python or develop new Python-based workflows with our [simple workflow interface](./cognify/llm/README.md).
 
 Additionally, Cognify automatically searches for the default three files under the same directory: `config.py`, `dataloader.py`, and `evaluator.py`. You can also specify these three files explicitly by:
 ```bash

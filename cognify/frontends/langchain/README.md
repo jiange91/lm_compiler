@@ -1,6 +1,6 @@
 # LangChain
 
-In Langchain, the `Runnable` class is the primary abstraction for executing a task. To create a `CogLM` from a runnable chain, the chain must contain a chat prompt template, a chat model, and optionally an ouptut parser. The chat prompt template is used to construct the system prompt and obtain the input variables, the chat model is used to obtain the language model config, and the output parser is used to construct the output format. If no output parser is provided, Cognify will assign a default label. 
+In Langchain, the `Runnable` class is the primary abstraction for executing a task. To create a `cognify.Model` from a runnable chain, the chain must contain a chat prompt template, a chat model, and optionally an ouptut parser. The chat prompt template is used to construct the system prompt and obtain the input variables, the chat model is used to obtain the language model config, and the output parser is used to construct the output format. If no output parser is provided, Cognify will assign a default label. 
 
 The translatable runnables should follow the following formats:
 - `BaseChatPromptTemplate | BaseChatModel`
@@ -8,10 +8,10 @@ The translatable runnables should follow the following formats:
 
 The purpose of this is to separate the definition of the runnable from its invocation. If there are `RunnableLambda`s interspersed, changes to any prompt templates or model outputs only take place at runtime and can differ based on the input. Once a runnable has been translated, it can be freely used in more complex chains. 
 
-For more control over which runnables are optimized, pass the `--no-translate` flag to the `$ cognify optimize` command. Then, manually connect a Langchain `Runnable` to Cognify by wrapping your `Runnable` with our wrapper class `cognify.RunnableModel`:
+For more control over which runnables are optimized, you can manually wrap your `Runnable` with our wrapper class `cognify.RunnableModel`:
 ```python
 from langchain_core._prompts import ChatPromptTemplate
-from langchain_openai.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import PydanticOutputParser
 from pydantic import BaseModel
 
@@ -29,7 +29,7 @@ runnable = prompt | model | parser
 
 ### wrap your runnable like so
 import cognify
-runnable = cognify.RunnableModel(runnable, name="gen_capital_city")
+runnable = cognify.RunnableModel(name="gen_capital_city", runnable)
 
 def call_capital_city_qa(country):
   runnable.invoke({"country": country}) ### invocation code remains unchanged

@@ -44,10 +44,10 @@ Cognify also allows direct application of any ensemble options to your workflow:
 .. code-block:: python
 
    from compiler.graph.program import Workflow
-   from compiler.llm import CogLM
+   from compiler.llm import cognify.Model
    from compiler.cog_hub.ensemble import UniversalSelfConsistency
 
-   agent = CogLM(...)
+   agent = cognify.Model(...)
    usc = UniversalSelfConsistency(num_path=3)
    ensembled_new_agent: Workflow = usc.apply(agent)
 

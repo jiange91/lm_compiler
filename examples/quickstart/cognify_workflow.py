@@ -16,9 +16,10 @@ class AnswerOutput(BaseModel):
     answer: str
     supporting_facts: List[str]
     
-from cognify.llm import StructuredModel, Input, OutputFormat, LMConfig
+
 # Initialize the model
-lm_config = LMConfig(
+import cognify
+lm_config = cognify.LMConfig(
     custom_llm_provider='openai',
     model='gpt-4o-mini',
     kwargs= {
@@ -27,17 +28,17 @@ lm_config = LMConfig(
 )
 
 # Define agent routine 
-cognify_qa_agent = StructuredModel(
+
+cognify_qa_agent = cognify.StructuredModel(
     agent_name="qa_agent",
     system_prompt=system_prompt,
-    input_variables=[Input(name="question"), Input(name="documents")],
-    output_format=OutputFormat(schema=AnswerOutput),
+    input_variables=[cognify.Input(name="question"), cognify.Input(name="documents")],
+    output_format=cognify.OutputFormat(schema=AnswerOutput),
     lm_config=lm_config
 )
 
 # Use builtin connector for smooth integration
-from cognify.frontends.langchain import as_runnable
-qa_agent = as_runnable(cognify_qa_agent)
+qa_agent = cognify.as_runnable(cognify_qa_agent) 
 
 def doc_str(docs):
     context = []

@@ -7,8 +7,8 @@ Cognify documentation
 =====================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: Contents
 
    user_guide/index
    fundamentals/index

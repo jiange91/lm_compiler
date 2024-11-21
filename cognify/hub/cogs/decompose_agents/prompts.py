@@ -169,7 +169,6 @@ Example output:
 '''
 
 
-
 finalize_new_agents_system = """
 You are an expert at designing LLM multi-agent workflow. Your team just re-wrote a single-agent system into a multi-agent system but haven't finalized it yet. Now, you need to align the new system to the functionality of the original system.
 

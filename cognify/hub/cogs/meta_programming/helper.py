@@ -4,13 +4,11 @@ import re
 import time
 
 # Import the typing library for type hints
-from typing import Any, Dict, List, Optional, Tuple, Union, Sequence
+from typing import Any, Dict, List
 
 # Import the necessary classes from the utils folder
 from .execute_code import execute_code_with_timeout
 from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.prompts.chat import MessageLike
 from langchain_core.messages import (
     AIMessage,
     HumanMessage,
@@ -18,8 +16,6 @@ from langchain_core.messages import (
     BaseMessage,
 )
 
-from cognify.graph.base import StatePool
-from cognify.langchain_bridge.interface import LangChainSemantic, LangChainLM
 import logging
 
 logger = logging.getLogger(__name__)
@@ -44,7 +40,6 @@ class MetaPromptingScaffolding:
         extract_output: bool = False,
         use_zero_shot_cot_in_expert_messages: bool = False,
     ) -> None:
-
         # Set the generator and verifier parameters + summarizer parameters (optional)
         self.generator_settings = generator_settings
         self.verifier_settings = verifier_settings
@@ -56,7 +51,7 @@ class MetaPromptingScaffolding:
 
         # Set the fresh_eyes flag
         self.fresh_eyes = fresh_eyes
-        
+
         # Other helper variables and constants for the model
         self.triple_quotes = '"""'
 
@@ -66,13 +61,13 @@ class MetaPromptingScaffolding:
         self.expert_python_message = expert_python_message
         self.intermediate_feedback = intermediate_feedback
         self.use_zero_shot_cot_in_expert_messages = use_zero_shot_cot_in_expert_messages
-        
+
     def meta_model_generate(
         self,
         lm: ChatOpenAI,
         reasoning_steps: List[BaseMessage],
         chat_prompt: list[BaseMessage],
-        counter = 0,
+        counter=0,
         last_answer: str = None,
         original_question: str = None,
         trial_num: int = 0,
@@ -86,24 +81,19 @@ class MetaPromptingScaffolding:
                 return chat_prompt
 
             # TODO(msuzgun)[improvement]: In the future, if the total content is to long, we can use the summarizer to summarize the whole content.
-            
 
             while True:
-                round_info = f'Round {counter+1}: '
+                round_info = f"Round {counter+1}: "
                 if counter == 6:
                     round_info += (
-                        f"This is the last round; so, please present your final answer."
+                        "This is the last round; so, please present your final answer."
                     )
-                    
-                chat_prompt.append(
-                    HumanMessage(round_info)
-                )
+
+                chat_prompt.append(HumanMessage(round_info))
 
                 # Step 1: Generate an output from the meta model
                 meta_model_output = routine.invoke(chat_prompt).content
-                chat_prompt.append(
-                    AIMessage(meta_model_output)
-                )
+                chat_prompt.append(AIMessage(meta_model_output))
                 reasoning_steps.append(AIMessage(meta_model_output))
                 logger.debug(f"Meta model output: {meta_model_output}")
 
@@ -142,17 +132,21 @@ class MetaPromptingScaffolding:
 
                             # Add "Let's think step by step." to the instruction.
                             if self.use_zero_shot_cot_in_expert_messages:
-                                model_instruction += f"\n\nLet's think step by step."
-                            
+                                model_instruction += "\n\nLet's think step by step."
+
                             if model_name == "Expert Python":
                                 model_instruction = f"{self.expert_python_message}.\n\n{model_instruction}"
 
                             current_chat_prompt = [
-                                    SystemMessage(model_instruction),
-                                    SystemMessage("Once you have determined the final answer, please present it using the format below:\n\n>> FINAL ANSWER:\n\"\"\"\n[final answer]\n\"\"\"")
-                                ]
+                                SystemMessage(model_instruction),
+                                SystemMessage(
+                                    'Once you have determined the final answer, please present it using the format below:\n\n>> FINAL ANSWER:\n"""\n[final answer]\n"""'
+                                ),
+                            ]
                             expert_routine = lm
-                            model_output = expert_routine.invoke(current_chat_prompt).content
+                            model_output = expert_routine.invoke(
+                                current_chat_prompt
+                            ).content
 
                             ## Special case for Expert Python
                             if model_name == "Expert Python":
@@ -163,24 +157,16 @@ class MetaPromptingScaffolding:
                                         "Please run this code!"
                                     )[0].strip()
                                     # Get the output
-                                    code_text = code_text.replace(
-                                        "```python", "```"
-                                    )
+                                    code_text = code_text.replace("```python", "```")
                                     try:
-                                        code_text = code_text.split("```")[
-                                            -2
-                                        ].strip()
+                                        code_text = code_text.split("```")[-2].strip()
                                     except:
-                                        code_text = code_text.split("```")[
-                                            1
-                                        ].strip()
+                                        code_text = code_text.split("```")[1].strip()
 
                                     # print(f"We are going to execute the following code:\n{code_text}\n\n")
                                     code_text = rf"{code_text}"
                                     # Execute the code
-                                    python_output = execute_code_with_timeout(
-                                        code_text
-                                    )
+                                    python_output = execute_code_with_timeout(code_text)
                                     # Add the output to the model output
                                     model_output += f"Here is the Python code used to solve the problem:\n\n{code_text}\n\nHere is the output of the code when executed:\n\n{python_output}"
 
@@ -213,7 +199,7 @@ class MetaPromptingScaffolding:
                     intermediate_output = (
                         f"{intermediate_output}\n\n{self.intermediate_feedback}"
                     )
-                    logger.debug(f'Intermediate output: {intermediate_output}')
+                    logger.debug(f"Intermediate output: {intermediate_output}")
 
                     # Add the intermediate output to the full prompt or messages.
                     chat_prompt.append(HumanMessage(intermediate_output))
@@ -237,12 +223,10 @@ class MetaPromptingScaffolding:
                     #     -1
                     # ].strip()
                     # print(f"Final answer: {final_answer}")
-                    return chat_prompt 
+                    return chat_prompt
                 # Step 2(c): We need to continue the (meta-)conversation.
                 else:
-                    chat_prompt.append(
-                        HumanMessage(self.error_message)
-                    )
+                    chat_prompt.append(HumanMessage(self.error_message))
                     return self.meta_model_generate(
                         lm=lm,
                         chat_prompt=chat_prompt,

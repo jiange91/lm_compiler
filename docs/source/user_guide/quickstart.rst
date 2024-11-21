@@ -167,8 +167,8 @@ Next, we show how to modify this agent to connect it to the optimizer. Cognify p
    )
 
    # Define agent's role
-   from compiler.llm.model import StructuredCogLM, InputVar, OutputFormat
-   cognify_qa_agent = StructuredCogLM(
+   from compiler.llm.model import cognify.StructuredModel, InputVar, OutputFormat
+   cognify_qa_agent = cognify.StructuredModel(
       agent_name="qa_agent",
       system_prompt=system_prompt,
       input_variables=[InputVar(name="question"), InputVar(name="documents")],
@@ -180,9 +180,9 @@ Next, we show how to modify this agent to connect it to the optimizer. Cognify p
    from compiler.frontends.langchain.connector import as_runnable
    qa_agent = as_runnable(cognify_qa_agent)
 
-To facilitate smooth integration with various frontend, we encourage using provided adapters (e.g. ``as_runnable``) to convert the CogLM agent interface. 
+To facilitate smooth integration with various frontend, we encourage using provided adapters (e.g. ``as_runnable``) to convert the cognify.Model agent interface. 
 
-To this point, we successfully create a CogLM agent that the optimizer can transform while seamlessly fitting into the original workflow.
+To this point, we successfully create a cognify.Model agent that the optimizer can transform while seamlessly fitting into the original workflow.
 
 .. note::
    

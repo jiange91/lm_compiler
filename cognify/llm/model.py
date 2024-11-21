@@ -3,13 +3,12 @@ from typing import List, Dict, Optional
 from cognify._compat import override
 from cognify.llm.prompt import (
     Input,
-    FilledInputVar,
+    FilledInput,
     CompletionMessage,
     Demonstration,
     Content,
     TextContent,
     ImageContent,
-    FilledInputVar,
     get_image_content_from_upload,
 )
 from cognify.llm.output import OutputLabel, OutputFormat

@@ -1,8 +1,7 @@
-from litellm import ModelResponse, Usage
+from litellm import Usage
 from openai.types.completion_usage import CompletionUsage, PromptTokensDetails, CompletionTokensDetails
 from dataclasses import dataclass
 from typing import List, Optional, Dict
-from cognify.llm.prompt import FilledInputVar
 
 @dataclass
 class ResponseMetadata:

@@ -35,10 +35,10 @@ from pipeline.annotated import cognify_registry
 from pipeline.workflow_builder import build_pipeline
 
 from cognify.llm.model import LMConfig
-from cognify.optimizer import register_opt_program_entry, register_opt_score_fn
+from cognify.optimizer import register_opt_workflow, register_opt_score_fn
 
 
-@register_opt_program_entry
+@register_opt_workflow
 def worker(input):
     """
     Main function to run the pipeline with the specified configuration.

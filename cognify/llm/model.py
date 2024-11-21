@@ -3,12 +3,10 @@ from typing import List, Dict, Optional
 from cognify._compat import override
 from cognify.llm.prompt import Input, FilledInputVar, CompletionMessage, Demonstration, Content, TextContent, ImageContent, FilledInputVar, get_image_content_from_upload
 from cognify.llm.output import OutputLabel, OutputFormat
-import litellm
-from litellm import completion, get_supported_openai_params, ModelResponse
+from litellm import completion, get_supported_openai_params
 from pydantic import BaseModel
 import json
 import time
-from litellm import Usage
 from openai.types import CompletionUsage
 from cognify.llm.response import ResponseMetadata, aggregate_usages, StepInfo
 from cognify.graph.base import Module, StatePool
@@ -25,13 +23,13 @@ _thread_local_chain = threading.local()
 
 def _local_forward(_local_lm: 'Model', messages: List[APICompatibleMessage], inputs: Dict[str, str], model_kwargs: Optional[dict] = None) -> str:
   if _local_lm.reasoning:
-    responses: List[ModelResponse] = _local_lm.reasoning.forward(_local_lm, messages, model_kwargs)
+    responses = _local_lm.reasoning.forward(_local_lm, messages, model_kwargs)
     _local_lm.response_metadata_history.extend([ResponseMetadata(model=response.model, 
                                                                  cost=response._hidden_params["response_cost"], 
                                                                  usage=response.usage) for response in responses])
     response = responses[-1]
   else:
-    response: ModelResponse = _local_lm._forward(messages, model_kwargs)
+    response = _local_lm._forward(messages, model_kwargs)
     _local_lm.response_metadata_history.append(ResponseMetadata(model=response.model, 
                                                                 cost=response._hidden_params["response_cost"], 
                                                                 usage=response.usage))
@@ -182,7 +180,7 @@ class Model(Module):
   def get_total_cost(self) -> float:
     return sum([response_metadata.cost for response_metadata in self.response_metadata_history])
   
-  def get_current_token_usages(self) -> List[Usage]:
+  def get_current_token_usages(self):
     return copy.deepcopy([response_cost_usage.usage for response_cost_usage in self.response_metadata_history])
 
   def get_aggregated_token_usage(self) -> CompletionUsage:
@@ -252,7 +250,7 @@ class Model(Module):
     self.exec_times.append(dur)
     self.version_id += 1
 
-  def prepare_input(self, messages: List[APICompatibleMessage], inputs: Dict[Input|str, str], model_kwargs: Optional[dict]) -> ModelResponse:
+  def prepare_input(self, messages: List[APICompatibleMessage], inputs: Dict[Input|str, str], model_kwargs: Optional[dict]):
     # input variables will always take precedence
     if not inputs:
       assert messages, "Messages must be provided"
@@ -321,9 +319,9 @@ class Model(Module):
     return [message.to_api() for message in messages]
 
 
-  def _forward(self, messages: List[APICompatibleMessage], model_kwargs: dict) -> ModelResponse:
+  def _forward(self, messages: List[APICompatibleMessage], model_kwargs: dict):
     model = model_kwargs.pop("model")
-    response: ModelResponse = completion(model, 
+    response = completion(model, 
                       self._get_api_compatible_messages(messages),
                       **model_kwargs)
     return response
@@ -346,7 +344,7 @@ class StructuredModel(Model):
     # expects response to be `response.choices[0].message.content`
     return self.output_format.schema.model_validate_json(response)
 
-  def parse_response(self, response: ModelResponse) -> BaseModel:
+  def parse_response(self, response) -> BaseModel:
     return self.parse_response_str(response.choices[0].message.content)
 
   @override
@@ -377,7 +375,7 @@ class StructuredModel(Model):
     return api_compatible_messages
 
   @override
-  def _forward(self, messages: List[APICompatibleMessage], model_kwargs: dict) -> ModelResponse:
+  def _forward(self, messages: List[APICompatibleMessage], model_kwargs: dict):
     litellm.enable_json_schema_validation = True
 
     params = get_supported_openai_params(model=model_kwargs["model"], 
@@ -386,7 +384,7 @@ class StructuredModel(Model):
       raise ValueError(f"Model {model_kwargs['model']} from provider {model_kwargs.get('custom_llm_provider', None)} does not support structured output") 
     else:
       model = model_kwargs.pop('model')
-      response: ModelResponse = completion(model, 
+      response = completion(model, 
                         self._get_api_compatible_messages(messages),
                         response_format=self.output_format.schema,
                         **model_kwargs)

@@ -87,9 +87,9 @@ workflow.add_edge("refine_code", END)
 
 app = workflow.compile()
 
-from cognify.optimizer.registry import register_opt_program_entry
+from cognify.optimizer.registry import register_opt_workflow
 
-@register_opt_program_entry
+@register_opt_workflow
 def do_code_gen(input):
     state = app.invoke(
         {"incomplete_function": input}

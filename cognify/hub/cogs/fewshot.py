@@ -11,12 +11,9 @@ from itertools import permutations, combinations
 
 logger = logging.getLogger(__name__)
 
-from cognify.graph.base import Module
-from cognify.graph.program import Workflow
 from cognify.llm import Model, Demonstration
 from cognify.llm.prompt import FilledInputVar, Input
-from cognify.hub.cogs.common import EvolveType, CogBase, CogLayerLevel, OptionBase, DynamicCogBase, NoChange
-from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
+from cognify.hub.cogs.common import EvolveType, CogLayerLevel, OptionBase, DynamicCogBase, NoChange
 from cognify.hub.cogs.utils import dump_params, load_params
 from typing import List
     
@@ -28,7 +25,7 @@ class LMFewShot(DynamicCogBase):
         max_num: int = 2,
         name: str = "few_shot",
         module_name: str = None,
-        eval_result: EvaluationResult = None,
+        eval_result = None,
         inherit: bool = True,
         allow_duplicate: bool = False,
         user_demos: list[Demonstration] = None,
@@ -67,7 +64,7 @@ class LMFewShot(DynamicCogBase):
                 option_name = f'{self.module_name}_demos_user_combo_{i}'
                 self.add_option(DemoOption(option_name, list(user_option)))
 
-    def _evolve(self, eval_result: EvaluationResult) -> EvolveType:
+    def _evolve(self, eval_result) -> EvolveType:
         """Update demo options given current evaluation result
         
         always select top k demos as new option candidate 
@@ -204,7 +201,7 @@ class LMFewShot(DynamicCogBase):
     @classmethod
     def bootstrap(
         cls,
-        evaluator: EvaluatorPlugin,
+        evaluator,
         script_path: str,
         script_args: list[str] = [],
         max_num: int = 5,
@@ -221,7 +218,7 @@ class LMFewShot(DynamicCogBase):
             if os.path.exists(log_path):
                 logger.info(f'Loading from {log_path}')
                 return load_params(log_path)
-        
+        from cognify.optimizer.evaluation.evaluator import EvalTask 
         eval_task = EvalTask(
             script_path=script_path,
             args=script_args,

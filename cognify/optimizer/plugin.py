@@ -3,10 +3,6 @@ from typing import Callable, Any
 import importlib
 import logging
 from pathlib import Path
-from cognify.frontends.dspy.connector import PredictModel
-from cognify.frontends.langchain.connector import RunnableModel
-import dspy
-from langchain_core.runnables import RunnableSequence
 from collections import defaultdict
 
 logger = logging.getLogger(__name__)
@@ -53,6 +49,10 @@ def capture_module_from_fs(module_path: str):
     # translate
     num_translated = 0
     named_runnables = defaultdict(int)
+    import dspy
+    from cognify.frontends.dspy.connector import PredictModel
+    from cognify.frontends.langchain.connector import RunnableModel
+    from langchain_core.runnables import RunnableSequence
     for k, v in module.__dict__.items():
         if isinstance(v, RunnableModel) or isinstance(v, PredictModel):
             continue

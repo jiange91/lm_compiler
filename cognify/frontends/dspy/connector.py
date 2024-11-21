@@ -1,12 +1,10 @@
 import dspy
 from dspy.adapters.chat_adapter import ChatAdapter, prepare_instructions
-from cognify.graph.base import StatePool
 from cognify.llm import Model, StructuredModel, Input, OutputFormat
 from cognify.llm.model import LMConfig
 import uuid
 from pydantic import BaseModel, create_model
 from typing import Any, Dict, Type
-from litellm import ModelResponse
 import warnings
 
 APICompatibleMessage = Dict[str, str] # {"role": "...", "content": "..."}

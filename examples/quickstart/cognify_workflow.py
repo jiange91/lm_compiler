@@ -66,9 +66,9 @@ workflow.add_edge("grounded_qa", END)
 
 app = workflow.compile()
 
-from cognify.optimizer import register_opt_program_entry
+from cognify.optimizer import register_opt_workflow
 
-@register_opt_program_entry
+@register_opt_workflow
 def do_qa(input):
     response = app.invoke(
         {"question": input[0], "documents": input[1]}

@@ -1,6 +1,5 @@
 from abc import ABC, ABCMeta
-from typing import List, Optional, Union
-import traceback
+from typing import List, Union
 from cognify.hub.cogs.common import CogBase, CogLayerLevel, OptionBase, NoChange
 from cognify.llm import Model, StructuredModel
 from cognify.llm.model import APICompatibleMessage

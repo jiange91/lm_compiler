@@ -6,15 +6,20 @@ from cognify.run.optimize import optimize
 from cognify.run.inspect import inspect
 
 from cognify.optimizer.evaluation.evaluator import EvaluationResult
-from . import _logging
+from cognify import _logging
+
+from cognify.hub.search.default import create_search as create_default_search
+
 
 __all__ = [
     "llm",
     "optimizer",
-    "metric", 
+    "metric",
     "evaluate",
     "load_workflow",
     "optimize",
     "inspect",
     "EvaluationResult",
+    "create_default_search",
+    "cogs",
 ]

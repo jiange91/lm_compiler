@@ -17,7 +17,7 @@ from cognify.llm.model import LMConfig, Model
 from cognify.llm import Input, OutputLabel
 from cognify.frontends.dspy.connector import as_predict
 from evaluator import answer_f1
-from cognify.optimizer import register_opt_program_entry
+from cognify.optimizer import register_opt_workflow
 
 lm_config = LMConfig(
     custom_llm_provider='openai',
@@ -93,7 +93,7 @@ class BasicMH(dspy.Module):
 
 pipeline = BasicMH(passages_per_hop=2)
 
-@register_opt_program_entry
+@register_opt_workflow
 def do_qa(question: str):
     answer = pipeline(question=question)
     return answer

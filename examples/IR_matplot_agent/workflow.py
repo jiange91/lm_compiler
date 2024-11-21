@@ -16,7 +16,7 @@ import sys
 from agents.utils import is_run_code_success, run_code, get_code
 from agents.dspy_common import OpenAIModel
 from agents.config.openai import openai_kwargs
-from cognify.optimizer import register_opt_program_entry, register_opt_score_fn
+from cognify.optimizer import register_opt_workflow, register_opt_score_fn
 import dotenv
 
 # set to info level logging
@@ -30,7 +30,7 @@ parser.add_argument('--model_type', type=str, default='gpt-4o-mini')
 parser.add_argument('--visual_refine', type=bool, default=True)
 args = parser.parse_args()
 
-@register_opt_program_entry
+@register_opt_workflow
 def mainworkflow(input: dict):
     query, directory_path, example_id, input_path = input['query'], input['directory_path'], input['example_id'], input['input_path']
     # Prepare workspace

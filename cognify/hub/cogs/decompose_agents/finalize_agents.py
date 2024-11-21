@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import List, Dict, Union
 from cognify.llm import Model, StructuredModel, OutputFormat
-from cognify.optimizer.decompose_agents import NewAgentSystem
+from cognify.hub.cogs.decompose_agents import NewAgentSystem
 from .prompts import finalize_new_agents_system
 
 # ================== Finalize New Agents ==================

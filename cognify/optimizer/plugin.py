@@ -27,11 +27,17 @@ class OptimizerSchema:
 
     @classmethod
     def capture(cls, script_path: str) -> "OptimizerSchema":
-        (clear_registry(),)
+        clear_registry()
         capture_module_from_fs(script_path)
+        opt_targets = get_registered_opt_modules()
+        if not opt_targets:
+            logger.warning("No Optimizable modules found")
+        program = get_registered_opt_program_entry()
+        if not program:
+            raise ValueError("The workflow entry point is not defined, please register it with `@register_opt_workflow`")
         schema = cls(
-            program=get_registered_opt_program_entry(),
-            opt_target_modules=get_registered_opt_modules(),
+            program=program,
+            opt_target_modules=opt_targets,
         )
         return schema
 

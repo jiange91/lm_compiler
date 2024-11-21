@@ -195,10 +195,10 @@ In this example, we use a sample dataset from from the `HotPotQA <https://hotpot
 Step 3: Configure the Optimizer Behavior
 ----------------------------------------
 
-Cognify's optimization behavior can be configured by users. For example, what Cogs XXX-add-link-to-fundamentals to use, the maximum iterations of trials to perform, what models Cognify can choose from. 
-All these configurations are defined in one configuration file. By default, Cognify assumes that this file is ``config.py`` in the same workflow directory. You can also use another file name by XXX.
+Cognify's optimization behavior can be configured by users. For example, what :ref:`Cogs <fundamentals>` to use, the maximum iterations of trials to perform, what models Cognify can choose from. 
+All these configurations are defined in one configuration file. By default, Cognify assumes that this file is ``config.py`` in the same workflow directory. You can also use another file name by specifying :code:`-c /path/to/custom_config.py` in the command line.
 Cognify provides a set of `pre-defined configurations <https://github.com/WukLab/Cognify/blob/main/cognify/hub/search/default.py>`_ for you to start with.
-Read more about optimizer configuration here XXX-add-link-to-fundamentals.
+Read more about optimizer configuration :ref:`here <fundamentals>`.
 
 For this example, let's just use just use the default configuration. So the ``config.py`` looks like this:
 
@@ -295,10 +295,24 @@ Beflow is the transformations that ``Pareto_1`` applies to the original workflow
 Evaluate a Specific Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To see how well an optimized version peforms, you can evaluate it by giving it a sample input. XXX-add-this-use-first.
+To see how well an optimized workflow peforms, you can load it into your code and run it on a sample input like so:
 
+.. code-block:: python
 
-You can also evaluate a specific optimized version on your test dataset, which is defined in the data loader. XXX-true?talk-a-bit-more-about-how-it's-defined-in-the-data-loader
+   question = "What was the 2010 population of the birthplace of Gerard Piel?"
+   documents = [
+      'Gerard Piel | Gerard Piel (1 March 1915 in Woodmere, N.Y. – 5 September 2004) was the publisher of the new Scientific American magazine starting in 1948. He wrote for magazines, including "The Nation", and published books on science for the general public. In 1990, Piel was presented with the "In Praise of Reason" award by the Committee for Skeptical Inquiry (CSICOP).',
+   ]
+
+   # load optimized workflow
+   optimized_workflow = cognify.load_workflow(
+      config_id='Pareto_1',
+      opt_result_path='opt_results'
+   )
+   result = optimized_workflow(question=question, documents=documents)
+   print(result)
+
+You can also evaluate an optimized workflow on your entire test dataset. This is defined in your dataloader, where you can split your data into train, validation, and test sets as mentioned above. 
 
 .. code-block:: bash
 

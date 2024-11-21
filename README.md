@@ -1,4 +1,4 @@
-[Cognify-Logo](cognify.jpg)
+![Cognify-Logo](./cognify.jpg)
 
 # Cognify: A Comprehensive, Multi-Faceted Gen AI Workflow Optimizer
 

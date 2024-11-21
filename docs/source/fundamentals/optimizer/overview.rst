@@ -1,3 +1,5 @@
+.. _optimizer_overview:
+
 Overview
 ========
 

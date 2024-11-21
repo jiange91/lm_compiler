@@ -34,7 +34,7 @@ cognify optimize workflow.py -c /your/cog/custom_config.py
 Within the `config.py`, you should define the following:
 - **Data**: the Cognify optimizer relies on training data in the form of input-output pairs. This should be specified in `dataloader.py`. Read about how to [load your data]().
 - **Evaluation**: to evaluate the final workflow generation quality, you should define a scoring function in `evaluator.py`. Find out how to [evaluate your workflow]().
-- **Search**: You can choose between light, medium, or heavy search over the optimization space. Alternatively, we provide a few application-specific search techniques for the QA, code generation, and data visualization examples provided in the repo.
+- **Search**: You can choose between light, medium, or heavy search over the optimization space. Alternatively, we provide a few application-specific search techniques for the QA, code generation, and data visualization examples provided in the repo. Learn more about how to [configure search]().
 
 Our optimizer searches for a fixed number of trials and then saves the best results to a checkpoint, which can then be loaded in your code for future use using `cognify.load_workflow()`. If you'd like to run more trials, you can add the `-r` or `--resume` flag like so:
 ```bash

@@ -37,4 +37,14 @@ The figures below show the generation quality and execution cost effectiveness (
 Cognify pushes the cost-quality Pareto frontier over DSPy and non-optimized workflows across these workloads,
 achieving 3.7% to 27% quality improvements and 1.8x to 7x cost reduction.
 
+.. image:: /_static/images/hotpotqa.png
+    :alt: HotpotQA workload
+    :width: 30%
 
+.. image:: /_static/images/codegen.png
+    :alt: Code Generation workload
+    :width: 30%
+
+.. image:: /_static/images/chess.png
+    :alt: Text-2-sql workload
+    :width: 30%

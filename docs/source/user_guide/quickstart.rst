@@ -36,6 +36,8 @@ However, we highly encourage you to configure your optimization to achieve bette
 
 - **Config Optimization Settings**: Establish the overall optimization strategy by defining the maximum number of search iterations, quality constraint, or cost constraint. These settings allow you to choose whether to prioritize quality improvement, cost reduction, or minimize Cognify's optimization time.
 
+Read more about how to :ref:`configure your optimizer <config_search>`.
+
 A Minimal Example
 =================
 

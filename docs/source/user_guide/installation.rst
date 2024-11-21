@@ -2,17 +2,17 @@
 Installation
 *****************
 
-PIP
----
+Build from Source
+-----------------
 
-Cognify is available on PyPI and can be installed using pip:
+First, create a virtual environment and activate it:
 
 .. code-block:: bash
 
-    pip install cognify
-
-Build from Source
------------------
+    python3.10 -m venv cognify-env
+    source cognify-env/bin/activate
+    
+Then, clone the repository and install the package:
 
 .. code-block:: bash
 

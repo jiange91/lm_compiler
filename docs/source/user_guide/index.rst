@@ -13,3 +13,13 @@ Welcome! This guide provides tutorials, tips, and resources to help you get the 
     introduction
     installation
     quickstart
+
+.. toctree:: 
+    :maxdepth: 1
+    :caption: Tutorials
+
+    tutorials/overview
+    tutorials/connector
+    tutorials/evaluator
+    tutorials/dataloader
+    tutorials/optimizer

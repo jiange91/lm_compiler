@@ -4,36 +4,39 @@
 Cognify Quickstart
 ******************
 
-Building a high-quality, cost-effective generative AI application requires a systematic approach to defining, evaluating, and optimizing workflows. Cognify enables this by providing tools to construct multi-agent workflows, evaluate them against specific metrics, and systematically tune them for both quality and cost.
+This section demonstrates the basic way to use Cognify using a simple example.
 
-Integrate Cognify in **3** Steps
+Integrate Cognify in Three Steps
 ================================
 
 1. Connect to Your Workflow
 ---------------------------
 
-The first step in using Cognify is to connect it to your existing generative AI workflow. This involves integrating Cognify’s internal representation (IR) with the original components of your workflow, allowing the optimizer to control each agent’s behavior. The flexibility of Cognify’s IR means it can adapt to various AI modules, including LangChain, DSPy, and low-level Python code.
+The first step of using Cognify is to connect it to your existing gen-AI workflow. 
+We currently support unmodified programs written in LangChain and DSPy. 
+You can also develop gen-AI workflows on our Python-based interface or modify your existing Python programs to this interface.
 
 
 2. Build the Evaluation Pipeline
 --------------------------------
 
-Once the initial workflow is connected, the next step is to create an evaluation pipeline. This involves defining the data sources and performance metrics that will be used to assess the workflow.
+The next step is to create an evaluation pipeline. This involves providing a training dataset and an evaluator of your workflow.
 
-- **Data Source**: The evaluation pipeline begins by selecting a dataset appropriate for the task, such as a question-answering dataset for QA workflows. Cognify allows users to register a data loader function that returns a sequence of input/output paris for evaluation.
+- **Training Data**: Cognify relies on user supplied training data for its optimization process. Thus, you need to provide a data loader function that returns a sequence of input/output pairs served as the ground truth. 
 
-- **Metric Definition**: A scoring function is defined to measure the accuracy or relevance of the workflow’s output. The evaluation metric helps quantify workflow performance, allowing the optimizer to reason about how to search different configurations.
+- **Workflow Evaluator**: We expect users (developers of workflows) to understand how to evaluate their workflows. Thus, you need to provide an evaluator function for determining the generation quality. We provide several common evaluators such as F1 and LLM-as-a-judge that you could use to start with.
 
 3. Configure the Optimizer Behavior
 -----------------------------------
 
-With the workflow and evaluation pipeline in place, the final step is configuring the optimizer to refine the workflow’s performance. Cognify’s optimizer is highly flexible, enabling both fine-grained parameter tuning and larger structural adjustments to the workflow.
+The final step is to configure the optimization process. This step is optional. If not provided, Cognify will use default values to configure your optimization.
+However, we highly encourage you to configure your optimization to achieve better results. You can configure your optimization in the following ways:
 
-- **Select Search Space**: Define the *Cogs* and their *Options* that the optimizer will explore, also known as the search space.
+- **Select Model Set**: Define the set of models you want Cognify to try on your workflows. You are responsible for setting up your model API keys whenever they are needed.
 
-- **Decide Cog Placement**: Determine at which optimization *layer* each *Cog* should be placed. This decision impacts the update frequency at each Cog dimension and the stability of the optimization process.
+- **Select Cog Search Space**: Define the *Cogs* and their *Options* you want Cognify to explore. If not set, Cognify will use a default set of Cogs.
 
-- **Config Optimization Settings**: Establish the overall optimization strategy by defining the settings for search iterations, resource allocation policy and quality constraints. Normally users can control the trade-off between optimization cost and result by adjusting the configuration here.
+- **Config Optimization Settings**: Establish the overall optimization strategy by defining the maximum number of search iterations, quality constraint, or cost constraint. These settings allow you to choose whether to prioritize quality improvement, cost reduction, or minimize Cognify's optimization time.
 
 A Minimal Example
 =================

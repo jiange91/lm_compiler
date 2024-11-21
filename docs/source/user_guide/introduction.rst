@@ -7,19 +7,34 @@ What is Cognify
 Cognify: A Comprehensive, Multi-Faceted Gen AI Workflow Optimizer
 =================================================================
 
-Building high-quality, cost-effective generative AI applications is challenging due to the lack of systematic methods for tuning, testing, and optimizing workflows. Cognify addresses this need by providing a powerful tool that automatically enhances generation quality and reduces costs in generative AI workflows, including those built with frameworks like LangChain, DSPy, and Python.
+Today’s generative AI (gen AI) applications often involve creating pipelines of tasks known as gen-AI workflows.
+These workflows can include various components, such as gen AI model calls, tool calling, data retrieval, and other code executions. 
+A key difficulty in developing gen-AI workflows is the manual testing and optimization phase, which is extremely time-consuming.
+Moreover, the manually tuned workflows often have subpar generation quality or bloated execution cost.
 
-Today’s generative AI applications often rely on complex workflows rather than single model calls. These workflows can include various modules, such as generative model calls, API requests, database queries, and other code executions. They are commonly represented in graphical interfaces or programming frameworks, leading to complex configurations that are costly and difficult to optimize.
+Cognify is a fully automated gen-AI workflow optimization tool providing multi-faceted workflow optimizations.
+Cognify performs workflow-level optimization by evaluating and optimizing an entire workflow instead of at each individual workflow component.
+By combining comprehensive optimization techniques and multi-framework support, Cognify improves generative AI workflows' quality by up to 56% while reducing costs by as much as 10x, setting a new standard in gen AI workflow management.
 
-Despite the rising popularity of such gen AI workflows, manual optimization remains error-prone and resource-intensive. Existing tools typically focus on isolated modules or generation quality, overlooking the opportunity to optimize workflow architecture itself—potentially missing significant quality and cost improvements. In response, Cognify takes a holistic approach, focusing not only on individual module optimization but also on the structure and composition of entire workflows.
+To use Cognify, users supply their workflow source code, a sample input dataset, and an evaluator for determining the generation quality.
+Cognify transforms the user-supplied workflow into a set of optimized versions with different quality-cost combinations that users can choose from.
+These optimized versions are expressed in an intermediate representation (IR) that users can executed directly or use as the state to continue with more optimizations.
 
-Key Features of Cognify
-------------------------
 
-- **Multi-Objective Optimization**: Cognify balances both quality and cost by exploring a variety of configurations, providing users with optimized workflows along the Pareto frontier of quality and cost.
+Key Features
+------------
+
+- **Multi-Objective Optimization**: Cognify provides multiple optimized workflow versions with different quality-cost combinations for users to choose from.
 - **Architecture Tuning**: Unlike traditional optimizers, Cognify can modify workflow structures by adding, removing, reordering, and parallelizing modules. This approach can significantly improve both execution cost and output quality.
 - **Hierarchical Optimization Framework**: Cognify separates tuning options into architecture-maintaining (AM) and architecture-changing (AC) categories. This hierarchical model enhances efficiency, focusing on high-impact structural changes first, then fine-tuning each configuration.
 
-Cognify currently supports workflows written in LangChain, DSPy, and annotated Python. Users simply submit their workflow code, an evaluator, and sample inputs. Cognify then compiles the workflow, producing intermediate representations optimized for different quality-cost trade-offs. These representations can be executed directly or mapped back to the original format, making Cognify a versatile tool for modern generative AI needs.
+Benchmark Results
+-----------------
 
-By combining comprehensive optimization techniques and multi-framework support, Cognify improves generative AI workflows' quality by up to 56% while reducing costs by as much as 10x, setting a new standard in gen AI workflow management.
+We compare Cognify to non-optimized workflows and `DSPy <https://github.com/stanfordnlp/dspy>`_ using the `HotpotQA <https://hotpotqa.github.io/>`_ workload,
+a `code generation <>`_ workload, and a `text-to-SQL <>`_ workload.
+The figures below show the generation quality and execution cost effectiveness (larger the better for both) of these results.
+Cognify pushes the cost-quality Pareto frontier over DSPy and non-optimized workflows across these workloads,
+achieving 3.7% to 27% quality improvements and 1.8x to 7x cost reduction.
+
+

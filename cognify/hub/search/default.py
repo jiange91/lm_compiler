@@ -35,7 +35,7 @@ def create_light_search(search_params: SearchParams) -> ControlParameter:
         params.append(search_params.model_selection_cog)
     inner_loop_config = driver.LayerConfig(
         layer_name="light_opt_layer",
-        universal_params=[few_shot_params, reasoning_param],
+        universal_params=params,
         opt_config=inner_opt_config,
     )
 
@@ -70,7 +70,7 @@ def create_medium_search(search_params: SearchParams) -> ControlParameter:
         params.append(search_params.model_selection_cog)
     inner_loop_config = driver.LayerConfig(
         layer_name="medium_inner",
-        universal_params=[few_shot_params, reasoning_param],
+        universal_params=params,
         opt_config=inner_opt_config,
     )
 
@@ -124,7 +124,7 @@ def create_heavy_search(search_params: SearchParams) -> ControlParameter:
         params.append(search_params.model_selection_cog)
     inner_loop_config = driver.LayerConfig(
         layer_name="heavy_inner",
-        universal_params=[few_shot_params, reasoning_param],
+        universal_params=params,
         opt_config=inner_opt_config,
     )
 

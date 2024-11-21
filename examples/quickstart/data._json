@@ -5,7 +5,7 @@
             "Sacro GRA | Sacro GRA (Italian for 'Holy GRA') is a 2013 Italian documentary film directed by Gianfranco Rosi. It won the Golden Lion at the 70th Venice International Film Festival. It was the first documentary film to win the award at the Venice Festival.",
             "Gianfranco Rosi (director) | Gianfranco Rosi is an Italian director, cinematographer, producer and screenwriter. His film 'Sacro GRA' won Golden Lion at 70th Venice International Film Festival. 'Sacro GRA' is the first documentary film to win Golden Lion in history of the Venice film festival and the first Italian film to win in fifteen years, after Gianni Amelio's 'The Way We Laughed' won the award in 1998. His 2016 film 'Fire at Sea', a documentary focused on European migrant crisis on the Sicilian island of Lampedusa, won the Golden Bear at the 66th Berlin International Film Festival. Rosi is the only documentary filmmaker to win two top prizes at major European film festivals (Cannes, Berlin and Venice) and is currently the only filmmaker besides Michael Haneke, Jafar Panahi, Ang Lee, and Ken Loach to win two top European festival prizes in the 21st century."
         ],
-        "answer": "yes"
+        "label": "yes"
     },
     {
         "question": "What do students do at the school of New York University where Meleko Mokgosi is an artist and assistant professor?",
@@ -14,7 +14,7 @@
             "Learning Through Art | Learning Through Art is an educational program of the Solomon R. Guggenheim Museum. LTA pairs practicing artists with participating public elementary school classrooms throughout the five boroughs of New York City. These resident artists spend one day a week for a period of 10 or 20 weeks working with classroom instructors to create and execute an art curriculum for the students that ties in with current Guggenheim exhibitions and supports the core curriculum learning inside of the classroom. Participating classrooms visit the Guggenheim multiple times throughout the duration of their program, and student artwork is shown in a culminating exhibition at the Guggenheim Museum in their annual 'A Year With Children' showcase.",
             "Gallatin School of Individualized Study | The Gallatin School of Individualized Study (commonly known as Gallatin) is a small interdisciplinary college within New York University. Students design their own interdisciplinary program that meets their specific interests and career goals. Coursework can be taken at any of the schools that comprise NYU in addition to the school's own offerings."
         ],
-        "answer": "design their own interdisciplinary program"
+        "label": "design their own interdisciplinary program"
     },
     {
         "question": "Which is published more frequently, The People's Friend or Bust?",
@@ -22,7 +22,7 @@
             "Bust (magazine) | BUST is a women's lifestyle magazine that is published six times a year. The magazine is published by Debbie Stoller and Laurie Henzel.",
             "The People's Friend | The People's Friend is a British weekly magazine founded in 1869 and currently published by D.C. Thomson & Co. Ltd. Its tagline is 'The famous story magazine.'"
         ],
-        "answer": "The People's Friend"
+        "label": "The People's Friend"
     },
     {
         "question": "How much is spent on the type of whiskey that 1792 Whiskey is in the United States?",
@@ -32,7 +32,7 @@
             "1792 Whiskey | 1792 Whiskey is a Kentucky straight Bourbon whiskey produced by the Barton 1792 Distillery in Bardstown, Kentucky. The brand and distillery are owned by the Sazerac Company. It is part of a line of small-batch bourbons aimed at the high-end liquor market.",
             "Bourbon whiskey | Bourbon whiskey is a type of American whiskey, a barrel-aged distilled spirit made primarily from corn. The name is derived from the French Bourbon dynasty, although it is unclear precisely what inspired the whiskey's name (contenders include Bourbon County in Kentucky and Bourbon Street in New Orleans). Bourbon has been distilled since the 18th century. The use of the term 'bourbon' for the whiskey has been traced to the 1820s, and the term began to be used consistently in Kentucky in the 1870s. While bourbon may be made anywhere in the United States, it is strongly associated with the American South, and with Kentucky in particular. As of 2014, the distillers' wholesale market revenue for bourbon sold within the U.S. is about $2.7 billion, and bourbon makes up about two-thirds of the $1.6 billion of U.S. exports of distilled spirits."
         ],
-        "answer": "about $2.7 billion"
+        "label": "about $2.7 billion"
     },
     {
         "question": "The place where John Laub is an American criminologist and Distinguished University Professor in the Department of Criminology and Criminal Justice at was founded in what year?",
@@ -42,7 +42,7 @@
             "University of Maryland, Baltimore | The University of Maryland, Baltimore, (also known as University of Maryland: The Founding Campus, or UMB, UMAB) was founded in 1807. It comprises some of the oldest professional schools of dentistry, law, medicine, pharmacy, social work and nursing in the United States. It is the original campus of the University System of Maryland. Located on 60 acres (242,811 m\u00b2) in downtown Baltimore, it is part of the University System of Maryland. Effective July 1, 2010, Jay A. Perman was appointed president of the university by William English Kirwan, chancellor of the University System of Maryland.",
             "University of Maryland, College Park | The University of Maryland, College Park (often referred to as the University of Maryland, Maryland, UM, UMD, UMCP, or College Park) is a public research university located in the city of College Park in Prince George's County, Maryland, approximately 4 mi from the northeast border of Washington, D.C. Founded in 1856, the university is the flagship institution of the University System of Maryland. With a fall 2010 enrollment of more than 37,000 students, over 100 undergraduate majors, and 120 graduate programs, Maryland is the largest university in the state and the largest in the Washington Metropolitan Area. It is a member of the Association of American Universities and competes in athletics as a member of the Big Ten Conference."
         ],
-        "answer": "1856"
+        "label": "1856"
     },
     {
         "question": "What year did the mountain known in Italian as 'Monte Vesuvio', erupt?",
@@ -50,7 +50,7 @@
             "Eruption of Mount Vesuvius in 79 | The eruption of Mount Vesuvius in 79 was one of the most catastrophic volcanic eruptions in European history. Historians have learned about the eruption from the eyewitness account of Pliny the Younger, a Roman administrator and poet. It is the namesake for Vesuvian eruptions.",
             "Pompeii: The Last Day | Pompeii: The Last Day is a 2003 dramatized documentary that tells of the eruption of Mount Vesuvius on August 24 79 AD. This eruption covered the Roman cities of Pompeii and Herculaneum in ash and pumice, killing all those trapped between the volcano and the sea. The documentary portrays the different phases of the eruption; it was directed by Peter Nicholson and written by Edward Canfor-Dumas."
         ],
-        "answer": "79 AD"
+        "label": "79 AD"
     },
     {
         "question": "What was the full name of the author that memorialized Susan Bertie through her single volume of poems?",
@@ -59,7 +59,7 @@
             "Susan McCaslin | Susan Elizabeth McCaslin was born June 3, 1947, and is a Canadian poet who lives in Fort Langley, British Columbia. She taught English and Creative Writing at Douglas College in British Columbia from 1984 to 2007. She is a retired Faculty Emerita who has authored fourteen volumes of poetry. Her most recent volume is 'Painter, Poet, Mountain: After C\u00e9zanne' (Quattro Books, 2016). Her previous volume, Demeter Goes Skydiving (University of Alberta Press, 2011), was shortlisted for the BC Book Prize and the winner of the Alberta Book Publishing Award for 2012. She is an essayist, editor of poetry anthologies, children\u2019s author, memoirist, and creative non-fiction writer.",
             "Salve Deus Rex Judaeorum | Salve Deus Rex Judaeorum (Latin: 'Hail, God, King of the Jews') is a volume of poems by English poet Emilia Lanyer published in 1611. The volume contains several short poems, each dedicated to a different woman, a long poem also entitled 'Salve Deus Rex Judaeorum' and a country house poem entitled 'The Description of Cooke-ham'."
         ],
-        "answer": "Emilia Lanier"
+        "label": "Emilia Lanier"
     },
     {
         "question": "How many seasons did, the Guard with a FG% around .420, play in the NBA?",
@@ -69,7 +69,7 @@
             "List of career achievements by Allen Iverson | This page shows the career achievements of Allen Iverson. Allen Iverson played a total of 14 years in the National Basketball Association (NBA) playing for the Philadelphia 76ers, Denver Nuggets, Detroit Pistons and Memphis Grizzlies. He finished his career with 24,368 points and averaged 26.7 ppg, 3.7 rpg and 6.2 apg in 41.1 minutes per game throughout his career.",
             "Allen Iverson | Allen Ezail Iverson (born June 7, 1975) is an American former professional basketball player who played for 14 seasons in the National Basketball Association (NBA). He played both the shooting guard and point guard positions. Iverson was an eleven-time NBA All-Star, won the All-Star game MVP award in 2001 and 2005, and was the NBA's Most Valuable Player (MVP) in 2001. Iverson is now the captain/coach of 3's Company in the BIG3."
         ],
-        "answer": "14 seasons"
+        "label": "14 seasons"
     },
     {
         "question": "Estonian Philharmonic Chamber Choir won the Grammy Award for Best Choral Performance for two songs by a composer born in what year?",
@@ -78,7 +78,7 @@
             "Veljo Tormis | Veljo Tormis (7 August 1930 \u2013 21 January 2017) was an Estonian composer, regarded as one of the greatest living choral composers and one of the most important composers of the 20th century in Estonia. Internationally, his fame arises chiefly from his extensive body of choral music, which exceeds 500 individual choral songs, most of it a cappella. The great majority of these pieces are based on traditional ancient Estonian folksongs ('regilaulud'), either textually, melodically, or merely stylistically.",
             "Incantatio maris aestuosi | Incantatio maris aestuosi ('Incantation for a Stormy Sea') is an 'a cappella' choral composition by the Estonian composer Veljo Tormis completed in 1996. The piece was commissioned by the Swedish Orphei Dr\u00e4ngar and Finnish YL Male Voice Choir male choirs in remembrance of the victims of the ferry that sank on September 29, 1994. The piece is about six minutes in length."
         ],
-        "answer": "1935"
+        "label": "1935"
     },
     {
         "question": "Which of the sport analysts of The Experts Network is nicknamed 'The Iron Man'?",
@@ -86,7 +86,7 @@
             "A. C. Green | A. C. Green Jr. (born October 4, 1963) is an American retired National Basketball Association (NBA) player who played in more consecutive games than any other player in NBA and ABA history. With 1,192 straight games played, he earned the nickname 'Iron Man'. He played for the Los Angeles Lakers, Phoenix Suns, Dallas Mavericks and Miami Heat. He won three NBA championships with the Lakers, two in the 1980s during their Showtime era and again in 2000 in his second stint with the team. He was born and raised in Portland, Oregon and attended Benson Polytechnic High School. He was inducted into the Oregon Sports Hall of Fame in 2003. He played in 1278 out of 1281 games in his career (99.8%), with the three he missed coming in his second season, 1986\u201387.",
             "Iron man (sports streak) | An Iron man is an athlete of unusual physical endurance. This durability is generally measured by an athlete's ability to play without missing a game and/or start for an extended period of time, sometimes, even for an entire career. Some of the more notable athletes with significant streaks in sports history include baseball's Lou Gehrig and Cal Ripken Jr., American football's Brett Favre, basketball's A. C. Green, ice hockey's Doug Jarvis, and stock car racing's Jeff Gordon."
         ],
-        "answer": "Calvin Edwin Ripken Jr."
+        "label": "Calvin Edwin Ripken Jr."
     },
     {
         "question": "What are both National Bird and America's Heart and Soul?",
@@ -95,7 +95,7 @@
             "Heart Full of Soul | 'Heart Full of Soul' is a song recorded by English rock group the Yardbirds in 1965. Written by Graham Gouldman, it was the Yardbirds' first single after Jeff Beck replaced Eric Clapton as lead guitarist. Released only three months after 'For Your Love', 'Heart Full of Soul' reached the top ten on the charts in the United Kingdom and the United States.",
             "Heart and Soul (1917 film) | Heart and Soul is a 1917 American silent drama film directed by J. Gordon Edwards and starring Theda Bara. The film was based on the 1887 novel 'Jess' by H. Rider Haggard and shot at the Fox Studio in Fort Lee, New Jersey."
         ],
-        "answer": "What are both National Bird and America's Heart and Soul?"
+        "label": "What are both National Bird and America's Heart and Soul?"
     },
     {
         "question": "What was the 2010 population of the birthplace of Gerard Piel?",
@@ -105,7 +105,7 @@
             "Woodmere, New York | Woodmere is a hamlet and census-designated place (CDP) in Nassau County, New York, United States. The population was 17,121 at the 2010 census.",
             "Woodmere, Ohio | Woodmere is a village and eastern suburb of the Greater Cleveland area in the US state of Ohio. As of the 2010 census, Woodmere had a population of 884 residents. The village is bounded on the north by the city of Pepper Pike, on the west by the city of Beachwood, and on the south and east by the village of Orange."
         ],
-        "answer": "17,121"
+        "label": "17,121"
     },
     {
         "question": "On what streets is the hospital that cared for Molly Meldrum located?",
@@ -115,7 +115,7 @@
             "The Alfred Hospital | The Alfred, also known as Alfred Hospital or The Alfred Hospital, is a major hospital in Melbourne, Victoria. It is the second oldest hospital in Victoria, and the oldest Melbourne hospital still operating on its original site. It is located at the corner of Commercial and Punt Roads, Prahran, opposite Fawkner Park.",
             "Royal Prince Alfred Hospital | The Royal Prince Alfred Hospital (abbreviated RPAH or RPA, and sometimes shortened to PA Hospital) is a major public teaching hospital in Sydney, Australia, located on Missenden Road in Camperdown. It is a teaching hospital of the Central Clinical School of the Sydney Medical School at the University of Sydney and is situated in proximity to the Blackburn Building of the university's main campus. RPAH is the largest hospital in the Sydney Local Health District, with approximately 700 beds (circa 2005). Following a $350 million redevelopment, the perinatal hospital King George V Memorial Hospital has been incorporated into it."
         ],
-        "answer": "the corner of Commercial and Punt Roads"
+        "label": "the corner of Commercial and Punt Roads"
     },
     {
         "question": "What river is near the Crichton Collegiate Church?",
@@ -123,7 +123,7 @@
             "Crichton Collegiate Church | Crichton Collegiate Church is situated about 0.6 mi south west of the hamlet of Crichton in Midlothian, Scotland. Crichton itself is 1.4 mi west of Pathhead and 7.5 mi south of Scotland's capital city, Edinburgh. The church is reached by leaving the A68 road at the north end of Pathhead and turning on to the B6367 minor road at Crichton on a single track lane signposted Crichton Castle. Before reaching the castle car park, on the left, is the church, situated at grid reference [NT381616].",
             "Crichton Castle | Crichton Castle is a ruined castle situated at the head of the River Tyne, near the village of Crichton, Midlothian, Scotland. The castle lies two miles south of the village of Pathhead, and the same distance east of Gorebridge. A mile to the south-west is Borthwick Castle."
         ],
-        "answer": "the River Tyne"
+        "label": "the River Tyne"
     },
     {
         "question": "Where did an event take place resulting in a win during a domestic double due to the action of a Peruvian footballer known for his goal scoring ability?",
@@ -132,6 +132,6 @@
             "Claudio Pizarro | Claudio Miguel Pizarro Bosio (born 3 October 1978) is a Peruvian professional footballer who plays as a striker for Bundesliga club 1. FC K\u00f6ln and the Peru national team. He is well renowned for his goal scoring ability, especially when heading the ball.",
             "Diego Pizarro | Diego Enrique Pizarro Bosio (born 14 August 1990) is a Peruvian footballer who plays as a striker or winger for Torneo Descentralizado club Cantolao. He is the younger brother of striker Claudio Pizarro."
         ],
-        "answer": "Bundesliga"
+        "label": "Bundesliga"
     }
 ]

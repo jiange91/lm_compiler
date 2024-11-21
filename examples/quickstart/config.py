@@ -31,7 +31,7 @@ def load_data_minor():
             'documents': d["docs"]
         }
         output = {
-            'label': d["answer"],
+            'label': d["label"],
         }
         new_data.append((input, output))
     return new_data[:5], None, new_data[5:]

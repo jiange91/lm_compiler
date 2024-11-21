@@ -521,7 +521,7 @@ class StructuredModel(Model):
         )
         if "response_format" not in params:
             raise ValueError(
-                f"Model {model_kwargs["model"]} from provider {model_kwargs.get("custom_llm_provider", None)} does not support structured output"
+                f"Model {model_kwargs['model']} from provider {model_kwargs.get('custom_llm_provider', None)} does not support structured output"
             )
         else:
             model = model_kwargs.pop("model")

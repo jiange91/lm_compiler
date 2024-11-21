@@ -8,7 +8,7 @@ When writing a workflow with Cognify, you can define your optimization targets u
 
 The Cognify optimizer treats the system prompt as the agent's role, necessary for cogs like task decomposition. The input variables and output label are used to construct high-quality few-shot examples. When utilizing the model selection cog, the optimizer can modify the model configuration and arguments of a `cognify.Model`. You can also use our `cognify.StructuredModel` class and provide a Pydantic-based output _schema_ in lieu of an output label. `cognify.Model` and `cognify.StructuredModel` both make calls to `litellm` under the hood, so you can always expect [consistent output](https://docs.litellm.ai/docs/completion/output). Both classes also support image input. 
 
-Much like other frameworks, we endorse the separation of the LLM's signature from its invocation. The Cognify optimizer registers your `cognify.Model`s at initialization, which means they should be defined in the global namespace. Otherwise, the optimizer does not have a stable set of targets from one trial to the next. You can read more about our optimizer [here]().
+Much like other frameworks, we endorse the separation of the LLM's signature from its invocation. The Cognify optimizer registers your `cognify.Model`s at initialization, which means they should be defined in the global namespace. Otherwise, the optimizer does not have a stable set of targets from one trial to the next. <!--You can read more about our optimizer [here](https://cognify-ai.readthedocs.io/en/latest/user_guide/config.html).-->
 
 ## Usage
 

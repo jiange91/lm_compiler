@@ -3,19 +3,10 @@ import cognify
 
 dotenv.load_dotenv()
 
-from pydantic import BaseModel
-from typing import List
-
 # Define system prompt
 system_prompt = """
 You are an expert at answering questions based on provided documents. Your task is to provide the answer along with all supporting facts in given documents.
 """
-
-# Define Pydantic model for structured output
-class AnswerOutput(BaseModel):
-    answer: str
-    supporting_facts: List[str]
-    
 
 # Initialize the model
 import cognify
@@ -29,16 +20,21 @@ lm_config = cognify.LMConfig(
 
 # Define agent routine 
 
-cognify_qa_agent = cognify.StructuredModel(
+cognify_qa_agent = cognify.Model(
     agent_name="qa_agent",
     system_prompt=system_prompt,
-    input_variables=[cognify.Input(name="question"), cognify.Input(name="documents")],
-    output_format=cognify.OutputFormat(schema=AnswerOutput),
+    input_variables=[
+        cognify.Input(name="question"), 
+        cognify.Input(name="documents")
+    ],
+    output=cognify.OutputLabel(name="answer"),
     lm_config=lm_config
 )
 
 # Use builtin connector for smooth integration
 qa_agent = cognify.as_runnable(cognify_qa_agent) 
+
+from cognify.optimizer import register_opt_workflow
 
 def doc_str(docs):
     context = []
@@ -46,44 +42,8 @@ def doc_str(docs):
         context.append(f"[{i+1}]: {c}")
     return "\n".join(docs)
 
-def qa_agent_routine(state):
-    question = state["question"]
-    documents = state["documents"]
-    format_context = doc_str(documents)
-    return {"response": qa_agent.invoke({"question": question, "documents": format_context})}
-
-from langgraph.graph import END, START, StateGraph
-from typing import Dict, TypedDict
-
-class State(TypedDict):
-    question: str
-    documents: List[str]
-    response: AnswerOutput
-    
-workflow = StateGraph(State)
-workflow.add_node("grounded_qa", qa_agent_routine)
-workflow.add_edge(START, "grounded_qa")
-workflow.add_edge("grounded_qa", END)
-
-app = workflow.compile()
-
-from cognify.optimizer import register_opt_workflow
-
 @register_opt_workflow
-def do_qa(input):
-    response = app.invoke(
-        {"question": input[0], "documents": input[1]}
-    )
-    return response['response'].answer
-
-if __name__ == "__main__":
-    input = {
-        "question": "What was the 2010 population of the birthplace of Gerard Piel?", 
-        "documents": [
-            'Gerard Piel | Gerard Piel (1 March 1915 in Woodmere, N.Y. – 5 September 2004) was the publisher of the new Scientific American magazine starting in 1948. He wrote for magazines, including "The Nation", and published books on science for the general public. In 1990, Piel was presented with the "In Praise of Reason" award by the Committee for Skeptical Inquiry (CSICOP).',
-            'Woodmere, New York | Woodmere is a hamlet and census-designated place (CDP) in Nassau County, New York, United States. The population was 17,121 at the 2010 census.',
-        ],
-    }
-
-    result = app.invoke(input)
-    print(result['response'])
+def qa_workflow(question, documents):
+    format_doc = doc_str(documents)
+    answer = qa_agent.invoke({"question": question, "documents": format_doc}).content
+    return {'answer': answer}    

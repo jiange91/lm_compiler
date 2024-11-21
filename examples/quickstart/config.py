@@ -3,8 +3,13 @@
 #================================================================
 
 import cognify
+from cognify.optimizer.registry import register_opt_score_fn
 
-metric = cognify.metric.F1Str()
+metric = cognify.metric.f1_score_str
+
+@register_opt_score_fn
+def evaluate_answer(answer, label):
+    return metric(answer, label)
 
 #================================================================
 # Data Loader
@@ -21,8 +26,13 @@ def load_data_minor():
     # format to (input, output) pairs
     new_data = []
     for d in data:
-        input = (d["question"], d["docs"])
-        output = d["answer"]
+        input = {
+            'question': d["question"], 
+            'documents': d["docs"]
+        }
+        output = {
+            'label': d["answer"],
+        }
         new_data.append((input, output))
     return new_data[:5], None, new_data[5:]
 

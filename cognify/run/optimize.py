@@ -12,7 +12,6 @@ from cognify.optimizer.evaluation.evaluator import (
     EvalTask,
     EvaluationResult,
 )
-from cognify.optimizer.evaluation.metric import MetricBase
 
 
 logger = logging.getLogger(__name__)
@@ -74,7 +73,7 @@ def optimize(
     control_param: ControlParameter,
     train_set,
     *,
-    eval_fn: Union[Callable, MetricBase] = None,
+    eval_fn: Callable = None,
     eval_path: str = None,
     val_set=None,
     resume: bool = False,
@@ -115,9 +114,6 @@ def optimize(
         json.dump(control_param.to_dict(), f, indent=4)
 
     # create evaluator
-    if eval_fn is not None:
-        if isinstance(eval_fn, MetricBase):
-            eval_fn = eval_fn.score
     evaluator = EvaluatorPlugin(
         trainset=train_set,
         evalset=val_set,

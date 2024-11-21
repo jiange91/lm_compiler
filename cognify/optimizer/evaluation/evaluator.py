@@ -12,9 +12,8 @@ import multiprocessing as mp
 import textwrap
 from cognify.optimizer.utils import _cognify_tqdm as tqdm
 from cognify.optimizer.registry import get_registered_opt_score_fn
-from .metric import MetricBase
 
-
+from cognify.graph.utils import get_function_kwargs
 from cognify._signal import _should_exit, _be_quiet, _stay_alert
 from cognify.graph.program import Workflow, Module
 from cognify.llm import Model, Demonstration
@@ -24,7 +23,6 @@ from cognify.optimizer.plugin import OptimizerSchema, capture_module_from_fs
 from cognify.optimizer.core.flow import TopDownInformation, ModuleTransformTrace
 
 logger = logging.getLogger(__name__)
-
 
 def default_reduer(xs):
     return sum(xs) / len(xs)
@@ -116,6 +114,7 @@ class EvalFn:
     ):
         self.score_fn = score_fn
         self.score_file_path = score_file_path
+        self.input_fields, self.defaults = [], {}
 
     def _set_score_fn(self):
         if self.score_file_path is not None:
@@ -127,23 +126,24 @@ class EvalFn:
             module = capture_module_from_fs(self.score_file_path)
             score_fn = get_registered_opt_score_fn()
             if score_fn is None:
-                # find builtin metric instance
-                for name, obj in vars(module).items():
-                    if isinstance(obj, MetricBase):
-                        score_fn = obj.score
-                        break
-            if score_fn is None:
                 raise ValueError("No score function found in the config file")
             self.score_fn = score_fn
 
         assert self.score_fn is not None, "score function not set properly"
+        self.input_fields, self.defaults = get_function_kwargs(self.score_fn)
 
-    def score(self, label, result):
+    def score(self, state: dict):
         # lazy load the score function
         # This to avoid pickling the score function
         if self.score_fn is None:
             self._set_score_fn()
-        return self.score_fn(label, result)
+        for field in self.input_fields:
+            if field not in self.defaults and field not in state:
+                raise ValueError(
+                    f"Missing field {field} in state when calling the evaluator\nAvailable fields: {state.keys()}"
+                )
+        kargs = {k: state.get(k) for k in state if k in self.input_fields}
+        return self.score_fn(**kargs)
 
 
 @dataclass
@@ -286,9 +286,11 @@ class EvalTask:
             schema, module_pool = self.load_and_transform()
 
             start_time = time.time()
-            result = schema.program(input)
+            result = schema.program(**input)
             end_time = time.time()
-            score = evaluator.score(label, result)
+            # merge input/result/label to a single dict
+            state = {**input, **result, **label}
+            score = evaluator.score(state)
 
             # get price and demo of running the program
             price = 0.0

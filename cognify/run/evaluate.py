@@ -10,14 +10,12 @@ from cognify.optimizer.evaluation.evaluator import (
     EvaluationResult,
     EvalTask,
 )
-from cognify.optimizer.evaluation.metric import MetricBase
 
 from cognify._signal import _should_exit, _init_exit_gracefully
 
 _init_exit_gracefully(msg="Stopping main", verbose=True)
 
 logger = logging.getLogger(__name__)
-
 
 def evaluate(
     *,
@@ -27,13 +25,10 @@ def evaluate(
     workflow: Optional[str] = None,
     control_param: Optional[ControlParameter] = None,
     n_parallel: int = 10,
-    eval_fn: Union[Callable, MetricBase] = None,
+    eval_fn: Callable = None,
     eval_path: str = None,
     save_to: str = None,
 ) -> EvaluationResult:
-    if eval_fn is not None:
-        if isinstance(eval_fn, MetricBase):
-            eval_fn = eval_fn.score
     evaluator = EvaluatorPlugin(
         trainset=None,
         evalset=None,

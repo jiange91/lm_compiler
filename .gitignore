@@ -174,7 +174,6 @@ compiler_logs/
 **data/
 
 local_testing/
-examples/math/
 
 # secrets
 secrets.toml

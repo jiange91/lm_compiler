@@ -1,7 +1,7 @@
 .. _config_search:
 
-Configuring Cognify
-===================
+Setting Up the Optimizer
+========================
 
 In your :code:`config.py` file, you can configure your optimization settings like so:
 

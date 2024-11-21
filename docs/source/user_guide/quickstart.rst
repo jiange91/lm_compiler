@@ -34,8 +34,6 @@ However, we highly encourage you to configure your optimization to achieve bette
 
 - **Select Model Set**: Define the set of models you want Cognify to try on your workflows. You are responsible for setting up your model API keys whenever they are needed.
 
-- **Select Cog Search Space**: Define the *Cogs* and their *Options* you want Cognify to explore. If not set, Cognify will use a default set of Cogs.
-
 - **Config Optimization Settings**: Establish the overall optimization strategy by defining the maximum number of search iterations, quality constraint, or cost constraint. These settings allow you to choose whether to prioritize quality improvement, cost reduction, or minimize Cognify's optimization time.
 
 A Minimal Example
@@ -195,10 +193,10 @@ In this example, we use a sample dataset from from the `HotPotQA <https://hotpot
 Step 3: Configure the Optimizer Behavior
 ----------------------------------------
 
-Cognify's optimization behavior can be configured by users. For example, what :ref:`Cogs <fundamentals>` to use, the maximum iterations of trials to perform, what models Cognify can choose from. 
+Cognify's optimization behavior can be configured by users. For example, what :ref:`Cogs <cog_intro>` to use, the maximum iterations of trials to perform, what models Cognify can choose from. 
 All these configurations are defined in one configuration file. By default, Cognify assumes that this file is ``config.py`` in the same workflow directory. You can also use another file name by specifying :code:`-c /path/to/custom_config.py` in the command line.
 Cognify provides a set of `pre-defined configurations <https://github.com/WukLab/Cognify/blob/main/cognify/hub/search/default.py>`_ for you to start with.
-Read more about optimizer configuration :ref:`here <fundamentals>`.
+Read more about optimizer configuration :ref:`here <optimizer_overview>`.
 
 For this example, let's just use just use the default configuration. So the ``config.py`` looks like this:
 

@@ -26,21 +26,21 @@ Below is an example of how to define and initialize a Model Selection Cog with m
    model_configs = [
       # OpenAI model
       LMConfig(
-         provider='openai',
+         custom_llm_provider='openai',
          model='gpt-4o-mini',
          cost_indicator=1.0,
          kwargs={'temperature': 0.0}
       ),
       # Fireworks model
       LMConfig(
-         provider='fireworks',
+         custom_llm_provider='fireworks',
          model="accounts/fireworks/models/llama-v3p1-8b-instruct",
          cost_indicator=0.6,
          kwargs={'temperature': 0.0}
       ),
       # Self-hosted model with OpenAI-compatible API
       LMConfig(
-         provider='local',
+         custom_llm_provider='local',
          model='llama-3.1-8b',
          cost_indicator=0.0,  # Indicates no cost for local models
          kwargs={

@@ -214,7 +214,7 @@ class UpperLevelOptimization(OptimizationLayer):
     def _optimize_iteration(self, base_program):
         next_trial, program, new_trace, log_id = self.propose(base_program, 1)[0]
         next_level_info = self.prepare_next_level_tdi(
-            program, new_trace, next_trial.number
+            program, new_trace, log_id,
         )
         self.opt_logs[log_id].next_level_log_dir = next_level_info.opt_config.log_dir
 
@@ -238,7 +238,7 @@ class UpperLevelOptimization(OptimizationLayer):
         selected_runs = []
         for new_trial, new_program, new_trace, new_log_id in proposals_at_this_level:
             next_level_info = self.prepare_next_level_tdi(
-                new_program, new_trace, new_trial.number
+                new_program, new_trace, new_log_id
             )
             selected_runs.append((self.evaluator, next_level_info))
             self.opt_logs[

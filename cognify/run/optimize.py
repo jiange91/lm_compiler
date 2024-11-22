@@ -83,6 +83,10 @@ def optimize(
     assert (
         eval_fn is not None or eval_path is not None
     ), "Either eval_fn or eval_path should be provided"
+    
+    # if both provided, use eval_path
+    if eval_path is not None:
+        eval_fn = None
 
     # create directory for logging
     if not os.path.exists(control_param.opt_history_log_dir):

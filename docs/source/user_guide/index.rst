@@ -23,3 +23,4 @@ Welcome! This guide provides tutorials, tips, and resources to help you get the 
     tutorials/evaluator
     tutorials/dataloader
     tutorials/optimizer
+    tutorials/cli

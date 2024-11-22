@@ -114,20 +114,23 @@ class EvalFn:
     ):
         self.score_fn = score_fn
         self.score_file_path = score_file_path
-        self.input_fields, self.defaults = [], {}
+        if self.score_fn is not None:
+            self.input_fields, self.defaults = get_function_kwargs(self.score_fn)
+        else:
+            self.input_fields, self.defaults = [], {}
 
     def _set_score_fn(self):
-        if self.score_file_path is not None:
-            # load the score file
-            dir = os.path.dirname(self.score_file_path)
-            if dir not in sys.path:
-                sys.path.append(dir)
+        assert self.score_file_path is not None, "score file path should be given"
+        # load the score file
+        dir = os.path.dirname(self.score_file_path)
+        if dir not in sys.path:
+            sys.path.append(dir)
 
-            module = capture_module_from_fs(self.score_file_path)
-            score_fn = get_registered_opt_score_fn()
-            if score_fn is None:
-                raise ValueError("No score function found in the config file")
-            self.score_fn = score_fn
+        module = capture_module_from_fs(self.score_file_path)
+        score_fn = get_registered_opt_score_fn()
+        if score_fn is None:
+            raise ValueError("No score function found in the config file")
+        self.score_fn = score_fn
 
         assert self.score_fn is not None, "score function not set properly"
         self.input_fields, self.defaults = get_function_kwargs(self.score_fn)

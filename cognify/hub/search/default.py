@@ -109,7 +109,7 @@ def create_heavy_search(search_params: SearchParams) -> ControlParameter:
 
     # ================= Inner Loop Config =================
     # Reasoning Parameter
-    reasoning_param = reasoning.LMReasoning([NoChange(), ZeroShotCoT(), PlanBefore])
+    reasoning_param = reasoning.LMReasoning([NoChange(), ZeroShotCoT(), PlanBefore()])
 
     # Few Shot Parameter
     few_shot_params = LMFewShot(4)

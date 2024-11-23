@@ -12,67 +12,61 @@ The Cognify programming model encapsulates four key components:
 3. **Output format** - this can be simply a label that is assigned to the output string or a complex schema that the response is expected to conform to. Cognify uses this information across various optimizations, such as constructing few-shot examples and to maintain consistency in the output format during task decomposition.
 4. **Language model config** - this tells Cognify which model is being used and what arguments should be passed to the model. The model selection cog can change the model that gets queried for a particular task.
 
-This class is designed to be a drop-in replacement for your calls to the OpenAI endpoint. It abstracts away the complexity of constructing messages to send to the model and allows you to focus on the task at hand. The optimizer will use the information in the :code:`cognify.Model` to construct messages to send to the model and to optimize the workflow.
+We pacakge these 4 components into a single class: :code:`cognify.Model`. This class is designed to be a drop-in replacement for your calls to the OpenAI endpoint. It abstracts away the complexity of constructing messages to send to the model and allows you to focus on your business logic. We also provide :code:`cognify.StructuredModel` for schema-based structured output.
 
 .. tip::
 
-  Many other frameworks will refer to these 4 components as an "agent". We simply call it a :code:`cognify.Model` because we see it as a wrapper around a language model that can be optimized with our cogs. 
+  Many other frameworks will refer to these 4 components as an "agent". We simply call it a :code:`cognify.Model` because we see it as a wrapper around a language model that can be optimized with our :ref:`cogs <cog_intro>`. 
 
 
-To ensure the optimizer captures your each :code:`cognify.Model`, be sure to instantiate them as global variables. The optimizer requires a stable set of targets, so any ephemeral/local instantiations of :code:`cognify.Model` will not be registered. Once instantiated, however, they can be invoked anywhere in your program.
+To ensure the optimizer captures each :code:`cognify.Model`, be sure to instantiate them as global variables. The optimizer requires a stable set of targets, so any ephemeral/local instantiations of :code:`cognify.Model` will not be registered. Once instantiated, however, they can be invoked anywhere in your program.
 
 **Workflow Code:**
 
 .. code-block:: python
 
-   from langchain_openai import ChatOpenAI
-   from langchain_core.prompts import ChatPromptTemplate
-
-   # Initialize the model
-   import dotenv
-   dotenv.load_dotenv()
-   model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+   import cognify
 
    interpreter_prompt = """
    You are a math problem interpreter. Your task is to analyze the problem, identify key variables, and formulate the appropriate mathematical model or equation needed to solve it. Be concise and clear in your response.
    """
+   interpreter_agent = cognify.Model("interpreter", 
+      system_prompt=interpreter_prompt, 
+      input_variables=[cognify.Input("problem")], 
+      output=cognify.OutputLabel("math_model"),
+      lm_config=cognify.LMConfig(model="gpt-4o-mini"))
 
-   interpreter_template = ChatPromptTemplate.from_messages(
-      [
-         ("system", interpreter_prompt),
-         ("human", "problem:\n{problem}\n"),
-      ]
-   )
 
-   interpreter_agent = interpreter_template | model
+   from pydantic import BaseModel
+   class MathResponse(BaseModel):
+      final_answer: float
+      explanation: str
 
    solver_prompt = """
    You are a math solver. Given a math problem, and a mathematical model for solving it, your task is to compute the solution and return the final answer. Be concise and clear in your response.
    """
-
-   solver_template = ChatPromptTemplate.from_messages(
-      [
-         ("system", solver_prompt),
-         ("human", "problem:\n{problem}\n\nmath model:\n{math_model}\n"),
-      ]
-   )
-
-   solver_agent = solver_template | model
+   solver_agent = cognify.StructuredModel("solver",
+      system_prompt=solver_prompt,
+      input_variables=[cognify.Input("problem"), cognify.Input("math_model")],
+      output_format=cognify.OutputFormat(MathResponse),
+      lm_config=cognify.LMConfig(model="gpt-4o-mini"))
 
    # Define Workflow
    def math_solver_workflow(problem):
-      math_model = interpreter_agent.invoke({"problem": problem}).content
-      answer = solver_agent.invoke({"problem": problem, "math_model": math_model}).content
-      return {"answer": answer}
+      math_model = interpreter_agent(inputs={"problem": problem})
+      response: MathResponse = solver_agent(inputs={"problem": problem, "math_model": math_model})
+      print(response.explanation)
+      return response.final_answer
+
+Invoking a :code:`cognify.Model` (or :code:`cognify.StructuredModel`) is straightforward. Simply pass in a dictionary of inputs that maps the variable to its actual value. The optimizer will then use the system prompt, input variables, and output format to construct the messages to send to the model endpoint. Under the hood, it calls the :code:`litellm` completions API. 
+
+We encourage users to let Cognify handle message construction and passing. However, for fine-grained control over the messages and arguments passed to the model and easy integration with your current codebase, you can optionally pass in a list of messages and your model keyword arguments. For more detailed usage instructions, check out our `GitHub repo <https://github.com/WukLab/Cognify/tree/main/cognify/llm>`_.
 
 .. note::
 
-   We use ``gpt-4o-mini`` as the model for the original workflow. Cognify also supports tuning the model selection for each agent, which will be covered in the tutorial.
+   Cognify also supports tuning the model selection for each agent, which will be covered in the tutorial. Make sure all required API keys are provided in your environment for the optimizer to call the models.
 
-   Make sure all required API keys are provided in your environment for the optimizer to call the models.
-
-:vo integrate the work with Cognify, you need to register the function that invokes the workflow with the annotation:
-
+To integrate the workflow with Cognify, you need to register the function that invokes the workflow with our decorator ``register_opt_workflow`` like so:
 
 .. code-block:: python
 
@@ -80,12 +74,7 @@ To ensure the optimizer captures your each :code:`cognify.Model`, be sure to ins
 
    @register_opt_workflow
    def math_solver_workflow(problem):
-      math_model = interpreter_agent.invoke({"problem": problem}).content
-      answer = solver_agent.invoke({"problem": problem, "math_model": math_model}).content
-      return {"answer": answer}
+      math_model = interpreter_agent(inputs={"problem": problem})
+      answer = solver_agent(inputs={"problem": problem, "math_model": math_model})
+      return answer
 
-Invoking a :code:`cognify.Model` is straightforward. Simply pass in a dictionary of inputs that maps the variable to its actual value. The optimizer will then use the system prompt, input variables, and output format to construct the messages to send to the model endpoint. Under the hood, it calls the :code:`litellm` completions API. We encourage users to let Cognify handle message construction and passing. However, for fine-grained control over the messages and arguments passed to the model and easy integration with your current codebase, you can optionally pass in a list of messages and your model keyword arguments. For more detailed usage instructions, check out our `GitHub repo <https://github.com/WukLab/Cognify/tree/main/cognify/llm>`_.
-
-To set up your workflow for optimization, simply decorate the workflow entry point (i.e. the function in which the workflow is invoked) with the :code:`@cognify.workflow_entry` decorator. This will notify the optimizer to invoke that function with input samples during the optimization process. For each training example, this function will run the workflow and return the final output.
-
-The :code:`cognify.Model` is designed to replace your calls to the OpenAI endpoint. However, many users may already have written their workflow in a framework like LangChain or DSPy.

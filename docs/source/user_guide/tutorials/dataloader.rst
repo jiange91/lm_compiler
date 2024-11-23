@@ -52,7 +52,7 @@ The example data loader code is as follows:
    import json
 
    @register_data_loader
-   def load_data_minor():
+   def load_data():
       with open("data._json", "r") as f:
          data = json.load(f)
             

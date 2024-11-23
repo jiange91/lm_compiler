@@ -16,7 +16,7 @@ Welcome! This guide provides tutorials, tips, and resources to help you get the 
 
 .. toctree:: 
     :maxdepth: 2
-    :caption: Tutorials
+    :caption: Tutorial
 
     tutorials/overview
     tutorials/interface/index

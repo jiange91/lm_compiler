@@ -10,7 +10,6 @@ from typing import Any, List, Dict
 from dataclasses import dataclass
 from langchain_core.messages import AIMessage
 from langchain_core.runnables import RunnableLambda
-import warnings
 
 APICompatibleMessage = Dict[str, str]  # {"role": "...", "content": "..."}
 
@@ -26,7 +25,6 @@ class LangchainOutput:
     content: str
 
 
-DEFAULT_SYSTEM_PROMPT = "You are an intelligent assistant."
 UNRECOGNIZED_PARAMS = ["model_name", "_type"]
 
 
@@ -85,15 +83,13 @@ class RunnableModel(Runnable):
             )
             if system_message_prompt_template.prompt.input_variables:
                 raise NotImplementedError(
-                    "Input variables are not supported in the system prompt. Best practices suggest placing these in"
+                    "Input variables are not supported in the system prompt. Best practices suggest placing these in the following user messages."
                 )
             system_prompt_content: str = system_message_prompt_template.prompt.template
         else:
-            warnings.warn(
-                "First message in a `ChatPromptTemplate` should be a `SystemMessagePromptTemplate`. Resorting to default system prompt",
-                UserWarning,
+            raise ValueError(
+                "First message in the chat prompt template must be a system message."
             )
-            system_prompt_content: str = DEFAULT_SYSTEM_PROMPT
 
         # input variables (ignore partial variables)
         input_vars: List[Input] = [

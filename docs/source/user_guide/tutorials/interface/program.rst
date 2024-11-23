@@ -3,7 +3,9 @@
 The Cognify Programming Model
 =============================
 
-We introduce the :code:`cognify.Model`, which encapsulates 4 key components that the Cognify optimizer utilizes when improving a workflow:
+We introduce a simple workflow programming model, the **Cognify Programming Model**. It is an easy-to-use interface designed for implementing gen-AI workflows. You do not need to use the Cognify programming model to use Cognify. For example, you can run unmodified LangChain and DSPy programs on Cognify.  
+
+The Cognify programming model encapsulates four key components:
 
 1. **System prompt** - this is often used to define the model's role or provide context and instructions to the model. Cogs like task decomposition rely on the system prompt. 
 2. **Input variables** - these are the parts of the message to the model that differ from user to user. For example, in a task like "summarize a document", the document to be summarized would be an input variable. Few-shot reasoning requires robust labeled examples, which is only possible if the differences between user inputs can be captured.

@@ -16,6 +16,12 @@ from cognify.optimizer.evaluation import metric
 from cognify.run.evaluate import evaluate, load_workflow
 from cognify.run.optimize import optimize
 from cognify.run.inspect import inspect
+from cognify.optimizer import (
+    register_opt_workflow,
+    register_opt_score_fn,
+    register_data_loader,
+    clear_registry,
+)
 
 from cognify.optimizer.evaluation.evaluator import EvaluationResult
 from cognify import _logging
@@ -26,6 +32,7 @@ from cognify.hub.search.default import create_search as create_default_search
 __all__ = [
     "llm",
     "optimizer",
+    "cogs",
     "metric",
     "evaluate",
     "load_workflow",
@@ -33,5 +40,9 @@ __all__ = [
     "inspect",
     "EvaluationResult",
     "create_default_search",
-    "cogs",
+    "register_opt_workflow",
+    "register_opt_score_fn",
+    "register_data_loader",
+    "clear_registry",
+    "Model",
 ]

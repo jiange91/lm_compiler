@@ -8,7 +8,7 @@ Building high-quality, cost-effective generative AI applications is challenging 
 
 Cognify is available as a Python package and can be installed as
 ```
-pip install cognify
+pip install cognify-ai
 ```
 
 Or install from the source:

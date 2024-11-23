@@ -82,7 +82,7 @@ class OptimizationArgs(CommonArgs):
 
 @dataclasses.dataclass
 class EvaluationArgs(CommonArgs):
-    select: str
+    select: str = 'NoChange'
     n_parallel: int = 10
     output_path: str = None
 
@@ -98,6 +98,7 @@ class EvaluationArgs(CommonArgs):
             "--select",
             type=str,
             required=True,
+            default=EvaluationArgs.select,
             help="Select one configuration by ID for evaluation. If evaluating the original workflow, use 'NoChange'.",
             metavar="Pareto_x/NoChange",
         )

@@ -11,13 +11,14 @@ Cognify will forward the loaded data in the following way:
 .. code-block:: python
 
    result = registered_workflow(**input)
-   score = registered_evaluator(**input, **result, **ground_truth)
+   eval_inputs = as_per_func_signature(registered_evaluator, input, result, ground_truth)
+   score = registered_evaluator(**eval_inputs)
 
 .. note:: 
 
-   The ``input``, ``result``, and ``ground_truth`` are all available to the evaluator function for convenience.
+   The ``input``, ``result``, and ``ground_truth`` are all made available to the evaluator function for convenience.
    
-   The evaluator signature don't have to take in all variables, Cognify will only pass in the variables that are needed.
+   The evaluator signature don't have to consume all variables, Cognify will only pass in the variables that are needed.
 
 In this **Math Problem Solver** example, the signature of the workflow and evaluator functions are as follows:
 

@@ -14,6 +14,13 @@ Welcome! This guide provides tutorials, tips, and resources to help you get the 
     installation
     quickstart
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Interface
+
+   interface/program
+   interface/index
+
 .. toctree:: 
     :maxdepth: 1
     :caption: Tutorials

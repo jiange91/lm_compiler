@@ -1,3 +1,5 @@
+.. _cognify_interface:
+
 LangChain
 =========
 

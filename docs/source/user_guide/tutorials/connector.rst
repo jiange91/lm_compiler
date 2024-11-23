@@ -61,7 +61,7 @@ The example workflow we use is a **Math Problem Solver** involving two agents ca
 
    Make sure all required API keys are provided in your environment for the optimizer to call the models.
 
-To integrate the work with Cognify, you need to register the function that invokes the workflow with the annotation:
+:vo integrate the work with Cognify, you need to register the function that invokes the workflow with the annotation:
 
 
 .. code-block:: python

@@ -1,3 +1,4 @@
+.. _cognify_interface:
 
 DSPy
 ====

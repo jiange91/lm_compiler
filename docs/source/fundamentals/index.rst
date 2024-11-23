@@ -10,8 +10,8 @@ This section provides an overview of the core concepts, design principles, and t
    :caption: Interface
    :maxdepth: 2
 
-   interface/program
    interface/index
+   interface/program
 
 .. toctree::
    :caption: Cogs

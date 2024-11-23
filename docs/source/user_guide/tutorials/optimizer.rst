@@ -1,6 +1,6 @@
 .. _config_search:
 
-Setting Up the Optimizer
+Configuring Optimizations
 ========================
 
 In your :code:`config.py` file, you can configure your optimization settings like so:

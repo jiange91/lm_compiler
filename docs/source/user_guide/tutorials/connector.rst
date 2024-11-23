@@ -1,7 +1,7 @@
 .. _cognify_tutorials_connector:
 
 *************
-Connector
+Workflow Frontend
 *************
 
 

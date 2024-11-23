@@ -1,7 +1,7 @@
 .. _cognify_tutorials_evaluator:
 
 ****************
-Custom Evaluator
+Workflow Evaluator
 ****************
 
 Cognify accept a python function to be registered as the evaluator with ``@register_opt_score_fn``.

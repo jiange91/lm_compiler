@@ -7,7 +7,7 @@ We introduce a simple workflow programming model, the **Cognify Programming Mode
 
 The Cognify programming model encapsulates four key components:
 
-1. **System prompt** - this is often used to define the model's role or provide context and instructions to the model. Cogs like task decomposition rely on the system prompt. 
+1. **System prompt** - The system prompt is the initial part of a structured this is often used to define the model's role or provide context and instructions to the model. Cogs like task decomposition rely on the system prompt. 
 2. **Input variables** - these are the parts of the message to the model that differ from user to user. For example, in a task like "summarize a document", the document to be summarized would be an input variable. Few-shot reasoning requires robust labeled examples, which is only possible if the differences between user inputs can be captured.
 3. **Output format** - this can be simply a label that is assigned to the output string or a complex schema that the response is expected to conform to. Cognify uses this information across various optimizations, such as constructing few-shot examples and to maintain consistency in the output format during task decomposition.
 4. **Language model config** - this tells Cognify which model is being used and what arguments should be passed to the model. The model selection cog can change the model that gets queried for a particular task.

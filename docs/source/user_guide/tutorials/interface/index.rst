@@ -1,4 +1,4 @@
-.. _cognify_interface:
+.. _cognify_tutorials_interface:
 
 ####################
 Programming Intefaces

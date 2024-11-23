@@ -1,7 +1,13 @@
-.. _cognify_interface:
+.. _cognify_tutorial_interface_langchain:i
 
 LangChain
 =========
+
+Cognify supports unmodified LangChain programs. All you need to is to register the entry function for Cognify to execute.
+
+XXX-give the math example here and illustrate how to add register
+
+then explain what cognify automatically converts and how users can change their code to make cognify run with the code not automatically convertible.
 
 In LangChain, the :code:`Runnable` class is the primary abstraction for executing a task. To create a :code:`cognify.Model` from a runnable chain, the chain must contain a chat prompt template, a chat model, and optionally an ouptut parser. The chat prompt template is used to construct the system prompt and obtain the input variables, the chat model is used to obtain the language model config, and the output parser is used to construct the output format. If no output parser is provided, Cognify will assign a default label. Just like with :code:`cognify.Model`, we will only translate runnables that are instantiated as global variables. The translation process automatically converts each runnable in the global scope into a :code:`cognify.Model`. However, if you want more control over which :code:`Runnable` should be targeted for optimization, you can manually wrap your chain with our :code:`cognify.RunnableModel` class. For detailed usage instructions, check out our `LangChain README <https://github.com/WukLab/Cognify/tree/main/cognify/frontends/langchain>`_.
 
@@ -15,7 +21,7 @@ In LangChain, the :code:`Runnable` class is the primary abstraction for executin
   from langchain_openai import ChatOpenAI
   from langchain_core.output_parsers import StrOutputParser
 
-  # typical langchain code
+  # typical langchain codeiii
   my_prompt_template = ChatPromptTemplate([
     ("system", "You are an assistant that can summarize documents."), 
     ("human", "{document}")

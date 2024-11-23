@@ -3,6 +3,10 @@
 DSPy
 ====
 
+Cognify supports unmodified DSPy programs. All you need to is to register the entry function for Cognify to execute.
+
+same as the langchain one, give math example, and explain what cognify transfers
+
 In DSPy, the :code:`dspy.Predict` class is the primary abstraction for obtaining a response from a language model. A predictor contains a :code:`dspy.Signature`, from which we infer the system prompt, input variables, and output label. In DSPy, the language model is globally configured in :code:`dspy.settings`. The translation process will operate on an entire DSPy :code:`dspy.Module`, converting each :code:`dspy.Predict` into :code:`cognify.PredictModel`. Just like with Cognify models, we will only translate predictors that are instantiated in the module's `__init__` function. If you want more control over which predictors should be targeted for optimization, you can manually wrap your predictor with our :code:`cognify.PredictModel` class. DSPy also contains other, more detailed modules that don't follow the behavior of :code:`dspy.Predict` (e.g., :code:`dspy.ChainOfThought`). In Cognify, we view Chain-of-Thought prompting (and other similar techniques) as possible optimizations to apply to an LLM call on the fly instead of as pre-defined templates. Hence, during the translation process we will strip the "reasoning" step out of the predictor definition and leave it to the optimizer. For detailed usage instructions, check out our `DSPy README <https://github.com/WukLab/Cognify/tree/main/cognify/frontends/dspy>`_.
 
 .. code-block:: python

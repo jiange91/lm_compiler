@@ -29,14 +29,14 @@ Following options that are common across all modes:
      - Description
 
    * - -c
-     - --config
+     - \-\-config
      - <config filepath>
      - See Description
      - Specify path to the configuration file for the workflow.
        If not provided, will look for ``config.py`` in the same directory as the workflow script.
 
    * - -l
-     - --log_level
+     - \-\-log_level
      - DEBUG, INFO, WARNING, ERROR, CRITICAL
      - WARNING
      - **Sets the logging level**  
@@ -79,13 +79,13 @@ CLI Optimize Mode Options
      - Description
 
    * - -r
-     - --resume
+     - \-\-resume
      - 
      - False
      - Resume optimization using saved intermediate results.
 
    * - -f
-     - --force
+     - \-\-force
      - 
      - False
      - Force overwriting the existing result folder.
@@ -108,19 +108,19 @@ CLI Evaluate Mode Options
      - Description
 
    * - -s
-     - --select
+     - \-\-select
      - Pareto_1, Pareto_2, ..., NoChange
      - NoChange
      - Select a specific configuration by ID for evaluation. Use ``NoChange`` to evaluate the original workflow.
 
    * - -j
-     - --n_parallel
+     - \-\-n_parallel
      - 1, 2, ...
      - 10
      - Number of parallel data points to evaluate. Refer to the API rate limit of your model provider when setting this value.
 
    * - -o
-     - --output_path
+     - \-\-output_path
      - <filename>
      - See Description
      - Path to save evaluation results. Defaults to ``eval_result.json`` in the workflow script's directory.
@@ -144,7 +144,7 @@ CLI Inspect Mode Options
      - Description
 
    * - -f
-     - --dump_frontier_details
+     - \-\-dump_frontier_details
      - 
      - False
      - Dump descriptive details of all Pareto frontiers found during optimization under the ``pareto_frontier_details`` directory in the optimization result folder.

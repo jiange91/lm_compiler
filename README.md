@@ -58,10 +58,9 @@ cognify optimize /your/gen/ai/workflow.py -r
 
 Follow our [quickstart](https://cognify-ai.readthedocs.io/en/latest/user_guide/quickstart.html) or read our full [documentation](https://cognify-ai.readthedocs.io/en/latest/) to learn more.
 
-- [User Guide](https://cognify-ai.readthedocs.io/en/latest/user_guide/): 
-- [Fundamentals]()
-- [Examples]()
-- [API Reference]() -->
+- [User Guide](https://cognify-ai.readthedocs.io/en/latest/user_guide/): A Cognify user guide consists of a quickstart and a step-by-step tutorial
+- [Fundamentals](https://cognify-ai.readthedocs.io/en/latest/fundamentals/): Fundamental concepts about Cognify internals
+- [API Reference](https://cognify-ai.readthedocs.io/en/latest/api_ref/modules.html) 
 
 
 <!-- ## Contributing

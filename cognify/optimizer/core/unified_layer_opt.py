@@ -826,8 +826,10 @@ class BottomLevelOptimization(OptimizationLayer):
                     evolve_eval_task = EvalTask.from_dict(
                         copy.deepcopy(best_score_log.eval_task)
                     )
+                    pbar_position = ask_for_position()
                     evolve_result = self.evaluator.get_score(
-                        mode="eval", task=evolve_eval_task, show_process=False
+                        mode="eval", task=evolve_eval_task, show_process=False,
+                        pbar_position=pbar_position, hierarchy_level=self.hierarchy_level + 1
                     )
                     logger.debug(
                         f"Validation set result: score= {evolve_result.reduced_score:.2f}, cost@1000= {evolve_result.reduced_price*1000:.3f}"

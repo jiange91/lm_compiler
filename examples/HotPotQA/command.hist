@@ -1,1 +1,0 @@
-cognify optimize --script_path /mnt/ssd4/lm_compiler/clean_examples/HotPotQA/cognify_anno.py --data_loader_path /mnt/ssd4/lm_compiler/clean_examples/HotPotQA/data_loader.py --control_param_path /mnt/ssd4/lm_compiler/clean_examples/HotPotQA/control_param.py 2>&1 | tee debug.log

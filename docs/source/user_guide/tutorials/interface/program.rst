@@ -3,7 +3,7 @@
 The Cognify Programming Model
 =============================
 
-We introduce a simple workflow programming model, the **Cognify Programming Model**. It is an easy-to-use interface designed for implementing gen-AI workflows. You do not need to use the Cognify programming model to use Cognify. For example, you can run unmodified `LangChain <https://lm-compiler.readthedocs.io/user_guide/tutorials/interface/langchain.html>`_ and `DSPy <https://lm-compiler.readthedocs.io/user_guide/tutorials/interface/dspy.html>`_ programs on Cognify and skip this section.  
+We introduce a simple workflow programming model, the **Cognify Programming Model**. It is an easy-to-use interface designed for implementing gen-AI workflows. You do not need to use the Cognify programming model to use Cognify. For example, you can run unmodified `LangChain <https://cognify-ai.readthedocs.io/user_guide/tutorials/interface/langchain.html>`_ and `DSPy <https://cognify-ai.readthedocs.io/user_guide/tutorials/interface/dspy.html>`_ programs on Cognify and skip this section.  
 
 The Cognify programming model centers around :code:`cognify.Model`, a class used for defining a model call (currently, Cognify only supports language models) for Cognify's optimization.
 This class is designed to be a drop-in replacement for your calls to a model such as the OpenAI API endpoints. 
@@ -70,7 +70,7 @@ However, the more fine-grained you can categorize your input sequences, the more
 3. **Output format**: The :code:`output_format` field specifies the format of the model output. 
 It can simply be a label assigned to the output string or a complex schema that the response is expected to conform to. For the latter, you need to use the :code:`cognify.StructuredModel` class. 
 
-4. **Language model configuration**: The :code:`lm_config` field specifies the initial set of language models and their configurations that Cognify uses as the starting point and as the baseline to compare for reporting its optimization improvement. You can add more models for Cognify to explore in the `optimization configuration file <https://lm-compiler.readthedocs.io/user_guide/tutorials/optimizer.html>`_. 
+4. **Language model configuration**: The :code:`lm_config` field specifies the initial set of language models and their configurations that Cognify uses as the starting point and as the baseline to compare for reporting its optimization improvement. You can add more models for Cognify to explore in the `optimization configuration file <https://cognify-ai.readthedocs.io/user_guide/tutorials/optimizer.html>`_. 
 
 .. hint::
 

@@ -4,13 +4,11 @@
 Workflow Evaluator
 ****************
 
-Cognify accept a python function to be registered as the evaluator with ``@register_opt_score_fn``.
+Cognify evaluates your workflow throughout its optimization iterations. To tell Cognify how you want it to be evaluated, you should define an evaluator for your workflow.
+The evaluator should output a numeric value with higher being the better. You can choose your own range of the numeric values.
+To register a function as your evaluator, simply add ``@register_opt_score_fn`` before it.
 
-.. note::
-
-   The function should return a numeric value. There's no range requirement for the score, but it should be consistent across different evaluations.
-
-You can even use the LLM as a judge in the evaluation function. In this example we will ask a LLM agent to grade the answer.
+For the math-solver example, we will use LLM-as-a-judge to be the evaluator, with the following implementation:
 
 .. code-block:: python
 

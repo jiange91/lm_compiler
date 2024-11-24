@@ -3,21 +3,16 @@
 Configuring Optimizations
 ========================
 
-In your :code:`config.py` file, you can configure your optimization settings like so:
+Cognify uses a set of configurations for its optimizations, including the maximum number of optimization iterations, the set of models to use, 
+By default, Cognify uses a universal set of configurations for its optimization.
 
 .. code-block:: python
 
     from cognify.hub.search import default
     search_settings = default.create_search()
 
-We also provide a few application-specific settings that have empirical success, namely :code:`qa`, :code:`codegen`, and :code:`datavis`. You can use these settings like so:
-
-.. code-block:: python
-
-    from cognify.hub.search import codegen
-    search_settings = codegen.create_search()
-
-All :code:`create_search` function take the following arguments:
+However, this default setting may not work well for each workflow.
+To customize your workflow optimization process and get the best out of Cognify, you should change a set of configurations in your :code:`create_search` function:
 
 .. code-block:: python
 
@@ -42,6 +37,13 @@ Other parameters you can specify:
 
 * :code:`quality_constraint (float)`: This represents the quality of the optimized workflow `relative to the original program`. A value of 1.0 (the default) means that the optimized workflow must be at least the same quality as the original program. If you are comfortable with slightly lower quality, you can set this value to be less than 1.0. This may allow the optimizer to find cheaper options. On the other hand, if you want a certain level of quality improvement, you can set this value to be slightly greater than 1.0. However, there is no guarantee that this solution exists. 
 * :code:`evaluator_batch_size (int)`: This tells the optimizer how many training data points to execute the workflow on at once. If you are using a cloud-based service, you can adjust this parameter to avoid rate limiting.
+
+We also provide a few built-in domain-specific configurations that you can use directly for the `example workflows <>`_ we provide, including QA :code:`qa`, code generation :code:`codegen`, and data visualization :code:`datavis`. You can use these settings like:
+
+.. code-block:: python
+
+    from cognify.hub.search import codegen
+    search_settings = codegen.create_search()
 
 
 Model Selection 

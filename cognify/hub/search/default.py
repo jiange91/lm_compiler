@@ -43,7 +43,7 @@ def create_light_search(search_params: SearchParams) -> ControlParameter:
     optimize_control_param = ControlParameter(
         opt_layer_configs=[inner_loop_config],
         opt_history_log_dir=search_params.opt_log_dir,
-        # evaluator_batch_size=search_params.evaluator_batch_size,
+        evaluator_batch_size=search_params.evaluator_batch_size,
         quality_constraint=search_params.quality_constraint,
     )
     return optimize_control_param

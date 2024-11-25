@@ -13,7 +13,7 @@ class ControlParameter:
     quality_constraint: float = 1.0
     train_down_sample: int = 0
     val_down_sample: int = 0
-    evaluator_batch_size: int = 20
+    evaluator_batch_size: int = 10
 
     @classmethod
     def from_python_profile(cls, param_path):
@@ -71,6 +71,7 @@ class ControlParameter:
                 obj = getattr(loaded_module, name)
                 if isinstance(obj, cls):
                     return obj
+            raise ValueError(f"No ControlParameter instance found in {loaded_module}")
 
         return control_param
 

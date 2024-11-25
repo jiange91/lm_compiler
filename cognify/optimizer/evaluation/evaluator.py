@@ -284,10 +284,22 @@ class EvalTask:
         _be_quiet()
         # directly raise interrupt signal
         _stay_alert()
-
+        
         try:
+            if not isinstance(input, dict):
+                raise ValueError(f"Input from data loader should be a dict, got {input}")
+            if not isinstance(label, dict):
+                raise ValueError(f"Label from data loader should be a dict, got {label}")
+            
             schema, module_pool = self.load_and_transform()
-
+            workflow_args, workflow_defaults = get_function_kwargs(schema.program)
+            # check if all required fields are provided
+            for field in workflow_args:
+                if field not in workflow_defaults and field not in input:
+                    raise ValueError(
+                        f"Missing field {field} in input when calling the workflow\nAvailable fields: {input.keys()}"
+                    )
+            
             start_time = time.time()
             result = schema.program(**input)
             end_time = time.time()
@@ -317,6 +329,9 @@ class EvalTask:
             )
         except KeyboardInterrupt:
             q.put((task_index, False, None, 0.0, 0.0, None, 0.0))
+        except Exception as e:
+            q.put((task_index, False, None, 0.0, 0.0, None, 0.0))
+            raise
         finally:
             sema.release()
 
@@ -390,7 +405,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         testset: Optional[Iterable[Tuple[any, any]]],  # list of input data and labels
         evaluator_fn: Optional[EvalFn] = None,
         evaluator_path: Optional[str] = None,
-        n_parallel: int = 1,
+        n_parallel: int = 10,
         score_reducer: Callable = None,
         price_reducer: Callable = None,
     ):
@@ -405,7 +420,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
             "eval": [evalset, None if not evalset else list(range(len(evalset)))],
             "test": [testset, None if not testset else list(range(len(testset)))],
         }
-
+        
         self.n_parallel = n_parallel
         self.score_reducer = (
             score_reducer if score_reducer is not None else default_reduer
@@ -415,7 +430,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         )
 
         self._evaluator = EvalFn(score_fn=evaluator_fn, score_file_path=evaluator_path)
-
+    
     def evaluate(
         self,
         task: EvalTask,
@@ -452,12 +467,12 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
         sema = mp.Semaphore(n_parallel)
         result_q = mp.Queue()
 
-        total_score, total_cost, visited = 0.0, 0.0, 0
+        total_score, total_cost, n_success = 0.0, 0.0, 0
         opt_trace = ".".join(task.trace_back)
 
         def update_pbar(pbar, eval_result):
-            nonlocal total_score, total_cost, visited
-            visited += 1
+            nonlocal total_score, total_cost, n_success
+            n_success += 1
             score, price = eval_result[3], eval_result[4]
             total_score += score
             total_cost += price
@@ -466,8 +481,8 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
                 _gen_pbar_desc(
                     hierarchy_level,
                     opt_trace,
-                    total_score / visited,
-                    total_cost / visited,
+                    total_score / n_success,
+                    total_cost / n_success,
                 )
             )
 
@@ -478,6 +493,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
             leave=keep_bar,
             position=pbar_position,
         ) as pbar:
+            n_visited = 0
             for task_index, pair_idx in enumerate(indices):
                 if _should_exit():
                     break
@@ -485,6 +501,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
                 # check for result updates
                 while not result_q.empty():
                     eval_result = result_q.get()
+                    n_visited += 1
                     if not eval_result[1]:
                         continue
                     results.append(eval_result)
@@ -500,7 +517,7 @@ class EvaluatorPlugin(GeneralEvaluatorInterface):
                 worker.start()
                 all_workers.append(worker)
 
-            for i in range(len(all_workers) - visited):
+            for i in range(len(all_workers) - n_visited):
                 eval_result = result_q.get()
                 if not eval_result[1]:
                     continue

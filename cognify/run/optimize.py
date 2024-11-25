@@ -46,7 +46,7 @@ def dry_run(script_path, evaluator: EvaluatorPlugin, log_dir):
             json.dump(result.to_dict(), f, indent=4)
         logger.info(f"Dry run result saved to {dry_run_log_path}")
     else:
-        logger.warning("Dry run not completed, result will be discarded")
+        raise ValueError("Dry run not completed, result will be discarded")
     return result
 
 

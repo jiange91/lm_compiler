@@ -4,7 +4,7 @@
 Putting It All Together
 ************************
 
-We list all building blocks of this tutorial here for reference.
+Now that we have gone through all the steps of using Cognify, let's put everything together for the math-solver example.
 
 Workflow Definition
 ===================
@@ -28,7 +28,7 @@ Defined in ``workflow.py``:
 Optimization Configuration
 ===========================
 
-Defined in ``config.py``:
+Evaluator, data loader, and optimization configurations as defined in ``config.py``:
 
 .. code-block:: python
 
@@ -114,10 +114,11 @@ Defined in ``config.py``:
 
     search_settings = default.create_search(model_selection_cog=model_configs)
 
-Optimize with Cognify 
+Run Cognify 
 =======================
 
-Let's first evaluate the original workflow by setting the ``-s NoChange`` flag to indicate that we are not optimizing the workflow.
+Before running Cognify, let's first evaluate the original workflow's generation quality and cost. 
+This can be done by setting the ``-s NoChange`` flag with ``cognify evaluate`` to indicate that we are not optimizing the workflow.
 
 .. code-block:: console
 
@@ -128,7 +129,7 @@ Let's first evaluate the original workflow by setting the ``-s NoChange`` flag t
     Quality: 6.186, Cost per 1K invocation ($): 7.25 $
     ===========================================
 
-We then run the optimization command with:
+Now, let's run Cognify's optimization:
 
 .. code-block:: console
 
@@ -137,13 +138,8 @@ We then run the optimization command with:
 Inspect Optimization Results
 ----------------------------
 
-The optimize command will prompt all available trade-offs. You can also get a summary of the optimization results afterwards with:
-
-.. code-block:: console
-
-   $ cognify inspect workflow.py
-
-**Example output:**
+The above optimize command will return a set of optimization results and their generation quality and cost. 
+Below is a sample output we got when running it. Note that because of the non-deterministic nature of generative models, you may not get the exact same results.
 
 .. code-block:: console
 
@@ -167,7 +163,7 @@ The optimize command will prompt all available trade-offs. You can also get a su
      Applied at: light_opt_layer_7
    ========================================================
 
-Here Cognify finds ``4`` configurations. You can interprete the results as follows:
+Here, Cognify finds four valid optimization results as different versions of the workflow. You can interprete the results as follows:
 
 Pareto_1 (config ID to select):
    Represents one of the Pareto-optimal solutions. It balances the trade-off between quality and cost effectively:
@@ -176,9 +172,14 @@ Pareto_1 (config ID to select):
    - **Cost**: $7.90 per 1K invocations (average invocation cost).
    - **Applied at**: `light_opt_layer_1` (at which iteration this config is found).
 
-.. rubric:: Detailed Transformation Trace
+You can also get a summary of the optimization results afterwards with:
 
-The detailed information of these configs are available in the ``opt_results/pareto_frontier_details`` directory. 
+.. code-block:: console
+
+   $ cognify inspect workflow.py
+
+You can further inspect the optimizations Cognify applies by checking the :code:`.cog` files under the ``opt_results/pareto_frontier_details`` directory. 
+For example, the :code:`Pareto_3.cog` (corresponding to the third result) looks like:
 
 .. code-block:: console
 
@@ -283,8 +284,8 @@ With this configuration, all agents adopt ``gpt-4o-mini`` as the model, leading 
 
 Overall, ``Pareto_3`` achieves a decent quality of ``6.367`` with a much low cost of ``$0.80`` per 1K invocations.
 
-Use Optimized Workflow
-=======================
+Evaluate and Use Optimized Workflow
+===================================
 
 You can evaluate the optimized workflow with:
 

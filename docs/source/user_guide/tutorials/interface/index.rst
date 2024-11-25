@@ -16,6 +16,10 @@ The example workflow we use is a **Math Problem Solver** involving two agents ca
 
 2. **Solver Agent**: This agent computes the solution by solving the math model generated in the previous step.
 
+.. note::
+
+   The complete code for this example is also available at `<https://github.com/WukLab/Cognify/tree/main/examples/math>`_.
+
 
 .. toctree::
    :maxdepth: 1

@@ -22,8 +22,11 @@ The rest of this tutorial will explain each step involved in using Cognify:
 * Specifying training and test dataset
 * Configuring a Cognify optimization
 
-In each section, we will explain the key concepts with example code. For the full set of examples and templates, 
-please refer to `examples <https://cognify-ai.readthedocs.io/en/latest/user_guide/examples/index.html>`_.
+In each section, we will explain the key concepts with example code. 
+
+.. seealso::
+
+    For the full set of examples and templates, please refer to `examples <https://cognify-ai.readthedocs.io/en/latest/user_guide/examples/index.html>`_.
 
 Let's get started!
 

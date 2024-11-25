@@ -116,5 +116,3 @@ If you prefer to define your modules using our :code:`cognify.Model` interface b
     return {"answer": answer}
 
 Cognify is also compatible with **LangGraph**, a popular orchestration framework. It can be used to coordinate LangChain runnables, DSPy predictors, any other framework or even pure python. All you need to do to hook up your LangGraph code is use our decorator to **register** your invocation function.
-
-For detailed usage instructions regarding LangChain and LangGraph, check out our `LangChain README <https://github.com/WukLab/Cognify/tree/main/cognify/frontends/langchain>`_.

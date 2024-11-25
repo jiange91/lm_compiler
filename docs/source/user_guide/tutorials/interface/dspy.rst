@@ -92,5 +92,3 @@ If you prefer to define your modules using our :code:`cognify.Model` interface b
       return response.final_answer
 
   ...
-
-For detailed usage instructions regarding DSPy, check out our `DSPy README <https://github.com/WukLab/Cognify/tree/main/cognify/frontends/dspy>`_.

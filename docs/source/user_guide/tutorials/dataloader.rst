@@ -4,7 +4,7 @@
 Data Loader
 *************
 
-The Cognify optimization process utilizes a user-provided training dataset to `evaluate [https://cognify-ai.readthedocs.io/en/latest/user_guide/tutorials/evaluator.html]`_ the workflow in iterations.
+The Cognify optimization process utilizes a user-provided training dataset to :ref:`evaluate <cognify_tutorials_evaluator>` the workflow in iterations.
 The training dataset should provide a set of inputs and the ground-truth generation outputs.
 The format of the input and output should follow your workflow's needs (e.g., text and text for QA workflows, text and SQL for text-to-SQL workflows), and the exact format should match your evaluator function signature.
 In each optimization iteration, Cognify runs all the data points in the training dataset to find the overall quality/cost of the optimized workflow.
@@ -28,14 +28,14 @@ Thus, the training dataset should be formatted as follows:
 
 ::
    
-   input = {
+   input_sample = {
       "problem": "What is 2 + 2?",
    }
    ground_truth = {
       "solution": "4",
    }
 
-   data_item = (input, ground_truth)
+   data_item = (input_sample, ground_truth)
    loaded_data = [data_item, ...]
 
 and the example data-loader function is as follows:
@@ -53,13 +53,13 @@ and the example data-loader function is as follows:
       # format to (input, output) pairs
       new_data = []
       for d in data:
-         input = {
-               'problem': d["problem"],
+         input_sample = {
+            'problem': d["problem"],
          }
          ground_truth = {
-               'solution': d["solution"],
+            'solution': d["solution"],
          }
-         new_data.append((input, ground_truth))
+         new_data.append((input_sample, ground_truth))
       return new_data[:5], None, new_data[:]
 
 
@@ -75,6 +75,6 @@ Cognify will forward the loaded data in the following way:
 
    The ``input``, ``result``, and ``ground_truth`` are all made available to the evaluator function for convenience.
    
-   The evaluator signature don't have to consume all variables, Cognify will only pass in the variables that are needed.
+   The evaluator signature doesn't have to consume all variables, Cognify will only pass in the variables that are needed.
 
 

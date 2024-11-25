@@ -58,13 +58,10 @@ The :code:`math_solver_workflow` function specifies the overall workflow process
 
 As seen, :code:`cognify.Model` encapsulates four key components that you should specify:
 
-1. **System prompt**: The :code:`system_prompt` field specifies the initial "system" part of a prompt sequence sent to a language model to define the model's role or provide context and instructions to the model. 
-For example, "You are a math problem interpreter..." and "You are a math solver..." are the system prompts for the two model calls in our math example, as shown below. 
-A language model call has one system prompt that is used regardless of the user inputs. We mandate this information in the Cognify programming model because Cogs like task decomposition rely on the system prompt.
-1. **Request Inputs**: The :code:`input_variables` defines the parts of the prompt that change from request to request. For example, the :code:`solver_agent` has two input variables: the first being the end-user request math problem and the second being the generation of the :code:`interpreter_agent` step. The reason it is an input "variable" is that the actual argument changes from one workflow invocation to another. While you can concatenate all content into a single input variable, Cognify can achieve better optimization results if each variable represents a distinct piece of information.
-2. **Output format**: The :code:`output_format` field specifies the format of the model output. 
-It can simply be a label assigned to the output string or a complex schema that the response is expected to conform to. For the latter, you need to use the :code:`cognify.StructuredModel` class. 
-1. **Language model configuration**: The :code:`lm_config` field specifies the initial set of language models and their configurations that Cognify uses as the starting point and as the baseline to compare for reporting its optimization improvement. You can add more models for Cognify to explore in the `optimization configuration file <https://cognify-ai.readthedocs.io/user_guide/tutorials/optimizer.html>`_. 
+#. **System prompt**: The :code:`system_prompt` field specifies the initial "system" part of a prompt sequence sent to a language model to define the model's role or provide context and instructions to the model. For example, "You are a math problem interpreter..." and "You are a math solver..." are the system prompts for the two model calls in our math example, as shown below. A language model call has one system prompt that is used regardless of the user inputs. We mandate this information in the Cognify programming model because Cogs like task decomposition rely on the system prompt.
+#. **Request Inputs**: The :code:`input_variables` defines the parts of the prompt that change from request to request. For example, the :code:`solver_agent` has two input variables: the first being the end-user request math problem and the second being the generation of the :code:`interpreter_agent` step. The reason it is an input "variable" is that the actual argument changes from one workflow invocation to another. While you can concatenate all content into a single input variable, Cognify can achieve better optimization results if each variable represents a distinct piece of information.
+#. **Output format**: The :code:`output_format` field specifies the format of the model output. It can simply be a label assigned to the output string or a complex schema that the response is expected to conform to. For the latter, you need to use the :code:`cognify.StructuredModel` class. 
+#. **Language model configuration**: The :code:`lm_config` field specifies the initial set of language models and their configurations that Cognify uses as the starting point and as the baseline to compare for reporting its optimization improvement. You can add more models for Cognify to explore in the `optimization configuration file <https://cognify-ai.readthedocs.io/user_guide/tutorials/optimizer.html>`_. 
 
 .. hint::
 
@@ -89,3 +86,27 @@ To integrate the workflow with Cognify, you need to register the function that i
       answer = solver_agent(inputs={"problem": problem, "math_model": math_model})
       return answer
 
+
+Language Model Configuration
+----------------------------
+
+The most common search customization is model selection, which asks Cognify to choose between different models. 
+To provide the optimizer with a list of models to search over, you can define a list of :code:`cognify.LMConfig` objects like so:
+
+.. code-block:: python
+
+   import cognify
+
+   gpt = cognify.LMConfig(model='gpt-4o-mini'),
+   claude = cognify.LMConfig(model='claude-3.5-opus', kwargs={'max_tokens': 100),
+   llama = cognify.LMConfig(
+      custom_llm_provider='fireworks_ai',
+      model="accounts/fireworks/models/llama-v3p1-8b-instruct",
+      kwargs={'temperature': 0.7}
+   )
+
+   my_agent1 = cognify.Model(..., lm_config=gpt)
+   my_agent2 = cognify.Model(..., lm_config=claude)
+   my_agent3 = cognify.Model(..., lm_config=llama)
+
+The only required parameter is :code:`model`. All other parameters are optional. In cases where multiple providers host the same model, you will need to provide :code:`custom_llm_provider` to specify the provider you are querying (e.g., :code:`'fireworks_ai'` or :code:`'together_ai'`). Under the hood, we support any model and provider combo that is supported by `LiteLLM <https://www.litellm.ai/>`_. You can specify the :code:`kwargs` parameter to pass in any additional keyword arguments to the model, such as :code:`temperature` or :code:`max_tokens`.

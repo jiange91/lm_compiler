@@ -33,20 +33,45 @@ Key Features
 Benchmark Results
 -----------------
 
-We compare Cognify to non-optimized workflows and `DSPy <https://github.com/stanfordnlp/dspy>`_ using the `HotpotQA <https://hotpotqa.github.io/>`_ workload,
-a `code generation <https://github.com/openai/human-eval>`_ workload, and a `text-to-SQL <https://github.com/ShayanTalaei/CHESS>`_ workload.
+We compare Cognify to non-optimized workflows and `DSPy <https://github.com/stanfordnlp/dspy>`_ using the following workloads:
+
+- `HotpotQA <https://hotpotqa.github.io/>`_
+- `HoVer <https://github.com/hover-nlp/hover>`_
+- `code generation <https://github.com/openai/human-eval>`_
+- `Data Visualization <https://github.com/thunlp/MatPlotAgent>`_
+- `text-to-SQL <https://github.com/ShayanTalaei/CHESS>`_
+
 The figures below show the generation quality and execution cost effectiveness (larger the better for both) of these results.
 Cognify pushes the cost-quality Pareto frontier over DSPy and non-optimized workflows across these workloads,
 achieving 3.7% to 27% quality improvements and 1.8x to 7x cost reduction.
 
-.. image:: /_static/images/hotpotqa.png
-    :alt: HotpotQA workload
-    :width: 30%
+.. grid:: 2
 
-.. image:: /_static/images/codegen.png
-    :alt: Code Generation workload
-    :width: 30%
+    .. grid-item-card:: 
+        :img-background: /_static/images/hotpotqa.png
+        :img-alt: HotpotQA workload
+        :link: https://hotpotqa.github.io/ 
 
-.. image:: /_static/images/chess.png
-    :alt: Text-2-sql workload
-    :width: 30%
+    .. grid-item-card::
+        :img-background: /_static/images/hover.jpg
+        :img-alt: HoVer workload
+        :link: https://github.com/hover-nlp/hover
+
+.. grid:: 2
+
+    .. grid-item-card::
+        :img-background: /_static/images/codegen.png
+        :img-alt: Code Generation workload
+        :link: https://github.com/openai/human-eval
+
+    .. grid-item-card::
+        :img-background: /_static/images/dataviz.png
+        :img-alt: Data Visualization workload
+        :link: https://github.com/thunlp/MatPlotAgent
+
+.. grid:: 2
+    
+    .. grid-item-card::
+        :img-background: /_static/images/chess.png
+        :img-alt: Text-to-SQL workload
+        :link: https://github.com/ShayanTalaei/CHESS

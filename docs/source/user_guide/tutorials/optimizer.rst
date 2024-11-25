@@ -8,7 +8,7 @@ Cognify uses a set of configurations for its optimizations, including the maximu
 Specify the Model Set
 ---------------------
 
-To provide the optimizer with a list of models to search over, you can define a list of :code:`cognify.LMConfig` objects like so:
+During its optimization, Cognify explores combinations of different models for better quality and cost automatically. To specify the list of models you want Cognify to explore, you can define a list of :code:`cognify.LMConfig` objects as follows. Currently, Cognify only support language models.
 
 .. code-block:: python
 
@@ -28,7 +28,15 @@ To provide the optimizer with a list of models to search over, you can define a 
         ),
     ]
 
-You can also set a :code:`cost_indicator` for each :code:`LMConfig` to tell the optimizer how to reason between them. By default, each :code:`LMConfig` has a :code:`cost_indicator = 1.0`, which tells the optimizer that all models are equally expensive (i.e. not to factor cost into its search). If you want Cognify to consider different models with different execution costs, you can set the :code:`cost_indicator` to different values. 
+Each :code:`cognify.LMConfig` has to have a :code:`model` field. If the model is provided by several providers (e.g., Llama models), you also need to specify a :code:`custom_llm_provider` field.
+
+.. hint::
+
+    Ensure that you have the appropriate API keys for the providers you are using. 
+
+There are two other optional configurations.
+First, you can set a :code:`cost_indicator` for each :code:`LMConfig` to tell the optimizer how to reason between them. By default, each :code:`LMConfig` has a :code:`cost_indicator = 1.0`, which tells the optimizer that all models are equally expensive (i.e. not to factor cost into its search). If you want Cognify to consider different models with different execution costs, you can set the :code:`cost_indicator` to different values. 
+Second, you can specify the parameters used to call the model with :code:`kwargs`. These are the ones specified by your model API.
 
 .. note::
 
@@ -37,7 +45,8 @@ You can also set a :code:`cost_indicator` for each :code:`LMConfig` to tell the 
 Configure Optimizer Settings
 ----------------------------
 
-By default, Cognify uses a universal set of configurations for its optimization.
+Apart from a model set, Cognify expects a set of configurations, encapsulated in the :code:`create_search` class.
+After defining your model selection, the easiest way to configure your Cognify optimization process is to use our provided default configuration by importing :code:`default` as follows: 
 
 .. code-block:: python
 
@@ -46,7 +55,7 @@ By default, Cognify uses a universal set of configurations for its optimization.
         model_selection_cog=model_configs # pass in the model we want to search over
     )
 
-To further customize your workflow optimization process and get the best out of Cognify, you should change a set of configurations in your :code:`create_search` function:
+The default configuration internally uses the following set of values (you do not need to define :code:`create_search` if you are using the default; the values are listed below for your reference):
 
 .. code-block:: python
 
@@ -60,25 +69,42 @@ To further customize your workflow optimization process and get the best out of 
         evaluator_batch_size: int = 10,
     )
 
-Important parameters:
+Instead of using the default, you can customize your workflow optimization process to get the best out of Cognify.
+This is done by simply setting up your :code:`create_search` function. Below we explain each configuration in :code:`create_search` in four categories.
 
-* :code:`opt_log_dir (str)`: This is the directory where the optimization results will be stored. From here, you can load the optimized workflow and use it in your code. You can also resume an optimization from the logs in this directory.
-* :code:`model_selection_cog (list[LMConfig])`: Here, you can specify the models that the optimizer is allowed to search over. Ensure that you have the appropriate API key for the providers you are using. If this parameter is not specified, the optimizer will simply use the models defined by the ``LMConfig`` in the original workflow. Specifying this parameter will override the models in the original workflow.
-* :code:`search_type (str)`: Either **"light", "medium",** or **"heavy"**. This determines the complexity of the optimization process, with "light" being the simplest and the one that yields the quickest results and "heavy" being the most complex and the one that yields the strongest results.
-* :code:`n_trials (int)`: A trial represents one execution of a workflow on all the training data during the optimization process. This parameter allows you to roughly budget your optimization. For heavier search, we recommend a higher number of trials (e.g., 30) to allow the optimizer to effectively explore the search space.
+Essential parameters:
+
+* :code:`model_selection_cog (list[LMConfig])`: Specify the models that Cognify can explore with :code:`LMConfig` objects. For example, the :code:`search_settings` object specifies :code:`model_configs` as the model set in the above :code:`default` code block.
+If this parameter is not specified, Cognify will not explore multiple models and will simply use the models defined in your original workflow. Specifying this parameter will override the models in the original workflow.
+* :code:`opt_log_dir (str)`: The directory (under the workflow directory) where the optimization results will be stored. The default directory is named "opt_results". From :code:`opt_log_dir`, you can inspect the optimized workflow, use it in your code, or resume your optimization with more iterations (trials).
+
+Parameters to determine the amount of exploration:
+
+* :code:`search_type (str)`: Either **"light", "medium",** or **"heavy"**. This determines the amount of search Cognify performs within each iteration (trial), with "light" being the lightest and quickest, "heavy" being the most complex and the slowest, and "middle" being in between. While being the slowest, "heavy" usually yields the best optimization results.
+* :code:`n_trials (int)`: A trial represents one iteration of Cognify's optimization. Each trial executes your training data once. More trials result in better optimization results but slower optimization and higher optimization cost (you need to pay to your model provider). This parameter allows you to roughly budget your optimization. 
+
+.. hint::
+
+    For complex workflows, we recommend a higher number of trials (e.g., 30) to allow the optimizer to effectively explore the search space.
+
+Parameters for constraining Cognify's search:
+
+* :code:`quality_constraint (float)`: In certain cases, you may want to only explore cost reductions if your workflow's generation quality is above a certain threshold. This configuration is designed for such cases. 
+The quality constraint here represents the quality of the optimized workflow *relative* to the original workflow's generation quality. A value of 1.0 (the default) means that the optimized workflow must be at least the same quality as the original program. 
+Setting a value below 1 allows for higher cost reduction. 
+Note that the optimization results can (and will often) have quality higher than the quality constraint. Thus, a value below 1 does not necessarily mean lowered quality in Cognify's optimization results.
+
+.. hint::
+
+    A quality constraint of 1 or below will always yield optimization results, while a quality constraint above 1 may result in "no optimization found".
+
+Parameters for controlling your optimization speed:
+
+* :code:`evaluator_batch_size (int)`: This tells the optimizer how many training data points to evaluate at once. If you are using a cloud-based service, you can adjust this parameter to avoid rate limiting.
 
 .. note::
 
-    As you may notice, we do not provide a default set of models to select from. This is because we do not assume any API keys are provided.
-
-    If you want to tune the model selection with Cognify, please following the `above step <#specify-the-model-set>`_ to define the model selection cog explicitly.
-
-Other parameters you can specify:
-
-* :code:`quality_constraint (float)`: This represents the quality of the optimized workflow `relative to the original program`. A value of 1.0 (the default) means that the optimized workflow must be at least the same quality as the original program. If you are comfortable with slightly lower quality, you can set this value to be less than 1.0. This may allow the optimizer to find cheaper options. On the other hand, if you want a certain level of quality improvement, you can set this value to be slightly greater than 1.0. However, there is no guarantee that this solution exists. 
-* :code:`evaluator_batch_size (int)`: This tells the optimizer how many training data points to execute the workflow on at once. If you are using a cloud-based service, you can adjust this parameter to avoid rate limiting.
-
-We also provide a few built-in domain-specific configurations that you can use directly for the `example workflows <https://github.com/WukLab/Cognify/tree/main/examples>`_ we provide, including QA :code:`qa`, code generation :code:`codegen`, and data visualization :code:`datavis`. You can use these settings like:
+     We also provide a few built-in domain-specific configurations that you can use directly for the `example workflows <https://github.com/WukLab/Cognify/tree/main/examples>`_ we provide, including QA :code:`qa`, code generation :code:`codegen`, and data visualization :code:`datavis`. You can use these settings like:
 
 .. code-block:: python
 

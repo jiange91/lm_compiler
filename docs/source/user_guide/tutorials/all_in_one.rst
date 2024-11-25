@@ -11,15 +11,18 @@ Workflow Definition
 
 Defined in ``workflow.py``:
 
-.. tabs::
+.. tab-set::
 
-    .. tab:: LangChain
+    .. tab-item:: LangChain
+
         .. include:: interface/_langchain_front.rst
 
-    .. tab:: DSPy
+    .. tab-item:: DSPy
+
         .. include:: interface/_dspy_front.rst
 
-    .. tab:: Cognify
+    .. tab-item:: Cognify
+
         .. include:: interface/_cognify_front.rst
 
 Optimization Configuration

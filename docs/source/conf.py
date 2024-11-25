@@ -24,7 +24,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.autosummary",
     "sphinx_copybutton",
-    "sphinx_tabs.tabs",
+    "sphinx_design",
     "myst_parser",
 ]
 

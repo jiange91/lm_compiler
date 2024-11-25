@@ -1,7 +1,3 @@
-
-
-import sys
-import os
 from cognify import register_data_loader
 from cognify import register_evaluator
 

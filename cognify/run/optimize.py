@@ -165,6 +165,7 @@ def optimize(
         layer_configs=control_param.opt_layer_configs,
         opt_log_dir=control_param.opt_history_log_dir,
         quality_constraint=control_param.quality_constraint * raw_result.reduced_score,
+        base_cost=raw_result.reduced_price,
     )
 
     cost, pareto_frontier, opt_logs = opt_driver.run(

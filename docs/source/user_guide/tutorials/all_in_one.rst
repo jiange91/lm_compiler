@@ -137,18 +137,22 @@ Run Cognify
    --------------------------------------------------------
    Pareto_1
      Quality: 6.467, Cost per 1K invocation: $7.90
+     Cost is 109.0% of the origin
      Applied at: light_opt_layer_1
    --------------------------------------------------------
    Pareto_2
      Quality: 6.533, Cost per 1K invocation: $11.39
+     Cost is 151.1% of the origin
      Applied at: light_opt_layer_4
    --------------------------------------------------------
    Pareto_3
      Quality: 6.367, Cost per 1K invocation: $0.80
+     Cost is 11.0% of the origin
      Applied at: light_opt_layer_6
    --------------------------------------------------------
    Pareto_4
      Quality: 6.433, Cost per 1K invocation: $7.82
+     Cost is 107.9% of the origin
      Applied at: light_opt_layer_7
    ========================================================
 
@@ -160,6 +164,7 @@ Run Cognify
     Trial - light_opt_layer_6
     Log at: opt_results/light_opt_layer/opt_logs.json
     Quality: 6.367, Cost per 1K invocation ($): 0.80 $
+      Cost is 11.0% of the origin
     ********** Detailed Optimization Trace **********
 
     ========== Layer: light_opt_layer ==========
@@ -269,6 +274,7 @@ Evaluate and Use Optimized Workflow
     > Evaluation in light_opt_layer_6 | (avg score: 6.31, avg cost@1000: 0.80 $): 100%|██████████████70/70 [00:42<00:00,  1.64it/s]
     =========== Evaluation Results ===========
     Quality: 6.314, Cost per 1K invocation: $0.80
+    Cost is 11.0% of the origin
     ===========================================
 
 .. rubric:: To integrate the optimized workflow into your application:

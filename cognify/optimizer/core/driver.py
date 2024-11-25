@@ -26,6 +26,7 @@ class MultiLayerOptimizationDriver:
         layer_configs: list[LayerConfig],
         opt_log_dir: str,
         quality_constraint: float = None,
+        base_cost: float = None,
     ):
         """Driver for multi-layer optimization
 
@@ -36,6 +37,7 @@ class MultiLayerOptimizationDriver:
         """
         self.layer_configs = layer_configs
         self.quality_constraint = quality_constraint
+        self.base_cost = base_cost
 
         # initialize optimization layers
         self.opt_layers: list[OptimizationLayer] = [None] * len(layer_configs)
@@ -61,6 +63,7 @@ class MultiLayerOptimizationDriver:
                     target_modules=layer_config.target_modules,
                     save_ckpt_interval=layer_config.save_ckpt_interval,
                     quality_constraint=self.quality_constraint,
+                    base_cost=self.base_cost,
                     hierarchy_level=idx,
                 )
             else:
@@ -77,6 +80,7 @@ class MultiLayerOptimizationDriver:
                     next_level_opt_config=self.layer_configs[idx + 1].opt_config,
                     use_SH_allocation=layer_config.opt_config.use_SH_allocation,
                     quality_constraint=self.quality_constraint,
+                    base_cost=self.base_cost,
                     hierarchy_level=idx,
                 )
             self.opt_layers[idx] = opt_layer
@@ -159,6 +163,7 @@ class MultiLayerOptimizationDriver:
             evaluator=evaluator,
             trial_id=trial_id,
             opt_log_path=config_path,
+            base_cost=self.base_cost,
         )
         return result
 
@@ -213,6 +218,8 @@ class MultiLayerOptimizationDriver:
             details = f"Trial - {trial_log.id}\n"
             details += f"Log at: {opt_path}\n"
             details += f"Quality: {trial_log.score:.3f}, Cost per 1K invocation ($): {trial_log.price * 1000:.2f} $\n"
+            if self.base_cost is not None:
+                details += "  Cost is {:.1f}% of the origin\n".format(self.base_cost / trial_log.price * 100)
             details += trans
             with open(dump_path, "w") as f:
                 f.write(details)

@@ -40,18 +40,22 @@ Below is a sample output we got when running it. Note that because of the non-de
    --------------------------------------------------------
    Pareto_1
      Quality: 6.467, Cost per 1K invocation: $7.90
+     Cost is 109.0% of the origin
      Applied at: light_opt_layer_1
    --------------------------------------------------------
    Pareto_2
      Quality: 6.533, Cost per 1K invocation: $11.39
+     Cost is 151.1% of the origin
      Applied at: light_opt_layer_4
    --------------------------------------------------------
    Pareto_3
      Quality: 6.367, Cost per 1K invocation: $0.80
+     Cost is 11.0% of the origin
      Applied at: light_opt_layer_6
    --------------------------------------------------------
    Pareto_4
      Quality: 6.433, Cost per 1K invocation: $7.82
+     Cost is 107.9% of the origin
      Applied at: light_opt_layer_7
    ========================================================
 
@@ -61,7 +65,8 @@ Here, Cognify finds four valid optimization results as different versions of the
         Represents one of the Pareto-optimal solutions. It balances the trade-off between quality and cost effectively:
     
         - **Quality**: 6.467 (average score on the training data).
-        - **Cost**: $7.90 per 1K invocations (average invocation cost).
+        - **Invocation Cost**: $7.90 per 1K invocations (average invocation cost).
+        - **Relative Cost**: 109.0% of the the original workflow's cost.
         - **Applied at**: `light_opt_layer_1` (at which iteration this config is found).
 
 You can also get a summary of the optimization results afterwards with:
@@ -91,6 +96,7 @@ We show ``Pareto_3`` in the above run as an example:
     Trial - light_opt_layer_6
     Log at: opt_results/light_opt_layer/opt_logs.json
     Quality: 6.367, Cost per 1K invocation ($): 0.80 $
+      Cost is 11.0% of the origin
     ********** Detailed Optimization Trace **********
 
     ========== Layer: light_opt_layer ==========
@@ -204,6 +210,7 @@ You can evaluate the optimized workflow on the test data with:
     > Evaluation in light_opt_layer_6 | (avg score: 6.31, avg cost@1000: 0.80 $): 100%|██████████████70/70 [00:42<00:00,  1.64it/s]
     =========== Evaluation Results ===========
     Quality: 6.314, Cost per 1K invocation: $0.80
+    Cost is 11.0% of the origin
     ===========================================
 
 **To Use it in Your Code:**

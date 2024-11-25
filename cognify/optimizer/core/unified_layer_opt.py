@@ -91,6 +91,7 @@ class OptimizationLayer:
         target_modules: Iterable[str] = None,
         save_ckpt_interval: int = 0,
         quality_constraint: Optional[float] = None,
+        base_cost: Optional[float] = None,
         hierarchy_level: int = 0,
     ):
         """
@@ -143,6 +144,7 @@ class OptimizationLayer:
         self._best_score = None
         self._lowest_cost = None
         self.quality_constraint = quality_constraint
+        self.base_cost = base_cost
         self.hierarchy_level = hierarchy_level
 
     def prepare_opt_env(self):
@@ -654,6 +656,8 @@ class OptimizationLayer:
                 print("Pareto_{}".format(i + 1))
                 # logger.info("  Params: {}".format(trial_log.params))
                 print("  Quality: {:.3f}, Cost per 1K invocation: ${:.2f}".format(trial_log.score, trial_log.price * 1000))
+                if self.base_cost is not None:
+                    print("  Cost is {:.1f}% of the origin".format(self.base_cost / trial_log.price * 100))
                 print("  Applied at: {}".format(trial_log.id))
                 # logger.info("  config saved at: {}".format(log_path))
 
@@ -930,6 +934,7 @@ class BottomLevelOptimization(OptimizationLayer):
         evaluator: EvaluatorPlugin,
         trial_id: str,
         opt_log_path: str,
+        base_cost: float = None,
     ) -> EvaluationResult:
         if not os.path.exists(opt_log_path):
             raise ValueError(f"Opt log path {opt_log_path} does not exist")
@@ -949,6 +954,8 @@ class BottomLevelOptimization(OptimizationLayer):
         
         print(f"=========== Evaluation Results ===========") 
         print("  Quality: {:.3f}, Cost per 1K invocation: ${:.2f}".format(eval_result.reduced_score, eval_result.reduced_price * 1000))
+        if base_cost is not None:
+            print("  Cost is {:.1f}% of the origin".format(base_cost / trial_log.price * 100))
         print("===========================================")
 
         return eval_result

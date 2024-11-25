@@ -54,6 +54,9 @@ def create_medium_search(search_params: SearchParams) -> ControlParameter:
     inner_trials = 15
     outer_trials = search_params.n_trials // inner_trials
 
+    if outer_trials == 0:
+        outer_trials += 1
+
     # ================= Inner Loop Config =================
     # Reasoning Parameter
     reasoning_param = reasoning.LMReasoning([NoChange(), ZeroShotCoT()])
@@ -81,8 +84,10 @@ def create_medium_search(search_params: SearchParams) -> ControlParameter:
         [NoChange(), general_usc_ensemble]
     )
     # Layer Config
+    outer_throughput = 2 if outer_trials > 2 else outer_trials
     outer_opt_config = flow.OptConfig(
         n_trials=outer_trials,
+        throughput=outer_throughput
     )
     outer_loop_config = driver.LayerConfig(
         layer_name="medium_outer",
@@ -106,6 +111,9 @@ def create_heavy_search(search_params: SearchParams) -> ControlParameter:
     # Total trials = inner * (2 * outer - 1)
     inner_trials = 10
     outer_trials = (search_params.n_trials / inner_trials + 1) // 2
+
+    if outer_trials == 0:
+        outer_trials += 1
 
     # ================= Inner Loop Config =================
     # Reasoning Parameter
@@ -135,8 +143,10 @@ def create_heavy_search(search_params: SearchParams) -> ControlParameter:
         [NoChange(), general_usc_ensemble]
     )
     # Layer Config
+    outer_throughput = 2 if outer_trials > 2 else outer_trials
     outer_opt_config = flow.OptConfig(
         n_trials=outer_trials,
+        throughput=outer_throughput,
         use_SH_allocation=True,
     )
     outer_loop_config = driver.LayerConfig(

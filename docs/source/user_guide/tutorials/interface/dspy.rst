@@ -23,8 +23,9 @@ Cognify supports unmodified DSPy programs. All you need to do is to **register t
     
   my_workflow = MathSolverWorkflow()
 
-  from cognify.optimizer.registry import register_opt_workflow
-  @register_opt_workflow
+  import cognify
+  
+  @cognify.register_workflow
   def math_solver_workflow(problem):
     return my_workflow(problem=problem)
 

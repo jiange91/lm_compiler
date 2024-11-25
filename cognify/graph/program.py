@@ -7,7 +7,7 @@ import traceback
 
 from cognify.llm import Model
 from cognify.llm.response import ResponseMetadata
-from cognify.graph.modules import Input, Output, Branch, Identity
+from cognify.graph.modules import InputModule, Output, Branch, Identity
 from cognify.graph.base import *
 from cognify.graph.rewriter.utils import replace_branch_destination
 from cognify.graph.utils import simple_cycles
@@ -245,7 +245,7 @@ class Workflow(ComposibleModuleInterface):
         """
         Following will be (re)populated during (re)compilation
         """
-        self.start: Input = None
+        self.start: InputModule = None
         self.end: Output = None
 
         """
@@ -439,7 +439,7 @@ class Workflow(ComposibleModuleInterface):
 
         # TODO: add more validation check
         for name, module in self.modules.items():
-            if isinstance(module, Input):
+            if isinstance(module, InputModule):
                 if self.start is not None:
                     raise ValueError("Multiple start points detected")
                 self.start = module

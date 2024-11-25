@@ -1,6 +1,6 @@
-from cognify.optimizer import register_opt_workflow, register_opt_score_fn
+from cognify.optimizer import register_workflow, register_evaluator
 
-@register_opt_score_fn
+@register_evaluator
 def eval(label, stats):
     """
     Evaluate the statistics of the run.

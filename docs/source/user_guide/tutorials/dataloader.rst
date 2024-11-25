@@ -42,10 +42,10 @@ and the example data-loader function is as follows:
 
 .. code-block:: python
 
-   from cognify.optimizer.registry import register_data_loader
+   import cognify
    import json
 
-   @register_data_loader
+   @cognify.register_data_loader
    def load_data():
       with open("data._json", "r") as f:
          data = json.load(f)

@@ -145,10 +145,10 @@ def read_from_file(data_path, args):
     eval_data = [(input, None) for input in inputs]
     return eval_data
 
-from cognify.optimizer.registry import register_data_loader
+import cognify
 import numpy as np
 
-@register_data_loader
+@cognify.register_data_loader
 def load_data():
     args = parse_arguments()
     all_train = read_from_file('data/dev/other_sub_sampled.json', args)

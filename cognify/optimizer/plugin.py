@@ -34,7 +34,7 @@ class OptimizerSchema:
             logger.warning("No Optimizable modules found")
         program = get_registered_opt_program_entry()
         if not program:
-            raise ValueError("The workflow entry point is not defined, please register it with `@register_opt_workflow`")
+            raise ValueError("The workflow entry point is not defined, please register it with `@cognify.register_workflow`")
         schema = cls(
             program=program,
             opt_target_modules=opt_targets,

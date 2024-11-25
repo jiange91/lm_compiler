@@ -6,7 +6,7 @@ import copy
 logger = logging.getLogger(__name__)
 
 from cognify.graph.base import Module, StatePool, ModuleStatus
-from cognify.graph.program import Workflow, Input, Output
+from cognify.graph.program import Workflow, InputModule, Output
 from cognify.graph.modules import CodeBox
 from cognify.hub.cogs.common import (
     CogBase,
@@ -178,7 +178,7 @@ Please read through all the responses carefully and provide a clear, consistent 
             f"{lm.name}_sub_graph_input",
             f"{lm.name}_sub_graph_output",
         )
-        sub_graph.add_module(Input(input_name))
+        sub_graph.add_module(InputModule(input_name))
         sub_graph.add_module(Output(output_name))
 
         # Sampler

@@ -17,8 +17,8 @@ from cognify.run.evaluate import evaluate, load_workflow
 from cognify.run.optimize import optimize
 from cognify.run.inspect import inspect
 from cognify.optimizer import (
-    register_opt_workflow,
-    register_opt_score_fn,
+    register_workflow,
+    register_evaluator,
     register_data_loader,
     clear_registry,
 )
@@ -40,8 +40,8 @@ __all__ = [
     "inspect",
     "EvaluationResult",
     "create_default_search",
-    "register_opt_workflow",
-    "register_opt_score_fn",
+    "register_workflow",
+    "register_evaluator",
     "register_data_loader",
     "clear_registry",
     "Model",

@@ -2,11 +2,11 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__))))
-from cognify.optimizer.registry import register_data_loader
+import cognify
 from humaneval.humaneval import HumanEvalDataset
 import random
 
-@register_data_loader
+@cognify.register_data_loader
 def load_data():
     raw_dataset = HumanEvalDataset()
     size = len(raw_dataset.data)

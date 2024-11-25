@@ -132,14 +132,14 @@ A sample output looks like:
 Step 1: Register the workflow
 -------------------------------
 
-For LangChain programs like the above, you do not need to modify your code. But to tell Cognify how to invoke the workflow, you need to add a register annotation ``@register_opt_workflow``.
-In this example, the entry point of the workflow is the ``qa_workflow`` function. So we will add ``@register_opt_workflow`` above the function definition as follow:
+For LangChain programs like the above, you do not need to modify your code. But to tell Cognify how to invoke the workflow, you need to add a register annotation ``@cognify.register_workflow``.
+In this example, the entry point of the workflow is the ``qa_workflow`` function. So we will add ``@cognify.register_workflow`` above the function definition as follow:
 
 .. code-block:: python
 
-   from cognify.optimizer import register_opt_workflow
+   import cognify
 
-   @register_opt_workflow
+   @cognify.register_workflow
    def qa_workflow(question, documents):
 
 Step 2: Build the Evaluation Pipeline
@@ -155,11 +155,10 @@ Cognify evaluates your workflow throughout its optimization. To tell Cognify how
 .. code-block:: python
 
    import cognify
-   from cognify.optimizer.registry import register_opt_score_fn
 
    metric = cognify.metric.f1_score_str
 
-   @register_opt_score_fn
+   @cognify.register_evaluator
    def evaluate_answer(answer, label):
       return metric(answer, label)
 
@@ -173,11 +172,11 @@ In this example, we use a sample dataset from from the `HotPotQA <https://hotpot
 
 .. code-block:: python
 
-   from cognify.optimizer.registry import register_data_loader
+   import cognify
    import json
 
-   @register_data_loader
-   def load_data_minor():
+   @cognify.register_data_loader
+   def load_data():
       with open("data._json", "r") as f:
          data = json.load(f)
             

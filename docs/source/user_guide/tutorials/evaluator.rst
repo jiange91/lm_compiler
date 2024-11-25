@@ -6,15 +6,18 @@ Workflow Evaluator
 
 Cognify evaluates your workflow throughout its optimization iterations. To tell Cognify how you want it to be evaluated, you should define an evaluator for your workflow.
 The evaluator should output a numeric value with higher being the better. You can choose your own range of the numeric values.
-To register a function as your evaluator, simply add ``@register_opt_score_fn`` before it.
+To register a function as your evaluator, simply add ``@cognify.register_evaluator`` before it.
 
-For the math-solver example, we will use LLM-as-a-judge to be the evaluator, with the following implementation:
+For the math-solver example, we will use LLM-as-a-judge to be the evaluator, with the following LangChain implementation:
 
 .. code-block:: python
 
-   from cognify.optimizer.registry import register_opt_score_fn
+   import cognify
 
-   @register_opt_score_fn
+   from langchain_openai import ChatOpenAI
+   from langchain_core.prompts import ChatPromptTemplate
+
+   @cognify.register_evaluator
    def evaluate(problem, answer, solution):
       evaluator_prompt = """
       You are a math problem evaluator. Your task is to grade the answer to a math problem by assessing its correctness and completeness.
@@ -29,7 +32,7 @@ For the math-solver example, we will use LLM-as-a-judge to be the evaluator, wit
             ("human", "problem:\n{problem}\n\nstandard solution:\n{solution}\n\nanswer:\n{answer}\n"),
          ]
       )
-      evaluator_agent = evaluator_template | model
-      score = evaluator_agent.invoke({"problem": problem, "answer": answer, "solution": solution}).content
+      evaluator_langchain = evaluator_template | ChatOpenAI(model="gpt-4o")
+      score = evaluator_langchain.invoke({"problem": problem, "answer": answer, "solution": solution}).content
       return int(score)
 

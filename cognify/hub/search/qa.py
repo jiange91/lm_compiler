@@ -32,7 +32,15 @@ def create_qa_search(search_params: SearchParams) -> ControlParameter:
         [NoChange(), general_usc_ensemble]
     )
     # Layer Config
-    outer_opt_config = flow.OptConfig(n_trials=2, throughput=2)
+    outer_trials = search_params.n_trials // 2
+    if outer_trials == 0:
+        outer_trials += 1
+
+    outer_throughput = 2 if outer_trials > 2 else outer_trials
+    outer_opt_config = flow.OptConfig(
+        n_trials=outer_trials, 
+        throughput=outer_throughput,
+    )
     outer_loop_config = driver.LayerConfig(
         layer_name="outer_loop",
         universal_params=[general_ensemble_params],

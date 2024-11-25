@@ -11,7 +11,7 @@ Basic Syntax
 
 ::
 
-   cognify [mode_switch] <path_2_workflow> [optional common_options] [optional mode_options]
+   cognify [mode_switch] <path_to_workflow> [optional common_options] [optional mode_options]
 
 CLI Common Options
 ===================
@@ -66,7 +66,7 @@ CLI Optimize Mode Options
 
 ::
 
-   cognify optimize <path_2_workflow> [optional common_options] [optional optimize_options]
+   cognify optimize <path_to_workflow> [optional common_options] [optional optimize_options]
 
 .. list-table::
    :widths: 5 15 20 10 50
@@ -95,7 +95,7 @@ CLI Evaluate Mode Options
 
 ::
 
-   cognify evaluate <path_2_workflow> [optional common_options] [optional evaluate_options]
+   cognify evaluate <path_to_workflow> [optional common_options] [optional evaluate_options]
 
 .. list-table::
    :widths: 5 15 20 10 50
@@ -131,7 +131,7 @@ CLI Inspect Mode Options
 
 ::
 
-   cognify inspect <path_2_workflow> [optional common_options] [optional inspect_options]
+   cognify inspect <path_to_workflow> [optional common_options] [optional inspect_options]
 
 .. list-table::
    :widths: 5 15 20 10 50
@@ -172,7 +172,7 @@ check help info for optimize mode
 If config file is named differently and want to overwite the result folder:
 ::
    
-   cognify optimize workflow.py -c <path_2_config> -f
+   cognify optimize workflow.py -c <path_to_config> -f
 
 
 .. rubric:: Evaluate a configuration

@@ -143,7 +143,7 @@ class EvalFn:
         for field in self.input_fields:
             if field not in self.defaults and field not in state:
                 raise ValueError(
-                    f"Missing field {field} in state when calling the evaluator\nAvailable fields: {state.keys()}"
+                    f"Missing field `{field}` in state when calling the evaluator\nAvailable fields: {state.keys()}"
                 )
         kargs = {k: state.get(k) for k in state if k in self.input_fields}
         return self.score_fn(**kargs)

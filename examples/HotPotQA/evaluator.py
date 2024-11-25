@@ -1,7 +1,7 @@
-from cognify.optimizer import register_opt_score_fn
+from cognify.optimizer import register_evaluator
 from dsp.utils.metrics import HotPotF1, F1
 
-@register_opt_score_fn
+@register_evaluator
 def answer_f1(label: str, pred: str):
     if isinstance(label, str):
         label = [label]

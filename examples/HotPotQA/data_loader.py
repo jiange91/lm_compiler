@@ -1,7 +1,7 @@
-from cognify.optimizer.registry import register_data_loader
+import cognify
 from dspy.datasets.hotpotqa import HotPotQA
 
-@register_data_loader
+@cognify.register_data_loader
 def load_data():
     dataset = HotPotQA(train_seed=1, train_size=150, eval_seed=2023, dev_size=200, test_size=0)
     def get_input_label(x):
@@ -11,7 +11,7 @@ def load_data():
     devset = [get_input_label(x) for x in dataset.dev[:10]]
     return trainset, valset, devset
 
-# @register_data_loader
+# @cognify.register_data_loader
 def load_data_minor():
     trainset = [
         ("""Are Walt Disney and Sacro GRA both documentry films?""", """yes"""),

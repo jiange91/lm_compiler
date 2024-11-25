@@ -11,7 +11,7 @@ from cognify.graph.base import Module, ComposibleModuleInterface, StatePool, Con
 logger = logging.getLogger(__name__)
 
 
-class Input(Module):
+class InputModule(Module):
     def __init__(self, name) -> None:
         super().__init__(name=name, kernel=None)
 

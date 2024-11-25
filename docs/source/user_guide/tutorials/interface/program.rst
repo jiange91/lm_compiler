@@ -52,44 +52,38 @@ You can also write your own control flow like loops and conditional branching.
       return response.final_answer
 
 
-The math-solver example above has two model calls specified by :code:`cognify.Model` or :code:`cognify.StructuredModel`, the :code:`interpreter_agent` and the :code:`solver_agent`. 
-The :code:`cognify.StructuredModel` class allows for more complex output formats specified outside of the class such as :code:`MathResponse`.
+The math-solver example above has two model calls specified by :code:`cognify.Model` and :code:`cognify.StructuredModel`, the :code:`interpreter_agent` and the :code:`solver_agent`. 
+The :code:`cognify.StructuredModel` class allows for more complex output formats specified outside of the class such as the :code:`MathResponse` data structure.
 The :code:`math_solver_workflow` function specifies the overall workflow process, with the generation of :code:`interpreter_agent` is passed as the input of :code:`solver_agent`.
 
 As seen, :code:`cognify.Model` encapsulates four key components that you should specify:
 
 1. **System prompt**: The :code:`system_prompt` field specifies the initial "system" part of a prompt sequence sent to a language model to define the model's role or provide context and instructions to the model. 
 For example, "You are a math problem interpreter..." and "You are a math solver..." are the system prompts for the two model calls in our math example, as shown below. 
-A language model call has one system prompt that is used regardless of the user inputs. We mandate this information in the Cognify programming model because Cogs like task decomposition rely on the system prompt. 
-
-2. **Request Inputs**: The :code:`input_variables` field specifies a dictionary of input texts from each user request. Unlike the system prompt, this field differs from workflow invocation to workflow invocation. 
-Cognify allows one or more elements within :code:`input_variables`, each being one type of user input. For example, :code:`input_variables` of :code:`solver_agent` has two elements: the first being the end-user request math problem and the second being the generation of the :code:`interpreter_agent` step. 
-Note that you can also concatenate the elements into one long text sequence as the only element to :code:`input_variables`.
-However, the more fine-grained you can categorize your input sequences, the more likely Cognify can reach better optimization results.
-
-3. **Output format**: The :code:`output_format` field specifies the format of the model output. 
+A language model call has one system prompt that is used regardless of the user inputs. We mandate this information in the Cognify programming model because Cogs like task decomposition rely on the system prompt.
+1. **Request Inputs**: The :code:`input_variables` defines the parts of the prompt that change from request to request. For example, the :code:`solver_agent` has two input variables: the first being the end-user request math problem and the second being the generation of the :code:`interpreter_agent` step. The reason it is an input "variable" is that the actual argument changes from one workflow invocation to another. While you can concatenate all content into a single input variable, Cognify can achieve better optimization results if each variable represents a distinct piece of information.
+2. **Output format**: The :code:`output_format` field specifies the format of the model output. 
 It can simply be a label assigned to the output string or a complex schema that the response is expected to conform to. For the latter, you need to use the :code:`cognify.StructuredModel` class. 
-
-4. **Language model configuration**: The :code:`lm_config` field specifies the initial set of language models and their configurations that Cognify uses as the starting point and as the baseline to compare for reporting its optimization improvement. You can add more models for Cognify to explore in the `optimization configuration file <https://cognify-ai.readthedocs.io/user_guide/tutorials/optimizer.html>`_. 
+1. **Language model configuration**: The :code:`lm_config` field specifies the initial set of language models and their configurations that Cognify uses as the starting point and as the baseline to compare for reporting its optimization improvement. You can add more models for Cognify to explore in the `optimization configuration file <https://cognify-ai.readthedocs.io/user_guide/tutorials/optimizer.html>`_. 
 
 .. hint::
 
    When including models from different providers in your configuration, make sure that all required API keys are provided in your environment for the optimizer to call the models.
 
-For Cognify to properly capture your :code:`cognify.Model`, be sure to instantiate them as global variables. 
-Cognify performs parallel optimization internally for faster optimization speed.  Local instantiations of :code:`cognify.Model` will cause synchronization problems and thus will not be registered by Cognify. However, once instantiated, they can be invoked anywhere in your program.
+For Cognify to properly capture your :code:`cognify.Model`, be sure to instantiate them as global variables. Cognify expects a stable set of optimization targets at initialization. Local instantiations create an unstable set of targets that can lead to inaccurate optimization results. However, once instantiated, they can be invoked anywhere in your program.
 
-Invoking a :code:`cognify.Model` (or :code:`cognify.StructuredModel`) is straightforward. Simply pass in a dictionary of inputs that maps the variable to its actual value. 
+Invoking a :code:`cognify.Model` (or :code:`cognify.StructuredModel`) is straightforward. Simply pass in a dictionary of inputs that maps the variable name to its actual value. 
 Cognify uses the system prompt, input variables, and output format to construct the messages to send to the model endpoints. 
 We encourage users to let Cognify handle message construction and passing. However, for fine-grained control over the messages and arguments passed to the model and easy integration with your current codebase, you can optionally pass in a list of messages and your model keyword arguments. For more detailed usage instructions, check out our `GitHub repo <https://github.com/WukLab/Cognify/tree/main/cognify/llm>`_.
 
-To integrate the workflow with Cognify, you need to register the function that invokes the workflow with our decorator ``register_opt_workflow`` like so:
+To integrate the workflow with Cognify, you need to register the function that invokes the workflow with our decorator ``@cognify.register_workflow`` like so:
 
 .. code-block:: python
 
-   from cognify.optimizer.registry import register_opt_workflow
+   import cognify
+   ...
 
-   @register_opt_workflow
+   @cognify.register_workflow
    def math_solver_workflow(problem):
       math_model = interpreter_agent(inputs={"problem": problem})
       answer = solver_agent(inputs={"problem": problem, "math_model": math_model})

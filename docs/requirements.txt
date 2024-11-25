@@ -3,3 +3,4 @@ sphinx-copybutton
 sphinx-gallery
 sphinx
 myst_parser
+sphinx_design

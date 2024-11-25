@@ -71,7 +71,7 @@ Important parameters:
 
     As you may notice, we do not provide a default set of models to select from. This is because we do not assume any API keys are provided.
 
-    If you want to tune the model selection with Cognify, please following the `above step <#factoring-in-model-price>`_ to define the model selection cog explicitly.
+    If you want to tune the model selection with Cognify, please following the `above step <#specify-the-model-set>`_ to define the model selection cog explicitly.
 
 Other parameters you can specify:
 

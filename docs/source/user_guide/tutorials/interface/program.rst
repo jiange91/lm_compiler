@@ -16,41 +16,7 @@ You can also write your own control flow like loops and conditional branching.
 
 **Workflow Code for Solving Maths Problems:**
 
-.. code-block:: python
-
-   import cognify
-
-   interpreter_prompt = """
-   You are a math problem interpreter. Your task is to analyze the problem, identify key variables, and formulate the appropriate mathematical model or equation needed to solve it. Be concise and clear in your response.
-   """
-   interpreter_agent = cognify.Model("interpreter", 
-      system_prompt=interpreter_prompt, 
-      input_variables=[cognify.Input("problem")], 
-      output=cognify.OutputLabel("math_model"),
-      lm_config=cognify.LMConfig(model="gpt-4o-mini"))
-
-
-   from pydantic import BaseModel
-   class MathResponse(BaseModel):
-      final_answer: float
-      explanation: str
-
-   solver_prompt = """
-   You are a math solver. Given a math problem, and a mathematical model for solving it, your task is to compute the solution and return the final answer. Be concise and clear in your response.
-   """
-   solver_agent = cognify.StructuredModel("solver",
-      system_prompt=solver_prompt,
-      input_variables=[cognify.Input("problem"), cognify.Input("math_model")],
-      output_format=cognify.OutputFormat(MathResponse),
-      lm_config=cognify.LMConfig(model="gpt-4o-mini"))
-
-   # Define Workflow
-   def math_solver_workflow(problem):
-      math_model = interpreter_agent(inputs={"problem": problem})
-      response: MathResponse = solver_agent(inputs={"problem": problem, "math_model": math_model})
-      print(response.explanation)
-      return response.final_answer
-
+.. include:: _cognify_front.rst
 
 The math-solver example above has two model calls specified by :code:`cognify.Model` and :code:`cognify.StructuredModel`, the :code:`interpreter_agent` and the :code:`solver_agent`. 
 The :code:`cognify.StructuredModel` class allows for more complex output formats specified outside of the class such as the :code:`MathResponse` data structure.

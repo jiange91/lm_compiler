@@ -145,7 +145,7 @@ The optimize command will prompt all available trade-offs. You can also get a su
 .. code-block:: console
 
    ================= Optimization Results =================
-   Num Pareto Frontier: 5
+   Num Pareto Frontier: 4
    --------------------------------------------------------
    Pareto_1
      Quality: 6.467, Cost per 1K invocation: $7.90

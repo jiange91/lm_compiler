@@ -61,7 +61,7 @@ agent = BasicMH(passages_per_hop=2)
 
 import cognify
 
-@cognify.register_opt_workflow
+@cognify.register_workflow
 def qa_workflow(question):
     answer = agent(question=question)
     return {'answer': answer}

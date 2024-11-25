@@ -77,7 +77,7 @@ By default, Cognify will translate **all** runnables into valid optimization tar
   # -- manually wrap the chain with RunnableModel --
   solver_agent = cognify.RunnableModel("solver_agent", solver_agent)
 
-  from cognify.optimizer.registry import register_opt_workflow
+  from cognify.optimizer.registry import register_workflow
   @cognify.register_workflow
   def math_solver_workflow(problem):
     math_model = interpreter_agent.invoke({"problem": problem}).content

@@ -89,7 +89,7 @@ agent = RetrieveMultiHop()
 
 import cognify
 
-@cognify.register_opt_workflow
+@cognify.register_workflow
 def hover_workflow(claim):
     result = agent(claim=claim)
     return {'pred_docs': result.pids}

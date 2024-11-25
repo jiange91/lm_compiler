@@ -36,7 +36,7 @@ def create_codegen_search(search_params: SearchParams) -> ControlParameter:
         [NoChange(), general_usc_ensemble]
     )
     # Layer Config
-    outer_trials = search_params.n_trials // 6
+    outer_trials = int((search_params.n_trials / 6 + 1) // 2)
     if outer_trials == 0:
         outer_trials += 1
 
@@ -63,7 +63,7 @@ def create_codegen_search(search_params: SearchParams) -> ControlParameter:
 
 def create_search(
     *,
-    n_trials: int = 10,
+    n_trials: int = 18,
     quality_constraint: float = 1.0,
     evaluator_batch_size: int = 10,
     opt_log_dir: str = "opt_results",

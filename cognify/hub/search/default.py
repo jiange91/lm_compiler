@@ -12,7 +12,7 @@ from dataclasses import dataclass
 
 @dataclass
 class SearchParams:
-    n_trials: int = 10
+    n_trials: int
     quality_constraint: float = 1.0
     evaluator_batch_size: int = 10
     opt_log_dir: str = "opt_results"
@@ -52,7 +52,7 @@ def create_light_search(search_params: SearchParams) -> ControlParameter:
 def create_medium_search(search_params: SearchParams) -> ControlParameter:
     # Assign resource to each layer
     inner_trials = 15
-    outer_trials = search_params.n_trials // inner_trials
+    outer_trials = int((search_params.n_trials / inner_trials + 1) // 2)
 
     if outer_trials == 0:
         outer_trials += 1
@@ -109,8 +109,8 @@ def create_heavy_search(search_params: SearchParams) -> ControlParameter:
     # Assign resource to each layer
     # Use SH resource allocation
     # Total trials = inner * (2 * outer - 1)
-    inner_trials = 10
-    outer_trials = (search_params.n_trials / inner_trials + 1) // 2
+    inner_trials = 20
+    outer_trials = int((search_params.n_trials / inner_trials + 1) // 2)
 
     if outer_trials == 0:
         outer_trials += 1
@@ -168,7 +168,7 @@ def create_heavy_search(search_params: SearchParams) -> ControlParameter:
 def create_search(
     *,
     search_type: Literal["light", "medium", "heavy"] = "light",
-    n_trials: int = 10,
+    n_trials: int = None,
     quality_constraint: float = 1.0,
     evaluator_batch_size: int = 10,
     opt_log_dir: str = "opt_results",
@@ -184,6 +184,16 @@ def create_search(
                 model_selection_options,
             )
         assert isinstance(model_selection_cog, model_selection.LMSelection)
+    
+    if n_trials is None:
+        if search_type == "light":
+            n_trials = 10
+        elif search_type == "medium":
+            n_trials = 45
+        elif search_type == "heavy":
+            n_trials = 140
+        else:
+            raise ValueError(f"Invalid search type: {search_type}")
 
     search_params = SearchParams(
         n_trials,

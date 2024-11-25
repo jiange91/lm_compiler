@@ -299,6 +299,14 @@ class OptimizationLayer:
                     new_module, new_mapping = param.apply_option(
                         selected, module_dict[lm_name]
                     )
+
+                    for old_name, new_name in new_mapping.items():
+                        trace_for_next_level.add_mapping(old_name, new_name)
+                    new_modules.append(new_module)
+                    changed_modules.add(lm_name)
+                    trace_for_next_level.register_proposal(
+                        self.name, [(lm_name, param.name, selected)]
+                    )
                 except Exception as e:
                     logger.error(
                         f"Error in applying param {param.name} to {lm_name}: {e}"
@@ -306,15 +314,8 @@ class OptimizationLayer:
                     logger.error(
                         f"Module dict {module_dict.keys()} and self params {self.params.keys()}"
                     )
-                    traceback.print_exc()
+                    raise
 
-                for old_name, new_name in new_mapping.items():
-                    trace_for_next_level.add_mapping(old_name, new_name)
-                new_modules.append(new_module)
-                changed_modules.add(lm_name)
-                trace_for_next_level.register_proposal(
-                    self.name, [(lm_name, param.name, selected)]
-                )
 
         for m_name, new_module in module_dict.items():
             if m_name not in changed_modules:
@@ -446,6 +447,9 @@ class OptimizationLayer:
         for k, v in self.opt_logs.items():
             if v.finished:
                 opt_logs_json_obj[k] = v.to_dict()
+        if not opt_logs_json_obj:
+            logger.warning("No finished trials to save")
+            return
         json.dump(opt_logs_json_obj, open(opt_log_path, "w+"), indent=4)
         params = [param for params in self.params.values() for param in params]
         dump_params(params, param_save_path)

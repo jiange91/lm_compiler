@@ -42,9 +42,14 @@ class LayerEvaluator(GeneralEvaluatorInterface):
             #   return bad information instead of no information
             # consider this as a failed evaluation
             return EvaluationResult(
+                ids=[],
+                scores=[],
+                prices=[],
+                exec_times=[],
+                total_eval_cost=eval_cost,
+                complete=False,
                 reduced_price=float(0xDEADBEEF),
                 reduced_score=0,
-                complete=False,
             )
 
         inner_log_ids, scores, prices, exec_times = [], [], [], []

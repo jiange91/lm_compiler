@@ -62,7 +62,7 @@ Thus, the loader output should be formatted as follows:
    data_item = (input_sample, ground_truth) 
    loaded_data = [data_item, ...]
 
-Finally, we define the data-loader function in this example as follows:
+Finally, we define the data-loader function for this example, which returns a **train**, **validation**, and **test** dataset:
 
 .. code-block:: python
 
@@ -80,14 +80,15 @@ Finally, we define the data-loader function in this example as follows:
       # format to (input, output) pairs
       new_data = []
       for d in data:
-         input = {
+         input_sample = {
             'problem': d["problem"],
          }
          ground_truth = {
             'solution': d["solution"],
          }
-         new_data.append((input, ground_truth))
+         new_data.append((input_sample, ground_truth))
       return new_data[:30], None, new_data[30:]
+
 
 Cognify will forward the loaded data in the following way:
 

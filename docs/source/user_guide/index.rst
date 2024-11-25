@@ -26,3 +26,12 @@ Welcome! This guide provides tutorials, tips, and resources to help you get the 
     tutorials/cli
     tutorials/interpret
     tutorials/all_in_one
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Examples
+
+    ../examples/HotPotQA/ref
+    ../examples/HoVeR/ref
+    ../examples/Codegen/ref
+    ../examples/math/ref

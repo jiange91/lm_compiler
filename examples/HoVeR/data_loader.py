@@ -1,14 +1,14 @@
 import random
 import json
 import pandas as pd
-from cognify.optimizer.registry import register_data_loader
+from cognify import register_data_loader
 
     
 train_size = 100
 val_size = 50
 dev_size = 200
 
-@register_data_loader
+@cognify.register_data_loader
 def load_data():
     data_path = '/mnt/ssd4/lm_compiler/clean_examples/HoVeR/hover_data/hover/train/qas.json'
     data = []

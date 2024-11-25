@@ -1,5 +1,5 @@
 from cognify.graph.program import Workflow, hint_possible_destinations, Context
-from cognify.graph.modules import CodeBox, StatePool, Input, Output
+from cognify.graph.modules import CodeBox, StatePool, InputModule, Output
 import unittest
 
 class ReturnNodeValue:
@@ -16,7 +16,7 @@ workflow.add_module(CodeBox('a', ReturnNodeValue('Im A')))
 workflow.add_module(CodeBox('b', ReturnNodeValue('Im B')))
 workflow.add_module(CodeBox('c', ReturnNodeValue('Im C')))
 workflow.add_module(CodeBox('d', ReturnNodeValue('Im D')))
-workflow.add_module(Input('input'))
+workflow.add_module(InputModule('input'))
 workflow.add_module(Output('output'))
 
 @hint_possible_destinations(['output', 'b'])

@@ -6,11 +6,11 @@ from collections import defaultdict
 import concurrent.futures
 from devtools import pprint
 
-from cognify.graph.program import Workflow, Input, Output, hint_possible_destinations
+from cognify.graph.program import Workflow, InputModule, Output, hint_possible_destinations
 from cognify.graph.rewriter.utils import add_argument_to_position
 from pydantic import BaseModel
 from cognify.graph.modules import CodeBox
-from cognify.llm import Model, StructuredModel, OutputFormat, OutputLabel
+from cognify.llm import Model, StructuredModel, OutputFormat, OutputLabel, Input
 from cognify.hub.cogs.decompose_agents import *
 from cognify.hub.cogs.decompose_agents.estimate_complexity import ComplexityEstimation
 from cognify.optimizer.utils import aggregator_factory, json_schema_to_pydantic_model
@@ -240,7 +240,7 @@ class LMTaskDecompose:
             f"{lm.name}_sub_graph_input",
             f"{lm.name}_sub_graph_output",
         )
-        sub_graph.add_module(Input(input_name))
+        sub_graph.add_module(InputModule(input_name))
         sub_graph.add_module(Output(output_name))
 
         logical_end_name = output_name

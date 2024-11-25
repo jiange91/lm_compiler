@@ -15,7 +15,7 @@ from cognify.hub.cogs.reasoning import ZeroShotCoT
 from cognify.hub.cogs.common import NoChange
 import cognify
 from evaluator import answer_f1
-from cognify.optimizer import register_opt_workflow
+from cognify.optimizer import register_workflow
 
 lm_config = cognify.LMConfig(
     custom_llm_provider='openai',
@@ -91,7 +91,7 @@ class BasicMH(dspy.Module):
 
 pipeline = BasicMH(passages_per_hop=2)
 
-@register_opt_workflow
+@register_workflow
 def do_qa(question: str):
     answer = pipeline(question=question)
     return answer

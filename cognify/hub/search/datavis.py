@@ -19,9 +19,12 @@ def create_datavis_search(search_params: SearchParams) -> ControlParameter:
     inner_opt_config = flow.OptConfig(
         n_trials=6,
     )
+    params = [few_shot_params, reasoning_param]
+    if search_params.model_selection_cog:
+        params.append(search_params.model_selection_cog)
     inner_loop_config = driver.LayerConfig(
-        layer_name="inner_loop",
-        universal_params=[few_shot_params, reasoning_param],
+        layer_name="datavis_inner",
+        universal_params=params,
         opt_config=inner_opt_config,
     )
 
@@ -32,12 +35,17 @@ def create_datavis_search(search_params: SearchParams) -> ControlParameter:
         [NoChange(), general_usc_ensemble]
     )
     # Layer Config
+    outer_trials = search_params.n_trials // 6
+    if outer_trials == 0:
+        outer_trials += 1
+    outer_throughput = 4 if outer_trials > 4 else outer_trials
+
     outer_opt_config = flow.OptConfig(
-        n_trials=4,
-        throughput=4,
+        n_trials=outer_trials,
+        throughput=outer_throughput,
     )
     outer_loop_config = driver.LayerConfig(
-        layer_name="outer_loop",
+        layer_name="datavis_outer",
         universal_params=[general_ensemble_params],
         opt_config=outer_opt_config,
     )

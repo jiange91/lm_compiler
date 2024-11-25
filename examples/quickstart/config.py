@@ -3,11 +3,10 @@
 #================================================================
 
 import cognify
-from cognify.optimizer.registry import register_opt_score_fn
 
 metric = cognify.metric.f1_score_str
 
-@register_opt_score_fn
+@cognify.register_evaluator
 def evaluate_answer(answer, label):
     return metric(answer, label)
 
@@ -15,10 +14,9 @@ def evaluate_answer(answer, label):
 # Data Loader
 #================================================================
 
-from cognify.optimizer.registry import register_data_loader
 import json
 
-@register_data_loader
+@cognify.register_data_loader
 def load_data_minor():
     with open("data._json", "r") as f:
         data = json.load(f)

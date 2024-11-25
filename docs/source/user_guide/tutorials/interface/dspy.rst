@@ -5,29 +5,7 @@ DSPy
 
 Cognify supports unmodified DSPy programs. All you need to do is to **register the entry function** for Cognify to execute the workflow during optimization. The following is the DSPy code for the **Math Problem Solver** example:
 
-.. code-block:: python
-
-  import dspy
-
-  class MathSolverWorkflow(dspy.Module):
-    def __init__(self):
-      super().__init__()
-      self.interpreter_agent = dspy.Predict("problem -> math_model")
-      self.solver_agent = dspy.Predict("problem, math_model -> final_answer, explanation")
-    
-    def forward(self, problem):
-      math_model = self.interpreter_agent(problem=problem).math_model
-      response = self.solver_agent(problem=problem, math_model=math_model)
-      print(response.explanation)
-      return response.final_answer
-    
-  my_workflow = MathSolverWorkflow()
-
-  import cognify
-  
-  @cognify.register_workflow
-  def math_solver_workflow(problem):
-    return my_workflow(problem=problem)
+.. include:: _dspy_front.rst
 
 In DSPy, the :code:`dspy.Predict` class is the primary abstraction for obtaining a response from a language model. When intializing the optimizer, Cognify will automatically translate each predictor in your globally instantiated :code:`dspy.Module` (as defined by the module's :code:`__init__` function) into a :code:`cognify.StructuredModel`. 
 

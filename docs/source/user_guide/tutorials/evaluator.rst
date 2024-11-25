@@ -1,8 +1,8 @@
 .. _cognify_tutorials_evaluator:
 
-****************
+******************
 Workflow Evaluator
-****************
+******************
 
 Cognify evaluates your workflow throughout its optimization iterations. To tell Cognify how you want it to be evaluated, you should define an evaluator for your workflow.
 The evaluator should output a numeric value with higher being the better. You can choose your own range of the numeric values.

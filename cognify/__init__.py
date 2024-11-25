@@ -13,6 +13,8 @@ from .frontends.langchain.connector import RunnableModel, as_runnable
 
 from cognify import llm, optimizer
 from cognify.optimizer.evaluation import metric
+from cognify.optimizer.evaluation.metric import f1_score_set
+
 from cognify.run.evaluate import evaluate, load_workflow
 from cognify.run.optimize import optimize
 from cognify.run.inspect import inspect

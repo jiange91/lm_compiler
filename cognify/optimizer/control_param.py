@@ -12,7 +12,7 @@ class ControlParameter:
     quality_constraint: float = 1.0
     train_down_sample: int = 0
     val_down_sample: int = 0
-    evaluator_batch_size: int = 20
+    evaluator_batch_size: int = 10
 
     @classmethod
     def from_python_profile(cls, param_path):
@@ -65,17 +65,13 @@ class ControlParameter:
                 control_param = ControlParameter.from_python_profile(param_path)
             else:
                 control_param = ControlParameter.from_json_profile(param_path)
+            return control_param
         else:
-            control_param = None
             for name in dir(loaded_module):
                 obj = getattr(loaded_module, name)
                 if isinstance(obj, cls):
-                    control_param = obj
-
-        if control_param is None:
-            raise ValueError("No search settings found in configuration file.")
-
-        return control_param
+                    return obj
+            raise ValueError(f"No ControlParameter instance found in {loaded_module}")
 
     def to_dict(self):
         result = {}

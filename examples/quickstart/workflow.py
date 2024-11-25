@@ -33,9 +33,9 @@ def doc_str(docs):
         context.append(f"[{i+1}]: {c}")
     return "\n".join(docs)
 
-from cognify.optimizer import register_workflow
+import cognify
 
-@register_workflow
+@cognify.register_workflow
 def qa_workflow(question, documents):
     format_doc = doc_str(documents)
     answer = qa_agent.invoke({"question": question, "documents": format_doc}).content

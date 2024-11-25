@@ -25,7 +25,7 @@ dependencies = [
     "debugpy",
     "ipywidgets",
     "docutils",
-    "dspy-ai==2.5.31",
+    "dspy-ai>=2.5.32",
     "fastapi",
     "fireworks-ai==0.15.4",
     "graphviz==0.20.3",

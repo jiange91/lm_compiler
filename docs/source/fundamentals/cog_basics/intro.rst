@@ -7,7 +7,7 @@ Introduction to Cogs
 A core concept in Cognify is `Cogs`, a term we use to refer to all types of optimizations that could apply to gen AI workflows.
 `Cogs` can be optimizations that work across components in a gen AI workflow by changing the workflow structure (e.g., decompose a component into two);
 `Cogs` can also be optimizations that focus on single compoentns (e.g., improving the prompt of an LLM component). 
-Cognify treats all `Cogs` as "hyperparameters" of gen AI workflows and apply an overall `Cog`-tuning flow, as described in ..
+Cognify treats all `Cogs` as "hyperparameters" of gen AI workflows and apply an overall `Cog-tuning flow <optimizer_overview>`_.
 
 .. tip::
 

@@ -4,7 +4,7 @@ from langchain_core.prompts import ChatPromptTemplate
 # Initialize the model
 import dotenv
 dotenv.load_dotenv()
-model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+model = ChatOpenAI(model="gpt-4o-mini", temperature=0, max_tokens=300)
 
 interpreter_prompt = """
 You are a math problem interpreter. Your task is to analyze the problem, identify key variables, and formulate the appropriate mathematical model or equation needed to solve it. Be concise and clear in your response.
@@ -31,7 +31,6 @@ solver_template = ChatPromptTemplate.from_messages(
 )
 
 solver_agent = solver_template | model
-
 
 import cognify
 

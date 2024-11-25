@@ -78,7 +78,5 @@ model_configs = [
 ]
 
 search_settings = default.create_search(
-    evaluator_batch_size=30, 
-    opt_log_dir='with_ms_opt_log', 
     model_selection_cog=model_configs
 )

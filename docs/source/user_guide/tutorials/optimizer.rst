@@ -34,8 +34,8 @@ You can also set a :code:`cost_indicator` for each :code:`LMConfig` to tell the 
 
     The :code:`cost_indicator` does not need to reflect the true difference in prices between models. For example, Llama-3.1-8b may not be 20% cheaper than GPT-4o-mini, even though we have set the cost indicator to 0.8. In this way, you can express how much you `care` about the difference in price. If you are hosting models yourself, you can set the cost according to the relative GPU resources required by each model, which usually corresponds to model weight size.
 
-Finalize Optimizer Settings
----------------------------
+Configure Optimizer Settings
+----------------------------
 
 By default, Cognify uses a universal set of configurations for its optimization.
 

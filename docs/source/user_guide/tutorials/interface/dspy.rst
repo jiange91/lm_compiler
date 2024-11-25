@@ -28,14 +28,13 @@ By default, Cognify will translate **all** predictors into valid optimization ta
       # -- manually wrap the predictor with PredictModel --
       self.solver_agent = cognify.PredictModel(
         "solver_agent",
-        dspy.Predict("problem, math_model -> final_answer, explanation")
+        dspy.Predict("problem, math_model -> answer")
       )
   
     def forward(self, problem):
       math_model = self.interpreter_agent(problem=problem).math_model
-      response = self.solver_agent(problem=problem, math_model=math_model)  # unchanged
-      print(response.explanation)
-      return response.final_answer
+      answer = self.solver_agent(problem=problem, math_model=math_model).answer  # unchanged
+      return answer
 
   ...
 
@@ -46,16 +45,7 @@ If you prefer to define your modules using our :code:`cognify.Model` interface b
   import cognify
   import dspy 
   
-  solver_prompt = """
-  You are a math solver. Given a math problem, and a mathematical model for solving it, your task is to compute the solution and return the final answer. Be concise and clear in your response.
-  """
-  solver_agent = cognify.StructuredModel(
-    "solver_agent",
-    system_prompt=solver_prompt,
-    input_variables=[cognify.Input("problem"), cognify.Input("math_model")],
-    output_format=cognify.OutputFormat(MathResponse),
-    lm_config=cognify.LMConfig(model="gpt-4o-mini")
-  )
+  cognify_solver_agent = cognify.Model("solver_agent", ...)
 
   class MathSolverWorkflow(dspy.Module):
     def __init__(self):
@@ -65,8 +55,22 @@ If you prefer to define your modules using our :code:`cognify.Model` interface b
   
     def forward(self, problem):
       math_model = self.interpreter_agent(problem=problem).math_model
-      response = self.solver_agent(problem=problem, math_model=math_model)  # unchanged
-      print(response.explanation)
-      return response.final_answer
+      answer = self.solver_agent(problem=problem, math_model=math_model).answer  # unchanged
+      return answer
 
   ...
+
+Finally to register the workflow to Cognify, you can annotate the entry point as follows:
+
+.. code-block:: python
+
+  import cognify
+  ...
+
+  math_agent = MathSolverWorkflow()
+
+  @cognify.register_workflow
+  def math_solver_workflow(problem):
+    answer = my_workflow(problem=problem)
+    return {"answer": answer}
+

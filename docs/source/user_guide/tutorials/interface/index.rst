@@ -1,12 +1,14 @@
 .. _cognify_tutorials_interface:
 
-######################
+***********************
 Programming Interfaces
-######################
+***********************
 
-Cognify supports several workflow programming models, including LangChain and DSPy. We also offer a simple *Cognify programming interface* for you to write workflows from scratch or port your existing Python programs.
+Cognify supports several workflow programming models, including ``LangChain`` and ``DSPy``.
+
+We also offer a simple *Cognify programming interface* for you to write workflows from scratch or manually port your existing Python programs.
+
 In this section, we explain each of these programming interfaces using a unified example.
-
 
 The example workflow we use is a **Math Problem Solver** involving two agents called in sequence:
 
@@ -16,6 +18,8 @@ The example workflow we use is a **Math Problem Solver** involving two agents ca
 
 
 .. toctree::
+   :maxdepth: 1
+
    program
    dspy
    langchain

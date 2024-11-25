@@ -12,30 +12,26 @@
             cognify.Input("problem")
         ], 
         output=cognify.OutputLabel("math_model"),
-        lm_config=cognify.LMConfig(model="gpt-4o-mini")
+        lm_config=cognify.LMConfig(model="gpt-4o", kwargs={"max_tokens": 300})
     )
-
-    from pydantic import BaseModel
-    class MathResponse(BaseModel):
-        final_answer: float
-        explanation: str
 
     solver_prompt = """
     You are a math solver. Given a math problem, and a mathematical model for solving it, your task is to compute the solution and return the final answer. Be concise and clear in your response.
     """
-    solver_agent = cognify.StructuredModel(
+    solver_agent = cognify.Model(
         "solver",
         system_prompt=solver_prompt,
         input_variables=[
             cognify.Input("problem"), 
             cognify.Input("math_model")
         ],
-        output_format=cognify.OutputFormat(MathResponse),
-        lm_config=cognify.LMConfig(model="gpt-4o-mini")
+        output=cognify.OutputLabel("answer"),
+        lm_config=cognify.LMConfig(model="gpt-4o", kwargs={"max_tokens": 300})
     )
 
     # Define Workflow
+    @cognify.register_workflow
     def math_solver_workflow(problem):
         math_model = interpreter_agent(inputs={"problem": problem})
-        response: MathResponse = solver_agent(inputs={"problem": problem, "math_model": math_model})
-    return response.final_answer
+        answer = solver_agent(inputs={"problem": problem, "math_model": math_model})
+        return {"answer": answer}

@@ -11,7 +11,7 @@ In each optimization iteration, Cognify runs all the data points in the training
 
 .. hint::
 
-   For more consistent, generalizable optimization results, your training dataset should be diverse enough to cover key use cases. Meanwhile, the larger your dataset is, the longer and more costly Cognify's optimization process will be. Ideally, you should provide one data point per usage category. For cases where this is hard to know, we recommend you to first try a small dataset with a few iterations and `resume <https://cognify-ai.readthedocs.io/en/latest/user_guide/tutorials/cli.html>`_ with more data and iterations.
+   For more consistent, generalizable optimization results, your training dataset should be diverse enough to cover key use cases. Meanwhile, the larger your dataset is, the longer and more costly Cognify's optimization process will be. Ideally, you should provide one data point per usage category. For cases where this is hard to know, we recommend you to first try a small dataset with a few iterations and :ref:`resume <cognify_cli_opt_mode>` with more data and iterations.
 
 In our math-solver example, the signature of the workflow and evaluator functions are as follows:
 
@@ -44,24 +44,26 @@ and the example data-loader function is as follows:
 
    import cognify
    import json
+   import random
 
    @cognify.register_data_loader
    def load_data():
       with open("data._json", "r") as f:
          data = json.load(f)
-            
+         
+      random.seed(42)
+      random.shuffle(data) 
       # format to (input, output) pairs
       new_data = []
       for d in data:
-         input_sample = {
+         input = {
             'problem': d["problem"],
          }
          ground_truth = {
             'solution': d["solution"],
          }
-         new_data.append((input_sample, ground_truth))
-      return new_data[:5], None, new_data[:]
-
+         new_data.append((input, ground_truth))
+      return new_data[:30], None, new_data[30:]
 
 Cognify will forward the loaded data in the following way:
 

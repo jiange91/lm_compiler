@@ -1,121 +1,15 @@
-.. _cognify_tutorials_all_in_one:
+.. _cognify_tutorials_interpret:
 
-************************
-Putting It All Together
-************************
+******************************
+Interpret Optimization Results
+******************************
 
-Now that we have gone through all the steps of using Cognify, let's put everything together for the math-solver example.
+Get Optimization Results
+========================
 
-Workflow Definition
-===================
+Before running Cognify, let's first evaluate the original workflow's generation quality and cost. 
 
-Defined in ``workflow.py``:
-
-.. tab-set::
-
-    .. tab-item:: LangChain
-
-        .. include:: interface/_langchain_front.rst
-
-    .. tab-item:: DSPy
-
-        .. include:: interface/_dspy_front.rst
-
-    .. tab-item:: Cognify
-
-        .. include:: interface/_cognify_front.rst
-
-Optimization Configuration
-===========================
-
-Evaluator, data loader, and optimization configurations as defined in ``config.py``:
-
-.. code-block:: python
-
-    #================================================================
-    # Evaluator
-    #================================================================
-
-    import cognify
-
-    from pydantic import BaseModel
-
-    class Assessment(BaseModel):
-        score: int
-        
-    evaluator_prompt = """
-    You are a math problem evaluator. Your task is to grade the the answer to a math proble by assessing its correctness and completeness.
-
-    You should not solve the problem by yourself, a standard solution will be provided. 
-
-    Please rate the answer with a score between 0 and 10.
-    """
-
-    evaluator_agent = cognify.StructuredModel(
-        agent_name='llm_judge',
-        system_prompt=evaluator_prompt,
-        input_variables=(
-            cognify.Input('problem'),
-            cognify.Input('solution'),
-            cognify.Input('answer'),
-        ),
-        output_format=cognify.OutputFormat(schema=Assessment),
-        lm_config=cognify.LMConfig(model='gpt-4o-mini', kwargs={'temperature': 0}),
-        opt_register=False,
-    )
-
-    @cognify.register_evaluator
-    def llm_judge(problem, answer, solution):
-        assess = evaluator_agent(inputs={'problem': problem, 'solution': solution, 'answer': answer})
-        return assess.score
-
-
-    #================================================================
-    # Data Loader
-    #================================================================
-
-    import json
-    import random
-
-    @cognify.register_data_loader
-    def load_data():
-        with open("data._json", "r") as f:
-            data = json.load(f)
-            
-        random.seed(42)
-        random.shuffle(data) 
-        # format to (input, output) pairs
-        new_data = []
-        for d in data:
-            input = {
-                'problem': d["problem"],
-            }
-            ground_truth = {
-                'solution': d["solution"],
-            }
-            new_data.append((input, ground_truth))
-        return new_data[:30], None, new_data[30:]
-
-    #================================================================
-    # Optimizer Set Up
-    #================================================================
-
-    from cognify.hub.search import default
-
-    model_configs = [
-        # OpenAI models
-        cognify.LMConfig(model='gpt-4o-mini', kwargs={'temperature': 0, 'max_tokens': 300}),
-        cognify.LMConfig(model='gpt-4o', kwargs={'temperature': 0, 'max_tokens': 300}),
-    ]
-
-    search_settings = default.create_search(
-        model_selection_cog=model_configs
-    )
-
-Run Cognify 
-=======================
-
-.. rubric:: To evaluate the original workflow:
+This can be done by setting the ``-s NoChange`` flag with ``cognify evaluate`` to indicate that we are not optimizing the workflow.
 
 .. code-block:: console
 
@@ -126,11 +20,20 @@ Run Cognify
     Quality: 6.186, Cost per 1K invocation ($): 7.25 $
     ===========================================
 
-.. rubric:: To run Cognify's optimization:
+Now, let's run Cognify's optimization:
 
 .. code-block:: console
 
     $ cognify optimize workflow.py
+
+Optimization Overview
+=====================
+
+The above optimize command will return a set of optimization results and their generation quality and cost. 
+
+Below is a sample output we got when running it. Note that because of the non-deterministic nature of generative models, you may not get the exact same results.
+
+.. code-block:: console
 
    ================= Optimization Results =================
    Num Pareto Frontier: 4
@@ -152,7 +55,35 @@ Run Cognify
      Applied at: light_opt_layer_7
    ========================================================
 
-.. rubric:: To check the detailed transformations:
+Here, Cognify finds four valid optimization results as different versions of the workflow. You can interprete each item as follows:
+
+    Pareto_1 (config ID to select):
+        Represents one of the Pareto-optimal solutions. It balances the trade-off between quality and cost effectively:
+    
+        - **Quality**: 6.467 (average score on the training data).
+        - **Cost**: $7.90 per 1K invocations (average invocation cost).
+        - **Applied at**: `light_opt_layer_1` (at which iteration this config is found).
+
+You can also get a summary of the optimization results afterwards with:
+
+.. code-block:: console
+
+   $ cognify inspect workflow.py
+
+Detailed Transformation Trace
+=============================
+
+You can further inspect the optimizations Cognify applies by checking the :code:`.cog` files under the ``opt_results/pareto_frontier_details`` directory.
+
+For example, the :code:`Pareto_3.cog` (corresponding to the third result) looks like:
+
+.. note::
+
+    You may not get the exact number of Pareto-frontiers. 
+    
+    Adjust the `ID` to view configurations in your case.
+
+We show ``Pareto_3`` in the above run as an example:
 
 .. code-block:: console
 
@@ -253,10 +184,14 @@ Run Cognify
 
     ==================================================
 
+With this configuration, all agents adopt ``gpt-4o-mini`` as the model, leading to significant cost savings. It also adds ``few-shot examples`` to both agents. The solver agent further benefits from ``Chain-of-Thought`` reasoning.
+
+Overall, ``Pareto_3`` achieves a decent quality of ``6.367`` with a much low cost of ``$0.80`` per 1K invocations.
+
 Evaluate and Use Optimized Workflow
 ===================================
 
-.. rubric:: To evaluate the optimized workflow on the test set:
+You can evaluate the optimized workflow on the test data with:
 
 .. code-block:: console
 
@@ -271,7 +206,7 @@ Evaluate and Use Optimized Workflow
     Quality: 6.314, Cost per 1K invocation: $0.80
     ===========================================
 
-.. rubric:: To integrate the optimized workflow into your application:
+**To Use it in Your Code:**
 
 .. code-block:: python
     

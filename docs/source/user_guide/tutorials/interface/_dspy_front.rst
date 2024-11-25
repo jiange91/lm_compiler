@@ -2,16 +2,19 @@
 
     import dspy
 
+    gpt4o = dspy.LM('gpt-4o', max_tokens=300)
+    dspy.configure(lm=gpt4o)
+
     class MathSolverWorkflow(dspy.Module):
         def __init__(self):
             super().__init__()
             self.interpreter_agent = dspy.Predict("problem -> math_model")
-            self.solver_agent = dspy.Predict("problem, math_model -> final_answer, explanation")
+            self.solver_agent = dspy.Predict("problem, math_model -> answer")
         
         def forward(self, problem):
             math_model = self.interpreter_agent(problem=problem).math_model
-            response = self.solver_agent(problem=problem, math_model=math_model)
-            return response.final_answer
+            answer = self.solver_agent(problem=problem, math_model=math_model).answer
+            return answer
         
     my_workflow = MathSolverWorkflow()
 
@@ -19,4 +22,5 @@
     
     @cognify.register_workflow
     def math_solver_workflow(problem):
-        return my_workflow(problem=problem)
+        answer = my_workflow(problem=problem)
+        return {"answer": answer}

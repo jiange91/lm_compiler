@@ -1,12 +1,14 @@
 .. _config_search:
 
+*************************
 Configuring Optimizations
-=========================
+*************************
 
 Cognify uses a set of configurations for its optimizations, including the maximum number of optimization iterations, the set of models to use.
 
+=====================
 Specify the Model Set
----------------------
+=====================
 
 During its optimization, Cognify explores combinations of different models for better quality and cost automatically. To specify the list of models you want Cognify to explore, you can define a list of :code:`cognify.LMConfig` objects as follows. Currently, Cognify only support language models.
 
@@ -17,15 +19,8 @@ During its optimization, Cognify explores combinations of different models for b
 
     model_configs = [
         # OpenAI models
-        cognify.LMConfig(model='gpt-4o-mini'),
-        cognify.LMConfig(model='gpt-3.5-turbo-1106'),
-        # Fireworks model
-        cognify.LMConfig(
-            custom_llm_provider='fireworks_ai',
-            model="accounts/fireworks/models/llama-v3p1-8b-instruct",
-            cost_indicator=0.8,
-            kwargs={'temperature': 0.7}
-        ),
+        cognify.LMConfig(model='gpt-4o-mini', kwargs={'temperature': 0, 'max_tokens': 300}),
+        cognify.LMConfig(model='gpt-4o', kwargs={'temperature': 0, 'max_tokens': 300}),
     ]
 
 Each :code:`cognify.LMConfig` has to have a :code:`model` field. If the model is provided by several providers (e.g., Llama models), you also need to specify a :code:`custom_llm_provider` field.
@@ -35,12 +30,18 @@ Each :code:`cognify.LMConfig` has to have a :code:`model` field. If the model is
     Ensure that you have the appropriate API keys for the providers you are using. 
 
 There are two other optional configurations.
-First, you can set a :code:`cost_indicator` for each :code:`LMConfig` to tell the optimizer how to reason between them. By default, each :code:`LMConfig` has a :code:`cost_indicator = 1.0`, which tells the optimizer that all models are equally expensive (i.e. not to factor cost into its search). If you want Cognify to consider different models with different execution costs, you can set the :code:`cost_indicator` to different values. 
-Second, you can specify the parameters used to call the model with :code:`kwargs`. These are the ones specified by your model API.
+
+1. you can set a :code:`cost_indicator` for each :code:`LMConfig` to tell the optimizer to favor cheaper options when proposing a new configuration. By default, each :code:`LMConfig` has a :code:`cost_indicator = 1.0`, which tells the optimizer that all models are equally expensive (i.e. not to factor cost into its search).
 
 .. note::
 
-    The :code:`cost_indicator` does not need to reflect the true difference in prices between models. For example, Llama-3.1-8b may not be 20% cheaper than GPT-4o-mini, even though we have set the cost indicator to 0.8. In this way, you can express how much you `care` about the difference in price. If you are hosting models yourself, you can set the cost according to the relative GPU resources required by each model, which usually corresponds to model weight size.
+    The :code:`cost_indicator` does not need to reflect the true difference in prices between models. For example, if you are hosting models yourself, you can set the indicator to ``0`` if local GPU resources is treated as free.
+
+    Additionally, this indicator only helps the optimizer to propose frugal configurations in the early stage. It still relies on observations of the actual cost to update the internal states.
+
+2. you can specify the parameters used to call the model with :code:`kwargs`. These are the ones specified by your model API.
+
+In this example, we ask Cognify to automatically choose between two OpenAI models, :code:`gpt-4o-mini` and :code:`gpt-4o`, for each agent in the Math workflow.
 
 Configure Optimizer Settings
 ----------------------------
@@ -61,13 +62,22 @@ The default configuration internally uses the following set of values (you do no
 
     def create_search(
         *,
-        opt_log_dir: str = "opt_results",
-        model_selection_cog: list[LMConfig] | None = None,
         search_type: Literal["light", "medium", "heavy"] = "light",
-        n_trials: int = 10,
+        model_selection_cog: model_selection.LMSelection | list[LMConfig] | None = None,
+        n_trials: int = None,
         quality_constraint: float = 1.0,
         evaluator_batch_size: int = 10,
-    )
+        opt_log_dir: str = "opt_results",
+    ):
+        ...
+
+.. hint::
+
+    If ``n_trials`` is not specified, Cognify will use the default number of trials based on the search type:
+
+    - "light": 10
+    - "medium": 45
+    - "heavy": 140
 
 Instead of using the default, you can customize your workflow optimization process to get the best out of Cognify.
 This is done by simply setting up your :code:`create_search` function. Below we explain each configuration in :code:`create_search` in four categories.

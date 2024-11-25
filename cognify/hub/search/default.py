@@ -168,11 +168,11 @@ def create_heavy_search(search_params: SearchParams) -> ControlParameter:
 def create_search(
     *,
     search_type: Literal["light", "medium", "heavy"] = "light",
+    model_selection_cog: model_selection.LMSelection | list[LMConfig] | None = None,
     n_trials: int = None,
     quality_constraint: float = 1.0,
     evaluator_batch_size: int = 10,
     opt_log_dir: str = "opt_results",
-    model_selection_cog: model_selection.LMSelection | list[LMConfig] | None = None,
 ):
     if model_selection_cog is not None:
         if isinstance(model_selection_cog, list):

@@ -41,19 +41,10 @@ If you prefer to define your modules using our :code:`cognify.Model` interface b
   import cognify
   ...
 
-  solver_prompt = """
-  You are a math solver. Given a math problem, and a mathematical model for solving it, your task is to compute the solution and return the final answer. Be concise and clear in your response.
-  """
-  solver_agent = cognify.StructuredModel(
-    "solver_agent",
-    system_prompt=solver_prompt,
-    input_variables=[cognify.Input("problem"), cognify.Input("math_model")],
-    output_format=cognify.OutputFormat(MathResponse),
-    lm_config=cognify.LMConfig(model="gpt-4o-mini")
-  )
+  cognify_solver_agent = cognify.Model("solver_agent", ...)
 
   # -- manually wrap the cognify model with `as_runnable()` --
-  solver_agent = cognify.as_runnable(solver_agent)
+  solver_agent = cognify.as_runnable(cognify_solver_agent)
 
   @cognify.register_workflow
   def math_solver_workflow(problem):

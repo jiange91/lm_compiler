@@ -168,7 +168,7 @@ Read more about the evaluator `here <https://cognify-ai.readthedocs.io/en/latest
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 The Cognify optimization process utilizes user-provided training datasets which include pairs of input and ground-truth output. Cognify expects users to define a data loader that provide the input-output pairs, with both the input and the output being a dictionary.
-In this example, we use a sample dataset from from the `HotPotQA <https://hotpotqa.github.io>`_ dataset in :file:`data._json`. The data loader reads the file and returns the pairs as follows:
+In this example, we use a sample dataset from from the `HotPotQA <https://hotpotqa.github.io>`_ dataset in :file:`data._json`. The data loader reads the file and returns the pairs in the form of training, validation, and test datasets like so:
 
 .. code-block:: python
 
@@ -327,7 +327,8 @@ To see how well an optimized workflow peforms, you can load it into your code an
    result = optimized_workflow(question=question, documents=documents)
    print(result)
 
-You can also evaluate an optimized workflow on your entire test dataset. When you define your dataloader, you already split the data into train, validation, and test sets. The following command will run the optimized workflow on your test data.
+You can also evaluate an optimized workflow on your entire test dataset. 
+When you define your dataloader, you should split the data into train, validation, and test sets. The following command will run the optimized workflow on your test data.
 
 .. code-block:: bash
 

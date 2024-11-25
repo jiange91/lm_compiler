@@ -1,41 +1,6 @@
 # Cognify Interface
 
-When writing a workflow with Cognify, you can define your optimization targets using our `cognify.Model` class. Defining a `cognify.Model` requires four components:
-1. System prompt
-2. Input variables
-3. Output label
-4. Language model config 
-
-The Cognify optimizer treats the system prompt as the agent's role, necessary for cogs like task decomposition. The input variables and output label are used to construct high-quality few-shot examples. When utilizing the model selection cog, the optimizer can modify the model configuration and arguments of a `cognify.Model`. You can also use our `cognify.StructuredModel` class and provide a Pydantic-based output _schema_ in lieu of an output label. `cognify.Model` and `cognify.StructuredModel` both make calls to `litellm` under the hood, so you can always expect [consistent output](https://docs.litellm.ai/docs/completion/output). Both classes also support image input. 
-
-Much like other frameworks, we endorse the separation of the LLM's signature from its invocation. The Cognify optimizer registers your `cognify.Model`s at initialization, which means they should be defined in the global namespace. Otherwise, the optimizer does not have a stable set of targets from one trial to the next. <!--You can read more about our optimizer [here](https://cognify-ai.readthedocs.io/en/latest/user_guide/config.html).-->
-
-## Usage
-
-Integrating Cognify into your code is straightforward.
-1. Define the `cognify.Model` as a global variable.
-2. Use our decorator to mark the workflow entry point `@cognify.workflow_entry`
-3. Call your `cognify.Model` directly with the relevant inputs.
-
-```python
-import cognify
-
-# define cognify agent
-qa_question = cognify.Input(name="question")
-cog_agent = cognify.Model(agent_name="qa_agent",
-  system_prompt="You are a helpful AI assistant that answers questions.",
-  input_variables=[qa_question],
-  output=cognify.OutputLabel(name="answer"),
-  lm_config=cognify.LMConfig(
-    model="gpt-4o-mini", 
-    kwargs={"temperature": 0.0, "max_tokens": 100}
-  )
-)
-
-@cognify.workflow_entry
-def call_qa_llm(question):
-  return cog_agent(inputs={qa_question: question})
-```
+## Detailed Usage Instructions
 
 By default, `cognify.Model` will construct messages on your behalf based on the `system_prompt`, `inputs` and `output`. These messages are directly passed to model defined in the `lm_config`. This is the **recommended** interface, as Cognify will control the entire message construction process. However, for compatibility with existing codebases that rely on passing messages and keyword arguments directly, we allow the user to pass in optional `messages` and `model_kwargs` arguments when calling a `cognify.Model` like so:
 
@@ -54,7 +19,7 @@ cog_agent = cognify.Model(agent_name="qa_agent",
   output=cognify.OutputLabel(name="answer")
 )
 
-@cognify.workflow_entry
+@cognify.register_workflow
 def call_qa_llm(question):
   messages = [
     {
@@ -66,11 +31,12 @@ def call_qa_llm(question):
       "content": f"Answer the following question: {question}"
     }
   ]
-  return cog_agent(
+  result = cog_agent(
     inputs={qa_question: question}, 
     messages=messages, 
     model_kwargs=model_kwargs
   )
+  ...
 ```
 
 ## Output Formatting
@@ -89,7 +55,7 @@ cog_agent = cognify.Model(
 
 ### Structured Output
 
-When working with `cognify.StructuredModel`, you must provide a schema that will be used to format the response.
+When working with `cognify.StructuredModel`, you must provide a Pydantic `BaseModel` as the schema that will be used to format the response.
 ```python
 import cognify
 from pydantic import BaseModel

@@ -1,4 +1,5 @@
 import dotenv
+import cognify
 
 # Load the environment variables
 dotenv.load_dotenv()
@@ -66,51 +67,24 @@ workflow.add_edge("refine_code", END)
 
 app = workflow.compile()
 
-#================= Load Data =================
-import sys
-import os
-sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__))))
+@cognify.register_workflow
+def do_code_gen(input):
+    state = app.invoke(
+        {"incomplete_function": input}
+    )
+    return {"pred": state["finalized_code"]}
 
-from humaneval.humaneval import HumanEvalDataset
-import random
 
-def load_data():
-    raw_dataset = HumanEvalDataset()
-    size = len(raw_dataset.data)
-    # shuffle the data
-    random.seed(42)
-    random.shuffle(raw_dataset.data)
-    data = []
-    for i in range(size):
-        problem = raw_dataset.data[i]
-        data.append((problem['prompt'], problem))
-    train, val, test = data[:40], data[40:60], data[60:]
-    return train, val, test
 
-#================= Evaluation =================
-from humaneval.humaneval import check_correctness_thread
-
-def score_fn(problem, pred: str):
-    split_completion = pred.split('\n')
-    parsed_lines = []
-    for line in split_completion:
-        if "<result>" in line or "</result>" in line or "```" in line or "python" in line:
-            continue
-        parsed_lines.append(line)
-    completion = '\n'.join(parsed_lines)
-
-    result = check_correctness_thread(problem, completion, timeout=3.0)
-    return 1.0 if result["passed"] else 0.0
-
-if __name__ == '__main__':
-    train, val, dev = load_data()
-    input, problem = train[0]
+# if __name__ == '__main__':
+#     train, val, dev = load_data()
+#     input, problem = train[0]
     
-    result = app.invoke({"incomplete_function": input})
+#     result = app.invoke({"incomplete_function": input})
     
-    print(result['incomplete_function'])
-    print(result['finalized_code'])
+#     print(result['incomplete_function'])
+#     print(result['finalized_code'])
     
-    score = score_fn(problem, result['finalized_code'])
+#     score = score_fn(problem, result['finalized_code'])
     
-    print(f"Score: {score}")
+#     print(f"Score: {score}")

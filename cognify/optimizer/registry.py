@@ -16,13 +16,13 @@ def clear_registry():
 def register_opt_module(module):
     _reg_opt_modules_[module.name] = module
 
-def register_opt_workflow(program):
+def register_workflow(program):
     global _reg_opt_workflow
     _reg_opt_workflow = program
     return program
 
 
-def register_opt_score_fn(score_fn):
+def register_evaluator(score_fn):
     global _reg_opt_score_fn_
     _reg_opt_score_fn_ = score_fn
     return score_fn

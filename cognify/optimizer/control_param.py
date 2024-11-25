@@ -5,7 +5,6 @@ import importlib
 
 from cognify.optimizer.core.flow import LayerConfig
 
-
 @dataclasses.dataclass
 class ControlParameter:
     opt_layer_configs: list[LayerConfig]
@@ -66,14 +65,13 @@ class ControlParameter:
                 control_param = ControlParameter.from_python_profile(param_path)
             else:
                 control_param = ControlParameter.from_json_profile(param_path)
+            return control_param
         else:
             for name in dir(loaded_module):
                 obj = getattr(loaded_module, name)
                 if isinstance(obj, cls):
                     return obj
             raise ValueError(f"No ControlParameter instance found in {loaded_module}")
-
-        return control_param
 
     def to_dict(self):
         result = {}

@@ -2,9 +2,9 @@ import json
 import os
 import numpy as np
 
-from cognify.optimizer.registry import register_data_loader
+from cognify import register_data_loader
 
-@register_data_loader
+@cognify.register_data_loader
 def load_data():
     def load_from_file(input_file):
         data_path = 'benchmark_data'

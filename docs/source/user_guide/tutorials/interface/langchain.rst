@@ -51,9 +51,9 @@ Cognify supports unmodified LangChain programs. All you need to do is to **regis
   solver_agent = solver_template | model | parser
 
   # Define and register workflow
-  from cognify.optimizer.registry import register_opt_workflow
+  import cognify
 
-  @register_opt_workflow
+  @cognify.register_workflow
   def math_solver_workflow(problem):
     math_model = interpreter_agent.invoke({"problem": problem}).content
     answer = solver_agent.invoke({"problem": problem, "math_model": math_model}).content
@@ -78,7 +78,7 @@ By default, Cognify will translate **all** runnables into valid optimization tar
   solver_agent = cognify.RunnableModel("solver_agent", solver_agent)
 
   from cognify.optimizer.registry import register_opt_workflow
-  @register_opt_workflow
+  @cognify.register_workflow
   def math_solver_workflow(problem):
     math_model = interpreter_agent.invoke({"problem": problem}).content
 
@@ -107,9 +107,7 @@ If you prefer to define your modules using our :code:`cognify.Model` interface b
   # -- manually wrap the cognify model with `as_runnable()` --
   solver_agent = cognify.as_runnable(solver_agent)
 
-
-  from cognify.optimizer.registry import register_opt_workflow
-  @register_opt_workflow
+  @cognify.register_workflow
   def math_solver_workflow(problem):
     math_model = interpreter_agent.invoke({"problem": problem}).content
 
@@ -118,5 +116,3 @@ If you prefer to define your modules using our :code:`cognify.Model` interface b
     return {"answer": answer}
 
 Cognify is also compatible with **LangGraph**, a popular orchestration framework. It can be used to coordinate LangChain runnables, DSPy predictors, any other framework or even pure python. All you need to do to hook up your LangGraph code is use our decorator to **register** your invocation function.
-
-For detailed usage instructions regarding LangChain and LangGraph, check out our `LangChain README <https://github.com/WukLab/Cognify/tree/main/cognify/frontends/langchain>`_.

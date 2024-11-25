@@ -62,6 +62,7 @@ class LayerEvaluator(GeneralEvaluatorInterface):
             prices=prices,
             exec_times=exec_times,
             total_eval_cost=eval_cost,
+            complete=True,
             reduced_score=reduced_score,
             reduced_price=reduced_price,
             demos={"config_log_path": layer_task.opt_config.opt_log_path},

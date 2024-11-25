@@ -1,7 +1,7 @@
 import json
 from code_completion_agent import code_completion_agent
 from code_finalize_agent import code_finalize_agent
-from cognify.optimizer import register_opt_workflow, register_opt_score_fn
+from cognify.optimizer import register_workflow, register_evaluator
 from humaneval.humaneval import HumanEvalDataset, check_correctness_thread, check_correctness
 from cognify.optimizer.evaluation.evaluator import EvaluationResult, EvaluatorPlugin, EvalTask
 
@@ -10,13 +10,13 @@ import string
 
 load_api_key('/mnt/ssd4/lm_compiler/secrets.toml')
 
-@register_opt_workflow
+@register_workflow
 def mainworkflow(incomplete_code):
   completed_code = code_completion_agent(inputs={"incomplete_function": incomplete_code}).choices[0].message.content
   finalized_code = code_finalize_agent(inputs={"incomplete_function": incomplete_code, "completed_code": completed_code}).choices[0].message.content
   return finalized_code
 
-@register_opt_score_fn
+@register_evaluator
 def score_fn(problem, pred: str):
   split_completion = pred.split('\n')
   parsed_lines = []

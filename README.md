@@ -1,8 +1,11 @@
 ![Cognify-Logo](./cognify.jpg)
 
-# Cognify: A Comprehensive, Multi-Faceted Gen AI Workflow Optimizer
+# Cognify: A Comprehensive, Multi-Faceted Gen-AI Workflow Optimizer
 
-Building high-quality, cost-effective generative AI applications is challenging due to the absence of systematic methods for tuning, testing, and optimization. We introduce **Cognify**, a tool that automatically enhances generation quality and reduces costs for generative AI workflows, including those written with LangChain, DSPy, and annotated Python. Built on a novel foundation of hierarchical, workflow-level optimization, **Cognify** delivers up to a 56% improvement in generation quality and up to 10x cost reduction. Read more about **Cognify** [here](https://mlsys.wuklab.io/posts/cognify/).
+Building high-quality, cost-effective generative-AI (gen-AI) applications is challenging due to the absence of systematic methods for tuning, testing, and optimizing them. 
+We introduce **Cognify**, a tool that automatically enhances generation quality and reduces costs for gen-AI workflows, including those written with LangChain, DSPy, and annotated Python. 
+Built on a novel foundation of hierarchical, workflow-level optimization, **Cognify** improves gen-AI workflow generation quality by up to 56% and reduces their execution cost by up to 11 times. 
+Read more about **Cognify** [here](https://mlsys.wuklab.io/posts/cognify/).
 
 ## Installation
 
@@ -20,35 +23,44 @@ pip install -e .
 
 ## Getting Started
 
-You can use Cognify with our CLI:
+You can use Cognify with our simple CLI:
 ```bash
-cognify optimize workflow.py   
+cognify optimize /your/gen/ai/workflow.py   
 ```
-where `workflow.py` is your workflow source code. Cognify currently supports unmodified [LangChain](https://github.com/langchain-ai/langchain) and [DSPy](https://github.com/stanfordnlp/dspy) workflow source code. You can also port your existing workflow written directly on Python or develop new Python-based workflows with our [simple workflow interface](./cognify/llm/README.md).
+where `workflow.py` is your workflow source code. Cognify currently supports unmodified [LangChain](https://github.com/langchain-ai/langchain) and [DSPy](https://github.com/stanfordnlp/dspy) workflow source code. You can also port your existing workflow written directly on Python or develop new Python-based workflows with our [simple workflow interface](https://cognify-ai.readthedocs.io/en/latest/user_guide/tutorials/interface/program.html).
 
-Cognify automatically searches for a `config.py`. You can also specify this file explicitly by:
+Cognify automatically searches for a `config.py` in the same folder as the workflow. You can also specify this file explicitly by:
 ```bash
-cognify optimize workflow.py -c /your/cog/custom_config.py
+cognify optimize /your/gen/ai/workflow.py -c /your/gen/ai/custom_config.py
 ```
 
 Within the `config.py`, you should define the following:
-- **Data**: the Cognify optimizer relies on training data in the form of input-output pairs. This should be specified in `dataloader.py`. <!--Read about how to [load your data]().-->
-- **Evaluation**: to evaluate the final workflow generation quality, you should define a scoring function in `evaluator.py`. <!--Find out how to [evaluate your workflow]().-->
-- **Search**: You can choose between light, medium, or heavy search over the optimization space. Alternatively, we provide a few application-specific search techniques for the QA, code generation, and data visualization examples provided in the repo. <!--Learn more about how to [configure search]().-->
 
-Our optimizer searches for a fixed number of trials and then saves the best results to a checkpoint, which can then be loaded in your code for future use using `cognify.load_workflow()`. If you'd like to run more trials, you can add the `-r` or `--resume` flag like so:
+- **Sample Dataset**: Cognify relies on training data to evaluate and improve its workflow optimization. You should provide a data loader that loads your training dataset in the form of input-output pairs. Read more about how to [load your data](https://cognify-ai.readthedocs.io/en/latest/user_guide/tutorials/dataloader.html).
+- **Evaluator**: Cognify expects you to provide an evaluator for judging the final workflow generation's quality. To help you get started, Cognify provides several common evaluator implementations such as the F1 score. Find out more about [workflow evaluator](https://cognify-ai.readthedocs.io/en/latest/user_guide/tutorials/evaluator.html).
+- **Optimization Configurations and Model Set Selection**: Optionally, you can configure your optimization process in various ways. For example, you can choose between light, medium, or heavy search over the optimization space. We also provide a few domain-specific optimization configurations. You can also define the set of models you want Cognify to explore. If no configurations or models are provided, Cognify uses a default set of values. Read more about [optimization configurations and model selections](https://cognify-ai.readthedocs.io/en/latest/user_guide/tutorials/optimizer.html).
+
+With these parameters, Cognify optimizes your workflow by iteratively experimenting with various combinations of tuning methods (we call them “*cogs*”) applied across workflow components and assessing the effectiveness of these combinations based on the quality of the final output using the user-provided sample dataset and evaluator. This process continues until Cognify hits the user-specified maximum iteration numbers (in `cognify.py`).
+
+The result of this process is a set of optimized workflow versions with different quality-cost combinations on the [Pareto frontier](https://en.wikipedia.org/wiki/Pareto_front) among all the iterations.
+You can inspect the optimizations applied in these output files 
+You can evaluate these optimized versions with a test dataset:
+
 ```bash
-cognify optimize workflow.py -r
+cognify evaluate /your/gen/ai/workflow/optimization/output/path
 ```
 
-For more details, check out our completeion [documentation](https://cognify-ai.readthedocs.io/en/latest/). 
+You can also continue running Cognify with more iterations from these outputs using the `-r` or `--resume` flag:
 
-<!-- Follow our [quickstart]() or read our [documentation]() to learn more.
+```bash
+cognify optimize /your/gen/ai/workflow.py -r
+```
 
-- [Quickstart]()
-- [Fundamentals]()
-- [Examples]()
-- [API Reference]() -->
+Follow our [quickstart](https://cognify-ai.readthedocs.io/en/latest/user_guide/quickstart.html) or read our full [documentation](https://cognify-ai.readthedocs.io/en/latest/) to learn more.
+
+- [User Guide](https://cognify-ai.readthedocs.io/en/latest/user_guide/): A Cognify user guide consists of a quickstart and a step-by-step tutorial
+- [Fundamentals](https://cognify-ai.readthedocs.io/en/latest/fundamentals/): Fundamental concepts about Cognify internals
+- [API Reference](https://cognify-ai.readthedocs.io/en/latest/api_ref/modules.html) 
 
 
 <!-- ## Contributing

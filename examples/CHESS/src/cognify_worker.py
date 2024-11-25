@@ -34,10 +34,10 @@ from pipeline.evaluation import evaluation
 from pipeline.annotated import cognify_registry
 from pipeline.workflow_builder import build_pipeline
 
-from cognify.optimizer import register_opt_workflow
+from cognify.optimizer import register_workflow
 
 
-@register_opt_workflow
+@register_workflow
 def worker(input):
     """
     Main function to run the pipeline with the specified configuration.

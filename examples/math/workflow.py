@@ -33,10 +33,10 @@ solver_template = ChatPromptTemplate.from_messages(
 solver_agent = solver_template | model
 
 
-from cognify.optimizer.registry import register_opt_workflow
+import cognify
 
 # Define Workflow
-@register_opt_workflow
+@cognify.register_workflow
 def math_solver_workflow(problem):
     math_model = interpreter_agent.invoke({"problem": problem}).content
     answer = solver_agent.invoke({"problem": problem, "math_model": math_model}).content

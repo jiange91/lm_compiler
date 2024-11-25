@@ -4,19 +4,20 @@
 Workflow Evaluator
 ******************
 
-Cognify accept a python function to be registered as the evaluator with ``@register_opt_score_fn``.
+Cognify evaluates your workflow throughout its optimization iterations. To tell Cognify how you want it to be evaluated, you should define an evaluator for your workflow.
+The evaluator should output a numeric value with higher being the better. You can choose your own range of the numeric values.
+To register a function as your evaluator, simply add ``@cognify.register_evaluator`` before it.
 
-.. note::
-
-   The function should return a numeric value. There's no range requirement for the score, but it should be consistent across different evaluations.
-
-You can even use the LLM as a judge in the evaluation function. In this example we will ask a LLM agent to grade the answer.
+For the math-solver example, we will use LLM-as-a-judge to be the evaluator, with the following LangChain implementation:
 
 .. code-block:: python
 
-   from cognify.optimizer.registry import register_opt_score_fn
+   import cognify
 
-   @register_opt_score_fn
+   from langchain_openai import ChatOpenAI
+   from langchain_core.prompts import ChatPromptTemplate
+
+   @cognify.register_evaluator
    def evaluate(problem, answer, solution):
       evaluator_prompt = """
       You are a math problem evaluator. Your task is to grade the answer to a math problem by assessing its correctness and completeness.
@@ -31,7 +32,7 @@ You can even use the LLM as a judge in the evaluation function. In this example 
             ("human", "problem:\n{problem}\n\nstandard solution:\n{solution}\n\nanswer:\n{answer}\n"),
          ]
       )
-      evaluator_agent = evaluator_template | model
-      score = evaluator_agent.invoke({"problem": problem, "answer": answer, "solution": solution}).content
+      evaluator_langchain = evaluator_template | ChatOpenAI(model="gpt-4o")
+      score = evaluator_langchain.invoke({"problem": problem, "answer": answer, "solution": solution}).content
       return int(score)
 

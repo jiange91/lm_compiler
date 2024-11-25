@@ -3,7 +3,6 @@
 #================================================================
 
 import cognify
-from cognify.optimizer.registry import register_opt_score_fn
 
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
@@ -11,7 +10,7 @@ from langchain_core.prompts import ChatPromptTemplate
 # Initialize the model
 model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
-@register_opt_score_fn
+@cognify.register_evaluator
 def evaluate(problem, answer, solution):
     evaluator_prompt = """
 You are a math problem evaluator. Your task is to grade the the answer to a math proble by assessing its correctness and completeness.
@@ -35,10 +34,9 @@ Please only respond with the score number, which should be a number between 0 an
 # Data Loader
 #================================================================
 
-from cognify.optimizer.registry import register_data_loader
 import json
 
-@register_data_loader
+@cognify.register_data_loader
 def load_data_minor():
     with open("data._json", "r") as f:
         data = json.load(f)

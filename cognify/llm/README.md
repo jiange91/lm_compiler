@@ -98,3 +98,22 @@ response = cog_agent(inputs={...,
                             image_input: base64_str, 
                             ...})
 ```
+
+## Local Models
+
+Cognify calls the `litellm.completion` API under the hood. This means we pass all `kwargs` that you specify when initializing a `cognify.LMConfig` directly to the endpoint. Thus, specifying a local model is as simple as passing in an `api_base` when initializing your `cognify.LMConfig` like so:
+
+```python
+import cognify
+
+# ollama: https://docs.litellm.ai/docs/providers/ollama#using-ollama-apichat
+local_llama = cognify.LMConfig(
+  model="ollama_chat/llama2",
+  kwargs={"api_base": "http://localhost:11434"}
+)
+
+# vllm:  https://docs.litellm.ai/docs/providers/vllm
+vllm_llama = cognify.LMConfig(
+  model="hosted_vllm/facebook/opt-125m"
+  kwargs={"api_base": "https://hosted-vllm-api.co"}
+)

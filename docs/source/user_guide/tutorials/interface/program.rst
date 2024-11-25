@@ -41,7 +41,8 @@ For Cognify to properly capture your :code:`cognify.Model`, be sure to instantia
 
 Invoking a :code:`cognify.Model` (or :code:`cognify.StructuredModel`) is straightforward. Simply pass in a dictionary of inputs that maps the variable name to its actual value. 
 Cognify uses the system prompt, input variables, and output format to construct the messages to send to the model endpoints. 
-We encourage users to let Cognify handle message construction and passing. However, for fine-grained control over the messages and arguments passed to the model and easy integration with your current codebase, you can optionally pass in a list of messages and your model keyword arguments. For more detailed usage instructions, check out our `GitHub repo <https://github.com/WukLab/Cognify/tree/main/cognify/llm>`_.
+We encourage users to let Cognify handle message construction and passing. However, for fine-grained control over the messages and arguments passed to the model and easy integration with your current codebase, you can optionally pass in a list of messages and your model keyword arguments. 
+For more detailed usage instructions on output formatting, image inputs, and locally hosted models, check out our `GitHub repo <https://github.com/WukLab/Cognify/tree/main/cognify/llm>`_.
 
 To integrate the workflow with Cognify, you need to register the function that invokes the workflow with our decorator ``@cognify.register_workflow`` like so:
 

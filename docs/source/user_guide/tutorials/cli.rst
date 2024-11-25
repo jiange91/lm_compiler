@@ -60,6 +60,7 @@ CLI Mode Switches
    * - inspect
      - Lists all the Pareto-frontiers found during optimization so far.
 
+.. _cognify_cli_opt_mode:
 
 CLI Optimize Mode Options
 --------------------------

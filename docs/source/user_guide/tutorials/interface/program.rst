@@ -18,8 +18,12 @@ You can also write your own control flow like loops and conditional branching.
 
 .. include:: _cognify_front.rst
 
-The math-solver example above has two model calls specified by :code:`cognify.Model` and :code:`cognify.StructuredModel`, the :code:`interpreter_agent` and the :code:`solver_agent`. 
-The :code:`cognify.StructuredModel` class allows for more complex output formats specified outside of the class such as the :code:`MathResponse` data structure.
+The math-solver example above has two model calls specified by :code:`cognify.Model`, the :code:`interpreter_agent` and the :code:`solver_agent`. 
+
+.. note::
+
+   The :code:`cognify.StructuredModel` class allows for more complex output formats specified in a ``pydantic`` schema.
+
 The :code:`math_solver_workflow` function specifies the overall workflow process, with the generation of :code:`interpreter_agent` is passed as the input of :code:`solver_agent`.
 
 As seen, :code:`cognify.Model` encapsulates four key components that you should specify:
@@ -50,7 +54,7 @@ To integrate the workflow with Cognify, you need to register the function that i
    def math_solver_workflow(problem):
       math_model = interpreter_agent(inputs={"problem": problem})
       answer = solver_agent(inputs={"problem": problem, "math_model": math_model})
-      return answer
+      return {"answer": answer}
 
 
 Language Model Configuration

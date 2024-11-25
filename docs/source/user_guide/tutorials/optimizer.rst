@@ -106,7 +106,7 @@ Parameters for controlling your optimization speed:
 
      We also provide a few built-in domain-specific configurations that you can use directly for the `example workflows <https://github.com/WukLab/Cognify/tree/main/examples>`_ we provide, including QA :code:`qa`, code generation :code:`codegen`, and data visualization :code:`datavis`. You can use these settings like:
 
-.. code-block:: python
+     .. code-block:: python
 
-    from cognify.hub.search import codegen
-    search_settings = codegen.create_search()
+         from cognify.hub.search import codegen
+         search_settings = codegen.create_search()
